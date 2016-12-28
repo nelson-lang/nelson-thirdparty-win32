@@ -1,0 +1,1 @@
+win_bison -L C -k -o ..\..\NelSon\modules\interpreter\src\grammar\NelSonParser.cpp ..\..\NelSon\modules\interpreter\src\grammar\NelSonParser.yxx

@@ -1,0 +1,1 @@
+https://github.com/vslavik/gettext-tools-windows/releases
