@@ -48,6 +48,12 @@ copy %QTDIR32%\bin\Qt5Gui.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Gui.dll
 copy %QTDIR32%\bin\Qt5PrintSupport.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5PrintSupport.dll
 copy %QTDIR32%\bin\Qt5Widgets.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Widgets.dll
 
+mkdir ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers
+copy %QTDIR32%\plugins\sqldrivers\qsqlite.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlite.dll
+copy %QTDIR32%\plugins\sqldrivers\qsqlmysql.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlmysql.dll
+copy %QTDIR32%\plugins\sqldrivers\qsqlodbc.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlodbc.dll
+copy %QTDIR32%\plugins\sqldrivers\qsqlpsql.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlpsql.dll
+
 copy %QTDIR%\bin\qhelpgenerator.exe ..\NelSon\bin\%PLATFORM_NELSON%\qhelpgenerator.exe
 copy %QTDIR%\bin\qcollectiongenerator.exe ..\NelSon\bin\%PLATFORM_NELSON%\qcollectiongenerator.exe
 copy %QTDIR%\bin\Qt5Help.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Help.dll
@@ -55,6 +61,7 @@ copy %QTDIR%\bin\Qt5Sql.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Sql.dll
 copy %QTDIR%\bin\Qt5Network.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Network.dll
 copy %QTDIR%\bin\Qt5CLucene.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5CLucene.dll
 copy %QTDIR%\bin\assistant.exe ..\NelSon\bin\%PLATFORM_NELSON%\assistant.exe
+
 
 copy .\zlib\bin\zlib1.dll ..\NelSon\bin\%PLATFORM_NELSON%\zlib1.dll
 rem libxml2 dependencies
