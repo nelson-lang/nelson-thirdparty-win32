@@ -83,3 +83,6 @@ copy .\vc14-runtime\*.exe ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
 
 rem intel runtime
 copy .\intel-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+
+rem openblas
+copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
