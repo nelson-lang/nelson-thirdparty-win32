@@ -47,6 +47,7 @@ copy %QTDIR32%\bin\Qt5Core.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Core.dll
 copy %QTDIR32%\bin\Qt5Gui.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Gui.dll
 copy %QTDIR32%\bin\Qt5PrintSupport.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5PrintSupport.dll
 copy %QTDIR32%\bin\Qt5Widgets.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Widgets.dll
+copy %QTDIR64%\bin\Qt5Qml.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Qml.dll
 
 mkdir ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers
 copy %QTDIR32%\plugins\sqldrivers\qsqlite.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlite.dll
