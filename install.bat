@@ -85,6 +85,7 @@ rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\generic /s /Q
 xcopy /E /Y %QTDIR%\qml ..\NelSon\bin\%PLATFORM_NELSON%\qml\
 del ..\NelSon\bin\%PLATFORM_NELSON%\qml\*.pdb /s
 del ..\NelSon\bin\%PLATFORM_NELSON%\qml\*d.dll /s
+copy %QTDIR%\qml\QtCanvas3D\qtcanvas3d.dll  ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtCanvas3D\
 
 rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtBluetooth /s /Q
 rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtLocation /s /Q
