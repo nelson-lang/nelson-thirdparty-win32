@@ -33,37 +33,6 @@ copy icu\bin\icudt56.dll ..\NelSon\bin\%PLATFORM_NELSON%\icudt56.dll
 
 copy libffi\bin\libffi.dll ..\NelSon\bin\%PLATFORM_NELSON%\libffi.dll
 
-rem QT dependencies
-mkdir ..\NelSon\bin\%PLATFORM_NELSON%\platforms
-copy %QTDIR32%\plugins\platforms\qminimal.dll ..\NelSon\bin\%PLATFORM_NELSON%\platforms\qminimal.dll
-copy %QTDIR32%\plugins\platforms\qoffscreen.dll ..\NelSon\bin\%PLATFORM_NELSON%\platforms\qoffscreen.dll
-copy %QTDIR32%\plugins\platforms\qwindows.dll ..\NelSon\bin\%PLATFORM_NELSON%\platforms\qwindows.dll
-copy %QTDIR32%\bin\icudt5?.dll    ..\NelSon\bin\%PLATFORM_NELSON%\icudt5?.dll
-copy %QTDIR32%\bin\icuin5?.dll    ..\NelSon\bin\%PLATFORM_NELSON%\icuin5?.dll
-copy %QTDIR32%\bin\\icuuc5?.dll    ..\NelSon\bin\%PLATFORM_NELSON%\icuuc5?.dll
-copy %QTDIR32%\bin\libEGL.dll    ..\NelSon\bin\%PLATFORM_NELSON%\libEGL.dll
-copy %QTDIR32%\bin\libGLESv2.dll    ..\NelSon\bin\%PLATFORM_NELSON%\libGLESv2.dll
-copy %QTDIR32%\bin\Qt5Core.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Core.dll
-copy %QTDIR32%\bin\Qt5Gui.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Gui.dll
-copy %QTDIR32%\bin\Qt5PrintSupport.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5PrintSupport.dll
-copy %QTDIR32%\bin\Qt5Widgets.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Widgets.dll
-copy %QTDIR64%\bin\Qt5Qml.dll    ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Qml.dll
-
-mkdir ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers
-copy %QTDIR32%\plugins\sqldrivers\qsqlite.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlite.dll
-copy %QTDIR32%\plugins\sqldrivers\qsqlmysql.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlmysql.dll
-copy %QTDIR32%\plugins\sqldrivers\qsqlodbc.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlodbc.dll
-copy %QTDIR32%\plugins\sqldrivers\qsqlpsql.dll ..\NelSon\bin\%PLATFORM_NELSON%\sqldrivers\qsqlpsql.dll
-
-copy %QTDIR%\bin\qhelpgenerator.exe ..\NelSon\bin\%PLATFORM_NELSON%\qhelpgenerator.exe
-copy %QTDIR%\bin\qcollectiongenerator.exe ..\NelSon\bin\%PLATFORM_NELSON%\qcollectiongenerator.exe
-copy %QTDIR%\bin\Qt5Help.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Help.dll
-copy %QTDIR%\bin\Qt5Sql.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Sql.dll
-copy %QTDIR%\bin\Qt5Network.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5Network.dll
-copy %QTDIR%\bin\Qt5CLucene.dll ..\NelSon\bin\%PLATFORM_NELSON%\Qt5CLucene.dll
-copy %QTDIR%\bin\assistant.exe ..\NelSon\bin\%PLATFORM_NELSON%\assistant.exe
-
-
 copy .\zlib\bin\zlib1.dll ..\NelSon\bin\%PLATFORM_NELSON%\zlib1.dll
 rem libxml2 dependencies
 copy .\libxml2\bin\libxml2.dll ..\NelSon\bin\%PLATFORM_NELSON%\libxml2.dll
@@ -87,3 +56,82 @@ copy .\intel-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem openblas
 copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+
+
+rem QT dependencies
+
+copy %QTDIR%\bin\qhelpgenerator.exe ..\NelSon\bin\%PLATFORM_NELSON%\qhelpgenerator.exe
+copy %QTDIR%\bin\qcollectiongenerator.exe ..\NelSon\bin\%PLATFORM_NELSON%\qcollectiongenerator.exe
+copy %QTDIR%\bin\assistant.exe ..\NelSon\bin\%PLATFORM_NELSON%\assistant.exe
+copy %QTDIR%\bin\icudt5?.dll    ..\NelSon\bin\%PLATFORM_NELSON%\icudt5?.dll
+copy %QTDIR%\bin\icuin5?.dll    ..\NelSon\bin\%PLATFORM_NELSON%\icuin5?.dll
+copy %QTDIR%\bin\icuuc5?.dll    ..\NelSon\bin\%PLATFORM_NELSON%\icuuc5?.dll
+
+xcopy /E /Y %QTDIR%\plugins ..\NelSon\bin\%PLATFORM_NELSON%\plugins\
+del ..\NelSon\bin\%PLATFORM_NELSON%\plugins\*.pdb /s
+del ..\NelSon\bin\%PLATFORM_NELSON%\plugins\*d.dll /s
+
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\bearer /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\designer /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\qmltooling /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\position /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\playlistformats /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\mediaservice /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\geoservices /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\audio /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\plugins\generic /s /Q
+
+
+xcopy /E /Y %QTDIR%\qml ..\NelSon\bin\%PLATFORM_NELSON%\qml\
+del ..\NelSon\bin\%PLATFORM_NELSON%\qml\*.pdb /s
+del ..\NelSon\bin\%PLATFORM_NELSON%\qml\*d.dll /s
+
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtBluetooth /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtLocation /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtNfc /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtPositioning /s /Q
+rmdir ..\NelSon\bin\%PLATFORM_NELSON%\qml\QtTest /s /Q
+
+
+copy %QTDIR%\bin\d3dcompiler_*.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\libEGL.dll  ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\libGLESv2.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\opengl32sw.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DCore.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DExtras.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DInput.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DLogic.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DQuick.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DQuickExtras.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DQuickInput.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DQuickRender.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt53DRender.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5CLucene.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Concurrent.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Core.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5DBus.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Gui.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Help.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Multimedia.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5MultimediaQuick_p.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5MultimediaWidgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Network.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5OpenGL.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5PrintSupport.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Qml.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Quick.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5QuickControls2.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5QuickParticles.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5QuickTemplates2.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5QuickWidgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Sensors.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Sql.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Svg.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WebChannel.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WebEngine.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WebEngineCore.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WebEngineWidgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WebSockets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WebView.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5Widgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5WinExtras.dll ..\NelSon\bin\%PLATFORM_NELSON%\
