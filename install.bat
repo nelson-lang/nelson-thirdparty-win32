@@ -136,3 +136,8 @@ copy %QTDIR%\bin\Qt5WebSockets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5WebView.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5Widgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5WinExtras.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+
+rem fftw library
+copy .\fftw\bin\libfftw3-3.dll ..\NelSon\bin\%PLATFORM_NELSON%\libfftw3-3.dll
+copy .\fftw\bin\libfftw3f-3.dll ..\NelSon\bin\%PLATFORM_NELSON%\libfftw3f-3.dll
+copy .\fftw\bin\libfftw3l-3.dll ..\NelSon\bin\%PLATFORM_NELSON%\libfftw3l-3.dll
