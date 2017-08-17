@@ -1,6 +1,6 @@
 set PLATFORM_NELSON=win32
-set BOOST_NELSON=1_61
-set VC_VERSION=vc140
+set BOOST_NELSON=1_64
+set VC_VERSION=vc141
 
 rem release mode
 copy boost\lib\boost_filesystem-%VC_VERSION%-mt-%BOOST_NELSON%.dll ..\NelSon\bin\%PLATFORM_NELSON%\boost_filesystem-%VC_VERSION%-mt-%BOOST_NELSON%.dll
@@ -28,8 +28,8 @@ copy boost\LICENSE_1_0.txt ..\NelSon\bin\%PLATFORM_NELSON%\LICENSE_1_0.txt
 
 
 rem ICU library
-copy icu\bin\icuuc56.dll ..\NelSon\bin\%PLATFORM_NELSON%\icuuc56.dll
-copy icu\bin\icudt56.dll ..\NelSon\bin\%PLATFORM_NELSON%\icudt56.dll
+copy icu\bin\icuuc59.dll ..\NelSon\bin\%PLATFORM_NELSON%\icuuc59.dll
+copy icu\bin\icudt59.dll ..\NelSon\bin\%PLATFORM_NELSON%\icudt59.dll
 
 copy libffi\bin\libffi.dll ..\NelSon\bin\%PLATFORM_NELSON%\libffi.dll
 
