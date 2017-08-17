@@ -1,6 +1,8 @@
+// © 2016 and later: Unicode, Inc. and others.
+// License & terms of use: http://www.unicode.org/copyright.html
 /*
 **********************************************************************
-* Copyright (c) 2002-2015, International Business Machines
+* Copyright (c) 2002-2016, International Business Machines
 * Corporation and others.  All Rights Reserved.
 **********************************************************************
 */
@@ -13,6 +15,21 @@
 /**
  * \file 
  * \brief C API: Encapsulates information about a currency.
+ *
+ * The ucurr API encapsulates information about a currency, as defined by
+ * ISO 4217.  A currency is represented by a 3-character string
+ * containing its ISO 4217 code.  This API can return various data
+ * necessary the proper display of a currency:
+ *
+ * <ul><li>A display symbol, for a specific locale
+ * <li>The number of fraction digits to display
+ * <li>A rounding increment
+ * </ul>
+ *
+ * The <tt>DecimalFormat</tt> class uses these data to display
+ * currencies.
+ * @author Alan Liu
+ * @since ICU 2.2
  */
 
 #if !UCONFIG_NO_FORMATTING
@@ -35,30 +52,15 @@ enum UCurrencyUsage {
      * @stable ICU 54
      */
     UCURR_USAGE_CASH=1,
+#ifndef U_HIDE_DEPRECATED_API
     /**
      * One higher than the last enum UCurrencyUsage constant.
-     * @stable ICU 54
+     * @deprecated ICU 58 The numeric value may change over time, see ICU ticket #12420.
      */
     UCURR_USAGE_COUNT=2
+#endif  // U_HIDE_DEPRECATED_API
 };
 typedef enum UCurrencyUsage UCurrencyUsage; 
-
-/**
- * The ucurr API encapsulates information about a currency, as defined by
- * ISO 4217.  A currency is represented by a 3-character string
- * containing its ISO 4217 code.  This API can return various data
- * necessary the proper display of a currency:
- *
- * <ul><li>A display symbol, for a specific locale
- * <li>The number of fraction digits to display
- * <li>A rounding increment
- * </ul>
- *
- * The <tt>DecimalFormat</tt> class uses these data to display
- * currencies.
- * @author Alan Liu
- * @since ICU 2.2
- */
 
 /**
  * Finds a currency code for the given locale.
