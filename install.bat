@@ -53,6 +53,8 @@ rem intel runtime
 copy .\intel-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem openblas
+mkdir ..\NelSon\bin\%PLATFORM_NELSON%\openblas
+copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\openblas\*.dll
 copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem MKL blas, lapack, FFTW wrapper
@@ -139,6 +141,8 @@ copy %QTDIR%\bin\Qt5Widgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5WinExtras.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 
 rem fftw library
+mkdir ..\NelSon\bin\%PLATFORM_NELSON%\fftw
+copy .\fftw\bin\*.* ..\NelSon\bin\%PLATFORM_NELSON%\fftw\*.*
 copy .\fftw\bin\libfftw3-3.dll ..\NelSon\bin\%PLATFORM_NELSON%\libfftw3-3.dll
 copy .\fftw\bin\libfftw3f-3.dll ..\NelSon\bin\%PLATFORM_NELSON%\libfftw3f-3.dll
 copy .\fftw\bin\libfftw3l-3.dll ..\NelSon\bin\%PLATFORM_NELSON%\libfftw3l-3.dll
