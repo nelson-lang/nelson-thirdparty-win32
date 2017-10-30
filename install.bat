@@ -55,6 +55,8 @@ copy .\intel-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 rem openblas
 copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
+mkdir ..\NelSon\bin\%PLATFORM_NELSON%\mkl
+copy .\mkl\*.* ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
 
 rem QT dependencies
 
