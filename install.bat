@@ -1,5 +1,5 @@
 set PLATFORM_NELSON=win32
-set BOOST_NELSON=1_64
+set BOOST_NELSON=1_65_1
 set VC_VERSION=vc141
 
 rem release mode
