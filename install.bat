@@ -150,4 +150,4 @@ copy .\mpi\License\license_sdk.rtf ..\NelSon\bin\%PLATFORM_NELSON%\license_sdk.r
 copy .\mpi\MSMpiSetup.exe ..\NelSon\bin\%PLATFORM_NELSON%\MSMpiSetup.exe
 
 rem portaudio library
-copy .\mpi\portaudio\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
+copy .\portaudio\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
