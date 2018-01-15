@@ -151,3 +151,6 @@ copy .\mpi\MSMpiSetup.exe ..\NelSon\bin\%PLATFORM_NELSON%\MSMpiSetup.exe
 
 rem portaudio library
 copy .\portaudio\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
+
+rem libsndfile library
+copy .\libsndfile\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
