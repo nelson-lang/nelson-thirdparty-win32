@@ -1,7 +1,7 @@
 set VC_VERSION=vc141
-set BOOST_VERSION=1_65_1
-set SRC=D:\Developpements\boost_1_65_1_x86\lib32-msvc-14.1
-set DST=D:\Developpements\GitHub\nelson-thirdparty-win32\boost\lib
+set BOOST_VERSION=x32-1_67
+set SRC=F:\Developpements\boost\boost-x86\lib32-msvc-14.1
+set DST=F:\Developpements\GitHub\nelson-thirdparty-win32\boost\lib
 mkdir %DST%
 copy %SRC%\boost_chrono-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_chrono-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
@@ -47,3 +47,8 @@ copy %SRC%\boost_regex-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_regex-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
 copy %SRC%\boost_regex-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_regex-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
+
+copy %SRC%\boost_random-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_random-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
+copy %SRC%\boost_random-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_random-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
