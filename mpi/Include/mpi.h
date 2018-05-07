@@ -409,6 +409,7 @@ typedef int MPI_Op;
 #define MPI_MINLOC  ((MPI_Op)0x5800000b)
 #define MPI_MAXLOC  ((MPI_Op)0x5800000c)
 #define MPI_REPLACE ((MPI_Op)0x5800000d)
+#define MPI_NO_OP   ((MPI_Op)0x5800000e)
 
 
 /*---------------------------------------------------------------------------*/
@@ -3461,9 +3462,21 @@ PMPI_Win_set_attr(
 
 
 /* Predefined window key value attributes */
-#define MPI_WIN_BASE        0x66000001
-#define MPI_WIN_SIZE        0x66000003
-#define MPI_WIN_DISP_UNIT   0x66000005
+#define MPI_WIN_BASE              0x66000001
+#define MPI_WIN_SIZE              0x66000003
+#define MPI_WIN_DISP_UNIT         0x66000005
+#define MPI_WIN_CREATE_FLAVOR     0x66000007
+#define MPI_WIN_MODEL             0x66000009
+
+/* MPI Window Create Flavors */
+#define MPI_WIN_FLAVOR_CREATE     1
+#define MPI_WIN_FLAVOR_ALLOCATE   2
+#define MPI_WIN_FLAVOR_DYNAMIC    3
+#define MPI_WIN_FLAVOR_SHARED     4
+
+/* MPI Window Models */
+#define MPI_WIN_SEPARATE          1
+#define MPI_WIN_UNIFIED           2
 
 MPI_METHOD
 MPI_Win_get_attr(
@@ -4816,6 +4829,26 @@ PMPI_Win_create(
     );
 
 MPI_METHOD
+MPI_Win_allocate(
+    _In_range_(>= , 0) MPI_Aint size,
+    _In_range_(>, 0) int disp_unit,
+    _In_ MPI_Info info,
+    _In_ MPI_Comm comm,
+    _Out_ void *baseptr,
+    _Out_ MPI_Win *win
+    );
+
+MPI_METHOD
+PMPI_Win_allocate(
+    _In_range_(>= , 0) MPI_Aint size,
+    _In_range_(>, 0) int disp_unit,
+    _In_ MPI_Info info,
+    _In_ MPI_Comm comm,
+    _Out_ void *baseptr,
+    _Out_ MPI_Win *win
+    );
+
+MPI_METHOD
 MPI_Win_allocate_shared(
     _In_range_(>=, 0) MPI_Aint size,
     _In_range_(>, 0) int disp_unit,
@@ -4854,6 +4887,20 @@ PMPI_Win_shared_query(
     );
 
 MPI_METHOD
+MPI_Win_create_dynamic(
+    _In_ MPI_Info info,
+    _In_ MPI_Comm comm,
+    _Out_ MPI_Win* win
+    );
+
+MPI_METHOD
+PMPI_Win_create_dynamic(
+    _In_ MPI_Info info,
+    _In_ MPI_Comm comm,
+    _Out_ MPI_Win* win
+    );
+
+MPI_METHOD
 MPI_Win_free(
     _Inout_ MPI_Win* win
     );
@@ -4873,6 +4920,32 @@ MPI_METHOD
 PMPI_Win_get_group(
     _In_ MPI_Win win,
     _Out_ MPI_Group* group
+    );
+
+MPI_METHOD
+MPI_Win_attach(
+    _In_ MPI_Win win,
+    _In_ void* base,
+    _In_range_(>=, 0)  MPI_Aint size
+    );
+
+MPI_METHOD
+PMPI_Win_attach(
+    _In_ MPI_Win win,
+    _In_ void* base,
+    _In_range_(>=, 0)  MPI_Aint size
+    );
+
+MPI_METHOD
+MPI_Win_detach(
+    _In_ MPI_Win win,
+    _In_ void* base
+    );
+
+MPI_METHOD
+PMPI_Win_detach(
+    _In_ MPI_Win win,
+    _In_ void* base
     );
 
 MPI_METHOD
@@ -4900,6 +4973,32 @@ PMPI_Put(
     );
 
 MPI_METHOD
+MPI_Rput(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>=, 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_range_(>=, MPI_PROC_NULL) int target_rank,
+    _In_range_(>=, 0) MPI_Aint target_disp,
+    _In_range_(>=, 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
+    );
+
+MPI_METHOD
+PMPI_Rput(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>=, 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_range_(>=, MPI_PROC_NULL) int target_rank,
+    _In_range_(>=, 0) MPI_Aint target_disp,
+    _In_range_(>=, 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
+    );
+
+MPI_METHOD
 MPI_Get(
     _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
     _In_range_(>=, 0) int origin_count,
@@ -4921,6 +5020,32 @@ PMPI_Get(
     _In_range_(>=, 0) int target_count,
     _In_ MPI_Datatype target_datatype,
     _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Rget(
+    _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
+    _In_range_(>= , 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_range_(>= , 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
+    );
+
+MPI_METHOD
+PMPI_Rget(
+    _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
+    _In_range_(>= , 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_range_(>= , 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
     );
 
 MPI_METHOD
@@ -4947,6 +5072,34 @@ PMPI_Accumulate(
     _In_ MPI_Datatype target_datatype,
     _In_ MPI_Op op,
     _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Raccumulate(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>=, 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_range_(>=, MPI_PROC_NULL) int target_rank,
+    _In_range_(>=, 0) MPI_Aint target_disp,
+    _In_range_(>=, 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
+    );
+
+MPI_METHOD
+PMPI_Raccumulate(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>=, 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_range_(>=, MPI_PROC_NULL) int target_rank,
+    _In_range_(>=, 0) MPI_Aint target_disp,
+    _In_range_(>=, 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
     );
 
 /* Asserts for one-sided communication */
@@ -5055,6 +5208,18 @@ MPI_Win_unlock(
 
 MPI_METHOD
 PMPI_Win_unlock(
+    _In_range_(>=, MPI_PROC_NULL) int rank,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Win_flush(
+    _In_range_(>=, MPI_PROC_NULL) int rank,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_flush(
     _In_range_(>=, MPI_PROC_NULL) int rank,
     _In_ MPI_Win win
     );
