@@ -158,6 +158,8 @@ copy .\portaudio\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
 rem libsndfile library
 copy .\libsndfile\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
 
-
 rem libffi library
 copy .\libffi\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
+
+rem clang-format
+copy .\clang-format\*.exe ..\NelSon\tools\clang_format\*.exe
