@@ -1,1 +1,0 @@
-bin\AStyle.exe --style=ansi --attach-namespaces --attach-classes --attach-inlines -Y --indent=spaces --indent-switches --indent-namespaces --xe -j --recursive  ..\..\Nelson\modules\*.cpp ..\..\Nelson\modules\*.c ..\..\Nelson\modules\*.h ..\..\Nelson\modules\*.hpp 
