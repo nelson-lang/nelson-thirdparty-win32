@@ -166,3 +166,6 @@ copy .\clang-format\*.exe ..\NelSon\tools\clang_format\*.exe
 
 rem sioclient
 copy .\sioclient\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
+
+rem CMake
+xcopy /E /Y .\cmake ..\NelSon\tools\cmake\
