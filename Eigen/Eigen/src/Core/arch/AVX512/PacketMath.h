@@ -55,7 +55,7 @@ template<> struct packet_traits<float>  : default_packet_traits
     size = 16,
     HasHalfPacket = 1,
     HasBlend = 0,
-#if EIGEN_GNUC_AT_LEAST(5, 3)
+#if EIGEN_GNUC_AT_LEAST(5, 3) || EIGEN_COMP_CLANG
 #ifdef EIGEN_VECTORIZE_AVX512DQ
     HasLog = 1,
 #endif
@@ -466,7 +466,9 @@ EIGEN_STRONG_INLINE Packet16i ploadu<Packet16i>(const int* from) {
 // {a0, a0  a1, a1, a2, a2, a3, a3, a4, a4, a5, a5, a6, a6, a7, a7}
 template <>
 EIGEN_STRONG_INLINE Packet16f ploaddup<Packet16f>(const float* from) {
-  __m256i low_half = _mm256_load_si256(reinterpret_cast<const __m256i*>(from));
+  // an unaligned load is required here as there is no requirement
+  // on the alignment of input pointer 'from'
+  __m256i low_half = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(from));
   __m512 even_elements = _mm512_castsi512_ps(_mm512_cvtepu32_epi64(low_half));
   __m512 pairs = _mm512_permute_ps(even_elements, _MM_SHUFFLE(2, 2, 0, 0));
   return pairs;
@@ -551,7 +553,7 @@ EIGEN_STRONG_INLINE void pstoreu<int>(int* to, const Packet16i& from) {
 template <>
 EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from,
                                                              Index stride) {
-  Packet16i stride_vector = _mm512_set1_epi32(stride);
+  Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier =
       _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -561,7 +563,7 @@ EIGEN_DEVICE_FUNC inline Packet16f pgather<float, Packet16f>(const float* from,
 template <>
 EIGEN_DEVICE_FUNC inline Packet8d pgather<double, Packet8d>(const double* from,
                                                             Index stride) {
-  Packet8i stride_vector = _mm256_set1_epi32(stride);
+  Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
 
@@ -572,7 +574,7 @@ template <>
 EIGEN_DEVICE_FUNC inline void pscatter<float, Packet16f>(float* to,
                                                          const Packet16f& from,
                                                          Index stride) {
-  Packet16i stride_vector = _mm512_set1_epi32(stride);
+  Packet16i stride_vector = _mm512_set1_epi32(convert_index<int>(stride));
   Packet16i stride_multiplier =
       _mm512_set_epi32(15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
   Packet16i indices = _mm512_mullo_epi32(stride_vector, stride_multiplier);
@@ -582,7 +584,7 @@ template <>
 EIGEN_DEVICE_FUNC inline void pscatter<double, Packet8d>(double* to,
                                                          const Packet8d& from,
                                                          Index stride) {
-  Packet8i stride_vector = _mm256_set1_epi32(stride);
+  Packet8i stride_vector = _mm256_set1_epi32(convert_index<int>(stride));
   Packet8i stride_multiplier = _mm256_set_epi32(7, 6, 5, 4, 3, 2, 1, 0);
   Packet8i indices = _mm256_mullo_epi32(stride_vector, stride_multiplier);
   _mm512_i32scatter_pd(to, indices, from, 8);
@@ -604,9 +606,9 @@ EIGEN_STRONG_INLINE void pstore1<Packet16i>(int* to, const int& a) {
   pstore(to, pa);
 }
 
-template<> EIGEN_STRONG_INLINE void prefetch<float>(const float*   addr) { _mm_prefetch((const char*)(addr), _MM_HINT_T0); }
-template<> EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) { _mm_prefetch((const char*)(addr), _MM_HINT_T0); }
-template<> EIGEN_STRONG_INLINE void prefetch<int>(const int*       addr) { _mm_prefetch((const char*)(addr), _MM_HINT_T0); }
+template<> EIGEN_STRONG_INLINE void prefetch<float>(const float*   addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
+template<> EIGEN_STRONG_INLINE void prefetch<double>(const double* addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
+template<> EIGEN_STRONG_INLINE void prefetch<int>(const int*       addr) { _mm_prefetch((SsePrefetchPtrType)(addr), _MM_HINT_T0); }
 
 template <>
 EIGEN_STRONG_INLINE float pfirst<Packet16f>(const Packet16f& a) {
@@ -634,13 +636,13 @@ template<> EIGEN_STRONG_INLINE Packet8d preverse(const Packet8d& a)
 template<> EIGEN_STRONG_INLINE Packet16f pabs(const Packet16f& a)
 {
   // _mm512_abs_ps intrinsic not found, so hack around it
-  return (__m512)_mm512_and_si512((__m512i)a, _mm512_set1_epi32(0x7fffffff));
+  return _mm512_castsi512_ps(_mm512_and_si512(_mm512_castps_si512(a), _mm512_set1_epi32(0x7fffffff)));
 }
 template <>
 EIGEN_STRONG_INLINE Packet8d pabs(const Packet8d& a) {
   // _mm512_abs_ps intrinsic not found, so hack around it
-  return (__m512d)_mm512_and_si512((__m512i)a,
-                                   _mm512_set1_epi64(0x7fffffffffffffff));
+  return _mm512_castsi512_pd(_mm512_and_si512(_mm512_castpd_si512(a),
+                                   _mm512_set1_epi64(0x7fffffffffffffff)));
 }
 
 #ifdef EIGEN_VECTORIZE_AVX512DQ
@@ -660,10 +662,10 @@ EIGEN_STRONG_INLINE Packet8d pabs(const Packet8d& a) {
 
 #ifdef EIGEN_VECTORIZE_AVX512DQ
 #define EIGEN_INSERT_8f_INTO_16f(OUTPUT, INPUTA, INPUTB) \
-  OUTPUT = _mm512_insertf32x8(OUTPUT, INPUTA, 0);        \
-  OUTPUT = _mm512_insertf32x8(OUTPUT, INPUTB, 1);
+  OUTPUT = _mm512_insertf32x8(_mm512_castps256_ps512(INPUTA), INPUTB, 1);
 #else
 #define EIGEN_INSERT_8f_INTO_16f(OUTPUT, INPUTA, INPUTB)                    \
+  OUTPUT = _mm512_undefined_ps();                                           \
   OUTPUT = _mm512_insertf32x4(OUTPUT, _mm256_extractf128_ps(INPUTA, 0), 0); \
   OUTPUT = _mm512_insertf32x4(OUTPUT, _mm256_extractf128_ps(INPUTA, 1), 1); \
   OUTPUT = _mm512_insertf32x4(OUTPUT, _mm256_extractf128_ps(INPUTB, 0), 2); \
@@ -855,7 +857,7 @@ template<> EIGEN_STRONG_INLINE Packet8d preduxp<Packet8d>(const Packet8d* vecs)
 
   final_1 = _mm256_add_pd(final_1, _mm256_blend_pd(tmp0, tmp1, 0xC));
 
-  __m512d final_output = _mm512_insertf64x4(final_output, final_0, 0);
+  __m512d final_output = _mm512_castpd256_pd512(final_0);
 
   return _mm512_insertf64x4(final_output, final_1, 1);
 }

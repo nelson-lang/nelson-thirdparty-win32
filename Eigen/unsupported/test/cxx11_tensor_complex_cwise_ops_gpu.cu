@@ -8,7 +8,7 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #define EIGEN_TEST_NO_LONGDOUBLE
-#define EIGEN_TEST_FUNC cxx11_tensor_complex_cwise_ops
+
 #define EIGEN_USE_GPU
 
 #include "main.h"
@@ -28,7 +28,7 @@ void test_cuda_complex_cwise_ops() {
   cudaMalloc((void**)(&d_in2), complex_bytes);
   cudaMalloc((void**)(&d_out), complex_bytes);
 
-  Eigen::CudaStreamDevice stream;
+  Eigen::GpuStreamDevice stream;
   Eigen::GpuDevice gpu_device(&stream);
 
   Eigen::TensorMap<Eigen::Tensor<std::complex<T>, 1, 0, int>, Eigen::Aligned> gpu_in1(
@@ -48,11 +48,13 @@ void test_cuda_complex_cwise_ops() {
     Add = 0,
     Sub,
     Mul,
-    Div
+    Div,
+    Neg,
+    NbOps
   };
 
   Tensor<std::complex<T>, 1, 0, int> actual(kNumItems);
-  for (int op = Add; op <= Div; op++) {
+  for (int op = Add; op < NbOps; op++) {
     std::complex<T> expected;
     switch (static_cast<CwiseOp>(op)) {
       case Add:
@@ -71,6 +73,10 @@ void test_cuda_complex_cwise_ops() {
         gpu_out.device(gpu_device) = gpu_in1 / gpu_in2;
         expected = a / b;
         break;
+      case Neg:
+        gpu_out.device(gpu_device) = -gpu_in1;
+        expected = -a;
+        break;
     }
     assert(cudaMemcpyAsync(actual.data(), d_out, complex_bytes, cudaMemcpyDeviceToHost,
                            gpu_device.stream()) == cudaSuccess);
@@ -87,7 +93,7 @@ void test_cuda_complex_cwise_ops() {
 }
 
 
-void test_cxx11_tensor_complex_cwise_ops()
+EIGEN_DECLARE_TEST(test_cxx11_tensor_complex_cwise_ops)
 {
   CALL_SUBTEST(test_cuda_complex_cwise_ops<float>());
   CALL_SUBTEST(test_cuda_complex_cwise_ops<double>());

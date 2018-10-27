@@ -157,6 +157,11 @@ template<typename Derived> class DenseBase
           * we are dealing with a column-vector (if there is only one column) or with
           * a row-vector (if there is only one row). */
 
+      NumDimensions = int(MaxSizeAtCompileTime) == 1 ? 0 : bool(IsVectorAtCompileTime) ? 1 : 2,
+        /**< This value is equal to Tensor::NumDimensions, i.e. 0 for scalars, 1 for vectors, 
+         * and 2 for matrices.
+         */
+
       Flags = internal::traits<Derived>::Flags,
         /**< This stores expression \ref flags flags which may or may not be inherited by new expressions
           * constructed from this one. See the \ref flags "list of flags".
@@ -493,7 +498,7 @@ template<typename Derived> class DenseBase
     typedef VectorwiseOp<Derived, Vertical> ColwiseReturnType;
     typedef const VectorwiseOp<const Derived, Vertical> ConstColwiseReturnType;
 
-    /** \returns a VectorwiseOp wrapper of *this providing additional partial reduction operations
+    /** \returns a VectorwiseOp wrapper of *this for broadcasting and partial reductions
     *
     * Example: \include MatrixBase_rowwise.cpp
     * Output: \verbinclude MatrixBase_rowwise.out
@@ -506,7 +511,7 @@ template<typename Derived> class DenseBase
     }
     EIGEN_DEVICE_FUNC RowwiseReturnType rowwise();
 
-    /** \returns a VectorwiseOp wrapper of *this providing additional partial reduction operations
+    /** \returns a VectorwiseOp wrapper of *this broadcasting and partial reductions
     *
     * Example: \include MatrixBase_colwise.cpp
     * Output: \verbinclude MatrixBase_colwise.out
@@ -567,6 +572,44 @@ template<typename Derived> class DenseBase
     }
     EIGEN_DEVICE_FUNC void reverseInPlace();
 
+    #ifdef EIGEN_PARSED_BY_DOXYGEN
+    /** STL-like <a href="https://en.cppreference.com/w/cpp/named_req/RandomAccessIterator">RandomAccessIterator</a>
+      * iterator type as returned by the begin() and end() methods.
+      */
+    typedef random_access_iterator_type iterator;
+    /** This is the const version of iterator (aka read-only) */
+    typedef random_access_iterator_type const_iterator;
+    #else
+    typedef typename internal::conditional< (Flags&DirectAccessBit)==DirectAccessBit,
+                                            internal::pointer_based_stl_iterator<Derived>,
+                                            internal::generic_randaccess_stl_iterator<Derived>
+                                          >::type iterator_type;
+
+    typedef typename internal::conditional< (Flags&DirectAccessBit)==DirectAccessBit,
+                                            internal::pointer_based_stl_iterator<const Derived>,
+                                            internal::generic_randaccess_stl_iterator<const Derived>
+                                          >::type const_iterator_type;
+
+    // Stl-style iterators are supported only for vectors.
+
+    typedef typename internal::conditional< IsVectorAtCompileTime,
+                                            iterator_type,
+                                            void
+                                          >::type iterator;
+
+    typedef typename internal::conditional< IsVectorAtCompileTime,
+                                            const_iterator_type,
+                                            void
+                                          >::type const_iterator;
+    #endif
+
+    inline iterator begin();
+    inline const_iterator begin() const;
+    inline const_iterator cbegin() const;
+    inline iterator end();
+    inline const_iterator end() const;
+    inline const_iterator cend() const;
+
 #define EIGEN_CURRENT_STORAGE_BASE_CLASS Eigen::DenseBase
 #define EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 #define EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND)
@@ -574,6 +617,7 @@ template<typename Derived> class DenseBase
 #   include "../plugins/CommonCwiseUnaryOps.h"
 #   include "../plugins/BlockMethods.h"
 #   include "../plugins/IndexedViewMethods.h"
+#   include "../plugins/ReshapedMethods.h"
 #   ifdef EIGEN_DENSEBASE_PLUGIN
 #     include EIGEN_DENSEBASE_PLUGIN
 #   endif

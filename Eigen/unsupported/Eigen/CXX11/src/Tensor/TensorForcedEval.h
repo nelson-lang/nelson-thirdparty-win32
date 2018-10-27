@@ -19,12 +19,6 @@ namespace Eigen {
   *
   *
   */
-/// template <class> class MakePointer_ is added to convert the host pointer to the device pointer.
-/// It is added due to the fact that for our device compiler T* is not allowed.
-/// If we wanted to use the same Evaluator functions we have to convert that type to our pointer T.
-/// This is done through our MakePointer_ class. By default the Type in the MakePointer_<T> is T* .
-/// Therefore, by adding the default value, we managed to convert the type and it does not break any
-/// existing code as its default value is T*.
 namespace internal {
 template<typename XprType>
 struct traits<TensorForcedEvalOp<XprType> >
@@ -93,11 +87,13 @@ struct TensorEvaluator<const TensorForcedEvalOp<ArgType>, Device>
   typedef typename XprType::Index Index;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
   typedef typename PacketType<CoeffReturnType, Device>::type PacketReturnType;
-  static const int PacketSize = internal::unpacket_traits<PacketReturnType>::size;
+  static const int PacketSize = PacketType<CoeffReturnType, Device>::size;
 
   enum {
     IsAligned = true,
-    PacketAccess = (PacketSize > 1),
+    PacketAccess = (PacketType<CoeffReturnType, Device>::size > 1),
+    BlockAccess = false,
+    PreferBlockAccess = false,
     Layout = TensorEvaluator<ArgType, Device>::Layout,
     RawAccess = true
   };
@@ -109,9 +105,12 @@ struct TensorEvaluator<const TensorForcedEvalOp<ArgType>, Device>
 
   EIGEN_DEVICE_FUNC const Dimensions& dimensions() const { return m_impl.dimensions(); }
 
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE bool evalSubExprsIfNeeded(CoeffReturnType*) {
+  #if !defined(EIGEN_HIPCC)
+  EIGEN_DEVICE_FUNC
+  #endif
+  EIGEN_STRONG_INLINE bool evalSubExprsIfNeeded(CoeffReturnType*) {
     const Index numValues =  internal::array_prod(m_impl.dimensions());
-    m_buffer = (CoeffReturnType*)m_device.allocate(numValues * sizeof(CoeffReturnType));
+    m_buffer = (CoeffReturnType*)m_device.allocate_temp(numValues * sizeof(CoeffReturnType));
     // Should initialize the memory in case we're dealing with non POD types.
     if (NumTraits<CoeffReturnType>::RequireInitialization) {
       for (Index i = 0; i < numValues; ++i) {
@@ -120,12 +119,12 @@ struct TensorEvaluator<const TensorForcedEvalOp<ArgType>, Device>
     }
     typedef TensorEvalToOp< const typename internal::remove_const<ArgType>::type > EvalTo;
     EvalTo evalToTmp(m_buffer, m_op);
-    const bool PacketAccess = internal::IsVectorizable<Device, const ArgType>::value;
-    internal::TensorExecutor<const EvalTo, typename internal::remove_const<Device>::type, PacketAccess>::run(evalToTmp, m_device);
+    const bool Vectorize = internal::IsVectorizable<Device, const ArgType>::value;
+    internal::TensorExecutor<const EvalTo, typename internal::remove_const<Device>::type, Vectorize>::run(evalToTmp, m_device);
     return true;
   }
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE void cleanup() {
-    m_device.deallocate(m_buffer);
+    m_device.deallocate_temp(m_buffer);
     m_buffer = NULL;
   }
 

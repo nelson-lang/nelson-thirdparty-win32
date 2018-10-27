@@ -8,7 +8,7 @@
 // with this file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #define EIGEN_TEST_NO_LONGDOUBLE
-#define EIGEN_TEST_FUNC cxx11_tensor_complex
+
 #define EIGEN_USE_GPU
 
 #include "main.h"
@@ -34,7 +34,7 @@ void test_cuda_nullary() {
   cudaMemcpy(d_in1, in1.data(), complex_bytes, cudaMemcpyHostToDevice);
   cudaMemcpy(d_in2, in2.data(), complex_bytes, cudaMemcpyHostToDevice);
 
-  Eigen::CudaStreamDevice stream;
+  Eigen::GpuStreamDevice stream;
   Eigen::GpuDevice gpu_device(&stream);
 
   Eigen::TensorMap<Eigen::Tensor<std::complex<float>, 1, 0, int>, Eigen::Aligned> gpu_in1(
@@ -70,7 +70,7 @@ void test_cuda_nullary() {
 
 static void test_cuda_sum_reductions() {
 
-  Eigen::CudaStreamDevice stream;
+  Eigen::GpuStreamDevice stream;
   Eigen::GpuDevice gpu_device(&stream);
 
   const int num_rows = internal::random<int>(1024, 5*1024);
@@ -106,7 +106,7 @@ static void test_cuda_sum_reductions() {
 
 static void test_cuda_mean_reductions() {
 
-  Eigen::CudaStreamDevice stream;
+  Eigen::GpuStreamDevice stream;
   Eigen::GpuDevice gpu_device(&stream);
 
   const int num_rows = internal::random<int>(1024, 5*1024);
@@ -142,7 +142,7 @@ static void test_cuda_mean_reductions() {
 
 static void test_cuda_product_reductions() {
 
-  Eigen::CudaStreamDevice stream;
+  Eigen::GpuStreamDevice stream;
   Eigen::GpuDevice gpu_device(&stream);
 
   const int num_rows = internal::random<int>(1024, 5*1024);
@@ -177,7 +177,7 @@ static void test_cuda_product_reductions() {
 }
 
 
-void test_cxx11_tensor_complex()
+EIGEN_DECLARE_TEST(test_cxx11_tensor_complex)
 {
   CALL_SUBTEST(test_cuda_nullary());
   CALL_SUBTEST(test_cuda_sum_reductions());

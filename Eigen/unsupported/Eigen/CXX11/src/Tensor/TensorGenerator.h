@@ -12,7 +12,7 @@
 
 namespace Eigen {
 
-/** \class TensorGenerator
+/** \class TensorGeneratorOp
   * \ingroup CXX11_Tensor_Module
   *
   * \brief Tensor generator class.
@@ -90,8 +90,9 @@ struct TensorEvaluator<const TensorGeneratorOp<Generator, ArgType>, Device>
   typedef typename PacketType<CoeffReturnType, Device>::type PacketReturnType;
   enum {
     IsAligned = false,
-    PacketAccess = (internal::unpacket_traits<PacketReturnType>::size > 1),
+    PacketAccess = (PacketType<CoeffReturnType, Device>::size > 1),
     BlockAccess = false,
+    PreferBlockAccess = false,
     Layout = TensorEvaluator<ArgType, Device>::Layout,
     CoordAccess = false,  // to be implemented
     RawAccess = false
@@ -137,7 +138,7 @@ struct TensorEvaluator<const TensorGeneratorOp<Generator, ArgType>, Device>
   template<int LoadMode>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE PacketReturnType packet(Index index) const
   {
-    const int packetSize = internal::unpacket_traits<PacketReturnType>::size;
+    const int packetSize = PacketType<CoeffReturnType, Device>::size;
     EIGEN_STATIC_ASSERT((packetSize > 1), YOU_MADE_A_PROGRAMMING_MISTAKE)
     eigen_assert(index+packetSize-1 < dimensions().TotalSize());
 

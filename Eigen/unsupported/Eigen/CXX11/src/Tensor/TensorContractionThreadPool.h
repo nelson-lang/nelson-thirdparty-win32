@@ -15,57 +15,16 @@
 
 namespace Eigen {
 
-#ifdef EIGEN_USE_SIMPLE_THREAD_POOL
-namespace internal {
-
-template<typename LhsScalar, typename LhsMapper, typename Index>
-struct packLhsArg {
-  LhsScalar* blockA;
-  const LhsMapper& lhs;
-  const Index m_start;
-  const Index k_start;
-  const Index mc;
-  const Index kc;
-};
-
-template<typename LhsScalar, typename RhsScalar, typename RhsMapper, typename OutputMapper, typename Index>
-struct packRhsAndKernelArg {
-  const MaxSizeVector<LhsScalar*>* blockAs;
-  RhsScalar* blockB;
-  const RhsMapper& rhs;
-  OutputMapper& output;
-  const Index m;
-  const Index k;
-  const Index n;
-  const Index mc;
-  const Index kc;
-  const Index nc;
-  const Index num_threads;
-  const Index num_blockAs;
-  const Index max_m;
-  const Index k_block_idx;
-  const Index m_block_idx;
-  const Index n_block_idx;
-  const Index m_blocks;
-  const Index n_blocks;
-  MaxSizeVector<Notification*>* kernel_notifications;
-  const MaxSizeVector<Notification*>* lhs_notifications;
-  const bool need_to_pack;
-};
-
-}  // end namespace internal
-#endif  // EIGEN_USE_SIMPLE_THREAD_POOL
-
-template<typename Indices, typename LeftArgType, typename RightArgType>
-struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgType>, ThreadPoolDevice> :
-    public TensorContractionEvaluatorBase<TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgType>, ThreadPoolDevice> > {
+template<typename Indices, typename LeftArgType, typename RightArgType, typename OutputKernelType>
+struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgType, OutputKernelType>, ThreadPoolDevice> :
+    public TensorContractionEvaluatorBase<TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgType, OutputKernelType>, ThreadPoolDevice> > {
 
   typedef ThreadPoolDevice Device;
 
-  typedef TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgType>, Device> Self;
+  typedef TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgType, OutputKernelType>, Device> Self;
   typedef TensorContractionEvaluatorBase<Self> Base;
 
-  typedef TensorContractionOp<Indices, LeftArgType, RightArgType> XprType;
+  typedef TensorContractionOp<Indices, LeftArgType, RightArgType, OutputKernelType> XprType;
   typedef typename internal::remove_const<typename XprType::Scalar>::type Scalar;
   typedef typename XprType::Index Index;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
@@ -112,9 +71,7 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
   TensorEvaluator(const XprType& op, const Device& device) :
       Base(op, device) {}
 
-#ifndef EIGEN_USE_SIMPLE_THREAD_POOL
-  template <bool lhs_inner_dim_contiguous, bool rhs_inner_dim_contiguous,
-            bool rhs_inner_dim_reordered, int Alignment>
+  template <int Alignment>
   void evalProduct(Scalar* buffer) const {
     const Index m = this->m_i_size;
     const Index n = this->m_j_size;
@@ -137,39 +94,6 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
       return;
     }
 #endif
-
-    typedef
-        typename internal::remove_const<typename EvalLeftArgType::Scalar>::type
-            LhsScalar;
-    typedef
-        typename internal::remove_const<typename EvalRightArgType::Scalar>::type
-            RhsScalar;
-    typedef typename internal::gebp_traits<LhsScalar, RhsScalar> Traits;
-    typedef TensorEvaluator<EvalLeftArgType, Device> LeftEvaluator;
-    typedef TensorEvaluator<EvalRightArgType, Device> RightEvaluator;
-    typedef internal::TensorContractionInputMapper<
-        LhsScalar, Index, internal::Lhs, LeftEvaluator, left_nocontract_t,
-        contract_t, internal::packet_traits<LhsScalar>::size,
-        lhs_inner_dim_contiguous, false, Unaligned>
-        LhsMapper;
-    typedef internal::TensorContractionInputMapper<
-        RhsScalar, Index, internal::Rhs, RightEvaluator, right_nocontract_t,
-        contract_t, internal::packet_traits<RhsScalar>::size,
-        rhs_inner_dim_contiguous, rhs_inner_dim_reordered, Unaligned>
-        RhsMapper;
-    typedef internal::blas_data_mapper<Scalar, Index, ColMajor> OutputMapper;
-    typedef internal::gemm_pack_lhs<LhsScalar, Index,
-                                    typename LhsMapper::SubMapper, Traits::mr,
-                                    Traits::LhsProgress, ColMajor>
-        LhsPacker;
-    typedef internal::gemm_pack_rhs<
-        RhsScalar, Index, typename RhsMapper::SubMapper, Traits::nr, ColMajor>
-        RhsPacker;
-    typedef internal::gebp_kernel<LhsScalar, RhsScalar, Index, OutputMapper,
-                                  Traits::mr, Traits::nr, false, false>
-        GebpKernel;
-
-
 
     // Compute a set of algorithm parameters:
     // - kernel block sizes (bm, bn, bk)
@@ -200,14 +124,14 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
     // Again, we don't know number of threads yet, so we use 2.
     Index bm, bn, bk;
     if (shard_by_col) {
-      internal::TensorContractionBlocking<LhsMapper, RhsMapper, Index,
+      internal::TensorContractionBlocking<Scalar, LhsScalar, RhsScalar, Index,
                                           internal::ShardByCol>
           blocking(k, m, n, 2);
       bm = blocking.mc();
       bn = blocking.nc();
       bk = blocking.kc();
     } else {
-      internal::TensorContractionBlocking<LhsMapper, RhsMapper, Index,
+      internal::TensorContractionBlocking<Scalar, LhsScalar, RhsScalar, Index,
                                           internal::ShardByRow>
           blocking(k, m, n, 2);
       bm = blocking.mc();
@@ -223,35 +147,36 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
         contractionCost(m, n, bm, bn, bk, shard_by_col, false);
     int num_threads = TensorCostModel<ThreadPoolDevice>::numThreads(
         static_cast<double>(n) * m, cost, this->m_device.numThreads());
+    int num_threads_by_k = numThreadsInnerDim(m, n, k);
+    if (shardByInnerDim(m, n, k, num_threads, num_threads_by_k)) {
+      // We are in the scenario where it is more effective to shard by the
+      // inner dimension.
+      this->template evalShardedByInnerDim<Alignment>(num_threads_by_k,
+                                                      buffer);
+      return;
+    }
 
     // TODO(dvyukov): this is a stop-gap to prevent regressions while the cost
     // model is not tuned. Remove this when the cost model is tuned.
     if (n == 1) num_threads = 1;
 
     if (num_threads == 1) {
-      // The single-threaded algorithm should be faster in this case.
-      if (n == 1)
-        this->template evalGemv<lhs_inner_dim_contiguous,
-                                rhs_inner_dim_contiguous,
-                                rhs_inner_dim_reordered, Alignment>(buffer);
-      else
-        this->template evalGemm<lhs_inner_dim_contiguous,
-                                rhs_inner_dim_contiguous,
-                                rhs_inner_dim_reordered, Alignment>(buffer);
+      TENSOR_CONTRACTION_DISPATCH(this->template evalProductSequential,
+                                  Unaligned, (buffer));
       return;
     }
 
     // Now that we know number of threads, recalculate sharding and blocking.
     shard_by_col = shardByCol(m, n, num_threads);
     if (shard_by_col) {
-      internal::TensorContractionBlocking<LhsMapper, RhsMapper, Index,
+      internal::TensorContractionBlocking<Scalar, LhsScalar, RhsScalar, Index,
                                           internal::ShardByCol>
           blocking(k, m, n, num_threads);
       bm = blocking.mc();
       bn = blocking.nc();
       bk = blocking.kc();
     } else {
-      internal::TensorContractionBlocking<LhsMapper, RhsMapper, Index,
+      internal::TensorContractionBlocking<Scalar, LhsScalar, RhsScalar, Index,
                                           internal::ShardByRow>
           blocking(k, m, n, num_threads);
       bm = blocking.mc();
@@ -299,36 +224,54 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
     // more important in this case.
     if ((shard_by_col ? nm : nn) == 1) parallel_pack = false;
 
-    LhsMapper lhs(this->m_leftImpl, this->m_left_nocontract_strides,
-                  this->m_i_strides, this->m_left_contracting_strides,
-                  this->m_k_strides);
+    #define CONTEXT_ARGS                                                        \
+  (this, num_threads, buffer, m, n, k, bm, bn, bk, nm, nn, nk, gm, gn, nm0, \
+   nn0, shard_by_col, parallel_pack)                                        \
+      .run()
 
-    RhsMapper rhs(this->m_rightImpl, this->m_right_nocontract_strides,
-                  this->m_j_strides, this->m_right_contracting_strides,
-                  this->m_k_strides);
+    TENSOR_CONTRACTION_DISPATCH(Context, Alignment, CONTEXT_ARGS);
 
-    Context<LhsPacker, RhsPacker, GebpKernel, LhsMapper, RhsMapper,
-            OutputMapper>(this->m_device, num_threads, lhs, rhs, buffer, m, n,
-                          k, bm, bn, bk, nm, nn, nk, gm, gn, nm0, nn0,
-                          shard_by_col, parallel_pack)
-        .run();
+#undef CONTEXT_ARGS
+
   }
 
   // Context coordinates a single parallel gemm operation.
-  template <typename LhsPacker, typename RhsPacker, typename GebpKernel,
-            typename LhsMapper, typename RhsMapper, typename OutputMapper>
+ template <bool lhs_inner_dim_contiguous, bool rhs_inner_dim_contiguous,
+            bool rhs_inner_dim_reordered, int Alignment>
   class Context {
    public:
-    Context(const Device& device, int num_threads, LhsMapper& lhs,
-            RhsMapper& rhs, Scalar* buffer, Index tm, Index tn, Index tk, Index bm,
-            Index bn, Index bk, Index nm, Index nn, Index nk, Index gm,
-            Index gn, Index nm0, Index nn0, bool shard_by_col,
+    typedef internal::TensorContractionInputMapper<
+        LhsScalar, Index, internal::Lhs, LeftEvaluator, left_nocontract_t,
+        contract_t, internal::packet_traits<LhsScalar>::size,
+        lhs_inner_dim_contiguous, false, Unaligned>
+        LhsMapper;
+    typedef internal::TensorContractionInputMapper<
+        RhsScalar, Index, internal::Rhs, RightEvaluator, right_nocontract_t,
+        contract_t, internal::packet_traits<RhsScalar>::size,
+        rhs_inner_dim_contiguous, rhs_inner_dim_reordered, Unaligned>
+        RhsMapper;
+
+    typedef internal::blas_data_mapper<Scalar, Index, ColMajor> OutputMapper;
+
+    typedef internal::TensorContractionKernel<
+        Scalar, LhsScalar, RhsScalar, Index, OutputMapper, LhsMapper, RhsMapper>
+        TensorContractionKernel;
+
+    Context(const Self* self, int num_threads, Scalar* buffer, Index tm, Index tn,
+            Index tk, Index bm, Index bn, Index bk, Index nm, Index nn, Index nk,
+            Index gm, Index gn, Index nm0, Index nn0, bool shard_by_col,
             bool parallel_pack)
-        : device_(device),
-          lhs_(lhs),
-          rhs_(rhs),
+        : device_(self->m_device),
+          lhs_(self->m_leftImpl, self->m_left_nocontract_strides,
+               self->m_i_strides, self->m_left_contracting_strides,
+               self->m_k_strides),
+          rhs_(self->m_rightImpl, self->m_right_nocontract_strides,
+               self->m_j_strides, self->m_right_contracting_strides,
+               self->m_k_strides),
           buffer_(buffer),
           output_(buffer, tm),
+          output_kernel_(self->m_output_kernel),
+          tensor_contraction_params_(self->m_tensor_contraction_params),
           num_threads_(num_threads),
           shard_by_col_(shard_by_col),
           parallel_pack_(parallel_pack),
@@ -350,7 +293,7 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
         // Normal number of notifications for k slice switch is
         // nm_ + nn_ + nm_ * nn_. However, first P - 1 slices will receive only
         // nm_ + nn_ notifications, because they will not receive notifications
-        // from preceeding kernels.
+        // from preceding kernels.
         state_switch_[x] =
             x == 0
                 ? 1
@@ -377,7 +320,7 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
           divup<size_t>(bm_ * bk_ * sizeof(LhsScalar), align) * align;
       size_t rhs_size =
           divup<size_t>(bn_ * bk_ * sizeof(RhsScalar), align) * align;
-      packed_mem_ = static_cast<char*>(internal::aligned_malloc(
+      packed_mem_ = static_cast<char*>(device_.allocate(
           (nm0_ * lhs_size + nn0_ * rhs_size) * std::min<size_t>(nk_, P - 1)));
       char* mem = static_cast<char*>(packed_mem_);
       for (Index x = 0; x < numext::mini<Index>(nk_, P - 1); x++) {
@@ -399,7 +342,7 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
         for (Index m = 0; m < nm_; m++) delete[] state_kernel_[x][m];
         delete[] state_kernel_[x];
       }
-      internal::aligned_free(packed_mem_);
+      device_.deallocate(packed_mem_);
     }
 
     void run() {
@@ -416,10 +359,12 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
    private:
     Notification done_;
     const Device& device_;
-    LhsMapper& lhs_;
-    RhsMapper& rhs_;
+    LhsMapper lhs_;
+    RhsMapper rhs_;
     Scalar* const buffer_;
     OutputMapper output_;
+    OutputKernelType output_kernel_;
+    TensorContractionParams tensor_contraction_params_;
     const int num_threads_;
     const bool shard_by_col_;
     const bool parallel_pack_;
@@ -492,8 +437,9 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
     void pack_lhs(Index m, Index k) {
       const Index mend = m * gm_ + gm(m);
       for (Index m1 = m * gm_; m1 < mend; m1++)
-        LhsPacker()(packed_lhs_[k % (P - 1)][m1],
-                    lhs_.getSubMapper(m1 * bm_, k * bk_), bk(k), bm(m1));
+        TensorContractionKernel::packLhs(packed_lhs_[k % (P - 1)][m1],
+                                         lhs_.getSubMapper(m1 * bm_, k * bk_),
+                                         bk(k), bm(m1));
 
       if (!parallel_pack_ && shard_by_col_) {
         signal_packing(k);
@@ -516,8 +462,9 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
           // deadlocks.
           memset(buffer_ + n1 * bn_ * m_, 0, bn(n1) * m_ * sizeof(Scalar));
         }
-        RhsPacker()(packed_rhs_[k % (P - 1)][n1],
-                    rhs_.getSubMapper(k * bk_, n1 * bn_), bk(k), bn(n1));
+        TensorContractionKernel::packRhs(packed_rhs_[k % (P - 1)][n1],
+                                         rhs_.getSubMapper(k * bk_, n1 * bn_),
+                                         bk(k), bn(n1));
       }
 
       if (parallel_pack_ || shard_by_col_) {
@@ -530,25 +477,38 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
 
     void kernel(Index m, Index n, Index k) {
       // Note: order of iteration matters here. Iteration over m is innermost
-      // because we want to reuse the same packed rhs in consequetive tasks
+      // because we want to reuse the same packed rhs in consecutive tasks
       // (rhs fits into L2$ while lhs only into L3$).
       const Index nend = n * gn_ + gn(n);
       const Index mend = m * gm_ + gm(m);
       if (shard_by_col_) {
         for (Index n1 = n * gn_; n1 < nend; n1++) {
-          for (Index m1 = m * gm_; m1 < mend; m1++)
-            GebpKernel()(output_.getSubMapper(m1 * bm_, n1 * bn_),
-                         packed_lhs_[k % (P - 1)][m1],
-                         packed_rhs_[k % (P - 1)][n1], bm(m1), bk(k), bn(n1),
-                         Scalar(1), -1, -1, 0, 0);
+          for (Index m1 = m * gm_; m1 < mend; m1++) {
+            const auto output_mapper = output_.getSubMapper(m1 * bm_, n1 * bn_);
+            TensorContractionKernel::invoke(
+                output_mapper, packed_lhs_[k % (P - 1)][m1],
+                packed_rhs_[k % (P - 1)][n1], bm(m1), bk(k), bn(n1), Scalar(1));
+
+            // We are done with the last task for the [m1, n1] block.
+            if (k + 1 == nk_) {
+              output_kernel_(output_mapper, tensor_contraction_params_,
+                             m1 * bm_, n1 * bn_, bm(m1), bn(n1));
+            }
+          }
         }
       } else {
         for (Index m1 = m * gm_; m1 < mend; m1++)
           for (Index n1 = n * gn_; n1 < nend; n1++) {
-            GebpKernel()(output_.getSubMapper(m1 * bm_, n1 * bn_),
-                         packed_lhs_[k % (P - 1)][m1],
-                         packed_rhs_[k % (P - 1)][n1], bm(m1), bk(k), bn(n1),
-                         Scalar(1), -1, -1, 0, 0);
+            const auto output_mapper = output_.getSubMapper(m1 * bm_, n1 * bn_);
+            TensorContractionKernel::invoke(
+                output_mapper, packed_lhs_[k % (P - 1)][m1],
+                packed_rhs_[k % (P - 1)][n1], bm(m1), bk(k), bn(n1), Scalar(1));
+
+            // We are done with the last task for the [m1, n1] block.
+            if (k + 1 == nk_) {
+              output_kernel_(output_mapper, tensor_contraction_params_,
+                             m1 * bm_, n1 * bn_, bm(m1), bn(n1));
+            }
           }
       }
       signal_kernel(m, n, k + 1, false);
@@ -623,11 +583,13 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
         else
           pack_lhs(start, k);
       } else {
-        Index mid = (start + end) / 2;
-        device_.enqueueNoNotification(
-            [=]() { enqueue_packing_helper(mid, end, k, rhs); });
-        device_.enqueueNoNotification(
-            [=]() { enqueue_packing_helper(start, mid, k, rhs); });
+        while (end - start > 1) {
+          Index mid = (start + end) / 2;
+          device_.enqueueNoNotification(
+              [=]() { enqueue_packing_helper(mid, end, k, rhs); });
+          end = mid;
+        }
+        enqueue_packing_helper(start, end, k, rhs);
       }
     }
 
@@ -746,304 +708,15 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
     return 0;
   }
 
-#else  // EIGEN_USE_SIMPLE_THREAD_POOL
-
-  template <bool lhs_inner_dim_contiguous, bool rhs_inner_dim_contiguous, bool rhs_inner_dim_reordered, int Alignment>
-  void evalProduct(Scalar* buffer) const {
-    if (this->m_j_size == 1) {
-      this->template evalGemv<lhs_inner_dim_contiguous, rhs_inner_dim_contiguous, rhs_inner_dim_reordered, Alignment>(buffer);
-      return;
-    }
-
-    evalGemm<lhs_inner_dim_contiguous, rhs_inner_dim_contiguous, rhs_inner_dim_reordered, Alignment>(buffer);
-  }
-
-  template <bool lhs_inner_dim_contiguous, bool rhs_inner_dim_contiguous, bool rhs_inner_dim_reordered, int Alignment>
-  void evalGemm(Scalar* buffer) const {
-    // columns in left side, rows in right side
-    const Index k = this->m_k_size;
-
-    // rows in left side
-    const Index m = this->m_i_size;
-
-    // columns in right side
-    const Index n = this->m_j_size;
-
-    // zero out the result buffer (which must be of size at least m * n * sizeof(Scalar)
-    this->m_device.memset(buffer, 0, m * n * sizeof(Scalar));
-
-
-    const int lhs_packet_size = internal::unpacket_traits<typename LeftEvaluator::PacketReturnType>::size;
-    const int rhs_packet_size = internal::unpacket_traits<typename RightEvaluator::PacketReturnType>::size;
-
-    typedef internal::TensorContractionInputMapper<LhsScalar, Index, internal::Lhs,
-                                                   LeftEvaluator, left_nocontract_t,
-                                                   contract_t, lhs_packet_size,
-                                                   lhs_inner_dim_contiguous,
-                                                   false, Unaligned> LhsMapper;
-
-    typedef internal::TensorContractionInputMapper<RhsScalar, Index, internal::Rhs,
-                                                   RightEvaluator, right_nocontract_t,
-                                                   contract_t, rhs_packet_size,
-                                                   rhs_inner_dim_contiguous,
-                                                   rhs_inner_dim_reordered, Unaligned> RhsMapper;
-
-    typedef internal::blas_data_mapper<Scalar, Index, ColMajor> OutputMapper;
-
-    // TODO: packing could be faster sometimes if we supported row major tensor mappers
-    typedef internal::gemm_pack_lhs<LhsScalar, Index, typename LhsMapper::SubMapper, Traits::mr,
-                                    Traits::LhsProgress, ColMajor> LhsPacker;
-    typedef internal::gemm_pack_rhs<RhsScalar, Index, typename RhsMapper::SubMapper, Traits::nr, ColMajor> RhsPacker;
-
-    // TODO: replace false, false with conjugate values?
-    typedef internal::gebp_kernel<LhsScalar, RhsScalar, Index, OutputMapper,
-                                  Traits::mr, Traits::nr, false, false> GebpKernel;
-
-    typedef internal::packLhsArg<LhsScalar, LhsMapper, Index> packLArg;
-    typedef internal::packRhsAndKernelArg<LhsScalar, RhsScalar, RhsMapper, OutputMapper, Index> packRKArg;
-
-    // initialize data mappers
-    LhsMapper lhs(this->m_leftImpl, this->m_left_nocontract_strides, this->m_i_strides,
-                  this->m_left_contracting_strides, this->m_k_strides);
-
-    RhsMapper rhs(this->m_rightImpl, this->m_right_nocontract_strides, this->m_j_strides,
-                  this->m_right_contracting_strides, this->m_k_strides);
-
-    OutputMapper output(buffer, m);
-
-    // compute block sizes (which depend on number of threads)
-    const Index num_threads = this->m_device.numThreads();
-    internal::TensorContractionBlocking<LhsMapper, RhsMapper, Index, internal::ShardByCol> blocking(k, m, n, num_threads);
-    Index mc = blocking.mc();
-    Index nc = blocking.nc();
-    Index kc = blocking.kc();
-    eigen_assert(mc <= m);
-    eigen_assert(nc <= n);
-    eigen_assert(kc <= k);
-
-#define CEIL_DIV(a, b) (((a) + (b) - 1) / (b))
-    const Index k_blocks = CEIL_DIV(k, kc);
-    const Index n_blocks = CEIL_DIV(n, nc);
-    const Index m_blocks = CEIL_DIV(m, mc);
-    const Index sizeA = mc * kc;
-    const Index sizeB = kc * nc;
-
-    /*    cout << "m: " << m << " n: " << n << " k: " << k << endl;
-    cout << "mc: " << mc << " nc: " << nc << " kc: " << kc << endl;
-    cout << "m_blocks: " << m_blocks << " n_blocks: " << n_blocks << " k_blocks: " << k_blocks << endl;
-    cout << "num threads: " << num_threads << endl;
-    */
-
-    // note: m_device.allocate should return 16 byte aligned pointers, but if blockA and blockB
-    //       aren't 16 byte aligned segfaults will happen due to SIMD instructions
-    // note: You can get away with allocating just a single blockA and offsets and meet the
-    //       the alignment requirements with the assumption that
-    //       (Traits::mr * sizeof(ResScalar)) % 16 == 0
-    const Index numBlockAs = numext::mini(num_threads, m_blocks);
-    MaxSizeVector<LhsScalar *> blockAs(num_threads);
-    for (int i = 0; i < num_threads; i++) {
-      blockAs.push_back(static_cast<LhsScalar *>(this->m_device.allocate(sizeA * sizeof(LhsScalar))));
-    }
-
-    // To circumvent alignment issues, I'm just going to separately allocate the memory for each thread
-    // TODO: is this too much memory to allocate? This simplifies coding a lot, but is wasteful.
-    //       Other options: (1) reuse memory when a thread finishes. con: tricky
-    //                      (2) allocate block B memory in each thread. con: overhead
-    MaxSizeVector<RhsScalar *> blockBs(n_blocks);
-    for (int i = 0; i < n_blocks; i++) {
-      blockBs.push_back(static_cast<RhsScalar *>(this->m_device.allocate(sizeB * sizeof(RhsScalar))));
-    }
-
-    // lhs_notifications starts with all null Notifications
-    MaxSizeVector<Notification*> lhs_notifications(num_threads, nullptr);
-
-    // this should really be numBlockAs * n_blocks;
-    const Index num_kernel_notifications = num_threads * n_blocks;
-    MaxSizeVector<Notification*> kernel_notifications(num_kernel_notifications,
-                                                    nullptr);
-
-    for (Index k_block_idx = 0; k_block_idx < k_blocks; k_block_idx++) {
-      const Index k_start = k_block_idx * kc;
-      // make sure we don't overshoot right edge of left matrix
-      const Index actual_kc = numext::mini(k_start + kc, k) - k_start;
-
-      for (Index m_block_idx = 0; m_block_idx < m_blocks; m_block_idx += numBlockAs) {
-        const Index num_blocks = numext::mini(m_blocks-m_block_idx, numBlockAs);
-
-        for (Index mt_block_idx = m_block_idx; mt_block_idx < m_block_idx+num_blocks; mt_block_idx++) {
-          const Index m_start = mt_block_idx * mc;
-          const Index actual_mc = numext::mini(m_start + mc, m) - m_start;
-          eigen_assert(actual_mc > 0);
-
-          Index blockAId = (k_block_idx * m_blocks + mt_block_idx) % num_threads;
-
-          for (int i = 0; i < n_blocks; ++i) {
-            Index notification_id = (blockAId * n_blocks + i);
-            // Wait for any current kernels using this slot to complete
-            // before using it.
-            if (kernel_notifications[notification_id]) {
-              wait_until_ready(kernel_notifications[notification_id]);
-              delete kernel_notifications[notification_id];
-            }
-            kernel_notifications[notification_id] = new Notification();
-          }
-          const packLArg arg = {
-            blockAs[blockAId], // blockA
-            lhs,        // lhs
-            m_start,    // m
-            k_start,    // k
-            actual_mc,  // mc
-            actual_kc,  // kc
-          };
-
-          // Delete any existing notification since we may be
-          // replacing it.  The algorithm should ensure that there are
-          // no existing waiters on this notification.
-          delete lhs_notifications[blockAId];
-          lhs_notifications[blockAId] =
-          this->m_device.enqueue(&Self::packLhs<packLArg, LhsPacker>, arg);
-        }
-
-        // now start kernels.
-        const Index m_base_start = m_block_idx * mc;
-        const bool need_to_pack = m_block_idx == 0;
-
-        for (Index n_block_idx = 0; n_block_idx < n_blocks; n_block_idx++) {
-          const Index n_start = n_block_idx * nc;
-          const Index actual_nc = numext::mini(n_start + nc, n) - n_start;
-
-          // first make sure the previous kernels are all done before overwriting rhs. Also wait if
-          // we're going to start new k. In both cases need_to_pack is true.
-          if (need_to_pack) {
-            for (Index i = num_blocks; i < num_threads; ++i) {
-              Index blockAId = (k_block_idx * m_blocks + i + m_block_idx) % num_threads;
-              Index future_id = (blockAId * n_blocks + n_block_idx);
-              wait_until_ready(kernel_notifications[future_id]);
-            }
-          }
-
-          packRKArg arg = {
-            &blockAs, // blockA
-            blockBs[n_block_idx], // blockB
-            rhs,          // rhs
-            output,       // output
-            m_base_start, // m
-            k_start,      // k
-            n_start,      // n
-            mc,           // mc
-            actual_kc,    // kc
-            actual_nc,    // nc
-            num_threads,
-            numBlockAs,
-            m,
-            k_block_idx,
-            m_block_idx,
-            n_block_idx, // n_block_idx
-            m_blocks, // m_blocks
-            n_blocks, // n_blocks
-            &kernel_notifications, // kernel notifications
-            &lhs_notifications,    // lhs notifications
-            need_to_pack, // need_to_pack
-          };
-
-          // We asynchronously kick off this function, which ends up
-          // notifying the appropriate kernel_notifications objects,
-          // which this thread waits on before exiting.
-          this->m_device.enqueueNoNotification(&Self::packRhsAndKernel<packRKArg, RhsPacker, GebpKernel>, arg);
-        }
-      }
-    }
-
-    // Make sure all the kernels are done.
-    for (size_t i = 0; i < kernel_notifications.size(); ++i) {
-      wait_until_ready(kernel_notifications[i]);
-      delete kernel_notifications[i];
-    }
-
-    // No need to wait for lhs notifications since they should have
-    // already been waited on.  Just clean them up.
-    for (size_t i = 0; i < lhs_notifications.size(); ++i) {
-      delete lhs_notifications[i];
-    }
-
-    // deallocate all of the memory for both A and B's
-    for (size_t i = 0; i < blockAs.size(); i++) {
-      this->m_device.deallocate(blockAs[i]);
-    }
-    for (size_t i = 0; i < blockBs.size(); i++) {
-      this->m_device.deallocate(blockBs[i]);
-    }
-
-#undef CEIL_DIV
-  }
-
-  /*
-   * Packs a LHS block of size (mt, kc) starting at lhs(m, k). Before packing
-   * the LHS block, check that all of the kernels that worked on the same
-   * mt_block_idx in the previous m_block are done.
-   */
-  template <typename packLArg, typename LhsPacker>
-  static void packLhs(const packLArg arg) {
-    // perform actual packing
-    LhsPacker pack_lhs;
-    pack_lhs(arg.blockA, arg.lhs.getSubMapper(arg.m_start, arg.k_start), arg.kc, arg.mc);
-  }
-
-  /*
-   * Packs a RHS block of size (kc, nc) starting at (k, n) after checking that
-   * all kernels in the previous block are done.
-   * Then for each LHS future, we wait on the future and then call GEBP
-   * on the area packed by the future (which starts at
-   * blockA + future_idx * mt * kc) on the LHS and with the full packed
-   * RHS block.
-   * The output of this GEBP is written to output(m + i * mt, n).
-   */
-  template <typename packRKArg, typename RhsPacker, typename GebpKernel>
-  static void packRhsAndKernel(packRKArg arg) {
-    if (arg.need_to_pack) {
-      RhsPacker pack_rhs;
-      pack_rhs(arg.blockB, arg.rhs.getSubMapper(arg.k, arg.n), arg.kc, arg.nc);
-    }
-
-    GebpKernel gebp;
-    for (Index mt_block_idx = 0; mt_block_idx < arg.num_blockAs; mt_block_idx++) {
-      const Index m_base_start = arg.m + arg.mc*mt_block_idx;
-      if (m_base_start < arg.max_m) {
-        Index blockAId = (arg.k_block_idx * arg.m_blocks + mt_block_idx + arg.m_block_idx) % arg.num_threads;
-        wait_until_ready((*arg.lhs_notifications)[blockAId]);
-        const Index actual_mc = numext::mini(m_base_start + arg.mc, arg.max_m) - m_base_start;
-        gebp(arg.output.getSubMapper(m_base_start, arg.n),
-             (*arg.blockAs)[blockAId], arg.blockB,
-             actual_mc, arg.kc, arg.nc, Scalar(1), -1, -1, 0, 0);
-
-        // Notify that the kernel is done.
-        const Index set_idx = blockAId * arg.n_blocks + arg.n_block_idx;
-        (*arg.kernel_notifications)[set_idx]->Notify();
-      }
-    }
-  }
-#endif  // EIGEN_USE_SIMPLE_THREAD_POOL
-
   TensorOpCost contractionCost(Index m, Index n, Index bm, Index bn, Index bk,
                                bool shard_by_col, bool prepacked) const {
     const int packed_size = std::min<int>(PacketType<LhsScalar, Device>::size,
                                           PacketType<RhsScalar, Device>::size);
     const int output_packet_size = internal::unpacket_traits<PacketReturnType>::size;
     const double kd = static_cast<double>(bk);
-    // Peak VFMA bandwidth is 0.5. However if we have not enough data for
-    // vectorization bandwidth drops. The 4.0 and 2.0 bandwidth is determined
-    // experimentally.
-    double computeBandwidth = bk == 1 ? 4.0 :
-          (shard_by_col ? bn : bm) < Traits::nr ||
-          (shard_by_col ? bm : bn) < Traits::mr ? 2.0 : 0.5;
-#ifndef EIGEN_VECTORIZE_FMA
-    // Bandwidth of all of VFMA/MULPS/ADDPS is 0.5 on latest Intel processors.
-    // However for MULPS/ADDPS we have dependent sequence of 2 such instructions,
-    // so overall bandwidth is 1.0.
-    if (computeBandwidth == 0.5) computeBandwidth = 1.0;
-#endif
+    double compute_bandwidth = computeBandwidth(false, bm, bn, bk);
     // Computations.
-    TensorOpCost cost = TensorOpCost(0, 0, kd * computeBandwidth, true, packed_size);
+    TensorOpCost cost = TensorOpCost(0, 0, kd * compute_bandwidth, true, packed_size);
     // Output stores.
     cost += TensorOpCost(0, sizeof(CoeffReturnType), 0, true, output_packet_size);
     if (prepacked) {
@@ -1064,7 +737,176 @@ struct TensorEvaluator<const TensorContractionOp<Indices, LeftArgType, RightArgT
     return cost + lhsCost + rhsCost;
   }
 
+  template <int Alignment>
+  EIGEN_STRONG_INLINE void addToBuffer(size_t n, const Scalar* src_buf,
+                                       Scalar* tgt_buf) const {
+    const int output_packet_size = internal::unpacket_traits<PacketReturnType>::size;
+    size_t i = 0;
+    const size_t num_packets = n / output_packet_size;
+    for (; i < output_packet_size * num_packets; i += output_packet_size) {
+      const PacketReturnType src_val =
+          internal::pload<PacketReturnType>(src_buf + i);
+      const PacketReturnType tgt_val =
+          internal::ploadt<PacketReturnType, Alignment>(tgt_buf + i);
+      const PacketReturnType sum = internal::padd(src_val, tgt_val);
+      internal::pstoret<Scalar, PacketReturnType, Alignment>(tgt_buf + i, sum);
+    }
+    for (; i < n; ++i) {
+      tgt_buf[i] += src_buf[i];
+    }
+  }
+
+  // Decide whether we want to shard m x k x n contraction over the inner
+  // (contraction) dimension (k).
+  static bool shardByInnerDim(Index m, Index n, Index k, int num_threads,
+                              int num_threads_by_k) {
+    std::ptrdiff_t bufsize = m * n * sizeof(Scalar);
+    bool shard_by_k = false;
+    if (n == 1 ||                // If mat*vec or...
+        num_threads_by_k < 2 ||  // running single threaded or...
+        num_threads_by_k <
+            num_threads ||  // sharding by k gives less parallelism or...
+        bufsize > l3CacheSize() / num_threads_by_k ||  // need more buffer space
+        // than L3 cache or...
+        k / num_threads_by_k < 2 * Traits::nr) {  // k per thread is tiny.
+      shard_by_k = false;
+    } else if (numext::maxi(m, n) / num_threads <
+                   Traits::nr ||  // both other dimensions are tiny or...
+               // k per thread is not small and...
+               (k / num_threads_by_k > 8 * Traits::nr &&
+                // one of the outer dimensions is tiny or sharding by k offers
+                // more parallelism.
+                (numext::mini(m, n) < 2 * Traits::nr ||
+                 num_threads_by_k > num_threads))) {
+      shard_by_k = true;
+    }
+    return shard_by_k;
+  }
+
+  template <int Alignment>
+  void evalShardedByInnerDim(int num_threads, Scalar* result) const {
+    const Index m = this->m_i_size;
+    const Index n = this->m_j_size;
+    const Index k = this->m_k_size;
+    // The underlying GEMM kernel assumes that k is a multiple of 8 and
+    // subtle breakage occurs if this is violated.
+    Index block_size = 8 * divup<Index>(k, 8 * num_threads);
+    Index num_blocks = divup<Index>(k, block_size);
+    // we use 'result' for the first block's partial result.
+    MaxSizeVector<Scalar*> block_buffers(num_blocks - 1);
+    Barrier barrier(internal::convert_index<int>(num_blocks));
+    auto process_block = [=, &barrier](Scalar* buf, Index begin, Index end) {
+      ::memset(buf, 0, m * n * sizeof(Scalar));
+      TENSOR_CONTRACTION_DISPATCH(
+          this->template evalGemmPartialWithoutOutputKernel, Alignment,
+          (buf, begin, end, this->m_device.numThreads()));
+      barrier.Notify();
+    };
+    Index start = 0;
+    for (Index blocks_left = num_blocks; blocks_left > 0; --blocks_left) {
+      // The underlying GEMM kernel assumes that k is a multiple of packet size
+      // (currently largest packet size is 8) and subtle breakage occurs if
+      // this is violated.
+      block_size = 8 * divup<Index>(k - start, 8 * blocks_left);
+      Scalar* buf;
+      if (start == 0) {
+        buf = result;
+      } else {
+        buf = static_cast<Scalar*>(
+            this->m_device.allocate(m * n * sizeof(Scalar)));
+        block_buffers.push_back(buf);
+      }
+      Index end = start + block_size;
+      if (end > k) {
+        end = k;
+      }
+      this->m_device.enqueueNoNotification(
+          [=, &process_block]() { process_block(buf, start, end); });
+      start = end;
+    }
+    barrier.Wait();
+
+    // Add other partial results into first partial result.
+    for (const auto& buf : block_buffers) {
+      addToBuffer<Alignment>(m * n, buf, result);
+      this->m_device.deallocate(buf);
+    }
+
+    // Finally call output kernel with finalized output buffer.
+    typedef internal::blas_data_mapper<Scalar, Index, ColMajor> OutputMapper;
+    this->m_output_kernel(OutputMapper(result, m),
+                          this->m_tensor_contraction_params,
+                          static_cast<Eigen::Index>(0),
+                          static_cast<Eigen::Index>(0),
+                          m, n);
+  }
+
+  TensorOpCost contractionCostPerInnerDim(Index m, Index n, Index k) const {
+    // Compute cost.
+    const int output_packet_size = internal::unpacket_traits<PacketReturnType>::size;
+    TensorOpCost cost(0, 0, (computeBandwidth(true, m, n, k) * m) * n);
+    // Output stores.
+    cost += TensorOpCost(0, sizeof(CoeffReturnType), 0, true, output_packet_size);
+    TensorOpCost lhsCost = this->m_leftImpl.costPerCoeff(true) * m;
+    TensorOpCost rhsCost = this->m_rightImpl.costPerCoeff(true) * n;
+    // Since the inner gemm kernel is always sharded by column, the lhs
+    // load cost is negligible.
+    lhsCost.dropMemoryCost();
+    return cost + lhsCost + rhsCost;
+  }
+
+  int numThreadsInnerDim(Index m, Index n, Index k) const {
+    const int output_packet_size = internal::unpacket_traits<PacketReturnType>::size;
+    TensorOpCost cost = contractionCostPerInnerDim(m, n, k);
+    double total_parallel_cost =
+        TensorCostModel<ThreadPoolDevice>::totalCost(k, cost);
+    // Cost of reduction step accumulating the m*n per-thread buffers into the
+    // result.
+    double reduction_cost = TensorCostModel<ThreadPoolDevice>::totalCost(
+        m * n, TensorOpCost(2, 1, 1, true, output_packet_size));
+    int num_threads = 1;
+    double min_cost = total_parallel_cost;
+    double kPerThreadOverHead = 4000;
+    double kFixedOverHead = 100000;
+    for (int nt = 2; nt <= this->m_device.numThreads(); nt++) {
+      double sequential_cost =
+          kFixedOverHead + nt * (reduction_cost + kPerThreadOverHead);
+      double parallel_cost = total_parallel_cost / nt + sequential_cost;
+      if (parallel_cost < min_cost) {
+        num_threads = nt;
+        min_cost = parallel_cost;
+      }
+    }
+    return num_threads;
+  }
+
+
+  double computeBandwidth(bool shard_by_col, Index bm, Index bn,
+                          Index bk) const {
+    // Peak VFMA bandwidth is 0.5. However if we have not enough data for
+    // vectorization bandwidth drops. The 4.0 and 2.0 bandwidth is determined
+    // experimentally.
+    double computeBandwidth =
+        bk == 1 ? 4.0
+                : (shard_by_col ? bn : bm) < Traits::nr ||
+                          (shard_by_col ? bm : bn) < Traits::mr
+                      ? 2.0
+                      : 0.5;
+#ifndef EIGEN_VECTORIZE_FMA
+    // Bandwidth of all of VFMA/MULPS/ADDPS is 0.5 on latest Intel processors.
+    // However for MULPS/ADDPS we have dependent sequence of 2 such
+    // instructions,
+    // so overall bandwidth is 1.0.
+    if (computeBandwidth == 0.5) computeBandwidth = 1.0;
+#endif
+    return computeBandwidth;
+  }
+
 #if defined(EIGEN_VECTORIZE_AVX) && defined(EIGEN_USE_LIBXSMM)
+  // TODO(ezhulenev): Add support for output kernels and LIBXSMM.
+  static_assert(std::is_same<OutputKernelType, const NoOpOutputKernel>::value,
+                "XSMM does not support contraction output kernels.");
+
   template<int Alignment>
   class ContextXsmm {
    public:

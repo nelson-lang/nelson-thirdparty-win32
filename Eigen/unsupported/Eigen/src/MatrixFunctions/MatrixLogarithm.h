@@ -324,7 +324,7 @@ public:
   
   /** \brief Compute the matrix logarithm.
     *
-    * \param[out]  result  Logarithm of \p A, where \A is as specified in the constructor.
+    * \param[out]  result  Logarithm of \c A, where \c A is as specified in the constructor.
     */
   template <typename ResultType>
   inline void evalTo(ResultType& result) const
@@ -332,10 +332,8 @@ public:
     typedef typename internal::nested_eval<Derived, 10>::type DerivedEvalType;
     typedef typename internal::remove_all<DerivedEvalType>::type DerivedEvalTypeClean;
     typedef internal::traits<DerivedEvalTypeClean> Traits;
-    static const int RowsAtCompileTime = Traits::RowsAtCompileTime;
-    static const int ColsAtCompileTime = Traits::ColsAtCompileTime;
     typedef std::complex<typename NumTraits<Scalar>::Real> ComplexScalar;
-    typedef Matrix<ComplexScalar, Dynamic, Dynamic, 0, RowsAtCompileTime, ColsAtCompileTime> DynMatrixType;
+    typedef Matrix<ComplexScalar, Dynamic, Dynamic, 0, Traits::RowsAtCompileTime, Traits::ColsAtCompileTime> DynMatrixType;
     typedef internal::MatrixLogarithmAtomic<DynMatrixType> AtomicType;
     AtomicType atomic;
     

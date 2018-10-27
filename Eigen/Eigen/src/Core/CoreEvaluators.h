@@ -1080,7 +1080,7 @@ struct unary_evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel>, IndexBa
     : m_argImpl(block.nestedExpression()), 
       m_startRow(block.startRow()), 
       m_startCol(block.startCol()),
-      m_linear_offset(InnerPanel?(XprType::IsRowMajor ? block.startRow()*block.cols() : block.startCol()*block.rows()):0)
+      m_linear_offset(ForwardLinearAccess?(ArgType::IsRowMajor ? block.startRow()*block.nestedExpression().cols() + block.startCol() : block.startCol()*block.nestedExpression().rows() + block.startRow()):0)
   { }
  
   typedef typename XprType::Scalar Scalar;
@@ -1088,7 +1088,7 @@ struct unary_evaluator<Block<ArgType, BlockRows, BlockCols, InnerPanel>, IndexBa
 
   enum {
     RowsAtCompileTime = XprType::RowsAtCompileTime,
-    ForwardLinearAccess = InnerPanel && bool(evaluator<ArgType>::Flags&LinearAccessBit)
+    ForwardLinearAccess = (InnerPanel || int(XprType::IsRowMajor)==int(ArgType::IsRowMajor)) && bool(evaluator<ArgType>::Flags&LinearAccessBit)
   };
  
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
@@ -1162,7 +1162,7 @@ protected:
   evaluator<ArgType> m_argImpl;
   const variable_if_dynamic<Index, (ArgType::RowsAtCompileTime == 1 && BlockRows==1) ? 0 : Dynamic> m_startRow;
   const variable_if_dynamic<Index, (ArgType::ColsAtCompileTime == 1 && BlockCols==1) ? 0 : Dynamic> m_startCol;
-  const variable_if_dynamic<Index, InnerPanel ? Dynamic : 0> m_linear_offset;
+  const variable_if_dynamic<Index, ForwardLinearAccess ? Dynamic : 0> m_linear_offset;
 };
 
 // TODO: This evaluator does not actually use the child evaluator; 
@@ -1324,64 +1324,6 @@ protected:
   const variable_if_dynamic<Index, ArgType::RowsAtCompileTime> m_rows;
   const variable_if_dynamic<Index, ArgType::ColsAtCompileTime> m_cols;
 };
-
-
-// -------------------- PartialReduxExpr --------------------
-
-template< typename ArgType, typename MemberOp, int Direction>
-struct evaluator<PartialReduxExpr<ArgType, MemberOp, Direction> >
-  : evaluator_base<PartialReduxExpr<ArgType, MemberOp, Direction> >
-{
-  typedef PartialReduxExpr<ArgType, MemberOp, Direction> XprType;
-  typedef typename internal::nested_eval<ArgType,1>::type ArgTypeNested;
-  typedef typename internal::remove_all<ArgTypeNested>::type ArgTypeNestedCleaned;
-  typedef typename ArgType::Scalar InputScalar;
-  typedef typename XprType::Scalar Scalar;
-  enum {
-    TraversalSize = Direction==int(Vertical) ? int(ArgType::RowsAtCompileTime) :  int(ArgType::ColsAtCompileTime)
-  };
-  typedef typename MemberOp::template Cost<InputScalar,int(TraversalSize)> CostOpType;
-  enum {
-    CoeffReadCost = TraversalSize==Dynamic ? HugeCost
-                  : TraversalSize * evaluator<ArgType>::CoeffReadCost + int(CostOpType::value),
-    
-    Flags = (traits<XprType>::Flags&RowMajorBit) | (evaluator<ArgType>::Flags&(HereditaryBits&(~RowMajorBit))) | LinearAccessBit,
-    
-    Alignment = 0 // FIXME this will need to be improved once PartialReduxExpr is vectorized
-  };
-
-  EIGEN_DEVICE_FUNC explicit evaluator(const XprType xpr)
-    : m_arg(xpr.nestedExpression()), m_functor(xpr.functor())
-  {
-    EIGEN_INTERNAL_CHECK_COST_VALUE(TraversalSize==Dynamic ? HugeCost : int(CostOpType::value));
-    EIGEN_INTERNAL_CHECK_COST_VALUE(CoeffReadCost);
-  }
-
-  typedef typename XprType::CoeffReturnType CoeffReturnType;
-
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-  const Scalar coeff(Index i, Index j) const
-  {
-    if (Direction==Vertical)
-      return m_functor(m_arg.col(j));
-    else
-      return m_functor(m_arg.row(i));
-  }
-
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
-  const Scalar coeff(Index index) const
-  {
-    if (Direction==Vertical)
-      return m_functor(m_arg.col(index));
-    else
-      return m_functor(m_arg.row(index));
-  }
-
-protected:
-  typename internal::add_const_on_value_type<ArgTypeNested>::type m_arg;
-  const MemberOp m_functor;
-};
-
 
 // -------------------- MatrixWrapper and ArrayWrapper --------------------
 //

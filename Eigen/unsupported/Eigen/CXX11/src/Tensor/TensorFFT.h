@@ -136,6 +136,7 @@ struct TensorEvaluator<const TensorFFTOp<FFT, ArgType, FFTResultType, FFTDir>, D
     IsAligned = false,
     PacketAccess = true,
     BlockAccess = false,
+    PreferBlockAccess = false,
     Layout = TensorEvaluator<ArgType, Device>::Layout,
     CoordAccess = false,
     RawAccess = false
@@ -274,7 +275,7 @@ struct TensorEvaluator<const TensorFFTOp<FFT, ArgType, FFTResultType, FFTDir>, D
           }
         }
 
-        // processs the line
+        // process the line
         if (is_power_of_two) {
           processDataLineCooleyTukey(line_buf, line_len, log_len);
         }
