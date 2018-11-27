@@ -169,3 +169,6 @@ copy .\sioclient\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
 
 rem CMake
 xcopy /E /Y .\cmake ..\NelSon\tools\cmake\
+
+rem hdf5 dependencies
+copy .\hdf5\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
