@@ -172,4 +172,4 @@ xcopy /E /Y .\cmake ..\NelSon\tools\cmake\
 
 rem hdf5 dependencies
 copy .\hdf5\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
-copy .\hdf5\bin\h5dump.exe ..\NelSon\bin\%PLATFORM_NELSON%\h5dump.exe
+copy .\hdf5\bin\*.exe ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
