@@ -33,10 +33,10 @@ namespace Eigen {
 //   ec.Notify(true);
 //
 // Notify is cheap if there are no waiting threads. Prewait/CommitWait are not
-// cheap, but they are executed only if the preceding predicate check has
+// cheap, but they are executed only if the preceeding predicate check has
 // failed.
 //
-// Algorithm outline:
+// Algorihtm outline:
 // There are two main variables: predicate (managed by user) and state_.
 // Operation closely resembles Dekker mutual algorithm:
 // https://en.wikipedia.org/wiki/Dekker%27s_algorithm
@@ -58,7 +58,7 @@ class EventCount {
 
   ~EventCount() {
     // Ensure there are no waiters.
-    eigen_plain_assert((state_.load() & (kStackMask | kWaiterMask)) == kStackMask);
+    eigen_assert((state_.load() & (kStackMask | kWaiterMask)) == kStackMask);
   }
 
   // Prewait prepares for waiting.
@@ -79,7 +79,7 @@ class EventCount {
     uint64_t state = state_.load(std::memory_order_seq_cst);
     for (;;) {
       if (int64_t((state & kEpochMask) - epoch) < 0) {
-        // The preceding waiter has not decided on its fate. Wait until it
+        // The preceeding waiter has not decided on its fate. Wait until it
         // calls either CancelWait or CommitWait, or is notified.
         EIGEN_THREAD_YIELD();
         state = state_.load(std::memory_order_seq_cst);
@@ -110,7 +110,7 @@ class EventCount {
     uint64_t state = state_.load(std::memory_order_relaxed);
     for (;;) {
       if (int64_t((state & kEpochMask) - epoch) < 0) {
-        // The preceding waiter has not decided on its fate. Wait until it
+        // The preceeding waiter has not decided on its fate. Wait until it
         // calls either CancelWait or CommitWait, or is notified.
         EIGEN_THREAD_YIELD();
         state = state_.load(std::memory_order_relaxed);
@@ -128,7 +128,7 @@ class EventCount {
 
   // Notify wakes one or all waiting threads.
   // Must be called after changing the associated wait predicate.
-  void Notify(bool notifyAll) {
+  void Notify(bool all) {
     std::atomic_thread_fence(std::memory_order_seq_cst);
     uint64_t state = state_.load(std::memory_order_acquire);
     for (;;) {
@@ -137,7 +137,7 @@ class EventCount {
         return;
       uint64_t waiters = (state & kWaiterMask) >> kWaiterShift;
       uint64_t newstate;
-      if (notifyAll) {
+      if (all) {
         // Reset prewait counter and empty wait list.
         newstate = (state & kEpochMask) + (kEpochInc * waiters) + kStackMask;
       } else if (waiters) {
@@ -157,10 +157,10 @@ class EventCount {
       }
       if (state_.compare_exchange_weak(state, newstate,
                                        std::memory_order_acquire)) {
-        if (!notifyAll && waiters) return;  // unblocked pre-wait thread
+        if (!all && waiters) return;  // unblocked pre-wait thread
         if ((state & kStackMask) == kStackMask) return;
         Waiter* w = &waiters_[state & kStackMask];
-        if (!notifyAll) w->next.store(nullptr, std::memory_order_relaxed);
+        if (!all) w->next.store(nullptr, std::memory_order_relaxed);
         Unpark(w);
         return;
       }
@@ -169,8 +169,7 @@ class EventCount {
 
   class Waiter {
     friend class EventCount;
-    // Align to 128 byte boundary to prevent false sharing with other Waiter
-    // objects in the same vector.
+    // Align to 128 byte boundary to prevent false sharing with other Waiter objects in the same vector.
     EIGEN_ALIGN_TO_BOUNDARY(128) std::atomic<Waiter*> next;
     std::mutex mu;
     std::condition_variable cv;

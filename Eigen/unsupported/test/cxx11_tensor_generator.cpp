@@ -80,7 +80,7 @@ static void test_gaussian()
 }
 
 
-EIGEN_DECLARE_TEST(cxx11_tensor_generator)
+void test_cxx11_tensor_generator()
 {
   CALL_SUBTEST(test_1D<ColMajor>());
   CALL_SUBTEST(test_1D<RowMajor>());

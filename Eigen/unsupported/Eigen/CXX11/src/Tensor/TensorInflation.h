@@ -31,7 +31,6 @@ struct traits<TensorInflationOp<Strides, XprType> > : public traits<XprType>
   typedef typename remove_reference<Nested>::type _Nested;
   static const int NumDimensions = XprTraits::NumDimensions;
   static const int Layout = XprTraits::Layout;
-  typedef typename XprTraits::PointerType PointerType;
 };
 
 template<typename Strides, typename XprType>
@@ -85,13 +84,12 @@ struct TensorEvaluator<const TensorInflationOp<Strides, ArgType>, Device>
   typedef typename XprType::Scalar Scalar;
   typedef typename XprType::CoeffReturnType CoeffReturnType;
   typedef typename PacketType<CoeffReturnType, Device>::type PacketReturnType;
-  static const int PacketSize = PacketType<CoeffReturnType, Device>::size;
+  static const int PacketSize = internal::unpacket_traits<PacketReturnType>::size;
 
   enum {
     IsAligned = /*TensorEvaluator<ArgType, Device>::IsAligned*/ false,
     PacketAccess = TensorEvaluator<ArgType, Device>::PacketAccess,
     BlockAccess = false,
-    PreferBlockAccess = false,
     Layout = TensorEvaluator<ArgType, Device>::Layout,
     CoordAccess = false,  // to be implemented
     RawAccess = false
@@ -215,12 +213,7 @@ struct TensorEvaluator<const TensorInflationOp<Strides, ArgType>, Device>
                         compute_cost, vectorized, PacketSize);
   }
 
-  EIGEN_DEVICE_FUNC typename Eigen::internal::traits<XprType>::PointerType data() const { return NULL; }
-
-#ifdef EIGEN_USE_SYCL
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const TensorEvaluator<ArgType, Device>& impl() const { return m_impl; }
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const Strides& functor() const { return m_strides; }
-#endif
+  EIGEN_DEVICE_FUNC Scalar* data() const { return NULL; }
 
  protected:
   Dimensions m_dimensions;

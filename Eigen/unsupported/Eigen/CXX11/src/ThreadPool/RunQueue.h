@@ -10,6 +10,7 @@
 #ifndef EIGEN_CXX11_THREADPOOL_RUNQUEUE_H_
 #define EIGEN_CXX11_THREADPOOL_RUNQUEUE_H_
 
+
 namespace Eigen {
 
 // RunQueue is a fixed-size, partially non-blocking deque or Work items.
@@ -46,7 +47,7 @@ class RunQueue {
       array_[i].state.store(kEmpty, std::memory_order_relaxed);
   }
 
-  ~RunQueue() { eigen_plain_assert(Size() == 0); }
+  ~RunQueue() { eigen_assert(Size() == 0); }
 
   // PushFront inserts w at the beginning of the queue.
   // If queue is full returns w, otherwise returns default-constructed Work.
@@ -130,8 +131,9 @@ class RunQueue {
       Elem* e = &array_[mid & kMask];
       uint8_t s = e->state.load(std::memory_order_relaxed);
       if (n == 0) {
-        if (s != kReady || !e->state.compare_exchange_strong(
-                               s, kBusy, std::memory_order_acquire))
+        if (s != kReady ||
+            !e->state.compare_exchange_strong(s, kBusy,
+                                              std::memory_order_acquire))
           continue;
         start = mid;
       } else {
@@ -175,13 +177,6 @@ class RunQueue {
   // Can be called by any thread at any time.
   bool Empty() const { return Size() == 0; }
 
-  // Delete all the elements from the queue.
-  void Flush() {
-    while (!Empty()) {
-      PopFront();
-    }
-  }
-
  private:
   static const unsigned kMask = kSize - 1;
   static const unsigned kMask2 = (kSize << 1) - 1;
@@ -196,7 +191,7 @@ class RunQueue {
   };
   std::mutex mutex_;
   // Low log(kSize) + 1 bits in front_ and back_ contain rolling index of
-  // front/back, respectively. The remaining bits contain modification counters
+  // front/back, repsectively. The remaining bits contain modification counters
   // that are incremented on Push operations. This allows us to (1) distinguish
   // between empty and full conditions (if we would use log(kSize) bits for
   // position, these conditions would be indistinguishable); (2) obtain

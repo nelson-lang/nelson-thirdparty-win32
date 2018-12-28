@@ -265,7 +265,7 @@ static void test_casting()
   VERIFY_IS_EQUAL(sum1, 861);
 }
 
-EIGEN_DECLARE_TEST(cxx11_tensor_map)
+void test_cxx11_tensor_map()
 {
   CALL_SUBTEST(test_0d());
   CALL_SUBTEST(test_1d());

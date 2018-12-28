@@ -37,8 +37,6 @@ struct traits<TensorConcatenationOp<Axis, LhsXprType, RhsXprType> >
   static const int NumDimensions = traits<LhsXprType>::NumDimensions;
   static const int Layout = traits<LhsXprType>::Layout;
   enum { Flags = 0 };
-  typedef typename conditional<Pointer_type_promotion<typename LhsXprType::Scalar, Scalar>::val,
-                               typename traits<LhsXprType>::PointerType, typename traits<RhsXprType>::PointerType>::type PointerType;
 };
 
 template<typename Axis, typename LhsXprType, typename RhsXprType>
@@ -122,8 +120,6 @@ struct TensorEvaluator<const TensorConcatenationOp<Axis, LeftArgType, RightArgTy
   enum {
     IsAligned = false,
     PacketAccess = TensorEvaluator<LeftArgType, Device>::PacketAccess & TensorEvaluator<RightArgType, Device>::PacketAccess,
-    BlockAccess = false,
-    PreferBlockAccess = false,
     Layout = TensorEvaluator<LeftArgType, Device>::Layout,
     RawAccess = false
   };
@@ -252,7 +248,7 @@ struct TensorEvaluator<const TensorConcatenationOp<Axis, LeftArgType, RightArgTy
   template<int LoadMode>
   EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE PacketReturnType packet(Index index) const
   {
-    const int packetSize = PacketType<CoeffReturnType, Device>::size;
+    const int packetSize = internal::unpacket_traits<PacketReturnType>::size;
     EIGEN_STATIC_ASSERT((packetSize > 1), YOU_MADE_A_PROGRAMMING_MISTAKE)
     eigen_assert(index + packetSize - 1 < dimensions().TotalSize());
 
@@ -279,13 +275,7 @@ struct TensorEvaluator<const TensorConcatenationOp<Axis, LeftArgType, RightArgTy
            TensorOpCost(0, 0, compute_cost);
   }
 
-  EIGEN_DEVICE_FUNC typename Eigen::internal::traits<XprType>::PointerType data() const { return NULL; }
-  /// required by sycl in order to extract the accessor
-  const TensorEvaluator<LeftArgType, Device>& left_impl() const { return m_leftImpl; }
-  /// required by sycl in order to extract the accessor
-  const TensorEvaluator<RightArgType, Device>& right_impl() const { return m_rightImpl; }
-  /// required by sycl in order to extract the accessor
-  const Axis& axis() const { return m_axis; }
+  EIGEN_DEVICE_FUNC Scalar* data() const { return NULL; }
 
   protected:
     Dimensions m_dimensions;
@@ -308,8 +298,6 @@ template<typename Axis, typename LeftArgType, typename RightArgType, typename De
   enum {
     IsAligned = false,
     PacketAccess = TensorEvaluator<LeftArgType, Device>::PacketAccess & TensorEvaluator<RightArgType, Device>::PacketAccess,
-    BlockAccess = false,
-    PreferBlockAccess = false,
     Layout = TensorEvaluator<LeftArgType, Device>::Layout,
     RawAccess = false
   };
@@ -356,7 +344,7 @@ template<typename Axis, typename LeftArgType, typename RightArgType, typename De
   template <int StoreMode> EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
   void writePacket(Index index, const PacketReturnType& x)
   {
-    const int packetSize = PacketType<CoeffReturnType, Device>::size;
+    const int packetSize = internal::unpacket_traits<PacketReturnType>::size;
     EIGEN_STATIC_ASSERT((packetSize > 1), YOU_MADE_A_PROGRAMMING_MISTAKE)
     eigen_assert(index + packetSize - 1 < this->dimensions().TotalSize());
 
