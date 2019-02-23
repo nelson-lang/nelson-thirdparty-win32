@@ -42,12 +42,6 @@ copy .\libxml2\bin\libiconv.dll ..\NelSon\bin\%PLATFORM_NELSON%\libiconv.dll
 mkdir ..\NelSon\tools\gettext
 xcopy /E /Y gettext ..\NelSon\tools\gettext\
 
-copy .\zlib\bin\zlib1.dll ..\NelSon\bin\%PLATFORM_NELSON%\zlib1.dll
-
-rem libxml2  dependencies
-copy .\libxml2\bin\libxml2.dll ..\NelSon\bin\%PLATFORM_NELSON%\libxml2.dll
-copy .\libxml2\bin\libiconv.dll ..\NelSon\bin\%PLATFORM_NELSON%\libiconv.dll
-
 rem vc runtime
 copy .\vc14.1-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 copy .\vc14.1-runtime\*.exe ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
