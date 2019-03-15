@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2019, Christopher C. Hulbert
+ * Copyright (c) 2010-2018, Christopher C. Hulbert
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,13 +34,13 @@
 #define MATIO_MINOR_VERSION 5
 
 /* Matio release level number */
-#define MATIO_RELEASE_LEVEL 14
+#define MATIO_RELEASE_LEVEL 13
 
 /* Matio version number */
-#define MATIO_VERSION 1514
+#define MATIO_VERSION 1513
 
 /* Matio version string */
-#define MATIO_VERSION_STR "1.5.14"
+#define MATIO_VERSION_STR "1.5.13"
 
 /* Default file format */
 #define MAT_FT_DEFAULT MAT_FT_MAT5
