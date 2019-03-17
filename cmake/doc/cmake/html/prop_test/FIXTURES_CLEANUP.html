@@ -1,27 +1,16 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-  <title>FIXTURES_CLEANUP &mdash; CMake 3.11.4 Documentation</title>
+  <title>FIXTURES_CLEANUP &mdash; CMake 3.14.0 Documentation</title>
 
-    
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '3.11.4',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -33,8 +22,7 @@
   
  
 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -55,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -73,39 +61,39 @@
 test. These fixture names are distinct from test case names and are not
 required to have any similarity to the names of tests associated with them.</p>
 <p>Fixture cleanup tests are ordinary tests with all of the usual test
-functionality. Setting the <code class="docutils literal"><span class="pre">FIXTURES_CLEANUP</span></code> property for a test has two
+functionality. Setting the <code class="docutils literal notranslate"><span class="pre">FIXTURES_CLEANUP</span></code> property for a test has two
 primary effects:</p>
 <ul class="simple">
 <li>CTest will ensure the test executes after all other tests which list any of
-the fixtures in its <span class="target" id="index-0-prop_test:FIXTURES_REQUIRED"></span><a class="reference internal" href="FIXTURES_REQUIRED.html#prop_test:FIXTURES_REQUIRED" title="FIXTURES_REQUIRED"><code class="xref cmake cmake-prop_test docutils literal"><span class="pre">FIXTURES_REQUIRED</span></code></a> property.</li>
+the fixtures in its <span class="target" id="index-0-prop_test:FIXTURES_REQUIRED"></span><a class="reference internal" href="FIXTURES_REQUIRED.html#prop_test:FIXTURES_REQUIRED" title="FIXTURES_REQUIRED"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">FIXTURES_REQUIRED</span></code></a> property.</li>
 <li>If CTest is asked to run only a subset of tests (e.g. using regular
-expressions or the <code class="docutils literal"><span class="pre">--rerun-failed</span></code> option) and the cleanup test is not in
+expressions or the <code class="docutils literal notranslate"><span class="pre">--rerun-failed</span></code> option) and the cleanup test is not in
 the set of tests to run, it will automatically be added if any tests in the
-set require any fixture listed in <code class="docutils literal"><span class="pre">FIXTURES_CLEANUP</span></code>.</li>
+set require any fixture listed in <code class="docutils literal notranslate"><span class="pre">FIXTURES_CLEANUP</span></code>.</li>
 </ul>
-<p>A cleanup test can have multiple fixtures listed in its <code class="docutils literal"><span class="pre">FIXTURES_CLEANUP</span></code>
+<p>A cleanup test can have multiple fixtures listed in its <code class="docutils literal notranslate"><span class="pre">FIXTURES_CLEANUP</span></code>
 property. It will execute only once for the whole CTest run, not once for each
 fixture. A fixture can also have more than one cleanup test defined. If there
 are multiple cleanup tests for a fixture, projects can control their order with
-the usual <span class="target" id="index-0-prop_test:DEPENDS"></span><a class="reference internal" href="DEPENDS.html#prop_test:DEPENDS" title="DEPENDS"><code class="xref cmake cmake-prop_test docutils literal"><span class="pre">DEPENDS</span></code></a> test property if necessary.</p>
+the usual <span class="target" id="index-0-prop_test:DEPENDS"></span><a class="reference internal" href="DEPENDS.html#prop_test:DEPENDS" title="DEPENDS"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">DEPENDS</span></code></a> test property if necessary.</p>
 <p>A cleanup test is allowed to require other fixtures, but not any fixture listed
-in its <code class="docutils literal"><span class="pre">FIXTURES_CLEANUP</span></code> property. For example:</p>
-<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="c"># Ok: Dependent fixture is different to cleanup</span>
-<span class="nb">set_tests_properties</span><span class="p">(</span><span class="s">cleanupFoo</span> <span class="s">PROPERTIES</span>
-  <span class="s">FIXTURES_CLEANUP</span>  <span class="s">Foo</span>
-  <span class="s">FIXTURES_REQUIRED</span> <span class="s">Bar</span>
-<span class="p">)</span>
+in its <code class="docutils literal notranslate"><span class="pre">FIXTURES_CLEANUP</span></code> property. For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Ok: Dependent fixture is different to cleanup</span>
+<span class="nf">set_tests_properties(</span><span class="nb">cleanupFoo</span><span class="w"> </span><span class="no">PROPERTIES</span><span class="w"></span>
+<span class="w">  </span><span class="no">FIXTURES_CLEANUP</span><span class="w">  </span><span class="nb">Foo</span><span class="w"></span>
+<span class="w">  </span><span class="no">FIXTURES_REQUIRED</span><span class="w"> </span><span class="nb">Bar</span><span class="w"></span>
+<span class="nf">)</span><span class="w"></span>
 
 <span class="c"># Error: cannot require same fixture as cleanup</span>
-<span class="nb">set_tests_properties</span><span class="p">(</span><span class="s">cleanupFoo</span> <span class="s">PROPERTIES</span>
-  <span class="s">FIXTURES_CLEANUP</span>  <span class="s">Foo</span>
-  <span class="s">FIXTURES_REQUIRED</span> <span class="s">Foo</span>
-<span class="p">)</span>
+<span class="nf">set_tests_properties(</span><span class="nb">cleanupFoo</span><span class="w"> </span><span class="no">PROPERTIES</span><span class="w"></span>
+<span class="w">  </span><span class="no">FIXTURES_CLEANUP</span><span class="w">  </span><span class="nb">Foo</span><span class="w"></span>
+<span class="w">  </span><span class="no">FIXTURES_REQUIRED</span><span class="w"> </span><span class="nb">Foo</span><span class="w"></span>
+<span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Cleanup tests will execute even if setup or regular tests for that fixture fail
 or are skipped.</p>
-<p>See <span class="target" id="index-1-prop_test:FIXTURES_REQUIRED"></span><a class="reference internal" href="FIXTURES_REQUIRED.html#prop_test:FIXTURES_REQUIRED" title="FIXTURES_REQUIRED"><code class="xref cmake cmake-prop_test docutils literal"><span class="pre">FIXTURES_REQUIRED</span></code></a> for a more complete discussion of how to use
+<p>See <span class="target" id="index-1-prop_test:FIXTURES_REQUIRED"></span><a class="reference internal" href="FIXTURES_REQUIRED.html#prop_test:FIXTURES_REQUIRED" title="FIXTURES_REQUIRED"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">FIXTURES_REQUIRED</span></code></a> for a more complete discussion of how to use
 test fixtures.</p>
 </div>
 
@@ -130,12 +118,14 @@ test fixtures.</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -162,15 +152,15 @@ test fixtures.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2018 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &#169; Copyright 2000-2019 Kitware, Inc. and Contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

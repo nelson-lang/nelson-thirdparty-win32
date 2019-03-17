@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-PACKAGES" "7" "Jun 14, 2018" "3.11.4" "CMake"
+.TH "CMAKE-PACKAGES" "7" "Mar 14, 2019" "3.14.0" "CMake"
 .SH NAME
 cmake-packages \- CMake Packages Reference
 .
@@ -129,7 +129,7 @@ Handling of \fBCOMPONENTS\fP and \fBOPTIONAL_COMPONENTS\fP is defined by the
 package.
 .sp
 By setting the \fBCMAKE_DISABLE_FIND_PACKAGE_<PackageName>\fP variable to
-\fBTRUE\fP, the \fBPackageName\fP package will not be searched, and will always
+\fBTRUE\fP, the \fB<PackageName>\fP package will not be searched, and will always
 be \fBNOTFOUND\fP\&.
 .SS Config\-file Packages
 .sp
@@ -144,9 +144,9 @@ packages, that is, they belong with the header files and any other files
 provided to assist downstreams in using the package.
 .sp
 A set of variables which provide package status information are also set
-automatically when using a config\-file package.  The \fB<Package>_FOUND\fP
+automatically when using a config\-file package.  The \fB<PackageName>_FOUND\fP
 variable is set to true or false, depending on whether the package was
-found.  The \fB<Package>_DIR\fP cache variable is set to the location of the
+found.  The \fB<PackageName>_DIR\fP cache variable is set to the location of the
 package configuration file.
 .SS Find\-module Packages
 .sp
@@ -158,10 +158,10 @@ file, it is not shipped with upstream, but is used by downstream to find the
 files by guessing locations of files with platform\-specific hints.
 .sp
 Unlike the case of an upstream\-provided package configuration file, no single point
-of reference identifies the package as being found, so the \fB<Package>_FOUND\fP
+of reference identifies the package as being found, so the \fB<PackageName>_FOUND\fP
 variable is not automatically set by the \fBfind_package()\fP command.  It
 can still be expected to be set by convention however and should be set by
-the author of the Find\-module.  Similarly there is no \fB<Package>_DIR\fP variable,
+the author of the Find\-module.  Similarly there is no \fB<PackageName>_DIR\fP variable,
 but each of the artifacts such as library locations and header file locations
 provide a separate cache variable.
 .sp
@@ -288,7 +288,7 @@ following variables:
 .INDENT 0.0
 .TP
 .B \fBPACKAGE_FIND_NAME\fP
-The <package> name
+The \fB<PackageName>\fP
 .TP
 .B \fBPACKAGE_FIND_VERSION\fP
 Full requested version string
@@ -335,27 +335,27 @@ requested version the find_package command sets the following variables for
 use by the project:
 .INDENT 0.0
 .TP
-.B \fB<package>_VERSION\fP
+.B \fB<PackageName>_VERSION\fP
 Full provided version string
 .TP
-.B \fB<package>_VERSION_MAJOR\fP
+.B \fB<PackageName>_VERSION_MAJOR\fP
 Major version if provided, else 0
 .TP
-.B \fB<package>_VERSION_MINOR\fP
+.B \fB<PackageName>_VERSION_MINOR\fP
 Minor version if provided, else 0
 .TP
-.B \fB<package>_VERSION_PATCH\fP
+.B \fB<PackageName>_VERSION_PATCH\fP
 Patch version if provided, else 0
 .TP
-.B \fB<package>_VERSION_TWEAK\fP
+.B \fB<PackageName>_VERSION_TWEAK\fP
 Tweak version if provided, else 0
 .TP
-.B \fB<package>_VERSION_COUNT\fP
+.B \fB<PackageName>_VERSION_COUNT\fP
 Number of version components, 0 to 4
 .UNINDENT
 .sp
 The variables report the version of the package that was actually found.
-The \fB<package>\fP part of their name matches the argument given to the
+The \fB<PackageName>\fP part of their name matches the argument given to the
 \fBfind_package()\fP command.
 .SH CREATING PACKAGES
 .sp
@@ -445,8 +445,8 @@ The \fBCMakePackageConfigHelpers\fP module provides a macro for creating
 a simple \fBConfigVersion.cmake\fP file.  This file sets the version of the
 package.  It is read by CMake when \fBfind_package()\fP is called to
 determine the compatibility with the requested version, and to set some
-version\-specific variables \fB<Package>_VERSION\fP, \fB<Package>_VERSION_MAJOR\fP,
-\fB<Package>_VERSION_MINOR\fP etc.  The \fBinstall(EXPORT)\fP command is
+version\-specific variables \fB<PackageName>_VERSION\fP, \fB<PackageName>_VERSION_MAJOR\fP,
+\fB<PackageName>_VERSION_MINOR\fP etc.  The \fBinstall(EXPORT)\fP command is
 used to export the targets in the \fBClimbingStatsTargets\fP export\-set, defined
 previously by the \fBinstall(TARGETS)\fP command. This command generates
 the \fBClimbingStatsTargets.cmake\fP file to contain \fBIMPORTED\fP
@@ -546,8 +546,8 @@ the dependency is not found, along with a diagnostic that the \fBClimbingStats\f
 package can not be used without the \fBStats\fP package.
 .sp
 If \fBCOMPONENTS\fP are specified when the downstream uses \fBfind_package()\fP,
-they are listed in the \fB<Package>_FIND_COMPONENTS\fP variable. If a particular
-component is non\-optional, then the \fB<Package>_FIND_REQUIRED_<comp>\fP will
+they are listed in the \fB<PackageName>_FIND_COMPONENTS\fP variable. If a particular
+component is non\-optional, then the \fB<PackageName>_FIND_REQUIRED_<comp>\fP will
 be true. This can be tested with logic in the package configuration file:
 .INDENT 0.0
 .INDENT 3.5
@@ -719,8 +719,8 @@ non\-standard install locations or directly in their own build trees.
 A project may populate either the user or system registry (using its own
 means, see below) to refer to its location.
 In either case the package should store at the registered location a
-\fI\%Package Configuration File\fP (\fB<package>Config.cmake\fP) and optionally a
-\fI\%Package Version File\fP (\fB<package>ConfigVersion.cmake\fP).
+\fI\%Package Configuration File\fP (\fB<PackageName>Config.cmake\fP) and optionally a
+\fI\%Package Version File\fP (\fB<PackageName>ConfigVersion.cmake\fP).
 .sp
 The \fBfind_package()\fP command searches the two package registries
 as two of the search steps specified in its documentation.  If it has
@@ -738,13 +738,13 @@ must be manually taught to register their packages if desired.
 On Windows the user package registry is stored in the Windows registry
 under a key in \fBHKEY_CURRENT_USER\fP\&.
 .sp
-A \fB<package>\fP may appear under registry key:
+A \fB<PackageName>\fP may appear under registry key:
 .INDENT 0.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-HKEY_CURRENT_USER\eSoftware\eKitware\eCMake\ePackages\e<package>
+HKEY_CURRENT_USER\eSoftware\eKitware\eCMake\ePackages\e<PackageName>
 .ft P
 .fi
 .UNINDENT
@@ -754,14 +754,14 @@ as a \fBREG_SZ\fP value, with arbitrary name, that specifies the directory
 containing the package configuration file.
 .sp
 On UNIX platforms the user package registry is stored in the user home
-directory under \fB~/.cmake/packages\fP\&.  A \fB<package>\fP may appear under
+directory under \fB~/.cmake/packages\fP\&.  A \fB<PackageName>\fP may appear under
 the directory:
 .INDENT 0.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-~/.cmake/packages/<package>
+~/.cmake/packages/<PackageName>
 .ft P
 .fi
 .UNINDENT
@@ -776,14 +776,14 @@ CMake currently provides no interface to add to the system package registry.
 Installers must be manually taught to register their packages if desired.
 .sp
 On Windows the system package registry is stored in the Windows registry
-under a key in \fBHKEY_LOCAL_MACHINE\fP\&.  A \fB<package>\fP may appear under
+under a key in \fBHKEY_LOCAL_MACHINE\fP\&.  A \fB<PackageName>\fP may appear under
 registry key:
 .INDENT 0.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-HKEY_LOCAL_MACHINE\eSoftware\eKitware\eCMake\ePackages\e<package>
+HKEY_LOCAL_MACHINE\eSoftware\eKitware\eCMake\ePackages\e<PackageName>
 .ft P
 .fi
 .UNINDENT
@@ -877,7 +877,7 @@ entry and the corresponding uninstaller is responsible for removing it.
 .sp
 The \fBexport(PACKAGE)\fP command populates the user package registry
 with the location of a project build tree.  Build trees tend to be deleted by
-developers and have no "uninstall" event that could trigger removal of their
+developers and have no “uninstall” event that could trigger removal of their
 entries.  In order to keep the registries clean the \fBfind_package()\fP
 command automatically removes stale entries it encounters if it has sufficient
 permissions.  CMake provides no interface to remove an entry referencing an
@@ -885,6 +885,6 @@ existing build tree once \fBexport(PACKAGE)\fP has been invoked.
 However, if the project removes its package configuration file from the build
 tree then the entry referencing the location will be considered stale.
 .SH COPYRIGHT
-2000-2018 Kitware, Inc. and Contributors
+2000-2019 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

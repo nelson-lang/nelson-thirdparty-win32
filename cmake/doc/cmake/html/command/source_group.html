@@ -1,27 +1,16 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-  <title>source_group &mdash; CMake 3.11.4 Documentation</title>
+  <title>source_group &mdash; CMake 3.14.0 Documentation</title>
 
-    
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '3.11.4',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -33,8 +22,7 @@
   
  
 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -55,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -71,46 +59,46 @@
 <span id="command:source_group"></span><h1>source_group<a class="headerlink" href="#source-group" title="Permalink to this headline">¶</a></h1>
 <p>Define a grouping for source files in IDE project generation.
 There are two different signatures to create source groups.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">source_group</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">FILES</span> <span class="o">&lt;</span><span class="n">src</span><span class="o">&gt;...</span><span class="p">]</span> <span class="p">[</span><span class="n">REGULAR_EXPRESSION</span> <span class="o">&lt;</span><span class="n">regex</span><span class="o">&gt;</span><span class="p">])</span>
-<span class="n">source_group</span><span class="p">(</span><span class="n">TREE</span> <span class="o">&lt;</span><span class="n">root</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">PREFIX</span> <span class="o">&lt;</span><span class="n">prefix</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="n">FILES</span> <span class="o">&lt;</span><span class="n">src</span><span class="o">&gt;...</span><span class="p">])</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">source_group(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">FILES</span><span class="w"> </span><span class="nv">&lt;src&gt;...</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">REGULAR_EXPRESSION</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">source_group(</span><span class="no">TREE</span><span class="w"> </span><span class="nv">&lt;root&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">PREFIX</span><span class="w"> </span><span class="nv">&lt;prefix&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">FILES</span><span class="w"> </span><span class="nv">&lt;src&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Defines a group into which sources will be placed in project files.
 This is intended to set up file tabs in Visual Studio.
 The options are:</p>
 <dl class="docutils">
-<dt><code class="docutils literal"><span class="pre">TREE</span></code></dt>
-<dd>CMake will automatically detect, from <code class="docutils literal"><span class="pre">&lt;src&gt;</span></code> files paths, source groups
+<dt><code class="docutils literal notranslate"><span class="pre">TREE</span></code></dt>
+<dd>CMake will automatically detect, from <code class="docutils literal notranslate"><span class="pre">&lt;src&gt;</span></code> files paths, source groups
 it needs to create, to keep structure of source groups analogically to the
-actual files and directories structure in the project. Paths of <code class="docutils literal"><span class="pre">&lt;src&gt;</span></code>
-files will be cut to be relative to <code class="docutils literal"><span class="pre">&lt;root&gt;</span></code>.</dd>
-<dt><code class="docutils literal"><span class="pre">PREFIX</span></code></dt>
-<dd>Source group and files located directly in <code class="docutils literal"><span class="pre">&lt;root&gt;</span></code> path, will be placed
-in <code class="docutils literal"><span class="pre">&lt;prefix&gt;</span></code> source groups.</dd>
-<dt><code class="docutils literal"><span class="pre">FILES</span></code></dt>
+actual files and directories structure in the project. Paths of <code class="docutils literal notranslate"><span class="pre">&lt;src&gt;</span></code>
+files will be cut to be relative to <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;</span></code>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PREFIX</span></code></dt>
+<dd>Source group and files located directly in <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;</span></code> path, will be placed
+in <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code> source groups.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FILES</span></code></dt>
 <dd>Any source file specified explicitly will be placed in group
-<code class="docutils literal"><span class="pre">&lt;name&gt;</span></code>.  Relative paths are interpreted with respect to the
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  Relative paths are interpreted with respect to the
 current source directory.</dd>
-<dt><code class="docutils literal"><span class="pre">REGULAR_EXPRESSION</span></code></dt>
+<dt><code class="docutils literal notranslate"><span class="pre">REGULAR_EXPRESSION</span></code></dt>
 <dd>Any source file whose name matches the regular expression will
-be placed in group <code class="docutils literal"><span class="pre">&lt;name&gt;</span></code>.</dd>
+be placed in group <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</dd>
 </dl>
 <p>If a source file matches multiple groups, the <em>last</em> group that
-explicitly lists the file with <code class="docutils literal"><span class="pre">FILES</span></code> will be favored, if any.
+explicitly lists the file with <code class="docutils literal notranslate"><span class="pre">FILES</span></code> will be favored, if any.
 If no group explicitly lists the file, the <em>last</em> group whose
 regular expression matches the file will be favored.</p>
-<p>The <code class="docutils literal"><span class="pre">&lt;name&gt;</span></code> of the group and <code class="docutils literal"><span class="pre">&lt;prefix&gt;</span></code> argument may contain backslashes
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> of the group and <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code> argument may contain backslashes
 to specify subgroups:</p>
-<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">source_group</span><span class="p">(</span><span class="s">outer\\inner</span> <span class="s">...</span><span class="p">)</span>
-<span class="nb">source_group</span><span class="p">(</span><span class="s">TREE</span> <span class="s">&lt;root&gt;</span> <span class="s">PREFIX</span> <span class="s">sources\\inc</span> <span class="s">...</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">source_group(</span><span class="nb">outer</span><span class="p">\\</span><span class="nb">inner</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">source_group(</span><span class="no">TREE</span><span class="w"> </span><span class="nv">&lt;root&gt;</span><span class="w"> </span><span class="no">PREFIX</span><span class="w"> </span><span class="nb">sources</span><span class="p">\\</span><span class="nb">inc</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>For backwards compatibility, the short-hand signature</p>
-<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">source_group</span><span class="p">(</span><span class="s">&lt;name&gt;</span> <span class="s">&lt;regex&gt;</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">source_group(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>is equivalent to</p>
-<div class="highlight-cmake"><div class="highlight"><pre><span></span><span class="nb">source_group</span><span class="p">(</span><span class="s">&lt;name&gt;</span> <span class="s">REGULAR_EXPRESSION</span> <span class="s">&lt;regex&gt;</span><span class="p">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">source_group(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="no">REGULAR_EXPRESSION</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -136,12 +124,14 @@ to specify subgroups:</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -168,15 +158,15 @@ to specify subgroups:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2018 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &#169; Copyright 2000-2019 Kitware, Inc. and Contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

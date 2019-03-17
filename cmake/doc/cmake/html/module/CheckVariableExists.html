@@ -1,27 +1,16 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-  <title>CheckVariableExists &mdash; CMake 3.11.4 Documentation</title>
+  <title>CheckVariableExists &mdash; CMake 3.14.0 Documentation</title>
 
-    
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '3.11.4',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -33,8 +22,7 @@
   
  
 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -55,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -70,21 +58,27 @@
   <div class="section" id="checkvariableexists">
 <span id="module:CheckVariableExists"></span><h1>CheckVariableExists<a class="headerlink" href="#checkvariableexists" title="Permalink to this headline">¶</a></h1>
 <p>Check if the variable exists.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CHECK_VARIABLE_EXISTS</span><span class="p">(</span><span class="n">VAR</span> <span class="n">VARIABLE</span><span class="p">)</span>
+<dl class="command">
+<dt id="command:check_variable_exists">
+<code class="descname">CHECK_VARIABLE_EXISTS</code><a class="headerlink" href="#command:check_variable_exists" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">CHECK_VARIABLE_EXISTS(</span><span class="no">VAR</span><span class="w"> </span><span class="no">VARIABLE</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">VAR</span>      <span class="o">-</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">variable</span>
-<span class="n">VARIABLE</span> <span class="o">-</span> <span class="n">variable</span> <span class="n">to</span> <span class="n">store</span> <span class="n">the</span> <span class="n">result</span>
-           <span class="n">Will</span> <span class="n">be</span> <span class="n">created</span> <span class="k">as</span> <span class="n">an</span> <span class="n">internal</span> <span class="n">cache</span> <span class="n">variable</span><span class="o">.</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>VAR      - the name of the variable
+VARIABLE - variable to store the result
+           Will be created as an internal cache variable.
 </pre></div>
 </div>
-<p>This macro is only for C variables.</p>
+<p>This macro is only for <code class="docutils literal notranslate"><span class="pre">C</span></code> variables.</p>
+</dd></dl>
+
 <p>The following variables may be set before calling this macro to modify
 the way the check is run:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">CMAKE_REQUIRED_FLAGS</span> <span class="o">=</span> <span class="n">string</span> <span class="n">of</span> <span class="nb">compile</span> <span class="n">command</span> <span class="n">line</span> <span class="n">flags</span>
-<span class="n">CMAKE_REQUIRED_DEFINITIONS</span> <span class="o">=</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">macros</span> <span class="n">to</span> <span class="n">define</span> <span class="p">(</span><span class="o">-</span><span class="n">DFOO</span><span class="o">=</span><span class="n">bar</span><span class="p">)</span>
-<span class="n">CMAKE_REQUIRED_LIBRARIES</span> <span class="o">=</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">libraries</span> <span class="n">to</span> <span class="n">link</span>
-<span class="n">CMAKE_REQUIRED_QUIET</span> <span class="o">=</span> <span class="n">execute</span> <span class="n">quietly</span> <span class="n">without</span> <span class="n">messages</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CMAKE_REQUIRED_FLAGS = string of compile command line flags
+CMAKE_REQUIRED_DEFINITIONS = list of macros to define (-DFOO=bar)
+CMAKE_REQUIRED_LINK_OPTIONS = list of options to pass to link command
+CMAKE_REQUIRED_LIBRARIES = list of libraries to link
+CMAKE_REQUIRED_QUIET = execute quietly without messages
 </pre></div>
 </div>
 </div>
@@ -110,12 +104,14 @@ the way the check is run:</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -142,15 +138,15 @@ the way the check is run:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2018 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &#169; Copyright 2000-2019 Kitware, Inc. and Contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

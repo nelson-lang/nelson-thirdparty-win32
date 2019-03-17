@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-TOOLCHAINS" "7" "Jun 14, 2018" "3.11.4" "CMake"
+.TH "CMAKE-TOOLCHAINS" "7" "Mar 14, 2019" "3.14.0" "CMake"
 .SH NAME
 cmake-toolchains \- CMake Toolchains Reference
 .
@@ -193,7 +193,7 @@ without needing a separate toolchain file.  Specifying
 ensure that the appropriate build settings and search paths are configured.
 The platform will pull its configuration from the current environment
 variables and will configure a project to use the compiler wrappers from the
-Cray Programming Environment\(aqs \fBPrgEnv\-*\fP modules if present and loaded.
+Cray Programming Environment’s \fBPrgEnv\-*\fP modules if present and loaded.
 .sp
 The default configuration of the Cray Programming Environment is to only
 support static libraries.  This can be overridden and shared libraries
@@ -584,7 +584,7 @@ set(CMAKE_SYSTEM_NAME Android)
 .UNINDENT
 .sp
 The \fBCMAKE_GENERATOR_TOOLSET\fP may be set to select
-the Nsight Tegra "Toolchain Version" value.
+the Nsight Tegra “Toolchain Version” value.
 .sp
 See also target properties:
 .INDENT 0.0
@@ -623,7 +623,207 @@ See also target properties:
 .IP \(bu 2
 \fBANDROID_STL_TYPE\fP
 .UNINDENT
+.SS Cross Compiling for iOS, tvOS, or watchOS
+.sp
+For cross\-compiling to iOS, tvOS, or watchOS, the \fBXcode\fP
+generator is recommended.  The \fBUnix Makefiles\fP or
+\fBNinja\fP generators can also be used, but they require the
+project to handle more areas like target CPU selection and code signing.
+.sp
+Any of the three systems can be targetted by setting the
+\fBCMAKE_SYSTEM_NAME\fP variable to a value from the table below.
+By default, the latest Device SDK is chosen.  As for all Apple platforms,
+a different SDK (e.g. a simulator) can be selected by setting the
+\fBCMAKE_OSX_SYSROOT\fP variable, although this should rarely be
+necessary (see \fI\%Switching Between Device and Simulator\fP below).
+A list of available SDKs can be obtained by running \fBxcodebuild \-showsdks\fP\&.
+.TS
+center;
+|l|l|l|l|.
+_
+T{
+OS
+T}	T{
+CMAKE_SYSTEM_NAME
+T}	T{
+Device SDK (default)
+T}	T{
+Simulator SDK
+T}
+_
+T{
+iOS
+T}	T{
+iOS
+T}	T{
+iphoneos
+T}	T{
+iphonesimulator
+T}
+_
+T{
+tvOS
+T}	T{
+tvOS
+T}	T{
+appletvos
+T}	T{
+appletvsimulator
+T}
+_
+T{
+watchOS
+T}	T{
+watchOS
+T}	T{
+watchos
+T}	T{
+watchsimulator
+T}
+_
+.TE
+.sp
+For example, to create a CMake configuration for iOS, the following
+command is sufficient:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+cmake .. \-GXcode \-DCMAKE_SYSTEM_NAME=iOS
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Variable \fBCMAKE_OSX_ARCHITECTURES\fP can be used to set architectures
+for both device and simulator. Variable \fBCMAKE_OSX_DEPLOYMENT_TARGET\fP
+can be used to set an iOS/tvOS/watchOS deployment target.
+.sp
+Next configuration will install fat 5 architectures iOS library
+and add the \fB\-miphoneos\-version\-min=9.3\fP/\fB\-mios\-simulator\-version\-min=9.3\fP
+flags to the compiler:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ cmake \-S. \-B_builds \-GXcode \e
+    \-DCMAKE_SYSTEM_NAME=iOS \e
+    "\-DCMAKE_OSX_ARCHITECTURES=armv7;armv7s;arm64;i386;x86_64" \e
+    \-DCMAKE_OSX_DEPLOYMENT_TARGET=9.3 \e
+    \-DCMAKE_INSTALL_PREFIX=\(gapwd\(ga/_install \e
+    \-DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO \e
+    \-DCMAKE_IOS_INSTALL_COMBINED=YES
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+# CMakeLists.txt
+cmake_minimum_required(VERSION 3.14)
+project(foo)
+add_library(foo foo.cpp)
+install(TARGETS foo DESTINATION lib)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Install:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ cmake \-\-build _builds \-\-config Release \-\-target install
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Check library:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ lipo \-info _install/lib/libfoo.a
+Architectures in the fat file: _install/lib/libfoo.a are: i386 armv7 armv7s x86_64 arm64
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ otool \-l _install/lib/libfoo.a | grep \-A2 LC_VERSION_MIN_IPHONEOS
+      cmd LC_VERSION_MIN_IPHONEOS
+  cmdsize 16
+  version 9.3
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Code Signing
+.sp
+Some build artifacts for the embedded Apple platforms require mandatory
+code signing.  If the \fBXcode\fP generator is being used and
+code signing is required or desired, the developmemt team ID can be
+specified via the \fBCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM\fP CMake variable.
+This team ID will then be included in the generated Xcode project.
+By default, CMake avoids the need for code signing during the internal
+configuration phase (i.e compiler ID and feature detection).
+.SS Switching Between Device and Simulator
+.sp
+When configuring for any of the embedded platforms, one can target either
+real devices or the simulator.  Both have their own separate SDK, but CMake
+only supports specifying a single SDK for the configuration phase.  This
+means the developer must select one or the other at configuration time.
+When using the \fBXcode\fP generator, this is less of a limitation
+because Xcode still allows you to build for either a device or a simulator,
+even though configuration was only performed for one of the two.  From
+within the Xcode IDE, builds are performed for the selected “destination”
+platform.  When building from the command line, the desired sdk can be
+specified directly by passing a \fB\-sdk\fP option to the underlying build
+tool (\fBxcodebuild\fP).  For example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ cmake \-\-build ... \-\- \-sdk iphonesimulator
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Please note that checks made during configuration were performed against
+the configure\-time SDK and might not hold true for other SDKs.  Commands
+like \fBfind_package()\fP, \fBfind_library()\fP, etc. store and use
+details only for the configured SDK/platform, so they can be problematic
+if wanting to switch between device and simulator builds. You can follow
+the next rules to make device + simulator configuration work:
+.INDENT 0.0
+.IP \(bu 2
+Use explicit \fB\-l\fP linker flag,
+e.g. \fBtarget_link_libraries(foo PUBLIC "\-lz")\fP
+.IP \(bu 2
+Use explicit \fB\-framework\fP linker flag,
+e.g. \fBtarget_link_libraries(foo PUBLIC "\-framework CoreFoundation")\fP
+.IP \(bu 2
+Use \fBfind_package()\fP only for libraries installed with
+\fBCMAKE_IOS_INSTALL_COMBINED\fP feature
+.UNINDENT
 .SH COPYRIGHT
-2000-2018 Kitware, Inc. and Contributors
+2000-2019 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

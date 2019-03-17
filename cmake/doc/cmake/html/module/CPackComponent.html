@@ -1,40 +1,28 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-  <title>CPackComponent &mdash; CMake 3.11.4 Documentation</title>
+  <title>CPackComponent &mdash; CMake 3.14.0 Documentation</title>
 
-    
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '3.11.4',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CPackCygwin" href="CPackCygwin.html" />
-    <link rel="prev" title="CPackBundle" href="CPackBundle.html" />
+    <link rel="next" title="CPackIFW" href="CPackIFW.html" />
+    <link rel="prev" title="CMakeVerifyManifest" href="CMakeVerifyManifest.html" />
   
  
 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -42,10 +30,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="CPackCygwin.html" title="CPackCygwin"
+          <a href="CPackIFW.html" title="CPackIFW"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="CPackBundle.html" title="CPackBundle"
+          <a href="CMakeVerifyManifest.html" title="CMakeVerifyManifest"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -55,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -75,17 +63,17 @@
 <p>The CPackComponent module is the module which handles the component
 part of CPack.  See CPack module for general information about CPack.</p>
 <p>For certain kinds of binary installers (including the graphical
-installers on Mac OS X and Windows), CPack generates installers that
+installers on macOS and Windows), CPack generates installers that
 allow users to select individual application components to install.
 The contents of each of the components are identified by the COMPONENT
-argument of CMake&#8217;s INSTALL command.  These components can be
+argument of CMake’s INSTALL command.  These components can be
 annotated with user-friendly names and descriptions, inter-component
 dependencies, etc., and grouped in various ways to customize the
 resulting installer.  See the cpack_add_* commands, described below,
 for more information about component-specific installations.</p>
 <p>Component-specific installation allows users to select specific sets
 of components to install during the install process.  Installation
-components are identified by the COMPONENT argument of CMake&#8217;s INSTALL
+components are identified by the COMPONENT argument of CMake’s INSTALL
 commands, and should be further described by the following CPack
 commands:</p>
 <dl class="variable">
@@ -97,12 +85,12 @@ components defined by the project.  The user may set it to only include the
 specified components.</p>
 <p>Instead of specifying all the desired components, it is possible to obtain a
 list of all defined components and then remove the unwanted ones from the
-list. The <span class="target" id="index-0-command:get_cmake_property"></span><a class="reference internal" href="../command/get_cmake_property.html#command:get_cmake_property" title="get_cmake_property"><code class="xref cmake cmake-command docutils literal"><span class="pre">get_cmake_property()</span></code></a> command can be used to obtain the
-<code class="docutils literal"><span class="pre">COMPONENTS</span></code> property, then the <span class="target" id="index-0-command:list"></span><a class="reference internal" href="../command/list.html#command:list" title="list"><code class="xref cmake cmake-command docutils literal"><span class="pre">list(REMOVE_ITEM)</span></code></a> command can be
+list. The <span class="target" id="index-0-command:get_cmake_property"></span><a class="reference internal" href="../command/get_cmake_property.html#command:get_cmake_property" title="get_cmake_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">get_cmake_property()</span></code></a> command can be used to obtain the
+<code class="docutils literal notranslate"><span class="pre">COMPONENTS</span></code> property, then the <span class="target" id="index-0-command:list"></span><a class="reference internal" href="../command/list.html#command:list" title="list"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">list(REMOVE_ITEM)</span></code></a> command can be
 used to remove the unwanted ones. For example, to use all defined components
-except <code class="docutils literal"><span class="pre">foo</span></code> and <code class="docutils literal"><span class="pre">bar</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">get_cmake_property</span><span class="p">(</span><span class="n">CPACK_COMPONENTS_ALL</span> <span class="n">COMPONENTS</span><span class="p">)</span>
-<span class="nb">list</span><span class="p">(</span><span class="n">REMOVE_ITEM</span> <span class="n">CPACK_COMPONENTS_ALL</span> <span class="s2">&quot;foo&quot;</span> <span class="s2">&quot;bar&quot;</span><span class="p">)</span>
+except <code class="docutils literal notranslate"><span class="pre">foo</span></code> and <code class="docutils literal notranslate"><span class="pre">bar</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>get_cmake_property(CPACK_COMPONENTS_ALL COMPONENTS)
+list(REMOVE_ITEM CPACK_COMPONENTS_ALL &quot;foo&quot; &quot;bar&quot;)
 </pre></div>
 </div>
 </dd></dl>
@@ -111,7 +99,7 @@ except <code class="docutils literal"><span class="pre">foo</span></code> and <c
 <dt id="variable:CPACK_&lt;GENNAME&gt;_COMPONENT_INSTALL">
 <code class="descname">CPACK_&lt;GENNAME&gt;_COMPONENT_INSTALL</code><a class="headerlink" href="#variable:CPACK_<GENNAME>_COMPONENT_INSTALL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable/Disable component install for CPack generator &lt;GENNAME&gt;.</p>
-<p>Each CPack Generator (RPM, DEB, ARCHIVE, NSIS, DMG, etc...) has a legacy
+<p>Each CPack Generator (RPM, DEB, ARCHIVE, NSIS, DMG, etc…) has a legacy
 default behavior.  e.g.  RPM builds monolithic whereas NSIS builds
 component.  One can change the default behavior by setting this variable to
 0/1 or OFF/ON.</p>
@@ -122,7 +110,7 @@ component.  One can change the default behavior by setting this variable to
 <code class="descname">CPACK_COMPONENTS_GROUPING</code><a class="headerlink" href="#variable:CPACK_COMPONENTS_GROUPING" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specify how components are grouped for multi-package component-aware CPack
 generators.</p>
-<p>Some generators like RPM or ARCHIVE family (TGZ, ZIP, ...) generates
+<p>Some generators like RPM or ARCHIVE family (TGZ, ZIP, …) generates
 several packages files when asked for component packaging.  They group
 the component differently depending on the value of this variable:</p>
 <ul class="simple">
@@ -183,16 +171,16 @@ using a CPACK_PROJECT_CONFIG_FILE.</p>
 
 <p>Describes a CPack installation
 component named by the COMPONENT argument to a CMake INSTALL command.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cpack_add_component</span><span class="p">(</span><span class="n">compname</span>
-                    <span class="p">[</span><span class="n">DISPLAY_NAME</span> <span class="n">name</span><span class="p">]</span>
-                    <span class="p">[</span><span class="n">DESCRIPTION</span> <span class="n">description</span><span class="p">]</span>
-                    <span class="p">[</span><span class="n">HIDDEN</span> <span class="o">|</span> <span class="n">REQUIRED</span> <span class="o">|</span> <span class="n">DISABLED</span> <span class="p">]</span>
-                    <span class="p">[</span><span class="n">GROUP</span> <span class="n">group</span><span class="p">]</span>
-                    <span class="p">[</span><span class="n">DEPENDS</span> <span class="n">comp1</span> <span class="n">comp2</span> <span class="o">...</span> <span class="p">]</span>
-                    <span class="p">[</span><span class="n">INSTALL_TYPES</span> <span class="n">type1</span> <span class="n">type2</span> <span class="o">...</span> <span class="p">]</span>
-                    <span class="p">[</span><span class="n">DOWNLOADED</span><span class="p">]</span>
-                    <span class="p">[</span><span class="n">ARCHIVE_FILE</span> <span class="n">filename</span><span class="p">]</span>
-                    <span class="p">[</span><span class="n">PLIST</span> <span class="n">filename</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cpack_add_component(compname
+                    [DISPLAY_NAME name]
+                    [DESCRIPTION description]
+                    [HIDDEN | REQUIRED | DISABLED ]
+                    [GROUP group]
+                    [DEPENDS comp1 comp2 ... ]
+                    [INSTALL_TYPES type1 type2 ... ]
+                    [DOWNLOADED]
+                    [ARCHIVE_FILE filename]
+                    [PLIST filename])
 </pre></div>
 </div>
 <p>The cmake_add_component command describes an installation component,
@@ -205,7 +193,7 @@ installers to display the component name.  This value can be any
 string.</p>
 <p>DESCRIPTION is an extended description of the component, used in
 graphical installers to give the user additional information about the
-component.  Descriptions can span multiple lines using <code class="docutils literal"><span class="pre">\n</span></code> as the
+component.  Descriptions can span multiple lines using <code class="docutils literal notranslate"><span class="pre">\n</span></code> as the
 line separator.  Typically, these descriptions should be no more than
 a few lines long.</p>
 <p>HIDDEN indicates that this component will be hidden in the graphical
@@ -239,19 +227,19 @@ be used for downloaded components.  If not supplied, CPack will create
 a file with some name based on CPACK_PACKAGE_FILE_NAME and the name of
 the component.  See cpack_configure_downloads for more information.</p>
 <p>PLIST gives a filename that is passed to pkgbuild with the
-<code class="docutils literal"><span class="pre">--component-plist</span></code> argument when using the productbuild generator.</p>
+<code class="docutils literal notranslate"><span class="pre">--component-plist</span></code> argument when using the productbuild generator.</p>
 <dl class="command">
 <dt id="command:cpack_add_component_group">
 <code class="descname">cpack_add_component_group</code><a class="headerlink" href="#command:cpack_add_component_group" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Describes a group of related CPack installation components.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cpack_add_component_group</span><span class="p">(</span><span class="n">groupname</span>
-                         <span class="p">[</span><span class="n">DISPLAY_NAME</span> <span class="n">name</span><span class="p">]</span>
-                         <span class="p">[</span><span class="n">DESCRIPTION</span> <span class="n">description</span><span class="p">]</span>
-                         <span class="p">[</span><span class="n">PARENT_GROUP</span> <span class="n">parent</span><span class="p">]</span>
-                         <span class="p">[</span><span class="n">EXPANDED</span><span class="p">]</span>
-                         <span class="p">[</span><span class="n">BOLD_TITLE</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cpack_add_component_group(groupname
+                         [DISPLAY_NAME name]
+                         [DESCRIPTION description]
+                         [PARENT_GROUP parent]
+                         [EXPANDED]
+                         [BOLD_TITLE])
 </pre></div>
 </div>
 <p>The cpack_add_component_group describes a group of installation
@@ -270,17 +258,17 @@ can be any string.</p>
 <p>DESCRIPTION is an extended description of the component group, used in
 graphical installers to give the user additional information about the
 components within that group.  Descriptions can span multiple lines
-using <code class="docutils literal"><span class="pre">\n</span></code> as the line separator.  Typically, these descriptions
+using <code class="docutils literal notranslate"><span class="pre">\n</span></code> as the line separator.  Typically, these descriptions
 should be no more than a few lines long.</p>
 <p>PARENT_GROUP, if supplied, names the parent group of this group.
 Parent groups are used to establish a hierarchy of groups, providing
 an arbitrary hierarchy of groups.</p>
 <p>EXPANDED indicates that, by default, the group should show up as
-&#8220;expanded&#8221;, so that the user immediately sees all of the components
+“expanded”, so that the user immediately sees all of the components
 within the group.  Otherwise, the group will initially show up as a
 single entry.</p>
 <p>BOLD_TITLE indicates that the group title should appear in bold, to
-call the user&#8217;s attention to the group.</p>
+call the user’s attention to the group.</p>
 <dl class="command">
 <dt id="command:cpack_add_install_type">
 <code class="descname">cpack_add_install_type</code><a class="headerlink" href="#command:cpack_add_install_type" title="Permalink to this definition">¶</a></dt>
@@ -288,15 +276,15 @@ call the user&#8217;s attention to the group.</p>
 
 <p>Add a new installation type containing
 a set of predefined component selections to the graphical installer.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cpack_add_install_type</span><span class="p">(</span><span class="n">typename</span>
-                       <span class="p">[</span><span class="n">DISPLAY_NAME</span> <span class="n">name</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cpack_add_install_type(typename
+                       [DISPLAY_NAME name])
 </pre></div>
 </div>
 <p>The cpack_add_install_type command identifies a set of preselected
 components that represents a common use case for an application.  For
-example, a &#8220;Developer&#8221; install type might include an application along
-with its header and library files, while an &#8220;End user&#8221; install type
-might just include the application&#8217;s executable.  Each component
+example, a “Developer” install type might include an application along
+with its header and library files, while an “End user” install type
+might just include the application’s executable.  Each component
 identifies itself with one or more install types via the INSTALL_TYPES
 argument to cpack_add_component.</p>
 <p>DISPLAY_NAME is the displayed name of the install type, which will
@@ -309,10 +297,10 @@ This value can be any string.</p>
 
 <p>Configure CPack to download
 selected components on-the-fly as part of the installation process.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cpack_configure_downloads</span><span class="p">(</span><span class="n">site</span>
-                          <span class="p">[</span><span class="n">UPLOAD_DIRECTORY</span> <span class="n">dirname</span><span class="p">]</span>
-                          <span class="p">[</span><span class="n">ALL</span><span class="p">]</span>
-                          <span class="p">[</span><span class="n">ADD_REMOVE</span><span class="o">|</span><span class="n">NO_ADD_REMOVE</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cpack_configure_downloads(site
+                          [UPLOAD_DIRECTORY dirname]
+                          [ALL]
+                          [ADD_REMOVE|NO_ADD_REMOVE])
 </pre></div>
 </div>
 <p>The cpack_configure_downloads command configures installation-time
@@ -324,15 +312,15 @@ and extract the component in place.  This feature is useful for
 creating small installers that only download the requested components,
 saving bandwidth.  Additionally, the installers are small enough that
 they will be installed as part of the normal installation process, and
-the &#8220;Change&#8221; button in Windows Add/Remove Programs control panel will
+the “Change” button in Windows Add/Remove Programs control panel will
 allow one to add or remove parts of the application after the original
 installation.  On Windows, the downloaded-components functionality
 requires the ZipDLL plug-in for NSIS, available at:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">nsis</span><span class="o">.</span><span class="n">sourceforge</span><span class="o">.</span><span class="n">net</span><span class="o">/</span><span class="n">ZipDLL_plug</span><span class="o">-</span><span class="ow">in</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>http://nsis.sourceforge.net/ZipDLL_plug-in
 </pre></div>
 </div>
-<p>On Mac OS X, installers that download components on-the-fly can only
-be built and installed on system using Mac OS X 10.5 or later.</p>
+<p>On macOS, installers that download components on-the-fly can only
+be built and installed on system using macOS 10.5 or later.</p>
 <p>The site argument is a URL where the archives for downloadable
 components will reside, e.g.,
 <a class="reference external" href="https://cmake.org/files/2.6.1/installer/">https://cmake.org/files/2.6.1/installer/</a> All of the archives
@@ -348,8 +336,8 @@ only those components explicitly marked as DOWNLOADED or that have a
 specified ARCHIVE_FILE will be downloaded.  Additionally, the ALL
 option implies ADD_REMOVE (unless NO_ADD_REMOVE is specified).</p>
 <p>ADD_REMOVE indicates that CPack should install a copy of the installer
-that can be called from Windows&#8217; Add/Remove Programs dialog (via the
-&#8220;Modify&#8221; button) to change the set of installed components.
+that can be called from Windows’ Add/Remove Programs dialog (via the
+“Modify” button) to change the set of installed components.
 NO_ADD_REMOVE turns off this behavior.  This option is ignored on Mac
 OS X.</p>
 </div>
@@ -370,11 +358,11 @@ OS X.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="CPackBundle.html"
-                        title="previous chapter">CPackBundle</a></p>
+  <p class="topless"><a href="CMakeVerifyManifest.html"
+                        title="previous chapter">CMakeVerifyManifest</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="CPackCygwin.html"
-                        title="next chapter">CPackCygwin</a></p>
+  <p class="topless"><a href="CPackIFW.html"
+                        title="next chapter">CPackIFW</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -384,12 +372,14 @@ OS X.</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -403,10 +393,10 @@ OS X.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="CPackCygwin.html" title="CPackCygwin"
+          <a href="CPackIFW.html" title="CPackIFW"
              >next</a> |</li>
         <li class="right" >
-          <a href="CPackBundle.html" title="CPackBundle"
+          <a href="CMakeVerifyManifest.html" title="CMakeVerifyManifest"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -416,15 +406,15 @@ OS X.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2018 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &#169; Copyright 2000-2019 Kitware, Inc. and Contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

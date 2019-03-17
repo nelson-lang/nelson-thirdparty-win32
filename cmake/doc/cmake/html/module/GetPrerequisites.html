@@ -1,27 +1,16 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-  <title>GetPrerequisites &mdash; CMake 3.11.4 Documentation</title>
+  <title>GetPrerequisites &mdash; CMake 3.14.0 Documentation</title>
 
-    
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '3.11.4',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -33,8 +22,7 @@
   
  
 
-  </head>
-  <body role="document">
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -55,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -75,31 +63,31 @@ that an executable or shared library file depends on.  (Its
 prerequisites.)</p>
 <p>It uses various tools to obtain the list of required shared library
 files:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dumpbin</span> <span class="p">(</span><span class="n">Windows</span><span class="p">)</span>
-<span class="n">objdump</span> <span class="p">(</span><span class="n">MinGW</span> <span class="n">on</span> <span class="n">Windows</span><span class="p">)</span>
-<span class="n">ldd</span> <span class="p">(</span><span class="n">Linux</span><span class="o">/</span><span class="n">Unix</span><span class="p">)</span>
-<span class="n">otool</span> <span class="p">(</span><span class="n">Mac</span> <span class="n">OSX</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>dumpbin (Windows)
+objdump (MinGW on Windows)
+ldd (Linux/Unix)
+otool (Mac OSX)
 </pre></div>
 </div>
 <p>The following functions are provided by this module:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">get_prerequisites</span>
-<span class="n">list_prerequisites</span>
-<span class="n">list_prerequisites_by_glob</span>
-<span class="n">gp_append_unique</span>
-<span class="n">is_file_executable</span>
-<span class="n">gp_item_default_embedded_path</span>
-  <span class="p">(</span><span class="n">projects</span> <span class="n">can</span> <span class="n">override</span> <span class="k">with</span> <span class="n">gp_item_default_embedded_path_override</span><span class="p">)</span>
-<span class="n">gp_resolve_item</span>
-  <span class="p">(</span><span class="n">projects</span> <span class="n">can</span> <span class="n">override</span> <span class="k">with</span> <span class="n">gp_resolve_item_override</span><span class="p">)</span>
-<span class="n">gp_resolved_file_type</span>
-  <span class="p">(</span><span class="n">projects</span> <span class="n">can</span> <span class="n">override</span> <span class="k">with</span> <span class="n">gp_resolved_file_type_override</span><span class="p">)</span>
-<span class="n">gp_file_type</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>get_prerequisites
+list_prerequisites
+list_prerequisites_by_glob
+gp_append_unique
+is_file_executable
+gp_item_default_embedded_path
+  (projects can override with gp_item_default_embedded_path_override)
+gp_resolve_item
+  (projects can override with gp_resolve_item_override)
+gp_resolved_file_type
+  (projects can override with gp_resolved_file_type_override)
+gp_file_type
 </pre></div>
 </div>
 <p>Requires CMake 2.6 or greater because it uses function, break, return
 and PARENT_SCOPE.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GET_PREREQUISITES</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">prerequisites_var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">exclude_system</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">recurse</span><span class="o">&gt;</span>
-                  <span class="o">&lt;</span><span class="n">exepath</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">dirs</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">rpaths</span><span class="o">&gt;</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GET_PREREQUISITES(&lt;target&gt; &lt;prerequisites_var&gt; &lt;exclude_system&gt; &lt;recurse&gt;
+                  &lt;exepath&gt; &lt;dirs&gt; [&lt;rpaths&gt;])
 </pre></div>
 </div>
 <p>Get the list of shared library files required by &lt;target&gt;.  The list
@@ -109,15 +97,17 @@ list of required shared library files.</p>
 <p>&lt;target&gt; is the full path to an executable file.  &lt;prerequisites_var&gt;
 is the name of a CMake variable to contain the results.
 &lt;exclude_system&gt; must be 0 or 1 indicating whether to include or
-exclude &#8220;system&#8221; prerequisites.  If &lt;recurse&gt; is set to 1 all
+exclude “system” prerequisites.  If &lt;recurse&gt; is set to 1 all
 prerequisites will be found recursively, if set to 0 only direct
 prerequisites are listed.  &lt;exepath&gt; is the path to the top level
 executable used for &#64;executable_path replacment on the Mac.  &lt;dirs&gt; is
 a list of paths where libraries might be found: these paths are
 searched first when a target without any path info is given.  Then
 standard system locations are also searched: PATH, Framework
-locations, /usr/lib...</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">LIST_PREREQUISITES</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">recurse</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">exclude_system</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">verbose</span><span class="o">&gt;</span><span class="p">]]])</span>
+locations, /usr/lib…</p>
+<p>The variable GET_PREREQUISITES_VERBOSE can be set to true to enable verbose
+output.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LIST_PREREQUISITES(&lt;target&gt; [&lt;recurse&gt; [&lt;exclude_system&gt; [&lt;verbose&gt;]]])
 </pre></div>
 </div>
 <p>Print a message listing the prerequisites of &lt;target&gt;.</p>
@@ -125,72 +115,72 @@ locations, /usr/lib...</p>
 full path to a shared library or executable file.  If &lt;recurse&gt; is set
 to 1 all prerequisites will be found recursively, if set to 0 only
 direct prerequisites are listed.  &lt;exclude_system&gt; must be 0 or 1
-indicating whether to include or exclude &#8220;system&#8221; prerequisites.  With
+indicating whether to include or exclude “system” prerequisites.  With
 &lt;verbose&gt; set to 0 only the full path names of the prerequisites are
 printed, set to 1 extra informatin will be displayed.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">LIST_PREREQUISITES_BY_GLOB</span><span class="p">(</span><span class="o">&lt;</span><span class="n">glob_arg</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">glob_exp</span><span class="o">&gt;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LIST_PREREQUISITES_BY_GLOB(&lt;glob_arg&gt; &lt;glob_exp&gt;)
 </pre></div>
 </div>
 <p>Print the prerequisites of shared library and executable files
 matching a globbing pattern.  &lt;glob_arg&gt; is GLOB or GLOB_RECURSE and
-&lt;glob_exp&gt; is a globbing expression used with &#8220;file(GLOB&#8221; or
-&#8220;file(GLOB_RECURSE&#8221; to retrieve a list of matching files.  If a
+&lt;glob_exp&gt; is a globbing expression used with “file(GLOB” or
+“file(GLOB_RECURSE” to retrieve a list of matching files.  If a
 matching file is executable, its prerequisites are listed.</p>
 <p>Any additional (optional) arguments provided are passed along as the
 optional arguments to the list_prerequisites calls.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GP_APPEND_UNIQUE</span><span class="p">(</span><span class="o">&lt;</span><span class="n">list_var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GP_APPEND_UNIQUE(&lt;list_var&gt; &lt;value&gt;)
 </pre></div>
 </div>
 <p>Append &lt;value&gt; to the list variable &lt;list_var&gt; only if the value is
 not already in the list.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">IS_FILE_EXECUTABLE</span><span class="p">(</span><span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">result_var</span><span class="o">&gt;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>IS_FILE_EXECUTABLE(&lt;file&gt; &lt;result_var&gt;)
 </pre></div>
 </div>
 <p>Return 1 in &lt;result_var&gt; if &lt;file&gt; is a binary executable, 0
 otherwise.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GP_ITEM_DEFAULT_EMBEDDED_PATH</span><span class="p">(</span><span class="o">&lt;</span><span class="n">item</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">default_embedded_path_var</span><span class="o">&gt;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GP_ITEM_DEFAULT_EMBEDDED_PATH(&lt;item&gt; &lt;default_embedded_path_var&gt;)
 </pre></div>
 </div>
 <p>Return the path that others should refer to the item by when the item
 is embedded inside a bundle.</p>
 <p>Override on a per-project basis by providing a project-specific
 gp_item_default_embedded_path_override function.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GP_RESOLVE_ITEM</span><span class="p">(</span><span class="o">&lt;</span><span class="n">context</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">item</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">exepath</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">dirs</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">resolved_item_var</span><span class="o">&gt;</span>
-                <span class="p">[</span><span class="o">&lt;</span><span class="n">rpaths</span><span class="o">&gt;</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GP_RESOLVE_ITEM(&lt;context&gt; &lt;item&gt; &lt;exepath&gt; &lt;dirs&gt; &lt;resolved_item_var&gt;
+                [&lt;rpaths&gt;])
 </pre></div>
 </div>
 <p>Resolve an item into an existing full path file.</p>
 <p>Override on a per-project basis by providing a project-specific
 gp_resolve_item_override function.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GP_RESOLVED_FILE_TYPE</span><span class="p">(</span><span class="o">&lt;</span><span class="n">original_file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">exepath</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">dirs</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">type_var</span><span class="o">&gt;</span>
-                      <span class="p">[</span><span class="o">&lt;</span><span class="n">rpaths</span><span class="o">&gt;</span><span class="p">])</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GP_RESOLVED_FILE_TYPE(&lt;original_file&gt; &lt;file&gt; &lt;exepath&gt; &lt;dirs&gt; &lt;type_var&gt;
+                      [&lt;rpaths&gt;])
 </pre></div>
 </div>
 <p>Return the type of &lt;file&gt; with respect to &lt;original_file&gt;.  String
 describing type of prerequisite is returned in variable named
 &lt;type_var&gt;.</p>
 <p>Use &lt;exepath&gt; and &lt;dirs&gt; if necessary to resolve non-absolute &lt;file&gt;
-values &#8211; but only for non-embedded items.</p>
+values – but only for non-embedded items.</p>
 <p>Possible types are:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">system</span>
-<span class="n">local</span>
-<span class="n">embedded</span>
-<span class="n">other</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>system
+local
+embedded
+other
 </pre></div>
 </div>
 <p>Override on a per-project basis by providing a project-specific
 gp_resolved_file_type_override function.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GP_FILE_TYPE</span><span class="p">(</span><span class="o">&lt;</span><span class="n">original_file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">type_var</span><span class="o">&gt;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GP_FILE_TYPE(&lt;original_file&gt; &lt;file&gt; &lt;type_var&gt;)
 </pre></div>
 </div>
 <p>Return the type of &lt;file&gt; with respect to &lt;original_file&gt;.  String
 describing type of prerequisite is returned in variable named
 &lt;type_var&gt;.</p>
 <p>Possible types are:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">system</span>
-<span class="n">local</span>
-<span class="n">embedded</span>
-<span class="n">other</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>system
+local
+embedded
+other
 </pre></div>
 </div>
 </div>
@@ -216,12 +206,14 @@ describing type of prerequisite is returned in variable named
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -248,15 +240,15 @@ describing type of prerequisite is returned in variable named
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.11.4 Documentation</a> &#187;
+    <a href="../index.html">3.14.0 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2018 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &#169; Copyright 2000-2019 Kitware, Inc. and Contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
     </div>
   </body>
 </html>

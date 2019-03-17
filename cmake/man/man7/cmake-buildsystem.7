@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-BUILDSYSTEM" "7" "Jun 14, 2018" "3.11.4" "CMake"
+.TH "CMAKE-BUILDSYSTEM" "7" "Mar 14, 2019" "3.14.0" "CMake"
 .SH NAME
 cmake-buildsystem \- CMake Buildsystem Reference
 .
@@ -57,7 +57,7 @@ target_link_libraries(zipapp archive)
 .UNINDENT
 .UNINDENT
 .sp
-\fBarchive\fP is defined as a static library \-\- an archive containing objects
+\fBarchive\fP is defined as a static library – an archive containing objects
 compiled from \fBarchive.cpp\fP, \fBzip.cpp\fP, and \fBlzma.cpp\fP\&.  \fBzipapp\fP
 is defined as an executable formed by compiling and linking \fBzipapp.cpp\fP\&.
 When linking the \fBzipapp\fP executable, the \fBarchive\fP static library is
@@ -110,10 +110,10 @@ The \fBBUILD_SHARED_LIBS\fP variable may be enabled to change the
 behavior of \fBadd_library()\fP to build shared libraries by default.
 .sp
 In the context of the buildsystem definition as a whole, it is largely
-irrelevant whether particular libraries are \fBSHARED\fP or \fBSTATIC\fP \-\-
+irrelevant whether particular libraries are \fBSHARED\fP or \fBSTATIC\fP –
 the commands, dependency specifications and other APIs work similarly
 regardless of the library type.  The \fBMODULE\fP library type is
-dissimilar in that it is generally not linked to \-\- it is not used in
+dissimilar in that it is generally not linked to – it is not used in
 the right\-hand\-side of the \fBtarget_link_libraries()\fP command.
 It is a type which is loaded as a plugin using runtime techniques.
 If the library does not export any unmanaged symbols (e.g. Windows
@@ -133,7 +133,7 @@ add_library(archive MODULE 7z.cpp)
 .SS Apple Frameworks
 .sp
 A \fBSHARED\fP library may be marked with the \fBFRAMEWORK\fP
-target property to create an OS X or iOS Framework Bundle.
+target property to create an macOS or iOS Framework Bundle.
 The \fBMACOSX_FRAMEWORK_IDENTIFIER\fP sets \fBCFBundleIdentifier\fP key
 and it uniquely identifies the bundle.
 .INDENT 0.0
@@ -153,9 +153,9 @@ set_target_properties(MyFramework PROPERTIES
 .UNINDENT
 .SS Object Libraries
 .sp
-The \fBOBJECT\fP library type is also not linked to. It defines a non\-archival
-collection of object files resulting from compiling the given source files.
-The object files collection can be used as source inputs to other targets:
+The \fBOBJECT\fP library type defines a non\-archival collection of object files
+resulting from compiling the given source files.  The object files collection
+may be used as source inputs to other targets:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -171,21 +171,37 @@ add_executable(test_exe $<TARGET_OBJECTS:archive> test.cpp)
 .UNINDENT
 .UNINDENT
 .sp
-\fBOBJECT\fP libraries may not be used in the right hand side of
-\fBtarget_link_libraries()\fP\&.  They also may not be used as the \fBTARGET\fP
-in a use of the \fBadd_custom_command(TARGET)\fP command signature.  They
-may be installed, and will be exported as an INTERFACE library.
+The link (or archiving) step of those other targets will use the object
+files collection in addition to those from their own sources.
 .sp
-Although object libraries may not be named directly in calls to
-the \fBtarget_link_libraries()\fP command, they can be "linked"
-indirectly by using an \fI\%Interface Library\fP
-whose \fBINTERFACE_SOURCES\fP target property is set to name
-\fB$<TARGET_OBJECTS:objlib>\fP\&.
+Alternatively, object libraries may be linked into other targets:
+.INDENT 0.0
+.INDENT 3.5
 .sp
-Although object libraries may not be used as the \fBTARGET\fP
-in a use of the \fBadd_custom_command(TARGET)\fP command signature,
-the list of objects can be used by \fBadd_custom_command(OUTPUT)\fP or
-\fBfile(GENERATE)\fP by using \fB$<TARGET_OBJECTS:objlib>\fP\&.
+.nf
+.ft C
+add_library(archive OBJECT archive.cpp zip.cpp lzma.cpp)
+
+add_library(archiveExtras STATIC extras.cpp)
+target_link_libraries(archiveExtras PUBLIC archive)
+
+add_executable(test_exe test.cpp)
+target_link_libraries(test_exe archive)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The link (or archiving) step of those other targets will use the object
+files from object libraries that are \fIdirectly\fP linked.  Additionally,
+usage requirements of the object libraries will be honored when compiling
+sources in those other targets.  Furthermore, those usage requirements
+will propagate transitively to dependents of those other targets.
+.sp
+Object libraries may not be used as the \fBTARGET\fP in a use of the
+\fBadd_custom_command(TARGET)\fP command signature.  However,
+the list of objects can be used by \fBadd_custom_command(OUTPUT)\fP
+or \fBfile(GENERATE)\fP by using \fB$<TARGET_OBJECTS:objlib>\fP\&.
 .SH BUILD SPECIFICATION AND USAGE REQUIREMENTS
 .sp
 The \fBtarget_include_directories()\fP, \fBtarget_compile_definitions()\fP
@@ -249,7 +265,7 @@ special separate handling, such as \fBPOSITION_INDEPENDENT_CODE\fP\&.
 The contents of the \fBINTERFACE_INCLUDE_DIRECTORIES\fP,
 \fBINTERFACE_COMPILE_DEFINITIONS\fP and
 \fBINTERFACE_COMPILE_OPTIONS\fP target properties are
-\fIUsage Requirements\fP \-\- they specify content which consumers
+\fIUsage Requirements\fP – they specify content which consumers
 must use to correctly compile and link with the target they appear on.
 For any binary target, the contents of each \fBINTERFACE_\fP property on
 each target specified in a \fBtarget_link_libraries()\fP command is
@@ -430,23 +446,23 @@ target_link_libraries(exe2 lib1 lib2)
 .UNINDENT
 .sp
 The \fBlib1\fP requirement \fBINTERFACE_POSITION_INDEPENDENT_CODE\fP is not
-"compatible" with the \fBPOSITION_INDEPENDENT_CODE\fP property of the \fBexe1\fP
+“compatible” with the \fBPOSITION_INDEPENDENT_CODE\fP property of the \fBexe1\fP
 target.  The library requires that consumers are built as
 position\-independent\-code, while the executable specifies to not built as
 position\-independent\-code, so a diagnostic is issued.
 .sp
-The \fBlib1\fP and \fBlib2\fP requirements are not "compatible".  One of them
+The \fBlib1\fP and \fBlib2\fP requirements are not “compatible”.  One of them
 requires that consumers are built as position\-independent\-code, while
 the other requires that consumers are not built as position\-independent\-code.
 Because \fBexe2\fP links to both and they are in conflict, a diagnostic is
 issued.
 .sp
-To be "compatible", the \fBPOSITION_INDEPENDENT_CODE\fP property,
+To be “compatible”, the \fBPOSITION_INDEPENDENT_CODE\fP property,
 if set must be either the same, in a boolean sense, as the
 \fBINTERFACE_POSITION_INDEPENDENT_CODE\fP property of all transitively
 specified dependencies on which that property is set.
 .sp
-This property of "compatible interface requirement" may be extended to other
+This property of “compatible interface requirement” may be extended to other
 properties by specifying the property in the content of the
 \fBCOMPATIBLE_INTERFACE_BOOL\fP target property.  Each specified property
 must be compatible between the consuming target and the corresponding property
@@ -475,7 +491,7 @@ target_link_libraries(exe2 lib1Version2 lib1Version3) # Diagnostic
 .UNINDENT
 .UNINDENT
 .sp
-Non\-boolean properties may also participate in "compatible interface"
+Non\-boolean properties may also participate in “compatible interface”
 computations.  Properties specified in the
 \fBCOMPATIBLE_INTERFACE_STRING\fP
 property must be either unspecified or compare to the same string among
@@ -538,7 +554,7 @@ target_link_libraries(exe2 lib1Version2 lib1Version3)
 Similarly, the \fBCOMPATIBLE_INTERFACE_NUMBER_MIN\fP may be used to
 calculate the numeric minimum value for a property from dependencies.
 .sp
-Each calculated "compatible" property value may be read in the consumer at
+Each calculated “compatible” property value may be read in the consumer at
 generate\-time using generator expressions.
 .sp
 Note that for each dependee, the set of properties specified in each
@@ -584,7 +600,7 @@ the new extreme.
 Build specifications may use
 \fBgenerator expressions\fP containing
 content which may be conditional or known only at generate\-time.  For example,
-the calculated "compatible" value of a property may be read with the
+the calculated “compatible” value of a property may be read with the
 \fBTARGET_PROPERTY\fP expression:
 .INDENT 0.0
 .INDENT 3.5
@@ -849,8 +865,8 @@ directory.
 Like build specifications, \fBlink libraries\fP may be
 specified with generator expression conditions.  However, as consumption of
 usage requirements is based on collection from linked dependencies, there is
-an additional limitation that the link dependencies must form a "directed
-acyclic graph".  That is, if linking to a target is dependent on the value of
+an additional limitation that the link dependencies must form a “directed
+acyclic graph”.  That is, if linking to a target is dependent on the value of
 a target property, that target property may not be dependent on the linked
 dependencies:
 .INDENT 0.0
@@ -920,7 +936,7 @@ library target created by the \fBadd_library()\fP command
 with the \fBMODULE\fP option.
 .IP \(bu 2
 On non\-DLL platforms: the shared library file (e.g. \fB\&.so\fP or \fB\&.dylib\fP)
-of a shared shared library target created by the \fBadd_library()\fP
+of a shared library target created by the \fBadd_library()\fP
 command with the \fBSHARED\fP option.
 .UNINDENT
 .sp
@@ -954,7 +970,7 @@ and names in the build tree.
 The \fBtarget_include_directories()\fP,
 \fBtarget_compile_definitions()\fP and
 \fBtarget_compile_options()\fP commands have an effect on only one
-target at a time.  The commands \fBadd_definitions()\fP,
+target at a time.  The commands \fBadd_compile_definitions()\fP,
 \fBadd_compile_options()\fP and \fBinclude_directories()\fP have
 a similar function, but operate at directory scope instead of target
 scope for convenience.
@@ -1132,6 +1148,8 @@ Built\-in properties matching \fBCOMPATIBLE_INTERFACE_*\fP
 .IP \(bu 2
 \fBIMPORTED\fP
 .IP \(bu 2
+\fBMANUALLY_ADDED_DEPENDENCIES\fP
+.IP \(bu 2
 \fBNAME\fP
 .IP \(bu 2
 Properties matching \fBIMPORTED_LIBNAME_*\fP
@@ -1167,6 +1185,6 @@ install(FILES
 .UNINDENT
 .UNINDENT
 .SH COPYRIGHT
-2000-2018 Kitware, Inc. and Contributors
+2000-2019 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

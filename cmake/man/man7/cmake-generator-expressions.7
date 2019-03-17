@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-GENERATOR-EXPRESSIONS" "7" "Jun 14, 2018" "3.11.4" "CMake"
+.TH "CMAKE-GENERATOR-EXPRESSIONS" "7" "Mar 14, 2019" "3.14.0" "CMake"
 .SH NAME
 cmake-generator-expressions \- CMake Generator Expressions
 .
@@ -42,70 +42,79 @@ commands to populate those properties, such as \fBtarget_link_libraries()\fP,
 \fBtarget_include_directories()\fP, \fBtarget_compile_definitions()\fP
 and others.
 .sp
-This means that they enable conditional linking, conditional
-definitions used when compiling, and conditional include directories and
-more.  The conditions may be based on the build configuration, target
-properties, platform information or any other queryable information.
-.SH LOGICAL EXPRESSIONS
+They enable conditional linking, conditional definitions used when compiling,
+conditional include directories, and more.  The conditions may be based on
+the build configuration, target properties, platform information or any other
+queryable information.
 .sp
-Logical expressions are used to create conditional output.  The basic
-expressions are the \fB0\fP and \fB1\fP expressions.  Because other logical
-expressions evaluate to either \fB0\fP or \fB1\fP, they can be composed to
-create conditional output:
+Generator expressions have the form \fB$<...>\fP\&.  To avoid confusion, this page
+deviates from most of the CMake documentation in that it omits angular brackets
+\fB<...>\fP around placeholders like \fBcondition\fP, \fBstring\fP, \fBtarget\fP,
+among others.
+.sp
+Generator expressions can be nested, as shown in most of the examples below.
+.SH BOOLEAN GENERATOR EXPRESSIONS
+.sp
+Boolean expressions evaluate to either \fB0\fP or \fB1\fP\&.
+They are typically used to construct the condition in a \fI\%conditional
+generator expression\fP\&.
+.sp
+Available boolean expressions are:
+.SS Logical Operators
 .INDENT 0.0
+.TP
+.B \fB$<BOOL:string>\fP
+Converts \fBstring\fP to \fB0\fP or \fB1\fP according to the rules of the
+\fBif()\fP command.  Evaluates to \fB0\fP if any of the following is true:
+.INDENT 7.0
+.IP \(bu 2
+\fBstring\fP is empty,
+.IP \(bu 2
+\fBstring\fP is a case\-insensitive equal of
+\fB0\fP, \fBFALSE\fP, \fBOFF\fP, \fBN\fP, \fBNO\fP, \fBIGNORE\fP, or \fBNOTFOUND\fP, or
+.IP \(bu 2
+\fBstring\fP ends in the suffix \fB\-NOTFOUND\fP (case\-sensitive).
+.UNINDENT
+.sp
+Otherwise evaluates to \fB1\fP\&.
+.TP
+.B \fB$<AND:conditions>\fP
+where \fBconditions\fP is a comma\-separated list of boolean expressions.
+Evaluates to \fB1\fP if all conditions are \fB1\fP\&.
+Otherwise evaluates to \fB0\fP\&.
+.TP
+.B \fB$<OR:conditions>\fP
+where \fBconditions\fP is a comma\-separated list of boolean expressions.
+Evaluates to \fB1\fP if at least one of the conditions is \fB1\fP\&.
+Otherwise evaluates to \fB0\fP\&.
+.TP
+.B \fB$<NOT:condition>\fP
+\fB0\fP if \fBcondition\fP is \fB1\fP, else \fB1\fP\&.
+.UNINDENT
+.SS String Comparisons
+.INDENT 0.0
+.TP
+.B \fB$<STREQUAL:string1,string2>\fP
+\fB1\fP if \fBstring1\fP and \fBstring2\fP are equal, else \fB0\fP\&.
+The comparison is case\-sensitive.  For a case\-insensitive comparison,
+combine with a \fI\%string transforming generator expression\fP,
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-$<$<CONFIG:Debug>:DEBUG_MODE>
+$<STREQUAL:$<UPPER_CASE:${foo}>,"BAR"> # "1" if ${foo} is any of "BAR", "Bar", "bar", ...
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-expands to \fBDEBUG_MODE\fP when the \fBDebug\fP configuration is used, and
-otherwise expands to nothing.
-.sp
-Available logical expressions are:
-.INDENT 0.0
 .TP
-.B \fB$<BOOL:...>\fP
-\fB1\fP if the \fB\&...\fP is true, else \fB0\fP
+.B \fB$<EQUAL:value1,value2>\fP
+\fB1\fP if \fBvalue1\fP and \fBvalue2\fP are numerically equal, else \fB0\fP\&.
 .TP
-.B \fB$<AND:?[,?]...>\fP
-\fB1\fP if all \fB?\fP are \fB1\fP, else \fB0\fP
-.sp
-The \fB?\fP must always be either \fB0\fP or \fB1\fP in boolean expressions.
-.TP
-.B \fB$<OR:?[,?]...>\fP
-\fB0\fP if all \fB?\fP are \fB0\fP, else \fB1\fP
-.TP
-.B \fB$<NOT:?>\fP
-\fB0\fP if \fB?\fP is \fB1\fP, else \fB1\fP
-.TP
-.B \fB$<IF:?,true\-value...,false\-value...>\(ga\fP
-\fBtrue\-value...\fP if \fB?\fP is \fB1\fP, \fBfalse\-value...\fP if \fB?\fP is \fB0\fP
-.TP
-.B \fB$<STREQUAL:a,b>\fP
-\fB1\fP if \fBa\fP is STREQUAL \fBb\fP, else \fB0\fP
-.TP
-.B \fB$<EQUAL:a,b>\fP
-\fB1\fP if \fBa\fP is EQUAL \fBb\fP in a numeric comparison, else \fB0\fP
-.TP
-.B \fB$<CONFIG:cfg>\fP
-\fB1\fP if config is \fBcfg\fP, else \fB0\fP\&. This is a case\-insensitive comparison.
-The mapping in \fBMAP_IMPORTED_CONFIG_<CONFIG>\fP is also considered by
-this expression when it is evaluated on a property on an \fBIMPORTED\fP
-target.
-.TP
-.B \fB$<PLATFORM_ID:comp>\fP
-\fB1\fP if the CMake\-id of the platform matches \fBcomp\fP, otherwise \fB0\fP\&.
-.TP
-.B \fB$<C_COMPILER_ID:comp>\fP
-\fB1\fP if the CMake\-id of the C compiler matches \fBcomp\fP, otherwise \fB0\fP\&.
-.TP
-.B \fB$<CXX_COMPILER_ID:comp>\fP
-\fB1\fP if the CMake\-id of the CXX compiler matches \fBcomp\fP, otherwise \fB0\fP\&.
+.B \fB$<IN_LIST:string,list>\fP
+\fB1\fP if \fBstring\fP is member of the comma\-separated \fBlist\fP, else \fB0\fP\&.
+Uses case\-sensitive comparisons.
 .TP
 .B \fB$<VERSION_LESS:v1,v2>\fP
 \fB1\fP if \fBv1\fP is a version less than \fBv2\fP, else \fB0\fP\&.
@@ -121,30 +130,71 @@ target.
 .TP
 .B \fB$<VERSION_GREATER_EQUAL:v1,v2>\fP
 \fB1\fP if \fBv1\fP is a version greater than or equal to \fBv2\fP, else \fB0\fP\&.
+.UNINDENT
+.SS Variable Queries
+.INDENT 0.0
 .TP
-.B \fB$<C_COMPILER_VERSION:ver>\fP
-\fB1\fP if the version of the C compiler matches \fBver\fP, otherwise \fB0\fP\&.
+.B \fB$<TARGET_EXISTS:target>\fP
+\fB1\fP if \fBtarget\fP exists, else \fB0\fP\&.
 .TP
-.B \fB$<CXX_COMPILER_VERSION:ver>\fP
-\fB1\fP if the version of the CXX compiler matches \fBver\fP, otherwise \fB0\fP\&.
+.B \fB$<CONFIG:cfg>\fP
+\fB1\fP if config is \fBcfg\fP, else \fB0\fP\&. This is a case\-insensitive comparison.
+The mapping in \fBMAP_IMPORTED_CONFIG_<CONFIG>\fP is also considered by
+this expression when it is evaluated on a property on an \fBIMPORTED\fP
+target.
 .TP
-.B \fB$<TARGET_POLICY:pol>\fP
-\fB1\fP if the policy \fBpol\fP was NEW when the \(aqhead\(aq target was created,
-else \fB0\fP\&.  If the policy was not set, the warning message for the policy
+.B \fB$<PLATFORM_ID:platform_id>\fP
+\fB1\fP if the CMake\-id of the platform matches \fBplatform_id\fP
+otherwise \fB0\fP\&.
+See also the \fBCMAKE_SYSTEM_NAME\fP variable.
+.TP
+.B \fB$<C_COMPILER_ID:compiler_id>\fP
+\fB1\fP if the CMake\-id of the C compiler matches \fBcompiler_id\fP,
+otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
+.TP
+.B \fB$<CXX_COMPILER_ID:compiler_id>\fP
+\fB1\fP if the CMake\-id of the CXX compiler matches \fBcompiler_id\fP,
+otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
+.TP
+.B \fB$<Fortran_COMPILER_ID:compiler_id>\fP
+\fB1\fP if the CMake\-id of the Fortran compiler matches \fBcompiler_id\fP,
+otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
+.TP
+.B \fB$<C_COMPILER_VERSION:version>\fP
+\fB1\fP if the version of the C compiler matches \fBversion\fP, otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<CXX_COMPILER_VERSION:version>\fP
+\fB1\fP if the version of the CXX compiler matches \fBversion\fP, otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<Fortran_COMPILER_VERSION:version>\fP
+\fB1\fP if the version of the Fortran compiler matches \fBversion\fP, otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<TARGET_POLICY:policy>\fP
+\fB1\fP if the \fBpolicy\fP was NEW when the ‘head’ target was created,
+else \fB0\fP\&.  If the \fBpolicy\fP was not set, the warning message for the policy
 will be emitted. This generator expression only works for a subset of
 policies.
 .TP
-.B \fB$<COMPILE_FEATURES:feature[,feature]...>\fP
-\fB1\fP if all of the \fBfeature\fP features are available for the \(aqhead\(aq
+.B \fB$<COMPILE_FEATURES:features>\fP
+where \fBfeatures\fP is a comma\-spearated list.
+Evaluates to \fB1\fP if all of the \fBfeatures\fP are available for the ‘head’
 target, and \fB0\fP otherwise. If this expression is used while evaluating
 the link implementation of a target and if any dependency transitively
 increases the required \fBC_STANDARD\fP or \fBCXX_STANDARD\fP
-for the \(aqhead\(aq target, an error is reported.  See the
+for the ‘head’ target, an error is reported.  See the
 \fBcmake\-compile\-features(7)\fP manual for information on
 compile features and a list of supported compilers.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB$<COMPILE_LANGUAGE:lang>\fP
-\fB1\fP when the language used for compilation unit matches \fBlang\fP,
+.B \fB$<COMPILE_LANGUAGE:language>\fP
+\fB1\fP when the language used for compilation unit matches \fBlanguage\fP,
 otherwise \fB0\fP\&.  This expression may be used to specify compile options,
 compile definitions, and include directories for source files of a
 particular language in a target. For example:
@@ -198,10 +248,10 @@ target_link_libraries(myapp myapp_c myapp_cxx)
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SH INFORMATIONAL EXPRESSIONS
+.SH STRING-VALUED GENERATOR EXPRESSIONS
 .sp
-These expressions expand to some information. The information may be used
-directly, eg:
+These expressions expand to some string.
+For example,
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -214,9 +264,11 @@ include_directories(/usr/include/$<CXX_COMPILER_ID>/)
 .UNINDENT
 .sp
 expands to \fB/usr/include/GNU/\fP or \fB/usr/include/Clang/\fP etc, depending on
-the Id of the compiler.
+the compiler identifier.
 .sp
-These expressions may also may be combined with logical expressions:
+String\-valued expressions may also be combined with other expressions.
+Here an example for a string\-valued expression within a boolean expressions
+within a conditional expression:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -232,14 +284,153 @@ expands to \fBOLD_COMPILER\fP if the
 \fBCMAKE_CXX_COMPILER_VERSION\fP is less
 than 4.2.0.
 .sp
-Available informational expressions are:
+And here two nested string\-valued expressions:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\-I$<JOIN:$<TARGET_PROPERTY:INCLUDE_DIRECTORIES>, \-I>
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+generates a string of the entries in the \fBINCLUDE_DIRECTORIES\fP target
+property with each entry preceded by \fB\-I\fP\&.
+.sp
+Expanding on the previous example, if one first wants to check if the
+\fBINCLUDE_DIRECTORIES\fP property is non\-empty, then it is advisable to
+introduce a helper variable to keep the code readable:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(prop "$<TARGET_PROPERTY:INCLUDE_DIRECTORIES>") # helper variable
+$<$<BOOL:${prop}>:\-I$<JOIN:${prop}, \-I>>
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The following string\-valued generator expressions are available:
+.SS Escaped Characters
+.sp
+String literals to escape the special meaning a character would otherwise have:
 .INDENT 0.0
 .TP
-.B \fB$<CONFIGURATION>\fP
-Configuration name. Deprecated. Use \fBCONFIG\fP instead.
+.B \fB$<ANGLE\-R>\fP
+A literal \fB>\fP\&. Used for example to compare strings that contain a \fB>\fP\&.
+.TP
+.B \fB$<COMMA>\fP
+A literal \fB,\fP\&. Used for example to compare strings which contain a \fB,\fP\&.
+.TP
+.B \fB$<SEMICOLON>\fP
+A literal \fB;\fP\&. Used to prevent list expansion on an argument with \fB;\fP\&.
+.UNINDENT
+.SS Conditional Expressions
+.sp
+Conditional generator expressions depend on a boolean condition
+that must be \fB0\fP or \fB1\fP\&.
+.INDENT 0.0
+.TP
+.B \fB$<condition:true_string>\fP
+Evaluates to \fBtrue_string\fP if \fBcondition\fP is \fB1\fP\&.
+Otherwise evaluates to the empty string.
+.TP
+.B \fB$<IF:condition,true_string,false_string>\fP
+Evaluates to \fBtrue_string\fP if \fBcondition\fP is \fB1\fP\&.
+Otherwise evaluates to \fBfalse_string\fP\&.
+.UNINDENT
+.sp
+Typically, the \fBcondition\fP is a \fI\%boolean generator expression\fP\&.  For instance,
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$<$<CONFIG:Debug>:DEBUG_MODE>
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+expands to \fBDEBUG_MODE\fP when the \fBDebug\fP configuration is used, and
+otherwise expands to the empty string.
+.SS String Transformations
+.INDENT 0.0
+.TP
+.B \fB$<JOIN:list,string>\fP
+Joins the list with the content of \fBstring\fP\&.
+.TP
+.B \fB$<LOWER_CASE:string>\fP
+Content of \fBstring\fP converted to lower case.
+.TP
+.B \fB$<UPPER_CASE:string>\fP
+Content of \fBstring\fP converted to upper case.
+.TP
+.B \fB$<GENEX_EVAL:expr>\fP
+Content of \fBexpr\fP evaluated as a generator expression in the current
+context. This enables consumption of generator expressions whose
+evaluation results itself in generator expressions.
+.TP
+.B \fB$<TARGET_GENEX_EVAL:tgt,expr>\fP
+Content of \fBexpr\fP evaluated as a generator expression in the context of
+\fBtgt\fP target. This enables consumption of custom target properties that
+themselves contain generator expressions.
+.sp
+Having the capability to evaluate generator expressions is very useful when
+you want to manage custom properties supporting generator expressions.
+For example:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_library(foo ...)
+
+set_property(TARGET foo PROPERTY
+  CUSTOM_KEYS $<$<CONFIG:DEBUG>:FOO_EXTRA_THINGS>
+)
+
+add_custom_target(printFooKeys
+  COMMAND ${CMAKE_COMMAND} \-E echo $<TARGET_PROPERTY:foo,CUSTOM_KEYS>
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This naive implementation of the \fBprintFooKeys\fP custom command is wrong
+because \fBCUSTOM_KEYS\fP target property is not evaluated and the content
+is passed as is (i.e. \fB$<$<CONFIG:DEBUG>:FOO_EXTRA_THINGS>\fP).
+.sp
+To have the expected result (i.e. \fBFOO_EXTRA_THINGS\fP if config is
+\fBDebug\fP), it is required to evaluate the output of
+\fB$<TARGET_PROPERTY:foo,CUSTOM_KEYS>\fP:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_custom_target(printFooKeys
+  COMMAND ${CMAKE_COMMAND} \-E
+    echo $<TARGET_GENEX_EVAL:foo,$<TARGET_PROPERTY:foo,CUSTOM_KEYS>>
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Variable Queries
+.INDENT 0.0
 .TP
 .B \fB$<CONFIG>\fP
-Configuration name
+Configuration name.
+.TP
+.B \fB$<CONFIGURATION>\fP
+Configuration name. Deprecated since CMake 3.0. Use \fBCONFIG\fP instead.
 .TP
 .B \fB$<PLATFORM_ID>\fP
 The CMake\-id of the platform.
@@ -253,6 +444,10 @@ See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 The CMake\-id of the CXX compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
+.B \fB$<Fortran_COMPILER_ID>\fP
+The CMake\-id of the Fortran compiler used.
+See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
+.TP
 .B \fB$<C_COMPILER_VERSION>\fP
 The version of the C compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
@@ -260,6 +455,23 @@ See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
 .B \fB$<CXX_COMPILER_VERSION>\fP
 The version of the CXX compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<Fortran_COMPILER_VERSION>\fP
+The version of the Fortran compiler used.
+See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<COMPILE_LANGUAGE>\fP
+The compile language of source files when evaluating compile options.
+See \fI\%the related boolean expression\fP
+\fB$<COMPILE_LANGUAGE:language>\fP
+for notes about the portability of this generator expression.
+.UNINDENT
+.SS Target\-Dependent Queries
+.INDENT 0.0
+.TP
+.B \fB$<TARGET_NAME_IF_EXISTS:tgt>\fP
+Expands to the \fBtgt\fP if the given target exists, an empty string
+otherwise.
 .TP
 .B \fB$<TARGET_FILE:tgt>\fP
 Full path to main file (.exe, .so.1.2, .a) where \fBtgt\fP is the name of a target.
@@ -321,80 +533,17 @@ expression is evaluated on.
 .TP
 .B \fB$<TARGET_PROPERTY:prop>\fP
 Value of the property \fBprop\fP on the target on which the generator
-expression is evaluated.
+expression is evaluated. Note that for generator expressions in
+Target Usage Requirements this is the value of the property
+on the consuming target rather than the target specifying the
+requirement.
 .TP
 .B \fB$<INSTALL_PREFIX>\fP
 Content of the install prefix when the target is exported via
 \fBinstall(EXPORT)\fP and empty otherwise.
-.TP
-.B \fB$<COMPILE_LANGUAGE>\fP
-The compile language of source files when evaluating compile options. See
-the unary version for notes about portability of this generator
-expression.
 .UNINDENT
-.SH OUTPUT EXPRESSIONS
-.sp
-These expressions generate output, in some cases depending on an input. These
-expressions may be combined with other expressions for information or logical
-comparison:
+.SS Output\-Related Expressions
 .INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-\-I$<JOIN:$<TARGET_PROPERTY:INCLUDE_DIRECTORIES>, \-I>
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-generates a string of the entries in the \fBINCLUDE_DIRECTORIES\fP target
-property with each entry preceded by \fB\-I\fP\&. Note that a more\-complete use
-in this situation would require first checking if the INCLUDE_DIRECTORIES
-property is non\-empty:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-$<$<BOOL:${prop}>:\-I$<JOIN:${prop}, \-I>>
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-where \fB${prop}\fP refers to a helper variable:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(prop "$<TARGET_PROPERTY:INCLUDE_DIRECTORIES>")
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-Available output expressions are:
-.INDENT 0.0
-.TP
-.B \fB$<0:...>\fP
-Empty string (ignores \fB\&...\fP)
-.TP
-.B \fB$<1:...>\fP
-Content of \fB\&...\fP
-.TP
-.B \fB$<JOIN:list,...>\fP
-Joins the list with the content of \fB\&...\fP
-.TP
-.B \fB$<ANGLE\-R>\fP
-A literal \fB>\fP\&. Used to compare strings which contain a \fB>\fP for example.
-.TP
-.B \fB$<COMMA>\fP
-A literal \fB,\fP\&. Used to compare strings which contain a \fB,\fP for example.
-.TP
-.B \fB$<SEMICOLON>\fP
-A literal \fB;\fP\&. Used to prevent list expansion on an argument with \fB;\fP\&.
 .TP
 .B \fB$<TARGET_NAME:...>\fP
 Marks \fB\&...\fP as being the name of a target.  This is required if exporting
@@ -418,14 +567,9 @@ Content of \fB\&...\fP when the property is exported using \fBexport()\fP, or
 when the target is used by another target in the same buildsystem. Expands to
 the empty string otherwise.
 .TP
-.B \fB$<LOWER_CASE:...>\fP
-Content of \fB\&...\fP converted to lower case.
-.TP
-.B \fB$<UPPER_CASE:...>\fP
-Content of \fB\&...\fP converted to upper case.
-.TP
 .B \fB$<MAKE_C_IDENTIFIER:...>\fP
-Content of \fB\&...\fP converted to a C identifier.
+Content of \fB\&...\fP converted to a C identifier.  The conversion follows the
+same behavior as \fBstring(MAKE_C_IDENTIFIER)\fP\&.
 .TP
 .B \fB$<TARGET_OBJECTS:objLib>\fP
 List of objects resulting from build of \fBobjLib\fP\&. \fBobjLib\fP must be an
@@ -436,7 +580,39 @@ Content of \fB\&...\fP converted to shell path style. For example, slashes are
 converted to backslashes in Windows shells and drive letters are converted
 to posix paths in MSYS shells. The \fB\&...\fP must be an absolute path.
 .UNINDENT
+.SH DEBUGGING
+.sp
+Since generator expressions are evaluated during generation of the buildsystem,
+and not during processing of \fBCMakeLists.txt\fP files, it is not possible to
+inspect their result with the \fBmessage()\fP command.
+.sp
+One possible way to generate debug messages is to add a custom target,
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_custom_target(genexdebug COMMAND ${CMAKE_COMMAND} \-E echo "$<...>")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The shell command \fBmake genexdebug\fP (invoked after execution of \fBcmake\fP)
+would then print the result of \fB$<...>\fP\&.
+.sp
+Another way is to write debug messages to a file:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+file(GENERATE OUTPUT filename CONTENT "$<...>")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
 .SH COPYRIGHT
-2000-2018 Kitware, Inc. and Contributors
+2000-2019 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .
