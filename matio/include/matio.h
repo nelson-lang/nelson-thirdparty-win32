@@ -3,7 +3,7 @@
  * @ingroup MAT
  */
 /*
- * Copyright (c) 2005-2018, Christopher C. Hulbert
+ * Copyright (c) 2005-2019, Christopher C. Hulbert
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -238,7 +238,7 @@ EXTERN int    Mat_SetDebug(int d);
 EXTERN void   Mat_Critical(const char *format, ...) MATIO_FORMATATTR_PRINTF1;
 EXTERN MATIO_NORETURN void Mat_Error(const char *format, ...) MATIO_NORETURNATTR MATIO_FORMATATTR_PRINTF1;
 EXTERN void   Mat_Help(const char *helpstr[]);
-EXTERN int    Mat_LogInit(const char *progname);
+EXTERN int    Mat_LogInit(const char *prog_name);
 EXTERN int    Mat_LogClose(void);
 EXTERN int    Mat_LogInitFunc(const char *prog_name,
                   void (*log_func)(int log_level, char *message));
@@ -257,6 +257,7 @@ EXTERN mat_t      *Mat_CreateVer(const char *matname,const char *hdr_str,
 EXTERN int         Mat_Close(mat_t *mat);
 EXTERN mat_t      *Mat_Open(const char *matname,int mode);
 EXTERN const char *Mat_GetFilename(mat_t *mat);
+EXTERN const char *Mat_GetHeader(mat_t *mat);
 EXTERN enum mat_ft Mat_GetVersion(mat_t *mat);
 EXTERN char      **Mat_GetDir(mat_t *mat, size_t *n);
 EXTERN int         Mat_Rewind(mat_t *mat);
