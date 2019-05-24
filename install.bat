@@ -137,10 +137,6 @@ mkdir ..\NelSon\bin\%PLATFORM_NELSON%\mkl
 copy .\mkl\*.* ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
 copy .\mkl\*.* ..\NelSon\bin\%PLATFORM_NELSON%\*.*
 
-rem fftw library
-mkdir ..\NelSon\bin\%PLATFORM_NELSON%\fftw
-copy .\fftw\bin\*.* ..\NelSon\bin\%PLATFORM_NELSON%\fftw\*.*
-
 rem mpi library
 copy .\mpi\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
 copy .\mpi\License\license_sdk.rtf ..\NelSon\bin\%PLATFORM_NELSON%\license_sdk.rtf
