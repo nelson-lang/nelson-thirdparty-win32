@@ -52,3 +52,13 @@ copy %SRC%\boost_random-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_random-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
 copy %SRC%\boost_random-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_random-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
+
+copy %SRC%\boost_zlib-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_zlib-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
+copy %SRC%\boost_zlib-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_zlib-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
+
+copy %SRC%\boost_bzip2-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_bzip2-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
+copy %SRC%\boost_bzip2-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_bzip2-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
