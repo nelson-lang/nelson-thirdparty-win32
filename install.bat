@@ -173,3 +173,6 @@ copy .\hdf5\bin\*.exe ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
 
 rem matio dependencies
 copy .\matio\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+
+rem libcurl dependencies
+copy .\curl\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
