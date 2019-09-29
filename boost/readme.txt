@@ -1,1 +1,1 @@
-http://sourceforge.net/projects/boost/files/boost-binaries/1.70/
+http://sourceforge.net/projects/boost/files/boost-binaries/1.71/
