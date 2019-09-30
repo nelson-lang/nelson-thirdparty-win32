@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>ExternalProject &mdash; CMake 3.14.0 Documentation</title>
+  <title>ExternalProject &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -243,24 +243,25 @@ is enabled. If this option is not specified, the value of the
 <code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code> variable will be used instead (see
 <span class="target" id="index-3-command:file"></span><a class="reference internal" href="../command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a>)</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NETRC</span> <span class="pre">&lt;level&gt;</span></code></dt>
-<dd><p class="first">Specify whether the .netrc file is to be used for operation. If this
-option is not specified, the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code> variable
-will be used instead (see <span class="target" id="index-4-command:file"></span><a class="reference internal" href="../command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a>)
+<dd><p class="first">Specify whether the <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file is to be used for operation.
+If this option is not specified, the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code>
+variable will be used instead (see <span class="target" id="index-4-command:file"></span><a class="reference internal" href="../command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a>)
 Valid levels are:</p>
 <dl class="last docutils">
 <dt><code class="docutils literal notranslate"><span class="pre">IGNORED</span></code></dt>
-<dd>The .netrc file is ignored.
+<dd>The <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file is ignored.
 This is the default.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code></dt>
-<dd>The .netrc file is optional, and information in the URL is preferred.
-The file will be scanned to find which ever information is not specified
-in the URL.</dd>
+<dd>The <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file is optional, and information in the URL
+is preferred.  The file will be scanned to find which ever
+information is not specified in the URL.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code></dt>
-<dd>The .netrc file is required, and information in the URL is ignored.</dd>
+<dd>The <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file is required, and information in the URL
+is ignored.</dd>
 </dl>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NETRC_FILE</span> <span class="pre">&lt;file&gt;</span></code></dt>
-<dd>Specify an alternative .netrc file to the one in your home directory
+<dd>Specify an alternative <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file to the one in your home directory
 if the <code class="docutils literal notranslate"><span class="pre">NETRC</span></code> level is <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code> or <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code>. If this option
 is not specified, the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code> variable will
 be used instead (see <span class="target" id="index-5-command:file"></span><a class="reference internal" href="../command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a>)</dd>
@@ -280,7 +281,7 @@ rather than simply <code class="docutils literal notranslate"><span class="pre">
 has its tag moved or branch rebased or history rewritten, the local
 clone will still be updated correctly. In general, however, specifying
 a commit hash should be preferred for a number of reasons:</p>
-<ul class="last simple">
+<ul class="simple">
 <li>If the local clone already has the commit corresponding to the hash,
 no <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code> needs to be performed to check for changes each time
 CMake is re-run. This can result in a significant speed up if many
@@ -293,6 +294,8 @@ whole build to a specific point in the life of the external project.
 The lack of such deterministic behavior makes the main project lose
 traceability and repeatability.</li>
 </ul>
+<p class="last">If <code class="docutils literal notranslate"><span class="pre">GIT_SHALLOW</span></code> is enabled then <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> works only with
+branch names and tags.  A commit hash is not allowed.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">GIT_REMOTE_NAME</span> <span class="pre">&lt;name&gt;</span></code></dt>
 <dd>The optional name of the remote. If this option is not specified, it
@@ -443,12 +446,16 @@ CMake <span class="target" id="index-0-command:set"></span><a class="reference i
 using the <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-C</span></code></a> command line option. Arguments
 may use <span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CMAKE_CACHE_DEFAULT_ARGS</span> <span class="pre">&lt;arg&gt;...</span></code></dt>
-<dd>This is the same as the <code class="docutils literal notranslate"><span class="pre">CMAKE_CACHE_ARGS</span></code> option except the <code class="docutils literal notranslate"><span class="pre">set()</span></code>
+<dd><p class="first">This is the same as the <code class="docutils literal notranslate"><span class="pre">CMAKE_CACHE_ARGS</span></code> option except the <code class="docutils literal notranslate"><span class="pre">set()</span></code>
 commands do not include the <code class="docutils literal notranslate"><span class="pre">FORCE</span></code> keyword. This means the values act
 as initial defaults only and will not override any variables already set
 from a previous run. Use this option with care, as it can lead to
 different behavior depending on whether the build starts from a fresh
-build directory or re-uses previous build contents.</dd>
+build directory or re-uses previous build contents.</p>
+<p class="last">If the CMake generator is the <code class="docutils literal notranslate"><span class="pre">Green</span> <span class="pre">Hills</span> <span class="pre">MULTI</span></code> and not overridden then
+the orginal projects settings for the GHS toolset and target system
+customization cache variables are propagated into the external project.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span> <span class="pre">&lt;dir&gt;</span></code></dt>
 <dd>When no <code class="docutils literal notranslate"><span class="pre">CONFIGURE_COMMAND</span></code> option is specified, the configure step
 assumes the external project has a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file at the top of
@@ -976,7 +983,7 @@ custom target to trigger the script can be defined like so:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-ENV-VARIABLES" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-ENV-VARIABLES" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-env-variables \- CMake Environment Variables Reference
 .
@@ -56,6 +56,49 @@ the calling process environment.
 .sp
 The default build configuration for Build Tool Mode and
 \fBctest\fP build handler when there is no explicit configuration given.
+.SS CMAKE_GENERATOR
+.sp
+This is a CMake Environment Variable\&. Its initial value is taken from
+the calling process environment.
+.sp
+Specifies the CMake default generator to use when no generator is supplied
+with \fB\-G\fP\&. If the provided value doesn’t name a generator known by CMake,
+the internal default is used.  Either way the resulting generator selection
+is stored in the \fBCMAKE_GENERATOR\fP variable.
+.sp
+Some generators may be additionally configured using the environment
+variables:
+.INDENT 0.0
+.IP \(bu 2
+\fBCMAKE_GENERATOR_PLATFORM\fP
+.IP \(bu 2
+\fBCMAKE_GENERATOR_TOOLSET\fP
+.IP \(bu 2
+\fBCMAKE_GENERATOR_INSTANCE\fP
+.UNINDENT
+.SS CMAKE_GENERATOR_INSTANCE
+.sp
+This is a CMake Environment Variable\&. Its initial value is taken from
+the calling process environment.
+.sp
+Default value for \fBCMAKE_GENERATOR_INSTANCE\fP if no Cache entry is
+present. This value is only applied if \fBCMAKE_GENERATOR\fP is set.
+.SS CMAKE_GENERATOR_PLATFORM
+.sp
+This is a CMake Environment Variable\&. Its initial value is taken from
+the calling process environment.
+.sp
+Default value for \fBCMAKE_GENERATOR_PLATFORM\fP if no Cache entry
+is present and no value is specified by \fBcmake(1)\fP \fB\-A\fP option.
+This value is only applied if \fBCMAKE_GENERATOR\fP is set.
+.SS CMAKE_GENERATOR_TOOLSET
+.sp
+This is a CMake Environment Variable\&. Its initial value is taken from
+the calling process environment.
+.sp
+Default value for \fBCMAKE_GENERATOR_TOOLSET\fP if no Cache entry
+is present and no value is specified by \fBcmake(1)\fP \fB\-T\fP option.
+This value is only applied if \fBCMAKE_GENERATOR\fP is set.
 .SS CMAKE_MSVCIDE_RUN_PATH
 .sp
 This is a CMake Environment Variable\&. Its initial value is taken from
@@ -139,7 +182,7 @@ the calling process environment.
 .sp
 Calls to \fBfind_package(<PackageName>)\fP will search in prefixes
 specified by the \fB<PackageName>_ROOT\fP environment variable, where
-\fB<PackageName>\fP is the name given to the \fBfind_package\fP call
+\fB<PackageName>\fP is the name given to the \fBfind_package()\fP call
 and \fB_ROOT\fP is literal.  For example, \fBfind_package(Foo)\fP will search
 prefixes specified in the \fBFoo_ROOT\fP environment variable (if set).
 See policy \fBCMP0074\fP\&.
@@ -165,8 +208,9 @@ This is a CMake Environment Variable\&. Its initial value is taken from
 the calling process environment.
 .sp
 Preferred executable for compiling a specific dialect of assembly language
-files. \fBASM<DIALECT>\fP can be \fBASM\fP, \fBASM_NASM\fP, \fBASM_MASM\fP or
-\fBASM\-ATT\fP\&. Will only be used by CMake on the first configuration to determine
+files. \fBASM<DIALECT>\fP can be \fBASM\fP, \fBASM_NASM\fP (Netwide Assembler),
+\fBASM_MASM\fP (Microsoft Assembler) or \fBASM\-ATT\fP (Assembler AT&T).
+Will only be used by CMake on the first configuration to determine
 \fBASM<DIALECT>\fP compiler, after which the value for \fBASM<DIALECT>\fP is stored
 in the cache as
 \fBCMAKE_ASM<DIALECT>_COMPILER\fP\&. For subsequent
@@ -180,11 +224,11 @@ the calling process environment.
 Default compilation flags to be used when compiling a specific dialect of an
 assembly language. \fBASM<DIALECT>FLAGS\fP can be \fBASMFLAGS\fP, \fBASM_NASMFLAGS\fP,
 \fBASM_MASMFLAGS\fP or \fBASM\-ATTFLAGS\fP\&. Will only be used by CMake on the
-first configuration to determine \fBASM<DIALECT>\fP default compilation flags, after
-which the value for \fBASM<DIALECT>FLAGS\fP is stored in the cache as
-\fBCMAKE_ASM<DIALECT>_FLAGS\fP\&. For any configuration
-run (including the first), the environment variable will be ignored if the
-\fBCMAKE_ASM<DIALECT>_FLAGS\fP variable is defined.
+first configuration to determine \fBASM_<DIALECT>\fP default compilation
+flags, after which the value for \fBASM<DIALECT>FLAGS\fP is stored in the cache
+as \fBCMAKE_ASM<DIALECT>_FLAGS <CMAKE_<LANG>_FLAGS>\fP\&.  For any configuration
+run (including the first), the environment variable will be ignored, if the
+\fBCMAKE_ASM<DIALECT>_FLAGS <CMAKE_<LANG>_FLAGS>\fP variable is defined.
 .SS CC
 .sp
 This is a CMake Environment Variable\&. Its initial value is taken from
@@ -322,6 +366,17 @@ default compilation flags, after which the value for \fBRCFLAGS\fP is stored in
 the cache as \fBCMAKE_RC_FLAGS\fP\&. For any
 configuration run (including the first), the environment variable will be ignored
 if the \fBCMAKE_RC_FLAGS\fP variable is defined.
+.SS SWIFTC
+.sp
+This is a CMake Environment Variable\&. Its initial value is taken from
+the calling process environment.
+.sp
+Preferred executable for compiling \fBSwift\fP language files. Will only be used by
+CMake on the first configuration to determine \fBSwift\fP compiler, after which the
+value for \fBSWIFTC\fP is stored in the cache as
+\fBCMAKE_Swift_COMPILER\fP\&. For any configuration run
+(including the first), the environment variable will be ignored if the
+\fBCMAKE_Swift_COMPILER\fP variable is defined.
 .SH ENVIRONMENT VARIABLES FOR CTEST
 .SS CTEST_INTERACTIVE_DEBUG_MODE
 .sp
@@ -329,14 +384,14 @@ This is a CMake Environment Variable\&. Its initial value is taken from
 the calling process environment.
 .sp
 Environment variable that will exist and be set to \fB1\fP when a test executed
-by CTest is run in interactive mode.
+by \fBctest(1)\fP is run in interactive mode.
 .SS CTEST_OUTPUT_ON_FAILURE
 .sp
 This is a CMake Environment Variable\&. Its initial value is taken from
 the calling process environment.
 .sp
 Boolean environment variable that controls if the output should be logged for
-failed tests. Set the value to 1, True, or ON to enable output on failure.
+failed tests. Set the value to \fB1\fP, \fBTrue\fP, or \fBON\fP to enable output on failure.
 See \fBctest(1)\fP for more information on controlling output of failed
 tests.
 .SS CTEST_PARALLEL_LEVEL
@@ -352,7 +407,7 @@ This is a CMake Environment Variable\&. Its initial value is taken from
 the calling process environment.
 .sp
 Boolean environment variable that affects how \fBctest\fP
-command output reports overall progress.  When set to 1, TRUE, ON or anything
+command output reports overall progress.  When set to \fB1\fP, \fBTRUE\fP, \fBON\fP or anything
 else that evaluates to boolean true, progress is reported by repeatedly
 updating the same line.  This greatly reduces the overall verbosity, but is
 only supported when output is sent directly to a terminal.  If the environment
@@ -373,8 +428,9 @@ Initializes the \fBCTEST_USE_LAUNCHERS\fP variable if not already defined.
 This is a CMake Environment Variable\&. Its initial value is taken from
 the calling process environment.
 .sp
-Environment variable that will exist when a test executed by CTest is run
-in non\-interactive mode. The value will be equal to \fBCMAKE_VERSION\fP\&.
+Environment variable that will exist when a test executed by \fBctest(1)\fP
+is run in non\-interactive mode.  The value will be equal to
+\fBCMAKE_VERSION\fP\&.
 .SH COPYRIGHT
 2000-2019 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.

@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-BUILDSYSTEM" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-BUILDSYSTEM" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-buildsystem \- CMake Buildsystem Reference
 .
@@ -41,7 +41,7 @@ and the rules for regeneration in response to change.
 .sp
 Executables and libraries are defined using the \fBadd_executable()\fP
 and \fBadd_library()\fP commands.  The resulting binary files have
-appropriate prefixes, suffixes and extensions for the platform targeted.
+appropriate \fBPREFIX\fP, \fBSUFFIX\fP and extensions for the platform targeted.
 Dependencies between binary targets are expressed using the
 \fBtarget_link_libraries()\fP command:
 .INDENT 0.0
@@ -57,7 +57,7 @@ target_link_libraries(zipapp archive)
 .UNINDENT
 .UNINDENT
 .sp
-\fBarchive\fP is defined as a static library – an archive containing objects
+\fBarchive\fP is defined as a \fBSTATIC\fP library – an archive containing objects
 compiled from \fBarchive.cpp\fP, \fBzip.cpp\fP, and \fBlzma.cpp\fP\&.  \fBzipapp\fP
 is defined as an executable formed by compiling and linking \fBzipapp.cpp\fP\&.
 When linking the \fBzipapp\fP executable, the \fBarchive\fP static library is
@@ -83,7 +83,7 @@ the executable is built before attempting to run the command.
 .SS Binary Library Types
 .SS Normal Libraries
 .sp
-By default, the \fBadd_library()\fP command defines a static library,
+By default, the \fBadd_library()\fP command defines a \fBSTATIC\fP library,
 unless a type is specified.  A type may be specified when using the command:
 .INDENT 0.0
 .INDENT 3.5
@@ -193,8 +193,8 @@ target_link_libraries(test_exe archive)
 .UNINDENT
 .sp
 The link (or archiving) step of those other targets will use the object
-files from object libraries that are \fIdirectly\fP linked.  Additionally,
-usage requirements of the object libraries will be honored when compiling
+files from \fBOBJECT\fP libraries that are \fIdirectly\fP linked.  Additionally,
+usage requirements of the \fBOBJECT\fP libraries will be honored when compiling
 sources in those other targets.  Furthermore, those usage requirements
 will propagate transitively to dependents of those other targets.
 .sp
@@ -446,8 +446,8 @@ target_link_libraries(exe2 lib1 lib2)
 .UNINDENT
 .sp
 The \fBlib1\fP requirement \fBINTERFACE_POSITION_INDEPENDENT_CODE\fP is not
-“compatible” with the \fBPOSITION_INDEPENDENT_CODE\fP property of the \fBexe1\fP
-target.  The library requires that consumers are built as
+“compatible” with the \fBPOSITION_INDEPENDENT_CODE\fP property of
+the \fBexe1\fP target.  The library requires that consumers are built as
 position\-independent\-code, while the executable specifies to not built as
 position\-independent\-code, so a diagnostic is issued.
 .sp
@@ -666,10 +666,10 @@ endif()
 .UNINDENT
 .UNINDENT
 .sp
-may appear to work for \fBMakefile\fP based and \fBNinja\fP generators, but is not
-portable to IDE generators.  Additionally, the \fBIMPORTED\fP
-configuration\-mappings are not accounted for with code like this, so it should
-be avoided.
+may appear to work for Makefile Generators and \fBNinja\fP
+generators, but is not portable to IDE generators.  Additionally,
+the \fBIMPORTED\fP configuration\-mappings are not accounted for
+with code like this, so it should be avoided.
 .sp
 The unary \fBTARGET_PROPERTY\fP generator expression and the \fBTARGET_POLICY\fP
 generator expression are evaluated with the consuming target context.  This
@@ -856,7 +856,7 @@ found in those directories.  This behavior for \fI\%Imported Targets\fP may
 be controlled by setting the \fBNO_SYSTEM_FROM_IMPORTED\fP target
 property on the \fIconsumers\fP of imported targets.
 .sp
-If a binary target is linked transitively to a Mac OX framework, the
+If a binary target is linked transitively to a macOS \fBFRAMEWORK\fP, the
 \fBHeaders\fP directory of the framework is also treated as a usage requirement.
 This has the same effect as passing the framework directory as an include
 directory.
@@ -1145,6 +1145,8 @@ Properties matching \fBINTERFACE_*\fP
 Built\-in properties matching \fBCOMPATIBLE_INTERFACE_*\fP
 .IP \(bu 2
 \fBEXPORT_NAME\fP
+.IP \(bu 2
+\fBEXPORT_PROPERTIES\fP
 .IP \(bu 2
 \fBIMPORTED\fP
 .IP \(bu 2

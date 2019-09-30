@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>CMP0008 &mdash; CMake 3.14.0 Documentation</title>
+  <title>CMP0008 &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li> 
@@ -62,25 +62,26 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>target_link_libraries(myexe /full/path/to/somelib)
 </pre></div>
 </div>
-<p>where “somelib” is supposed to be a valid library file name such as
-“libsomelib.a” or “somelib.lib”.  For Makefile generators this
+<p>where <code class="docutils literal notranslate"><span class="pre">somelib</span></code> is supposed to be a valid library file name such as
+<code class="docutils literal notranslate"><span class="pre">libsomelib.a</span></code> or <code class="docutils literal notranslate"><span class="pre">somelib.lib</span></code>.  For Makefile generators this
 produces an error at build time because the dependency on the full
-path cannot be found.  For VS IDE and Xcode generators this used to
+path cannot be found.  For <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> IDE
+and <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generators this used to
 work by accident because CMake would always split off the library
 directory and ask the linker to search for the library by name
-(-lsomelib or somelib.lib).  Despite the failure with Makefiles, some
-projects have code like this and build only with VS and/or Xcode.
+(<code class="docutils literal notranslate"><span class="pre">-lsomelib</span></code> or <code class="docutils literal notranslate"><span class="pre">somelib.lib</span></code>).  Despite the failure with Makefiles, some
+projects have code like this and build only with Visual Studio and/or Xcode.
 This version of CMake prefers to pass the full path directly to the
 native build tool, which will fail in this case because it does not
 name a valid library file.</p>
 <p>This policy determines what to do with full paths that do not appear
-to name a valid library file.  The OLD behavior for this policy is to
+to name a valid library file.  The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to
 split the library name from the path and ask the linker to search for
-it.  The NEW behavior for this policy is to trust the given path and
+it.  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior for this policy is to trust the given path and
 pass it directly to the native build tool unchanged.</p>
 <p>This policy was introduced in CMake version 2.6.1.  CMake version
-3.14.0 warns when the policy is not set and uses OLD behavior.  Use
-the cmake_policy command to set it to OLD or NEW explicitly.</p>
+3.15.3 warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.  Use
+the <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
@@ -144,7 +145,7 @@ and may be removed in a future version of CMake.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li> 

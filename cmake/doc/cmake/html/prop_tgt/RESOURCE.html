@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>RESOURCE &mdash; CMake 3.14.0 Documentation</title>
+  <title>RESOURCE &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -64,26 +64,23 @@ or normal shared libraries on other platforms.
 This property may be set to a list of files to be placed in the corresponding
 directory (eg. <code class="docutils literal notranslate"><span class="pre">Resources</span></code> directory for macOS) inside the bundle.
 On non-Apple platforms these files may be installed using the <code class="docutils literal notranslate"><span class="pre">RESOURCE</span></code>
-option to the <code class="docutils literal notranslate"><span class="pre">install(TARGETS)</span></code> command.</p>
+option to the <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> command.</p>
 <p>Following example of Application Bundle:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">ExecutableTarget</span><span class="w"></span>
 <span class="w">  </span><span class="nb">addDemo.c</span><span class="w"></span>
 <span class="w">  </span><span class="nb">resourcefile.txt</span><span class="w"></span>
-<span class="w">  </span><span class="na">appresourcedir/appres.txt</span><span class="w"></span>
-<span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="na">appresourcedir/appres.txt</span><span class="nf">)</span><span class="w"></span>
 
 <span class="nf">target_link_libraries(</span><span class="nb">ExecutableTarget</span><span class="w"> </span><span class="nb">heymath</span><span class="w"> </span><span class="nb">mul</span><span class="nf">)</span><span class="w"></span>
 
 <span class="nf">set(</span><span class="no">RESOURCE_FILES</span><span class="w"></span>
 <span class="w">  </span><span class="nb">resourcefile.txt</span><span class="w"></span>
-<span class="w">  </span><span class="na">appresourcedir/appres.txt</span><span class="w"></span>
-<span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="na">appresourcedir/appres.txt</span><span class="nf">)</span><span class="w"></span>
 
 <span class="nf">set_target_properties(</span><span class="nb">ExecutableTarget</span><span class="w"> </span><span class="no">PROPERTIES</span><span class="w"></span>
 <span class="w">  </span><span class="no">MACOSX_BUNDLE</span><span class="w"> </span><span class="no">TRUE</span><span class="w"></span>
 <span class="w">  </span><span class="no">MACOSX_FRAMEWORK_IDENTIFIER</span><span class="w"> </span><span class="nb">org.cmake.ExecutableTarget</span><span class="w"></span>
-<span class="w">  </span><span class="no">RESOURCE</span><span class="w"> </span><span class="s">&quot;${RESOURCE_FILES}&quot;</span><span class="w"></span>
-<span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="no">RESOURCE</span><span class="w"> </span><span class="s">&quot;${RESOURCE_FILES}&quot;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>will produce flat structure for iOS systems:</p>
@@ -105,7 +102,7 @@ option to the <code class="docutils literal notranslate"><span class="pre">insta
       resourcefile.txt
 </pre></div>
 </div>
-<p>For Linux, such cmake script produce following files:</p>
+<p>For Linux, such CMake script produce following files:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExecutableTarget
 Resources
   appres.txt
@@ -169,7 +166,7 @@ Resources
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>execute_process &mdash; CMake 3.14.0 Documentation</title>
+  <title>execute_process &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -71,12 +71,14 @@
 <span class="w">                </span><span class="p">[</span><span class="no">ERROR_FILE</span><span class="w"> </span><span class="nv">&lt;file&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">                </span><span class="p">[</span><span class="no">OUTPUT_QUIET</span><span class="p">]</span><span class="w"></span>
 <span class="w">                </span><span class="p">[</span><span class="no">ERROR_QUIET</span><span class="p">]</span><span class="w"></span>
+<span class="w">                </span><span class="p">[</span><span class="no">COMMAND_ECHO</span><span class="w"> </span><span class="nv">&lt;where&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">                </span><span class="p">[</span><span class="no">OUTPUT_STRIP_TRAILING_WHITESPACE</span><span class="p">]</span><span class="w"></span>
 <span class="w">                </span><span class="p">[</span><span class="no">ERROR_STRIP_TRAILING_WHITESPACE</span><span class="p">]</span><span class="w"></span>
 <span class="w">                </span><span class="p">[</span><span class="no">ENCODING</span><span class="w"> </span><span class="nv">&lt;name&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Runs the given sequence of one or more commands in parallel with the standard
+<p>Runs the given sequence of one or more commands.</p>
+<p>Commands are executed concurrently as a pipeline, with the standard
 output of each process piped to the standard input of the next.
 A single standard error pipe is used for all processes.</p>
 <p>Options:</p>
@@ -96,17 +98,18 @@ redirect stdin, stdout, and stderr.)</p>
 <dd>The named directory will be set as the current working directory of
 the child processes.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TIMEOUT</span></code></dt>
-<dd>The child processes will be terminated if they do not finish in the
-specified number of seconds (fractions are allowed).</dd>
+<dd>After the specified number of seconds (fractions allowed), all unfinished
+child processes will be terminated, and the <code class="docutils literal notranslate"><span class="pre">RESULT_VARIABLE</span></code> will be
+set to a string mentioning the “timeout”.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">RESULT_VARIABLE</span></code></dt>
 <dd>The variable will be set to contain the result of last child process.
 This will be an integer return code from the last child or a string
 describing an error condition.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">RESULTS_VARIABLE</span> <span class="pre">&lt;variable&gt;</span></code></dt>
 <dd>The variable will be set to contain the result of all processes as a
-<a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a>, in order of the given <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code>
-arguments.  Each entry will be an integer return code from the
-corresponding child or a string describing an error condition.</dd>
+<a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a>, in order of the
+given <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments.  Each entry will be an integer return code
+from the corresponding child or a string describing an error condition.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OUTPUT_VARIABLE</span></code>, <code class="docutils literal notranslate"><span class="pre">ERROR_VARIABLE</span></code></dt>
 <dd>The variable named will be set with the contents of the standard output
 and standard error pipes, respectively.  If the same variable is named
@@ -118,6 +121,11 @@ all processes, respectively.  If the same file is named for both
 output and error then it will be used for both.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OUTPUT_QUIET</span></code>, <code class="docutils literal notranslate"><span class="pre">ERROR_QUIET</span></code></dt>
 <dd>The standard output or standard error results will be quietly ignored.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">COMMAND_ECHO</span> <span class="pre">&lt;where&gt;</span></code></dt>
+<dd>The command being run will be echo’ed to <code class="docutils literal notranslate"><span class="pre">&lt;where&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">&lt;where&gt;</span></code>
+being set to one of <code class="docutils literal notranslate"><span class="pre">STDERR</span></code>, <code class="docutils literal notranslate"><span class="pre">STDOUT</span></code> or <code class="docutils literal notranslate"><span class="pre">NONE</span></code>.
+See the <span class="target" id="index-0-variable:CMAKE_EXECUTE_PROCESS_COMMAND_ECHO"></span><a class="reference internal" href="../variable/CMAKE_EXECUTE_PROCESS_COMMAND_ECHO.html#variable:CMAKE_EXECUTE_PROCESS_COMMAND_ECHO" title="CMAKE_EXECUTE_PROCESS_COMMAND_ECHO"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_EXECUTE_PROCESS_COMMAND_ECHO</span></code></a> variable for a way
+to control the default behavior when this option is not present.</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ENCODING</span> <span class="pre">&lt;name&gt;</span></code></dt>
 <dd><p class="first">On Windows, the encoding that is used to decode output from the process.
 Ignored on other platforms.
@@ -208,7 +216,7 @@ build time.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>ccmake(1) &mdash; CMake 3.14.0 Documentation</title>
+  <title>ccmake(1) &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -70,7 +70,7 @@ GUI.  Brief instructions are provided at the bottom of the terminal
 when the program is running.</p>
 <p>CMake is a cross-platform build system generator.  Projects specify
 their build process with platform-independent CMake listfiles included
-in each directory of a source tree with the name CMakeLists.txt.
+in each directory of a source tree with the name <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.
 Users build a project by using CMake to generate a build system for a
 native tool on their platform.</p>
 </div>
@@ -85,24 +85,24 @@ native tool on their platform.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">&lt;initial-cache&gt;</span></code></dt>
 <dd><p class="first">Pre-load a script to populate the cache.</p>
-<p class="last">When cmake is first run in an empty build tree, it creates a
-CMakeCache.txt file and populates it with customizable settings for
+<p class="last">When CMake is first run in an empty build tree, it creates a
+<code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> file and populates it with customizable settings for
 the project.  This option may be used to specify a file from which
 to load cache entries before the first pass through the project’s
-cmake listfiles.  The loaded entries take priority over the
+CMake listfiles.  The loaded entries take priority over the
 project’s default values.  The given file should be a CMake script
-containing SET commands that use the CACHE option, not a
+containing <span class="target" id="index-0-command:set"></span><a class="reference internal" href="../command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> commands that use the <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> option, not a
 cache-format file.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">&lt;var&gt;:&lt;type&gt;=&lt;value&gt;,</span> <span class="pre">-D</span> <span class="pre">&lt;var&gt;=&lt;value&gt;</span></code></dt>
-<dd><p class="first">Create or update a cmake cache entry.</p>
-<p>When cmake is first run in an empty build tree, it creates a
-CMakeCache.txt file and populates it with customizable settings for
+<dd><p class="first">Create or update a CMake <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> entry.</p>
+<p>When CMake is first run in an empty build tree, it creates a
+<code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> file and populates it with customizable settings for
 the project.  This option may be used to specify a setting that
 takes priority over the project’s default value.  The option may be
-repeated for as many cache entries as desired.</p>
+repeated for as many <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> entries as desired.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">:&lt;type&gt;</span></code> portion is given it must be one of the types
-specified by the <span class="target" id="index-0-command:set"></span><a class="reference internal" href="../command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> command documentation for its
+specified by the <span class="target" id="index-1-command:set"></span><a class="reference internal" href="../command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> command documentation for its
 <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> signature.
 If the <code class="docutils literal notranslate"><span class="pre">:&lt;type&gt;</span></code> portion is omitted the entry will be created
 with no type if it does not exist with a type already.  If a
@@ -112,19 +112,21 @@ then the <code class="docutils literal notranslate"><span class="pre">&lt;value&
 <code class="docutils literal notranslate"><span class="pre">-D&lt;var&gt;:&lt;type&gt;=&lt;value&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">-D&lt;var&gt;=&lt;value&gt;</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-U</span> <span class="pre">&lt;globbing_expr&gt;</span></code></dt>
-<dd><p class="first">Remove matching entries from CMake cache.</p>
+<dd><p class="first">Remove matching entries from CMake <code class="docutils literal notranslate"><span class="pre">CACHE</span></code>.</p>
 <p>This option may be used to remove one or more variables from the
-CMakeCache.txt file, globbing expressions using * and ? are
-supported.  The option may be repeated for as many cache entries as
+<code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> file, globbing expressions using <code class="docutils literal notranslate"><span class="pre">*</span></code> and <code class="docutils literal notranslate"><span class="pre">?</span></code> are
+supported.  The option may be repeated for as many <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> entries as
 desired.</p>
-<p class="last">Use with care, you can make your CMakeCache.txt non-working.</p>
+<p class="last">Use with care, you can make your <code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> non-working.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-G</span> <span class="pre">&lt;generator-name&gt;</span></code></dt>
 <dd><p class="first">Specify a build system generator.</p>
-<p class="last">CMake may support multiple native build systems on certain
+<p>CMake may support multiple native build systems on certain
 platforms.  A generator is responsible for generating a particular
 build system.  Possible generator names are specified in the
 <span class="target" id="index-0-manual:cmake-generators(7)"></span><a class="reference internal" href="cmake-generators.7.html#manual:cmake-generators(7)" title="cmake-generators(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generators(7)</span></code></a> manual.</p>
+<p class="last">If not specified, CMake checks the <span class="target" id="index-0-envvar:CMAKE_GENERATOR"></span><a class="reference internal" href="../envvar/CMAKE_GENERATOR.html#envvar:CMAKE_GENERATOR" title="CMAKE_GENERATOR"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_GENERATOR</span></code></a> environment
+variable and otherwise falls back to a builtin default selection.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">&lt;toolset-spec&gt;</span></code></dt>
 <dd><p class="first">Toolset specification for the generator, if supported.</p>
@@ -141,43 +143,43 @@ native build system to choose a compiler or SDK.  See the
 <dt><code class="docutils literal notranslate"><span class="pre">-Wno-dev</span></code></dt>
 <dd><p class="first">Suppress developer warnings.</p>
 <p class="last">Suppress warnings that are meant for the author of the
-CMakeLists.txt files. By default this will also turn off
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files. By default this will also turn off
 deprecation warnings.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Wdev</span></code></dt>
 <dd><p class="first">Enable developer warnings.</p>
-<p class="last">Enable warnings that are meant for the author of the CMakeLists.txt
+<p class="last">Enable warnings that are meant for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>
 files. By default this will also turn on deprecation warnings.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Werror=dev</span></code></dt>
 <dd><p class="first">Make developer warnings errors.</p>
-<p class="last">Make warnings that are meant for the author of the CMakeLists.txt files
+<p class="last">Make warnings that are meant for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files
 errors. By default this will also turn on deprecated warnings as errors.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Wno-error=dev</span></code></dt>
 <dd><p class="first">Make developer warnings not errors.</p>
-<p class="last">Make warnings that are meant for the author of the CMakeLists.txt files not
+<p class="last">Make warnings that are meant for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files not
 errors. By default this will also turn off deprecated warnings as errors.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Wdeprecated</span></code></dt>
 <dd><p class="first">Enable deprecated functionality warnings.</p>
 <p class="last">Enable warnings for usage of deprecated functionality, that are meant
-for the author of the CMakeLists.txt files.</p>
+for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Wno-deprecated</span></code></dt>
 <dd><p class="first">Suppress deprecated functionality warnings.</p>
 <p class="last">Suppress warnings for usage of deprecated functionality, that are meant
-for the author of the CMakeLists.txt files.</p>
+for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Werror=deprecated</span></code></dt>
 <dd><p class="first">Make deprecated macro and function warnings errors.</p>
 <p class="last">Make warnings for usage of deprecated macros and functions, that are meant
-for the author of the CMakeLists.txt files, errors.</p>
+for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files, errors.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Wno-error=deprecated</span></code></dt>
 <dd><p class="first">Make deprecated macro and function warnings not errors.</p>
 <p class="last">Make warnings for usage of deprecated macros and functions, that are meant
-for the author of the CMakeLists.txt files, not errors.</p>
+for the author of the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files, not errors.</p>
 </dd>
 </dl>
 <dl class="docutils">
@@ -313,7 +315,7 @@ found on this web page.</p>
 </dd>
 <dt>Mailing List</dt>
 <dd><p class="first"><a class="reference external" href="https://cmake.org/mailing-lists">https://cmake.org/mailing-lists</a></p>
-<p class="last">For help and discussion about using cmake, a mailing list is
+<p class="last">For help and discussion about using CMake, a mailing list is
 provided at <a class="reference external" href="mailto:cmake&#37;&#52;&#48;cmake&#46;org">cmake<span>&#64;</span>cmake<span>&#46;</span>org</a>.  The list is member-post-only but one
 may sign up on the CMake web page.  Please first read the full
 documentation at <a class="reference external" href="https://cmake.org">https://cmake.org</a> before posting questions to
@@ -389,7 +391,7 @@ the list.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
  
       </ul>

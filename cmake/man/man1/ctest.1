@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CTEST" "1" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CTEST" "1" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 ctest \- CTest Command-Line Reference
 .
@@ -103,8 +103,8 @@ ctest {\-D <dashboard> | \-M <model> \-T <action> | \-S <script> | \-SP <script>
 .sp
 The \fBctest\fP executable is the CMake test driver program.
 CMake\-generated build trees created for projects that use the
-ENABLE_TESTING and ADD_TEST commands have testing support.  This
-program will run the tests and report results.
+\fBenable_testing()\fP and \fBadd_test()\fP commands have testing support.
+This program will run the tests and report results.
 .SH OPTIONS
 .INDENT 0.0
 .TP
@@ -113,8 +113,8 @@ Choose configuration to test.
 .sp
 Some CMake\-generated build trees can have multiple build
 configurations in the same tree.  This option can be used to specify
-which one should be tested.  Example configurations are “Debug” and
-“Release”.
+which one should be tested.  Example configurations are \fBDebug\fP and
+\fBRelease\fP\&.
 .TP
 .B \fB\-\-progress\fP
 Enable short progress output from tests.
@@ -188,7 +188,7 @@ if \fB\-\-quiet\fP is specified.
 .B \fB\-O <file>, \-\-output\-log <file>\fP
 Output to log file.
 .sp
-This option tells CTest to write all its output to a log file.
+This option tells CTest to write all its output to a \fB<file>\fP log file.
 .TP
 .B \fB\-N,\-\-show\-only[=<format>]\fP
 Disable actual execution of tests.
@@ -258,9 +258,10 @@ Same as \fB\-FA\fP except only matching cleanup tests are excluded.
 Execute dashboard test.
 .sp
 This option tells CTest to act as a CDash client and perform a
-dashboard test.  All tests are <Mode><Test>, where Mode can be
-Experimental, Nightly, and Continuous, and Test can be Start,
-Update, Configure, Build, Test, Coverage, and Submit.
+dashboard test.  All tests are \fB<Mode><Test>\fP, where \fB<Mode>\fP can be
+\fBExperimental\fP, \fBNightly\fP, and \fBContinuous\fP, and \fB<Test>\fP can be
+\fBStart\fP, \fBUpdate\fP, \fBConfigure\fP, \fBBuild\fP, \fBTest\fP,
+\fBCoverage\fP, and \fBSubmit\fP\&.
 .sp
 See \fI\%Dashboard Client\fP\&.
 .TP
@@ -315,10 +316,10 @@ See \fI\%Dashboard Client\fP\&.
 .B \fB\-I [Start,End,Stride,test#,test#|Test file], \-\-tests\-information\fP
 Run a specific number of tests by number.
 .sp
-This option causes CTest to run tests starting at number Start,
-ending at number End, and incrementing by Stride.  Any additional
-numbers after Stride are considered individual test numbers.  Start,
-End,or stride can be empty.  Optionally a file can be given that
+This option causes CTest to run tests starting at number \fBStart\fP,
+ending at number \fBEnd\fP, and incrementing by \fBStride\fP\&.  Any additional
+numbers after \fBStride\fP are considered individual test numbers.  \fBStart\fP,
+\fBEnd\fP, or \fBStride\fP can be empty.  Optionally a file can be given that
 contains the same syntax as the command line.
 .TP
 .B \fB\-U, \-\-union\fP
@@ -350,12 +351,12 @@ This allows the user to widen the output to avoid clipping the test
 name which can be very annoying.
 .TP
 .B \fB\-\-interactive\-debug\-mode [0|1]\fP
-Set the interactive mode to 0 or 1.
+Set the interactive mode to \fB0\fP or \fB1\fP\&.
 .sp
 This option causes CTest to run tests in either an interactive mode
 or a non\-interactive mode.  On Windows this means that in
 non\-interactive mode, all system debug pop up windows are blocked.
-In dashboard mode (Experimental, Nightly, Continuous), the default
+In dashboard mode (\fBExperimental\fP, \fBNightly\fP, \fBContinuous\fP), the default
 is non\-interactive.  When just running tests not for a dashboard the
 default is to allow popups and interactive debugging.
 .TP
@@ -570,7 +571,7 @@ The help is printed to a named <f>ile if given.
 .UNINDENT
 .SH LABEL AND SUBPROJECT SUMMARY
 .sp
-CTest prints timing summary information for each label and subproject
+CTest prints timing summary information for each \fBLABEL\fP and subproject
 associated with the tests run. The label time summary will not include labels
 that are mapped to subprojects.
 .sp
@@ -578,8 +579,8 @@ When the \fBPROCESSORS\fP test property is set, CTest will display a
 weighted test timing result in label and subproject summaries. The time is
 reported with \fIsec*proc\fP instead of just \fIsec\fP\&.
 .sp
-The weighted time summary reported for each label or subproject j is computed
-as:
+The weighted time summary reported for each label or subproject \fBj\fP
+is computed as:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -597,15 +598,15 @@ for labels/subprojects j=1...total
 where:
 .INDENT 0.0
 .IP \(bu 2
-raw_test_time[j,i]: Wall\-clock time for the ith test for the jth label or
-subproject
+\fBraw_test_time[j,i]\fP: Wall\-clock time for the \fBi\fP test
+for the \fBj\fP label or subproject
 .IP \(bu 2
-num_processors[j,i]: Value of the CTest PROCESSORS property for the ith test
-for the jth label or subproject
+\fBnum_processors[j,i]\fP: Value of the CTest \fBPROCESSORS\fP property
+for the \fBi\fP test for the \fBj\fP label or subproject
 .IP \(bu 2
-num_tests[j]: Number of tests associated with the jth label or subproject
+\fBnum_tests[j]\fP: Number of tests associated with the \fBj\fP label or subproject
 .IP \(bu 2
-total: Total number of labels or subprojects that have at least one test run
+\fBtotal\fP: Total number of labels or subprojects that have at least one test run
 .UNINDENT
 .sp
 Therefore, the weighted time summary for each label or subproject represents
@@ -613,13 +614,13 @@ the amount of time that CTest gave to run the tests for each label or
 subproject and gives a good representation of the total expense of the tests
 for each label or subproject when compared to other labels or subprojects.
 .sp
-For example, if “SubprojectA” showed “100 sec*proc” and “SubprojectB” showed
-“10 sec*proc”, then CTest allocated approximately  10 times the CPU/core time
-to run the tests for “SubprojectA” than for “SubprojectB” (e.g. so if effort
+For example, if \fBSubprojectA\fP showed \fB100 sec*proc\fP and \fBSubprojectB\fP showed
+\fB10 sec*proc\fP, then CTest allocated approximately 10 times the CPU/core time
+to run the tests for \fBSubprojectA\fP than for \fBSubprojectB\fP (e.g. so if effort
 is going to be expended to reduce the cost of the test suite for the whole
-project, then reducing the cost of the test suite for “SubprojectA” would
+project, then reducing the cost of the test suite for \fBSubprojectA\fP would
 likely have a larger impact than effort to reduce the cost of the test suite
-for “SubprojectB”).
+for \fBSubprojectB\fP).
 .SH BUILD AND TEST MODE
 .sp
 CTest provides a command\-line signature to configure (i.e. run cmake on),
@@ -687,7 +688,7 @@ Skip the make clean step.
 .TP
 .B \fB\-\-build\-config\-sample\fP
 A sample executable to use to determine the configuration that
-should be used.  e.g.  Debug/Release/etc.
+should be used.  e.g.  \fBDebug\fP, \fBRelease\fP etc.
 .TP
 .B \fB\-\-build\-options\fP
 Additional options for configuring the build (i.e. for CMake, not for
@@ -739,7 +740,7 @@ This option tells CTest to include a notes file when submitting
 dashboard.
 .TP
 .B \fB\-\-tomorrow\-tag\fP
-Nightly or experimental starts with next day tag.
+\fBNightly\fP or \fBExperimental\fP starts with next day tag.
 .sp
 This is useful if the build will not finish in one day.
 .TP
@@ -749,10 +750,10 @@ Submit extra files to the dashboard.
 This option will submit extra files to the dashboard.
 .TP
 .B \fB\-\-http1.0\fP
-Submit using HTTP 1.0.
+Submit using \fIHTTP 1.0\fP\&.
 .sp
-This option will force CTest to use HTTP 1.0 to submit files to the
-dashboard, instead of HTTP 1.1.
+This option will force CTest to use \fIHTTP 1.0\fP to submit files to the
+dashboard, instead of \fIHTTP 1.1\fP\&.
 .TP
 .B \fB\-\-no\-compress\-output\fP
 Do not compress test output when submitting.
@@ -988,7 +989,7 @@ Command\-line options to the \fBCVSCommand\fP when updating the source.
 .sp
 The source tree is updated by \fBgit fetch\fP followed by
 \fBgit reset \-\-hard\fP to the \fBFETCH_HEAD\fP\&.  The result is the same
-as \fBgit pull\fP except that any local moficiations are overwritten.
+as \fBgit pull\fP except that any local modifications are overwritten.
 Use \fBGITUpdateCustom\fP to specify a different approach.
 .TP
 .B \fBGITInitSubmodules\fP
@@ -1145,6 +1146,8 @@ The value may be \fBbzr\fP, \fBcvs\fP, \fBgit\fP, \fBhg\fP,
 \fBCTest\fP module variable: \fBUPDATE_TYPE\fP if set,
 else \fBCTEST_UPDATE_TYPE\fP
 .UNINDENT
+.UNINDENT
+.INDENT 0.0
 .TP
 .B \fBUpdateVersionOnly\fP
 Specify that you want the version control update command to only
@@ -1153,6 +1156,21 @@ to a different version.
 .INDENT 7.0
 .IP \(bu 2
 \fI\%CTest Script\fP variable: \fBCTEST_UPDATE_VERSION_ONLY\fP
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \fBUpdateVersionOverride\fP
+Specify the current version of your source tree.
+.sp
+When this variable is set to a non\-empty string, CTest will report the value
+you specified rather than using the update command to discover the current
+version that is checked out. Use of this variable supersedes
+\fBUpdateVersionOnly\fP\&. Like \fBUpdateVersionOnly\fP, using this variable tells
+CTest not to update the source tree to a different version.
+.INDENT 7.0
+.IP \(bu 2
+\fI\%CTest Script\fP variable: \fBCTEST_UPDATE_VERSION_OVERRIDE\fP
 .UNINDENT
 .UNINDENT
 .sp
@@ -1709,7 +1727,7 @@ found on this web page.
 .B Mailing List
 \fI\%https://cmake.org/mailing\-lists\fP
 .sp
-For help and discussion about using cmake, a mailing list is
+For help and discussion about using CMake, a mailing list is
 provided at \fI\%cmake@cmake.org\fP\&.  The list is member\-post\-only but one
 may sign up on the CMake web page.  Please first read the full
 documentation at \fI\%https://cmake.org\fP before posting questions to

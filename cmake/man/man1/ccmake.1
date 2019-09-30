@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CCMAKE" "1" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CCMAKE" "1" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 ccmake \- CMake Curses Dialog Command-Line Reference
 .
@@ -50,7 +50,7 @@ when the program is running.
 .sp
 CMake is a cross\-platform build system generator.  Projects specify
 their build process with platform\-independent CMake listfiles included
-in each directory of a source tree with the name CMakeLists.txt.
+in each directory of a source tree with the name \fBCMakeLists.txt\fP\&.
 Users build a project by using CMake to generate a build system for a
 native tool on their platform.
 .SH OPTIONS
@@ -67,23 +67,23 @@ If the directory doesn’t already exist CMake will make it.
 .B \fB\-C <initial\-cache>\fP
 Pre\-load a script to populate the cache.
 .sp
-When cmake is first run in an empty build tree, it creates a
-CMakeCache.txt file and populates it with customizable settings for
+When CMake is first run in an empty build tree, it creates a
+\fBCMakeCache.txt\fP file and populates it with customizable settings for
 the project.  This option may be used to specify a file from which
 to load cache entries before the first pass through the project’s
-cmake listfiles.  The loaded entries take priority over the
+CMake listfiles.  The loaded entries take priority over the
 project’s default values.  The given file should be a CMake script
-containing SET commands that use the CACHE option, not a
+containing \fBset()\fP commands that use the \fBCACHE\fP option, not a
 cache\-format file.
 .TP
 .B \fB\-D <var>:<type>=<value>, \-D <var>=<value>\fP
-Create or update a cmake cache entry.
+Create or update a CMake \fBCACHE\fP entry.
 .sp
-When cmake is first run in an empty build tree, it creates a
-CMakeCache.txt file and populates it with customizable settings for
+When CMake is first run in an empty build tree, it creates a
+\fBCMakeCache.txt\fP file and populates it with customizable settings for
 the project.  This option may be used to specify a setting that
 takes priority over the project’s default value.  The option may be
-repeated for as many cache entries as desired.
+repeated for as many \fBCACHE\fP entries as desired.
 .sp
 If the \fB:<type>\fP portion is given it must be one of the types
 specified by the \fBset()\fP command documentation for its
@@ -97,14 +97,14 @@ This option may also be given as a single argument:
 \fB\-D<var>:<type>=<value>\fP or \fB\-D<var>=<value>\fP\&.
 .TP
 .B \fB\-U <globbing_expr>\fP
-Remove matching entries from CMake cache.
+Remove matching entries from CMake \fBCACHE\fP\&.
 .sp
 This option may be used to remove one or more variables from the
-CMakeCache.txt file, globbing expressions using * and ? are
-supported.  The option may be repeated for as many cache entries as
+\fBCMakeCache.txt\fP file, globbing expressions using \fB*\fP and \fB?\fP are
+supported.  The option may be repeated for as many \fBCACHE\fP entries as
 desired.
 .sp
-Use with care, you can make your CMakeCache.txt non\-working.
+Use with care, you can make your \fBCMakeCache.txt\fP non\-working.
 .TP
 .B \fB\-G <generator\-name>\fP
 Specify a build system generator.
@@ -113,6 +113,9 @@ CMake may support multiple native build systems on certain
 platforms.  A generator is responsible for generating a particular
 build system.  Possible generator names are specified in the
 \fBcmake\-generators(7)\fP manual.
+.sp
+If not specified, CMake checks the \fBCMAKE_GENERATOR\fP environment
+variable and otherwise falls back to a builtin default selection.
 .TP
 .B \fB\-T <toolset\-spec>\fP
 Toolset specification for the generator, if supported.
@@ -132,50 +135,50 @@ native build system to choose a compiler or SDK.  See the
 Suppress developer warnings.
 .sp
 Suppress warnings that are meant for the author of the
-CMakeLists.txt files. By default this will also turn off
+\fBCMakeLists.txt\fP files. By default this will also turn off
 deprecation warnings.
 .TP
 .B \fB\-Wdev\fP
 Enable developer warnings.
 .sp
-Enable warnings that are meant for the author of the CMakeLists.txt
+Enable warnings that are meant for the author of the \fBCMakeLists.txt\fP
 files. By default this will also turn on deprecation warnings.
 .TP
 .B \fB\-Werror=dev\fP
 Make developer warnings errors.
 .sp
-Make warnings that are meant for the author of the CMakeLists.txt files
+Make warnings that are meant for the author of the \fBCMakeLists.txt\fP files
 errors. By default this will also turn on deprecated warnings as errors.
 .TP
 .B \fB\-Wno\-error=dev\fP
 Make developer warnings not errors.
 .sp
-Make warnings that are meant for the author of the CMakeLists.txt files not
+Make warnings that are meant for the author of the \fBCMakeLists.txt\fP files not
 errors. By default this will also turn off deprecated warnings as errors.
 .TP
 .B \fB\-Wdeprecated\fP
 Enable deprecated functionality warnings.
 .sp
 Enable warnings for usage of deprecated functionality, that are meant
-for the author of the CMakeLists.txt files.
+for the author of the \fBCMakeLists.txt\fP files.
 .TP
 .B \fB\-Wno\-deprecated\fP
 Suppress deprecated functionality warnings.
 .sp
 Suppress warnings for usage of deprecated functionality, that are meant
-for the author of the CMakeLists.txt files.
+for the author of the \fBCMakeLists.txt\fP files.
 .TP
 .B \fB\-Werror=deprecated\fP
 Make deprecated macro and function warnings errors.
 .sp
 Make warnings for usage of deprecated macros and functions, that are meant
-for the author of the CMakeLists.txt files, errors.
+for the author of the \fBCMakeLists.txt\fP files, errors.
 .TP
 .B \fB\-Wno\-error=deprecated\fP
 Make deprecated macro and function warnings not errors.
 .sp
 Make warnings for usage of deprecated macros and functions, that are meant
-for the author of the CMakeLists.txt files, not errors.
+for the author of the \fBCMakeLists.txt\fP files, not errors.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -333,7 +336,7 @@ found on this web page.
 .B Mailing List
 \fI\%https://cmake.org/mailing\-lists\fP
 .sp
-For help and discussion about using cmake, a mailing list is
+For help and discussion about using CMake, a mailing list is
 provided at \fI\%cmake@cmake.org\fP\&.  The list is member\-post\-only but one
 may sign up on the CMake web page.  Please first read the full
 documentation at \fI\%https://cmake.org\fP before posting questions to
