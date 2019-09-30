@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>file &mdash; CMake 3.14.0 Documentation</title>
+  <title>file &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -281,7 +281,8 @@ If <code class="docutils literal notranslate"><span class="pre">FOLLOW_SYMLINKS<
 </div>
 <p>Remove the given files.  The <code class="docutils literal notranslate"><span class="pre">REMOVE_RECURSE</span></code> mode will remove the given
 files and directories, also non-empty directories. No error is emitted if a
-given file does not exist.</p>
+given file does not exist.  Relative input paths are evaluated with respect
+to the current source directory.  Empty input paths are ignored with a warning.</p>
 <div class="highlight-cmake notranslate" id="make-directory"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">MAKE_DIRECTORY</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;directories&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -290,6 +291,7 @@ given file does not exist.</p>
 <span class="w">     </span><span class="p">[</span><span class="no">FILE_PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">DIRECTORY_PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">NO_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">USE_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">FOLLOW_SYMLINK_CHAIN</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">FILES_MATCHING</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[[</span><span class="no">PATTERN</span><span class="w"> </span><span class="nv">&lt;pattern&gt;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">REGEX</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">      </span><span class="p">[</span><span class="no">EXCLUDE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span><span class="w"></span>
@@ -303,6 +305,29 @@ preserves input file timestamps, and optimizes out a file if it exists
 at the destination with the same timestamp.  Copying preserves input
 permissions unless explicit permissions or <code class="docutils literal notranslate"><span class="pre">NO_SOURCE_PERMISSIONS</span></code>
 are given (default is <code class="docutils literal notranslate"><span class="pre">USE_SOURCE_PERMISSIONS</span></code>).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">FOLLOW_SYMLINK_CHAIN</span></code> is specified, <code class="docutils literal notranslate"><span class="pre">COPY</span></code> will recursively resolve
+the symlinks at the paths given until a real file is found, and install
+a corresponding symlink in the destination for each symlink encountered. For
+each symlink that is installed, the resolution is stripped of the directory,
+leaving only the filename, meaning that the new symlink points to a file in
+the same directory as the symlink. This feature is useful on some Unix systems,
+where libraries are installed as a chain of symlinks with version numbers, with
+less specific versions pointing to more specific versions.
+<code class="docutils literal notranslate"><span class="pre">FOLLOW_SYMLINK_CHAIN</span></code> will install all of these symlinks and the library
+itself into the destination directory. For example, if you have the following
+directory structure:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">/opt/foo/lib/libfoo.so.1.2.3</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">/opt/foo/lib/libfoo.so.1.2</span> <span class="pre">-&gt;</span> <span class="pre">libfoo.so.1.2.3</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">/opt/foo/lib/libfoo.so.1</span> <span class="pre">-&gt;</span> <span class="pre">libfoo.so.1.2</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">/opt/foo/lib/libfoo.so</span> <span class="pre">-&gt;</span> <span class="pre">libfoo.so.1</span></code></li>
+</ul>
+<p>and you do:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">COPY</span><span class="w"> </span><span class="na">/opt/foo/lib/libfoo.so</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="w"> </span><span class="no">FOLLOW_SYMLINK_CHAIN</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This will install all of the symlinks and <code class="docutils literal notranslate"><span class="pre">libfoo.so.1.2.3</span></code> itself into
+<code class="docutils literal notranslate"><span class="pre">lib</span></code>.</p>
 <p>See the <span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(DIRECTORY)</span></code></a> command for documentation of
 permissions, <code class="docutils literal notranslate"><span class="pre">FILES_MATCHING</span></code>, <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code>, <code class="docutils literal notranslate"><span class="pre">REGEX</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">EXCLUDE</span></code> options.  Copying directories preserves the structure
@@ -546,7 +571,7 @@ options ignored on <code class="docutils literal notranslate"><span class="pre">
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

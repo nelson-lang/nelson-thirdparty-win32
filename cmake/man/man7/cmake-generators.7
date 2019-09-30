@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-GENERATORS" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-GENERATORS" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-generators \- CMake Generators Reference
 .
@@ -57,7 +57,8 @@ already configured for the chosen compiler and build tool.
 Generates Borland makefiles.
 .SS MSYS Makefiles
 .sp
-Generates makefiles for use with MSYS \fBmake\fP under the MSYS shell.
+Generates makefiles for use with MSYS (Minimal SYStem)
+\fBmake\fP under the MSYS shell.
 .sp
 Use this generator in a MSYS shell prompt and using \fBmake\fP as the build
 tool.  The generated makefiles use \fB/bin/sh\fP as the shell to launch build
@@ -70,7 +71,8 @@ To build under a Windows command prompt, use the
 Generates makefiles for use with \fBmingw32\-make\fP under a Windows command
 prompt.
 .sp
-Use this generator under a Windows command prompt with MinGW in the \fBPATH\fP
+Use this generator under a Windows command prompt with
+MinGW (Minimalist GNU for Windows) in the \fBPATH\fP
 and using \fBmingw32\-make\fP as the build tool.  The generated makefiles use
 \fBcmd.exe\fP as the shell to launch build rules.  They are not compatible with
 MSYS or a unix shell.
@@ -88,7 +90,7 @@ Generates standard UNIX makefiles.
 .sp
 A hierarchy of UNIX makefiles is generated into the build tree.  Any
 standard UNIX\-style make program can build the project through the
-default make target.  A “make install” target is also provided.
+default \fBall\fP target.  An \fBinstall\fP target is also provided.
 .SS Watcom WMake
 .sp
 Generates Watcom WMake makefiles.
@@ -98,8 +100,8 @@ Generates Watcom WMake makefiles.
 Generates build.ninja files.
 .sp
 A build.ninja file is generated into the build tree.  Recent versions
-of the ninja program can build the project through the “all” target.
-An “install” target is also provided.
+of the ninja program can build the project through the \fBall\fP target.
+An \fBinstall\fP target is also provided.
 .sp
 For each subdirectory \fBsub/dir\fP of the project, additional targets
 are generated:
@@ -319,8 +321,8 @@ default.  The \fBCMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
 via the \fBcmake(1)\fP \fB\-T\fP option, to specify another toolset.
 .sp
 For each toolset that comes with this version of Visual Studio, there are
-variants that are themselves compiled for 32\-bit (x86) and 64\-bit (x64) hosts
-(independent of the architecture they target).
+variants that are themselves compiled for 32\-bit (\fBx86\fP) and
+64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
 By default this generator uses the 32\-bit variant even on a 64\-bit host.
 One may explicitly request use of either the 32\-bit or 64\-bit host tools
 by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
@@ -366,8 +368,8 @@ default.  The \fBCMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
 via the \fBcmake(1)\fP \fB\-T\fP option, to specify another toolset.
 .sp
 For each toolset that comes with this version of Visual Studio, there are
-variants that are themselves compiled for 32\-bit (x86) and 64\-bit (x64) hosts
-(independent of the architecture they target).
+variants that are themselves compiled for 32\-bit (\fBx86\fP) and
+64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
 By default this generator uses the 32\-bit variant even on a 64\-bit host.
 One may explicitly request use of either the 32\-bit or 64\-bit host tools
 by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
@@ -429,8 +431,8 @@ default.  The \fBCMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
 via the \fBcmake(1)\fP \fB\-T\fP option, to specify another toolset.
 .sp
 For each toolset that comes with this version of Visual Studio, there are
-variants that are themselves compiled for 32\-bit (x86) and 64\-bit (x64) hosts
-(independent of the architecture they target).
+variants that are themselves compiled for 32\-bit (\fBx86\fP) and
+64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
 By default this generator uses the 32\-bit variant even on a 64\-bit host.
 One may explicitly request use of either the 32\-bit or 64\-bit host tools
 by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
@@ -458,7 +460,8 @@ than one instance is installed we do not define which one is chosen
 by default.
 .SS Platform Selection
 .sp
-The default target platform name (architecture) is that of the host.
+The default target platform name (architecture) is that of the host
+and is provided in the \fBCMAKE_VS_PLATFORM_NAME_DEFAULT\fP variable.
 .sp
 The \fBCMAKE_GENERATOR_PLATFORM\fP variable may be set, perhaps
 via the \fBcmake(1)\fP \fB\-A\fP option, to specify a target platform
@@ -480,8 +483,8 @@ default.  The \fBCMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
 via the \fBcmake(1)\fP \fB\-T\fP option, to specify another toolset.
 .sp
 For each toolset that comes with this version of Visual Studio, there are
-variants that are themselves compiled for 32\-bit (x86) and 64\-bit (x64) hosts
-(independent of the architecture they target).
+variants that are themselves compiled for 32\-bit (\fBx86\fP) and
+64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
 By default this generator uses the 64\-bit variant on x64 hosts and
 the 32\-bit variant otherwise.
 One may explicitly request use of either the 32\-bit or 64\-bit host tools
@@ -498,8 +501,9 @@ via the \fBCMAKE_BUILD_TYPE\fP variable.
 Customizations that are used to pick toolset and target system:
 .sp
 The \fB\-A <arch>\fP can be supplied for setting the target architecture.
-\fB<arch>\fP usually is one of “arm”, “ppc”, “86”, etcetera.  If the target architecture
-is not specified then the default architecture of “arm” will be used.
+\fB<arch>\fP usually is one of \fBarm\fP, \fBppc\fP, \fB86\fP, etcetera.
+If the target architecture is not specified then
+the default architecture of \fBarm\fP will be used.
 .sp
 The \fB\-T <toolset>\fP option can be used to set the directory location of the toolset.
 Both absolute and relative paths are valid. Relative paths use \fBGHS_TOOLSET_ROOT\fP
@@ -527,22 +531,23 @@ Defaults to \fB<arch>_<GHS_TARGET_PLATFORM>.tgt\fP\&.
 \fBGHS_TOOLSET_ROOT\fP
 .nf
 Root path for \fBtoolset\fP searches.
-Defaults to \fBC:/ghs\fP\&.
+Defaults to \fBC:/ghs\fP in Windows or \fB/usr/ghs\fP in Linux.
 .fi
 .sp
 .IP \(bu 2
 \fBGHS_OS_ROOT\fP
 .nf
 Root path for RTOS searches.
-Defaults to \fBC:/ghs\fP\&.
+Defaults to \fBC:/ghs\fP in Windows or \fB/usr/ghs\fP in Linux.
 .fi
 .sp
 .IP \(bu 2
-\fBGHS_OS_DIR\fP
+\fBGHS_OS_DIR\fP and \fBGHS_OS_DIR_OPTION\fP
 .nf
 Sets \fB\-os_dir\fP entry in project file.
 Defaults to latest platform OS installation at \fBGHS_OS_ROOT\fP\&.  Set this value if
 a specific RTOS is to be used.
+\fBGHS_OS_DIR_OPTION\fP default value is \fB\-os_dir\fP\&.
 .fi
 .sp
 .IP \(bu 2
@@ -573,7 +578,7 @@ The following properties are available:
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
-This generator is deemed experimental as of CMake 3.14.0
+This generator is deemed experimental as of CMake 3.15.3
 and is still a work in progress.  Future versions of CMake
 may make breaking changes as the generator matures.
 .UNINDENT
@@ -582,9 +587,7 @@ may make breaking changes as the generator matures.
 .sp
 Generate Xcode project files.
 .sp
-This supports Xcode 3.0 and above.  Support for Xcode versions prior
-to Xcode 5 is deprecated and will be dropped in a future version of
-CMake.
+This supports Xcode 5.0 and above.
 .SS Toolset Selection
 .sp
 By default Xcode is allowed to select its own default toolchain.
@@ -602,14 +605,14 @@ The following extra generators are known to CMake.
 Generates CodeBlocks project files.
 .sp
 Project files for CodeBlocks will be created in the top directory and
-in every subdirectory which features a CMakeLists.txt file containing
-a PROJECT() call.  Additionally a hierarchy of makefiles is generated
+in every subdirectory which features a \fBCMakeLists.txt\fP file containing
+a \fBproject()\fP call.  Additionally a hierarchy of makefiles is generated
 into the build tree.
 The \fBCMAKE_CODEBLOCKS_EXCLUDE_EXTERNAL_FILES\fP variable may
 be set to \fBON\fP to exclude any files which are located outside of
 the project root directory.
 The appropriate make program can build the
-project through the default make target.  A “make install” target is
+project through the default \fBall\fP target.  An \fBinstall\fP target is
 also provided.
 .sp
 This “extra” generator may be specified as:
@@ -638,11 +641,11 @@ Project files for CodeLite will be created in the top directory and
 in every subdirectory which features a CMakeLists.txt file containing
 a \fBproject()\fP call.
 The \fBCMAKE_CODELITE_USE_TARGETS\fP variable may be set to \fBON\fP
-to change the default behaviour from projects to targets as the basis
+to change the default behavior from projects to targets as the basis
 for project files.
 The appropriate make program can build the
-project through the default make target.  A “make install” target is
-also provided.
+project through the default \fBall\fP target.  An \fBinstall\fP target
+is also provided.
 .sp
 This “extra” generator may be specified as:
 .INDENT 0.0
@@ -667,7 +670,7 @@ Project files for Eclipse will be created in the top directory.  In
 out of source builds, a linked resource to the top level source
 directory will be created.  Additionally a hierarchy of makefiles is
 generated into the build tree.  The appropriate make program can build
-the project through the default make target.  A “make install” target
+the project through the default \fBall\fP target.  An \fBinstall\fP target
 is also provided.
 .sp
 This “extra” generator may be specified as:
@@ -691,10 +694,10 @@ Generates Kate project files.
 .sp
 A project file for Kate will be created in the top directory in the top level
 build directory.
-To use it in kate, the Project plugin must be enabled.
-The project file is loaded in kate simply by opening the
-ProjectName.kateproject file in the editor.
-If the kate Build\-plugin is enabled, all targets generated by CMake are
+To use it in Kate, the Project plugin must be enabled.
+The project file is loaded in Kate by opening the
+\fBProjectName.kateproject\fP file in the editor.
+If the Kate Build\-plugin is enabled, all targets generated by CMake are
 available for building.
 .sp
 This “extra” generator may be specified as:
@@ -717,11 +720,11 @@ Generate with \fBUnix Makefiles\fP\&.
 Generates Sublime Text 2 project files.
 .sp
 Project files for Sublime Text 2 will be created in the top directory
-and in every subdirectory which features a CMakeLists.txt file
-containing a PROJECT() call.  Additionally Makefiles (or build.ninja
-files) are generated into the build tree.  The appropriate make
-program can build the project through the default make target.  A
-“make install” target is also provided.
+and in every subdirectory which features a \fBCMakeLists.txt\fP file
+containing a \fBproject()\fP call.  Additionally \fBMakefiles\fP
+(or \fBbuild.ninja\fP files) are generated into the build tree.
+The appropriate make program can build the project through the default \fBall\fP
+target.  An \fBinstall\fP target is also provided.
 .sp
 This “extra” generator may be specified as:
 .INDENT 0.0

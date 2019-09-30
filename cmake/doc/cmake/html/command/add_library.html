@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>add_library &mdash; CMake 3.14.0 Documentation</title>
+  <title>add_library &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -134,14 +134,23 @@ option extends visibility.  It may be referenced like any target built
 within the project.  <code class="docutils literal notranslate"><span class="pre">IMPORTED</span></code> libraries are useful for convenient
 reference from commands like <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>.  Details
 about the imported library are specified by setting properties whose names
-begin in <code class="docutils literal notranslate"><span class="pre">IMPORTED_</span></code> and <code class="docutils literal notranslate"><span class="pre">INTERFACE_</span></code>.  The most important such
-property is <span class="target" id="index-0-prop_tgt:IMPORTED_LOCATION"></span><a class="reference internal" href="../prop_tgt/IMPORTED_LOCATION.html#prop_tgt:IMPORTED_LOCATION" title="IMPORTED_LOCATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_LOCATION</span></code></a> (and its per-configuration
+begin in <code class="docutils literal notranslate"><span class="pre">IMPORTED_</span></code> and <code class="docutils literal notranslate"><span class="pre">INTERFACE_</span></code>.</p>
+<p>The most important properties are:</p>
+<ul class="simple">
+<li><span class="target" id="index-0-prop_tgt:IMPORTED_LOCATION"></span><a class="reference internal" href="../prop_tgt/IMPORTED_LOCATION.html#prop_tgt:IMPORTED_LOCATION" title="IMPORTED_LOCATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_LOCATION</span></code></a> (and its per-configuration
 variant <span class="target" id="index-0-prop_tgt:IMPORTED_LOCATION_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/IMPORTED_LOCATION_CONFIG.html#prop_tgt:IMPORTED_LOCATION_&lt;CONFIG&gt;" title="IMPORTED_LOCATION_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_LOCATION_&lt;CONFIG&gt;</span></code></a>) which specifies the
-location of the main library file on disk.  Or, for object libraries,
-<span class="target" id="index-0-prop_tgt:IMPORTED_OBJECTS"></span><a class="reference internal" href="../prop_tgt/IMPORTED_OBJECTS.html#prop_tgt:IMPORTED_OBJECTS" title="IMPORTED_OBJECTS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code></a> (and <span class="target" id="index-0-prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/IMPORTED_OBJECTS_CONFIG.html#prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS_&lt;CONFIG&gt;</span></code></a>)
-specifies the locations of object files on disk.
-See documentation of the <code class="docutils literal notranslate"><span class="pre">IMPORTED_*</span></code> and <code class="docutils literal notranslate"><span class="pre">INTERFACE_*</span></code> properties
+location of the main library file on disk.</li>
+<li><span class="target" id="index-0-prop_tgt:IMPORTED_OBJECTS"></span><a class="reference internal" href="../prop_tgt/IMPORTED_OBJECTS.html#prop_tgt:IMPORTED_OBJECTS" title="IMPORTED_OBJECTS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code></a> (and <span class="target" id="index-0-prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/IMPORTED_OBJECTS_CONFIG.html#prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS_&lt;CONFIG&gt;</span></code></a>)
+for object libraries, specifies the locations of object files on disk.</li>
+<li><span class="target" id="index-0-prop_tgt:PUBLIC_HEADER"></span><a class="reference internal" href="../prop_tgt/PUBLIC_HEADER.html#prop_tgt:PUBLIC_HEADER" title="PUBLIC_HEADER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PUBLIC_HEADER</span></code></a> files to be installed during <span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> invocation</li>
+</ul>
+<p>See documentation of the <code class="docutils literal notranslate"><span class="pre">IMPORTED_*</span></code> and <code class="docutils literal notranslate"><span class="pre">INTERFACE_*</span></code> properties
 for more information.</p>
+<p>An <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code> library type is typically only used in the implementation of
+<a class="reference internal" href="../manual/cmake-developer.7.html#find-modules"><span class="std std-ref">Find Modules</span></a>.  It allows the path to an imported library (often found
+using the <span class="target" id="index-0-command:find_library"></span><a class="reference internal" href="find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a> command) to be used without having to know
+what type of library it is.  This is especially useful on Windows where a
+static library and a DLL’s import library both have the same file extension.</p>
 </div>
 <div class="section" id="object-libraries">
 <h2><a class="toc-backref" href="#id4">Object Libraries</a><a class="headerlink" href="#object-libraries" title="Permalink to this headline">¶</a></h2>
@@ -284,7 +293,7 @@ from commands like <span class="target" id="index-4-command:target_link_librarie
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-PACKAGES" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-PACKAGES" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-packages \- CMake Packages Reference
 .
@@ -34,7 +34,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .sp
 Packages provide dependency information to CMake based buildsystems.  Packages
 are found with the \fBfind_package()\fP command.  The result of
-using \fBfind_package\fP is either a set of \fBIMPORTED\fP targets, or
+using \fBfind_package()\fP is either a set of \fBIMPORTED\fP targets, or
 a set of variables corresponding to build\-relevant information.
 .SH USING PACKAGES
 .sp
@@ -798,19 +798,20 @@ There is no system package registry on non\-Windows platforms.
 In some cases using the Package Registries is not desirable. CMake
 allows one to disable them using the following variables:
 .INDENT 0.0
-.INDENT 3.5
-.INDENT 0.0
 .IP \(bu 2
-\fBCMAKE_EXPORT_NO_PACKAGE_REGISTRY\fP disables the
-\fBexport(PACKAGE)\fP command.
+The \fBexport(PACKAGE)\fP command does not populate the user
+package registry when \fBCMP0090\fP is set to \fBNEW\fP unless the
+\fBCMAKE_EXPORT_PACKAGE_REGISTRY\fP variable explicitly enables it.
+When \fBCMP0090\fP is \fInot\fP set to \fBNEW\fP then
+\fBexport(PACKAGE)\fP populates the user package registry unless
+the \fBCMAKE_EXPORT_NO_PACKAGE_REGISTRY\fP variable explicitly
+disables it.
 .IP \(bu 2
 \fBCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY\fP disables the
 User Package Registry in all the \fBfind_package()\fP calls.
 .IP \(bu 2
 \fBCMAKE_FIND_PACKAGE_NO_SYSTEM_PACKAGE_REGISTRY\fP disables
 the System Package Registry in all the \fBfind_package()\fP calls.
-.UNINDENT
-.UNINDENT
 .UNINDENT
 .SS Package Registry Example
 .sp

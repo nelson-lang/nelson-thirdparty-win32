@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-TOOLCHAINS" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-TOOLCHAINS" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-toolchains \- CMake Toolchains Reference
 .
@@ -46,7 +46,7 @@ built\-in variables, such as
 \fBCMAKE_CXX_COMPILER_ID\fP etc are set by
 invoking the \fBproject()\fP command.  If no project command
 is in the top\-level CMakeLists file, one will be implicitly generated. By default
-the enabled languages are C and CXX:
+the enabled languages are \fBC\fP and \fBCXX\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -58,7 +58,7 @@ project(C_Only C)
 .UNINDENT
 .UNINDENT
 .sp
-A special value of NONE can also be used with the \fBproject()\fP command
+A special value of \fBNONE\fP can also be used with the \fBproject()\fP command
 to enable no languages:
 .INDENT 0.0
 .INDENT 3.5
@@ -130,6 +130,14 @@ If \fBcmake(1)\fP is invoked with the command line parameter
 values for the compilers.
 The \fBCMAKE_CROSSCOMPILING\fP variable is set to true when CMake is
 cross\-compiling.
+.sp
+Note that using the \fBCMAKE_SOURCE_DIR\fP or \fBCMAKE_BINARY_DIR\fP
+variables inside a toolchain file is typically undesirable.  The toolchain
+file is used in contexts where these variables have different values when used
+in different places (e.g. as part of a call to \fBtry_compile()\fP).  In most
+cases, where there is a need to evaluate paths inside a toolchain file, the more
+appropriate variable to use would be \fBCMAKE_CURRENT_LIST_DIR\fP, since
+it always has an unambiguous, predictable value.
 .SS Cross Compiling for Linux
 .sp
 A typical cross\-compiling toolchain for Linux has content such
@@ -536,10 +544,10 @@ The Android API level detected from the standalone toolchain.
 The Android ABI detected from the standalone toolchain.
 .TP
 .B \fBCMAKE_<LANG>_ANDROID_TOOLCHAIN_PREFIX\fP
-The absolute path prefix to the binutils in the standalone toolchain.
+The absolute path prefix to the \fBbinutils\fP in the standalone toolchain.
 .TP
 .B \fBCMAKE_<LANG>_ANDROID_TOOLCHAIN_SUFFIX\fP
-The host platform suffix of the binutils in the standalone toolchain.
+The host platform suffix of the \fBbinutils\fP in the standalone toolchain.
 .UNINDENT
 .sp
 For example, a toolchain file might contain:
@@ -630,7 +638,7 @@ generator is recommended.  The \fBUnix Makefiles\fP or
 \fBNinja\fP generators can also be used, but they require the
 project to handle more areas like target CPU selection and code signing.
 .sp
-Any of the three systems can be targetted by setting the
+Any of the three systems can be targeted by setting the
 \fBCMAKE_SYSTEM_NAME\fP variable to a value from the table below.
 By default, the latest Device SDK is chosen.  As for all Apple platforms,
 a different SDK (e.g. a simulator) can be selected by setting the
@@ -777,7 +785,7 @@ $ otool \-l _install/lib/libfoo.a | grep \-A2 LC_VERSION_MIN_IPHONEOS
 .sp
 Some build artifacts for the embedded Apple platforms require mandatory
 code signing.  If the \fBXcode\fP generator is being used and
-code signing is required or desired, the developmemt team ID can be
+code signing is required or desired, the development team ID can be
 specified via the \fBCMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM\fP CMake variable.
 This team ID will then be included in the generated Xcode project.
 By default, CMake avoids the need for code signing during the internal

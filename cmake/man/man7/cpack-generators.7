@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CPACK-GENERATORS" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CPACK-GENERATORS" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cpack-generators \- CPack Generator Reference
 .
@@ -98,29 +98,30 @@ Bundle\-specific parameters (\fBCPACK_BUNDLE_xxx\fP).
 .INDENT 0.0
 .TP
 .B CPACK_BUNDLE_NAME
-The name of the generated bundle. This appears in the OSX finder as the
+The name of the generated bundle. This appears in the macOS Finder as the
 bundle name. Required.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_BUNDLE_PLIST
-Path to an OSX plist file that will be used for the generated bundle. This
-assumes that the caller has generated or specified their own Info.plist
+Path to an macOS Property List (\fB\&.plist\fP) file that will be used
+for the generated bundle. This
+assumes that the caller has generated or specified their own \fBInfo.plist\fP
 file. Required.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_BUNDLE_ICON
-Path to an OSX icon file that will be used as the icon for the generated
-bundle. This is the icon that appears in the OSX finder for the bundle, and
-in the OSX dock when the bundle is opened. Required.
+Path to an macOS icon file that will be used as the icon for the generated
+bundle. This is the icon that appears in the macOS Finder for the bundle, and
+in the macOS dock when the bundle is opened. Required.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_BUNDLE_STARTUP_COMMAND
 Path to a startup script. This is a path to an executable or script that
 will be run whenever an end\-user double\-clicks the generated bundle in the
-OSX Finder. Optional.
+macOS Finder. Optional.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -133,8 +134,9 @@ the application will not be signed.
 .INDENT 0.0
 .TP
 .B CPACK_BUNDLE_APPLE_ENTITLEMENTS
-The name of the \fBPlist\fP file that contains your apple entitlements for sandboxing
-your application. This file is required for submission to the Mac App Store.
+The name of the Property List (\fB\&.plist\fP) file that contains your Apple
+entitlements for sandboxing your application. This file is required
+for submission to the macOS App Store.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1130,7 +1132,7 @@ external packaging software to take advantage of some of the functionality
 provided by CPack, such as component installation and the dependency graph.
 .SS Integration with External Packaging Tools
 .sp
-The CPack External generator generates a .json file containing the
+The CPack External generator generates a \fB\&.json\fP file containing the
 CPack internal metadata, which gives external software information
 on how to package the software. External packaging software may itself
 invoke CPack, consume the generated metadata,
@@ -1740,6 +1742,11 @@ Wizard style to be used (“Modern”, “Mac”, “Aero” or “Classic”).
 .UNINDENT
 .INDENT 0.0
 .TP
+.B CPACK_IFW_PACKAGE_STYLE_SHEET
+Filename for a stylesheet.
+.UNINDENT
+.INDENT 0.0
+.TP
 .B CPACK_IFW_PACKAGE_WIZARD_DEFAULT_WIDTH
 Default width of the wizard in pixels. Setting a banner image will override this.
 .UNINDENT
@@ -1960,17 +1967,17 @@ Promoting Updates:
 .UNINDENT
 .SS CPack NSIS Generator
 .sp
-CPack NSIS generator specific options
+CPack Nullsoft Scriptable Install System (NSIS) generator specific options
 .SS Variables specific to CPack NSIS generator
 .sp
 The following variables are specific to the graphical installers built
-on Windows using the Nullsoft Installation System.
+on Windows Nullsoft Scriptable Install System.
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_INSTALL_ROOT
 The default installation directory presented to the end user by the NSIS
 installer is under this root dir. The full directory presented to the end
-user is: ${CPACK_NSIS_INSTALL_ROOT}/${CPACK_PACKAGE_INSTALL_DIRECTORY}
+user is: \fB${CPACK_NSIS_INSTALL_ROOT}/${CPACK_PACKAGE_INSTALL_DIRECTORY}\fP
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1992,12 +1999,12 @@ undocumented.
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_MUI_WELCOMEFINISHPAGE_BITMAP
-The filename of a bitmap to use as the NSIS MUI_WELCOMEFINISHPAGE_BITMAP.
+The filename of a bitmap to use as the NSIS \fBMUI_WELCOMEFINISHPAGE_BITMAP\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_MUI_UNWELCOMEFINISHPAGE_BITMAP
-The filename of a bitmap to use as the NSIS MUI_UNWELCOMEFINISHPAGE_BITMAP.
+The filename of a bitmap to use as the NSIS \fBMUI_UNWELCOMEFINISHPAGE_BITMAP\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -2020,12 +2027,12 @@ your install tree is removed from the target system.
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_COMPRESSOR
-The arguments that will be passed to the NSIS SetCompressor command.
+The arguments that will be passed to the NSIS \fISetCompressor\fP command.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL
-Ask about uninstalling previous versions first.  If this is set to “ON”,
+Ask about uninstalling previous versions first.  If this is set to \fBON\fP,
 then an installer will look for previous installed versions and if one is
 found, ask the user whether to uninstall it before proceeding with the
 install.
@@ -2033,15 +2040,15 @@ install.
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_MODIFY_PATH
-Modify PATH toggle.  If this is set to “ON”, then an extra page will appear
+Modify \fBPATH\fP toggle.  If this is set to \fBON\fP, then an extra page will appear
 in the installer that will allow the user to choose whether the program
-directory should be added to the system PATH variable.
+directory should be added to the system \fBPATH\fP variable.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_DISPLAY_NAME
-The display name string that appears in the Windows Add/Remove Program
-control panel
+The display name string that appears in the Windows \fIApps & features\fP
+in \fIControl Panel\fP
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -2072,24 +2079,24 @@ process.
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_<compName>_INSTALL_DIRECTORY
-Custom install directory for the specified component <compName> instead
-of $INSTDIR.
+Custom install directory for the specified component \fB<compName>\fP instead
+of \fB$INSTDIR\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_CREATE_ICONS_EXTRA
-Additional NSIS commands for creating start menu shortcuts.
+Additional NSIS commands for creating \fIStart Menu\fP shortcuts.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_DELETE_ICONS_EXTRA
-Additional NSIS commands to uninstall start menu shortcuts.
+Additional NSIS commands to uninstall \fIStart Menu\fP shortcuts.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_EXECUTABLES_DIRECTORY
-Creating NSIS start menu links assumes that they are in ‘bin’ unless this
-variable is set.  For example, you would set this to ‘exec’ if your
+Creating NSIS \fIStart Menu\fP links assumes that they are in \fBbin\fP unless this
+variable is set.  For example, you would set this to \fBexec\fP if your
 executables are in an exec directory.
 .UNINDENT
 .INDENT 0.0
@@ -2101,8 +2108,8 @@ NSIS installer.
 .INDENT 0.0
 .TP
 .B CPACK_NSIS_MENU_LINKS
-Specify links in [application] menu.  This should contain a list of pair
-“link” “link name”. The link may be a URL or a path relative to
+Specify links in \fB[application]\fP menu.  This should contain a list of pair
+\fBlink\fP \fBlink name\fP\&. The link may be a URL or a path relative to
 installation prefix.  Like:
 .INDENT 7.0
 .INDENT 3.5
@@ -2504,12 +2511,12 @@ entities. One may find information about spec files here
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
-\fI<COMPONENT>\fP part of variables is preferred to be in upper case (for e.g. if
-component is named \fIfoo\fP then use \fICPACK_RPM_FOO_XXXX\fP variable name format)
-as is with other \fICPACK_<COMPONENT>_XXXX\fP variables.
+\fI<COMPONENT>\fP part of variables is preferred to be in upper case (e.g. if
+component is named \fBfoo\fP then use \fBCPACK_RPM_FOO_XXXX\fP variable name format)
+as is with other \fBCPACK_<COMPONENT>_XXXX\fP variables.
 For the purposes of back compatibility (CMake/CPack version 3.5 and lower)
-support for same cased component (e.g. \fIfOo\fP would be used as
-\fICPACK_RPM_fOo_XXXX\fP) is still supported for variables defined in older
+support for same cased component (e.g. \fBfOo\fP would be used as
+\fBCPACK_RPM_fOo_XXXX\fP) is still supported for variables defined in older
 versions of CMake/CPack but is not guaranteed for variables that
 will be added in the future. For the sake of back compatibility same cased
 component variables also override upper cased versions where both are
@@ -2517,8 +2524,8 @@ present.
 .UNINDENT
 .UNINDENT
 .sp
-Here are some CPack RPM generator wiki resources that are here for historic reasons and
-are no longer maintained but may still prove useful:
+Here are some CPack RPM generator wiki resources that are here for historic
+reasons and are no longer maintained but may still prove useful:
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -2542,8 +2549,8 @@ Mandatory : NO
 Default   : OFF
 .UNINDENT
 .sp
-If enabled (ON) multiple packages are generated. By default a single package
-containing files of all components is generated.
+If enabled (\fBON\fP) multiple packages are generated. By default
+a single package containing files of all components is generated.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -2589,7 +2596,7 @@ replaced by ‘\-‘
 .UNINDENT
 .UNINDENT
 .sp
-This may be set to \fBRPM\-DEFAULT\fP to allow rpmbuild tool to generate package
+This may be set to \fBRPM\-DEFAULT\fP to allow \fBrpmbuild\fP tool to generate package
 file name by itself.
 Alternatively provided package file name must end with \fB\&.rpm\fP suffix.
 .sp
@@ -2597,7 +2604,7 @@ Alternatively provided package file name must end with \fB\&.rpm\fP suffix.
 .INDENT 7.0
 .INDENT 3.5
 By using user provided spec file, rpm macro extensions such as for
-generating debuginfo packages or by simply using multiple components more
+generating \fBdebuginfo\fP packages or by simply using multiple components more
 than one rpm file may be generated, either from a single spec file or from
 multiple spec files (each component execution produces its own spec file).
 In such cases duplicate file names may occur as a result of this variable
@@ -2660,7 +2667,7 @@ Mandatory : YES
 Default   : Native architecture output by \fBuname \-m\fP
 .UNINDENT
 .sp
-This may be set to \fBnoarch\fP if you know you are building a noarch package.
+This may be set to \fBnoarch\fP if you know you are building a \fBnoarch\fP package.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -2778,7 +2785,7 @@ Default   : \-
 .UNINDENT
 .sp
 May be used to override RPM compression type to be used to build the
-RPM. For example some Linux distribution now default to lzma or xz
+RPM. For example some Linux distribution now default to \fBlzma\fP or \fBxz\fP
 compression whereas older cannot use such RPM. Using this one can enforce
 compression type to be used.
 .sp
@@ -2807,8 +2814,8 @@ Mandatory : NO
 Default   : \-
 .UNINDENT
 .sp
-May be used to enable (1, yes) or disable (0, no) automatic shared libraries
-dependency detection. Dependencies are added to requires list.
+May be used to enable (\fB1\fP, \fByes\fP) or disable (\fB0\fP, \fBno\fP) automatic
+shared libraries dependency detection. Dependencies are added to requires list.
 .sp
 \fBNOTE:\fP
 .INDENT 7.0
@@ -2830,9 +2837,9 @@ Mandatory : NO
 Default   : \-
 .UNINDENT
 .sp
-May be used to enable (1, yes) or disable (0, no) automatic listing of shared
-libraries that are provided by the package. Shared libraries are added to
-provides list.
+May be used to enable (\fB1\fP, \fByes\fP) or disable (\fB0\fP, \fBno\fP)
+automatic listing of shared libraries that are provided by the package.
+Shared libraries are added to provides list.
 .sp
 \fBNOTE:\fP
 .INDENT 7.0
@@ -2855,8 +2862,8 @@ Default   : \-
 .UNINDENT
 .sp
 Variable enables/disables autoreq and autoprov at the same time.
-See \fI\%CPACK_RPM_PACKAGE_AUTOREQ\fP and \fI\%CPACK_RPM_PACKAGE_AUTOPROV\fP
-for more details.
+See \fI\%CPACK_RPM_PACKAGE_AUTOREQ\fP and
+\fI\%CPACK_RPM_PACKAGE_AUTOPROV\fP for more details.
 .sp
 \fBNOTE:\fP
 .INDENT 7.0

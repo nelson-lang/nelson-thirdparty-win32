@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-VARIABLES" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-VARIABLES" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-variables \- CMake Variables Reference
 .
@@ -31,7 +31,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
 .sp
-This page  documents variables that are provided by CMake
+This page documents variables that are provided by CMake
 or have meaning to CMake when set by project code.
 .sp
 For general information on variables, see the
@@ -193,8 +193,9 @@ macOS are handled differently to other cross compiling scenarios. Rather than
 relying on \fBCMAKE_SYSTEM_NAME\fP to select the target platform, Apple
 device builds use \fBCMAKE_OSX_SYSROOT\fP to select the appropriate SDK,
 which indirectly determines the target platform. Furthermore, when using the
-Xcode generator, developers can switch between device and simulator builds at
-build time rather than having a single choice at configure time, so the concept
+\fBXcode\fP generator, developers can switch between device and
+simulator builds at build time rather than having a single
+choice at configure time, so the concept
 of whether the build is cross compiling or not is more complex. Therefore, the
 use of \fBCMAKE_CROSSCOMPILING\fP is not recommended for projects targeting Apple
 devices.
@@ -204,8 +205,11 @@ This variable is only used when \fBCMAKE_CROSSCOMPILING\fP is on. It
 should point to a command on the host system that can run executable built
 for the target system.
 .sp
+If this variable contains a semicolon\-separated list, then the first value is the command and remaining values are its
+arguments.
+.sp
 The command will be used to run \fBtry_run()\fP generated executables,
-which avoids manual population of the TryRunResults.cmake file.
+which avoids manual population of the \fBTryRunResults.cmake\fP file.
 .sp
 It is also used as the default value for the
 \fBCROSSCOMPILING_EMULATOR\fP target property of executables.
@@ -410,15 +414,21 @@ The generator used to build the project.  See \fBcmake\-generators(7)\fP\&.
 .sp
 The name of the generator that is being used to generate the build
 files.  (e.g.  \fBUnix Makefiles\fP, \fBNinja\fP, etc.)
+.sp
+The value of this variable should never be modified by project code.
+A generator may be selected via the \fBcmake(1)\fP \fB\-G\fP option,
+interactively in \fBcmake\-gui(1)\fP, or via the \fBCMAKE_GENERATOR\fP
+environment variable.
 .SS CMAKE_GENERATOR_INSTANCE
 .sp
 Generator\-specific instance specification provided by user.
 .sp
 Some CMake generators support selection of an instance of the native build
 system when multiple instances are available.  If the user specifies an
-instance (e.g. by setting this cache entry), or after a default instance is
-chosen when a build tree is first configured, the value will be available in
-this variable.
+instance (e.g. by setting this cache entry or via the
+\fBCMAKE_GENERATOR_INSTANCE\fP environment variable), or after a default
+instance is chosen when a build tree is first configured, the value will be
+available in this variable.
 .sp
 The value of this variable should never be modified by project code.
 A toolchain file specified by the \fBCMAKE_TOOLCHAIN_FILE\fP
@@ -442,7 +452,8 @@ Generator\-specific target platform specification provided by user.
 Some CMake generators support a target platform name to be given
 to the native build system to choose a compiler toolchain.
 If the user specifies a platform name (e.g. via the \fBcmake(1)\fP \fB\-A\fP
-option) the value will be available in this variable.
+option or via the \fBCMAKE_GENERATOR_PLATFORM\fP environment variable)
+the value will be available in this variable.
 .sp
 The value of this variable should never be modified by project code.
 A toolchain file specified by the \fBCMAKE_TOOLCHAIN_FILE\fP
@@ -470,7 +481,8 @@ Native build system toolset specification provided by user.
 .sp
 Some CMake generators support a toolset specification to tell the
 native build system how to choose a compiler.  If the user specifies
-a toolset (e.g.  via the \fBcmake(1)\fP \fB\-T\fP option) the value
+a toolset (e.g. via the \fBcmake(1)\fP \fB\-T\fP option or via
+the \fBCMAKE_GENERATOR_TOOLSET\fP environment variable) the value
 will be available in this variable.
 .sp
 The value of this variable should never be modified by project code.
@@ -637,15 +649,11 @@ The \fBNinja\fP generator sets this to \fBninja\fP\&.
 This generator stores \fBCMAKE_MAKE_PROGRAM\fP in the CMake cache
 so that it may be edited by the user.
 .IP \(bu 2
-The \fBXcode\fP generator sets this to \fBxcodebuild\fP (or possibly an
-otherwise undocumented \fBcmakexbuild\fP wrapper implementing some
-workarounds).
+The \fBXcode\fP generator sets this to \fBxcodebuild\fP\&.
 .sp
 This generator prefers to lookup the build tool at build time
 rather than to store \fBCMAKE_MAKE_PROGRAM\fP in the CMake cache
-ahead of time.  This is because \fBxcodebuild\fP is easy to find,
-the \fBcmakexbuild\fP wrapper is needed only for older Xcode versions,
-and the path to \fBcmakexbuild\fP may be outdated if CMake itself moves.
+ahead of time.  This is because \fBxcodebuild\fP is easy to find.
 .sp
 For compatibility with versions of CMake prior to 3.2, if
 a user or project explicitly adds \fBCMAKE_MAKE_PROGRAM\fP to
@@ -674,7 +682,8 @@ the CMake cache then CMake will use the specified value if
 possible.
 .IP \(bu 2
 The \fBGreen Hills MULTI\fP generator sets this to the full
-path to \fBgbuild.exe\fP based upon the toolset being used.
+path to \fBgbuild.exe(Windows)\fP or \fBgbuild(Linux)\fP based upon
+the toolset being used.
 .sp
 Once the generator has initialized a particular value for this
 variable, changing the value has undefined behavior.
@@ -1054,7 +1063,7 @@ path is modified to look for 64\-bit libraries first.
 .sp
 Whether to disable generation of installation rules.
 .sp
-If \fBTRUE\fP, cmake will neither generate installaton rules nor
+If \fBTRUE\fP, CMake will neither generate installation rules nor
 will it generate \fBcmake_install.cmake\fP files. This variable is \fBFALSE\fP by
 default.
 .SS CMAKE_SKIP_RPATH
@@ -1074,7 +1083,7 @@ This is the full path to the top level of the current CMake source
 tree.  For an in\-source build, this would be the same as
 \fBCMAKE_BINARY_DIR\fP\&.
 .sp
-When run in \-P script mode, CMake sets the variables
+When run in \fB\-P\fP script mode, CMake sets the variables
 \fBCMAKE_BINARY_DIR\fP, \fI\%CMAKE_SOURCE_DIR\fP,
 \fBCMAKE_CURRENT_BINARY_DIR\fP and
 \fBCMAKE_CURRENT_SOURCE_DIR\fP to the current working directory.
@@ -1093,6 +1102,20 @@ The suffix to use for the end of a static library filename, \fB\&.lib\fP on
 Windows.
 .sp
 \fBCMAKE_STATIC_LIBRARY_SUFFIX_<LANG>\fP overrides this for language \fB<LANG>\fP\&.
+.SS CMAKE_Swift_MODULE_DIRECTORY
+.sp
+Swift module output directory.
+.sp
+This variable is used to initialise the \fBSwift_MODULE_DIRECTORY\fP
+property on all the targets.  See the target property for additional
+information.
+.SS CMAKE_Swift_NUM_THREADS
+.sp
+Number of threads for parallel compilation for Swift targets.
+.sp
+This variable controls the number of parallel jobs that the swift driver creates
+for building targets.  If not specified, it will default to the number of
+logical CPUs on the host.
 .SS CMAKE_TOOLCHAIN_FILE
 .sp
 Path to toolchain file supplied to \fBcmake(1)\fP\&.
@@ -1229,11 +1252,21 @@ this variable contains the version number of the
 installed NVIDIA Nsight Tegra Visual Studio Edition.
 .SS CMAKE_VS_PLATFORM_NAME
 .sp
-Visual Studio target platform name.
+Visual Studio target platform name used by the current generator.
 .sp
 VS 8 and above allow project files to specify a target platform.
 CMake provides the name of the chosen platform in this variable.
 See the \fBCMAKE_GENERATOR_PLATFORM\fP variable for details.
+.sp
+See also the \fBCMAKE_VS_PLATFORM_NAME_DEFAULT\fP variable.
+.SS CMAKE_VS_PLATFORM_NAME_DEFAULT
+.sp
+Default for the Visual Studio target platform name for the current generator
+without considering the value of the \fBCMAKE_GENERATOR_PLATFORM\fP
+variable.  For Visual Studio Generators for VS 2017 and below this is
+always \fBWin32\fP\&.  For VS 2019 and above this is based on the host platform.
+.sp
+See also the \fBCMAKE_VS_PLATFORM_NAME\fP variable.
 .SS CMAKE_VS_PLATFORM_TOOLSET
 .sp
 Visual Studio Platform Toolset name.
@@ -1293,57 +1326,13 @@ a custom location.  The specified directory is expected to contain
 \fBInclude/10.0.*\fP directories.
 .SS CMAKE_XCODE_GENERATE_SCHEME
 .sp
-If enabled, the Xcode generator will generate schema files.  These
+If enabled, the \fBXcode\fP generator will generate schema files.  These
 are useful to invoke analyze, archive, build\-for\-testing and test
 actions from the command line.
 .sp
-The following target properties overwrite the default of the
-corresponding settings on the “Diagnostic” tab for each schema file.
-Each of those is initialized by the respective \fBCMAKE_\fP variable
-at target creation time.
-.INDENT 0.0
-.IP \(bu 2
-\fBXCODE_SCHEME_ADDRESS_SANITIZER\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_ADDRESS_SANITIZER_USE_AFTER_RETURN\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_DISABLE_MAIN_THREAD_CHECKER\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_DYNAMIC_LIBRARY_LOADS\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_DYNAMIC_LINKER_API_USAGE\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_GUARD_MALLOC\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_MAIN_THREAD_CHECKER_STOP\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_MALLOC_GUARD_EDGES\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_MALLOC_SCRIBBLE\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_MALLOC_STACK\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_THREAD_SANITIZER\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_THREAD_SANITIZER_STOP\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER_STOP\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_ZOMBIE_OBJECTS\fP
-.UNINDENT
-.sp
-The following target properties will be applied on the
-“Info” and “Arguments” tab:
-.INDENT 0.0
-.IP \(bu 2
-\fBXCODE_SCHEME_ARGUMENTS\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_ENVIRONMENT\fP
-.IP \(bu 2
-\fBXCODE_SCHEME_EXECUTABLE\fP
-.UNINDENT
+This variable initializes the
+\fBXCODE_GENERATE_SCHEME\fP
+target property on all targets.
 .SS CMAKE_XCODE_PLATFORM_TOOLSET
 .sp
 Xcode compiler selection.
@@ -1483,6 +1472,9 @@ Semicolon\-separated list of directories specifying a search path
 for macOS application bundles used by the \fBfind_program()\fP, and
 \fBfind_package()\fP commands.
 .SS CMAKE_AUTOMOC_RELAXED_MODE
+.sp
+Deprecated since version 3.15.
+
 .sp
 Switch between strict and relaxed automoc mode.
 .sp
@@ -1663,6 +1655,11 @@ The fatal error is emitted before the installation of the offending
 file takes place.  This variable is used by CMake\-generated
 \fBcmake_install.cmake\fP scripts.  If one sets this variable to \fBON\fP while
 running the script, it may get fatal error messages from the script.
+.SS CMAKE_EXECUTE_PROCESS_COMMAND_ECHO
+.sp
+If this variable is set to \fBSTDERR\fP, \fBSTDOUT\fP or \fBNONE\fP then commands
+in \fBexecute_process()\fP calls will be printed to either stderr or
+stdout or not at all.
 .SS CMAKE_EXPORT_COMPILE_COMMANDS
 .sp
 Enable/Disable output of compile commands during generation.
@@ -1702,14 +1699,33 @@ This option is implemented only by Makefile Generators
 and the \fBNinja\fP\&.  It is ignored on other generators.
 .UNINDENT
 .UNINDENT
+.SS CMAKE_EXPORT_PACKAGE_REGISTRY
+.sp
+Enables the \fBexport(PACKAGE)\fP command when \fBCMP0090\fP
+is set to \fBNEW\fP\&.
+.sp
+The \fBexport(PACKAGE)\fP command does nothing by default.  In some cases
+it is desirable to write to the user package registry, so the
+\fBCMAKE_EXPORT_PACKAGE_REGISTRY\fP variable may be set to enable it.
+.sp
+If \fBCMP0090\fP is \fInot\fP set to \fBNEW\fP this variable does nothing, and
+the \fBCMAKE_EXPORT_NO_PACKAGE_REGISTRY\fP variable controls the behavior
+instead.
+.sp
+See also Disabling the Package Registry\&.
 .SS CMAKE_EXPORT_NO_PACKAGE_REGISTRY
 .sp
-Disable the \fBexport(PACKAGE)\fP command.
+Disable the \fBexport(PACKAGE)\fP command when \fBCMP0090\fP
+is not set to \fBNEW\fP\&.
 .sp
 In some cases, for example for packaging and for system wide
 installations, it is not desirable to write the user package registry.
-If the \fI\%CMAKE_EXPORT_NO_PACKAGE_REGISTRY\fP variable is enabled,
+If the \fBCMAKE_EXPORT_NO_PACKAGE_REGISTRY\fP variable is enabled,
 the \fBexport(PACKAGE)\fP command will do nothing.
+.sp
+If \fBCMP0090\fP is set to \fBNEW\fP this variable does nothing, and the
+\fBCMAKE_EXPORT_PACKAGE_REGISTRY\fP variable controls the behavior
+instead.
 .sp
 See also Disabling the Package Registry\&.
 .SS CMAKE_FIND_APPBUNDLE
@@ -1831,6 +1847,32 @@ the System Package Registry as if they were called with the
 \fBNO_CMAKE_SYSTEM_PACKAGE_REGISTRY\fP argument.
 .sp
 See also Disabling the Package Registry\&.
+.SS CMAKE_FIND_PACKAGE_PREFER_CONFIG
+.sp
+Tell \fBfind_package()\fP to try “Config” mode before “Module” mode if no
+mode was specified.
+.sp
+The command \fBfind_package()\fP operates without an explicit mode when
+the reduced signature is used without the \fBMODULE\fP option. In this case,
+by default, CMake first tries Module mode by searching for a
+\fBFind<pkg>.cmake\fP module.  If it fails, CMake then searches for the package
+using Config mode.
+.sp
+Set \fBCMAKE_FIND_PACKAGE_PREFER_CONFIG\fP to \fBTRUE\fP to tell
+\fBfind_package()\fP to first search using Config mode before falling back
+to Module mode.
+.sp
+This variable may be useful when a developer has compiled a custom version of
+a common library and wishes to link it to a dependent project.  If this
+variable is set to \fBTRUE\fP, it would prevent a dependent project’s call
+to \fBfind_package()\fP from selecting the default library located by the
+system’s \fBFind<pkg>.cmake\fP module before finding the developer’s custom
+built library.
+.sp
+Once this variable is set, it is the responsibility of the exported
+\fB<pkg>Config.cmake\fP files to provide the same result variables as the
+\fBFind<pkg>.cmake\fP modules so that dependent projects can use them
+interchangeably.
 .SS CMAKE_FIND_PACKAGE_RESOLVE_SYMLINKS
 .sp
 Set to \fBTRUE\fP to tell \fBfind_package()\fP calls to resolve symbolic
@@ -1858,6 +1900,9 @@ Set \fBCMAKE_FIND_PACKAGE_WARN_NO_MODULE\fP to \fBTRUE\fP to tell
 \fBfind_package()\fP to warn when it implicitly assumes Config mode.  This
 helps developers enforce use of an explicit mode in all calls to
 \fBfind_package()\fP within a project.
+.sp
+This variable has no effect if \fBCMAKE_FIND_PACKAGE_PREFER_CONFIG\fP is
+set to \fBTRUE\fP\&.
 .SS CMAKE_FIND_ROOT_PATH
 .sp
 Semicolon\-separated list of root paths to search on the filesystem.
@@ -2217,6 +2262,9 @@ policy \fBCMP0067\fP\&.
 .IP \(bu 2
 \fBCMAKE_POLICY_WARNING_CMP0082\fP controls the warning for
 policy \fBCMP0082\fP\&.
+.IP \(bu 2
+\fBCMAKE_POLICY_WARNING_CMP0089\fP controls the warning for
+policy \fBCMP0089\fP\&.
 .UNINDENT
 .sp
 This variable should not be set by a project in CMake code.  Project
@@ -2244,11 +2292,31 @@ Semicolon\-separated list of directories specifying a search path
 for the \fBfind_program()\fP command.  By default it is empty, it is
 intended to be set by the project.  See also
 \fBCMAKE_SYSTEM_PROGRAM_PATH\fP and \fBCMAKE_PREFIX_PATH\fP\&.
+.SS CMAKE_PROJECT_INCLUDE
+.sp
+A CMake language file or module to be included as the last step of all
+\fBproject()\fP command calls.  This is intended for injecting custom code
+into project builds without modifying their source.
+.sp
+See also the \fBCMAKE_PROJECT_<PROJECT\-NAME>_INCLUDE\fP and
+\fBCMAKE_PROJECT_INCLUDE_BEFORE\fP variables.
+.SS CMAKE_PROJECT_INCLUDE_BEFORE
+.sp
+A CMake language file or module to be included as the first step of all
+\fBproject()\fP command calls.  This is intended for injecting custom code
+into project builds without modifying their source.
+.sp
+See also the \fBCMAKE_PROJECT_<PROJECT\-NAME>_INCLUDE\fP and
+\fBCMAKE_PROJECT_INCLUDE\fP variables.
 .SS CMAKE_PROJECT_<PROJECT\-NAME>_INCLUDE
 .sp
-A CMake language file or module to be included by the \fBproject()\fP
-command.  This is intended for injecting custom code into project
-builds without modifying their source.
+A CMake language file or module to be included as the last step of any
+\fBproject()\fP command calls that specify \fB<PROJECT\-NAME>\fP as the project
+name.  This is intended for injecting custom code into project builds without
+modifying their source.
+.sp
+See also the \fBCMAKE_PROJECT_INCLUDE\fP and
+\fBCMAKE_PROJECT_INCLUDE_BEFORE\fP variables.
 .SS CMAKE_SKIP_INSTALL_ALL_DEPENDENCY
 .sp
 Don’t make the \fBinstall\fP target depend on the \fBall\fP target.
@@ -2265,13 +2333,13 @@ This variable may be set to a path to install to when cross\-compiling. This can
 be useful if the path in \fBCMAKE_SYSROOT\fP is read\-only, or otherwise
 should remain pristine.
 .sp
-The \fBCMAKE_STAGING_PREFIX\fP location is also used as a search prefix by the
-\fBfind_*\fP commands. This can be controlled by setting the
+The \fI\%CMAKE_STAGING_PREFIX\fP location is also used as a search prefix
+by the \fBfind_*\fP commands. This can be controlled by setting the
 \fBCMAKE_FIND_NO_INSTALL_PREFIX\fP variable.
 .sp
-If any RPATH/RUNPATH entries passed to the linker contain the
-\fBCMAKE_STAGING_PREFIX\fP, the matching path fragments are replaced with the
-\fBCMAKE_INSTALL_PREFIX\fP\&.
+If any \fBRPATH\fP/\fBRUNPATH\fP entries passed to the linker contain the
+\fI\%CMAKE_STAGING_PREFIX\fP, the matching path fragments are replaced
+with the \fBCMAKE_INSTALL_PREFIX\fP\&.
 .SS CMAKE_SUBLIME_TEXT_2_ENV_SETTINGS
 .sp
 This variable contains a list of env vars as a list of tokens with the
@@ -2316,10 +2384,10 @@ excludes the build tree from the \fB\&.sublime\-project\fP if it is inside the
 source tree.
 .SS CMAKE_SUPPRESS_REGENERATION
 .sp
-If CMAKE_SUPPRESS_REGENERATION is \fBOFF\fP, which is default, then CMake adds a
-special target on which all other targets depend that checks the build system
-and optionally re\-runs CMake to regenerate the build system when the target
-specification source changes.
+If \fBCMAKE_SUPPRESS_REGENERATION\fP is \fBOFF\fP, which is default, then CMake
+adds a special target on which all other targets depend that checks the build
+system and optionally re\-runs CMake to regenerate the build system when
+the target specification source changes.
 .sp
 If this variable evaluates to \fBON\fP at the end of the top\-level
 \fBCMakeLists.txt\fP file, CMake will not add the regeneration target to the
@@ -2329,8 +2397,8 @@ build system or perform any build system checks.
 Path to pass to the compiler in the \fB\-\-sysroot\fP flag.
 .sp
 The \fBCMAKE_SYSROOT\fP content is passed to the compiler in the \fB\-\-sysroot\fP
-flag, if supported.  The path is also stripped from the RPATH/RUNPATH if
-necessary on installation.  The \fBCMAKE_SYSROOT\fP is also used to prefix
+flag, if supported.  The path is also stripped from the \fBRPATH\fP/\fBRUNPATH\fP
+if necessary on installation.  The \fBCMAKE_SYSROOT\fP is also used to prefix
 paths searched by the \fBfind_*\fP commands.
 .sp
 This variable may only be set in a toolchain file specified by
@@ -2483,7 +2551,7 @@ This variable initializes the
 \fBXCODE_SCHEME_ADDRESS_SANITIZER\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_ADDRESS_SANITIZER_USE_AFTER_RETURN
 .sp
@@ -2494,7 +2562,7 @@ This variable initializes the
 \fBXCODE_SCHEME_ADDRESS_SANITIZER_USE_AFTER_RETURN\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_DISABLE_MAIN_THREAD_CHECKER
 .sp
@@ -2505,7 +2573,7 @@ This variable initializes the
 \fBXCODE_SCHEME_DISABLE_MAIN_THREAD_CHECKER\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_DYNAMIC_LIBRARY_LOADS
 .sp
@@ -2516,7 +2584,7 @@ This variable initializes the
 \fBXCODE_SCHEME_DYNAMIC_LIBRARY_LOADS\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_DYNAMIC_LINKER_API_USAGE
 .sp
@@ -2527,7 +2595,7 @@ This variable initializes the
 \fBXCODE_SCHEME_DYNAMIC_LINKER_API_USAGE\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_GUARD_MALLOC
 .sp
@@ -2538,7 +2606,7 @@ This variable initializes the
 \fBXCODE_SCHEME_GUARD_MALLOC\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_MAIN_THREAD_CHECKER_STOP
 .sp
@@ -2550,7 +2618,7 @@ This variable initializes the
 \fBXCODE_SCHEME_MAIN_THREAD_CHECKER_STOP\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_MALLOC_GUARD_EDGES
 .sp
@@ -2561,7 +2629,7 @@ This variable initializes the
 \fBXCODE_SCHEME_MALLOC_GUARD_EDGES\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_MALLOC_SCRIBBLE
 .sp
@@ -2572,7 +2640,7 @@ This variable initializes the
 \fBXCODE_SCHEME_MALLOC_SCRIBBLE\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_MALLOC_STACK
 .sp
@@ -2583,7 +2651,7 @@ This variable initializes the
 \fBXCODE_SCHEME_MALLOC_STACK\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_THREAD_SANITIZER
 .sp
@@ -2594,7 +2662,7 @@ This variable initializes the
 \fBXCODE_SCHEME_THREAD_SANITIZER\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_THREAD_SANITIZER_STOP
 .sp
@@ -2605,7 +2673,7 @@ This variable initializes the
 \fBXCODE_SCHEME_THREAD_SANITIZER_STOP\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER
 .sp
@@ -2616,7 +2684,7 @@ This variable initializes the
 \fBXCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER_STOP
 .sp
@@ -2628,7 +2696,7 @@ This variable initializes the
 \fBXCODE_SCHEME_UNDEFINED_BEHAVIOUR_SANITIZER_STOP\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS CMAKE_XCODE_SCHEME_ZOMBIE_OBJECTS
 .sp
@@ -2639,13 +2707,13 @@ This variable initializes the
 \fBXCODE_SCHEME_ZOMBIE_OBJECTS\fP
 property on all targets.
 .sp
-Please refer to the \fBCMAKE_XCODE_GENERATE_SCHEME\fP variable
+Please refer to the \fBXCODE_GENERATE_SCHEME\fP target property
 documentation to see all Xcode schema related properties.
 .SS <PackageName>_ROOT
 .sp
 Calls to \fBfind_package(<PackageName>)\fP will search in prefixes
 specified by the \fB<PackageName>_ROOT\fP CMake variable, where
-\fB<PackageName>\fP is the name given to the \fBfind_package\fP call
+\fB<PackageName>\fP is the name given to the \fBfind_package()\fP call
 and \fB_ROOT\fP is literal.  For example, \fBfind_package(Foo)\fP will search
 prefixes specified in the \fBFoo_ROOT\fP CMake variable (if set).
 See policy \fBCMP0074\fP\&.
@@ -2990,8 +3058,8 @@ to \fBWindowsStore\fP\&.
 .sp
 Version of Xcode (\fBXcode\fP generator only).
 .sp
-Under the Xcode generator, this is the version of Xcode as specified
-in \fBXcode.app/Contents/version.plist\fP (such as \fB3.1.2\fP).
+Under the \fBXcode\fP generator, this is the version of Xcode
+as specified in \fBXcode.app/Contents/version.plist\fP (such as \fB3.1.2\fP).
 .SH VARIABLES THAT CONTROL THE BUILD
 .SS CMAKE_ANDROID_ANT_ADDITIONAL_OPTIONS
 .sp
@@ -3493,6 +3561,12 @@ Set the folder name. Use to organize targets in an IDE.
 .sp
 This variable is used to initialize the \fBFOLDER\fP property on all the
 targets.  See that target property for additional information.
+.SS CMAKE_FRAMEWORK
+.sp
+Default value for \fBFRAMEWORK\fP of targets.
+.sp
+This variable is used to initialize the \fBFRAMEWORK\fP property on
+all the targets.  See that target property for additional information.
 .SS CMAKE_Fortran_FORMAT
 .sp
 Set to \fBFIXED\fP or \fBFREE\fP to indicate the Fortran source layout.
@@ -3808,6 +3882,70 @@ for running commands and using dll’s that the IDE environment is not aware of.
 .sp
 If not set explicitly the value is initialized by the \fBCMAKE_MSVCIDE_RUN_PATH\fP
 environment variable, if set, and otherwise left empty.
+.SS CMAKE_MSVC_RUNTIME_LIBRARY
+.sp
+Select the MSVC runtime library for use by compilers targeting the MSVC ABI.
+This variable is used to initialize the \fBMSVC_RUNTIME_LIBRARY\fP
+property on all targets as they are created.  It is also propagated by
+calls to the \fBtry_compile()\fP command into the test project.
+.sp
+The allowed values are:
+.INDENT 0.0
+.TP
+.B \fBMultiThreaded\fP
+Compile with \fB\-MT\fP or equivalent flag(s) to use a multi\-threaded
+statically\-linked runtime library.
+.TP
+.B \fBMultiThreadedDLL\fP
+Compile with \fB\-MD\fP or equivalent flag(s) to use a multi\-threaded
+dynamically\-linked runtime library.
+.TP
+.B \fBMultiThreadedDebug\fP
+Compile with \fB\-MTd\fP or equivalent flag(s) to use a multi\-threaded
+statically\-linked runtime library.
+.TP
+.B \fBMultiThreadedDebugDLL\fP
+Compile with \fB\-MDd\fP or equivalent flag(s) to use a multi\-threaded
+dynamically\-linked runtime library.
+.UNINDENT
+.sp
+The value is ignored on non\-MSVC compilers but an unsupported value will
+be rejected as an error when using a compiler targeting the MSVC ABI.
+.sp
+The value may also be the empty string (\fB""\fP) in which case no runtime
+library selection flag will be added explicitly by CMake.  Note that with
+Visual Studio Generators the native build system may choose to
+add its own default runtime library selection flag.
+.sp
+Use \fBgenerator expressions\fP to
+support per\-configuration specification.  For example, the code:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+selects for all following targets a multi\-threaded statically\-linked runtime
+library with or without debug information depending on the configuration.
+.sp
+If this variable is not set then the \fBMSVC_RUNTIME_LIBRARY\fP target
+property will not be set automatically.  If that property is not set then
+CMake uses the default value \fBMultiThreaded$<$<CONFIG:Debug>:Debug>DLL\fP
+to select a MSVC runtime library.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This variable has effect only when policy \fBCMP0091\fP is set to \fBNEW\fP
+prior to the first \fBproject()\fP or \fBenable_language()\fP command
+that enables a language using a compiler targeting the MSVC ABI.
+.UNINDENT
+.UNINDENT
 .SS CMAKE_NINJA_OUTPUT_PATH_PREFIX
 .sp
 Set output files path prefix for the \fBNinja\fP generator.
@@ -4159,6 +4297,13 @@ Include \fBPACKAGE\fP target to default build.
 In Visual Studio solution, by default the \fBPACKAGE\fP target will not be part
 of the default build. Setting this variable will enable the \fBPACKAGE\fP target
 to be part of the default build.
+.SS CMAKE_VS_JUST_MY_CODE_DEBUGGING
+.sp
+Enable Just My Code with Visual Studio debugger.
+.sp
+This variable is used to initialize the \fBVS_JUST_MY_CODE_DEBUGGING\fP
+property on all targets when they are created.  See that target property for
+additional information.
 .SS CMAKE_VS_SDK_EXCLUDE_DIRECTORIES
 .sp
 This variable allows to override Visual Studio default Exclude Directories.
@@ -4245,7 +4390,7 @@ Use \fBCMAKE_Fortran_COMPILER_ID\fP instead.
 .SS CMAKE_CUDA_HOST_COMPILER
 .sp
 Executable to use when compiling host code when compiling \fBCUDA\fP language
-files. Maps to the nvcc \-ccbin option.  Will only be used by CMake on the first
+files. Maps to the \fBnvcc \-ccbin\fP option.  Will only be used by CMake on the first
 configuration to determine a valid host compiler for \fBCUDA\fP\&. After a valid
 host compiler has been found, this value is read\-only.
 .SS CMAKE_CUDA_EXTENSIONS
@@ -4477,6 +4622,7 @@ Absoft = Absoft Fortran (absoft.com)
 ADSP = Analog VisualDSP++ (analog.com)
 AppleClang = Apple Clang (apple.com)
 ARMCC = ARM Compiler (arm.com)
+ARMClang = ARM Compiler based on Clang (arm.com)
 Bruce = Bruce C Compiler
 CCur = Concurrent Fortran (ccur.com)
 Clang = LLVM Clang (clang.llvm.org)
@@ -4489,7 +4635,6 @@ GHS = Green Hills Software (www.ghs.com)
 HP = Hewlett\-Packard Compiler (hp.com)
 IAR = IAR Systems (iar.com)
 Intel = Intel Compiler (intel.com)
-MIPSpro = SGI MIPSpro (sgi.com)
 MSVC = Microsoft Visual Studio (microsoft.com)
 NVIDIA = NVIDIA CUDA Compiler (nvidia.com)
 OpenWatcom = Open Watcom (openwatcom.org)
@@ -4500,6 +4645,7 @@ SunPro = Oracle Solaris Studio (oracle.com)
 TI = Texas Instruments (ti.com)
 TinyCC = Tiny C Compiler (tinycc.org)
 XL, VisualAge, zOS = IBM XL (ibm.com)
+XLClang = IBM Clang\-based XL (ibm.com)
 .ft P
 .fi
 .UNINDENT
@@ -5091,14 +5237,14 @@ file. See \fBctest_read_custom_files()\fP documentation.
 .SS CTEST_CUSTOM_WARNING_EXCEPTION
 .sp
 A list of regular expressions which will be used to exclude when detecting
-warning messages in build outputs by the \fBctest_test()\fP command.
+warning messages in build outputs by the \fBctest_build()\fP command.
 .sp
 It is initialized by \fBctest(1)\fP, but may be edited in a \fBCTestCustom\fP
 file. See \fBctest_read_custom_files()\fP documentation.
 .SS CTEST_CUSTOM_WARNING_MATCH
 .sp
 A list of regular expressions which will be used to detect warning messages in
-build outputs by the \fBctest_test()\fP command.
+build outputs by the \fBctest_build()\fP command.
 .sp
 It is initialized by \fBctest(1)\fP, but may be edited in a \fBCTestCustom\fP
 file. See \fBctest_read_custom_files()\fP documentation.
@@ -5269,7 +5415,11 @@ Specify the CTest \fBUpdateOptions\fP setting
 in a \fBctest(1)\fP dashboard client script.
 .SS CTEST_UPDATE_VERSION_ONLY
 .sp
-Specify the CTest \fBUpdateVersionOnly\fP setting
+Specify the CTest UpdateVersionOnly setting
+in a \fBctest(1)\fP dashboard client script.
+.SS CTEST_UPDATE_VERSION_OVERRIDE
+.sp
+Specify the CTest UpdateVersionOverride setting
 in a \fBctest(1)\fP dashboard client script.
 .SS CTEST_USE_LAUNCHERS
 .sp
@@ -5298,7 +5448,7 @@ Ask CPack to error out as soon as a file with absolute \fBINSTALL DESTINATION\fP
 is encountered.
 .sp
 The fatal error is emitted before the installation of the offending
-file takes place.  Some CPack generators, like NSIS, enforce this
+file takes place.  Some CPack generators, like \fBNSIS\fP, enforce this
 internally.  This variable triggers the definition
 of \fBCMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION\fP when CPack
 runs.

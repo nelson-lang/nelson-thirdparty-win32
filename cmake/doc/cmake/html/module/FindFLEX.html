@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>FindFLEX &mdash; CMake 3.14.0 Documentation</title>
+  <title>FindFLEX &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -57,9 +57,10 @@
             
   <div class="section" id="findflex">
 <span id="module:FindFLEX"></span><h1>FindFLEX<a class="headerlink" href="#findflex" title="Permalink to this headline">¶</a></h1>
-<p>Find flex executable and provides a macro to generate custom build rules</p>
+<p>Find Fast Lexical Analyzer (Flex) executable and provides a macro
+to generate custom build rules</p>
 <p>The module defines the following variables:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FLEX_FOUND - true is flex executable is found
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FLEX_FOUND - True is flex executable is found
 FLEX_EXECUTABLE - the path to the flex executable
 FLEX_VERSION - the version of flex
 FLEX_LIBRARIES - The flex libraries
@@ -67,7 +68,7 @@ FLEX_INCLUDE_DIRS - The path to the flex headers
 </pre></div>
 </div>
 <p>The minimum required version of flex can be specified using the
-standard syntax, e.g.  find_package(FLEX 2.5.13)</p>
+standard syntax, e.g.  <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(FLEX</span> <span class="pre">2.5.13)</span></code></a></p>
 <p>If flex is found on the system, the module provides the macro:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FLEX_TARGET(Name FlexInput FlexOutput
             [COMPILE_FLAGS &lt;string&gt;]
@@ -75,10 +76,10 @@ standard syntax, e.g.  find_package(FLEX 2.5.13)</p>
             )
 </pre></div>
 </div>
-<p>which creates a custom command to generate the &lt;FlexOutput&gt; file from
-the &lt;FlexInput&gt; file.  If COMPILE_FLAGS option is specified, the next
+<p>which creates a custom command to generate the <code class="docutils literal notranslate"><span class="pre">FlexOutput</span></code> file from
+the <code class="docutils literal notranslate"><span class="pre">FlexInput</span></code> file.  If <code class="docutils literal notranslate"><span class="pre">COMPILE_FLAGS</span></code> option is specified, the next
 parameter is added to the flex command line. If flex is configured to
-output a header file, the DEFINES_FILE option may be used to specify its
+output a header file, the <code class="docutils literal notranslate"><span class="pre">DEFINES_FILE</span></code> option may be used to specify its
 name. Name is an alias used to get details of this custom command.
 Indeed the macro defines the following variables:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>FLEX_${Name}_DEFINED - true is the macro ran successfully
@@ -95,8 +96,8 @@ defines a macro:</p>
 </pre></div>
 </div>
 <p>which adds the required dependency between a scanner and a parser
-where &lt;FlexTarget&gt; and &lt;BisonTarget&gt; are the first parameters of
-respectively FLEX_TARGET and BISON_TARGET macros.</p>
+where <code class="docutils literal notranslate"><span class="pre">FlexTarget</span></code> and <code class="docutils literal notranslate"><span class="pre">BisonTarget</span></code> are the first parameters of
+respectively <code class="docutils literal notranslate"><span class="pre">FLEX_TARGET</span></code> and <code class="docutils literal notranslate"><span class="pre">BISON_TARGET</span></code> macros.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>====================================================================
 Example:
 </pre></div>
@@ -116,6 +117,7 @@ ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
     ${BISON_MyParser_OUTPUTS}
     ${FLEX_MyScanner_OUTPUTS}
  )
+ target_link_libraries(Foo ${FLEX_LIBRARIES})
 ====================================================================
 </pre></div>
 </div>
@@ -176,7 +178,7 @@ ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

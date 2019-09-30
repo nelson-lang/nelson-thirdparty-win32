@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>CPack RPM Generator &mdash; CMake 3.14.0 Documentation</title>
+  <title>CPack RPM Generator &mdash; CMake 3.15.3 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li> 
@@ -73,19 +73,19 @@ entities. One may find information about spec files here
 <a class="reference external" href="http://www.rpm.org/wiki/Docs">http://www.rpm.org/wiki/Docs</a></p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><cite>&lt;COMPONENT&gt;</cite> part of variables is preferred to be in upper case (for e.g. if
-component is named <cite>foo</cite> then use <cite>CPACK_RPM_FOO_XXXX</cite> variable name format)
-as is with other <cite>CPACK_&lt;COMPONENT&gt;_XXXX</cite> variables.
+<p class="last"><cite>&lt;COMPONENT&gt;</cite> part of variables is preferred to be in upper case (e.g. if
+component is named <code class="docutils literal notranslate"><span class="pre">foo</span></code> then use <code class="docutils literal notranslate"><span class="pre">CPACK_RPM_FOO_XXXX</span></code> variable name format)
+as is with other <code class="docutils literal notranslate"><span class="pre">CPACK_&lt;COMPONENT&gt;_XXXX</span></code> variables.
 For the purposes of back compatibility (CMake/CPack version 3.5 and lower)
-support for same cased component (e.g. <cite>fOo</cite> would be used as
-<cite>CPACK_RPM_fOo_XXXX</cite>) is still supported for variables defined in older
+support for same cased component (e.g. <code class="docutils literal notranslate"><span class="pre">fOo</span></code> would be used as
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_fOo_XXXX</span></code>) is still supported for variables defined in older
 versions of CMake/CPack but is not guaranteed for variables that
 will be added in the future. For the sake of back compatibility same cased
 component variables also override upper cased versions where both are
 present.</p>
 </div>
-<p>Here are some CPack RPM generator wiki resources that are here for historic reasons and
-are no longer maintained but may still prove useful:</p>
+<p>Here are some CPack RPM generator wiki resources that are here for historic
+reasons and are no longer maintained but may still prove useful:</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference external" href="https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/Configuration">https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/Configuration</a></li>
@@ -101,8 +101,8 @@ are no longer maintained but may still prove useful:</p>
 <li>Mandatory : NO</li>
 <li>Default   : OFF</li>
 </ul>
-<p>If enabled (ON) multiple packages are generated. By default a single package
-containing files of all components is generated.</p>
+<p>If enabled (<code class="docutils literal notranslate"><span class="pre">ON</span></code>) multiple packages are generated. By default
+a single package containing files of all components is generated.</p>
 </dd></dl>
 
 <dl class="variable">
@@ -145,13 +145,13 @@ containing files of all components is generated.</p>
 </dl>
 </li>
 </ul>
-<p>This may be set to <code class="docutils literal notranslate"><span class="pre">RPM-DEFAULT</span></code> to allow rpmbuild tool to generate package
+<p>This may be set to <code class="docutils literal notranslate"><span class="pre">RPM-DEFAULT</span></code> to allow <code class="docutils literal notranslate"><span class="pre">rpmbuild</span></code> tool to generate package
 file name by itself.
 Alternatively provided package file name must end with <code class="docutils literal notranslate"><span class="pre">.rpm</span></code> suffix.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By using user provided spec file, rpm macro extensions such as for
-generating debuginfo packages or by simply using multiple components more
+generating <code class="docutils literal notranslate"><span class="pre">debuginfo</span></code> packages or by simply using multiple components more
 than one rpm file may be generated, either from a single spec file or from
 multiple spec files (each component execution produces its own spec file).
 In such cases duplicate file names may occur as a result of this variable
@@ -206,7 +206,7 @@ or fixing mistakes in the version numbers of older packages.</p>
 <li>Mandatory : YES</li>
 <li>Default   : Native architecture output by <code class="docutils literal notranslate"><span class="pre">uname</span> <span class="pre">-m</span></code></li>
 </ul>
-<p>This may be set to <code class="docutils literal notranslate"><span class="pre">noarch</span></code> if you know you are building a noarch package.</p>
+<p>This may be set to <code class="docutils literal notranslate"><span class="pre">noarch</span></code> if you know you are building a <code class="docutils literal notranslate"><span class="pre">noarch</span></code> package.</p>
 </dd></dl>
 
 <dl class="variable">
@@ -310,7 +310,7 @@ if set or “no package description available”</li>
 <li>Default   : -</li>
 </ul>
 <p>May be used to override RPM compression type to be used to build the
-RPM. For example some Linux distribution now default to lzma or xz
+RPM. For example some Linux distribution now default to <code class="docutils literal notranslate"><span class="pre">lzma</span></code> or <code class="docutils literal notranslate"><span class="pre">xz</span></code>
 compression whereas older cannot use such RPM. Using this one can enforce
 compression type to be used.</p>
 <p>Possible values are:</p>
@@ -332,8 +332,8 @@ compression type to be used.</p>
 <li>Mandatory : NO</li>
 <li>Default   : -</li>
 </ul>
-<p>May be used to enable (1, yes) or disable (0, no) automatic shared libraries
-dependency detection. Dependencies are added to requires list.</p>
+<p>May be used to enable (<code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">yes</span></code>) or disable (<code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>) automatic
+shared libraries dependency detection. Dependencies are added to requires list.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By default automatic dependency detection is enabled by rpm generator.</p>
@@ -350,9 +350,9 @@ dependency detection. Dependencies are added to requires list.</p>
 <li>Mandatory : NO</li>
 <li>Default   : -</li>
 </ul>
-<p>May be used to enable (1, yes) or disable (0, no) automatic listing of shared
-libraries that are provided by the package. Shared libraries are added to
-provides list.</p>
+<p>May be used to enable (<code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">yes</span></code>) or disable (<code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>)
+automatic listing of shared libraries that are provided by the package.
+Shared libraries are added to provides list.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By default automatic provides detection is enabled by rpm generator.</p>
@@ -370,8 +370,8 @@ provides list.</p>
 <li>Default   : -</li>
 </ul>
 <p>Variable enables/disables autoreq and autoprov at the same time.
-See <span class="target" id="index-0-variable:CPACK_RPM_PACKAGE_AUTOREQ"></span><a class="reference internal" href="#variable:CPACK_RPM_PACKAGE_AUTOREQ" title="CPACK_RPM_PACKAGE_AUTOREQ"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_PACKAGE_AUTOREQ</span></code></a> and <span class="target" id="index-0-variable:CPACK_RPM_PACKAGE_AUTOPROV"></span><a class="reference internal" href="#variable:CPACK_RPM_PACKAGE_AUTOPROV" title="CPACK_RPM_PACKAGE_AUTOPROV"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_PACKAGE_AUTOPROV</span></code></a>
-for more details.</p>
+See <span class="target" id="index-0-variable:CPACK_RPM_PACKAGE_AUTOREQ"></span><a class="reference internal" href="#variable:CPACK_RPM_PACKAGE_AUTOREQ" title="CPACK_RPM_PACKAGE_AUTOREQ"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_PACKAGE_AUTOREQ</span></code></a> and
+<span class="target" id="index-0-variable:CPACK_RPM_PACKAGE_AUTOPROV"></span><a class="reference internal" href="#variable:CPACK_RPM_PACKAGE_AUTOPROV" title="CPACK_RPM_PACKAGE_AUTOPROV"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_PACKAGE_AUTOPROV</span></code></a> for more details.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By default automatic detection feature is enabled by rpm.</p>
@@ -1257,7 +1257,7 @@ example:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.14.0 Documentation</a> &#187;
+    <a href="../index.html">3.15.3 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li> 

@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-GENERATOR-EXPRESSIONS" "7" "Mar 14, 2019" "3.14.0" "CMake"
+.TH "CMAKE-GENERATOR-EXPRESSIONS" "7" "Sep 04, 2019" "3.15.3" "CMake"
 .SH NAME
 cmake-generator-expressions \- CMake Generator Expressions
 .
@@ -113,7 +113,7 @@ $<STREQUAL:$<UPPER_CASE:${foo}>,"BAR"> # "1" if ${foo} is any of "BAR", "Bar", "
 \fB1\fP if \fBvalue1\fP and \fBvalue2\fP are numerically equal, else \fB0\fP\&.
 .TP
 .B \fB$<IN_LIST:string,list>\fP
-\fB1\fP if \fBstring\fP is member of the comma\-separated \fBlist\fP, else \fB0\fP\&.
+\fB1\fP if \fBstring\fP is member of the semicolon\-separated \fBlist\fP, else \fB0\fP\&.
 Uses case\-sensitive comparisons.
 .TP
 .B \fB$<VERSION_LESS:v1,v2>\fP
@@ -143,24 +143,34 @@ The mapping in \fBMAP_IMPORTED_CONFIG_<CONFIG>\fP is also considered by
 this expression when it is evaluated on a property on an \fBIMPORTED\fP
 target.
 .TP
-.B \fB$<PLATFORM_ID:platform_id>\fP
-\fB1\fP if the CMake\-id of the platform matches \fBplatform_id\fP
-otherwise \fB0\fP\&.
+.B \fB$<PLATFORM_ID:platform_ids>\fP
+where \fBplatform_ids\fP is a comma\-separated list.
+\fB1\fP if the CMake’s platform id matches any one of the entries in
+\fBplatform_ids\fP, otherwise \fB0\fP\&.
 See also the \fBCMAKE_SYSTEM_NAME\fP variable.
 .TP
-.B \fB$<C_COMPILER_ID:compiler_id>\fP
-\fB1\fP if the CMake\-id of the C compiler matches \fBcompiler_id\fP,
-otherwise \fB0\fP\&.
+.B \fB$<C_COMPILER_ID:compiler_ids>\fP
+where \fBcompiler_ids\fP is a comma\-separated list.
+\fB1\fP if the CMake’s compiler id of the C compiler matches any one
+of the entries in \fBcompiler_ids\fP, otherwise \fB0\fP\&.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
-.B \fB$<CXX_COMPILER_ID:compiler_id>\fP
-\fB1\fP if the CMake\-id of the CXX compiler matches \fBcompiler_id\fP,
-otherwise \fB0\fP\&.
+.B \fB$<CXX_COMPILER_ID:compiler_ids>\fP
+where \fBcompiler_ids\fP is a comma\-separated list.
+\fB1\fP if the CMake’s compiler id of the CXX compiler matches any one
+of the entries in \fBcompiler_ids\fP, otherwise \fB0\fP\&.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
-.B \fB$<Fortran_COMPILER_ID:compiler_id>\fP
-\fB1\fP if the CMake\-id of the Fortran compiler matches \fBcompiler_id\fP,
-otherwise \fB0\fP\&.
+.B \fB$<CUDA_COMPILER_ID:compiler_ids>\fP
+where \fBcompiler_ids\fP is a comma\-separated list.
+\fB1\fP if the CMake’s compiler id of the CUDA compiler matches any one
+of the entries in \fBcompiler_ids\fP, otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
+.TP
+.B \fB$<Fortran_COMPILER_ID:compiler_ids>\fP
+where \fBcompiler_ids\fP is a comma\-separated list.
+\fB1\fP if the CMake’s compiler id of the Fortran compiler matches any one
+of the entries in \fBcompiler_ids\fP, otherwise \fB0\fP\&.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
 .B \fB$<C_COMPILER_VERSION:version>\fP
@@ -168,6 +178,10 @@ See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
 .TP
 .B \fB$<CXX_COMPILER_VERSION:version>\fP
+\fB1\fP if the version of the CXX compiler matches \fBversion\fP, otherwise \fB0\fP\&.
+See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<CUDA_COMPILER_VERSION:version>\fP
 \fB1\fP if the version of the CXX compiler matches \fBversion\fP, otherwise \fB0\fP\&.
 See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
 .TP
@@ -193,10 +207,58 @@ compile features and a list of supported compilers.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B \fB$<COMPILE_LANGUAGE:language>\fP
-\fB1\fP when the language used for compilation unit matches \fBlanguage\fP,
-otherwise \fB0\fP\&.  This expression may be used to specify compile options,
-compile definitions, and include directories for source files of a
+.B \fB$<COMPILE_LANG_AND_ID:language,compiler_ids>\fP
+\fB1\fP when the language used for compilation unit matches \fBlanguage\fP and
+the CMake’s compiler id of the language compiler matches any one of the
+entries in \fBcompiler_ids\fP, otherwise \fB0\fP\&. This expression is a short form
+for the combination of \fB$<COMPILE_LANGUAGE:language>\fP and
+\fB$<LANG_COMPILER_ID:compiler_ids>\fP\&. This expression may be used to specify
+compile options, compile definitions, and include directories for source files of a
+particular language and compiler combination in a target. For example:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_executable(myapp main.cpp foo.c bar.cpp zot.cu)
+target_compile_definitions(myapp
+  PRIVATE $<$<COMPILE_LANG_AND_ID:CXX,AppleClang,Clang>:COMPILING_CXX_WITH_CLANG>
+          $<$<COMPILE_LANG_AND_ID:CXX,Intel>:COMPILING_CXX_WITH_INTEL>
+          $<$<COMPILE_LANG_AND_ID:C,Clang>:COMPILING_C_WITH_CLANG>
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This specifies the use of different compile definitions based on both
+the compiler id and compilation language. This example will have a
+\fBCOMPILING_CXX_WITH_CLANG\fP compile definition when Clang is the CXX
+compiler, and \fBCOMPILING_CXX_WITH_INTEL\fP when Intel is the CXX compiler.
+Likewise when the C compiler is Clang it will only see the  \fBCOMPILING_C_WITH_CLANG\fP
+definition.
+.sp
+Without the \fBCOMPILE_LANG_AND_ID\fP generator expression the same logic
+would be expressed as:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+target_compile_definitions(myapp
+  PRIVATE $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:Clang>>:COMPILING_CXX_WITH_CLANG>
+          $<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:Intel>>:COMPILING_CXX_WITH_INTEL>
+          $<$<AND:$<COMPILE_LANGUAGE:C>,$<C_COMPILER_ID:Clang>>:COMPILING_C_WITH_CLANG>
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.TP
+.B \fB$<COMPILE_LANGUAGE:languages>\fP
+\fB1\fP when the language used for compilation unit matches any of the entries
+in \fBlanguages\fP, otherwise \fB0\fP\&.  This expression may be used to specify
+compile options, compile definitions, and include directories for source files of a
 particular language in a target. For example:
 .INDENT 7.0
 .INDENT 3.5
@@ -212,7 +274,7 @@ target_compile_definitions(myapp
           $<$<COMPILE_LANGUAGE:CUDA>:COMPILING_CUDA>
 )
 target_include_directories(myapp
-  PRIVATE $<$<COMPILE_LANGUAGE:CXX>:/opt/foo/cxx_headers>
+  PRIVATE $<$<COMPILE_LANGUAGE:CXX,CUDA>:/opt/foo/headers>
 )
 .ft P
 .fi
@@ -364,6 +426,12 @@ otherwise expands to the empty string.
 .B \fB$<JOIN:list,string>\fP
 Joins the list with the content of \fBstring\fP\&.
 .TP
+.B \fB$<REMOVE_DUPLICATES:list>\fP
+Removes duplicated items in the given \fBlist\fP\&.
+.TP
+.B \fB$<FILTER:list,INCLUDE|EXCLUDE,regex>\fP
+Includes or removes items from \fBlist\fP that match the regular expression \fBregex\fP\&.
+.TP
 .B \fB$<LOWER_CASE:string>\fP
 Content of \fBstring\fP converted to lower case.
 .TP
@@ -433,19 +501,23 @@ Configuration name.
 Configuration name. Deprecated since CMake 3.0. Use \fBCONFIG\fP instead.
 .TP
 .B \fB$<PLATFORM_ID>\fP
-The CMake\-id of the platform.
+The current system’s CMake platform id.
 See also the \fBCMAKE_SYSTEM_NAME\fP variable.
 .TP
 .B \fB$<C_COMPILER_ID>\fP
-The CMake\-id of the C compiler used.
+The CMake’s compiler id of the C compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
 .B \fB$<CXX_COMPILER_ID>\fP
-The CMake\-id of the CXX compiler used.
+The CMake’s compiler id of the CXX compiler used.
+See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
+.TP
+.B \fB$<CUDA_COMPILER_ID>\fP
+The CMake’s compiler id of the CUDA compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
 .B \fB$<Fortran_COMPILER_ID>\fP
-The CMake\-id of the Fortran compiler used.
+The CMake’s compiler id of the Fortran compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_ID\fP variable.
 .TP
 .B \fB$<C_COMPILER_VERSION>\fP
@@ -454,6 +526,10 @@ See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
 .TP
 .B \fB$<CXX_COMPILER_VERSION>\fP
 The version of the CXX compiler used.
+See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
+.TP
+.B \fB$<CUDA_COMPILER_VERSION>\fP
+The version of the CUDA compiler used.
 See also the \fBCMAKE_<LANG>_COMPILER_VERSION\fP variable.
 .TP
 .B \fB$<Fortran_COMPILER_VERSION>\fP
@@ -474,7 +550,46 @@ Expands to the \fBtgt\fP if the given target exists, an empty string
 otherwise.
 .TP
 .B \fB$<TARGET_FILE:tgt>\fP
-Full path to main file (.exe, .so.1.2, .a) where \fBtgt\fP is the name of a target.
+Full path to main file (.exe, .so.1.2, .a) where \fBtgt\fP is the name of a
+target.
+.TP
+.B \fB$<TARGET_FILE_BASE_NAME:tgt>\fP
+Base name of main file where \fBtgt\fP is the name of a target.
+.sp
+The base name corresponds to the target file name (see
+\fB$<TARGET_FILE_NAME:tgt>\fP) without prefix and suffix. For example, if
+target file name is \fBlibbase.so\fP, the base name is \fBbase\fP\&.
+.sp
+See also the \fBOUTPUT_NAME\fP, \fBARCHIVE_OUTPUT_NAME\fP,
+\fBLIBRARY_OUTPUT_NAME\fP and \fBRUNTIME_OUTPUT_NAME\fP
+target properties and their configuration specific variants
+\fBOUTPUT_NAME_<CONFIG>\fP, \fBARCHIVE_OUTPUT_NAME_<CONFIG>\fP,
+\fBLIBRARY_OUTPUT_NAME_<CONFIG>\fP and
+\fBRUNTIME_OUTPUT_NAME_<CONFIG>\fP\&.
+.sp
+The \fB<CONFIG>_POSTFIX\fP and \fBDEBUG_POSTFIX\fP target
+properties can also be considered.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
+.TP
+.B \fB$<TARGET_FILE_PREFIX:tgt>\fP
+Prefix of main file where \fBtgt\fP is the name of a target.
+.sp
+See also the \fBPREFIX\fP target property.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
+.TP
+.B \fB$<TARGET_FILE_SUFFIX:tgt>\fP
+Suffix of main file where \fBtgt\fP is the name of a target.
+.sp
+The suffix corresponds to the file extension (such as “.so” or “.exe”).
+.sp
+See also the \fBSUFFIX\fP target property.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
 .TP
 .B \fB$<TARGET_FILE_NAME:tgt>\fP
 Name of main file (.exe, .so.1.2, .a).
@@ -484,6 +599,45 @@ Directory of main file (.exe, .so.1.2, .a).
 .TP
 .B \fB$<TARGET_LINKER_FILE:tgt>\fP
 File used to link (.a, .lib, .so) where \fBtgt\fP is the name of a target.
+.TP
+.B \fB$<TARGET_LINKER_FILE_BASE_NAME:tgt>\fP
+Base name of file used to link where \fBtgt\fP is the name of a target.
+.sp
+The base name corresponds to the target linker file name (see
+\fB$<TARGET_LINKER_FILE_NAME:tgt>\fP) without prefix and suffix. For example,
+if target file name is \fBlibbase.a\fP, the base name is \fBbase\fP\&.
+.sp
+See also the \fBOUTPUT_NAME\fP, \fBARCHIVE_OUTPUT_NAME\fP,
+and \fBLIBRARY_OUTPUT_NAME\fP target properties and their configuration
+specific variants \fBOUTPUT_NAME_<CONFIG>\fP,
+\fBARCHIVE_OUTPUT_NAME_<CONFIG>\fP and
+\fBLIBRARY_OUTPUT_NAME_<CONFIG>\fP\&.
+.sp
+The \fB<CONFIG>_POSTFIX\fP and \fBDEBUG_POSTFIX\fP target
+properties can also be considered.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
+.TP
+.B \fB$<TARGET_LINKER_FILE_PREFIX:tgt>\fP
+Prefix of file used to link where \fBtgt\fP is the name of a target.
+.sp
+See also the \fBPREFIX\fP and \fBIMPORT_PREFIX\fP target
+properties.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
+.TP
+.B \fB$<TARGET_LINKER_FILE_SUFFIX:tgt>\fP
+Suffix of file used to link where \fBtgt\fP is the name of a target.
+.sp
+The suffix corresponds to the file extension (such as “.so” or “.lib”).
+.sp
+See also the \fBSUFFIX\fP and \fBIMPORT_SUFFIX\fP target
+properties.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
 .TP
 .B \fB$<TARGET_LINKER_FILE_NAME:tgt>\fP
 Name of file used to link (.a, .lib, .so).
@@ -507,6 +661,23 @@ where \fBtgt\fP is the name of a target.
 See also the \fBPDB_NAME\fP and \fBPDB_OUTPUT_DIRECTORY\fP
 target properties and their configuration specific variants
 \fBPDB_NAME_<CONFIG>\fP and \fBPDB_OUTPUT_DIRECTORY_<CONFIG>\fP\&.
+.TP
+.B \fB$<TARGET_PDB_FILE_BASE_NAME:tgt>\fP
+Base name of the linker generated program database file (.pdb)
+where \fBtgt\fP is the name of a target.
+.sp
+The base name corresponds to the target PDB file name (see
+\fB$<TARGET_PDB_FILE_NAME:tgt>\fP) without prefix and suffix. For example,
+if target file name is \fBbase.pdb\fP, the base name is \fBbase\fP\&.
+.sp
+See also the \fBPDB_NAME\fP target property and its configuration
+specific variant \fBPDB_NAME_<CONFIG>\fP\&.
+.sp
+The \fB<CONFIG>_POSTFIX\fP and \fBDEBUG_POSTFIX\fP target
+properties can also be considered.
+.sp
+Note that \fBtgt\fP is not added as a dependency of the target this
+expression is evaluated on.
 .TP
 .B \fB$<TARGET_PDB_FILE_NAME:tgt>\fP
 Name of the linker generated program database file (.pdb).
@@ -572,13 +743,17 @@ Content of \fB\&...\fP converted to a C identifier.  The conversion follows the
 same behavior as \fBstring(MAKE_C_IDENTIFIER)\fP\&.
 .TP
 .B \fB$<TARGET_OBJECTS:objLib>\fP
-List of objects resulting from build of \fBobjLib\fP\&. \fBobjLib\fP must be an
-object of type \fBOBJECT_LIBRARY\fP\&.
+List of objects resulting from build of \fBobjLib\fP\&.
 .TP
 .B \fB$<SHELL_PATH:...>\fP
 Content of \fB\&...\fP converted to shell path style. For example, slashes are
 converted to backslashes in Windows shells and drive letters are converted
 to posix paths in MSYS shells. The \fB\&...\fP must be an absolute path.
+The \fB\&...\fP may be a semicolon\-separated list
+of paths, in which case each path is converted individually and a result
+list is generated using the shell path separator (\fB:\fP on POSIX and
+\fB;\fP on Windows).  Be sure to enclose the argument containing this genex
+in double quotes in CMake source code so that \fB;\fP does not split arguments.
 .UNINDENT
 .SH DEBUGGING
 .sp
