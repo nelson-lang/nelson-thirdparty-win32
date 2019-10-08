@@ -1,36 +1,19 @@
 #ifndef OPENBLAS_CONFIG_H
 #define OPENBLAS_CONFIG_H
 #define OPENBLAS_OS_WINNT 1
-
-#if defined(_WIN64)
-#define OPENBLAS_ARCH_X86_64 1
-#elif defined(_WIN32)
 #define OPENBLAS_ARCH_X86 1
-#else
-#error OS/CPU architecture not supported.
-#endif
-
-#if defined(_WIN64)
-#define OPENBLAS___64BIT__ 1
-#elif defined(_WIN32)
-#define OPENBLAS___32BIT__ 1
-#else
-#error OS/CPU architecture not supported.
-#endif
-
 #define OPENBLAS_C_GCC 1
-#define OPENBLAS_PTHREAD_CREATE_FUNC pthread_create
-#if !defined(_WIN64)
+#define OPENBLAS___32BIT__ 1
 #define OPENBLAS_FUNDERSCORE _
-#endif
+#define OPENBLAS_PTHREAD_CREATE_FUNC pthread_create
 #define OPENBLAS_BUNDERSCORE _
 #define OPENBLAS_NEEDBUNDERSCORE 1
-#define OPENBLAS_NEHALEM 
+#define OPENBLAS_CORE2 
 #define OPENBLAS_L1_DATA_SIZE 32768
 #define OPENBLAS_L1_DATA_LINESIZE 64
-#define OPENBLAS_L2_SIZE 262144
+#define OPENBLAS_L2_SIZE 1048576
 #define OPENBLAS_L2_LINESIZE 64
-#define OPENBLAS_DTB_DEFAULT_ENTRIES 64
+#define OPENBLAS_DTB_DEFAULT_ENTRIES 256
 #define OPENBLAS_DTB_SIZE 4096
 #define OPENBLAS_HAVE_CMOV 
 #define OPENBLAS_HAVE_MMX 
@@ -38,26 +21,14 @@
 #define OPENBLAS_HAVE_SSE2 
 #define OPENBLAS_HAVE_SSE3 
 #define OPENBLAS_HAVE_SSSE3 
-#define OPENBLAS_HAVE_SSE4_1 
-#define OPENBLAS_HAVE_SSE4_2 
-#define OPENBLAS_CORE_NEHALEM 
-#define OPENBLAS_CHAR_CORENAME "NEHALEM"
-#if defined(_WIN64)
-#define OPENBLAS_SLOCAL_BUFFER_SIZE 65536
-#define OPENBLAS_DLOCAL_BUFFER_SIZE 32768
-#define OPENBLAS_CLOCAL_BUFFER_SIZE 65536
-#define OPENBLAS_ZLOCAL_BUFFER_SIZE 32768
-#elif defined(_WIN32)
-#define OPENBLAS_SLOCAL_BUFFER_SIZE 32768
-#define OPENBLAS_DLOCAL_BUFFER_SIZE 16384
-#define OPENBLAS_CLOCAL_BUFFER_SIZE 32768
-#define OPENBLAS_ZLOCAL_BUFFER_SIZE 16384
-#else
-#error OS/CPU architecture not supported.
-#endif
-
+#define OPENBLAS_CORE_CORE2 
+#define OPENBLAS_CHAR_CORENAME "CORE2"
+#define OPENBLAS_SLOCAL_BUFFER_SIZE 8192
+#define OPENBLAS_DLOCAL_BUFFER_SIZE 8192
+#define OPENBLAS_CLOCAL_BUFFER_SIZE 8192
+#define OPENBLAS_ZLOCAL_BUFFER_SIZE 8192
 #define OPENBLAS_GEMM_MULTITHREAD_THRESHOLD 4
-#define OPENBLAS_VERSION " OpenBLAS 0.2.14 "
+#define OPENBLAS_VERSION " OpenBLAS 0.3.7 "
 /*This is only for "make install" target.*/
 
 #if defined(OPENBLAS_OS_WINNT) || defined(OPENBLAS_OS_CYGWIN_NT) || defined(OPENBLAS_OS_INTERIX)
@@ -118,8 +89,8 @@ typedef int blasint;
 /* C99 supports complex floating numbers natively, which GCC also offers as an
    extension since version 3.0.  If neither are available, use a compatible
    structure as fallback (see Clause 6.2.5.13 of the C99 standard). */
-#if (defined(__STDC_IEC_559_COMPLEX__) || __STDC_VERSION__ >= 199901L || \
-     (__GNUC__ >= 3 && !defined(__cplusplus)))
+#if ((defined(__STDC_IEC_559_COMPLEX__) || __STDC_VERSION__ >= 199901L || \
+      (__GNUC__ >= 3 && !defined(__cplusplus))) && !(defined(FORCE_OPENBLAS_COMPLEX_STRUCT))) && !defined(_MSC_VER)
   #define OPENBLAS_COMPLEX_C99
 #ifndef __cplusplus
   #include <complex.h>
