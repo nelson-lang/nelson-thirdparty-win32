@@ -50,8 +50,8 @@ mkdir ..\NelSon\tools\gettext
 xcopy /E /Y gettext ..\NelSon\tools\gettext\
 
 rem vc runtime
-copy .\vc14.1-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
-copy .\vc14.1-runtime\*.exe ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
+copy .\vc14.2-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+copy .\vc14.2-runtime\*.exe ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
 
 rem intel runtime
 copy .\intel-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
