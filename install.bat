@@ -134,7 +134,8 @@ copy %QTDIR%\bin\Qt5WebSockets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5WebView.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5Widgets.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt5WinExtras.dll ..\NelSon\bin\%PLATFORM_NELSON%\
-copy %QTDIR64%\bin\Qt5QmlWorkerScript.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5QmlWorkerScript.dll ..\NelSon\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt5QmlModels.dll ..\NelSon\bin\%PLATFORM_NELSON%\
 
 rem openblas
 mkdir ..\NelSon\bin\%PLATFORM_NELSON%\openblas
