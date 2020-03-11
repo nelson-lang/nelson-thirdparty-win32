@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008-2019, Christopher C. Hulbert
+ * Copyright (c) 2008-2020, Christopher C. Hulbert
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@
 EXTERN mat_t    *Mat_Create4(const char* matname);
 
 EXTERN int       Mat_VarWrite4(mat_t *mat,matvar_t *matvar);
-EXTERN void      Mat_VarRead4(mat_t *mat, matvar_t *matvar);
+EXTERN int       Mat_VarRead4(mat_t *mat, matvar_t *matvar);
 EXTERN int       Mat_VarReadData4(mat_t *mat,matvar_t *matvar,void *data,
                      int *start,int *stride,int *edge);
 EXTERN int       Mat_VarReadDataLinear4(mat_t *mat,matvar_t *matvar,void *data,int start,

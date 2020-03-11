@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2019, Christopher C. Hulbert
+ * Copyright (c) 2010-2020, Christopher C. Hulbert
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -123,6 +123,9 @@
 
 #if MATIO_HAVE_STDINT_H
 #   include <stdint.h>
+#else
+#   include "stdint_msvc.h"
+#define MATIO_HAVE_STDINT_H 1
 #endif
 
 #ifdef _mat_int64_t
