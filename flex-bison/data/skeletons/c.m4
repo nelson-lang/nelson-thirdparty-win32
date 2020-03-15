@@ -2,7 +2,8 @@
 
 # C M4 Macros for Bison.
 
-# Copyright (C) 2002, 2004-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004-2015, 2018-2019 Free Software Foundation,
+# Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_include(b4_pkgdatadir/[c-like.m4])
+m4_include(b4_skeletonsdir/[c-like.m4])
 
 # b4_tocpp(STRING)
 # ----------------
@@ -97,7 +98,8 @@ m4_define([b4_api_PREFIX],
 m4_define_default([b4_prefix], [b4_api_prefix])
 
 # If the %union is not named, its name is YYSTYPE.
-m4_define_default([b4_union_name], [b4_api_PREFIX[]STYPE])
+b4_percent_define_default([[api.value.union.name]],
+                          [b4_api_PREFIX[][STYPE]])
 
 
 ## ------------------------ ##
@@ -165,70 +167,171 @@ b4_parse_param_for([Decl], [Formal], [  YYUSE (Formal);
 
 # b4_int_type(MIN, MAX)
 # ---------------------
-# Return the smallest int type able to handle numbers ranging from
-# MIN to MAX (included).
+# Return a narrow int type able to handle integers ranging from MIN
+# to MAX (included) in portable C code.  Assume MIN and MAX fall in
+# 'int' range.
 m4_define([b4_int_type],
-[m4_if(b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
-       b4_ints_in($@,   [-128],   [127]), [1], [signed char],
+[m4_if(b4_ints_in($@,   [-127],   [127]), [1], [signed char],
+       b4_ints_in($@,      [0],   [255]), [1], [unsigned char],
 
-       b4_ints_in($@,      [0], [65535]), [1], [unsigned short int],
-       b4_ints_in($@, [-32768], [32767]), [1], [short int],
-
-       m4_eval([0 <= $1]),                [1], [unsigned int],
+       b4_ints_in($@, [-32767], [32767]), [1], [short],
+       b4_ints_in($@,      [0], [65535]), [1], [unsigned short],
 
                                                [int])])
+
+# b4_c99_int_type(MIN, MAX)
+# -------------------------
+# Like b4_int_type, but for C99.
+# b4_c99_int_type_define replaces b4_int_type with this.
+m4_define([b4_c99_int_type],
+[m4_if(b4_ints_in($@,   [-127],   [127]), [1], [yytype_int8],
+       b4_ints_in($@,      [0],   [255]), [1], [yytype_uint8],
+
+       b4_ints_in($@, [-32767], [32767]), [1], [yytype_int16],
+       b4_ints_in($@,      [0], [65535]), [1], [yytype_uint16],
+
+                                               [int])])
+
+# b4_c99_int_type_define
+# ----------------------
+# Define private types suitable for holding small integers in C99 or later.
+m4_define([b4_c99_int_type_define],
+[m4_copy_force([b4_c99_int_type], [b4_int_type])dnl
+[/* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
+   <limits.h> and (if available) <stdint.h> are included
+   so that the code can choose integer types of a good width.  */
+
+#ifndef __PTRDIFF_MAX__
+# include <limits.h> /* INFRINGES ON USER NAME SPACE */
+# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
+#  define YY_STDINT_H
+# endif
+#endif
+
+/* Narrow types that promote to a signed type and that can represent a
+   signed or unsigned integer of at least N bits.  In tables they can
+   save space and decrease cache pressure.  Promoting to a signed type
+   helps avoid bugs in integer arithmetic.  */
+
+#ifdef __INT_LEAST8_MAX__
+typedef __INT_LEAST8_TYPE__ yytype_int8;
+#elif defined YY_STDINT_H
+typedef int_least8_t yytype_int8;
+#else
+typedef signed char yytype_int8;
+#endif
+
+#ifdef __INT_LEAST16_MAX__
+typedef __INT_LEAST16_TYPE__ yytype_int16;
+#elif defined YY_STDINT_H
+typedef int_least16_t yytype_int16;
+#else
+typedef short yytype_int16;
+#endif
+
+#if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
+typedef __UINT_LEAST8_TYPE__ yytype_uint8;
+#elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
+       && UINT_LEAST8_MAX <= INT_MAX)
+typedef uint_least8_t yytype_uint8;
+#elif !defined __UINT_LEAST8_MAX__ && UCHAR_MAX <= INT_MAX
+typedef unsigned char yytype_uint8;
+#else
+typedef short yytype_uint8;
+#endif
+
+#if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
+typedef __UINT_LEAST16_TYPE__ yytype_uint16;
+#elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
+       && UINT_LEAST16_MAX <= INT_MAX)
+typedef uint_least16_t yytype_uint16;
+#elif !defined __UINT_LEAST16_MAX__ && USHRT_MAX <= INT_MAX
+typedef unsigned short yytype_uint16;
+#else
+typedef int yytype_uint16;
+#endif]])
 
 
 # b4_int_type_for(NAME)
 # ---------------------
-# Return the smallest int type able to handle numbers ranging from
+# Return a narrow int type able to handle numbers ranging from
 # 'NAME_min' to 'NAME_max' (included).
 m4_define([b4_int_type_for],
 [b4_int_type($1_min, $1_max)])
 
 
-# b4_table_value_equals(TABLE, VALUE, LITERAL)
-# --------------------------------------------
+# b4_table_value_equals(TABLE, VALUE, LITERAL, SYMBOL)
+# ----------------------------------------------------
 # Without inducing a comparison warning from the compiler, check if the
 # literal value LITERAL equals VALUE from table TABLE, which must have
-# TABLE_min and TABLE_max defined.
+# TABLE_min and TABLE_max defined.  SYMBOL denotes
 m4_define([b4_table_value_equals],
 [m4_if(m4_eval($3 < m4_indir([b4_]$1[_min])
                || m4_indir([b4_]$1[_max]) < $3), [1],
        [[0]],
-       [(!!(($2) == ($3)))])])
+       [(($2) == $4)])])
 
 
 ## ----------------- ##
 ## Compiler issues.  ##
 ## ----------------- ##
 
-# b4_attribute_define
-# -------------------
-# Provide portability for __attribute__.
+# b4_attribute_define([noreturn])
+# -------------------------------
+# Provide portable compiler "attributes".  If "noreturn" is passed, define
+# _Noreturn.
 m4_define([b4_attribute_define],
-[#ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-# if (! defined __GNUC__ || __GNUC__ < 2 \
-      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#  define __attribute__(Spec) /* empty */
+[[#ifndef YY_ATTRIBUTE_PURE
+# if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
+#  define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
+# else
+#  define YY_ATTRIBUTE_PURE
 # endif
 #endif
 
-/* Suppress unused-variable warnings by "using" E.  */
+#ifndef YY_ATTRIBUTE_UNUSED
+# if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
+#  define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
+# else
+#  define YY_ATTRIBUTE_UNUSED
+# endif
+#endif
+
+]m4_bmatch([$1], [\bnoreturn\b], [[/* The _Noreturn keyword of C11.  */
+]dnl This is an exact copy of lib/_Noreturn.h.
+[#ifndef _Noreturn
+# if (defined __cplusplus \
+      && ((201103 <= __cplusplus && !(__GNUC__ == 4 && __GNUC_MINOR__ == 7)) \
+          || (defined _MSC_VER && 1900 <= _MSC_VER)))
+#  define _Noreturn [[noreturn]]
+# elif ((!defined __cplusplus || defined __clang__) \
+        && (201112 <= (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0)  \
+            || 4 < __GNUC__ + (7 <= __GNUC_MINOR__)))
+   /* _Noreturn works as-is.  */
+# elif 2 < __GNUC__ + (8 <= __GNUC_MINOR__) || 0x5110 <= __SUNPRO_C
+#  define _Noreturn __attribute__ ((__noreturn__))
+# elif 1200 <= (defined _MSC_VER ? _MSC_VER : 0)
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn
+# endif
+#endif
+
+]])[/* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
 #else
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
-    _Pragma ("GCC diagnostic push") \
-    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
+    _Pragma ("GCC diagnostic push")                                     \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
     _Pragma ("GCC diagnostic pop")
 #else
 # define YY_INITIAL_VALUE(Value) Value
@@ -240,24 +343,53 @@ m4_define([b4_attribute_define],
 #ifndef YY_INITIAL_VALUE
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
+
+#if defined __cplusplus && defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
+# define YY_IGNORE_USELESS_CAST_BEGIN                          \
+    _Pragma ("GCC diagnostic push")                            \
+    _Pragma ("GCC diagnostic ignored \"-Wuseless-cast\"")
+# define YY_IGNORE_USELESS_CAST_END            \
+    _Pragma ("GCC diagnostic pop")
+#endif
+#ifndef YY_IGNORE_USELESS_CAST_BEGIN
+# define YY_IGNORE_USELESS_CAST_BEGIN
+# define YY_IGNORE_USELESS_CAST_END
+#endif
+]])
+
+
+# b4_cast_define
+# --------------
+m4_define([b4_cast_define],
+[# ifndef YY_CAST
+#  ifdef __cplusplus
+#   define YY_CAST(Type, Val) static_cast<Type> (Val)
+#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
+#  else
+#   define YY_CAST(Type, Val) ((Type) (Val))
+#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
+#  endif
+# endif[]dnl
 ])
-
-
-## ---------##
-## Values.  ##
-## ---------##
 
 
 # b4_null_define
 # --------------
-# Portability issues: define a YY_NULL appropriate for the current
+# Portability issues: define a YY_NULLPTR appropriate for the current
 # language (C, C++98, or C++11).
+#
+# In C++ pre C++11 it is standard practice to use 0 (not NULL) for the
+# null pointer.  In C, prefer ((void*)0) to avoid having to include stdlib.h.
 m4_define([b4_null_define],
-[# ifndef YY_NULL
-#  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+[# ifndef YY_NULLPTR
+#  if defined __cplusplus
+#   if 201103L <= __cplusplus
+#    define YY_NULLPTR nullptr
+#   else
+#    define YY_NULLPTR 0
+#   endif
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR ((void*)0)
 #  endif
 # endif[]dnl
 ])
@@ -266,7 +398,13 @@ m4_define([b4_null_define],
 # b4_null
 # -------
 # Return a null pointer constant.
-m4_define([b4_null], [YY_NULL])
+m4_define([b4_null], [YY_NULLPTR])
+
+
+
+## ---------##
+## Values.  ##
+## ---------##
 
 # b4_integral_parser_table_define(TABLE-NAME, CONTENT, COMMENT)
 # -------------------------------------------------------------
@@ -337,15 +475,17 @@ m4_define([b4_token_enums_defines],
 ## ----------------- ##
 
 
-# b4_symbol_value(VAL, [TYPE])
-# ----------------------------
-# Given a semantic value VAL ($$, $1 etc.), extract its value of type
-# TYPE if TYPE is given, otherwise just return VAL.  The result can be
-# used safetly, it is put in parens to avoid nasty precedence issues.
-# TYPE is *not* put in braces, provide some if needed.
+# b4_symbol_value(VAL, [SYMBOL-NUM], [TYPE-TAG])
+# ----------------------------------------------
+# See README.
 m4_define([b4_symbol_value],
-[($1[]m4_ifval([$2], [.$2]))])
-
+[m4_ifval([$3],
+          [($1.$3)],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [($1.b4_symbol([$2], [type]))],
+                                  [$1])],
+                    [$1])])])
 
 
 ## ---------------------- ##
@@ -431,7 +571,7 @@ m4_define([b4_sync_start], [[#]line $1 $2])
 m4_define([b4_case],
 [  case $1:
 $2
-b4_syncline([@oline@], [@ofile@])
+b4_syncline([@oline@], [@ofile@])dnl
     break;])
 
 
@@ -439,8 +579,9 @@ b4_syncline([@oline@], [@ofile@])
 # ------------------------------------
 m4_define([b4_predicate_case],
 [  case $1:
-    if (! ($2)) YYERROR;
-b4_syncline([@oline@], [@ofile@])
+    if (! (
+$2)) YYERROR;
+b4_syncline([@oline@], [@ofile@])dnl
     break;])
 
 
@@ -477,54 +618,58 @@ m4_ifset([b4_parse_param], [, b4_parse_param]))[
 # Define the "yy_symbol_print" function.
 m4_define_default([b4_yy_symbol_print_define],
 [[
-/*----------------------------------------.
-| Print this symbol's value on YYOUTPUT.  |
-`----------------------------------------*/
+/*-----------------------------------.
+| Print this symbol's value on YYO.  |
+`-----------------------------------*/
 
 ]b4_function_define([yy_symbol_value_print],
     [static void],
-               [[FILE *yyoutput],                       [yyoutput]],
+               [[FILE *yyo],                            [yyo]],
                [[int yytype],                           [yytype]],
                [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  FILE *yyo = yyoutput;
-]b4_parse_param_use([yyo], [yylocationp])dnl
+  FILE *yyoutput = yyo;
+]b4_parse_param_use([yyoutput], [yylocationp])dnl
 [  if (!yyvaluep)
     return;]
 dnl glr.c does not feature yytoknum.
 m4_if(b4_skeleton, ["yacc.c"],
 [[# ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
 ]])dnl
-  b4_symbol_actions([printer])[
-}
+b4_percent_code_get([[pre-printer]])dnl
+  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
+  b4_symbol_actions([printer])
+  YY_IGNORE_MAYBE_UNINITIALIZED_END
+b4_percent_code_get([[post-printer]])dnl
+[}
 
 
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*---------------------------.
+| Print this symbol on YYO.  |
+`---------------------------*/
 
 ]b4_function_define([yy_symbol_print],
     [static void],
-               [[FILE *yyoutput],                       [yyoutput]],
+               [[FILE *yyo],                            [yyo]],
                [[int yytype],                           [yytype]],
                [[YYSTYPE const * const yyvaluep],       [yyvaluep]][]dnl
 b4_locations_if([, [[YYLTYPE const * const yylocationp], [yylocationp]]])[]dnl
 m4_ifset([b4_parse_param], [, b4_parse_param]))[
 {
-  YYFPRINTF (yyoutput, "%s %s (",
+  YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-]b4_locations_if([  YY_LOCATION_PRINT (yyoutput, *yylocationp);
-  YYFPRINTF (yyoutput, ": ");
+]b4_locations_if([  YY_LOCATION_PRINT (yyo, *yylocationp);
+  YYFPRINTF (yyo, ": ");
 ])dnl
-[  yy_symbol_value_print (yyoutput, yytype, yyvaluep]dnl
+[  yy_symbol_value_print (yyo, yytype, yyvaluep]dnl
 b4_locations_if([, yylocationp])[]b4_user_args[);
-  YYFPRINTF (yyoutput, ")");
+  YYFPRINTF (yyo, ")");
 }]dnl
 ])
 
@@ -541,15 +686,15 @@ b4_locations_if([, yylocationp])[]b4_user_args[);
 # b4_symbol_type_register(SYMBOL-NUM)
 # -----------------------------------
 # Symbol SYMBOL-NUM has a type (for variant) instead of a type-tag.
-# Extend the definition of %union's body with a field of that type,
-# and extend the symbol's "type" field to point to the field name,
-# instead of the type name.
+# Extend the definition of %union's body (b4_union_members) with a
+# field of that type, and extend the symbol's "type" field to point to
+# the field name, instead of the type name.
 m4_define([b4_symbol_type_register],
 [m4_define([b4_symbol($1, type_tag)],
            [b4_symbol_if([$1], [has_id],
                          [b4_symbol([$1], [id])],
                          [yytype_[]b4_symbol([$1], [number])])])dnl
-m4_append([b4_user_union_members],
+m4_append([b4_union_members],
 m4_expand([
   b4_symbol_tag_comment([$1])dnl
   b4_symbol([$1], [type]) b4_symbol([$1], [type_tag]);]))
@@ -567,14 +712,17 @@ m4_define([b4_type_define_tag],
 ])
 
 
-# b4_symbol_value_union(VAL, [TYPE])
-# ----------------------------------
+# b4_symbol_value_union(VAL, SYMBOL-NUM, [TYPE])
+# ----------------------------------------------
 # Same of b4_symbol_value, but when api.value.type=union.
 m4_define([b4_symbol_value_union],
-[m4_ifval([$2],
-          [(*($2*)(&$1))],
-          [$1])])
-])
+[m4_ifval([$3],
+          [(*($3*)(&$1))],
+          [m4_ifval([$2],
+                    [b4_symbol_if([$2], [has_type],
+                                  [($1.b4_symbol([$2], [type_tag]))],
+                                  [$1])],
+                    [$1])])])
 
 
 # b4_value_type_setup_union
@@ -589,10 +737,9 @@ m4_copy_force([b4_symbol_value_union], [b4_symbol_value])
 ])
 
 
-# ---------------- #
-# api.value.type.  #
-# ---------------- #
-
+# -------------------------- #
+# api.value.type = variant.  #
+# -------------------------- #
 
 # b4_value_type_setup_variant
 # ---------------------------
@@ -667,11 +814,13 @@ typedef ]b4_percent_define_get([[api.value.type]])[ ]b4_api_PREFIX[STYPE;
 [m4_bmatch(b4_percent_define_get([[api.value.type]]),
 [union\|union-directive],
 [[#if ! defined ]b4_api_PREFIX[STYPE && ! defined ]b4_api_PREFIX[STYPE_IS_DECLARED
-typedef union ]b4_union_name[ ]b4_api_PREFIX[STYPE;
-union ]b4_union_name[
+]b4_percent_define_get_syncline([[api.value.union.name]])dnl
+[union ]b4_percent_define_get([[api.value.union.name]])[
 {
 ]b4_user_union_members[
 };
+]b4_percent_define_get_syncline([[api.value.union.name]])dnl
+[typedef union ]b4_percent_define_get([[api.value.union.name]])[ ]b4_api_PREFIX[STYPE;
 # define ]b4_api_PREFIX[STYPE_IS_TRIVIAL 1
 # define ]b4_api_PREFIX[STYPE_IS_DECLARED 1
 #endif
@@ -682,7 +831,10 @@ union ]b4_union_name[
 # -----------------------
 m4_define([b4_location_type_define],
 [[/* Location type.  */
-#if ! defined ]b4_api_PREFIX[LTYPE && ! defined ]b4_api_PREFIX[LTYPE_IS_DECLARED
+]b4_percent_define_ifdef([[api.location.type]],
+[[typedef ]b4_percent_define_get([[api.location.type]])[ ]b4_api_PREFIX[LTYPE;
+]],
+[[#if ! defined ]b4_api_PREFIX[LTYPE && ! defined ]b4_api_PREFIX[LTYPE_IS_DECLARED
 typedef struct ]b4_api_PREFIX[LTYPE ]b4_api_PREFIX[LTYPE;
 struct ]b4_api_PREFIX[LTYPE
 {
@@ -694,7 +846,7 @@ struct ]b4_api_PREFIX[LTYPE
 # define ]b4_api_PREFIX[LTYPE_IS_DECLARED 1
 # define ]b4_api_PREFIX[LTYPE_IS_TRIVIAL 1
 #endif
-]])
+]])])
 
 
 # b4_declare_yylstype
@@ -783,13 +935,13 @@ m4_define([b4_yy_location_print_define],
 
 /* Print *YYLOCP on YYO.  Private, do not rely on its existence. */
 
-__attribute__((__unused__))
+YY_ATTRIBUTE_UNUSED
 ]b4_function_define([yy_location_print_],
-    [static unsigned],
+    [static int],
                [[FILE *yyo],                    [yyo]],
                [[YYLTYPE const * const yylocp], [yylocp]])[
 {
-  unsigned res = 0;
+  int res = 0;
   int end_col = 0 != yylocp->last_column ? yylocp->last_column - 1 : 0;
   if (0 <= yylocp->first_line)
     {

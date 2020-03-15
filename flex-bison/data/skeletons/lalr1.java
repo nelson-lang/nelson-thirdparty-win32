@@ -1,6 +1,6 @@
-# Java skeleton for Bison -*- autoconf -*-
+# Java skeleton for Bison                           -*- autoconf -*-
 
-# Copyright (C) 2007-2013 Free Software Foundation, Inc.
+# Copyright (C) 2007-2015, 2018-2019 Free Software Foundation, Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,20 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-m4_include(b4_pkgdatadir/[java.m4])
+m4_include(b4_skeletonsdir/[java.m4])
 
-b4_defines_if([b4_fatal([%s: %%defines does not make sense in Java],
-              [b4_skeleton])])
-
-# We do not depend on %debug in Java, but pacify warnings about
-# non-used flags.
-b4_parse_trace_if([0], [0])
+b4_defines_if([b4_complain([%defines does not make sense in Java])])
 
 m4_define([b4_symbol_no_destructor_assert],
 [b4_symbol_if([$1], [has_destructor],
-              [b4_fatal([%s: %s: %%destructor does not make sense in Java],
-                        [b4_skeleton],
-                        [b4_symbol_action_location([$1], [destructor])])])])
+              [b4_complain_at(m4_unquote(b4_symbol([$1], [destructor_loc])),
+                              [%destructor does not make sense in Java])])])
 b4_symbol_foreach([b4_symbol_no_destructor_assert])
 
 # Setup some macros for api.push-pull.
@@ -72,38 +66,30 @@ m4_define([b4_define_state],[[
 
     /* Error handling.  */
     int yynerrs_ = 0;
-    ]b4_locations_if([/* The location where the error started.  */
-    b4_location_type yyerrloc = null;
+    ]b4_locations_if([[/* The location where the error started.  */
+    ]b4_location_type[ yyerrloc = null;
 
     /* Location. */
-    b4_location_type yylloc = new b4_location_type (null, null);])[
+    ]b4_location_type[ yylloc = new ]b4_location_type[ (null, null);]])[
 
     /* Semantic value of the lookahead.  */
     ]b4_yystype[ yylval = null;
-]])
+]])[
 
-b4_output_begin([b4_parser_file_name])
-b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
-             [2007-2013])
-
-b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);
-])[/* First part of user declarations.  */
-]b4_user_pre_prologue
-b4_user_post_prologue
-b4_percent_code_get([[imports]])
-[/**
+]b4_output_begin([b4_parser_file_name])[
+]b4_copyright([Skeleton implementation for Bison LALR(1) parsers in Java],
+              [2007-2015, 2018-2019])[
+]b4_percent_define_ifdef([package], [package b4_percent_define_get([package]);[
+]])[
+]b4_user_pre_prologue[
+]b4_user_post_prologue[
+]b4_percent_code_get([[imports]])[
+/**
  * A Bison parser, automatically generated from <tt>]m4_bpatsubst(b4_file_name, [^"\(.*\)"$], [\1])[</tt>.
  *
  * @@author LALR (1) parser skeleton written by Paolo Bonzini.
  */
-]b4_percent_define_get3([annotations], [], [ ])dnl
-b4_public_if([public ])dnl
-b4_abstract_if([abstract ])dnl
-b4_final_if([final ])dnl
-b4_strictfp_if([strictfp ])dnl
-[class ]b4_parser_class_name[]dnl
-b4_percent_define_get3([extends], [ extends ])dnl
-b4_percent_define_get3([implements], [ implements ])[
+]b4_parser_class_declaration[
 {
   ]b4_identification[
 ]b4_error_verbose_if([[
@@ -113,7 +99,7 @@ b4_percent_define_get3([implements], [ implements ])[
   private boolean yyErrorVerbose = true;
 
   /**
-   * Return whether verbose error messages are enabled.
+   * Whether verbose error messages are enabled.
    */
   public final boolean getErrorVerbose() { return yyErrorVerbose; }
 
@@ -175,12 +161,12 @@ b4_locations_if([[
     }
   }
 
-]])
+]])[
 
-  b4_locations_if([[
+]b4_locations_if([[
   private ]b4_location_type[ yylloc (YYStack rhs, int n)
   {
-    if (n > 0)
+    if (0 < n)
       return new ]b4_location_type[ (rhs.locationAt (n-1).begin, rhs.locationAt (0).end);
     else
       return new ]b4_location_type[ (rhs.locationAt (0).end);
@@ -188,7 +174,7 @@ b4_locations_if([[
 
   /**
    * Communication interface between the scanner and the Bison-generated
-   * parser <tt>]b4_parser_class_name[</tt>.
+   * parser <tt>]b4_parser_class[</tt>.
    */
   public interface Lexer {
     /** Token returned by the scanner to signal the end of its input.  */
@@ -230,10 +216,11 @@ b4_locations_if([[
      *                error message is related]])[
      * @@param msg The string for the error message.
      */
-     void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);]
+     void yyerror (]b4_locations_if([b4_location_type[ loc, ]])[String msg);
   }
 
-  b4_lexer_if([[private class YYLexer implements Lexer {
+]b4_lexer_if([[
+  private class YYLexer implements Lexer {
 ]b4_percent_code_get([[lexer]])[
   }
 
@@ -241,37 +228,37 @@ b4_locations_if([[
    * The object doing lexical analysis for us.
    */
   private Lexer yylexer;
-  ]
-  b4_parse_param_vars
 
-b4_lexer_if([[
+  ]b4_parse_param_vars[
+
+]b4_lexer_if([[
   /**
    * Instantiates the Bison-generated parser.
    */
-  public ]b4_parser_class_name (b4_parse_param_decl([b4_lex_param_decl])[) ]b4_maybe_throws([b4_init_throws])[
+  public ]b4_parser_class (b4_parse_param_decl([b4_lex_param_decl])[) ]b4_maybe_throws([b4_init_throws])[
   {
     ]b4_percent_code_get([[init]])[
     this.yylexer = new YYLexer(]b4_lex_param_call[);
     ]b4_parse_param_cons[
   }
-]])
+]])[
 
   /**
    * Instantiates the Bison-generated parser.
    * @@param yylexer The scanner that will supply tokens to the parser.
    */
-  b4_lexer_if([[protected]], [[public]]) b4_parser_class_name[ (]b4_parse_param_decl([[Lexer yylexer]])[) ]b4_maybe_throws([b4_init_throws])[
+  ]b4_lexer_if([[protected]], [[public]]) b4_parser_class[ (]b4_parse_param_decl([[Lexer yylexer]])[) ]b4_maybe_throws([b4_init_throws])[
   {
     ]b4_percent_code_get([[init]])[
     this.yylexer = yylexer;
     ]b4_parse_param_cons[
   }
 
+]b4_parse_trace_if([[
   private java.io.PrintStream yyDebugStream = System.err;
 
   /**
-   * Return the <tt>PrintStream</tt> on which the debugging output is
-   * printed.
+   * The <tt>PrintStream</tt> on which the debugging output is printed.
    */
   public final java.io.PrintStream getDebugStream () { return yyDebugStream; }
 
@@ -295,6 +282,7 @@ b4_lexer_if([[
    * @@param level The verbosity level for debugging output.
    */
   public final void setDebugLevel(int level) { yydebug = level; }
+]])[
 
   /**
    * Print an error message via the lexer.
@@ -324,12 +312,12 @@ b4_lexer_if([[
   public final void yyerror (]b4_position_type[ pos, String msg)
   {
     yylexer.yyerror (new ]b4_location_type[ (pos), msg);
-  }]])
-
-  [protected final void yycdebug (String s) {
-    if (yydebug > 0)
+  }]])[
+]b4_parse_trace_if([[
+  protected final void yycdebug (String s) {
+    if (0 < yydebug)
       yyDebugStream.println (s);
-  }
+  }]])[
 
   private final class YYStack {
     private int[] stateStack = new int[16];
@@ -370,7 +358,7 @@ b4_lexer_if([[
 
     public final void pop (int num) {
       // Avoid memory leaks... garbage collection is a white lie!
-      if (num > 0) {
+      if (0 < num) {
         java.util.Arrays.fill (valueStack, height - num + 1, height + 1, null);
         ]b4_locations_if([[java.util.Arrays.fill (locStack, height - num + 1, height + 1, null);]])[
       }
@@ -390,8 +378,7 @@ b4_lexer_if([[
     }
 
     // Print the state stack on the debug stream.
-    public void print (java.io.PrintStream out)
-    {
+    public void print (java.io.PrintStream out) {
       out.print ("Stack now");
 
       for (int i = 0; i <= height; i++)
@@ -441,10 +428,9 @@ b4_lexer_if([[
 
   private int yyerrstatus_ = 0;
 
-]b4_push_if([dnl
-b4_define_state])[
+]b4_push_if([b4_define_state])[
   /**
-   * Return whether error recovery is being done.  In this state, the parser
+   * Whether error recovery is being done.  In this state, the parser
    * reads token until it reaches a known state, and then restarts normal
    * operation.
    */
@@ -453,44 +439,45 @@ b4_define_state])[
     return yyerrstatus_ == 0;
   }
 
+  /** Compute post-reduction state.
+   * @@param yystate   the current state
+   * @@param yysym     the nonterminal to push on the stack
+   */
+  private int yyLRGotoState (int yystate, int yysym)
+  {
+    int yyr = yypgoto_[yysym - yyntokens_] + yystate;
+    if (0 <= yyr && yyr <= yylast_ && yycheck_[yyr] == yystate)
+      return yytable_[yyr];
+    else
+      return yydefgoto_[yysym - yyntokens_];
+  }
+
   private int yyaction (int yyn, YYStack yystack, int yylen) ]b4_maybe_throws([b4_throws])[
   {
-    ]b4_yystype[ yyval;
-    ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[
-
     /* If YYLEN is nonzero, implement the default value of the action:
        '$$ = $1'.  Otherwise, use the top of the stack.
 
        Otherwise, the following line sets YYVAL to garbage.
        This behavior is undocumented and Bison
        users should not rely upon it.  */
-    if (yylen > 0)
-      yyval = yystack.valueAt (yylen - 1);
-    else
-      yyval = yystack.valueAt (0);
+    ]b4_yystype[ yyval = (0 < yylen) ? yystack.valueAt (yylen - 1) : yystack.valueAt (0);
+    ]b4_locations_if([b4_location_type[ yyloc = yylloc (yystack, yylen);]])[]b4_parse_trace_if([[
 
-    yy_reduce_print (yyn, yystack);
+    yyReducePrint (yyn, yystack);]])[
 
     switch (yyn)
       {
         ]b4_user_actions[
         default: break;
-      }
+      }]b4_parse_trace_if([[
 
-    yy_symbol_print ("-> $$ =", yyr1_[yyn], yyval]b4_locations_if([, yyloc])[);
+    yySymbolPrint ("-> $$ =", yyr1_[yyn], yyval]b4_locations_if([, yyloc])[);]])[
 
     yystack.pop (yylen);
     yylen = 0;
 
     /* Shift the result of the reduction.  */
-    yyn = yyr1_[yyn];
-    int yystate = yypgoto_[yyn - yyntokens_] + yystack.stateAt (0);
-    if (0 <= yystate && yystate <= yylast_
-        && yycheck_[yystate] == yystack.stateAt (0))
-      yystate = yytable_[yystate];
-    else
-      yystate = yydefgoto_[yyn - yyntokens_];
-
+    int yystate = yyLRGotoState (yystack.stateAt (0), yyr1_[yyn]);
     yystack.push (yystate, yyval]b4_locations_if([, yyloc])[);
     return YYNEWSTATE;
   }
@@ -531,21 +518,20 @@ b4_define_state])[
     return yystr;
   }
 ]])[
-
+]b4_parse_trace_if([[
   /*--------------------------------.
   | Print this symbol on YYOUTPUT.  |
   `--------------------------------*/
 
-  private void yy_symbol_print (String s, int yytype,
-                                 ]b4_yystype[ yyvaluep]dnl
-                                 b4_locations_if([, Object yylocationp])[)
+  private void yySymbolPrint (String s, int yytype,
+                             ]b4_yystype[ yyvaluep]dnl
+                              b4_locations_if([, Object yylocationp])[)
   {
-    if (yydebug > 0)
     yycdebug (s + (yytype < yyntokens_ ? " token " : " nterm ")
               + yytname_[yytype] + " ("]b4_locations_if([
               + yylocationp + ": "])[
               + (yyvaluep == null ? "(null)" : yyvaluep.toString ()) + ")");
-  }
+  }]])[
 
 ]b4_push_if([],[[
   /**
@@ -555,7 +541,7 @@ b4_define_state])[
    * @@return <tt>true</tt> if the parsing succeeds.  Note that this does not
    *          imply that there were no syntax errors.
    */
-   public boolean parse () ]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[]])[
+  public boolean parse () ]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[]])[
 ]b4_push_if([
   /**
    * Push Parse input from external lexer
@@ -572,15 +558,14 @@ b4_define_state])[
     ]b4_locations_if([/* @@$.  */
     b4_location_type yyloc;])[
 ]b4_push_if([],[[
-]b4_define_state[
-    yycdebug ("Starting parse\n");
+]b4_define_state[]b4_parse_trace_if([[
+    yycdebug ("Starting parse\n");]])[
     yyerrstatus_ = 0;
 
     /* Initialize the stack.  */
     yystack.push (yystate, yylval ]b4_locations_if([, yylloc])[);
 ]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yylval], [], [yylloc])dnl
-    /* User initialization code.  */
+b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
     b4_user_initial_action
 b4_dollar_popdef[]dnl
 ])[
@@ -590,12 +575,11 @@ b4_dollar_popdef[]dnl
       {
         push_parse_initialize ();
 ]m4_ifdef([b4_initial_action], [
-b4_dollar_pushdef([yylval], [], [yylloc])dnl
-    /* User initialization code.  */
+b4_dollar_pushdef([yylval], [], [], [yylloc])dnl
     b4_user_initial_action
 b4_dollar_popdef[]dnl
-])[
-        yycdebug ("Starting parse\n");
+])[]b4_parse_trace_if([[
+        yycdebug ("Starting parse\n");]])[
         yyerrstatus_ = 0;
       } else
         label = YYGETTOKEN;
@@ -607,10 +591,10 @@ b4_dollar_popdef[]dnl
       {
         /* New state.  Unlike in the C/C++ skeletons, the state is already
            pushed when we come here.  */
-      case YYNEWSTATE:
+      case YYNEWSTATE:]b4_parse_trace_if([[
         yycdebug ("Entering state " + yystate + "\n");
-        if (yydebug > 0)
-          yystack.print (yyDebugStream);
+        if (0 < yydebug)
+          yystack.print (yyDebugStream);]])[
 
         /* Accept?  */
         if (yystate == yyfinal_)
@@ -619,7 +603,7 @@ b4_dollar_popdef[]dnl
 
         /* Take a decision.  First try without lookahead.  */
         yyn = yypact_[yystate];
-        if (yy_pact_value_is_default_ (yyn))
+        if (yyPactValueIsDefault (yyn))
           {
             label = YYDEFAULT;
             break;
@@ -632,14 +616,13 @@ b4_dollar_popdef[]dnl
           {
 ]b4_push_if([[
             if (!push_token_consumed)
-              return YYPUSH_MORE;
-            yycdebug ("Reading a token: ");
+              return YYPUSH_MORE;]b4_parse_trace_if([[
+            yycdebug ("Reading a token: ");]])[
             yychar = yylextoken;
             yylval = yylexval;]b4_locations_if([
             yylloc = yylexloc;])[
-            push_token_consumed = false;]])[
-]b4_push_if([],[[
-            yycdebug ("Reading a token: ");
+            push_token_consumed = false;]], [b4_parse_trace_if([[
+            yycdebug ("Reading a token: ");]])[
             yychar = yylexer.yylex ();
             yylval = yylexer.getLVal ();]b4_locations_if([
             yylloc = new b4_location_type (yylexer.getStartPos (),
@@ -648,17 +631,9 @@ b4_dollar_popdef[]dnl
           }
 
         /* Convert token to internal form.  */
-        if (yychar <= Lexer.EOF)
-          {
-            yychar = yytoken = Lexer.EOF;
-            yycdebug ("Now at end of input.\n");
-          }
-        else
-          {
-            yytoken = yytranslate_ (yychar);
-            yy_symbol_print ("Next token is", yytoken,
-                             yylval]b4_locations_if([, yylloc])[);
-          }
+        yytoken = yytranslate_ (yychar);]b4_parse_trace_if([[
+        yySymbolPrint ("Next token is", yytoken,
+                       yylval]b4_locations_if([, yylloc])[);]])[
 
         /* If the proper action on seeing token YYTOKEN is to reduce or to
            detect an error, take that action.  */
@@ -669,7 +644,7 @@ b4_dollar_popdef[]dnl
         /* <= 0 means reduce or error.  */
         else if ((yyn = yytable_[yyn]) <= 0)
           {
-            if (yy_table_value_is_error_ (yyn))
+            if (yyTableValueIsError (yyn))
               label = YYERRLAB;
             else
               {
@@ -680,10 +655,10 @@ b4_dollar_popdef[]dnl
 
         else
           {
-            /* Shift the lookahead token.  */
-            yy_symbol_print ("Shifting", yytoken,
-                             yylval]b4_locations_if([, yylloc])[);
-
+            /* Shift the lookahead token.  */]b4_parse_trace_if([[
+            yySymbolPrint ("Shifting", yytoken,
+                           yylval]b4_locations_if([, yylloc])[);
+]])[
             /* Discard the token being shifted.  */
             yychar = yyempty_;
 
@@ -734,17 +709,17 @@ b4_dollar_popdef[]dnl
         ]b4_locations_if([yyerrloc = yylloc;])[
         if (yyerrstatus_ == 3)
           {
-        /* If just tried and failed to reuse lookahead token after an
-         error, discard it.  */
+            /* If just tried and failed to reuse lookahead token after an
+               error, discard it.  */
 
-        if (yychar <= Lexer.EOF)
-          {
-          /* Return failure if at end of input.  */
-          if (yychar == Lexer.EOF)
-            ]b4_push_if([{label = YYABORT; break;}],[return false;])[
-          }
-        else
-            yychar = yyempty_;
+            if (yychar <= Lexer.EOF)
+              {
+                /* Return failure if at end of input.  */
+                if (yychar == Lexer.EOF)
+                  ]b4_push_if([{label = YYABORT; break;}], [return false;])[
+              }
+            else
+              yychar = yyempty_;
           }
 
         /* Else will try to reuse lookahead token after shifting the error
@@ -756,7 +731,6 @@ b4_dollar_popdef[]dnl
       | errorlab -- error raised explicitly by YYERROR.  |
       `-------------------------------------------------*/
       case YYERROR:
-
         ]b4_locations_if([yyerrloc = yystack.locationAt (yylen - 1);])[
         /* Do not reclaim the symbols of the rule which action triggered
            this YYERROR.  */
@@ -775,10 +749,10 @@ b4_dollar_popdef[]dnl
         for (;;)
           {
             yyn = yypact_[yystate];
-            if (!yy_pact_value_is_default_ (yyn))
+            if (!yyPactValueIsDefault (yyn))
               {
-                yyn += yyterror_;
-                if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
+                yyn += yy_error_token_;
+                if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yy_error_token_)
                   {
                     yyn = yytable_[yyn];
                     if (0 < yyn)
@@ -793,9 +767,9 @@ b4_dollar_popdef[]dnl
 
             ]b4_locations_if([yyerrloc = yystack.locationAt (0);])[
             yystack.pop ();
-            yystate = yystack.stateAt (0);
-            if (yydebug > 0)
-              yystack.print (yyDebugStream);
+            yystate = yystack.stateAt (0);]b4_parse_trace_if([[
+            if (0 < yydebug)
+              yystack.print (yyDebugStream);]])[
           }
 
         if (label == YYABORT)
@@ -809,9 +783,9 @@ b4_dollar_popdef[]dnl
         yyloc = yylloc (yystack, 2);
         yystack.pop (2);])[
 
-        /* Shift the error token.  */
-        yy_symbol_print ("Shifting", yystos_[yyn],
-                         yylval]b4_locations_if([, yyloc])[);
+        /* Shift the error token.  */]b4_parse_trace_if([[
+        yySymbolPrint ("Shifting", yystos_[yyn],
+                       yylval]b4_locations_if([, yyloc])[);]])[
 
         yystate = yyn;
         yystack.push (yyn, yylval]b4_locations_if([, yyloc])[);
@@ -877,9 +851,9 @@ b4_dollar_popdef[]dnl
   {
     return push_parse (yylextoken, yylexval, new b4_location_type (yylexpos));
   }
-])[]])
+])[]])[
 
-b4_both_if([[
+]b4_both_if([[
   /**
    * Parse input from the scanner that was specified at object construction
    * time.  Return whether the end of the input was reached successfully.
@@ -888,21 +862,21 @@ b4_both_if([[
    * @@return <tt>true</tt> if the parsing succeeds.  Note that this does not
    *          imply that there were no syntax errors.
    */
-   public boolean parse () ]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[
-   {
-      if (yylexer == null)
-        throw new NullPointerException("Null Lexer");
-      int status;
-      do {
-        int token = yylexer.yylex();
-        ]b4_yystype[ lval = yylexer.getLVal();
+  public boolean parse () ]b4_maybe_throws([b4_list2([b4_lex_throws], [b4_throws])])[
+  {
+    if (yylexer == null)
+      throw new NullPointerException("Null Lexer");
+    int status;
+    do {
+      int token = yylexer.yylex();
+      ]b4_yystype[ lval = yylexer.getLVal();
 ]b4_locations_if([dnl
-        b4_location_type yyloc = new b4_location_type (yylexer.getStartPos (),
-                                              yylexer.getEndPos ());])[
-        ]b4_locations_if([status = push_parse(token,lval,yyloc);],[
-        status = push_parse(token,lval);])[
-      } while (status == YYPUSH_MORE);
-      return (status == YYACCEPT);
+      b4_location_type yyloc = new b4_location_type (yylexer.getStartPos (),
+                                            yylexer.getEndPos ());])[
+      ]b4_locations_if([status = push_parse(token,lval,yyloc);],[
+      status = push_parse(token,lval);])[
+    } while (status == YYPUSH_MORE);
+    return (status == YYACCEPT);
   }
 ]])[
 
@@ -945,7 +919,7 @@ b4_both_if([[
               new StringBuffer ("syntax error, unexpected ");
             res.append (yytnamerr_ (yytname_[tok]));
             int yyn = yypact_[yystate];
-            if (!yy_pact_value_is_default_ (yyn))
+            if (!yyPactValueIsDefault (yyn))
               {
                 /* Start YYX at -YYN if negative to avoid negative
                    indexes in YYCHECK.  In other words, skip the first
@@ -957,15 +931,15 @@ b4_both_if([[
                 int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
                 int count = 0;
                 for (int x = yyxbegin; x < yyxend; ++x)
-                  if (yycheck_[x + yyn] == x && x != yyterror_
-                      && !yy_table_value_is_error_ (yytable_[x + yyn]))
+                  if (yycheck_[x + yyn] == x && x != yy_error_token_
+                      && !yyTableValueIsError (yytable_[x + yyn]))
                     ++count;
                 if (count < 5)
                   {
                     count = 0;
                     for (int x = yyxbegin; x < yyxend; ++x)
-                      if (yycheck_[x + yyn] == x && x != yyterror_
-                          && !yy_table_value_is_error_ (yytable_[x + yyn]))
+                      if (yycheck_[x + yyn] == x && x != yy_error_token_
+                          && !yyTableValueIsError (yytable_[x + yyn]))
                         {
                           res.append (count++ == 0 ? ", expecting " : " or ");
                           res.append (yytnamerr_ (yytname_[x]));
@@ -983,7 +957,7 @@ b4_both_if([[
    * Whether the given <code>yypact_</code> value indicates a defaulted state.
    * @@param yyvalue   the value to check
    */
-  private static boolean yy_pact_value_is_default_ (int yyvalue)
+  private static boolean yyPactValueIsDefault (int yyvalue)
   {
     return yyvalue == yypact_ninf_;
   }
@@ -993,7 +967,7 @@ b4_both_if([[
    * value indicates a syntax error.
    * @@param yyvalue the value to check
    */
-  private static boolean yy_table_value_is_error_ (int yyvalue)
+  private static boolean yyTableValueIsError (int yyvalue)
   {
     return yyvalue == yytable_ninf_;
   }
@@ -1002,20 +976,18 @@ b4_both_if([[
   private static final ]b4_int_type_for([b4_table])[ yytable_ninf_ = ]b4_table_ninf[;
 
   ]b4_parser_tables_define[
-  ]b4_integral_parser_table_define([token_number], [b4_toknum],
-     [[YYTOKEN_NUMBER[YYLEX-NUM] -- Internal symbol number corresponding
-   to YYLEX-NUM.]])[
 
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   ]b4_typed_parser_table_define([String], [tname], [b4_tname])[
 
+]b4_parse_trace_if([[
   ]b4_integral_parser_table_define([rline], [b4_rline],
   [[YYRLINE[YYN] -- Source line where rule number YYN was defined.]])[
 
 
   // Report on the debug stream that the rule yyrule is going to be reduced.
-  private void yy_reduce_print (int yyrule, YYStack yystack)
+  private void yyReducePrint (int yyrule, YYStack yystack)
   {
     if (yydebug == 0)
       return;
@@ -1028,38 +1000,46 @@ b4_both_if([[
 
     /* The symbols being reduced.  */
     for (int yyi = 0; yyi < yynrhs; yyi++)
-      yy_symbol_print ("   $" + (yyi + 1) + " =",
-                       yystos_[yystack.stateAt(yynrhs - (yyi + 1))],
-                       ]b4_rhs_value(yynrhs, yyi + 1)b4_locations_if([,
-                       b4_rhs_location(yynrhs, yyi + 1)])[);
-  }
+      yySymbolPrint ("   $" + (yyi + 1) + " =",
+                     yystos_[yystack.stateAt(yynrhs - (yyi + 1))],
+                     ]b4_rhs_data(yynrhs, yyi + 1)b4_locations_if([,
+                     b4_rhs_location(yynrhs, yyi + 1)])[);
+  }]])[
 
-  /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
-  ]b4_integral_parser_table_define([translate_table], [b4_translate])[
-
+  /* YYTRANSLATE_(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+     as returned by yylex, with out-of-bounds checking.  */
   private static final ]b4_int_type_for([b4_translate])[ yytranslate_ (int t)
-  {
-    if (t >= 0 && t <= yyuser_token_number_max_)
+]b4_api_token_raw_if(dnl
+[[  {
+    return t;
+  }
+]],
+[[  {
+    int user_token_number_max_ = ]b4_user_token_number_max[;
+    ]b4_int_type_for([b4_translate])[ undef_token_ = ]b4_undef_token_number[;
+
+    if (t <= 0)
+      return Lexer.EOF;
+    else if (t <= user_token_number_max_)
       return yytranslate_table_[t];
     else
-      return yyundef_token_;
+      return undef_token_;
   }
+  ]b4_integral_parser_table_define([translate_table], [b4_translate])[
+]])[
+
+  private static final ]b4_int_type_for([b4_translate])[ yy_error_token_ = 1;
 
   private static final int yylast_ = ]b4_last[;
   private static final int yynnts_ = ]b4_nterms_number[;
   private static final int yyempty_ = -2;
   private static final int yyfinal_ = ]b4_final_state_number[;
-  private static final int yyterror_ = 1;
-  private static final int yyerrcode_ = 256;
   private static final int yyntokens_ = ]b4_tokens_number[;
 
-  private static final int yyuser_token_number_max_ = ]b4_user_token_number_max[;
-  private static final int yyundef_token_ = ]b4_undef_token_number[;
-
-]/* User implementation code.  */
-b4_percent_code_get[]dnl
+/* User implementation code.  */
+]b4_percent_code_get[]dnl
 
 }
 
 b4_epilogue[]dnl
-b4_output_end()
+b4_output_end

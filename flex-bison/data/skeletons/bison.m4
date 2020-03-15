@@ -2,7 +2,8 @@
 
 # Language-independent M4 Macros for Bison.
 
-# Copyright (C) 2002, 2004-2013 Free Software Foundation, Inc.
+# Copyright (C) 2002, 2004-2015, 2018-2019 Free Software Foundation,
+# Inc.
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,12 +23,17 @@
 ## Identification.  ##
 ## ---------------- ##
 
+# b4_generated_by
+# ---------------
+m4_define([b4_generated_by],
+[b4_comment([A Bison parser, made by GNU Bison b4_version.])
+])
+
 # b4_copyright(TITLE, [YEARS])
 # ----------------------------
 # If YEARS are not defined, use b4_copyright_years.
 m4_define([b4_copyright],
-[b4_comment([A Bison parser, made by GNU Bison b4_version.])
-
+[b4_generated_by
 b4_comment([$1
 
 ]m4_dquote(m4_text_wrap([Copyright (C)
@@ -58,26 +64,49 @@ Bison output files to be licensed under the GNU General Public
 License without this special exception.
 
 This special exception was added by the Free Software Foundation in
-version 2.2 of Bison.])])
+version 2.2 of Bison.])
+])
+
+
+# b4_disclaimer
+# -------------
+# Issue a warning about private implementation details.
+m4_define([b4_disclaimer],
+[b4_comment([Undocumented macros, especially those whose name start with YY_,
+are private implementation details.  Do not rely on them.])
+])
+
+
+
+# b4_required_version_if(VERSION, IF_NEWER, IF_OLDER)
+# ---------------------------------------------------
+# If the version %require'd by the user is VERSION (or newer) expand
+# IF_NEWER, otherwise IF_OLDER.  VERSION should be an integer, e.g.,
+# 302 for 3.2.
+m4_define([b4_required_version_if],
+[m4_if(m4_eval($1 <= b4_required_version),
+              [1], [$2], [$3])])
 
 
 ## -------- ##
 ## Output.  ##
 ## -------- ##
 
-# b4_output_begin(FILE)
-# ---------------------
+# b4_output_begin(FILE1, FILE2)
+# -----------------------------
 # Enable output, i.e., send to diversion 0, expand after "#", and
 # generate the tag to output into FILE.  Must be followed by EOL.
+# FILE is FILE1 concatenated to FILE2.  FILE2 can be empty, or be
+# absolute: do the right thing.
 m4_define([b4_output_begin],
 [m4_changecom()
 m4_divert_push(0)dnl
-@output(m4_unquote([$1])@)@dnl
+@output(m4_unquote([$1])@,m4_unquote([$2])@)@dnl
 ])
 
 
-# b4_output_end()
-# ---------------
+# b4_output_end
+# -------------
 # Output nothing, restore # as comment character (no expansions after #).
 m4_define([b4_output_end],
 [m4_divert_pop(0)
@@ -163,7 +192,7 @@ m4_define([b4_error],
 #   @warn(1@)
 #   @warn(1@,2@)
 m4_define([b4_warn],
-[b4_error([[warn]], [], [], $@)])
+[b4_warn_at([], [], $@)])
 
 # b4_warn_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ---------------------------------------------------
@@ -181,7 +210,7 @@ m4_define([b4_warn_at],
 #
 # See b4_warn example.
 m4_define([b4_complain],
-[b4_error([[complain]], [], [], $@)])
+[b4_complain_at([], [], $@)])
 
 # b4_complain_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # -------------------------------------------------------
@@ -197,8 +226,7 @@ m4_define([b4_complain_at],
 #
 # See b4_warn example.
 m4_define([b4_fatal],
-[b4_error([[fatal]], [], [], $@)dnl
-m4_exit(1)])
+[b4_fatal_at([], [], $@)])
 
 # b4_fatal_at(START, END, FORMAT, [ARG1], [ARG2], ...)
 # ----------------------------------------------------
@@ -235,8 +263,8 @@ m4_define([b4_subtract],
 # -------------------
 # Join with comma, skipping empty arguments.
 # b4_join calls itself recursively until it sees the first non-empty
-# argument, then calls _b4_join which prepends each non-empty argument
-# with a comma.
+# argument, then calls _b4_join (i.e., `_$0`) which prepends each
+# non-empty argument with a comma.
 m4_define([b4_join],
 [m4_if([$#$1],
        [1], [],
@@ -346,66 +374,48 @@ b4_define_flag_if([token_table])        # Whether yytoken_table is demanded.
 b4_define_flag_if([yacc])               # Whether POSIX Yacc is emulated.
 
 
+# b4_glr_cc_if([IF-TRUE], [IF-FALSE])
+# -----------------------------------
+m4_define([b4_glr_cc_if],
+          [m4_if(b4_skeleton, ["glr.cc"], $@)])
+
+
 ## --------- ##
 ## Symbols.  ##
 ## --------- ##
 
-# In order to unify the handling of the various aspects of symbols
-# (tag, type_name, whether terminal, etc.), bison.exe defines one
-# macro per (token, field), where field can has_id, id, etc.: see
-# src/output.c:prepare_symbols_definitions().
+# For a description of the Symbol handling, see README.
 #
-# The various FIELDS are:
-#
-# - has_id: 0 or 1.
-#   Whether the symbol has an id.
-# - id: string
-#   If has_id, the id.  Guaranteed to be usable as a C identifier.
-#   Prefixed by api.token.prefix if defined.
-# - tag: string.
-#   A representat of the symbol.  Can be 'foo', 'foo.id', '"foo"' etc.
-# - user_number: integer
-#   The assigned (external) number as used by yylex.
-# - is_token: 0 or 1
-#   Whether this is a terminal symbol.
-# - number: integer
-#   The internalized number (used after yytranslate).
-# - has_type: 0, 1
-#   Whether has a semantic value.
-# - type_tag: string
-#   When api.value.type=union, the generated name for the union member.
-#   yytype_INT etc. for symbols that has_id, otherwise yytype_1 etc.
-# - type
-#   If it has a semantic value, its type tag, or, if variant are used,
-#   its type.
-#   In the case of api.value.type=union, type is the real type (e.g. int).
-# - has_printer: 0, 1
-# - printer: string
-# - printer_file: string
-# - printer_line: integer
-#   If the symbol has a printer, everything about it.
-# - has_destructor, destructor, destructor_file, destructor_line
-#   Likewise.
-#
-# The following macros provide access to these values.
+# The following macros provide access to symbol related values.
 
-# b4_symbol_(NUM, FIELD)
-# ----------------------
+# __b4_symbol(NUM, FIELD)
+# -----------------------
 # Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
 # undefined.
-m4_define([b4_symbol_],
+m4_define([__b4_symbol],
 [m4_indir([b4_symbol($1, $2)])])
+
+
+# _b4_symbol(NUM, FIELD)
+# ----------------------
+# Recover a FIELD about symbol #NUM (or "orig NUM").  Fails if
+# undefined.
+m4_define([_b4_symbol],
+[m4_ifdef([b4_symbol($1, number)],
+          [__b4_symbol(m4_indir([b4_symbol($1, number)]), $2)],
+          [__b4_symbol([$1], [$2])])])
+
 
 
 # b4_symbol(NUM, FIELD)
 # ---------------------
-# Recover a FIELD about symbol #NUM.  Thanks to m4_indir, fails if
+# Recover a FIELD about symbol #NUM (or "orig NUM").  Fails if
 # undefined.  If FIELD = id, prepend the token prefix.
 m4_define([b4_symbol],
 [m4_case([$2],
          [id],    [m4_do([b4_percent_define_get([api.token.prefix])],
-                         [b4_symbol_([$1], [id])])],
-         [b4_symbol_($@)])])
+                         [_b4_symbol([$1], [id])])],
+         [_b4_symbol($@)])])
 
 
 # b4_symbol_if(NUM, FIELD, IF-TRUE, IF-FALSE)
@@ -427,27 +437,19 @@ m4_define([b4_symbol_tag_comment],
 ])
 
 
-# b4_symbol_action_location(SYMBOL-NUM, KIND)
-# -------------------------------------------
-# Report the location of the KIND action as FILE:LINE.
-m4_define([b4_symbol_action_location],
-[b4_symbol([$1], [$2_file]):b4_syncline([b4_symbol([$1], [$2_line])])])
-
-
 # b4_symbol_action(SYMBOL-NUM, KIND)
 # ----------------------------------
 # Run the action KIND (destructor or printer) for SYMBOL-NUM.
-# Same as in C, but using references instead of pointers.
 m4_define([b4_symbol_action],
 [b4_symbol_if([$1], [has_$2],
 [b4_dollar_pushdef([(*yyvaluep)],
-                   b4_symbol_if([$1], [has_type],
-                                [m4_dquote(b4_symbol([$1], [type]))]),
+                   [$1],
+                   [],
                    [(*yylocationp)])dnl
-    b4_symbol_case_([$1])[]dnl
-b4_syncline([b4_symbol([$1], [$2_line])], ["b4_symbol([$1], [$2_file])"])
-      b4_symbol([$1], [$2])
-b4_syncline([@oline@], [@ofile@])
+    _b4_symbol_case([$1])[]dnl
+b4_syncline([b4_symbol([$1], [$2_line])], [b4_symbol([$1], [$2_file])])dnl
+b4_symbol([$1], [$2])
+b4_syncline([@oline@], [@ofile@])dnl
         break;
 
 b4_dollar_popdef[]dnl
@@ -470,7 +472,7 @@ m4_define([b4_symbol_actions],
 m4_ifval(m4_defn([b4_actions_]),
 [switch (m4_default([$2], [yytype]))
     {
-      m4_defn([b4_actions_])
+m4_defn([b4_actions_])[]dnl
       default:
         break;
     }dnl
@@ -479,10 +481,12 @@ m4_ifval(m4_defn([b4_actions_]),
 m4_popdef([b4_actions_])dnl
 ])
 
-# b4_symbol_case_(SYMBOL-NUM)
+# _b4_symbol_case(SYMBOL-NUM)
 # ---------------------------
-# Issue a "case NUM" for SYMBOL-NUM.
-m4_define([b4_symbol_case_],
+# Issue a "case NUM" for SYMBOL-NUM.  Ends with its EOL to make it
+# easier to use with m4_map, but then, use []dnl to suppress the last
+# one.
+m4_define([_b4_symbol_case],
 [case b4_symbol([$1], [number]): b4_symbol_tag_comment([$1])])
 ])
 
@@ -530,23 +534,23 @@ m4_define([b4_token_format],
 [b4_token_visible_if([$2],
 [m4_quote(m4_format([$1],
                      [b4_symbol([$2], [id])],
-                     [b4_symbol([$2], [user_number])]))])])
+                     [b4_symbol([$2], b4_api_token_raw_if([[number]], [[user_number]]))]))])])
 
 
 ## ------- ##
 ## Types.  ##
 ## ------- ##
 
-# b4_type_action_(NUMS)
+# _b4_type_action(NUMS)
 # ---------------------
 # Run actions for the symbol NUMS that all have the same type-name.
 # Skip NUMS that have no type-name.
 #
-# To specify the action to run, define b4_dollar_dollar(NUMBER,
+# To specify the action to run, define b4_dollar_dollar(SYMBOL-NUM,
 # TAG, TYPE).
-m4_define([b4_type_action_],
+m4_define([_b4_type_action],
 [b4_symbol_if([$1], [has_type],
-[m4_map([      b4_symbol_case_], [$@])[]dnl
+[m4_map([      _b4_symbol_case], [$@])[]dnl
         b4_dollar_dollar([b4_symbol([$1], [number])],
                          [b4_symbol([$1], [tag])],
                          [b4_symbol([$1], [type])]);
@@ -574,12 +578,15 @@ m4_define([b4_basename],
 [m4_bpatsubst([$1], [^.*/\([^/]+\)/*$], [\1])])
 
 
-# b4_syncline(LINE, FILE)
-# -----------------------
+# b4_syncline(LINE, FILE)dnl
+# --------------------------
+# Should always be following by a dnl.
+#
+# Emit "#line LINE FILE /* __LINE__ __FILE__ */".
 m4_define([b4_syncline],
 [b4_flag_if([synclines],
-[b4_sync_start([$1], [$2]) b4_sync_end([__line__],
-                                       [b4_basename(m4_quote(__file__))])[]dnl
+[b4_sync_start([$1], [$2])[]dnl
+b4_sync_end([__line__], [b4_basename(m4_quote(__file__))])
 ])])
 
 # b4_sync_start(LINE, FILE)
@@ -591,7 +598,17 @@ m4_define([b4_sync_start], [b4_comment([$2:$1])])
 # -----------------------
 # Syncline for the current place, which ends.  Typically a comment
 # left for the reader.
-m4_define([b4_sync_end],   [b4_comment([$2:$1])])
+m4_define([b4_sync_end],   [ b4_comment([$2:$1])]
+)
+# This generates dependencies on the Bison skeletons hence lots of
+# useless 'git diff'.  This location is useless for the regular
+# user (who does not care about the skeletons) and is actually not
+# useful for Bison developpers too (I, Akim, never used this to locate
+# the code in skeletons that generated output).  So disable it
+# completely.  If someone thinks this was actually useful, a %define
+# variable should be provided to control the level of verbosity of
+# '#line', in replacement of --no-lines.
+m4_define([b4_sync_end])
 
 
 # b4_user_code(USER-CODE)
@@ -602,13 +619,15 @@ m4_define([b4_user_code],
 b4_syncline([@oline@], [@ofile@])])
 
 
-# b4_define_user_code(MACRO)
-# --------------------------
-# From b4_MACRO, build b4_user_MACRO that includes the synclines.
+# b4_define_user_code(MACRO, COMMENT)
+# -----------------------------------
+# From b4_MACRO, if defined, build b4_user_MACRO that includes the synclines.
 m4_define([b4_define_user_code],
 [m4_define([b4_user_$1],
-[b4_user_code([b4_$1])])])
-
+           [m4_ifdef([b4_$1],
+                     [m4_ifval([$2],
+                               [b4_comment([$2])
+])b4_user_code([b4_$1])])])])
 
 # b4_user_actions
 # b4_user_initial_action
@@ -618,9 +637,9 @@ m4_define([b4_define_user_code],
 # ----------------------
 # Macros that issue user code, ending with synclines.
 b4_define_user_code([actions])
-b4_define_user_code([initial_action])
-b4_define_user_code([post_prologue])
-b4_define_user_code([pre_prologue])
+b4_define_user_code([initial_action], [User initialization code.])
+b4_define_user_code([post_prologue], [Second part of user prologue.])
+b4_define_user_code([pre_prologue], [First part of user prologue.])
 b4_define_user_code([union_members])
 
 
@@ -702,7 +721,7 @@ m4_define([b4_percent_define_use],
 #   b4_percent_define_get([[foo]])
 m4_define([b4_percent_define_get],
 [b4_percent_define_use([$1])dnl
-b4_percent_define_ifdef_([$1],
+_b4_percent_define_ifdef([$1],
                          [m4_indir([b4_percent_define(]$1[)])],
                          [$2])])
 
@@ -711,7 +730,7 @@ b4_percent_define_ifdef_([$1],
 # Mimic muscle_percent_define_get_loc in ../src/muscle-tab.h exactly.  That is,
 # if the %define variable VARIABLE is undefined, complain fatally since that's
 # a Bison or skeleton error.  Otherwise, return its definition location in a
-# form approriate for the first two arguments of b4_warn_at, b4_complain_at, or
+# form appropriate for the first two arguments of b4_warn_at, b4_complain_at, or
 # b4_fatal_at.  Don't record this as a Bison usage of VARIABLE as there's no
 # reason to suspect that the user-supplied value has yet influenced the output.
 #
@@ -739,8 +758,10 @@ m4_define([b4_percent_define_get_kind],
           [m4_indir([b4_percent_define_kind(]$1[)])],
           [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
-# b4_percent_define_get_syncline(VARIABLE)
-# ----------------------------------------
+# b4_percent_define_get_syncline(VARIABLE)dnl
+# -------------------------------------------
+# Should always be following by a dnl.
+#
 # Mimic muscle_percent_define_get_syncline in ../src/muscle-tab.h exactly.
 # That is, if the %define variable VARIABLE is undefined, complain fatally
 # since that's a Bison or skeleton error.  Otherwise, return its definition
@@ -756,15 +777,15 @@ m4_define([b4_percent_define_get_syncline],
           [m4_indir([b4_percent_define_syncline(]$1[)])],
           [b4_fatal([[$0: undefined %%define variable '%s']], [$1])])])
 
-# b4_percent_define_ifdef_(VARIABLE, IF-TRUE, [IF-FALSE])
+# _b4_percent_define_ifdef(VARIABLE, IF-TRUE, [IF-FALSE])
 # ------------------------------------------------------
 # If the %define variable VARIABLE is defined, expand IF-TRUE, else expand
 # IF-FALSE.  Don't record usage of VARIABLE.
 #
 # For example:
 #
-#   b4_percent_define_ifdef_([[foo]], [[it's defined]], [[it's undefined]])
-m4_define([b4_percent_define_ifdef_],
+#   _b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
+m4_define([_b4_percent_define_ifdef],
 [m4_ifdef([b4_percent_define(]$1[)],
           [$2],
           [$3])])
@@ -780,9 +801,42 @@ m4_define([b4_percent_define_ifdef_],
 #
 #   b4_percent_define_ifdef([[foo]], [[it's defined]], [[it's undefined]])
 m4_define([b4_percent_define_ifdef],
-[b4_percent_define_ifdef_([$1],
+[_b4_percent_define_ifdef([$1],
                          [b4_percent_define_use([$1])$2],
                          [$3])])
+
+
+# b4_percent_define_check_file_complain(VARIABLE)
+# -----------------------------------------------
+# Warn about %define variable VARIABLE having an incorrect
+# value.
+m4_define([b4_percent_define_check_file_complain],
+[b4_complain_at(b4_percent_define_get_loc([$1]),
+                [[%%define variable '%s' requires 'none' or '"..."' values]],
+                [$1])])
+
+
+# b4_percent_define_check_file(MACRO, VARIABLE, DEFAULT)
+# ------------------------------------------------------
+# If the %define variable VARIABLE:
+# - is undefined, then if DEFAULT is non-empty, define MACRO to DEFAULT
+# - is a string, define MACRO to its value
+# - is the keyword 'none', do nothing
+# - otherwise, warn about the incorrect value.
+m4_define([b4_percent_define_check_file],
+[b4_percent_define_ifdef([$2],
+  [m4_case(b4_percent_define_get_kind([$2]),
+    [string],
+         [m4_define([$1], b4_percent_define_get([$2]))],
+    [keyword],
+         [m4_if(b4_percent_define_get([$2]), [none], [],
+                [b4_percent_define_check_file_complain([$2])])],
+    [b4_percent_define_check_file_complain([$2])])
+   ],
+   [m4_ifval([$3],
+             [m4_define([$1], [$3])])])
+])
+
 
 
 ## --------- ##
@@ -825,7 +879,7 @@ m4_define([b4_percent_define_flag_if],
 #
 #   b4_percent_define_default([[foo]], [[default value]])
 m4_define([b4_percent_define_default],
-[b4_percent_define_ifdef_([$1], [],
+[_b4_percent_define_ifdef([$1], [],
            [m4_define([b4_percent_define(]$1[)], [$2])dnl
             m4_define([b4_percent_define_kind(]$1[)],
                       [m4_default([$3], [keyword])])dnl
@@ -840,26 +894,26 @@ m4_define([b4_percent_define_default],
 # Define b4_NAME_if that executes its $1 or $2 depending whether
 # VARIABLE was %defined.  The characters '.' and `-' in VARIABLE are mapped
 # to '_'.
-m4_define([b4_percent_define_if_define_],
+m4_define([_b4_percent_define_if_define],
 [m4_define(m4_bpatsubst([b4_$1_if], [[-.]], [_]),
            [b4_percent_define_flag_if(m4_default([$2], [$1]),
                                       [$3], [$4])])])
 m4_define([b4_percent_define_if_define],
 [b4_percent_define_default([m4_default([$2], [$1])], [[false]])
-b4_percent_define_if_define_([$1], [$2], $[1], $[2])])
+_b4_percent_define_if_define([$1], [$2], $[1], $[2])])
 
 
 # b4_percent_define_check_kind(VARIABLE, KIND, [DIAGNOSTIC = complain])
 # ---------------------------------------------------------------------
 m4_define([b4_percent_define_check_kind],
-[b4_percent_define_ifdef_([$1],
+[_b4_percent_define_ifdef([$1],
   [m4_if(b4_percent_define_get_kind([$1]), [$2], [],
     [b4_error([m4_default([$3], [complain])],
               b4_percent_define_get_loc([$1]),
               [m4_case([$2],
-                 [code], [[%%define variable '%s' requires '{...}' values]],
+                 [code],    [[%%define variable '%s' requires '{...}' values]],
                  [keyword], [[%%define variable '%s' requires keyword values]],
-                 [string], [[%%define variable '%s' requires '"..."' values]])],
+                 [string],  [[%%define variable '%s' requires '"..."' values]])],
               [$1])])])dnl
 ])
 
@@ -885,7 +939,7 @@ m4_define([b4_percent_define_check_values],
             [_b4_percent_define_check_values(b4_sublist)])])
 
 m4_define([_b4_percent_define_check_values],
-[b4_percent_define_ifdef_([$1],
+[_b4_percent_define_ifdef([$1],
   [b4_percent_define_check_kind(]$1[, [keyword], [deprecated])dnl
    m4_pushdef([b4_good_value], [0])dnl
    m4_if($#, 1, [],
@@ -921,10 +975,9 @@ m4_define([b4_percent_code_get],
 [m4_pushdef([b4_macro_name], [[b4_percent_code(]$1[)]])dnl
 m4_ifval([$1], [m4_define([b4_percent_code_bison_qualifiers(]$1[)])])dnl
 m4_ifdef(b4_macro_name,
-[b4_comment([m4_if([$#], [0], [[Unqualified %code]],
-                   [["%code ]$1["]])[ blocks.]])
-b4_user_code([m4_indir(b4_macro_name)])
-])dnl
+[b4_comment(m4_if([$#], [0], [[[Unqualified %code blocks.]]],
+                  [[["%code ]$1[" blocks.]]]))
+b4_user_code([m4_indir(b4_macro_name)])])dnl
 m4_popdef([b4_macro_name])])
 
 # b4_percent_code_ifdef(QUALIFIER, IF-TRUE, [IF-FALSE])
@@ -947,7 +1000,8 @@ m4_define([b4_percent_code_ifdef],
 # b4_parse_assert_if([IF-ASSERTIONS-ARE-USED], [IF-NOT])
 # b4_parse_trace_if([IF-DEBUG-TRACES-ARE-ENABLED], [IF-NOT])
 # b4_token_ctor_if([IF-YYLEX-RETURNS-A-TOKEN], [IF-NOT])
-# ----------------------------------------------
+# ----------------------------------------------------------
+b4_percent_define_if_define([api.token.raw])
 b4_percent_define_if_define([token_ctor], [api.token.constructor])
 b4_percent_define_if_define([locations])     # Whether locations are tracked.
 b4_percent_define_if_define([parse.assert])
@@ -1012,8 +1066,6 @@ b4_check_user_names_wrap([[code]], [[qualifier]])
 ## ---------------- ##
 
 # m4_define_default([b4_lex_param], [])   dnl breaks other skeletons
-m4_define_default([b4_pre_prologue], [])
-m4_define_default([b4_post_prologue], [])
 m4_define_default([b4_epilogue], [])
 m4_define_default([b4_parse_param], [])
 
@@ -1026,10 +1078,10 @@ m4_define_default([b4_location_initial_line],   [1])
 ## Sanity checks.  ##
 ## --------------- ##
 
-# api.location.prefix={...} (Java and C++).
+# api.location.type={...} (C, C++ and Java).
 b4_percent_define_check_kind([api.location.type], [code], [deprecated])
 
-# api.position.prefix={...} (Java).
+# api.position.type={...} (Java).
 b4_percent_define_check_kind([api.position.type], [code], [deprecated])
 
 # api.prefix >< %name-prefix.
@@ -1061,3 +1113,6 @@ b4_percent_define_ifdef([api.value.type],
                 [['%s' and '%s' cannot be used together]],
                 [%yacc],
                 [%define api.value.type "union"])])])])
+
+# api.value.union.name.
+b4_percent_define_check_kind([api.value.union.name], [keyword])

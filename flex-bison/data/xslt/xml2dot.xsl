@@ -3,7 +3,7 @@
 <!--
     xml2dot.xsl - transform Bison XML Report into DOT.
 
-    Copyright (C) 2007-2013 Free Software Foundation, Inc.
+    Copyright (C) 2007-2015, 2018-2019 Free Software Foundation, Inc.
 
     This file is part of Bison, the GNU Compiler Compiler.
 
@@ -83,7 +83,7 @@
   <xsl:param name="staten"/>
   <xsl:for-each select='reduction'>
     <!-- These variables are needed because the current context can't be
-         refered to directly in XPath expressions. -->
+         referred to directly in XPath expressions. -->
     <xsl:variable name="rul">
       <xsl:value-of select="@rule"/>
     </xsl:variable>
@@ -95,7 +95,7 @@
     <xsl:if test='not(preceding-sibling::*[@rule=$rul and @enabled=$ena])'>
       <xsl:variable name="rule">
         <xsl:choose>
-          <!-- The acceptation state is refered to as 'accept' in the XML, but
+          <!-- The acceptation state is referred to as 'accept' in the XML, but
                just as '0' in the DOT. -->
           <xsl:when test="@rule='accept'">
             <xsl:text>0</xsl:text>
@@ -201,6 +201,8 @@
   <xsl:if test="$point = 0">
     <xsl:text> .</xsl:text>
   </xsl:if>
+
+  <!-- RHS -->
   <xsl:for-each select="rhs/symbol|rhs/empty">
     <xsl:apply-templates select="."/>
     <xsl:if test="$point = position()">
@@ -214,7 +216,9 @@
   <xsl:value-of select="."/>
 </xsl:template>
 
-<xsl:template match="empty"/>
+<xsl:template match="empty">
+  <xsl:text> %empty</xsl:text>
+</xsl:template>
 
 <xsl:template match="lookaheads">
   <xsl:text>  [</xsl:text>
