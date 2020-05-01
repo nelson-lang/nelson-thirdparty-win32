@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CPACK-GENERATORS" "7" "Sep 04, 2019" "3.15.3" "CMake"
+.TH "CPACK-GENERATORS" "7" "Apr 28, 2020" "3.17.2" "CMake"
 .SH NAME
 cpack-generators \- CPack Generator Reference
 .
@@ -48,6 +48,8 @@ TGZ (.tar.gz)
 TXZ (.tar.xz)
 .IP \(bu 2
 TZ (.tar.Z)
+.IP \(bu 2
+TZST (.tar.zst)
 .IP \(bu 2
 ZIP (.zip)
 .UNINDENT
@@ -328,7 +330,7 @@ Default   : \fBCPACK_PACKAGE_VERSION\fP
 .UNINDENT
 .sp
 This variable may contain only alphanumerics (A\-Za\-z0\-9) and the characters
-. + \- ~ (full stop, plus, hyphen, tilde) and should start with a digit. If
+\&. + \- ~ (full stop, plus, hyphen, tilde) and should start with a digit. If
 \fI\%CPACK_DEBIAN_PACKAGE_RELEASE\fP is not set then hyphens are not
 allowed.
 .sp
@@ -447,7 +449,7 @@ Default   : \fBCPACK_PACKAGE_CONTACT\fP
 .TP
 .B CPACK_DEBIAN_PACKAGE_DESCRIPTION
 .TP
-.B CPACK_COMPONENT_<COMPONENT>_DESCRIPTION
+.B CPACK_DEBIAN_<COMPONENT>_DESCRIPTION
 The Debian package description
 .INDENT 7.0
 .IP \(bu 2
@@ -456,11 +458,19 @@ Mandatory : YES
 Default   :
 .INDENT 2.0
 .IP \(bu 2
-\fI\%CPACK_DEBIAN_PACKAGE_DESCRIPTION\fP if set or
+\fI\%CPACK_DEBIAN_<COMPONENT>_DESCRIPTION\fP (component
+based installers only) if set, or \fI\%CPACK_DEBIAN_PACKAGE_DESCRIPTION\fP if set, or
 .IP \(bu 2
-\fBCPACK_PACKAGE_DESCRIPTION_SUMMARY\fP
+\fBCPACK_COMPONENT_<compName>_DESCRIPTION\fP (component
+based installers only) if set, or \fBCPACK_PACKAGE_DESCRIPTION\fP if set, or
+.IP \(bu 2
+content of the file specified in \fBCPACK_PACKAGE_DESCRIPTION_FILE\fP if set
 .UNINDENT
 .UNINDENT
+.sp
+If after that description is not set, \fBCPACK_PACKAGE_DESCRIPTION_SUMMARY\fP going to be
+used if set. Otherwise, \fBCPACK_PACKAGE_DESCRIPTION_SUMMARY\fP will be added as the first
+line of description as defined in \fI\%Debian Policy Manual\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1061,10 +1071,12 @@ Set this option to \fBON\fP to avoid adding the symlink.
 .B CPACK_DMG_SLA_DIR
 Directory where license and menu files for different languages are stored.
 Setting this causes CPack to look for a \fB<language>.menu.txt\fP and
-\fB<language>.license.txt\fP file for every language defined in
-\fBCPACK_DMG_SLA_LANGUAGES\fP\&. If both this variable and
+\fB<language>.license.txt\fP or \fB<language>.license.rtf\fP file for every
+language defined in \fBCPACK_DMG_SLA_LANGUAGES\fP\&.  If both this variable and
 \fBCPACK_RESOURCE_FILE_LICENSE\fP are set, CPack will only look for the menu
-files and use the same license file for all languages.
+files and use the same license file for all languages.  If both
+\fB<language>.license.txt\fP and \fB<language>.license.rtf\fP exist, the \fB\&.txt\fP
+file will be used.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1097,6 +1109,16 @@ Unable to print. Make sure you have selected a printer.
 For every language in this list, CPack will try to find files
 \fB<language>.menu.txt\fP and \fB<language>.license.txt\fP in the directory
 specified by the \fI\%CPACK_DMG_SLA_DIR\fP variable.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_DMG_<component>_FILE_NAME
+File name when packaging \fB<component>\fP as its own DMG
+(\fBCPACK_COMPONENTS_GROUPING\fP set to IGNORE).
+.INDENT 7.0
+.IP \(bu 2
+Default: \fBCPACK_PACKAGE_FILE_NAME\-<component>\fP
+.UNINDENT
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1598,30 +1620,27 @@ Default: empty
 .UNINDENT
 .UNINDENT
 .SS CPack IFW Generator
-.sp
-See \fBCPackIFW\fP for details on the CPackIFW module.
 .SS Overview
 .sp
-CPack \fBIFW\fP generator helps you to create online and offline
-binary cross\-platform installers with a graphical user interface.
+This \fBcpack generator\fP generates
+configuration and meta information for the \fI\%Qt Installer Framework\fP (QtIFW).
 .sp
-CPack IFW generator prepares project installation and generates configuration
-and meta information for \fI\%QtIFW\fP tools.
+QtIFW provides tools and utilities to create installers for
+the platforms supported by \fI\%Qt\fP: Linux,
+Microsoft Windows, and macOS.
 .sp
-The \fI\%QtIFW\fP provides a set of tools and utilities to create
-installers for the supported desktop Qt platforms: Linux, Microsoft Windows,
-and macOS.
-.sp
-You should also install \fI\%QtIFW\fP to use CPack \fBIFW\fP generator.
+To make use of this generator, QtIFW should also be installed.
+The module \fBCPackIFW\fP looks for the location of the
+QtIFW command\-line utilities.
 .SS Hints
 .sp
-Generally, the CPack \fBIFW\fP generator automatically finds \fI\%QtIFW\fP tools,
-but if you don’t use a default path for installation of the \fI\%QtIFW\fP tools,
+Generally, the CPack \fBIFW\fP generator automatically finds QtIFW tools,
+but if you don’t use a default path for installation of the QtIFW tools,
 the path may be specified in either a CMake or an environment variable:
 .INDENT 0.0
 .TP
 .B CPACK_IFW_ROOT
-An CMake variable which specifies the location of the \fI\%QtIFW\fP tool suite.
+An CMake variable which specifies the location of the QtIFW tool suite.
 .sp
 The variable will be cached in the \fBCPackConfig.cmake\fP file and used at
 CPack runtime.
@@ -1629,7 +1648,7 @@ CPack runtime.
 .INDENT 0.0
 .TP
 .B QTIFWDIR
-An environment variable which specifies the location of the \fI\%QtIFW\fP tool
+An environment variable which specifies the location of the QtIFW tool
 suite.
 .UNINDENT
 .sp
@@ -1648,7 +1667,7 @@ the value of the \fI\%QTIFWDIR\fP variable.
 Some variables and command arguments support internationalization via
 CMake script. This is an optional feature.
 .sp
-Installers created by \fI\%QtIFW\fP tools have built\-in support for
+Installers created by QtIFW tools have built\-in support for
 internationalization and many phrases are localized to many languages,
 but this does not apply to the description of the your components and groups
 that will be distributed.
@@ -1800,7 +1819,7 @@ specified
 Filename of the generated maintenance tool.
 The platform\-specific executable file extension is appended.
 .sp
-By default used \fI\%QtIFW\fP defaults (\fBmaintenancetool\fP).
+By default used QtIFW defaults (\fBmaintenancetool\fP).
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1814,21 +1833,21 @@ Is \fBON\fP by default
 .B CPACK_IFW_PACKAGE_MAINTENANCE_TOOL_INI_FILE
 Filename for the configuration of the generated maintenance tool.
 .sp
-By default used \fI\%QtIFW\fP defaults (\fBmaintenancetool.ini\fP).
+By default used QtIFW defaults (\fBmaintenancetool.ini\fP).
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_IFW_PACKAGE_ALLOW_NON_ASCII_CHARACTERS
 Set to \fBON\fP if the installation path can contain non\-ASCII characters.
 .sp
-Is \fBON\fP for \fI\%QtIFW\fP less 2.0 tools.
+Is \fBON\fP for QtIFW less 2.0 tools.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_IFW_PACKAGE_ALLOW_SPACE_IN_PATH
 Set to \fBOFF\fP if the installation path cannot contain space characters.
 .sp
-Is \fBON\fP for \fI\%QtIFW\fP less 2.0 tools.
+Is \fBON\fP for QtIFW less 2.0 tools.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1891,13 +1910,13 @@ dependent components.
 .B CPACK_IFW_REPOSITORIES_DIRECTORIES
 Additional prepared repository dirs that will be used to resolve and
 repack dependent components. This feature available only
-since \fI\%QtIFW\fP 3.1.
+since QtIFW 3.1.
 .UNINDENT
 .SS Tools
 .INDENT 0.0
 .TP
 .B CPACK_IFW_FRAMEWORK_VERSION
-The version of used \fI\%QtIFW\fP tools.
+The version of used QtIFW tools.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1967,7 +1986,9 @@ Promoting Updates:
 .UNINDENT
 .SS CPack NSIS Generator
 .sp
-CPack Nullsoft Scriptable Install System (NSIS) generator specific options
+CPack Nullsoft Scriptable Install System (NSIS) generator specific options.
+.sp
+The NSIS generator requires NSIS 3.0 or newer.
 .SS Variables specific to CPack NSIS generator
 .sp
 The following variables are specific to the graphical installers built
@@ -2123,6 +2144,37 @@ set(CPACK_NSIS_MENU_LINKS
 .fi
 .UNINDENT
 .UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_UNINSTALL_NAME
+Specify the name of the program to uninstall the version.
+Default is \fBUninstall\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_WELCOME_TITLE
+The title to display on the top of the page for the welcome page.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_WELCOME_TITLE_3LINES
+Display the title in the welcome page on 3 lines instead of 2.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_FINISH_TITLE
+The title to display on the top of the page for the finish page.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_FINISH_TITLE_3LINES
+Display the title in the finish page on 3 lines instead of 2.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_MUI_HEADERIMAGE
+The image to display on the header of installers pages.
 .UNINDENT
 .SS CPack NuGet Generator
 .sp
@@ -2404,6 +2456,10 @@ Default   : OFF
 .SS CPack PackageMaker Generator
 .sp
 PackageMaker CPack generator (macOS).
+.sp
+Deprecated since version 3.17: Xcode no longer distributes the PackageMaker tools.
+This CPack generator will be removed in a future version of CPack.
+
 .SS Variables specific to CPack PackageMaker generator
 .sp
 The following variable is specific to installers built on Mac
@@ -2415,12 +2471,73 @@ The version of macOS that the resulting PackageMaker archive should be
 compatible with. Different versions of macOS support different
 features. For example, CPack can only build component\-based installers for
 macOS 10.4 or newer, and can only build installers that download
-component son\-the\-fly for macOS 10.5 or newer. If left blank, this value
+components on\-the\-fly for macOS 10.5 or newer. If left blank, this value
 will be set to the minimum version of macOS that supports the requested
 features. Set this variable to some value (e.g., 10.4) only if you want to
 guarantee that your installer will work on that version of macOS, and
 don’t mind missing extra features available in the installer shipping with
 later versions of macOS.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND
+Adds a background to Distribtion XML if specified. The value contains the
+path to image in \fBResources\fP directory.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_ALIGNMENT
+Adds an \fBalignment\fP attribute to the background in Distribution XML.
+Refer to Apple documentation for valid values.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_SCALING
+Adds a \fBscaling\fP attribute to the background in Distribution XML.
+Refer to Apple documentation for valid values.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_MIME_TYPE
+Adds a \fBmime\-type\fP attribute to the background in Distribution XML.
+The option contains MIME type of an image.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_UTI
+Adds an \fButi\fP attribute to the background in Distribution XML.
+The option contains UTI type of an image.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_DARKAQUA
+Adds a background for the Dark Aqua theme to Distribution XML if
+specified. The value contains the path to image in \fBResources\fP
+directory.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_DARKAQUA_ALIGNMENT
+Does the same as \fI\%CPACK_PACKAGEMAKER_BACKGROUND_ALIGNMENT\fP option,
+but for the dark theme.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_DARKAQUA_SCALING
+Does the same as \fI\%CPACK_PACKAGEMAKER_BACKGROUND_SCALING\fP option,
+but for the dark theme.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_DARKAQUA_MIME_TYPE
+Does the same as \fI\%CPACK_PACKAGEMAKER_BACKGROUND_MIME_TYPE\fP option,
+but for the dark theme.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PACKAGEMAKER_BACKGROUND_DARKAQUA_UTI
+Does the same as \fI\%CPACK_PACKAGEMAKER_BACKGROUND_UTI\fP option,
+but for the dark theme.
 .UNINDENT
 .SS CPack productbuild Generator
 .sp
@@ -2488,6 +2605,67 @@ If specified the productbuild generator copies files from this directory
 before the \fBCPACK_RESOURCE_FILE_WELCOME\fP,
 \fBCPACK_RESOURCE_FILE_README\fP, and
 \fBCPACK_RESOURCE_FILE_LICENSE\fP files are copied.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND
+Adds a background to Distribtion XML if specified. The value contains the
+path to image in \fBResources\fP directory.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_ALIGNMENT
+Adds an \fBalignment\fP attribute to the background in Distribution XML.
+Refer to Apple documentation for valid values.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_SCALING
+Adds a \fBscaling\fP attribute to the background in Distribution XML.
+Refer to Apple documentation for valid values.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_MIME_TYPE
+Adds a \fBmime\-type\fP attribute to the background in Distribution XML.
+The option contains MIME type of an image.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_UTI
+Adds an \fButi\fP attribute to the background in Distribution XML.
+The option contains UTI type of an image.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_DARKAQUA
+Adds a background for the Dark Aqua theme to Distribution XML if
+specified. The value contains the path to image in \fBResources\fP
+directory.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_DARKAQUA_ALIGNMENT
+Does the same as \fI\%CPACK_PRODUCTBUILD_BACKGROUND_ALIGNMENT\fP option,
+but for the dark theme.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_DARKAQUA_SCALING
+Does the same as \fI\%CPACK_PRODUCTBUILD_BACKGROUND_SCALING\fP option,
+but for the dark theme.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_DARKAQUA_MIME_TYPE
+Does the same as \fI\%CPACK_PRODUCTBUILD_BACKGROUND_MIME_TYPE\fP option,
+but for the dark theme.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_PRODUCTBUILD_BACKGROUND_DARKAQUA_UTI
+Does the same as \fI\%CPACK_PRODUCTBUILD_BACKGROUND_UTI\fP option,
+but for the dark theme.
 .UNINDENT
 .SS CPack RPM Generator
 .sp
@@ -4072,6 +4250,10 @@ This image must be 493 by 312 pixels.
 Start menu folder name for launcher.
 .sp
 If this variable is not set, it will be initialized with CPACK_PACKAGE_NAME
+.sp
+If this variable is set to \fB\&.\fP, then application shortcuts will be
+created directly in the start menu and the uninstaller shortcut will be
+omitted.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -4313,6 +4495,6 @@ When unspecified CPack will try to locate a WiX Toolset
 installation via the \fBWIX\fP environment variable instead.
 .UNINDENT
 .SH COPYRIGHT
-2000-2019 Kitware, Inc. and Contributors
+2000-2020 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .
