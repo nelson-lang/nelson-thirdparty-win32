@@ -8,19 +8,9 @@
 #ifndef BOOST_GIL_EXTENSION_DYNAMIC_IMAGE_APPLY_OPERATION_HPP
 #define BOOST_GIL_EXTENSION_DYNAMIC_IMAGE_APPLY_OPERATION_HPP
 
+#include <boost/gil/detail/mp11.hpp>
+
 #include <boost/variant/apply_visitor.hpp>
-
-#ifdef BOOST_GIL_DOXYGEN_ONLY
-#undef BOOST_GIL_REDUCE_CODE_BLOAT
-#endif
-
-// Implements apply_operation for variants.
-// Optionally performs type reduction.
-#ifdef BOOST_GIL_REDUCE_CODE_BLOAT
-
-#include <boost/gil/extension/dynamic_image/reduce.hpp>
-
-#else
 
 namespace boost { namespace gil {
 
@@ -60,12 +50,9 @@ auto apply_operation(
     -> typename BinaryOp::result_type
 #endif
 {
-    return apply_visitor(
-        op, arg1, arg2);
+    return apply_visitor(op, arg1, arg2);
 }
 
 }}  // namespace boost::gil
-
-#endif // defined(BOOST_GIL_REDUCE_CODE_BLOAT)
 
 #endif

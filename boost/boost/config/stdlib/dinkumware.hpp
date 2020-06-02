@@ -86,6 +86,7 @@
 #  define BOOST_NO_STD_LOCALE
 #endif
 
+#if BOOST_MSVC < 1800
 // Fix for VC++ 8.0 on up ( I do not have a previous version to test )
 // or clang-cl. If exceptions are off you must manually include the 
 // <exception> header before including the <typeinfo> header. Admittedly 
@@ -97,9 +98,10 @@
 #endif
 #include <typeinfo>
 #if ( (!_HAS_EXCEPTIONS && !defined(__ghs__)) || (defined(__ghs__) && !_HAS_NAMESPACE) ) && !defined(__TI_COMPILER_VERSION__) && !defined(__VISUALDSPVERSION__) \
-	&& !defined(__VXWORKS__)
+   && !defined(__VXWORKS__)
 #  define BOOST_NO_STD_TYPEINFO
 #endif  
+#endif
 
 //  C++0x headers implemented in 520 (as shipped by Microsoft)
 //
@@ -136,6 +138,7 @@
 #  define BOOST_NO_CXX11_HDR_RATIO
 #  define BOOST_NO_CXX11_HDR_THREAD
 #  define BOOST_NO_CXX11_ATOMIC_SMART_PTR
+#  define BOOST_NO_CXX11_HDR_EXCEPTION
 #endif
 
 //  C++0x headers implemented in 610 (as shipped by Microsoft)

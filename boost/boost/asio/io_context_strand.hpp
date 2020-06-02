@@ -2,7 +2,7 @@
 // io_context_strand.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2019 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2020 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -183,7 +183,7 @@ public:
    * @code void handler(); @endcode
    */
   template <typename LegacyCompletionHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(LegacyCompletionHandler, void ())
+  BOOST_ASIO_INITFN_AUTO_RESULT_TYPE(LegacyCompletionHandler, void ())
   dispatch(BOOST_ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
   {
     return async_initiate<LegacyCompletionHandler, void ()>(
@@ -230,7 +230,7 @@ public:
    * @code void handler(); @endcode
    */
   template <typename LegacyCompletionHandler>
-  BOOST_ASIO_INITFN_RESULT_TYPE(LegacyCompletionHandler, void ())
+  BOOST_ASIO_INITFN_AUTO_RESULT_TYPE(LegacyCompletionHandler, void ())
   post(BOOST_ASIO_MOVE_ARG(LegacyCompletionHandler) handler)
   {
     return async_initiate<LegacyCompletionHandler, void ()>(

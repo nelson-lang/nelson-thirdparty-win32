@@ -1,5 +1,5 @@
 /* Proposed SG14 status_code
-(C) 2018-2019 Niall Douglas <http://www.nedproductions.biz/> (5 commits)
+(C) 2018-2020 Niall Douglas <http://www.nedproductions.biz/> (5 commits)
 File Created: Feb 2018
 
 
@@ -31,6 +31,10 @@ DEALINGS IN THE SOFTWARE.
 #ifndef BOOST_OUTCOME_SYSTEM_ERROR2_POSIX_CODE_HPP
 #define BOOST_OUTCOME_SYSTEM_ERROR2_POSIX_CODE_HPP
 
+#ifdef BOOST_OUTCOME_SYSTEM_ERROR2_NOT_POSIX
+#error <posix_code.hpp> is not includable when BOOST_OUTCOME_SYSTEM_ERROR2_NOT_POSIX is defined!
+#endif
+
 #include "generic_code.hpp"
 
 #include <cstring>  // for strchr and strerror_r
@@ -56,8 +60,8 @@ class _posix_code_domain : public status_code_domain
     char buffer[1024] = "";
 #ifdef _WIN32
     strerror_s(buffer, sizeof(buffer), c);
-#elif defined(__linux__)
-    char *s = strerror_r(c, buffer, sizeof(buffer));  // NOLINT
+#elif defined(__gnu_linux__) && !defined(__ANDROID__)  // handle glibc's weird strerror_r()
+    char *s = strerror_r(c, buffer, sizeof(buffer));   // NOLINT
     if(s != nullptr)
     {
       strncpy(buffer, s, sizeof(buffer));  // NOLINT

@@ -1,5 +1,5 @@
 /* Proposed SG14 status_code
-(C) 2018-2019 Niall Douglas <http://www.nedproductions.biz/> (5 commits)
+(C) 2018-2020 Niall Douglas <http://www.nedproductions.biz/> (5 commits)
 File Created: Feb 2018
 
 
@@ -45,12 +45,21 @@ namespace win32
   // A Win32 DWORD
   using DWORD = unsigned long;
   // Used to retrieve the current Win32 error code
-  extern "C" DWORD __stdcall GetLastError();
+  extern DWORD __stdcall GetLastError();
   // Used to retrieve a locale-specific message string for some error code
-  extern "C" DWORD __stdcall FormatMessageW(DWORD dwFlags, const void *lpSource, DWORD dwMessageId, DWORD dwLanguageId, wchar_t *lpBuffer, DWORD nSize, void /*va_list*/ *Arguments);
+  extern DWORD __stdcall FormatMessageW(DWORD dwFlags, const void *lpSource, DWORD dwMessageId, DWORD dwLanguageId, wchar_t *lpBuffer, DWORD nSize, void /*va_list*/ *Arguments);
   // Converts UTF-16 message string to UTF-8
-  extern "C" int __stdcall WideCharToMultiByte(unsigned int CodePage, DWORD dwFlags, const wchar_t *lpWideCharStr, int cchWideChar, char *lpMultiByteStr, int cbMultiByte, const char *lpDefaultChar, int *lpUsedDefaultChar);
+  extern int __stdcall WideCharToMultiByte(unsigned int CodePage, DWORD dwFlags, const wchar_t *lpWideCharStr, int cchWideChar, char *lpMultiByteStr, int cbMultiByte, const char *lpDefaultChar, int *lpUsedDefaultChar);
 #pragma comment(lib, "kernel32.lib")
+#if defined(_WIN64)
+#pragma comment(linker, "/alternatename:?GetLastError@win32@system_error2@@YAKXZ=GetLastError")
+#pragma comment(linker, "/alternatename:?FormatMessageW@win32@system_error2@@YAKKPEBXKKPEA_WKPEAX@Z=FormatMessageW")
+#pragma comment(linker, "/alternatename:?WideCharToMultiByte@win32@system_error2@@YAHIKPEB_WHPEADHPEBDPEAH@Z=WideCharToMultiByte")
+#else
+#pragma comment(linker, "/alternatename:?GetLastError@win32@system_error2@@YGKXZ=__imp__GetLastError@0")
+#pragma comment(linker, "/alternatename:?FormatMessageW@win32@system_error2@@YGKKPBXKKPA_WKPAX@Z=__imp__FormatMessageW@28")
+#pragma comment(linker, "/alternatename:?WideCharToMultiByte@win32@system_error2@@YGHIKPB_WHPADHPBDPAH@Z=__imp__WideCharToMultiByte@32")
+#endif
 }  // namespace win32
 
 class _win32_code_domain;
@@ -61,7 +70,7 @@ using win32_code = status_code<_win32_code_domain>;
 using win32_error = status_error<_win32_code_domain>;
 
 /*! (Windows only) The implementation of the domain for Win32 error codes, those returned by `GetLastError()`.
-*/
+ */
 class _win32_code_domain : public status_code_domain
 {
   template <class DomainType> friend class status_code;
@@ -124,7 +133,10 @@ public:
 
 public:
   //! Default constructor
-  constexpr explicit _win32_code_domain(typename _base::unique_id_type id = 0x8cd18ee72d680f1b) noexcept : _base(id) {}
+  constexpr explicit _win32_code_domain(typename _base::unique_id_type id = 0x8cd18ee72d680f1b) noexcept
+      : _base(id)
+  {
+  }
   _win32_code_domain(const _win32_code_domain &) = default;
   _win32_code_domain(_win32_code_domain &&) = default;
   _win32_code_domain &operator=(const _win32_code_domain &) = default;

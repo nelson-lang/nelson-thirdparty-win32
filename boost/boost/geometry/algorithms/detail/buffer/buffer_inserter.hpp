@@ -31,13 +31,15 @@
 
 #include <boost/geometry/strategies/buffer.hpp>
 #include <boost/geometry/strategies/side.hpp>
+#include <boost/geometry/algorithms/detail/make/make.hpp>
 #include <boost/geometry/algorithms/detail/buffer/buffered_piece_collection.hpp>
 #include <boost/geometry/algorithms/detail/buffer/line_line_intersection.hpp>
-#include <boost/geometry/algorithms/detail/buffer/parallel_continue.hpp>
 
 #include <boost/geometry/algorithms/assign.hpp>
 #include <boost/geometry/algorithms/num_interior_rings.hpp>
 #include <boost/geometry/algorithms/simplify.hpp>
+
+#include <boost/geometry/arithmetic/infinite_line_functions.hpp>
 
 #include <boost/geometry/views/detail/normalized_view.hpp>
 
@@ -95,7 +97,7 @@ struct buffer_range
         typename JoinStrategy,
         typename EndStrategy,
         typename RobustPolicy,
-        typename Strategy
+        typename SideStrategy
     >
     static inline
     void add_join(Collection& collection,
@@ -111,13 +113,13 @@ struct buffer_range
             JoinStrategy const& join_strategy,
             EndStrategy const& end_strategy,
             RobustPolicy const& ,
-            Strategy const& strategy) // side strategy
+            SideStrategy const& side_strategy) // side strategy
     {
         output_point_type intersection_point;
         geometry::assign_zero(intersection_point);
 
         geometry::strategy::buffer::join_selector join
-                = get_join_type(penultimate_input, previous_input, input, strategy);
+                = get_join_type(penultimate_input, previous_input, input, side_strategy);
         if (join == geometry::strategy::buffer::join_convex)
         {
             // Calculate the intersection-point formed by the two sides.
@@ -175,23 +177,28 @@ struct buffer_range
         }
     }
 
-    template <typename Strategy>
+    static inline bool similar_direction(output_point_type const& p0,
+            output_point_type const& p1,
+            output_point_type const& p2)
+    {
+        typedef model::infinite_line<coordinate_type> line_type;
+        line_type const p = detail::make::make_infinite_line<coordinate_type>(p0, p1);
+        line_type const q = detail::make::make_infinite_line<coordinate_type>(p1, p2);
+        return arithmetic::similar_direction(p, q);
+    }
+
+    template <typename SideStrategy>
     static inline geometry::strategy::buffer::join_selector get_join_type(
             output_point_type const& p0,
             output_point_type const& p1,
             output_point_type const& p2,
-            Strategy const& strategy) // side strategy
+            SideStrategy const& side_strategy)
     {
-        int const side = strategy.apply(p0, p1, p2);
+        int const side = side_strategy.apply(p0, p1, p2);
         return side == -1 ? geometry::strategy::buffer::join_convex
             :  side == 1  ? geometry::strategy::buffer::join_concave
-            :  parallel_continue
-                    (
-                        get<0>(p2) - get<0>(p1),
-                        get<1>(p2) - get<1>(p1),
-                        get<0>(p1) - get<0>(p0),
-                        get<1>(p1) - get<1>(p0)
-                    )  ? geometry::strategy::buffer::join_continue
+            :  similar_direction(p0, p1, p2)
+                          ? geometry::strategy::buffer::join_continue
             : geometry::strategy::buffer::join_spike;
     }
 
@@ -605,7 +612,7 @@ struct buffer_inserter<ring_tag, RingInput, RingOutput>
                 collection, distance,
                 side_strategy, join_strategy, end_strategy, point_strategy,
                 robust_policy, strategy);
-        collection.finish_ring(code);
+        collection.finish_ring(code, ring, false, false);
         return code;
     }
 };
@@ -803,7 +810,7 @@ private:
                     join_strategy, end_strategy, point_strategy,
                     robust_policy, strategy);
 
-            collection.finish_ring(code, is_interior);
+            collection.finish_ring(code, *it, is_interior, false);
         }
     }
 
@@ -867,7 +874,7 @@ public:
                     join_strategy, end_strategy, point_strategy,
                     robust_policy, strategy);
 
-            collection.finish_ring(code, false,
+            collection.finish_ring(code, exterior_ring(polygon), false,
                     geometry::num_interior_rings(polygon) > 0u);
         }
 
@@ -940,9 +947,10 @@ inline void buffer_inserter(GeometryInput const& geometry_input, OutputIterator 
     <
         typename geometry::ring_type<GeometryOutput>::type,
         IntersectionStrategy,
+        DistanceStrategy,
         RobustPolicy
     > collection_type;
-    collection_type collection(intersection_strategy, robust_policy);
+    collection_type collection(intersection_strategy, distance_strategy, robust_policy);
     collection_type const& const_collection = collection;
 
     bool const areal = boost::is_same
@@ -969,7 +977,7 @@ inline void buffer_inserter(GeometryInput const& geometry_input, OutputIterator 
     collection.classify_turns();
     if (BOOST_GEOMETRY_CONDITION(areal))
     {
-        collection.check_remaining_points(distance_strategy);
+        collection.check_remaining_points();
     }
 
     // Visit the piece collection. This does nothing (by default), but

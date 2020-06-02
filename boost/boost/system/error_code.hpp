@@ -335,8 +335,11 @@ template<class T> struct BOOST_SYMBOL_VISIBLE cat_holder
     static constexpr generic_error_category generic_category_instance{};
 };
 
+// Before C++17 it was mandatory to redeclare all static constexpr
+#if defined(BOOST_NO_CXX17_INLINE_VARIABLES)
 template<class T> constexpr system_error_category cat_holder<T>::system_category_instance;
 template<class T> constexpr generic_error_category cat_holder<T>::generic_category_instance;
+#endif
 
 } // namespace detail
 
@@ -352,15 +355,16 @@ constexpr error_category const & generic_category() BOOST_NOEXCEPT
 
 #else // #if defined(BOOST_SYSTEM_HAS_CONSTEXPR)
 
+#if !defined(__SUNPRO_CC) // trailing __global is not supported
 inline error_category const & system_category() BOOST_NOEXCEPT BOOST_SYMBOL_VISIBLE;
+inline error_category const & generic_category() BOOST_NOEXCEPT BOOST_SYMBOL_VISIBLE;
+#endif
 
 inline error_category const & system_category() BOOST_NOEXCEPT
 {
     static const detail::system_error_category system_category_instance;
     return system_category_instance;
 }
-
-inline error_category const & generic_category() BOOST_NOEXCEPT BOOST_SYMBOL_VISIBLE;
 
 inline error_category const & generic_category() BOOST_NOEXCEPT
 {
@@ -780,11 +784,11 @@ inline std::size_t hash_value( error_code const & ec )
 {
     error_category const & cat = ec.category();
 
-    boost::ulong_long_type id = cat.id_;
+    boost::ulong_long_type id_ = cat.id_;
 
-    if( id == 0 )
+    if( id_ == 0 )
     {
-        id = reinterpret_cast<boost::uintptr_t>( &cat );
+        id_ = reinterpret_cast<boost::uintptr_t>( &cat );
     }
 
     boost::ulong_long_type hv = ( boost::ulong_long_type( 0xCBF29CE4 ) << 32 ) + 0x84222325;
@@ -792,7 +796,7 @@ inline std::size_t hash_value( error_code const & ec )
 
     // id
 
-    hv ^= id;
+    hv ^= id_;
     hv *= prime;
 
     // value
