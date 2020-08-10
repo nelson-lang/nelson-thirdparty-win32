@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>FindRuby &mdash; CMake 3.17.2 Documentation</title>
+  <title>FindRuby &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -60,29 +60,67 @@
 <span id="module:FindRuby"></span><h1>FindRuby<a class="headerlink" href="#findruby" title="Permalink to this headline">¶</a></h1>
 <p>Find Ruby</p>
 <p>This module finds if Ruby is installed and determines where the
-include files and libraries are.  Ruby 1.8, 1.9, 2.0 and 2.1 are
+include files and libraries are.  Ruby 1.8 through 2.7 are
 supported.</p>
 <p>The minimum required version of Ruby can be specified using the
-standard syntax, e.g.  find_package(Ruby 1.8)</p>
-<p>It also determines what the name of the library is.  This code sets
-the following variables:</p>
+standard syntax, e.g.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Ruby</span><span class="w"> </span><span class="m">2.5.1</span><span class="w"> </span><span class="no">EXACT</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span><span class="w"></span>
+<span class="c"># OR</span>
+<span class="nf">find_package(</span><span class="nb">Ruby</span><span class="w"> </span><span class="m">2.4</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>It also determines what the name of the library is.</p>
+<p>Virtual environments such as RVM are handled as well, by passing
+the argument <code class="docutils literal notranslate"><span class="pre">Ruby_FIND_VIRTUALENV</span></code></p>
+<div class="section" id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h2>
+<p>This module will set the following variables in your project:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">RUBY_EXECUTABLE</span></code></dt><dd><p>full path to the ruby binary</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_FOUND</span></code></dt><dd><p>set to true if ruby was found successfully</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RUBY_INCLUDE_DIRS</span></code></dt><dd><p>include dirs to be used when using the ruby library</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_EXECUTABLE</span></code></dt><dd><p>full path to the ruby binary</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RUBY_LIBRARY</span></code></dt><dd><p>full path to the ruby library</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_INCLUDE_DIRS</span></code></dt><dd><p>include dirs to be used when using the ruby library</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RUBY_VERSION</span></code></dt><dd><p>the version of ruby which was found, e.g. “1.8.7”</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_LIBRARIES</span></code></dt><dd><p>libraries needed to use ruby from C.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RUBY_FOUND</span></code></dt><dd><p>set to true if ruby ws found successfully</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_VERSION</span></code></dt><dd><p>the version of ruby which was found, e.g. “1.8.7”</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_VERSION_MAJOR</span></code></dt><dd><p>Ruby major version.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_VERSION_MINOR</span></code></dt><dd><p>Ruby minor version.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_VERSION_PATCH</span></code></dt><dd><p>Ruby patch version.</p>
 </dd>
 </dl>
 <p>Also:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">RUBY_INCLUDE_PATH</span></code></dt><dd><p>same as RUBY_INCLUDE_DIRS, only provided for compatibility reasons, don’t use it</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_INCLUDE_PATH</span></code></dt><dd><p>same as Ruby_INCLUDE_DIRS, only provided for compatibility reasons, don’t use it</p>
 </dd>
 </dl>
+</div>
+<div class="section" id="hints">
+<h2>Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h2>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_ROOT_DIR</span></code></dt><dd><p>Define the root directory of a Ruby installation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Ruby_FIND_VIRTUALENV</span></code></dt><dd><p>This variable defines the handling of virtual environments managed by
+<code class="docutils literal notranslate"><span class="pre">rvm</span></code>. It is meaningful only when a virtual environment
+is active (i.e. the <code class="docutils literal notranslate"><span class="pre">rvm</span></code> script has been evaluated or at least the
+<code class="docutils literal notranslate"><span class="pre">MY_RUBY_HOME</span></code> environment variable is set).
+The <code class="docutils literal notranslate"><span class="pre">Ruby_FIND_VIRTUALENV</span></code> variable can be set to empty or
+one of the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FIRST</span></code>: The virtual environment is used before any other standard
+paths to look-up for the interpreter. This is the default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ONLY</span></code>: Only the virtual environment is used to look-up for the
+interpreter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STANDARD</span></code>: The virtual environment is not used to look-up for the
+interpreter (assuming it isn’t still in the PATH…)</p></li>
+</ul>
+</dd>
+</dl>
+</div>
 </div>
 
 
@@ -91,6 +129,15 @@ the following variables:</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FindRuby</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#hints">Hints</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="FindRTI.html"
                         title="previous chapter">FindRTI</a></p>
@@ -138,7 +185,7 @@ the following variables:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
@@ -146,7 +193,7 @@ the following variables:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>set_property &mdash; CMake 3.17.2 Documentation</title>
+  <title>set_property &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -62,12 +62,14 @@
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="o">&lt;</span><span class="no">GLOBAL</span><span class="w">                      </span><span class="p">|</span><span class="w"></span>
 <span class="w">              </span><span class="no">DIRECTORY</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w">           </span><span class="p">|</span><span class="w"></span>
 <span class="w">              </span><span class="no">TARGET</span><span class="w">    </span><span class="p">[</span><span class="nv">&lt;target1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w">   </span><span class="p">|</span><span class="w"></span>
-<span class="w">              </span><span class="no">SOURCE</span><span class="w">    </span><span class="p">[</span><span class="nv">&lt;src1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w">      </span><span class="p">|</span><span class="w"></span>
+<span class="w">              </span><span class="no">SOURCE</span><span class="w">    </span><span class="p">[</span><span class="nv">&lt;src1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w"></span>
+<span class="w">                        </span><span class="p">[</span><span class="no">DIRECTORY</span><span class="w"> </span><span class="nv">&lt;dirs&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w"> </span><span class="p">|</span><span class="w"></span>
+<span class="w">                        </span><span class="p">[</span><span class="no">TARGET_DIRECTORY</span><span class="w"> </span><span class="nv">&lt;targets&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w"></span>
 <span class="w">              </span><span class="no">INSTALL</span><span class="w">   </span><span class="p">[</span><span class="nv">&lt;file1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w">     </span><span class="p">|</span><span class="w"></span>
 <span class="w">              </span><span class="no">TEST</span><span class="w">      </span><span class="p">[</span><span class="nv">&lt;test1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w">     </span><span class="p">|</span><span class="w"></span>
 <span class="w">              </span><span class="no">CACHE</span><span class="w">     </span><span class="p">[</span><span class="nv">&lt;entry1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w">    </span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">             </span><span class="p">[</span><span class="no">APPEND</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">APPEND_STRING</span><span class="p">]</span><span class="w"></span>
-<span class="w">             </span><span class="no">PROPERTY</span><span class="w"> </span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">value1</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
+<span class="w">             </span><span class="no">PROPERTY</span><span class="w"> </span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;value1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Sets one property on zero or more objects of a scope.</p>
@@ -83,10 +85,23 @@ See also the <span class="target" id="index-0-command:set_directory_properties">
 <dt><code class="docutils literal notranslate"><span class="pre">TARGET</span></code></dt><dd><p>Scope may name zero or more existing targets.
 See also the <span class="target" id="index-0-command:set_target_properties"></span><a class="reference internal" href="set_target_properties.html#command:set_target_properties" title="set_target_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_target_properties()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">SOURCE</span></code></dt><dd><p>Scope may name zero or more source files.  Note that source
-file properties are visible only to targets added in the same
-directory (<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>).
-See also the <span class="target" id="index-0-command:set_source_files_properties"></span><a class="reference internal" href="set_source_files_properties.html#command:set_source_files_properties" title="set_source_files_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_source_files_properties()</span></code></a> command.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">SOURCE</span></code></dt><dd><p>Scope may name zero or more source files.  By default, source file properties
+are only visible to targets added in the same directory (<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>).
+Visibility can be set in other directory scopes using one or both of the
+following sub-options:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">DIRECTORY</span> <span class="pre">&lt;dirs&gt;...</span></code></dt><dd><p>The source file property will be set in each of the <code class="docutils literal notranslate"><span class="pre">&lt;dirs&gt;</span></code>
+directories’ scopes.  CMake must already know about each of these
+source directories, either by having added them through a call to
+<span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> or it being the top level source directory.
+Relative paths are treated as relative to the current source directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TARGET_DIRECTORY</span> <span class="pre">&lt;targets&gt;...</span></code></dt><dd><p>The source file property will be set in each of the directory scopes
+where any of the specified <code class="docutils literal notranslate"><span class="pre">&lt;targets&gt;</span></code> were created (the <code class="docutils literal notranslate"><span class="pre">&lt;targets&gt;</span></code>
+must therefore already exist).</p>
+</dd>
+</dl>
+<p>See also the <span class="target" id="index-0-command:set_source_files_properties"></span><a class="reference internal" href="set_source_files_properties.html#command:set_source_files_properties" title="set_source_files_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_source_files_properties()</span></code></a> command.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">INSTALL</span></code></dt><dd><p>Scope may name zero or more installed file paths.
 These are made available to CPack to influence deployment.</p>
@@ -109,7 +124,8 @@ See also the <span class="target" id="index-0-command:set_tests_properties"></sp
 the property to set.  Remaining arguments are used to compose the
 property value in the form of a semicolon-separated list.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">APPEND</span></code> option is given the list is appended to any existing
-property value.  If the <code class="docutils literal notranslate"><span class="pre">APPEND_STRING</span></code> option is given the string is
+property value (except that empty values are ignored and not appended).
+If the <code class="docutils literal notranslate"><span class="pre">APPEND_STRING</span></code> option is given the string is
 appended to any existing property value as string, i.e. it results in a
 longer string and not a list of strings.  When using <code class="docutils literal notranslate"><span class="pre">APPEND</span></code> or
 <code class="docutils literal notranslate"><span class="pre">APPEND_STRING</span></code> with a property defined to support <code class="docutils literal notranslate"><span class="pre">INHERITED</span></code>
@@ -174,7 +190,7 @@ in each scope.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -182,7 +198,7 @@ in each scope.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>find_file &mdash; CMake 3.17.2 Documentation</title>
+  <title>find_file &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -68,6 +68,7 @@
           [PATHS path1 [path2 ... ENV var]]
           [PATH_SUFFIXES suffix1 [suffix2 ...]]
           [DOC &quot;cache documentation string&quot;]
+          [REQUIRED]
           [NO_DEFAULT_PATH]
           [NO_PACKAGE_ROOT_PATH]
           [NO_CMAKE_PATH]
@@ -83,8 +84,9 @@ A cache entry named by <code class="docutils literal notranslate"><span class="p
 of this command.
 If the full path to a file is found the result is stored in the variable
 and the search will not be repeated unless the variable is cleared.
-If nothing is found, the result will be
-<code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;-NOTFOUND</span></code>, and the search will be attempted again the
+If nothing is found, the result will be <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;-NOTFOUND</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> option stops processing with an error message if nothing
+is found, otherwise the search will be attempted again the
 next time find_file is invoked with the same variable.</p>
 <p>Options include:</p>
 <dl>
@@ -103,11 +105,13 @@ location otherwise considered.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DOC</span></code></dt><dd><p>Specify the documentation string for the <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code> cache entry.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code></dt><dd><p>Stop processing with an error message if nothing is found.</p>
+</dd>
 </dl>
 <p>If <code class="docutils literal notranslate"><span class="pre">NO_DEFAULT_PATH</span></code> is specified, then no additional paths are
 added to the search.
 If <code class="docutils literal notranslate"><span class="pre">NO_DEFAULT_PATH</span></code> is not specified, the search process is as follows:</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p>If called from within a find module or any other script loaded by a call to
 <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;PackageName&gt;)</span></code></a>, search prefixes unique to the
 current package being found.  Specifically, look in the
@@ -182,6 +186,9 @@ is set, and <code class="docutils literal notranslate"><span class="pre">&lt;pre
 <li><p><span class="target" id="index-0-variable:CMAKE_SYSTEM_INCLUDE_PATH"></span><a class="reference internal" href="../variable/CMAKE_SYSTEM_INCLUDE_PATH.html#variable:CMAKE_SYSTEM_INCLUDE_PATH" title="CMAKE_SYSTEM_INCLUDE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_INCLUDE_PATH</span></code></a></p></li>
 <li><p><span class="target" id="index-0-variable:CMAKE_SYSTEM_FRAMEWORK_PATH"></span><a class="reference internal" href="../variable/CMAKE_SYSTEM_FRAMEWORK_PATH.html#variable:CMAKE_SYSTEM_FRAMEWORK_PATH" title="CMAKE_SYSTEM_FRAMEWORK_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_FRAMEWORK_PATH</span></code></a></p></li>
 </ul>
+<p>The platform paths that these variables contain are locations that
+typically include installed software. An example being <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code> for
+UNIX based platforms.</p>
 </li>
 <li><p>Search the paths specified by the PATHS option
 or in the short-hand version of the command.
@@ -279,7 +286,7 @@ and stored in the cache so that no call will search again.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -287,7 +294,7 @@ and stored in the cache so that no call will search again.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

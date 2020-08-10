@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-COMMANDS" "7" "Apr 28, 2020" "3.17.2" "CMake"
+.TH "CMAKE-COMMANDS" "7" "Jul 30, 2020" "3.18.1" "CMake"
 .SH NAME
 cmake-commands \- CMake Language Command Reference
 .
@@ -245,6 +245,144 @@ _
 .SH FOOTNOTES
 .IP [1] 5
 One MiB (mebibyte) is equal to 1024x1024 bytes.
+.SS cmake_language
+.sp
+Call meta\-operations on CMake commands.
+.SS Synopsis
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+cmake_language(\fI\%CALL\fP <command> [<args>...])
+cmake_language(\fI\%EVAL\fP CODE <code>...)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Introduction
+.sp
+This command will call meta\-operations on built\-in CMake commands or
+those created via the \fBmacro()\fP or \fBfunction()\fP commands.
+.sp
+\fBcmake_language\fP does not introduce a new variable or policy scope.
+.SS Calling Commands
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+cmake_language(CALL <command> [<args>...])
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Calls the named \fB<command>\fP with the given arguments (if any).
+For example, the code:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(message_command "message")
+cmake_language(CALL ${message_command} STATUS "Hello World!")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+is equivalent to
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+message(STATUS "Hello World!")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+To ensure consistency of the code, the following commands are not allowed:
+.INDENT 0.0
+.IP \(bu 2
+\fBif\fP / \fBelseif\fP / \fBelse\fP / \fBendif\fP
+.IP \(bu 2
+\fBwhile\fP / \fBendwhile\fP
+.IP \(bu 2
+\fBforeach\fP / \fBendforeach\fP
+.IP \(bu 2
+\fBfunction\fP / \fBendfunction\fP
+.IP \(bu 2
+\fBmacro\fP / \fBendmacro\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Evaluating Code
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+cmake_language(EVAL CODE <code>...)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Evaluates the \fB<code>...\fP as CMake code.
+.sp
+For example, the code:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(A TRUE)
+set(B TRUE)
+set(C TRUE)
+set(condition "(A AND B) OR C")
+
+cmake_language(EVAL CODE "
+  if (${condition})
+    message(STATUS TRUE)
+  else()
+    message(STATUS FALSE)
+  endif()"
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+is equivalent to
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(A TRUE)
+set(B TRUE)
+set(C TRUE)
+set(condition "(A AND B) OR C")
+
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/eval.cmake "
+  if (${condition})
+    message(STATUS TRUE)
+  else()
+    message(STATUS FALSE)
+  endif()"
+)
+
+include(${CMAKE_CURRENT_BINARY_DIR}/eval.cmake)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
 .SS cmake_minimum_required
 .sp
 Require a minimum version of cmake.
@@ -968,7 +1106,9 @@ execute_process(COMMAND <cmd1> [<arguments>]
                 [COMMAND_ECHO <where>]
                 [OUTPUT_STRIP_TRAILING_WHITESPACE]
                 [ERROR_STRIP_TRAILING_WHITESPACE]
-                [ENCODING <name>])
+                [ENCODING <name>]
+                [ECHO_OUTPUT_VARIABLE]
+                [ECHO_ERROR_VARIABLE])
 .ft P
 .fi
 .UNINDENT
@@ -1062,6 +1202,15 @@ Use the UTF\-8 codepage. Prior to CMake 3.11.0, only \fBUTF8\fP was accepted
 for this encoding. In CMake 3.11.0, \fBUTF\-8\fP was added for consistency with
 the \fI\%UTF\-8 RFC\fP naming convention.
 .UNINDENT
+.TP
+.B \fBECHO_OUTPUT_VARIABLE\fP, \fBECHO_ERROR_VARIABLE\fP
+The standard output or standard error will not be exclusively redirected to
+the configured variables.
+.sp
+The output will be duplicated, it will be sent into the configured variables
+and also on standard output or standard error.
+.sp
+This is analogous to the \fBtee\fP Unix command.
 .UNINDENT
 .sp
 If more than one \fBOUTPUT_*\fP or \fBERROR_*\fP option is given for the
@@ -1095,6 +1244,7 @@ File manipulation command.
   file({\fI\%WRITE\fP | \fI\%APPEND\fP} <filename> <content>...)
   file({\fI\%TOUCH\fP | \fI\%TOUCH_NOCREATE\fP} [<file>...])
   file(\fI\%GENERATE\fP OUTPUT <output\-file> [...])
+  file(\fI\%CONFIGURE\fP OUTPUT <output\-file> CONTENT <content> [...])
 
 \fI\%Filesystem\fP
   file({\fI\%GLOB\fP | \fI\%GLOB_RECURSE\fP} <out\-var> [...] [<globbing\-expr>...])
@@ -1116,6 +1266,10 @@ File manipulation command.
 
 \fI\%Locking\fP
   file(\fI\%LOCK\fP <path> [...])
+
+\fI\%Archiving\fP
+  file(\fI\%ARCHIVE_CREATE\fP OUTPUT <archive> PATHS <paths>... [...])
+  file(\fI\%ARCHIVE_EXTRACT\fP INPUT <archive> [...])
 .ft P
 .fi
 .UNINDENT
@@ -1136,7 +1290,9 @@ file(READ <filename> <variable>
 Read content from a file called \fB<filename>\fP and store it in a
 \fB<variable>\fP\&.  Optionally start from the given \fB<offset>\fP and
 read at most \fB<max\-in>\fP bytes.  The \fBHEX\fP option causes data to
-be converted to a hexadecimal representation (useful for binary data).
+be converted to a hexadecimal representation (useful for binary data). If the
+\fBHEX\fP option is specified, letters in the output (\fBa\fP through \fBf\fP) are in
+lowercase.
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -1359,8 +1515,8 @@ List of post\-exclude regexes through which to filter the names of resolved
 dependencies.
 .UNINDENT
 .sp
-These arguments can be used to blacklist unwanted system libraries when
-resolving the dependencies, or to whitelist libraries from a specific
+These arguments can be used to exclude unwanted system libraries when
+resolving the dependencies, or to include libraries from a specific
 directory. The filtering works as follows:
 .INDENT 0.0
 .IP 1. 3
@@ -1582,8 +1738,8 @@ introspection.
 Determines the path to the tool to use for dependency resolution. This is the
 actual path to \fBobjdump\fP, \fBdumpbin\fP, or \fBotool\fP\&.
 .sp
-If this variable is not specified, it is determined automatically by system
-introspection.
+If this variable is not specified, it is determined by the value of
+\fBCMAKE_OBJDUMP\fP if set, else by system introspection.
 .UNINDENT
 .SS Writing
 .INDENT 0.0
@@ -1679,6 +1835,50 @@ Note also that \fBfile(GENERATE)\fP does not create the output file until the
 generation phase. The output file will not yet have been written when the
 \fBfile(GENERATE)\fP command returns, it is written only after processing all
 of a project’s \fBCMakeLists.txt\fP files.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+file(CONFIGURE OUTPUT output\-file
+     CONTENT content
+     [ESCAPE_QUOTES] [@ONLY]
+     [NEWLINE_STYLE [UNIX|DOS|WIN32|LF|CRLF] ])
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Generate an output file using the input given by \fBCONTENT\fP and substitute
+variable values referenced as \fB@VAR@\fP or \fB${VAR}\fP contained therein. The
+substitution rules behave the same as the \fBconfigure_file()\fP command.
+In order to match \fBconfigure_file()\fP’s behavior, generator expressions
+are not supported for both \fBOUTPUT\fP and \fBCONTENT\fP\&.
+.sp
+The arguments are:
+.INDENT 0.0
+.TP
+.B \fBOUTPUT <output\-file>\fP
+Specify the output file name to generate. A relative path is treated with
+respect to the value of \fBCMAKE_CURRENT_BINARY_DIR\fP\&.
+\fB<output\-file>\fP does not support generator expressions.
+.TP
+.B \fBCONTENT <content>\fP
+Use the content given explicitly as input.
+\fB<content>\fP does not support generator expressions.
+.TP
+.B \fBESCAPE_QUOTES\fP
+Escape any substituted quotes with backslashes (C\-style).
+.TP
+.B \fB@ONLY\fP
+Restrict variable replacement to references of the form \fB@VAR@\fP\&.
+This is useful for configuring scripts that use \fB${VAR}\fP syntax.
+.TP
+.B \fBNEWLINE_STYLE <style>\fP
+Specify the newline style for the output file.  Specify
+\fBUNIX\fP or \fBLF\fP for \fB\en\fP newlines, or specify
+\fBDOS\fP, \fBWIN32\fP, or \fBCRLF\fP for \fB\er\en\fP newlines.
+.UNINDENT
 .SS Filesystem
 .INDENT 0.0
 .INDENT 3.5
@@ -2063,6 +2263,20 @@ be used instead.
 .sp
 If neither \fBNETRC\fP option is given CMake will check variables
 \fBCMAKE_NETRC\fP and \fBCMAKE_NETRC_FILE\fP, respectively.
+.INDENT 0.0
+.TP
+.B \fBTLS_VERIFY <ON|OFF>\fP
+Specify whether to verify the server certificate for \fBhttps://\fP URLs.
+The default is to \fInot\fP verify.
+.TP
+.B \fBTLS_CAINFO <file>\fP
+Specify a custom Certificate Authority file for \fBhttps://\fP URLs.
+.UNINDENT
+.sp
+For \fBhttps://\fP URLs CMake must be built with OpenSSL support.  \fBTLS/SSL\fP
+certificates are not checked by default.  Set \fBTLS_VERIFY\fP to \fBON\fP to
+check certificates. If neither \fBTLS\fP option is given CMake will check
+variables \fBCMAKE_TLS_VERIFY\fP and \fBCMAKE_TLS_CAINFO\fP, respectively.
 .sp
 Additional options to \fBDOWNLOAD\fP are:
 .sp
@@ -2078,20 +2292,7 @@ If it does not match, the operation fails with an error.
 .TP
 .B \fBEXPECTED_MD5 <value>\fP
 Historical short\-hand for \fBEXPECTED_HASH MD5=<value>\fP\&.
-.TP
-.B \fBTLS_VERIFY <ON|OFF>\fP
-Specify whether to verify the server certificate for \fBhttps://\fP URLs.
-The default is to \fInot\fP verify.
-.TP
-.B \fBTLS_CAINFO <file>\fP
-Specify a custom Certificate Authority file for \fBhttps://\fP URLs.
 .UNINDENT
-.sp
-For \fBhttps://\fP URLs CMake must be built with OpenSSL support.  \fBTLS/SSL\fP
-certificates are not checked by default.  Set \fBTLS_VERIFY\fP to \fBON\fP to
-check certificates and/or use \fBEXPECTED_HASH\fP to verify downloaded content.
-If neither \fBTLS\fP option is given CMake will check variables
-\fBCMAKE_TLS_VERIFY\fP and \fBCMAKE_TLS_CAINFO\fP, respectively.
 .SS Locking
 .INDENT 0.0
 .INDENT 3.5
@@ -2127,6 +2328,79 @@ child directory or file.
 Trying to lock file twice is not allowed.  Any intermediate directories and
 file itself will be created if they not exist.  \fBGUARD\fP and \fBTIMEOUT\fP
 options ignored on \fBRELEASE\fP operation.
+.SS Archiving
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+file(ARCHIVE_CREATE OUTPUT <archive>
+  PATHS <paths>...
+  [FORMAT <format>]
+  [COMPRESSION <compression>]
+  [MTIME <mtime>]
+  [VERBOSE])
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Creates the specified \fB<archive>\fP file with the files and directories
+listed in \fB<paths>\fP\&.  Note that \fB<paths>\fP must list actual files or
+directories, wildcards are not supported.
+.sp
+Use the \fBFORMAT\fP option to specify the archive format.  Supported values
+for \fB<format>\fP are \fB7zip\fP, \fBgnutar\fP, \fBpax\fP, \fBpaxr\fP, \fBraw\fP and
+\fBzip\fP\&.  If \fBFORMAT\fP is not given, the default format is \fBpaxr\fP\&.
+.sp
+Some archive formats allow the type of compression to be specified.
+The \fB7zip\fP and \fBzip\fP archive formats already imply a specific type of
+compression.  The other formats use no compression by default, but can be
+directed to do so with the \fBCOMPRESSION\fP option.  Valid values for
+\fB<compression>\fP are \fBNone\fP, \fBBZip2\fP, \fBGZip\fP, \fBXZ\fP, and \fBZstd\fP\&.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+With \fBFORMAT\fP set to \fBraw\fP only one file will be compressed with the
+compression type specified by \fBCOMPRESSION\fP\&.
+.UNINDENT
+.UNINDENT
+.sp
+The \fBVERBOSE\fP option enables verbose output for the archive operation.
+.sp
+To specify the modification time recorded in tarball entries, use
+the \fBMTIME\fP option.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+file(ARCHIVE_EXTRACT INPUT <archive>
+  [DESTINATION <dir>]
+  [PATTERNS <patterns>...]
+  [LIST_ONLY]
+  [VERBOSE])
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Extracts or lists the content of the specified \fB<archive>\fP\&.
+.sp
+The directory where the content of the archive will be extracted to can
+be specified using the \fBDESTINATION\fP option.  If the directory does not
+exist, it will be created.  If \fBDESTINATION\fP is not given, the current
+binary directory will be used.
+.sp
+If required, you may select which files and directories to list or extract
+from the archive using the specified \fB<patterns>\fP\&.  Wildcards are supported.
+If the \fBPATTERNS\fP option is not given, the entire archive will be listed or
+extracted.
+.sp
+\fBLIST_ONLY\fP will list the files in the archive rather than extract them.
+.sp
+With \fBVERBOSE\fP, the command will produce verbose output.
 .SS find_file
 .sp
 A short\-hand signature is:
@@ -2154,6 +2428,7 @@ find_file (
           [PATHS path1 [path2 ... ENV var]]
           [PATH_SUFFIXES suffix1 [suffix2 ...]]
           [DOC "cache documentation string"]
+          [REQUIRED]
           [NO_DEFAULT_PATH]
           [NO_PACKAGE_ROOT_PATH]
           [NO_CMAKE_PATH]
@@ -2174,8 +2449,9 @@ A cache entry named by \fB<VAR>\fP is created to store the result
 of this command.
 If the full path to a file is found the result is stored in the variable
 and the search will not be repeated unless the variable is cleared.
-If nothing is found, the result will be
-\fB<VAR>\-NOTFOUND\fP, and the search will be attempted again the
+If nothing is found, the result will be \fB<VAR>\-NOTFOUND\fP\&.
+The \fBREQUIRED\fP option stops processing with an error message if nothing
+is found, otherwise the search will be attempted again the
 next time find_file is invoked with the same variable.
 .sp
 Options include:
@@ -2200,6 +2476,9 @@ location otherwise considered.
 .TP
 .B \fBDOC\fP
 Specify the documentation string for the \fB<VAR>\fP cache entry.
+.TP
+.B \fBREQUIRED\fP
+Stop processing with an error message if nothing is found.
 .UNINDENT
 .sp
 If \fBNO_DEFAULT_PATH\fP is specified, then no additional paths are
@@ -2294,6 +2573,10 @@ is set, and \fB<prefix>/include\fP for each \fB<prefix>\fP in
 .IP \(bu 2
 \fBCMAKE_SYSTEM_FRAMEWORK_PATH\fP
 .UNINDENT
+.sp
+The platform paths that these variables contain are locations that
+typically include installed software. An example being \fB/usr/local\fP for
+UNIX based platforms.
 .IP 7. 3
 Search the paths specified by the PATHS option
 or in the short\-hand version of the command.
@@ -2381,6 +2664,7 @@ find_library (
           [PATHS path1 [path2 ... ENV var]]
           [PATH_SUFFIXES suffix1 [suffix2 ...]]
           [DOC "cache documentation string"]
+          [REQUIRED]
           [NO_DEFAULT_PATH]
           [NO_PACKAGE_ROOT_PATH]
           [NO_CMAKE_PATH]
@@ -2401,8 +2685,9 @@ A cache entry named by \fB<VAR>\fP is created to store the result
 of this command.
 If the library is found the result is stored in the variable
 and the search will not be repeated unless the variable is cleared.
-If nothing is found, the result will be
-\fB<VAR>\-NOTFOUND\fP, and the search will be attempted again the
+If nothing is found, the result will be \fB<VAR>\-NOTFOUND\fP\&.
+The \fBREQUIRED\fP option stops processing with an error message if nothing
+is found, otherwise the search will be attempted again the
 next time find_library is invoked with the same variable.
 .sp
 Options include:
@@ -2427,6 +2712,9 @@ location otherwise considered.
 .TP
 .B \fBDOC\fP
 Specify the documentation string for the \fB<VAR>\fP cache entry.
+.TP
+.B \fBREQUIRED\fP
+Stop processing with an error message if nothing is found.
 .UNINDENT
 .sp
 If \fBNO_DEFAULT_PATH\fP is specified, then no additional paths are
@@ -2521,6 +2809,10 @@ and \fB<prefix>/lib\fP for each \fB<prefix>\fP in
 .IP \(bu 2
 \fBCMAKE_SYSTEM_FRAMEWORK_PATH\fP
 .UNINDENT
+.sp
+The platform paths that these variables contain are locations that
+typically include installed software. An example being \fB/usr/local\fP for
+UNIX based platforms.
 .IP 7. 3
 Search the paths specified by the PATHS option
 or in the short\-hand version of the command.
@@ -2684,7 +2976,7 @@ for finding the package, checking the version, and producing any needed
 messages.  Some find\-modules provide limited or no support for versioning;
 check the module documentation.
 .sp
-If the \fBMODULE\fP option is not specfied in the above signature,
+If the \fBMODULE\fP option is not specified in the above signature,
 CMake first searches for the package using Module mode. Then, if the
 package is not found, it searches again using Config mode. A user
 may set the variable \fBCMAKE_FIND_PACKAGE_PREFER_CONFIG\fP to
@@ -2977,16 +3269,12 @@ The values are interpreted as semicolon\-separated lists\&.
 This can be skipped if \fBNO_CMAKE_PATH\fP is passed or by setting the
 \fBCMAKE_FIND_USE_CMAKE_PATH\fP to \fBFALSE\fP:
 .INDENT 3.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-CMAKE_PREFIX_PATH
-CMAKE_FRAMEWORK_PATH
-CMAKE_APPBUNDLE_PATH
-.ft P
-.fi
-.UNINDENT
+.IP \(bu 2
+\fBCMAKE_PREFIX_PATH\fP
+.IP \(bu 2
+\fBCMAKE_FRAMEWORK_PATH\fP
+.IP \(bu 2
+\fBCMAKE_APPBUNDLE_PATH\fP
 .UNINDENT
 .IP 3. 3
 Search paths specified in cmake\-specific environment variables.
@@ -2996,17 +3284,14 @@ and therefore use the host’s native path separator
 This can be skipped if \fBNO_CMAKE_ENVIRONMENT_PATH\fP is passed or by setting
 the \fBCMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH\fP to \fBFALSE\fP:
 .INDENT 3.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-<PackageName>_DIR
-CMAKE_PREFIX_PATH
-CMAKE_FRAMEWORK_PATH
-CMAKE_APPBUNDLE_PATH
-.ft P
-.fi
-.UNINDENT
+.IP \(bu 2
+\fB<PackageName>_DIR\fP
+.IP \(bu 2
+\fBCMAKE_PREFIX_PATH\fP
+.IP \(bu 2
+\fBCMAKE_FRAMEWORK_PATH\fP
+.IP \(bu 2
+\fBCMAKE_APPBUNDLE_PATH\fP
 .UNINDENT
 .IP 4. 3
 Search paths specified by the \fBHINTS\fP option.  These should be paths
@@ -3020,14 +3305,8 @@ skipped if \fBNO_SYSTEM_ENVIRONMENT_PATH\fP is passed  or by setting the
 ending in \fB/bin\fP or \fB/sbin\fP are automatically converted to their
 parent directories:
 .INDENT 3.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-PATH
-.ft P
-.fi
-.UNINDENT
+.IP \(bu 2
+\fBPATH\fP
 .UNINDENT
 .IP 6. 3
 Search paths stored in the CMake User Package Registry\&.
@@ -3044,17 +3323,17 @@ current system.  This can be skipped if \fBNO_CMAKE_SYSTEM_PATH\fP is
 passed or by setting the \fBCMAKE_FIND_USE_CMAKE_SYSTEM_PATH\fP
 to \fBFALSE\fP:
 .INDENT 3.0
-.INDENT 3.5
+.IP \(bu 2
+\fBCMAKE_SYSTEM_PREFIX_PATH\fP
+.IP \(bu 2
+\fBCMAKE_SYSTEM_FRAMEWORK_PATH\fP
+.IP \(bu 2
+\fBCMAKE_SYSTEM_APPBUNDLE_PATH\fP
+.UNINDENT
 .sp
-.nf
-.ft C
-CMAKE_SYSTEM_PREFIX_PATH
-CMAKE_SYSTEM_FRAMEWORK_PATH
-CMAKE_SYSTEM_APPBUNDLE_PATH
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
+The platform paths that these variables contain are locations that
+typically include installed software. An example being \fB/usr/local\fP for
+UNIX based platforms.
 .IP 8. 3
 Search paths stored in the CMake System Package Registry\&.
 This can be skipped if \fBNO_CMAKE_SYSTEM_PACKAGE_REGISTRY\fP is passed
@@ -3207,6 +3486,7 @@ find_path (
           [PATHS path1 [path2 ... ENV var]]
           [PATH_SUFFIXES suffix1 [suffix2 ...]]
           [DOC "cache documentation string"]
+          [REQUIRED]
           [NO_DEFAULT_PATH]
           [NO_PACKAGE_ROOT_PATH]
           [NO_CMAKE_PATH]
@@ -3227,8 +3507,9 @@ A cache entry named by \fB<VAR>\fP is created to store the result
 of this command.
 If the file in a directory is found the result is stored in the variable
 and the search will not be repeated unless the variable is cleared.
-If nothing is found, the result will be
-\fB<VAR>\-NOTFOUND\fP, and the search will be attempted again the
+If nothing is found, the result will be \fB<VAR>\-NOTFOUND\fP\&.
+The \fBREQUIRED\fP option stops processing with an error message if nothing
+is found, otherwise the search will be attempted again the
 next time find_path is invoked with the same variable.
 .sp
 Options include:
@@ -3253,6 +3534,9 @@ location otherwise considered.
 .TP
 .B \fBDOC\fP
 Specify the documentation string for the \fB<VAR>\fP cache entry.
+.TP
+.B \fBREQUIRED\fP
+Stop processing with an error message if nothing is found.
 .UNINDENT
 .sp
 If \fBNO_DEFAULT_PATH\fP is specified, then no additional paths are
@@ -3347,6 +3631,10 @@ is set, and \fB<prefix>/include\fP for each \fB<prefix>\fP in
 .IP \(bu 2
 \fBCMAKE_SYSTEM_FRAMEWORK_PATH\fP
 .UNINDENT
+.sp
+The platform paths that these variables contain are locations that
+typically include installed software. An example being \fB/usr/local\fP for
+UNIX based platforms.
 .IP 7. 3
 Search the paths specified by the PATHS option
 or in the short\-hand version of the command.
@@ -3439,6 +3727,7 @@ find_program (
           [PATHS path1 [path2 ... ENV var]]
           [PATH_SUFFIXES suffix1 [suffix2 ...]]
           [DOC "cache documentation string"]
+          [REQUIRED]
           [NO_DEFAULT_PATH]
           [NO_PACKAGE_ROOT_PATH]
           [NO_CMAKE_PATH]
@@ -3459,8 +3748,9 @@ A cache entry named by \fB<VAR>\fP is created to store the result
 of this command.
 If the program is found the result is stored in the variable
 and the search will not be repeated unless the variable is cleared.
-If nothing is found, the result will be
-\fB<VAR>\-NOTFOUND\fP, and the search will be attempted again the
+If nothing is found, the result will be \fB<VAR>\-NOTFOUND\fP\&.
+The \fBREQUIRED\fP option stops processing with an error message if nothing
+is found, otherwise the search will be attempted again the
 next time find_program is invoked with the same variable.
 .sp
 Options include:
@@ -3485,6 +3775,9 @@ location otherwise considered.
 .TP
 .B \fBDOC\fP
 Specify the documentation string for the \fB<VAR>\fP cache entry.
+.TP
+.B \fBREQUIRED\fP
+Stop processing with an error message if nothing is found.
 .UNINDENT
 .sp
 If \fBNO_DEFAULT_PATH\fP is specified, then no additional paths are
@@ -3572,6 +3865,10 @@ to \fBFALSE\fP\&.
 .IP \(bu 2
 \fBCMAKE_SYSTEM_APPBUNDLE_PATH\fP
 .UNINDENT
+.sp
+The platform paths that these variables contain are locations that
+typically include installed software. An example being \fB/usr/local\fP for
+UNIX based platforms.
 .IP 7. 3
 Search the paths specified by the PATHS option
 or in the short\-hand version of the command.
@@ -3879,6 +4176,7 @@ can be invoked through any of
 foo()
 Foo()
 FOO()
+cmake_language(CALL foo)
 .ft P
 .fi
 .UNINDENT
@@ -3887,6 +4185,9 @@ FOO()
 and so on. However, it is strongly recommended to stay with the
 case chosen in the function definition. Typically functions use
 all\-lowercase names.
+.sp
+The \fBcmake_language(CALL ...)\fP command can also be used to
+invoke the function.
 .SS Arguments
 .sp
 When the function is invoked, the recorded \fB<commands>\fP are first
@@ -4067,6 +4368,7 @@ get_property(<variable>
               DIRECTORY [<dir>]  |
               TARGET    <target> |
               SOURCE    <source> |
+                        [DIRECTORY <dir> | TARGET_DIRECTORY <target>] |
               INSTALL   <file>   |
               TEST      <test>   |
               CACHE     <entry>  |
@@ -4092,18 +4394,38 @@ Scope is unique and does not accept a name.
 Scope defaults to the current directory but another
 directory (already processed by CMake) may be named by the
 full or relative path \fB<dir>\fP\&.
+See also the \fBget_directory_property()\fP command.
 .TP
 .B \fBTARGET\fP
 Scope must name one existing target.
+See also the \fBget_target_property()\fP command.
 .TP
 .B \fBSOURCE\fP
-Scope must name one source file.
+Scope must name one source file.  By default, the source file’s property
+will be read from the current source directory’s scope, but this can be
+overridden with one of the following sub\-options:
+.INDENT 7.0
+.TP
+.B \fBDIRECTORY <dir>\fP
+The source file property will be read from the \fB<dir>\fP directory’s
+scope.  CMake must already know about that source directory, either by
+having added it through a call to \fBadd_subdirectory()\fP or \fB<dir>\fP
+being the top level source directory.  Relative paths are treated as
+relative to the current source directory.
+.TP
+.B \fBTARGET_DIRECTORY <target>\fP
+The source file property will be read from the directory scope in which
+\fB<target>\fP was created (\fB<target>\fP must therefore already exist).
+.UNINDENT
+.sp
+See also the \fBget_source_file_property()\fP command.
 .TP
 .B \fBINSTALL\fP
 Scope must name one installed file path.
 .TP
 .B \fBTEST\fP
 Scope must name one existing test.
+See also the \fBget_test_property()\fP command.
 .TP
 .B \fBCACHE\fP
 Scope must name one cache entry.
@@ -4976,6 +5298,14 @@ The \fB<compare>\fP option should be one of:
 default behavior if the \fBCOMPARE\fP option is not given.
 .IP \(bu 2
 \fBFILE_BASENAME\fP: Sorts a list of pathnames of files by their basenames.
+.IP \(bu 2
+\fBNATURAL\fP: Sorts a list of strings using natural order
+(see \fBstrverscmp(3)\fP manual), i.e. such that contiguous digits
+are compared as whole numbers.
+For example: the following list \fI10.0 1.1 2.1 8.0 2.0 3.1\fP
+will be sorted as \fI1.1 2.0 2.1 3.1 8.0 10.0\fP if the \fBNATURAL\fP
+comparison is selected where it will be sorted as
+\fI1.1 10.0 2.0 2.1 3.1 8.0\fP with the \fBSTRING\fP comparison.
 .UNINDENT
 .sp
 Use the \fBCASE\fP keyword to select a case sensitive or case insensitive
@@ -5053,6 +5383,7 @@ can be invoked through any of
 foo()
 Foo()
 FOO()
+cmake_language(CALL foo)
 .ft P
 .fi
 .UNINDENT
@@ -5061,6 +5392,9 @@ FOO()
 and so on. However, it is strongly recommended to stay with the
 case chosen in the macro definition.  Typically macros use
 all\-lowercase names.
+.sp
+The \fBcmake_language(CALL ...)\fP command can also be used to
+invoke the macro.
 .SS Arguments
 .sp
 When a macro is invoked, the commands recorded in the macro are
@@ -5490,7 +5824,7 @@ option(<variable> "<help_text>" [value])
 .sp
 Provides an option for the user to select as \fBON\fP or \fBOFF\fP\&.
 If no initial \fB<value>\fP is provided, \fBOFF\fP is used.
-If \fB<variable>\fP is already set as a normal variable
+If \fB<variable>\fP is already set as a normal or cache variable,
 then the command does nothing (see policy \fBCMP0077\fP).
 .sp
 If you have options that depend on the values of other options, see
@@ -5546,7 +5880,7 @@ be one of the following keywords:
 .INDENT 0.0
 .TP
 .B \fBUNIX_COMMAND\fP
-Arguments are separated by by unquoted whitespace.
+Arguments are separated by unquoted whitespace.
 Both single\-quote and double\-quote pairs are respected.
 A backslash escapes the next literal character (\fB\e"\fP is \fB"\fP);
 there are no special escapes (\fB\en\fP is just \fBn\fP).
@@ -5724,12 +6058,14 @@ Set a named property in a given scope.
 set_property(<GLOBAL                      |
               DIRECTORY [<dir>]           |
               TARGET    [<target1> ...]   |
-              SOURCE    [<src1> ...]      |
+              SOURCE    [<src1> ...]
+                        [DIRECTORY <dirs> ...] |
+                        [TARGET_DIRECTORY <targets> ...]
               INSTALL   [<file1> ...]     |
               TEST      [<test1> ...]     |
               CACHE     [<entry1> ...]    >
              [APPEND] [APPEND_STRING]
-             PROPERTY <name> [value1 ...])
+             PROPERTY <name> [<value1> ...])
 .ft P
 .fi
 .UNINDENT
@@ -5754,9 +6090,25 @@ Scope may name zero or more existing targets.
 See also the \fBset_target_properties()\fP command.
 .TP
 .B \fBSOURCE\fP
-Scope may name zero or more source files.  Note that source
-file properties are visible only to targets added in the same
-directory (\fBCMakeLists.txt\fP).
+Scope may name zero or more source files.  By default, source file properties
+are only visible to targets added in the same directory (\fBCMakeLists.txt\fP).
+Visibility can be set in other directory scopes using one or both of the
+following sub\-options:
+.INDENT 7.0
+.TP
+.B \fBDIRECTORY <dirs>...\fP
+The source file property will be set in each of the \fB<dirs>\fP
+directories’ scopes.  CMake must already know about each of these
+source directories, either by having added them through a call to
+\fBadd_subdirectory()\fP or it being the top level source directory.
+Relative paths are treated as relative to the current source directory.
+.TP
+.B \fBTARGET_DIRECTORY <targets>...\fP
+The source file property will be set in each of the directory scopes
+where any of the specified \fB<targets>\fP were created (the \fB<targets>\fP
+must therefore already exist).
+.UNINDENT
+.sp
 See also the \fBset_source_files_properties()\fP command.
 .TP
 .B \fBINSTALL\fP
@@ -5788,7 +6140,8 @@ the property to set.  Remaining arguments are used to compose the
 property value in the form of a semicolon\-separated list.
 .sp
 If the \fBAPPEND\fP option is given the list is appended to any existing
-property value.  If the \fBAPPEND_STRING\fP option is given the string is
+property value (except that empty values are ignored and not appended).
+If the \fBAPPEND_STRING\fP option is given the string is
 appended to any existing property value as string, i.e. it results in a
 longer string and not a list of strings.  When using \fBAPPEND\fP or
 \fBAPPEND_STRING\fP with a property defined to support \fBINHERITED\fP
@@ -5824,8 +6177,6 @@ String operations.
 \fI\%Search and Replace\fP
   string(\fI\%FIND\fP <string> <substring> <out\-var> [...])
   string(\fI\%REPLACE\fP <match\-string> <replace\-string> <out\-var> <input>...)
-
-\fI\%Regular Expressions\fP
   string(\fI\%REGEX MATCH\fP <match\-regex> <out\-var> <input>...)
   string(\fI\%REGEX MATCHALL\fP <match\-regex> <out\-var> <input>...)
   string(\fI\%REGEX REPLACE\fP <match\-regex> <replace\-expr> <out\-var> <input>...)
@@ -5851,6 +6202,7 @@ String operations.
 
 \fI\%Generation\fP
   string(\fI\%ASCII\fP <number>... <out\-var>)
+  string(\fI\%HEX\fP <string> <out\-var>)
   string(\fI\%CONFIGURE\fP <string> <out\-var> [...])
   string(\fI\%MAKE_C_IDENTIFIER\fP <string> <out\-var>)
   string(\fI\%RANDOM\fP [<option>...] <out\-var>)
@@ -5861,6 +6213,7 @@ String operations.
 .UNINDENT
 .UNINDENT
 .SS Search and Replace
+.SS Search and Replace With Plain Strings
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -5896,7 +6249,7 @@ string(REPLACE <match_string>
 .sp
 Replace all occurrences of \fB<match_string>\fP in the \fB<input>\fP
 with \fB<replace_string>\fP and store the result in the \fB<output_variable>\fP\&.
-.SS Regular Expressions
+.SS Search and Replace With Regular Expressions
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -5912,6 +6265,7 @@ string(REGEX MATCH <regular_expression>
 Match the \fB<regular_expression>\fP once and store the match in the
 \fB<output_variable>\fP\&.
 All \fB<input>\fP arguments are concatenated before matching.
+Regular expressions are specified in the subsection just below.
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -6265,6 +6619,20 @@ Convert all numbers into corresponding ASCII characters.
 .sp
 .nf
 .ft C
+string(HEX <string> <output_variable>)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Convert each byte in the input \fB<string>\fP to its hexadecimal representation
+and store the concatenated hex digits in the \fB<output_variable>\fP\&. Letters in
+the output (\fBa\fP through \fBf\fP) are in lowercase.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
 string(CONFIGURE <string> <output_variable>
        [@ONLY] [ESCAPE_QUOTES])
 .ft P
@@ -6515,10 +6883,12 @@ add_compile_definitions(<definition> ...)
 .UNINDENT
 .UNINDENT
 .sp
-Adds preprocessor definitions to the compiler command line for targets in the
-current directory and below (whether added before or after this command is
-invoked). See documentation of the \fBdirectory\fP
-and \fBtarget\fP \fBCOMPILE_DEFINITIONS\fP properties.
+Adds preprocessor definitions to the compiler command line.
+.sp
+The preprocessor definitions are added to the \fBCOMPILE_DEFINITIONS\fP
+directory property for the current \fBCMakeLists\fP file. They are also added to
+the \fBCOMPILE_DEFINITIONS\fP target property for each target in the
+current \fBCMakeLists\fP file.
 .sp
 Definitions are specified using the syntax \fBVAR\fP or \fBVAR=value\fP\&.
 Function\-style definitions are not supported. CMake will automatically
@@ -6590,6 +6960,9 @@ to use the more specific commands \fBadd_compile_definitions()\fP
 and \fBinclude_directories()\fP\&.
 .sp
 The command \fBtarget_compile_options()\fP adds target\-specific options.
+.sp
+The source file property \fBCOMPILE_OPTIONS\fP adds options to one
+source file.
 .SS add_custom_command
 .sp
 Add a custom build rule to the generated build system.
@@ -7075,9 +7448,9 @@ add_definitions(\-DFOO \-DBAR ...)
 .UNINDENT
 .sp
 Adds definitions to the compiler command line for targets in the current
-directory and below (whether added before or after this command is invoked).
-This command can be used to add any flags, but it is intended to add
-preprocessor definitions.
+directory, whether added before or after this command is invoked, and for
+the ones in sub\-directories added after. This command can be used to add any
+flags, but it is intended to add preprocessor definitions.
 .sp
 \fBNOTE:\fP
 .INDENT 0.0
@@ -7138,6 +7511,7 @@ source file property to add file\-level dependencies to object files.
 .SS add_executable
 .sp
 Add an executable to the project using the specified source files.
+.SS Normal Executables
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -7186,13 +7560,7 @@ manual for more on defining buildsystem properties.
 See also \fBHEADER_FILE_ONLY\fP on what to do if some sources are
 pre\-processed, and you want to have the original sources reachable from
 within IDE.
-
-.sp
-.ce
-----
-
-.ce 0
-.sp
+.SS Imported Executables
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -7217,13 +7585,7 @@ whose names begin in \fBIMPORTED_\fP\&.  The most important such property is
 \fBIMPORTED_LOCATION_<CONFIG>\fP) which specifies the location of
 the main executable file on disk.  See documentation of the \fBIMPORTED_*\fP
 properties for more information.
-
-.sp
-.ce
-----
-
-.ce 0
-.sp
+.SS Alias Executables
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -7238,8 +7600,13 @@ add_executable(<name> ALIAS <target>)
 Creates an Alias Target, such that \fB<name>\fP can
 be used to refer to \fB<target>\fP in subsequent commands.  The \fB<name>\fP
 does not appear in the generated buildsystem as a make target.  The
-\fB<target>\fP may not be a non\-\fBGLOBAL\fP
-Imported Target or an \fBALIAS\fP\&.
+\fB<target>\fP may not be an \fBALIAS\fP\&.
+.sp
+An \fBALIAS\fP to a non\-\fBGLOBAL\fP Imported Target
+has scope in the directory in which the alias is created and below.
+The \fBALIAS_GLOBAL\fP target property can be used to check if the
+alias is global or not.
+.sp
 \fBALIAS\fP targets can be used as targets to read properties
 from, executables for custom commands and custom targets.  They can also be
 tested for existence with the regular \fBif(TARGET)\fP subcommand.
@@ -7409,8 +7776,13 @@ add_library(<name> ALIAS <target>)
 Creates an Alias Target, such that \fB<name>\fP can be
 used to refer to \fB<target>\fP in subsequent commands.  The \fB<name>\fP does
 not appear in the generated buildsystem as a make target.  The \fB<target>\fP
-may not be a non\-\fBGLOBAL\fP Imported Target or an
-\fBALIAS\fP\&.
+may not be an \fBALIAS\fP\&.
+.sp
+An \fBALIAS\fP to a non\-\fBGLOBAL\fP Imported Target
+has scope in the directory in which the alias is created and below.
+The \fBALIAS_GLOBAL\fP target property can be used to check if the
+alias is global or not.
+.sp
 \fBALIAS\fP targets can be used as linkable targets and as targets to
 read properties from.  They can also be tested for existence with the
 regular \fBif(TARGET)\fP subcommand.  The \fB<name>\fP may not be used
@@ -7497,6 +7869,17 @@ Arguments to \fBadd_link_options\fP may use “generator expressions” with
 the syntax \fB$<...>\fP\&.  See the \fBcmake\-generator\-expressions(7)\fP
 manual for available expressions.  See the \fBcmake\-buildsystem(7)\fP
 manual for more on defining buildsystem properties.
+.sp
+When a device link step is involved, which is controlled by
+\fBCUDA_SEPARABLE_COMPILATION\fP and
+\fBCUDA_RESOLVE_DEVICE_SYMBOLS\fP properties and policy \fBCMP0105\fP,
+the raw options will be delivered to the host and device link steps (wrapped in
+\fB\-Xcompiler\fP or equivalent for device link). Options wrapped with
+\fB$<DEVICE_LINK:...>\fP
+\fBgenerator expression\fP will be used
+only for the device link step. Options wrapped with \fB$<HOST_LINK:...>\fP
+\fBgenerator expression\fP will be used
+only for the host link step.
 .sp
 The final set of compile or link options used for a target is constructed by
 accumulating options from the current target and the usage requirements of
@@ -8076,19 +8459,39 @@ Get a property for a source file.
 .sp
 .nf
 .ft C
-get_source_file_property(VAR file property)
+get_source_file_property(<variable> <file>
+                         [DIRECTORY <dir> | TARGET_DIRECTORY <target>]
+                         <property>)
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
 Gets a property from a source file.  The value of the property is
-stored in the variable \fBVAR\fP\&.  If the source property is not found, the
-behavior depends on whether it has been defined to be an \fBINHERITED\fP property
-or not (see \fBdefine_property()\fP).  Non\-inherited properties will set
-\fBVAR\fP to “NOTFOUND”, whereas inherited properties will search the relevant
-parent scope as described for the \fBdefine_property()\fP command and
-if still unable to find the property, \fBVAR\fP will be set to an empty string.
+stored in the specified \fB<variable>\fP\&.  If the source property is not found,
+the behavior depends on whether it has been defined to be an \fBINHERITED\fP
+property or not (see \fBdefine_property()\fP).  Non\-inherited properties
+will set \fBvariable\fP to \fBNOTFOUND\fP, whereas inherited properties will search
+the relevant parent scope as described for the \fBdefine_property()\fP
+command and if still unable to find the property, \fBvariable\fP will be set to
+an empty string.
+.sp
+By default, the source file’s property will be read from the current source
+directory’s scope, but this can be overridden with one of the following
+sub\-options:
+.INDENT 0.0
+.TP
+.B \fBDIRECTORY <dir>\fP
+The source file property will be read from the \fB<dir>\fP directory’s
+scope.  CMake must already know about that source directory, either by
+having added it through a call to \fBadd_subdirectory()\fP or \fB<dir>\fP
+being the top level source directory.  Relative paths are treated as
+relative to the current source directory.
+.TP
+.B \fBTARGET_DIRECTORY <target>\fP
+The source file property will be read from the directory scope in which
+\fB<target>\fP was created (\fB<target>\fP must therefore already exist).
+.UNINDENT
 .sp
 Use \fBset_source_files_properties()\fP to set property values.  Source
 file properties usually control how the file is built. One property that is
@@ -8103,19 +8506,19 @@ Get a property from a target.
 .sp
 .nf
 .ft C
-get_target_property(VAR target property)
+get_target_property(<VAR> target property)
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
 Get a property from a target.  The value of the property is stored in
-the variable \fBVAR\fP\&.  If the target property is not found, the behavior
+the variable \fB<VAR>\fP\&.  If the target property is not found, the behavior
 depends on whether it has been defined to be an \fBINHERITED\fP property
 or not (see \fBdefine_property()\fP).  Non\-inherited properties will
-set \fBVAR\fP to \fBNOTFOUND\fP, whereas inherited properties will search the
-relevant parent scope as described for the \fBdefine_property()\fP
-command and if still unable to find the property, \fBVAR\fP will be set to
+set \fB<VAR>\fP to \fB<VAR>\-NOTFOUND\fP, whereas inherited properties will search
+the relevant parent scope as described for the \fBdefine_property()\fP
+command and if still unable to find the property, \fB<VAR>\fP will be set to
 an empty string.
 .sp
 Use \fBset_target_properties()\fP to set target property values.
@@ -8283,10 +8686,12 @@ install(\fI\%EXPORT\fP <export\-name> [...])
 .UNINDENT
 .SS Introduction
 .sp
-This command generates installation rules for a project.  Rules
-specified by calls to this command within a source directory are
-executed in order during installation.  The order across directories
-is not defined.
+This command generates installation rules for a project.  Install rules
+specified by calls to the \fBinstall()\fP command within a source directory
+are executed in order during installation.  Install rules in subdirectories
+added by calls to the \fBadd_subdirectory()\fP command are interleaved
+with those in the parent directory to run in the order declared (see
+policy \fBCMP0082\fP).
 .sp
 There are multiple signatures for this command.  Some of them define
 installation options for files and targets.  Options common to
@@ -8296,12 +8701,19 @@ signatures that specify them.  The common options are:
 .TP
 .B \fBDESTINATION\fP
 Specify the directory on disk to which a file will be installed.
-If a full path (with a leading slash or drive letter) is given
-it is used directly.  If a relative path is given it is interpreted
-relative to the value of the \fBCMAKE_INSTALL_PREFIX\fP variable.
+Arguments can be relative or absolute paths.
+.sp
+If a relative path is given it is interpreted relative to the value
+of the \fBCMAKE_INSTALL_PREFIX\fP variable.
 The prefix can be relocated at install time using the \fBDESTDIR\fP
 mechanism explained in the \fBCMAKE_INSTALL_PREFIX\fP variable
 documentation.
+.sp
+If an absolute path (with a leading slash or drive letter) is given
+it is used verbatim.
+.sp
+As absolute paths are not supported by \fBcpack\fP installer
+generators, it is preferable to use relative paths throughout.
 .TP
 .B \fBPERMISSIONS\fP
 Specify permissions for installed files.  Valid permissions are
@@ -8393,32 +8805,51 @@ install(TARGETS targets... [EXPORT <export\-name>]
 .UNINDENT
 .sp
 The \fBTARGETS\fP form specifies rules for installing targets from a
-project.  There are several kinds of target files that may be installed:
+project.  There are several kinds of target Output Artifacts
+that may be installed:
 .INDENT 0.0
 .TP
 .B \fBARCHIVE\fP
-Static libraries are treated as \fBARCHIVE\fP targets, except those
-marked with the \fBFRAMEWORK\fP property on macOS (see \fBFRAMEWORK\fP
-below.) For DLL platforms (all Windows\-based systems including
-Cygwin), the DLL import library is treated as an \fBARCHIVE\fP target.
-On AIX, the linker import file created for executables with
-\fBENABLE_EXPORTS\fP is treated as an \fBARCHIVE\fP target.
+Target artifacts of this kind include:
+.INDENT 7.0
+.IP \(bu 2
+\fIStatic libraries\fP
+(except on macOS when marked as \fBFRAMEWORK\fP, see below);
+.IP \(bu 2
+\fIDLL import libraries\fP
+(on all Windows\-based systems including Cygwin; they have extension
+\fB\&.lib\fP, in contrast to the \fB\&.dll\fP libraries that go to \fBRUNTIME\fP);
+.IP \(bu 2
+On AIX, the \fIlinker import file\fP created for executables with
+\fBENABLE_EXPORTS\fP enabled.
+.UNINDENT
 .TP
 .B \fBLIBRARY\fP
-Module libraries are always treated as \fBLIBRARY\fP targets. For non\-
-DLL platforms shared libraries are treated as \fBLIBRARY\fP targets,
-except those marked with the \fBFRAMEWORK\fP property on macOS (see
-\fBFRAMEWORK\fP below.)
+Target artifacts of this kind include:
+.INDENT 7.0
+.IP \(bu 2
+\fIShared libraries\fP, except
+.INDENT 2.0
+.IP \(bu 2
+DLLs (these go to \fBRUNTIME\fP, see below),
+.IP \(bu 2
+on macOS when marked as \fBFRAMEWORK\fP (see below).
+.UNINDENT
+.UNINDENT
 .TP
 .B \fBRUNTIME\fP
-Executables are treated as \fBRUNTIME\fP objects, except those marked
-with the \fBMACOSX_BUNDLE\fP property on macOS (see \fBBUNDLE\fP below.)
-For DLL platforms (all Windows\-based systems including Cygwin), the
-DLL part of a shared library is treated as a \fBRUNTIME\fP target.
+Target artifacts of this kind include:
+.INDENT 7.0
+.IP \(bu 2
+\fIExecutables\fP
+(except on macOS when marked as \fBMACOSX_BUNDLE\fP, see \fBBUNDLE\fP below);
+.IP \(bu 2
+DLLs (on all Windows\-based systems including Cygwin; note that the
+accompanying import libraries are of kind \fBARCHIVE\fP).
+.UNINDENT
 .TP
 .B \fBOBJECTS\fP
-Object libraries (a simple group of object files) are always treated
-as \fBOBJECTS\fP targets.
+Object files associated with \fIobject libraries\fP\&.
 .TP
 .B \fBFRAMEWORK\fP
 Both static and shared libraries marked with the \fBFRAMEWORK\fP
@@ -9201,6 +9632,17 @@ present, causes the contents of the properties matching
 \fB(IMPORTED_)?LINK_INTERFACE_LIBRARIES(_<CONFIG>)?\fP to be exported, when
 policy \fBCMP0022\fP is \fBNEW\fP\&.
 .sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The installed \fB<export\-name>.cmake\fP file may come with additional
+per\-configuration \fB<export\-name>\-*.cmake\fP files to be loaded by
+globbing.  Do not use an export name that is the same as the package
+name in combination with installing a \fB<package\-name>\-config.cmake\fP
+file or the latter may be incorrectly matched by the glob and loaded.
+.UNINDENT
+.UNINDENT
+.sp
 When a \fBCOMPONENT\fP option is given, the listed \fB<component>\fP implicitly
 depends on all components mentioned in the export set. The exported
 \fB<name>.cmake\fP file will require each of the exported components to be
@@ -9262,6 +9704,14 @@ is not defined.
 .UNINDENT
 .UNINDENT
 .SS Generated Installation Script
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Use of this feature is not recommended. Please consider using the
+\fB\-\-install\fP argument of \fBcmake(1)\fP instead.
+.UNINDENT
+.UNINDENT
 .sp
 The \fBinstall()\fP command generates a file, \fBcmake_install.cmake\fP, inside
 the build directory, which is used internally by the generated install target
@@ -9584,9 +10034,11 @@ Source files can have properties that affect how they are built.
 .sp
 .nf
 .ft C
-set_source_files_properties([file1 [file2 [...]]]
-                            PROPERTIES prop1 value1
-                            [prop2 value2 [...]])
+set_source_files_properties(<files> ...
+                            [DIRECTORY <dirs> ...]
+                            [TARGET_DIRECTORY <targets> ...]
+                            PROPERTIES <prop1> <value1>
+                            [<prop2> <value2>] ...)
 .ft P
 .fi
 .UNINDENT
@@ -9595,11 +10047,29 @@ set_source_files_properties([file1 [file2 [...]]]
 Sets properties associated with source files using a key/value paired
 list.
 .sp
+By default, source file properties are only visible to targets added in the
+same directory (\fBCMakeLists.txt\fP).  Visibility can be set in other directory
+scopes using one or both of the following options:
+.INDENT 0.0
+.TP
+.B \fBDIRECTORY <dirs>...\fP
+The source file properties will be set in each of the \fB<dirs>\fP
+directories’ scopes.  CMake must already know about each of these
+source directories, either by having added them through a call to
+\fBadd_subdirectory()\fP or it being the top level source directory.
+Relative paths are treated as relative to the current source directory.
+.TP
+.B \fBTARGET_DIRECTORY <targets>...\fP
+The source file properties will be set in each of the directory scopes
+where any of the specified \fB<targets>\fP were created (the \fB<targets>\fP
+must therefore already exist).
+.UNINDENT
+.sp
+Use \fBget_source_file_property()\fP to get property values.
 See also the \fBset_property(SOURCE)\fP command.
 .sp
 See Source File Properties for the list of properties known
-to CMake.  Source file properties are visible only to targets added
-in the same directory (\fBCMakeLists.txt\fP).
+to CMake.
 .SS set_target_properties
 .sp
 Targets can have properties that affect how they are built.
@@ -9693,13 +10163,15 @@ explicitly lists the file with \fBFILES\fP will be favored, if any.
 If no group explicitly lists the file, the \fIlast\fP group whose
 regular expression matches the file will be favored.
 .sp
-The \fB<name>\fP of the group and \fB<prefix>\fP argument may contain backslashes
-to specify subgroups:
+The \fB<name>\fP of the group and \fB<prefix>\fP argument may contain forward
+slashes or backslashes to specify subgroups.  Backslashes need to be escaped
+appropriately:
 .INDENT 0.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
+source_group(base/subdir ...)
 source_group(outer\e\einner ...)
 source_group(TREE <root> PREFIX sources\e\einc ...)
 .ft P
@@ -9875,6 +10347,8 @@ to use the more specific commands \fBtarget_compile_definitions()\fP
 and \fBtarget_include_directories()\fP\&.
 .sp
 For directory\-wide settings, there is the command \fBadd_compile_options()\fP\&.
+.sp
+For file\-specific settings, there is the source file property \fBCOMPILE_OPTIONS\fP\&.
 .SS target_include_directories
 .sp
 Add include directories to a target.
@@ -10437,6 +10911,17 @@ with the syntax \fB$<...>\fP\&. See the \fBcmake\-generator\-expressions(7)\fP
 manual for available expressions.  See the \fBcmake\-buildsystem(7)\fP
 manual for more on defining buildsystem properties.
 .sp
+When a device link step is involved, which is controlled by
+\fBCUDA_SEPARABLE_COMPILATION\fP and
+\fBCUDA_RESOLVE_DEVICE_SYMBOLS\fP properties and policy \fBCMP0105\fP,
+the raw options will be delivered to the host and device link steps (wrapped in
+\fB\-Xcompiler\fP or equivalent for device link). Options wrapped with
+\fB$<DEVICE_LINK:...>\fP
+\fBgenerator expression\fP will be used
+only for the device link step. Options wrapped with \fB$<HOST_LINK:...>\fP
+\fBgenerator expression\fP will be used
+only for the host link step.
+.sp
 The final set of compile or link options used for a target is constructed by
 accumulating options from the current target and the usage requirements of
 its dependencies.  The set of options is de\-duplicated to avoid repetition.
@@ -10579,7 +11064,7 @@ target_precompile_headers(mylib PRIVATE
 .SS Reusing Precompile Headers
 .sp
 The command also supports a second signature which can be used to specify that
-one target re\-uses a precompiled header file artefact from another target
+one target re\-uses a precompiled header file artifact from another target
 instead of generating its own:
 .INDENT 0.0
 .INDENT 3.5
@@ -10799,6 +11284,8 @@ If set, the following variables are passed in to the generated
 try_compile CMakeLists.txt to initialize compile target properties with
 default values:
 .INDENT 0.0
+.IP \(bu 2
+\fBCMAKE_CUDA_RUNTIME_LIBRARY\fP
 .IP \(bu 2
 \fBCMAKE_ENABLE_EXPORTS\fP
 .IP \(bu 2
@@ -11558,6 +12045,7 @@ ctest_test([BUILD <build\-dir>] [APPEND]
            [RESOURCE_SPEC_FILE <file>]
            [TEST_LOAD <threshold>]
            [SCHEDULE_RANDOM <ON|OFF>]
+           [STOP_ON_FAILURE]
            [STOP_TIME <time\-of\-day>]
            [RETURN_VALUE <result\-var>]
            [CAPTURE_CMAKE_ERROR <result\-var>]
@@ -11663,6 +12151,9 @@ on busy machines.
 .B \fBSCHEDULE_RANDOM <ON|OFF>\fP
 Launch tests in a random order.  This may be useful for detecting
 implicit test dependencies.
+.TP
+.B \fBSTOP_ON_FAILURE\fP
+Stop the execution of the tests once one has failed.
 .TP
 .B \fBSTOP_TIME <time\-of\-day>\fP
 Specify a time of day at which the tests should all stop running.

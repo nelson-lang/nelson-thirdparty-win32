@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CPACK-GENERATORS" "7" "Apr 28, 2020" "3.17.2" "CMake"
+.TH "CPACK-GENERATORS" "7" "Jul 30, 2020" "3.18.1" "CMake"
 .SH NAME
 cpack-generators \- CPack Generator Reference
 .
@@ -33,8 +33,8 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .SH GENERATORS
 .SS CPack Archive Generator
 .sp
-Archive CPack generator that supports packaging of sources and binaries in
-different formats:
+CPack generator for packaging files into an archive, which can have
+any of the following formats:
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -55,39 +55,83 @@ ZIP (.zip)
 .UNINDENT
 .UNINDENT
 .UNINDENT
+.sp
+When this generator is called from \fBCPackSourceConfig.cmake\fP (or through
+the \fBpackage_source\fP target), then the generated archive will contain all
+files in the project directory, except those specified in
+\fBCPACK_SOURCE_IGNORE_FILES\fP\&.  The following is one example of
+packaging all source files of a project:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(CPACK_SOURCE_GENERATOR "TGZ")
+set(CPACK_SOURCE_IGNORE_FILES
+  \e\e.git/
+  build/
+  ".*~$"
+)
+set(CPACK_VERBATIM_VARIABLES YES)
+include(CPack)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+When this generator is called from \fBCPackConfig.cmake\fP (or through the
+\fBpackage\fP target), then the generated archive will contain all files
+that have been installed via CMake’s \fBinstall()\fP command (and the
+deprecated commands \fBinstall_files()\fP, \fBinstall_programs()\fP,
+and \fBinstall_targets()\fP).
 .SS Variables specific to CPack Archive generator
 .INDENT 0.0
 .TP
 .B CPACK_ARCHIVE_FILE_NAME
 .TP
 .B CPACK_ARCHIVE_<component>_FILE_NAME
-Package file name without extension which is added automatically depending
-on the archive format.
-.INDENT 7.0
-.IP \(bu 2
-Mandatory : YES
-.IP \(bu 2
-.INDENT 2.0
+Package file name without extension. The extension is determined from the
+archive format (see list above) and automatically appended to the file name.
+The default is \fB<CPACK_PACKAGE_FILE_NAME>[\-<component>]\fP, with spaces
+replaced by ‘\-‘.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B Default
-\fB<CPACK_PACKAGE_FILE_NAME>[\-<component>].<extension>\fP with
-spaces replaced by ‘\-‘
+.B CPACK_ARCHIVE_COMPONENT_INSTALL
+Enable component packaging. If enabled (ON), then the archive generator
+creates  multiple packages. The default is OFF, which means that a single
+package containing files of all components is generated.
+.UNINDENT
+.SS Variables used by CPack Archive generator
+.sp
+These variables are used by the Archive generator, but are also available to
+CPack generators which are essentially archives at their core. These include:
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+\fBCPack Cygwin Generator\fP
+.IP \(bu 2
+\fBCPack FreeBSD Generator\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
 .TP
-.B CPACK_ARCHIVE_COMPONENT_INSTALL
-Enable component packaging for CPackArchive
-.INDENT 7.0
-.IP \(bu 2
-Mandatory : NO
-.IP \(bu 2
-Default   : OFF
+.B CPACK_ARCHIVE_THREADS
+The number of threads to use when performing the compression. If set to
+\fB0\fP, the number of available cores on the machine will be used instead.
+The default is \fB1\fP which limits compression to a single thread. Note that
+not all compression modes support threading in all environments. Currently,
+only the XZ compression may support it.
 .UNINDENT
 .sp
-If enabled (ON) multiple packages are generated. By default a single package
-containing files of all components is generated.
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Official CMake binaries available on \fBcmake.org\fP ship with a \fBliblzma\fP
+that does not support parallel compression.
+.UNINDENT
 .UNINDENT
 .SS CPack Bundle Generator
 .sp
@@ -164,6 +208,15 @@ to find it).
 .SS CPack Cygwin Generator
 .sp
 Cygwin CPack generator (Cygwin).
+.SS Variables affecting the CPack Cygwin generator
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+\fBCPACK_ARCHIVE_THREADS\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .SS Variables specific to CPack Cygwin generator
 .sp
 The
@@ -211,9 +264,9 @@ reasons and are no longer maintained but may still prove useful:
 .INDENT 3.5
 .INDENT 0.0
 .IP \(bu 2
-\fI\%https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/Configuration\fP
+\fI\%https://gitlab.kitware.com/cmake/community/\-/wikis/doc/cpack/Configuration\fP
 .IP \(bu 2
-\fI\%https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/PackageGenerators#deb\-unix\-only\fP
+\fI\%https://gitlab.kitware.com/cmake/community/\-/wikis/doc/cpack/PackageGenerators#deb\-unix\-only\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -600,7 +653,7 @@ OFF
 You may need set \fBCMAKE_INSTALL_RPATH\fP to an appropriate value
 if you use this feature, because if you don’t \fBdpkg\-shlibdeps\fP
 may fail to find your own shared libs.
-See \fI\%https://gitlab.kitware.com/cmake/community/wikis/doc/cmake/RPATH\-handling\fP
+See \fI\%https://gitlab.kitware.com/cmake/community/\-/wikis/doc/cmake/RPATH\-handling\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -1432,6 +1485,15 @@ the variables defined by the CPack config file.
 .SS CPack FreeBSD Generator
 .sp
 The built in (binary) CPack FreeBSD (pkg) generator (Unix only)
+.SS Variables affecting the CPack FreeBSD (pkg) generator
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+\fBCPACK_ARCHIVE_THREADS\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .SS Variables specific to CPack FreeBSD (pkg) generator
 .sp
 The CPack FreeBSD generator may be used to create pkg(8) packages – these may
@@ -1620,79 +1682,22 @@ Default: empty
 .UNINDENT
 .UNINDENT
 .SS CPack IFW Generator
+.sp
+Configure and run the Qt Installer Framework to generate a Qt installer.
 .SS Overview
 .sp
 This \fBcpack generator\fP generates
-configuration and meta information for the \fI\%Qt Installer Framework\fP (QtIFW).
+configuration and meta information for the \fI\%Qt Installer Framework\fP (QtIFW),
+and runs QtIFW tools to generate a Qt installer.
 .sp
 QtIFW provides tools and utilities to create installers for
 the platforms supported by \fI\%Qt\fP: Linux,
 Microsoft Windows, and macOS.
 .sp
-To make use of this generator, QtIFW should also be installed.
-The module \fBCPackIFW\fP looks for the location of the
-QtIFW command\-line utilities.
-.SS Hints
-.sp
-Generally, the CPack \fBIFW\fP generator automatically finds QtIFW tools,
-but if you don’t use a default path for installation of the QtIFW tools,
-the path may be specified in either a CMake or an environment variable:
-.INDENT 0.0
-.TP
-.B CPACK_IFW_ROOT
-An CMake variable which specifies the location of the QtIFW tool suite.
-.sp
-The variable will be cached in the \fBCPackConfig.cmake\fP file and used at
-CPack runtime.
-.UNINDENT
-.INDENT 0.0
-.TP
-.B QTIFWDIR
-An environment variable which specifies the location of the QtIFW tool
-suite.
-.UNINDENT
-.sp
-\fBNOTE:\fP
-.INDENT 0.0
-.INDENT 3.5
-The specified path should not contain “bin” at the end
-(for example: “D:\eDevTools\eQtIFW2.0.5”).
-.UNINDENT
-.UNINDENT
-.sp
-The \fI\%CPACK_IFW_ROOT\fP variable has a higher priority and overrides
-the value of the \fI\%QTIFWDIR\fP variable.
-.SS Internationalization
-.sp
-Some variables and command arguments support internationalization via
-CMake script. This is an optional feature.
-.sp
-Installers created by QtIFW tools have built\-in support for
-internationalization and many phrases are localized to many languages,
-but this does not apply to the description of the your components and groups
-that will be distributed.
-.sp
-Localization of the description of your components and groups is useful for
-users of your installers.
-.sp
-A localized variable or argument can contain a single default value, and a
-set of pairs the name of the locale and the localized value.
-.sp
-For example:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(LOCALIZABLE_VARIABLE "Default value"
-  en "English value"
-  en_US "American value"
-  en_GB "Great Britain value"
-  )
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
+To make use of this generator, QtIFW needs to be installed.
+The \fBCPackIFW\fP module looks for the location of the
+QtIFW command\-line utilities, and defines several commands to
+control the behavior of this generator.
 .SS Variables
 .sp
 You can use the following variables to change behavior of CPack \fBIFW\fP
@@ -1792,6 +1797,8 @@ By default used \fI\%CPACK_IFW_PACKAGE_NAME\fP\&.
 Default target directory for installation.
 By default used
 “@ApplicationsDir@/\fBCPACK_PACKAGE_INSTALL_DIRECTORY\fP”
+(variables embedded in ‘@’ are expanded by the
+\fI\%QtIFW scripting engine\fP).
 .sp
 You can use predefined variables.
 .UNINDENT
@@ -1912,56 +1919,119 @@ Additional prepared repository dirs that will be used to resolve and
 repack dependent components. This feature available only
 since QtIFW 3.1.
 .UNINDENT
-.SS Tools
+.SS QtIFW Tools
 .INDENT 0.0
 .TP
 .B CPACK_IFW_FRAMEWORK_VERSION
 The version of used QtIFW tools.
 .UNINDENT
+.sp
+The following variables provide the locations of the QtIFW
+command\-line tools as discovered by the module \fBCPackIFW\fP\&.
+These variables are cached, and may be configured if needed.
 .INDENT 0.0
 .TP
 .B CPACK_IFW_BINARYCREATOR_EXECUTABLE
-The path to “binarycreator” command line client.
-.sp
-This variable is cached and may be configured if needed.
+The path to \fBbinarycreator\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_IFW_REPOGEN_EXECUTABLE
-The path to “repogen” command line client.
-.sp
-This variable is cached and may be configured if needed.
+The path to \fBrepogen\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_IFW_INSTALLERBASE_EXECUTABLE
-The path to “installerbase” installer executable base.
-.sp
-This variable is cached and may be configured if needed.
+The path to \fBinstallerbase\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B CPACK_IFW_DEVTOOL_EXECUTABLE
-The path to “devtool” command line client.
-.sp
-This variable is cached and may be configured if needed.
+The path to \fBdevtool\fP\&.
 .UNINDENT
+.SS Hints for Finding QtIFW
+.sp
+Generally, the CPack \fBIFW\fP generator automatically finds QtIFW tools,
+but if you don’t use a default path for installation of the QtIFW tools,
+the path may be specified in either a CMake or an environment variable:
+.INDENT 0.0
+.TP
+.B CPACK_IFW_ROOT
+An CMake variable which specifies the location of the QtIFW tool suite.
+.sp
+The variable will be cached in the \fBCPackConfig.cmake\fP file and used at
+CPack runtime.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B QTIFWDIR
+An environment variable which specifies the location of the QtIFW tool
+suite.
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The specified path should not contain “bin” at the end
+(for example: “D:\eDevTools\eQtIFW2.0.5”).
+.UNINDENT
+.UNINDENT
+.sp
+The \fI\%CPACK_IFW_ROOT\fP variable has a higher priority and overrides
+the value of the \fI\%QTIFWDIR\fP variable.
+.SS Other Settings
 .SS Online installer
 .sp
-By default CPack IFW generator makes offline installer. This means that all
-components will be packaged into a binary file.
+By default, this generator generates an \fIoffline installer\fP\&. This means that
+that all packaged files are fully contained in the installer executable.
 .sp
-To make a component downloaded, you must set the \fBDOWNLOADED\fP option in
-\fBcpack_add_component()\fP\&.
+In contrast, an \fIonline installer\fP will download some or all components from
+a remote server.
 .sp
-Then you would use the command \fBcpack_configure_downloads()\fP\&.
-If you set \fBALL\fP option all components will be downloaded.
+The \fBDOWNLOADED\fP option in the \fBcpack_add_component()\fP command
+specifies that a component is to be downloaded. Alternatively, the \fBALL\fP
+option in the \fBcpack_configure_downloads()\fP command specifies that
+\fIall\fP components are to be be downloaded.
 .sp
-You also can use command \fBcpack_ifw_add_repository()\fP and
-variable \fI\%CPACK_IFW_DOWNLOAD_ALL\fP for more specific configuration.
+The \fBcpack_ifw_add_repository()\fP command and the
+\fI\%CPACK_IFW_DOWNLOAD_ALL\fP variable allow for more specific
+configuration.
 .sp
-CPack IFW generator creates “repository” dir in current binary dir. You
-would copy content of this dir to specified \fBsite\fP (\fBurl\fP).
+When there are online components, CPack will write them to archive files.
+The help page of the \fBCPackComponent\fP module, especially the section
+on the \fBcpack_configure_downloads()\fP function, explains how to make
+these files accessible from a download URL.
+.SS Internationalization
+.sp
+Some variables and command arguments support internationalization via
+CMake script. This is an optional feature.
+.sp
+Installers created by QtIFW tools have built\-in support for
+internationalization and many phrases are localized to many languages,
+but this does not apply to the description of the your components and groups
+that will be distributed.
+.sp
+Localization of the description of your components and groups is useful for
+users of your installers.
+.sp
+A localized variable or argument can contain a single default value, and a
+set of pairs the name of the locale and the localized value.
+.sp
+For example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(LOCALIZABLE_VARIABLE "Default value"
+  en "English value"
+  en_US "American value"
+  en_GB "Great Britain value"
+  )
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
 .SS See Also
 .sp
 Qt Installer Framework Manual:
@@ -1981,7 +2051,7 @@ Promoting Updates:
 .UNINDENT
 .INDENT 0.0
 .TP
-.B Download Qt Installer Framework for you platform from Qt site:
+.B Download Qt Installer Framework for your platform from Qt site:
 \fI\%http://download.qt.io/official_releases/qt\-installer\-framework\fP
 .UNINDENT
 .SS CPack NSIS Generator
@@ -2175,6 +2245,11 @@ Display the title in the finish page on 3 lines instead of 2.
 .TP
 .B CPACK_NSIS_MUI_HEADERIMAGE
 The image to display on the header of installers pages.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_MANIFEST_DPI_AWARE
+If set, declares that the installer is DPI\-aware.
 .UNINDENT
 .SS CPack NuGet Generator
 .sp
@@ -2708,9 +2783,9 @@ reasons and are no longer maintained but may still prove useful:
 .INDENT 3.5
 .INDENT 0.0
 .IP \(bu 2
-\fI\%https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/Configuration\fP
+\fI\%https://gitlab.kitware.com/cmake/community/\-/wikis/doc/cpack/Configuration\fP
 .IP \(bu 2
-\fI\%https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/PackageGenerators#rpm\-unix\-only\fP
+\fI\%https://gitlab.kitware.com/cmake/community/\-/wikis/doc/cpack/PackageGenerators#rpm\-unix\-only\fP
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -3436,7 +3511,9 @@ binary spec file which may be used with
 .B CPACK_RPM_PRE_INSTALL_SCRIPT_FILE
 .TP
 .B CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE
-Path to file containing pre (un)install script.
+.TP
+.B CPACK_RPM_PRE_TRANS_SCRIPT_FILE
+Path to file containing pre install/uninstall/transaction script.
 .INDENT 7.0
 .IP \(bu 2
 Mandatory : NO
@@ -3444,13 +3521,14 @@ Mandatory : NO
 Default   : \-
 .UNINDENT
 .sp
-May be used to embed a pre (un)installation script in the spec file.
+May be used to embed a pre installation/uninstallation/transaction script in the spec file.
 The referred script file (or both) will be read and directly
 put after the \fB%pre\fP or \fB%preun\fP section
-If \fI\%CPACK_RPM_COMPONENT_INSTALL\fP is set to ON the (un)install
+If \fI\%CPACK_RPM_COMPONENT_INSTALL\fP is set to ON the install/uninstall/transaction
 script for each component can be overridden with
-\fBCPACK_RPM_<COMPONENT>_PRE_INSTALL_SCRIPT_FILE\fP and
-\fBCPACK_RPM_<COMPONENT>_PRE_UNINSTALL_SCRIPT_FILE\fP\&.
+\fBCPACK_RPM_<COMPONENT>_PRE_INSTALL_SCRIPT_FILE\fP,
+\fBCPACK_RPM_<COMPONENT>_PRE_UNINSTALL_SCRIPT_FILE\fP, and
+\fBCPACK_RPM_<COMPONENT>_PRE_TRANS_SCRIPT_FILE\fP
 One may verify which scriptlet has been included with:
 .INDENT 7.0
 .INDENT 3.5
@@ -3468,7 +3546,9 @@ rpm \-qp \-\-scripts  package.rpm
 .B CPACK_RPM_POST_INSTALL_SCRIPT_FILE
 .TP
 .B CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE
-Path to file containing post (un)install script.
+.TP
+.B CPACK_RPM_POST_TRANS_SCRIPT_FILE
+Path to file containing post install/uninstall/transaction script.
 .INDENT 7.0
 .IP \(bu 2
 Mandatory : NO
@@ -3476,13 +3556,14 @@ Mandatory : NO
 Default   : \-
 .UNINDENT
 .sp
-May be used to embed a post (un)installation script in the spec file.
+May be used to embed a post installation/uninstallation/transaction script in the spec file.
 The referred script file (or both) will be read and directly
 put after the \fB%post\fP or \fB%postun\fP section.
-If \fI\%CPACK_RPM_COMPONENT_INSTALL\fP is set to ON the (un)install
+If \fI\%CPACK_RPM_COMPONENT_INSTALL\fP is set to ON the install/uninstall/transaction
 script for each component can be overridden with
-\fBCPACK_RPM_<COMPONENT>_POST_INSTALL_SCRIPT_FILE\fP and
-\fBCPACK_RPM_<COMPONENT>_POST_UNINSTALL_SCRIPT_FILE\fP\&.
+\fBCPACK_RPM_<COMPONENT>_POST_INSTALL_SCRIPT_FILE\fP,
+\fBCPACK_RPM_<COMPONENT>_POST_UNINSTALL_SCRIPT_FILE\fP, and
+\fBCPACK_RPM_<COMPONENT>_POST_TRANS_SCRIPT_FILE\fP
 One may verify which scriptlet has been included with:
 .INDENT 7.0
 .INDENT 3.5

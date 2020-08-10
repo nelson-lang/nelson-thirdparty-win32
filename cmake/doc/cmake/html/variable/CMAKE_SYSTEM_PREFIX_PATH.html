@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>CMAKE_SYSTEM_PREFIX_PATH &mdash; CMake 3.17.2 Documentation</title>
+  <title>CMAKE_SYSTEM_PREFIX_PATH &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li> 
@@ -64,10 +64,46 @@
 <span class="target" id="index-0-command:find_path"></span><a class="reference internal" href="../command/find_path.html#command:find_path" title="find_path"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_path()</span></code></a> commands.  Each command will add appropriate
 subdirectories (like <code class="docutils literal notranslate"><span class="pre">bin</span></code>, <code class="docutils literal notranslate"><span class="pre">lib</span></code>, or <code class="docutils literal notranslate"><span class="pre">include</span></code>) as specified in its own
 documentation.</p>
-<p>By default this contains the standard directories for the current system, the
+<p>By default this contains the system directories for the current system, the
 <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>, and the <span class="target" id="index-0-variable:CMAKE_STAGING_PREFIX"></span><a class="reference internal" href="CMAKE_STAGING_PREFIX.html#variable:CMAKE_STAGING_PREFIX" title="CMAKE_STAGING_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_STAGING_PREFIX</span></code></a>.
 The installation and staging prefixes may be excluded by setting
 the <span class="target" id="index-0-variable:CMAKE_FIND_NO_INSTALL_PREFIX"></span><a class="reference internal" href="CMAKE_FIND_NO_INSTALL_PREFIX.html#variable:CMAKE_FIND_NO_INSTALL_PREFIX" title="CMAKE_FIND_NO_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_NO_INSTALL_PREFIX</span></code></a> variable.</p>
+<p>The system directories that are contained in <code class="docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_PREFIX_PATH</span></code> are
+locations that typically include installed software. An example being
+<code class="docutils literal notranslate"><span class="pre">/usr/local</span></code> for UNIX based platforms. In addition to standard platform
+locations, CMake will also add values to <code class="docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_PREFIX_PATH</span></code> based on
+environment variables. The environment variables and search locations that
+CMake uses may evolve over time, as platforms and their conventions also
+evolve. The following provides an indicative list of environment variables
+and locations that CMake searches, but they are subject to change:</p>
+<dl class="simple">
+<dt>CrayLinuxEnvironment:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{SYSROOT_DIR}/</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{SYSROOT_DIR}/usr</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{SYSROOT_DIR}/usr/local</span></code></p></li>
+</ul>
+</dd>
+<dt>Darwin:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{SDKROOT}/usr</span></code> When <code class="docutils literal notranslate"><span class="pre">CMAKE_OSX_SYSROOT</span></code> is not explicitly specified.</p></li>
+</ul>
+</dd>
+<dt>OpenBSD:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{LOCALBASE}</span></code></p></li>
+</ul>
+</dd>
+<dt>Unix:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{CONDA_PREFIX}</span></code> when using a conda compiler</p></li>
+</ul>
+</dd>
+<dt>Windows:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{ProgramW6432}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{ProgramFiles}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{ProgramFiles(x86)}</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{SystemDrive}/Program</span> <span class="pre">Files</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENV{SystemDrive}/Program</span> <span class="pre">Files</span> <span class="pre">(x86)</span></code></p></li>
+</ul>
+</dd>
+</dl>
 <p><code class="docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_PREFIX_PATH</span></code> is <em>not</em> intended to be modified by the project;
 use <span class="target" id="index-0-variable:CMAKE_PREFIX_PATH"></span><a class="reference internal" href="CMAKE_PREFIX_PATH.html#variable:CMAKE_PREFIX_PATH" title="CMAKE_PREFIX_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code></a> for this.</p>
 <p>See also <span class="target" id="index-0-variable:CMAKE_SYSTEM_INCLUDE_PATH"></span><a class="reference internal" href="CMAKE_SYSTEM_INCLUDE_PATH.html#variable:CMAKE_SYSTEM_INCLUDE_PATH" title="CMAKE_SYSTEM_INCLUDE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_INCLUDE_PATH</span></code></a>,
@@ -128,7 +164,7 @@ and <span class="target" id="index-0-variable:CMAKE_SYSTEM_IGNORE_PATH"></span><
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li> 
@@ -136,7 +172,7 @@ and <span class="target" id="index-0-variable:CMAKE_SYSTEM_IGNORE_PATH"></span><
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

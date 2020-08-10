@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>ExternalProject &mdash; CMake 3.17.2 Documentation</title>
+  <title>ExternalProject &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -63,16 +63,22 @@
 <ul class="simple">
 <li><p><a class="reference internal" href="#externalproject" id="id1">ExternalProject</a></p>
 <ul>
-<li><p><a class="reference internal" href="#external-project-definition" id="id2">External Project Definition</a></p></li>
-<li><p><a class="reference internal" href="#obtaining-project-properties" id="id3">Obtaining Project Properties</a></p></li>
-<li><p><a class="reference internal" href="#explicit-step-management" id="id4">Explicit Step Management</a></p></li>
-<li><p><a class="reference internal" href="#examples" id="id5">Examples</a></p></li>
+<li><p><a class="reference internal" href="#commands" id="id2">Commands</a></p>
+<ul>
+<li><p><a class="reference internal" href="#external-project-definition" id="id3">External Project Definition</a></p></li>
+<li><p><a class="reference internal" href="#obtaining-project-properties" id="id4">Obtaining Project Properties</a></p></li>
+<li><p><a class="reference internal" href="#explicit-step-management" id="id5">Explicit Step Management</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#examples" id="id6">Examples</a></p></li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="commands">
+<h2><a class="toc-backref" href="#id2">Commands</a><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="external-project-definition">
-<h2><a class="toc-backref" href="#id2">External Project Definition</a><a class="headerlink" href="#external-project-definition" title="Permalink to this headline">¶</a></h2>
+<h3><a class="toc-backref" href="#id3">External Project Definition</a><a class="headerlink" href="#external-project-definition" title="Permalink to this headline">¶</a></h3>
 <dl class="command">
 <dt id="command:externalproject_add">
 <code class="sig-name descname">ExternalProject_Add</code><a class="headerlink" href="#command:externalproject_add" title="Permalink to this definition">¶</a></dt>
@@ -321,6 +327,39 @@ overly noisy if lots of external projects are used.</p>
 listed will be transformed into its own <code class="docutils literal notranslate"><span class="pre">--config</span> <span class="pre">&lt;option&gt;</span></code> on the
 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> command line, with each option required to be in the
 form <code class="docutils literal notranslate"><span class="pre">key=value</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GIT_REMOTE_UPDATE_STRATEGY</span> <span class="pre">&lt;strategy&gt;</span></code></dt><dd><p>When <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> refers to a remote branch, this option can be used to
+specify how the update step behaves.  The <code class="docutils literal notranslate"><span class="pre">&lt;strategy&gt;</span></code> must be one of
+the following:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CHECKOUT</span></code></dt><dd><p>Ignore the local branch and always checkout the branch specified by
+<code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">REBASE</span></code></dt><dd><p>Try to rebase the current branch to the one specified by <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code>.
+If there are local uncommitted changes, they will be stashed first
+and popped again after rebasing.  If rebasing or popping stashed
+changes fail, abort the rebase and halt with an error.
+When <code class="docutils literal notranslate"><span class="pre">GIT_REMOTE_UPDATE_STRATEGY</span></code> is not present, this is the
+default strategy unless the default has been overridden with
+<code class="docutils literal notranslate"><span class="pre">CMAKE_EP_GIT_REMOTE_UPDATE_STRATEGY</span></code> (see below).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">REBASE_CHECKOUT</span></code></dt><dd><p>Same as <code class="docutils literal notranslate"><span class="pre">REBASE</span></code> except if the rebase fails, an annotated tag will
+be created at the original <code class="docutils literal notranslate"><span class="pre">HEAD</span></code> position from before the rebase
+and then checkout <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> just like the <code class="docutils literal notranslate"><span class="pre">CHECKOUT</span></code> strategy.
+The message stored on the annotated tag will give information about
+what was attempted and the tag name will include a timestamp so that
+each failed run will add a new tag.  This strategy ensures no changes
+will be lost, but updates should always succeed if <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> refers
+to a valid ref unless there are uncommitted changes that cannot be
+popped successfully.</p>
+</dd>
+</dl>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">CMAKE_EP_GIT_REMOTE_UPDATE_STRATEGY</span></code> can be set to
+override the default strategy.  This variable should not be set by a
+project, it is intended for the user to set.  It is primarily intended
+for use in continuous integration scripts to ensure that when history
+is rewritten on a remote branch, the build doesn’t end up with unintended
+changes or failed builds resulting from conflicts during rebase operations.</p>
 </dd>
 </dl>
 </dd>
@@ -664,7 +703,7 @@ automatic substitutions that are supported for some options.</p>
 
 </div>
 <div class="section" id="obtaining-project-properties">
-<h2><a class="toc-backref" href="#id3">Obtaining Project Properties</a><a class="headerlink" href="#obtaining-project-properties" title="Permalink to this headline">¶</a></h2>
+<h3><a class="toc-backref" href="#id4">Obtaining Project Properties</a><a class="headerlink" href="#obtaining-project-properties" title="Permalink to this headline">¶</a></h3>
 <dl class="command">
 <dt id="command:externalproject_get_property">
 <code class="sig-name descname">ExternalProject_Get_Property</code><a class="headerlink" href="#command:externalproject_get_property" title="Permalink to this definition">¶</a></dt>
@@ -684,7 +723,7 @@ For example, the source directory might be retrieved like so:</p>
 
 </div>
 <div class="section" id="explicit-step-management">
-<h2><a class="toc-backref" href="#id4">Explicit Step Management</a><a class="headerlink" href="#explicit-step-management" title="Permalink to this headline">¶</a></h2>
+<h3><a class="toc-backref" href="#id5">Explicit Step Management</a><a class="headerlink" href="#explicit-step-management" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code> function on its own is often sufficient for
 incorporating an external project into the main build. Certain scenarios
 require additional work to implement desired behavior, such as adding in a
@@ -817,8 +856,9 @@ targets generated by the <code class="docutils literal notranslate"><span class=
 </dd></dl>
 
 </div>
+</div>
 <div class="section" id="examples">
-<h2><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <p>The following example shows how to download and build a hypothetical project
 called <em>FooBar</em> from github:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">ExternalProject</span><span class="nf">)</span><span class="w"></span>
@@ -912,9 +952,12 @@ custom target to trigger the script can be defined like so:</p>
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">ExternalProject</a><ul>
+<li><a class="reference internal" href="#commands">Commands</a><ul>
 <li><a class="reference internal" href="#external-project-definition">External Project Definition</a></li>
 <li><a class="reference internal" href="#obtaining-project-properties">Obtaining Project Properties</a></li>
 <li><a class="reference internal" href="#explicit-step-management">Explicit Step Management</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -967,7 +1010,7 @@ custom target to trigger the script can be defined like so:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
@@ -975,7 +1018,7 @@ custom target to trigger the script can be defined like so:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

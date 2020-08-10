@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>cmake-file-api(7) &mdash; CMake 3.17.2 Documentation</title>
+  <title>cmake-file-api(7) &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="cmake-generator-expressions(7)" href="cmake-generator-expressions.7.html" />
-    <link rel="prev" title="DASHBOARD_TEST_FROM_CTEST" href="../envvar/DASHBOARD_TEST_FROM_CTEST.html" />
+    <link rel="prev" title="CCMAKE_COLORS" href="../envvar/CCMAKE_COLORS.html" />
   
  
 
@@ -34,7 +34,7 @@
           <a href="cmake-generator-expressions.7.html" title="cmake-generator-expressions(7)"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../envvar/DASHBOARD_TEST_FROM_CTEST.html" title="DASHBOARD_TEST_FROM_CTEST"
+          <a href="../envvar/CCMAKE_COLORS.html" title="CCMAKE_COLORS"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -478,7 +478,7 @@ Version 1 does not exist to avoid confusion with that from
 <p><code class="docutils literal notranslate"><span class="pre">codemodel</span></code> object version 2 is a JSON object:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;codemodel&quot;</span><span class="p">,</span>
-  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;major&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nt">&quot;minor&quot;</span><span class="p">:</span> <span class="mi">0</span> <span class="p">},</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;major&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nt">&quot;minor&quot;</span><span class="p">:</span> <span class="mi">1</span> <span class="p">},</span>
   <span class="nt">&quot;paths&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;/path/to/top-level-source-dir&quot;</span><span class="p">,</span>
     <span class="nt">&quot;build&quot;</span><span class="p">:</span> <span class="s2">&quot;/path/to/top-level-build-dir&quot;</span>
@@ -919,6 +919,22 @@ member’s <code class="docutils literal notranslate"><span class="pre">nodes</s
 </dd>
 </dl>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">precompileHeaders</span></code></dt><dd><p>Optional member that is present when <span class="target" id="index-0-command:target_precompile_headers"></span><a class="reference internal" href="../command/target_precompile_headers.html#command:target_precompile_headers" title="target_precompile_headers"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_precompile_headers()</span></code></a>
+or other command invocations set <span class="target" id="index-0-prop_tgt:PRECOMPILE_HEADERS"></span><a class="reference internal" href="../prop_tgt/PRECOMPILE_HEADERS.html#prop_tgt:PRECOMPILE_HEADERS" title="PRECOMPILE_HEADERS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PRECOMPILE_HEADERS</span></code></a> on the
+target.  The value is a JSON array with an entry for each header.  Each
+entry is a JSON object with members:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">header</span></code></dt><dd><p>Full path to the precompile header file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">backtrace</span></code></dt><dd><p>Optional member that is present when a CMake language backtrace to
+the <span class="target" id="index-1-command:target_precompile_headers"></span><a class="reference internal" href="../command/target_precompile_headers.html#command:target_precompile_headers" title="target_precompile_headers"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_precompile_headers()</span></code></a> or other command invocation
+that added this precompiled header is available.  The value is an
+unsigned integer 0-based index into the <code class="docutils literal notranslate"><span class="pre">backtraceGraph</span></code> member’s
+<code class="docutils literal notranslate"><span class="pre">nodes</span></code> array.</p>
+</dd>
+</dl>
+<p>This field was added in codemodel version 2.1.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">defines</span></code></dt><dd><p>Optional member that is present when there are preprocessor definitions.
 The value is a JSON array with an entry for each definition.  Each
 entry is a JSON object with members:</p>
@@ -1168,8 +1184,8 @@ if the path specifies a file in the CMake installation.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../envvar/DASHBOARD_TEST_FROM_CTEST.html"
-                        title="previous chapter">DASHBOARD_TEST_FROM_CTEST</a></p>
+  <p class="topless"><a href="../envvar/CCMAKE_COLORS.html"
+                        title="previous chapter">CCMAKE_COLORS</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="cmake-generator-expressions.7.html"
                         title="next chapter">cmake-generator-expressions(7)</a></p>
@@ -1204,7 +1220,7 @@ if the path specifies a file in the CMake installation.</p>
           <a href="cmake-generator-expressions.7.html" title="cmake-generator-expressions(7)"
              >next</a> |</li>
         <li class="right" >
-          <a href="../envvar/DASHBOARD_TEST_FROM_CTEST.html" title="DASHBOARD_TEST_FROM_CTEST"
+          <a href="../envvar/CCMAKE_COLORS.html" title="CCMAKE_COLORS"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -1214,14 +1230,14 @@ if the path specifies a file in the CMake installation.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>find_package &mdash; CMake 3.17.2 Documentation</title>
+  <title>find_package &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -115,7 +115,7 @@ If the file is found, it is read and processed by CMake.  It is responsible
 for finding the package, checking the version, and producing any needed
 messages.  Some find-modules provide limited or no support for versioning;
 check the module documentation.</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> option is not specfied in the above signature,
+<p>If the <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> option is not specified in the above signature,
 CMake first searches for the package using Module mode. Then, if the
 package is not found, it searches again using Config mode. A user
 may set the variable <span class="target" id="index-0-variable:CMAKE_FIND_PACKAGE_PREFER_CONFIG"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_PREFER_CONFIG.html#variable:CMAKE_FIND_PACKAGE_PREFER_CONFIG" title="CMAKE_FIND_PACKAGE_PREFER_CONFIG"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_PREFER_CONFIG</span></code></a> to
@@ -342,11 +342,11 @@ are intended to be used on the command line with a <code class="docutils literal
 The values are interpreted as <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated lists</span></a>.
 This can be skipped if <code class="docutils literal notranslate"><span class="pre">NO_CMAKE_PATH</span></code> is passed or by setting the
 <span class="target" id="index-0-variable:CMAKE_FIND_USE_CMAKE_PATH"></span><a class="reference internal" href="../variable/CMAKE_FIND_USE_CMAKE_PATH.html#variable:CMAKE_FIND_USE_CMAKE_PATH" title="CMAKE_FIND_USE_CMAKE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_USE_CMAKE_PATH</span></code></a> to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CMAKE_PREFIX_PATH
-CMAKE_FRAMEWORK_PATH
-CMAKE_APPBUNDLE_PATH
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><span class="target" id="index-0-variable:CMAKE_PREFIX_PATH"></span><a class="reference internal" href="../variable/CMAKE_PREFIX_PATH.html#variable:CMAKE_PREFIX_PATH" title="CMAKE_PREFIX_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code></a></p></li>
+<li><p><span class="target" id="index-0-variable:CMAKE_FRAMEWORK_PATH"></span><a class="reference internal" href="../variable/CMAKE_FRAMEWORK_PATH.html#variable:CMAKE_FRAMEWORK_PATH" title="CMAKE_FRAMEWORK_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FRAMEWORK_PATH</span></code></a></p></li>
+<li><p><span class="target" id="index-0-variable:CMAKE_APPBUNDLE_PATH"></span><a class="reference internal" href="../variable/CMAKE_APPBUNDLE_PATH.html#variable:CMAKE_APPBUNDLE_PATH" title="CMAKE_APPBUNDLE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_APPBUNDLE_PATH</span></code></a></p></li>
+</ul>
 </li>
 <li><p>Search paths specified in cmake-specific environment variables.
 These are intended to be set in the user’s shell configuration,
@@ -354,12 +354,12 @@ and therefore use the host’s native path separator
 (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows and <code class="docutils literal notranslate"><span class="pre">:</span></code> on UNIX).
 This can be skipped if <code class="docutils literal notranslate"><span class="pre">NO_CMAKE_ENVIRONMENT_PATH</span></code> is passed or by setting
 the <span class="target" id="index-0-variable:CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH"></span><a class="reference internal" href="../variable/CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH.html#variable:CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH" title="CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH</span></code></a> to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;PackageName&gt;_DIR
-CMAKE_PREFIX_PATH
-CMAKE_FRAMEWORK_PATH
-CMAKE_APPBUNDLE_PATH
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_DIR</span></code></p></li>
+<li><p><span class="target" id="index-0-envvar:CMAKE_PREFIX_PATH"></span><a class="reference internal" href="../envvar/CMAKE_PREFIX_PATH.html#envvar:CMAKE_PREFIX_PATH" title="CMAKE_PREFIX_PATH"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_PREFIX_PATH</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_FRAMEWORK_PATH</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_APPBUNDLE_PATH</span></code></p></li>
+</ul>
 </li>
 <li><p>Search paths specified by the <code class="docutils literal notranslate"><span class="pre">HINTS</span></code> option.  These should be paths
 computed by system introspection, such as a hint provided by the
@@ -370,9 +370,9 @@ skipped if <code class="docutils literal notranslate"><span class="pre">NO_SYSTE
 <span class="target" id="index-0-variable:CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH"></span><a class="reference internal" href="../variable/CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH.html#variable:CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH" title="CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH</span></code></a> to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>. Path entries
 ending in <code class="docutils literal notranslate"><span class="pre">/bin</span></code> or <code class="docutils literal notranslate"><span class="pre">/sbin</span></code> are automatically converted to their
 parent directories:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PATH
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">PATH</span></code></p></li>
+</ul>
 </li>
 <li><p>Search paths stored in the CMake <a class="reference internal" href="../manual/cmake-packages.7.html#user-package-registry"><span class="std std-ref">User Package Registry</span></a>.
 This can be skipped if <code class="docutils literal notranslate"><span class="pre">NO_CMAKE_PACKAGE_REGISTRY</span></code> is passed or by
@@ -386,11 +386,14 @@ package registry.</p>
 current system.  This can be skipped if <code class="docutils literal notranslate"><span class="pre">NO_CMAKE_SYSTEM_PATH</span></code> is
 passed or by setting the <span class="target" id="index-0-variable:CMAKE_FIND_USE_CMAKE_SYSTEM_PATH"></span><a class="reference internal" href="../variable/CMAKE_FIND_USE_CMAKE_SYSTEM_PATH.html#variable:CMAKE_FIND_USE_CMAKE_SYSTEM_PATH" title="CMAKE_FIND_USE_CMAKE_SYSTEM_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_USE_CMAKE_SYSTEM_PATH</span></code></a>
 to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CMAKE_SYSTEM_PREFIX_PATH
-CMAKE_SYSTEM_FRAMEWORK_PATH
-CMAKE_SYSTEM_APPBUNDLE_PATH
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><span class="target" id="index-0-variable:CMAKE_SYSTEM_PREFIX_PATH"></span><a class="reference internal" href="../variable/CMAKE_SYSTEM_PREFIX_PATH.html#variable:CMAKE_SYSTEM_PREFIX_PATH" title="CMAKE_SYSTEM_PREFIX_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_PREFIX_PATH</span></code></a></p></li>
+<li><p><span class="target" id="index-0-variable:CMAKE_SYSTEM_FRAMEWORK_PATH"></span><a class="reference internal" href="../variable/CMAKE_SYSTEM_FRAMEWORK_PATH.html#variable:CMAKE_SYSTEM_FRAMEWORK_PATH" title="CMAKE_SYSTEM_FRAMEWORK_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_FRAMEWORK_PATH</span></code></a></p></li>
+<li><p><span class="target" id="index-0-variable:CMAKE_SYSTEM_APPBUNDLE_PATH"></span><a class="reference internal" href="../variable/CMAKE_SYSTEM_APPBUNDLE_PATH.html#variable:CMAKE_SYSTEM_APPBUNDLE_PATH" title="CMAKE_SYSTEM_APPBUNDLE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_APPBUNDLE_PATH</span></code></a></p></li>
+</ul>
+<p>The platform paths that these variables contain are locations that
+typically include installed software. An example being <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code> for
+UNIX based platforms.</p>
 </li>
 <li><p>Search paths stored in the CMake <a class="reference internal" href="../manual/cmake-packages.7.html#system-package-registry"><span class="std std-ref">System Package Registry</span></a>.
 This can be skipped if <code class="docutils literal notranslate"><span class="pre">NO_CMAKE_SYSTEM_PACKAGE_REGISTRY</span></code> is passed
@@ -552,7 +555,7 @@ requirements are not satisfied.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -560,7 +563,7 @@ requirements are not satisfied.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

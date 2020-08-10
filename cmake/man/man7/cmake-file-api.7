@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-FILE-API" "7" "Apr 28, 2020" "3.17.2" "CMake"
+.TH "CMAKE-FILE-API" "7" "Jul 30, 2020" "3.18.1" "CMake"
 .SH NAME
 cmake-file-api \- CMake File-Based API
 .
@@ -513,7 +513,7 @@ Version 1 does not exist to avoid confusion with that from
 .ft C
 {
   "kind": "codemodel",
-  "version": { "major": 2, "minor": 0 },
+  "version": { "major": 2, "minor": 1 },
   "paths": {
     "source": "/path/to/top\-level\-source\-dir",
     "build": "/path/to/top\-level\-build\-dir"
@@ -1051,6 +1051,26 @@ that added this include directory is available.  The value is
 an unsigned integer 0\-based index into the \fBbacktraceGraph\fP
 member’s \fBnodes\fP array.
 .UNINDENT
+.TP
+.B \fBprecompileHeaders\fP
+Optional member that is present when \fBtarget_precompile_headers()\fP
+or other command invocations set \fBPRECOMPILE_HEADERS\fP on the
+target.  The value is a JSON array with an entry for each header.  Each
+entry is a JSON object with members:
+.INDENT 7.0
+.TP
+.B \fBheader\fP
+Full path to the precompile header file.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the \fBtarget_precompile_headers()\fP or other command invocation
+that added this precompiled header is available.  The value is an
+unsigned integer 0\-based index into the \fBbacktraceGraph\fP member’s
+\fBnodes\fP array.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.1.
 .TP
 .B \fBdefines\fP
 Optional member that is present when there are preprocessor definitions.

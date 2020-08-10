@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>FindCUDAToolkit &mdash; CMake 3.17.2 Documentation</title>
+  <title>FindCUDAToolkit &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -197,6 +197,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>. This is generally u
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cublas</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cublas_static</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cublasLt</span></code> starting in CUDA 10.1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cublasLt_static</span></code> starting in CUDA 10.1</p></li>
 </ul>
 </div>
 <div class="section" id="cufft">
@@ -269,7 +271,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>. This is generally u
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nppicc_static</span></code></p></li>
 </ul>
 </li>
-<li><p><cite>nppicom</cite>: JPEG compression and decompression functions in <cite>nppi_compression_functions.h</cite></p>
+<li><p><cite>nppicom</cite>: JPEG compression and decompression functions in <cite>nppi_compression_functions.h</cite>
+Removed starting in CUDA 11.0, use <a class="reference internal" href="#cuda-toolkit-nvjpeg"><span class="std std-ref">nvJPEG</span></a> instead.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nppicom</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nppicom_static</span></code></p></li>
@@ -336,7 +339,8 @@ This is a shared library only.</p>
 </div>
 <div class="section" id="nvgraph">
 <span id="cuda-toolkit-nvgraph"></span><h3>nvGRAPH<a class="headerlink" href="#nvgraph" title="Permalink to this headline">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvgraph/index.html">nvGRAPH</a> library.</p>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvgraph/index.html">nvGRAPH</a> library.
+Removed starting in CUDA 11.0</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvgraph</span></code></p></li>
@@ -424,6 +428,9 @@ required to compile a project linking against CUDA.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_LIBRARY_DIR</span></code></dt><dd><p>The path to the CUDA Toolkit library directory that contains the CUDA
 Runtime library <code class="docutils literal notranslate"><span class="pre">cudart</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_LIBRARY_ROOT</span></code></dt><dd><p>The path to the CUDA Toolkit directory containing the nvvm directory and
+version.txt.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_TARGET_DIR</span></code></dt><dd><p>The path to the CUDA Toolkit directory including the target architecture
 when cross-compiling. When not cross-compiling this will be equivalant to
@@ -523,7 +530,7 @@ modules that depend on this one.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
@@ -531,7 +538,7 @@ modules that depend on this one.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

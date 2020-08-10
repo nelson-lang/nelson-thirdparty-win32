@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>target_link_options &mdash; CMake 3.17.2 Documentation</title>
+  <title>target_link_options &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -93,6 +93,16 @@ The following arguments specify link options.  Repeated calls for the same
 with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>. See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
 manual for available expressions.  See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a>
 manual for more on defining buildsystem properties.</p>
+<p>When a device link step is involved, which is controlled by
+<span class="target" id="index-0-prop_tgt:CUDA_SEPARABLE_COMPILATION"></span><a class="reference internal" href="../prop_tgt/CUDA_SEPARABLE_COMPILATION.html#prop_tgt:CUDA_SEPARABLE_COMPILATION" title="CUDA_SEPARABLE_COMPILATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_SEPARABLE_COMPILATION</span></code></a> and
+<span class="target" id="index-0-prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS"></span><a class="reference internal" href="../prop_tgt/CUDA_RESOLVE_DEVICE_SYMBOLS.html#prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS" title="CUDA_RESOLVE_DEVICE_SYMBOLS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_RESOLVE_DEVICE_SYMBOLS</span></code></a> properties and policy <span class="target" id="index-0-policy:CMP0105"></span><a class="reference internal" href="../policy/CMP0105.html#policy:CMP0105" title="CMP0105"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0105</span></code></a>,
+the raw options will be delivered to the host and device link steps (wrapped in
+<code class="docutils literal notranslate"><span class="pre">-Xcompiler</span></code> or equivalent for device link). Options wrapped with
+<code class="docutils literal notranslate"><span class="pre">$&lt;DEVICE_LINK:...&gt;</span></code>
+<span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expression</span></code></a> will be used
+only for the device link step. Options wrapped with <code class="docutils literal notranslate"><span class="pre">$&lt;HOST_LINK:...&gt;</span></code>
+<span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expression</span></code></a> will be used
+only for the host link step.</p>
 <p>The final set of compile or link options used for a target is constructed by
 accumulating options from the current target and the usage requirements of
 its dependencies.  The set of options is de-duplicated to avoid repetition.
@@ -176,7 +186,7 @@ example then becomes <code class="docutils literal notranslate"><span class="pre
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -184,7 +194,7 @@ example then becomes <code class="docutils literal notranslate"><span class="pre
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

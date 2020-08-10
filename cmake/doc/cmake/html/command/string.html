@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>string &mdash; CMake 3.17.2 Documentation</title>
+  <title>string &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -64,8 +64,6 @@
 <pre class="literal-block"><a class="reference internal" href="#search-and-replace">Search and Replace</a>
   string(<a class="reference internal" href="#find">FIND</a> &lt;string&gt; &lt;substring&gt; &lt;out-var&gt; [...])
   string(<a class="reference internal" href="#replace">REPLACE</a> &lt;match-string&gt; &lt;replace-string&gt; &lt;out-var&gt; &lt;input&gt;...)
-
-<a class="reference internal" href="#regular-expressions">Regular Expressions</a>
   string(<a class="reference internal" href="#regex-match">REGEX MATCH</a> &lt;match-regex&gt; &lt;out-var&gt; &lt;input&gt;...)
   string(<a class="reference internal" href="#regex-matchall">REGEX MATCHALL</a> &lt;match-regex&gt; &lt;out-var&gt; &lt;input&gt;...)
   string(<a class="reference internal" href="#regex-replace">REGEX REPLACE</a> &lt;match-regex&gt; &lt;replace-expr&gt; &lt;out-var&gt; &lt;input&gt;...)
@@ -91,6 +89,7 @@
 
 <a class="reference internal" href="#generation">Generation</a>
   string(<a class="reference internal" href="#ascii">ASCII</a> &lt;number&gt;... &lt;out-var&gt;)
+  string(<a class="reference internal" href="#hex">HEX</a> &lt;string&gt; &lt;out-var&gt;)
   string(<a class="reference internal" href="#configure">CONFIGURE</a> &lt;string&gt; &lt;out-var&gt; [...])
   string(<a class="reference internal" href="#make-c-identifier">MAKE_C_IDENTIFIER</a> &lt;string&gt; &lt;out-var&gt;)
   string(<a class="reference internal" href="#random">RANDOM</a> [&lt;option&gt;...] &lt;out-var&gt;)
@@ -99,6 +98,8 @@
 </div>
 <div class="section" id="search-and-replace">
 <h2>Search and Replace<a class="headerlink" href="#search-and-replace" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="search-and-replace-with-plain-strings">
+<h3>Search and Replace With Plain Strings<a class="headerlink" href="#search-and-replace-with-plain-strings" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-cmake notranslate" id="find"><div class="highlight"><pre><span></span><span class="nf">string(</span><span class="no">FIND</span><span class="w"> </span><span class="nv">&lt;string&gt;</span><span class="w"> </span><span class="nv">&lt;substring&gt;</span><span class="w"> </span><span class="nv">&lt;output_variable&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">REVERSE</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -118,15 +119,16 @@ so strings containing multi-byte characters may lead to unexpected results.</p>
 <p>Replace all occurrences of <code class="docutils literal notranslate"><span class="pre">&lt;match_string&gt;</span></code> in the <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code>
 with <code class="docutils literal notranslate"><span class="pre">&lt;replace_string&gt;</span></code> and store the result in the <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>.</p>
 </div>
-<div class="section" id="regular-expressions">
-<h2>Regular Expressions<a class="headerlink" href="#regular-expressions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="search-and-replace-with-regular-expressions">
+<h3>Search and Replace With Regular Expressions<a class="headerlink" href="#search-and-replace-with-regular-expressions" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-cmake notranslate" id="regex-match"><div class="highlight"><pre><span></span><span class="nf">string(</span><span class="no">REGEX</span><span class="w"> </span><span class="no">MATCH</span><span class="w"> </span><span class="nv">&lt;regular_expression&gt;</span><span class="w"></span>
 <span class="w">       </span><span class="nv">&lt;output_variable&gt;</span><span class="w"> </span><span class="nv">&lt;input&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;input&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Match the <code class="docutils literal notranslate"><span class="pre">&lt;regular_expression&gt;</span></code> once and store the match in the
 <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>.
-All <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code> arguments are concatenated before matching.</p>
+All <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code> arguments are concatenated before matching.
+Regular expressions are specified in the subsection just below.</p>
 <div class="highlight-cmake notranslate" id="regex-matchall"><div class="highlight"><pre><span></span><span class="nf">string(</span><span class="no">REGEX</span><span class="w"> </span><span class="no">MATCHALL</span><span class="w"> </span><span class="nv">&lt;regular_expression&gt;</span><span class="w"></span>
 <span class="w">       </span><span class="nv">&lt;output_variable&gt;</span><span class="w"> </span><span class="nv">&lt;input&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;input&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -146,6 +148,7 @@ All <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</
 subexpressions of the match using <code class="docutils literal notranslate"><span class="pre">\1</span></code>, <code class="docutils literal notranslate"><span class="pre">\2</span></code>, …, <code class="docutils literal notranslate"><span class="pre">\9</span></code>.  Note that
 two backslashes (<code class="docutils literal notranslate"><span class="pre">\\1</span></code>) are required in CMake code to get a backslash
 through argument parsing.</p>
+</div>
 <div class="section" id="regex-specification">
 <span id="id1"></span><h3>Regex Specification<a class="headerlink" href="#regex-specification" title="Permalink to this headline">¶</a></h3>
 <p>The following characters have special meaning in regular expressions:</p>
@@ -322,6 +325,12 @@ The supported <code class="docutils literal notranslate"><span class="pre">&lt;H
 </pre></div>
 </div>
 <p>Convert all numbers into corresponding ASCII characters.</p>
+<div class="highlight-cmake notranslate" id="hex"><div class="highlight"><pre><span></span><span class="nf">string(</span><span class="no">HEX</span><span class="w"> </span><span class="nv">&lt;string&gt;</span><span class="w"> </span><span class="nv">&lt;output_variable&gt;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Convert each byte in the input <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code> to its hexadecimal representation
+and store the concatenated hex digits in the <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>. Letters in
+the output (<code class="docutils literal notranslate"><span class="pre">a</span></code> through <code class="docutils literal notranslate"><span class="pre">f</span></code>) are in lowercase.</p>
 <div class="highlight-cmake notranslate" id="configure"><div class="highlight"><pre><span></span><span class="nf">string(</span><span class="no">CONFIGURE</span><span class="w"> </span><span class="nv">&lt;string&gt;</span><span class="w"> </span><span class="nv">&lt;output_variable&gt;</span><span class="w"></span>
 <span class="w">       </span><span class="p">[</span><span class="no">@ONLY</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">ESCAPE_QUOTES</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -413,8 +422,9 @@ with the optional <code class="docutils literal notranslate"><span class="pre">U
   <ul>
 <li><a class="reference internal" href="#">string</a><ul>
 <li><a class="reference internal" href="#synopsis">Synopsis</a></li>
-<li><a class="reference internal" href="#search-and-replace">Search and Replace</a></li>
-<li><a class="reference internal" href="#regular-expressions">Regular Expressions</a><ul>
+<li><a class="reference internal" href="#search-and-replace">Search and Replace</a><ul>
+<li><a class="reference internal" href="#search-and-replace-with-plain-strings">Search and Replace With Plain Strings</a></li>
+<li><a class="reference internal" href="#search-and-replace-with-regular-expressions">Search and Replace With Regular Expressions</a></li>
 <li><a class="reference internal" href="#regex-specification">Regex Specification</a></li>
 </ul>
 </li>
@@ -473,7 +483,7 @@ with the optional <code class="docutils literal notranslate"><span class="pre">U
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -481,7 +491,7 @@ with the optional <code class="docutils literal notranslate"><span class="pre">U
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

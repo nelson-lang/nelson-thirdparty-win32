@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>cmake(1) &mdash; CMake 3.17.2 Documentation</title>
+  <title>cmake(1) &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -431,6 +431,16 @@ used.</p>
 in <span class="target" id="index-1-variable:CMAKE_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_SOURCE_DIR.html#variable:CMAKE_SOURCE_DIR" title="CMAKE_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SOURCE_DIR</span></code></a> and <span class="target" id="index-1-variable:CMAKE_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>.
 This flag tells CMake to warn about other files as well.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--profiling-output=&lt;path&gt;</span></code></dt><dd><p>Used in conjuction with <code class="docutils literal notranslate"><span class="pre">--profiling-format</span></code> to output to a given path.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--profiling-format=&lt;file&gt;</span></code></dt><dd><p>Enable the output of profiling data of CMake script in the given format.</p>
+<p>This can aid performance analysis of CMake scripts executed. Third party
+applications should be used to process the output into human readable format.</p>
+<p>Currently supported values are:
+<code class="docutils literal notranslate"><span class="pre">google-trace</span></code> Outputs in Google Trace Format, which can be parsed by the
+<a class="reference external" href="about:tracing">about:tracing</a> tab of Google Chrome or using a plugin for a tool like Trace
+Compass.</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -510,13 +520,16 @@ supported by some generators.</p>
 </div>
 <div class="section" id="run-a-script">
 <span id="script-processing-mode"></span><h2>Run a Script<a class="headerlink" href="#run-a-script" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake <span class="o">[{</span>-D &lt;var&gt;<span class="o">=</span>&lt;value&gt;<span class="o">}</span>...<span class="o">]</span> -P &lt;cmake-script-file&gt;
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake <span class="o">[{</span>-D &lt;var&gt;<span class="o">=</span>&lt;value&gt;<span class="o">}</span>...<span class="o">]</span> -P &lt;cmake-script-file&gt; <span class="o">[</span>-- &lt;unparsed-options&gt;...<span class="o">]</span>
 </pre></div>
 </div>
 <p>Process the given cmake file as a script written in the CMake
 language.  No configure or generate step is performed and the cache
 is not modified.  If variables are defined using <code class="docutils literal notranslate"><span class="pre">-D</span></code>, this must be
 done before the <code class="docutils literal notranslate"><span class="pre">-P</span></code> argument.</p>
+<p>Any options after <code class="docutils literal notranslate"><span class="pre">--</span></code> are not parsed by CMake, but they are still included
+in the set of <span class="target" id="index-0-variable:CMAKE_ARGV0"></span><a class="reference internal" href="../variable/CMAKE_ARGV0.html#variable:CMAKE_ARGV0" title="CMAKE_ARGV0"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_ARGV&lt;n&gt;</span></code></a> variables passed to the
+script (including the <code class="docutils literal notranslate"><span class="pre">--</span></code> itself).</p>
 </div>
 <div class="section" id="run-a-command-line-tool">
 <h2>Run a Command-Line Tool<a class="headerlink" href="#run-a-command-line-tool" title="Permalink to this headline">¶</a></h2>
@@ -579,6 +592,8 @@ version components.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">serverMode</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">true</span></code> if cmake supports server-mode and <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise.</p>
 </dd>
 </dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">&lt;files&gt;...</span></code></dt><dd><p>Concatenate files and print on the standard output.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">chdir</span> <span class="pre">&lt;dir&gt;</span> <span class="pre">&lt;cmd&gt;</span> <span class="pre">[&lt;arg&gt;...]</span></code></dt><dd><p>Change the current working directory and run a command.</p>
 </dd>
@@ -978,14 +993,14 @@ found on this web page.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

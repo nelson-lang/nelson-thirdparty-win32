@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>FindOpenSSL &mdash; CMake 3.17.2 Documentation</title>
+  <title>FindOpenSSL &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -72,7 +72,25 @@ components have associated imported targets, as described below.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OpenSSL::Crypto</span></code></dt><dd><p>The OpenSSL <code class="docutils literal notranslate"><span class="pre">crypto</span></code> library, if found.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSSL::applink</span></code></dt><dd><p>The OpenSSL <code class="docutils literal notranslate"><span class="pre">applink</span></code> components that might be need to be compiled into
+projects under MSVC. This target is available only if found OpenSSL version
+is not less than 0.9.8. By linking this target the above OpenSSL targets can
+be linked even if the project has different MSVC runtime configurations with
+the above OpenSSL targets. This target has no effect on plaforms other than
+MSVC.</p>
+</dd>
 </dl>
+<p>NOTE: Due to how <code class="docutils literal notranslate"><span class="pre">INTERFACE_SOURCES</span></code> are consumed by the consuming target,
+unless you certainly know what you are doing, it is always prefered to link
+<code class="docutils literal notranslate"><span class="pre">OpenSSL::applink</span></code> target as <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> and to make sure that this target is
+linked at most once for the whole dependency graph of any library or
+executable:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="nb">myTarget</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">OpenSSL</span><span class="o">::</span><span class="nb">applink</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Otherwise you would probably encounter unexpected random problems when building
+and linking, as both the ISO C and the ISO C++ standard claims almost nothing
+about what a link process should be.</p>
 </div>
 <div class="section" id="result-variables">
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h2>
@@ -94,6 +112,10 @@ requires the crypto library.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">OPENSSL_LIBRARIES</span></code></dt><dd><p>All OpenSSL libraries and their dependencies.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OPENSSL_VERSION</span></code></dt><dd><p>This is set to <code class="docutils literal notranslate"><span class="pre">$major.$minor.$revision$patch</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">0.9.8s</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OPENSSL_APPLINK_SOURCE</span></code></dt><dd><p>The sources in the target <code class="docutils literal notranslate"><span class="pre">OpenSSL::applink</span></code> that is mentioned above. This
+variable shall always be undefined if found openssl version is less than
+0.9.8 or if platform is not MSVC.</p>
 </dd>
 </dl>
 </div>
@@ -169,7 +191,7 @@ Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_MSVC_ST
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
@@ -177,7 +199,7 @@ Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_MSVC_ST
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

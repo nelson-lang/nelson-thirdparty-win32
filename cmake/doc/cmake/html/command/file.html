@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>file &mdash; CMake 3.17.2 Documentation</title>
+  <title>file &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -72,6 +72,7 @@
   file({<a class="reference internal" href="#write">WRITE</a> | <a class="reference internal" href="#append">APPEND</a>} &lt;filename&gt; &lt;content&gt;...)
   file({<a class="reference internal" href="#touch">TOUCH</a> | <a class="reference internal" href="#touch-nocreate">TOUCH_NOCREATE</a>} [&lt;file&gt;...])
   file(<a class="reference internal" href="#generate">GENERATE</a> OUTPUT &lt;output-file&gt; [...])
+  file(<a class="reference internal" href="#configure">CONFIGURE</a> OUTPUT &lt;output-file&gt; CONTENT &lt;content&gt; [...])
 
 <a class="reference internal" href="#filesystem">Filesystem</a>
   file({<a class="reference internal" href="#glob">GLOB</a> | <a class="reference internal" href="#glob-recurse">GLOB_RECURSE</a>} &lt;out-var&gt; [...] [&lt;globbing-expr&gt;...])
@@ -92,7 +93,11 @@
   file(<a class="reference internal" href="#upload">UPLOAD</a> &lt;file&gt; &lt;url&gt; [...])
 
 <a class="reference internal" href="#locking">Locking</a>
-  file(<a class="reference internal" href="#lock">LOCK</a> &lt;path&gt; [...])</pre>
+  file(<a class="reference internal" href="#lock">LOCK</a> &lt;path&gt; [...])
+
+<a class="reference internal" href="#archiving">Archiving</a>
+  file(<a class="reference internal" href="#archive-create">ARCHIVE_CREATE</a> OUTPUT &lt;archive&gt; PATHS &lt;paths&gt;... [...])
+  file(<a class="reference internal" href="#archive-extract">ARCHIVE_EXTRACT</a> INPUT &lt;archive&gt; [...])</pre>
 </div>
 <div class="section" id="reading">
 <h2>Reading<a class="headerlink" href="#reading" title="Permalink to this headline">¶</a></h2>
@@ -103,7 +108,9 @@
 <p>Read content from a file called <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> and store it in a
 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code>.  Optionally start from the given <code class="docutils literal notranslate"><span class="pre">&lt;offset&gt;</span></code> and
 read at most <code class="docutils literal notranslate"><span class="pre">&lt;max-in&gt;</span></code> bytes.  The <code class="docutils literal notranslate"><span class="pre">HEX</span></code> option causes data to
-be converted to a hexadecimal representation (useful for binary data).</p>
+be converted to a hexadecimal representation (useful for binary data). If the
+<code class="docutils literal notranslate"><span class="pre">HEX</span></code> option is specified, letters in the output (<code class="docutils literal notranslate"><span class="pre">a</span></code> through <code class="docutils literal notranslate"><span class="pre">f</span></code>) are in
+lowercase.</p>
 <div class="highlight-cmake notranslate" id="strings"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">STRINGS</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="w"> </span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;options&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -252,8 +259,8 @@ dependencies.</p>
 dependencies.</p>
 </dd>
 </dl>
-<p>These arguments can be used to blacklist unwanted system libraries when
-resolving the dependencies, or to whitelist libraries from a specific
+<p>These arguments can be used to exclude unwanted system libraries when
+resolving the dependencies, or to include libraries from a specific
 directory. The filtering works as follows:</p>
 <ol class="arabic simple">
 <li><p>If the not-yet-resolved dependency matches any of the
@@ -416,8 +423,8 @@ introspection.</p>
 <code class="sig-name descname">CMAKE_GET_RUNTIME_DEPENDENCIES_COMMAND</code><a class="headerlink" href="#variable:CMAKE_GET_RUNTIME_DEPENDENCIES_COMMAND" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines the path to the tool to use for dependency resolution. This is the
 actual path to <code class="docutils literal notranslate"><span class="pre">objdump</span></code>, <code class="docutils literal notranslate"><span class="pre">dumpbin</span></code>, or <code class="docutils literal notranslate"><span class="pre">otool</span></code>.</p>
-<p>If this variable is not specified, it is determined automatically by system
-introspection.</p>
+<p>If this variable is not specified, it is determined by the value of
+<code class="docutils literal notranslate"><span class="pre">CMAKE_OBJDUMP</span></code> if set, else by system introspection.</p>
 </dd></dl>
 
 </div>
@@ -483,6 +490,36 @@ runs only if their content is changed.</p>
 generation phase. The output file will not yet have been written when the
 <code class="docutils literal notranslate"><span class="pre">file(GENERATE)</span></code> command returns, it is written only after processing all
 of a project’s <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files.</p>
+<div class="highlight-cmake notranslate" id="configure"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">CONFIGURE</span><span class="w"> </span><span class="no">OUTPUT</span><span class="w"> </span><span class="nb">output-file</span><span class="w"></span>
+<span class="w">     </span><span class="no">CONTENT</span><span class="w"> </span><span class="nb">content</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">ESCAPE_QUOTES</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">@ONLY</span><span class="p">]</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">NEWLINE_STYLE</span><span class="w"> </span><span class="p">[</span><span class="no">UNIX</span><span class="p">|</span><span class="no">DOS</span><span class="p">|</span><span class="no">WIN32</span><span class="p">|</span><span class="no">LF</span><span class="p">|</span><span class="no">CRLF</span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Generate an output file using the input given by <code class="docutils literal notranslate"><span class="pre">CONTENT</span></code> and substitute
+variable values referenced as <code class="docutils literal notranslate"><span class="pre">&#64;VAR&#64;</span></code> or <code class="docutils literal notranslate"><span class="pre">${VAR}</span></code> contained therein. The
+substitution rules behave the same as the <span class="target" id="index-1-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> command.
+In order to match <span class="target" id="index-2-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a>’s behavior, generator expressions
+are not supported for both <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and <code class="docutils literal notranslate"><span class="pre">CONTENT</span></code>.</p>
+<p>The arguments are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OUTPUT</span> <span class="pre">&lt;output-file&gt;</span></code></dt><dd><p>Specify the output file name to generate. A relative path is treated with
+respect to the value of <span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">&lt;output-file&gt;</span></code> does not support generator expressions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CONTENT</span> <span class="pre">&lt;content&gt;</span></code></dt><dd><p>Use the content given explicitly as input.
+<code class="docutils literal notranslate"><span class="pre">&lt;content&gt;</span></code> does not support generator expressions.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ESCAPE_QUOTES</span></code></dt><dd><p>Escape any substituted quotes with backslashes (C-style).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&#64;ONLY</span></code></dt><dd><p>Restrict variable replacement to references of the form <code class="docutils literal notranslate"><span class="pre">&#64;VAR&#64;</span></code>.
+This is useful for configuring scripts that use <code class="docutils literal notranslate"><span class="pre">${VAR}</span></code> syntax.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">NEWLINE_STYLE</span> <span class="pre">&lt;style&gt;</span></code></dt><dd><p>Specify the newline style for the output file.  Specify
+<code class="docutils literal notranslate"><span class="pre">UNIX</span></code> or <code class="docutils literal notranslate"><span class="pre">LF</span></code> for <code class="docutils literal notranslate"><span class="pre">\n</span></code> newlines, or specify
+<code class="docutils literal notranslate"><span class="pre">DOS</span></code>, <code class="docutils literal notranslate"><span class="pre">WIN32</span></code>, or <code class="docutils literal notranslate"><span class="pre">CRLF</span></code> for <code class="docutils literal notranslate"><span class="pre">\r\n</span></code> newlines.</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="filesystem">
 <h2>Filesystem<a class="headerlink" href="#filesystem" title="Permalink to this headline">¶</a></h2>
@@ -719,6 +756,17 @@ be used instead.</p>
 </dl>
 <p>If neither <code class="docutils literal notranslate"><span class="pre">NETRC</span></code> option is given CMake will check variables
 <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code>, respectively.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span> <span class="pre">&lt;ON|OFF&gt;</span></code></dt><dd><p>Specify whether to verify the server certificate for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.
+The default is to <em>not</em> verify.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TLS_CAINFO</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Specify a custom Certificate Authority file for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.</p>
+</dd>
+</dl>
+<p>For <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs CMake must be built with OpenSSL support.  <code class="docutils literal notranslate"><span class="pre">TLS/SSL</span></code>
+certificates are not checked by default.  Set <code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span></code> to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to
+check certificates. If neither <code class="docutils literal notranslate"><span class="pre">TLS</span></code> option is given CMake will check
+variables <code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code>, respectively.</p>
 <p>Additional options to <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> are:</p>
 <p><code class="docutils literal notranslate"><span class="pre">EXPECTED_HASH</span> <span class="pre">ALGO=&lt;value&gt;</span></code></p>
 <blockquote>
@@ -729,17 +777,7 @@ If it does not match, the operation fails with an error.</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">EXPECTED_MD5</span> <span class="pre">&lt;value&gt;</span></code></dt><dd><p>Historical short-hand for <code class="docutils literal notranslate"><span class="pre">EXPECTED_HASH</span> <span class="pre">MD5=&lt;value&gt;</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span> <span class="pre">&lt;ON|OFF&gt;</span></code></dt><dd><p>Specify whether to verify the server certificate for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.
-The default is to <em>not</em> verify.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">TLS_CAINFO</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Specify a custom Certificate Authority file for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.</p>
-</dd>
 </dl>
-<p>For <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs CMake must be built with OpenSSL support.  <code class="docutils literal notranslate"><span class="pre">TLS/SSL</span></code>
-certificates are not checked by default.  Set <code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span></code> to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to
-check certificates and/or use <code class="docutils literal notranslate"><span class="pre">EXPECTED_HASH</span></code> to verify downloaded content.
-If neither <code class="docutils literal notranslate"><span class="pre">TLS</span></code> option is given CMake will check variables
-<code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code>, respectively.</p>
 </div>
 <div class="section" id="locking">
 <h2>Locking<a class="headerlink" href="#locking" title="Permalink to this headline">¶</a></h2>
@@ -768,6 +806,54 @@ child directory or file.</p>
 file itself will be created if they not exist.  <code class="docutils literal notranslate"><span class="pre">GUARD</span></code> and <code class="docutils literal notranslate"><span class="pre">TIMEOUT</span></code>
 options ignored on <code class="docutils literal notranslate"><span class="pre">RELEASE</span></code> operation.</p>
 </div>
+<div class="section" id="archiving">
+<h2>Archiving<a class="headerlink" href="#archiving" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cmake notranslate" id="archive-create"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">ARCHIVE_CREATE</span><span class="w"> </span><span class="no">OUTPUT</span><span class="w"> </span><span class="nv">&lt;archive&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="no">PATHS</span><span class="w"> </span><span class="nv">&lt;paths&gt;...</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">FORMAT</span><span class="w"> </span><span class="nv">&lt;format&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">COMPRESSION</span><span class="w"> </span><span class="nv">&lt;compression&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">MTIME</span><span class="w"> </span><span class="nv">&lt;mtime&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">VERBOSE</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Creates the specified <code class="docutils literal notranslate"><span class="pre">&lt;archive&gt;</span></code> file with the files and directories
+listed in <code class="docutils literal notranslate"><span class="pre">&lt;paths&gt;</span></code>.  Note that <code class="docutils literal notranslate"><span class="pre">&lt;paths&gt;</span></code> must list actual files or
+directories, wildcards are not supported.</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> option to specify the archive format.  Supported values
+for <code class="docutils literal notranslate"><span class="pre">&lt;format&gt;</span></code> are <code class="docutils literal notranslate"><span class="pre">7zip</span></code>, <code class="docutils literal notranslate"><span class="pre">gnutar</span></code>, <code class="docutils literal notranslate"><span class="pre">pax</span></code>, <code class="docutils literal notranslate"><span class="pre">paxr</span></code>, <code class="docutils literal notranslate"><span class="pre">raw</span></code> and
+<code class="docutils literal notranslate"><span class="pre">zip</span></code>.  If <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> is not given, the default format is <code class="docutils literal notranslate"><span class="pre">paxr</span></code>.</p>
+<p>Some archive formats allow the type of compression to be specified.
+The <code class="docutils literal notranslate"><span class="pre">7zip</span></code> and <code class="docutils literal notranslate"><span class="pre">zip</span></code> archive formats already imply a specific type of
+compression.  The other formats use no compression by default, but can be
+directed to do so with the <code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code> option.  Valid values for
+<code class="docutils literal notranslate"><span class="pre">&lt;compression&gt;</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">BZip2</span></code>, <code class="docutils literal notranslate"><span class="pre">GZip</span></code>, <code class="docutils literal notranslate"><span class="pre">XZ</span></code>, and <code class="docutils literal notranslate"><span class="pre">Zstd</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> set to <code class="docutils literal notranslate"><span class="pre">raw</span></code> only one file will be compressed with the
+compression type specified by <code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code>.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code> option enables verbose output for the archive operation.</p>
+<p>To specify the modification time recorded in tarball entries, use
+the <code class="docutils literal notranslate"><span class="pre">MTIME</span></code> option.</p>
+<div class="highlight-cmake notranslate" id="archive-extract"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">ARCHIVE_EXTRACT</span><span class="w"> </span><span class="no">INPUT</span><span class="w"> </span><span class="nv">&lt;archive&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">PATTERNS</span><span class="w"> </span><span class="nv">&lt;patterns&gt;...</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">LIST_ONLY</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">VERBOSE</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Extracts or lists the content of the specified <code class="docutils literal notranslate"><span class="pre">&lt;archive&gt;</span></code>.</p>
+<p>The directory where the content of the archive will be extracted to can
+be specified using the <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> option.  If the directory does not
+exist, it will be created.  If <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> is not given, the current
+binary directory will be used.</p>
+<p>If required, you may select which files and directories to list or extract
+from the archive using the specified <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code>.  Wildcards are supported.
+If the <code class="docutils literal notranslate"><span class="pre">PATTERNS</span></code> option is not given, the entire archive will be listed or
+extracted.</p>
+<p><code class="docutils literal notranslate"><span class="pre">LIST_ONLY</span></code> will list the files in the archive rather than extract them.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code>, the command will produce verbose output.</p>
+</div>
 </div>
 
 
@@ -786,6 +872,7 @@ options ignored on <code class="docutils literal notranslate"><span class="pre">
 <li><a class="reference internal" href="#path-conversion">Path Conversion</a></li>
 <li><a class="reference internal" href="#transfer">Transfer</a></li>
 <li><a class="reference internal" href="#locking">Locking</a></li>
+<li><a class="reference internal" href="#archiving">Archiving</a></li>
 </ul>
 </li>
 </ul>
@@ -837,7 +924,7 @@ options ignored on <code class="docutils literal notranslate"><span class="pre">
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -845,7 +932,7 @@ options ignored on <code class="docutils literal notranslate"><span class="pre">
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

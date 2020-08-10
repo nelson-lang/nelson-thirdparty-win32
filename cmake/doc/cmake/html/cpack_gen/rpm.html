@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>CPack RPM Generator &mdash; CMake 3.17.2 Documentation</title>
+  <title>CPack RPM Generator &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li> 
@@ -89,8 +89,8 @@ present.</p>
 reasons and are no longer maintained but may still prove useful:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p><a class="reference external" href="https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/Configuration">https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/Configuration</a></p></li>
-<li><p><a class="reference external" href="https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/PackageGenerators#rpm-unix-only">https://gitlab.kitware.com/cmake/community/wikis/doc/cpack/PackageGenerators#rpm-unix-only</a></p></li>
+<li><p><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/Configuration">https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/Configuration</a></p></li>
+<li><p><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/PackageGenerators#rpm-unix-only">https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/PackageGenerators#rpm-unix-only</a></p></li>
 </ul>
 </div></blockquote>
 <p>List of CPack RPM generator specific variables:</p>
@@ -637,18 +637,21 @@ binary spec file which may be used with
 <code class="sig-name descname">CPACK_RPM_PRE_INSTALL_SCRIPT_FILE</code><a class="headerlink" href="#variable:CPACK_RPM_PRE_INSTALL_SCRIPT_FILE" title="Permalink to this definition">¶</a></dt>
 <dt id="variable:CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE">
 <code class="sig-name descname">CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE</code><a class="headerlink" href="#variable:CPACK_RPM_PRE_UNINSTALL_SCRIPT_FILE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Path to file containing pre (un)install script.</p>
+<dt id="variable:CPACK_RPM_PRE_TRANS_SCRIPT_FILE">
+<code class="sig-name descname">CPACK_RPM_PRE_TRANS_SCRIPT_FILE</code><a class="headerlink" href="#variable:CPACK_RPM_PRE_TRANS_SCRIPT_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to file containing pre install/uninstall/transaction script.</p>
 <ul class="simple">
 <li><p>Mandatory : NO</p></li>
 <li><p>Default   : -</p></li>
 </ul>
-<p>May be used to embed a pre (un)installation script in the spec file.
+<p>May be used to embed a pre installation/uninstallation/transaction script in the spec file.
 The referred script file (or both) will be read and directly
 put after the <code class="docutils literal notranslate"><span class="pre">%pre</span></code> or <code class="docutils literal notranslate"><span class="pre">%preun</span></code> section
-If <span class="target" id="index-0-variable:CPACK_RPM_COMPONENT_INSTALL"></span><a class="reference internal" href="#variable:CPACK_RPM_COMPONENT_INSTALL" title="CPACK_RPM_COMPONENT_INSTALL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_COMPONENT_INSTALL</span></code></a> is set to ON the (un)install
+If <span class="target" id="index-0-variable:CPACK_RPM_COMPONENT_INSTALL"></span><a class="reference internal" href="#variable:CPACK_RPM_COMPONENT_INSTALL" title="CPACK_RPM_COMPONENT_INSTALL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_COMPONENT_INSTALL</span></code></a> is set to ON the install/uninstall/transaction
 script for each component can be overridden with
-<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_PRE_INSTALL_SCRIPT_FILE</span></code> and
-<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_PRE_UNINSTALL_SCRIPT_FILE</span></code>.
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_PRE_INSTALL_SCRIPT_FILE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_PRE_UNINSTALL_SCRIPT_FILE</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_PRE_TRANS_SCRIPT_FILE</span></code>
 One may verify which scriptlet has been included with:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rpm -qp --scripts  package.rpm
 </pre></div>
@@ -660,18 +663,21 @@ One may verify which scriptlet has been included with:</p>
 <code class="sig-name descname">CPACK_RPM_POST_INSTALL_SCRIPT_FILE</code><a class="headerlink" href="#variable:CPACK_RPM_POST_INSTALL_SCRIPT_FILE" title="Permalink to this definition">¶</a></dt>
 <dt id="variable:CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE">
 <code class="sig-name descname">CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE</code><a class="headerlink" href="#variable:CPACK_RPM_POST_UNINSTALL_SCRIPT_FILE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Path to file containing post (un)install script.</p>
+<dt id="variable:CPACK_RPM_POST_TRANS_SCRIPT_FILE">
+<code class="sig-name descname">CPACK_RPM_POST_TRANS_SCRIPT_FILE</code><a class="headerlink" href="#variable:CPACK_RPM_POST_TRANS_SCRIPT_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to file containing post install/uninstall/transaction script.</p>
 <ul class="simple">
 <li><p>Mandatory : NO</p></li>
 <li><p>Default   : -</p></li>
 </ul>
-<p>May be used to embed a post (un)installation script in the spec file.
+<p>May be used to embed a post installation/uninstallation/transaction script in the spec file.
 The referred script file (or both) will be read and directly
 put after the <code class="docutils literal notranslate"><span class="pre">%post</span></code> or <code class="docutils literal notranslate"><span class="pre">%postun</span></code> section.
-If <span class="target" id="index-1-variable:CPACK_RPM_COMPONENT_INSTALL"></span><a class="reference internal" href="#variable:CPACK_RPM_COMPONENT_INSTALL" title="CPACK_RPM_COMPONENT_INSTALL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_COMPONENT_INSTALL</span></code></a> is set to ON the (un)install
+If <span class="target" id="index-1-variable:CPACK_RPM_COMPONENT_INSTALL"></span><a class="reference internal" href="#variable:CPACK_RPM_COMPONENT_INSTALL" title="CPACK_RPM_COMPONENT_INSTALL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RPM_COMPONENT_INSTALL</span></code></a> is set to ON the install/uninstall/transaction
 script for each component can be overridden with
-<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_POST_INSTALL_SCRIPT_FILE</span></code> and
-<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_POST_UNINSTALL_SCRIPT_FILE</span></code>.
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_POST_INSTALL_SCRIPT_FILE</span></code>,
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_POST_UNINSTALL_SCRIPT_FILE</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">CPACK_RPM_&lt;COMPONENT&gt;_POST_TRANS_SCRIPT_FILE</span></code>
 One may verify which scriptlet has been included with:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>rpm -qp --scripts  package.rpm
 </pre></div>
@@ -1254,7 +1260,7 @@ example:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li> 
@@ -1262,7 +1268,7 @@ example:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE" "1" "Apr 28, 2020" "3.17.2" "CMake"
+.TH "CMAKE" "1" "Jul 30, 2020" "3.18.1" "CMake"
 .SH NAME
 cmake \- CMake Command-Line Reference
 .
@@ -557,6 +557,20 @@ Find problems with variable usage in system files.
 Normally, unused and uninitialized variables are searched for only
 in \fBCMAKE_SOURCE_DIR\fP and \fBCMAKE_BINARY_DIR\fP\&.
 This flag tells CMake to warn about other files as well.
+.TP
+.B \fB\-\-profiling\-output=<path>\fP
+Used in conjuction with \fB\-\-profiling\-format\fP to output to a given path.
+.TP
+.B \fB\-\-profiling\-format=<file>\fP
+Enable the output of profiling data of CMake script in the given format.
+.sp
+This can aid performance analysis of CMake scripts executed. Third party
+applications should be used to process the output into human readable format.
+.sp
+Currently supported values are:
+\fBgoogle\-trace\fP Outputs in Google Trace Format, which can be parsed by the
+\fI\%about:tracing\fP tab of Google Chrome or using a plugin for a tool like Trace
+Compass.
 .UNINDENT
 .SH BUILD A PROJECT
 .sp
@@ -678,7 +692,7 @@ supported by some generators.
 .sp
 .nf
 .ft C
-cmake [{\-D <var>=<value>}...] \-P <cmake\-script\-file>
+cmake [{\-D <var>=<value>}...] \-P <cmake\-script\-file> [\-\- <unparsed\-options>...]
 .ft P
 .fi
 .UNINDENT
@@ -688,6 +702,10 @@ Process the given cmake file as a script written in the CMake
 language.  No configure or generate step is performed and the cache
 is not modified.  If variables are defined using \fB\-D\fP, this must be
 done before the \fB\-P\fP argument.
+.sp
+Any options after \fB\-\-\fP are not parsed by CMake, but they are still included
+in the set of \fBCMAKE_ARGV<n>\fP variables passed to the
+script (including the \fB\-\-\fP itself).
 .SH RUN A COMMAND-LINE TOOL
 .sp
 CMake provides builtin command\-line tools through the signature
@@ -776,6 +794,9 @@ version components.
 .B \fBserverMode\fP
 \fBtrue\fP if cmake supports server\-mode and \fBfalse\fP otherwise.
 .UNINDENT
+.TP
+.B \fBcat <files>...\fP
+Concatenate files and print on the standard output.
 .TP
 .B \fBchdir <dir> <cmd> [<arg>...]\fP
 Change the current working directory and run a command.

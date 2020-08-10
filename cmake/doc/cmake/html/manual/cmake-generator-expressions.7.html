@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>cmake-generator-expressions(7) &mdash; CMake 3.17.2 Documentation</title>
+  <title>cmake-generator-expressions(7) &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -312,6 +312,108 @@ instead:</p>
 </div>
 </dd>
 </dl>
+<dl id="boolean-link-language-generator-expression">
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANG_AND_ID:language,compiler_ids&gt;</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for link step matches <code class="docutils literal notranslate"><span class="pre">language</span></code> and the
+CMake’s compiler id of the language linker matches any one of the entries
+in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>. This expression is a short form for the
+combination of <code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:language&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">$&lt;LANG_COMPILER_ID:compiler_ids&gt;</span></code>. This expression may be used to specify
+link libraries, link options, link directories and link dependencies of a
+particular language and linker combination in a target. For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">libC_Clang</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_library(</span><span class="nb">libCXX_Clang</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_library(</span><span class="nb">libC_Intel</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_library(</span><span class="nb">libCXX_Intel</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">add_executable(</span><span class="nb">myapp</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">if</span> <span class="nf">(</span><span class="no">CXX_CONFIG</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">target_sources(</span><span class="nb">myapp</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">file.cxx</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">endif()</span><span class="w"></span>
+<span class="nf">target_link_libraries(</span><span class="nb">myapp</span><span class="w"></span>
+<span class="w">  </span><span class="no">PRIVATE</span><span class="w"> </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANG_AND_ID</span><span class="o">:</span><span class="no">CXX</span><span class="p">,</span><span class="nb">Clang</span><span class="p">,</span><span class="nb">AppleClang</span><span class="o">&gt;:</span><span class="nb">libCXX_Clang</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANG_AND_ID</span><span class="o">:</span><span class="no">C</span><span class="p">,</span><span class="nb">Clang</span><span class="p">,</span><span class="nb">AppleClang</span><span class="o">&gt;:</span><span class="nb">libC_Clang</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANG_AND_ID</span><span class="o">:</span><span class="no">CXX</span><span class="p">,</span><span class="nb">Intel</span><span class="o">&gt;:</span><span class="nb">libCXX_Intel</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANG_AND_ID</span><span class="o">:</span><span class="no">C</span><span class="p">,</span><span class="nb">Intel</span><span class="o">&gt;:</span><span class="nb">libC_Intel</span><span class="o">&gt;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This specifies the use of different link libraries based on both the
+compiler id and link language. This example will have target <code class="docutils literal notranslate"><span class="pre">libCXX_Clang</span></code>
+as link dependency when <code class="docutils literal notranslate"><span class="pre">Clang</span></code> or <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> is the <code class="docutils literal notranslate"><span class="pre">CXX</span></code>
+linker, and <code class="docutils literal notranslate"><span class="pre">libCXX_Intel</span></code> when <code class="docutils literal notranslate"><span class="pre">Intel</span></code> is the <code class="docutils literal notranslate"><span class="pre">CXX</span></code> linker.
+Likewise when the <code class="docutils literal notranslate"><span class="pre">C</span></code> linker is <code class="docutils literal notranslate"><span class="pre">Clang</span></code> or <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code>, target
+<code class="docutils literal notranslate"><span class="pre">libC_Clang</span></code> will be added as link dependency and <code class="docutils literal notranslate"><span class="pre">libC_Intel</span></code> when
+<code class="docutils literal notranslate"><span class="pre">Intel</span></code> is the <code class="docutils literal notranslate"><span class="pre">C</span></code> linker.</p>
+<p>See <a class="reference internal" href="#constraints-link-language-generator-expression"><span class="std std-ref">the note related to</span></a>
+<code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:language&gt;</span></code> for constraints about the usage of this
+generator expression.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:languages&gt;</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for link step matches any of the entries
+in <code class="docutils literal notranslate"><span class="pre">languages</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.  This expression may be used to specify
+link libraries, link options, link directories and link dependencies of a
+particular language in a target. For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">api_C</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_library(</span><span class="nb">api_CXX</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_library(</span><span class="nb">api</span><span class="w"> </span><span class="no">INTERFACE</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_options(</span><span class="nb">api</span><span class="w"> </span><span class="no">INTERFACE</span><span class="w"> </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANGUAGE</span><span class="o">:</span><span class="no">C</span><span class="o">&gt;:</span><span class="p">-</span><span class="nb">opt_c</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">                                    </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANGUAGE</span><span class="o">:</span><span class="no">CXX</span><span class="o">&gt;:</span><span class="p">-</span><span class="nb">opt_cxx</span><span class="o">&gt;</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_libraries(</span><span class="nb">api</span><span class="w"> </span><span class="no">INTERFACE</span><span class="w"> </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANGUAGE</span><span class="o">:</span><span class="no">C</span><span class="o">&gt;:</span><span class="nb">api_C</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">                                    </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANGUAGE</span><span class="o">:</span><span class="no">CXX</span><span class="o">&gt;:</span><span class="nb">api_CXX</span><span class="o">&gt;</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">add_executable(</span><span class="nb">myapp1</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_options(</span><span class="nb">myapp1</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">api</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">add_executable(</span><span class="nb">myapp2</span><span class="w"> </span><span class="nb">main.cpp</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_options(</span><span class="nb">myapp2</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">api</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This specifies to use the <code class="docutils literal notranslate"><span class="pre">api</span></code> target for linking targets <code class="docutils literal notranslate"><span class="pre">myapp1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">myapp2</span></code>. In practice, <code class="docutils literal notranslate"><span class="pre">myapp1</span></code> will link with target <code class="docutils literal notranslate"><span class="pre">api_C</span></code> and
+option <code class="docutils literal notranslate"><span class="pre">-opt_c</span></code> because it will use <code class="docutils literal notranslate"><span class="pre">C</span></code> as link language. And <code class="docutils literal notranslate"><span class="pre">myapp2</span></code>
+will link with <code class="docutils literal notranslate"><span class="pre">api_CXX</span></code> and option <code class="docutils literal notranslate"><span class="pre">-opt_cxx</span></code> because <code class="docutils literal notranslate"><span class="pre">CXX</span></code> will be
+the link language.</p>
+<div class="admonition note" id="constraints-link-language-generator-expression">
+<p class="admonition-title">Note</p>
+<p>To determine the link language of a target, it is required to collect,
+transitively, all the targets which will be linked to it. So, for link
+libraries properties, a double evaluation will be done. During the first
+evaluation, <code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:..&gt;</span></code> expressions will always return <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+The link language computed after this first pass will be used to do the
+second pass. To avoid inconsistency, it is required that the second pass
+do not change the link language. Moreover, to avoid unexpected
+side-effects, it is required to specify complete entities as part of the
+<code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:..&gt;</span></code> expression. For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">lib</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">file.cxx</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_library(</span><span class="nb">libother</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">file.c</span><span class="nf">)</span><span class="w"></span>
+
+<span class="c"># bad usage</span>
+<span class="nf">add_executable(</span><span class="nb">myapp1</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_libraries(</span><span class="nb">myapp1</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">lib</span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANGUAGE</span><span class="o">:</span><span class="no">C</span><span class="o">&gt;:</span><span class="nb">other</span><span class="o">&gt;</span><span class="nf">)</span><span class="w"></span>
+
+<span class="c"># correct usage</span>
+<span class="nf">add_executable(</span><span class="nb">myapp2</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_libraries(</span><span class="nb">myapp2</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="o">$&lt;$&lt;</span><span class="no">LINK_LANGUAGE</span><span class="o">:</span><span class="no">C</span><span class="o">&gt;:</span><span class="nb">libother</span><span class="o">&gt;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In this example, for <code class="docutils literal notranslate"><span class="pre">myapp1</span></code>, the first pass will, unexpectedly,
+determine that the link language is <code class="docutils literal notranslate"><span class="pre">CXX</span></code> because the evaluation of the
+generator expression will be an empty string so <code class="docutils literal notranslate"><span class="pre">myapp1</span></code> will depends on
+target <code class="docutils literal notranslate"><span class="pre">lib</span></code> which is <code class="docutils literal notranslate"><span class="pre">C++</span></code>. On the contrary, for <code class="docutils literal notranslate"><span class="pre">myapp2</span></code>, the first
+evaluation will give <code class="docutils literal notranslate"><span class="pre">C</span></code> as link language, so the second pass will
+correctly add target <code class="docutils literal notranslate"><span class="pre">libother</span></code> as link dependency.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;DEVICE_LINK:list&gt;</span></code></dt><dd><p>Returns the list if it is the device link step, an empty list otherwise.
+The device link step is controlled by <span class="target" id="index-0-prop_tgt:CUDA_SEPARABLE_COMPILATION"></span><a class="reference internal" href="../prop_tgt/CUDA_SEPARABLE_COMPILATION.html#prop_tgt:CUDA_SEPARABLE_COMPILATION" title="CUDA_SEPARABLE_COMPILATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_SEPARABLE_COMPILATION</span></code></a>
+and <span class="target" id="index-0-prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS"></span><a class="reference internal" href="../prop_tgt/CUDA_RESOLVE_DEVICE_SYMBOLS.html#prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS" title="CUDA_RESOLVE_DEVICE_SYMBOLS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_RESOLVE_DEVICE_SYMBOLS</span></code></a> properties and
+policy <span class="target" id="index-0-policy:CMP0105"></span><a class="reference internal" href="../policy/CMP0105.html#policy:CMP0105" title="CMP0105"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0105</span></code></a>. This expression can only be used to specify link
+options.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;HOST_LINK:list&gt;</span></code></dt><dd><p>Returns the list if it is the normal link step, an empty list otherwise.
+This expression is mainly useful when a device link step is also involved
+(see <code class="docutils literal notranslate"><span class="pre">$&lt;DEVICE_LINK:list&gt;</span></code> generator expression). This expression can only
+be used to specify link options.</p>
+</dd>
+</dl>
 </div>
 </div>
 <div class="section" id="string-valued-generator-expressions">
@@ -428,7 +530,7 @@ is passed as is (i.e. <code class="docutils literal notranslate"><span class="pr
 </div>
 <div class="section" id="id2">
 <h3><a class="toc-backref" href="#id13">Variable Queries</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">$&lt;CONFIG&gt;</span></code></dt><dd><p>Configuration name.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">$&lt;CONFIGURATION&gt;</span></code></dt><dd><p>Configuration name. Deprecated since CMake 3.0. Use <code class="docutils literal notranslate"><span class="pre">CONFIG</span></code> instead.</p>
@@ -477,21 +579,39 @@ See <a class="reference internal" href="#boolean-compile-language-generator-expr
 <code class="docutils literal notranslate"><span class="pre">$&lt;COMPILE_LANGUAGE:language&gt;</span></code>
 for notes about the portability of this generator expression.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE&gt;</span></code></dt><dd><p>The link language of target when evaluating link options.
+See <a class="reference internal" href="#boolean-link-language-generator-expression"><span class="std std-ref">the related boolean expression</span></a> <code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:language&gt;</span></code>
+for notes about the portability of this generator expression.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This generator expression is not supported by the link libraries
+properties to avoid side-effects due to the double evaluation of
+these properties.</p>
+</div>
+</dd>
 </dl>
 </div>
 <div class="section" id="target-dependent-queries">
 <h3><a class="toc-backref" href="#id14">Target-Dependent Queries</a><a class="headerlink" href="#target-dependent-queries" title="Permalink to this headline">¶</a></h3>
+<p>These queries refer to a target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>. This can be any runtime artifact,
+namely:</p>
+<ul class="simple">
+<li><p>an executable target created by <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a></p></li>
+<li><p>a shared library target (<code class="docutils literal notranslate"><span class="pre">.so</span></code>, <code class="docutils literal notranslate"><span class="pre">.dll</span></code> but not their <code class="docutils literal notranslate"><span class="pre">.lib</span></code> import library)
+created by <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a></p></li>
+<li><p>a static library target created by <span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a></p></li>
+</ul>
+<p>In the following, “the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename” means the name of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code>
+binary file. This has to be distinguished from “the target name”,
+which is just the string <code class="docutils literal notranslate"><span class="pre">tgt</span></code>.</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_NAME_IF_EXISTS:tgt&gt;</span></code></dt><dd><p>Expands to the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> if the given target exists, an empty string
-otherwise.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_NAME_IF_EXISTS:tgt&gt;</span></code></dt><dd><p>The target name <code class="docutils literal notranslate"><span class="pre">tgt</span></code> if the target exists, an empty string otherwise.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE:tgt&gt;</span></code></dt><dd><p>Full path to main file (.exe, .so.1.2, .a) where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a
-target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE:tgt&gt;</span></code></dt><dd><p>Full path to the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> binary file.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_BASE_NAME:tgt&gt;</span></code></dt><dd><p>Base name of main file where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
-<p>The base name corresponds to the target file name (see
-<code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_NAME:tgt&gt;</span></code>) without prefix and suffix. For example, if
-target file name is <code class="docutils literal notranslate"><span class="pre">libbase.so</span></code>, the base name is <code class="docutils literal notranslate"><span class="pre">base</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_BASE_NAME:tgt&gt;</span></code></dt><dd><p>Base name of <code class="docutils literal notranslate"><span class="pre">tgt</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_NAME:tgt&gt;</span></code> without prefix and
+suffix.
+For example, if the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename is <code class="docutils literal notranslate"><span class="pre">libbase.so</span></code>, the base name is <code class="docutils literal notranslate"><span class="pre">base</span></code>.</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/OUTPUT_NAME.html#prop_tgt:OUTPUT_NAME" title="OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OUTPUT_NAME</span></code></a>, <span class="target" id="index-0-prop_tgt:ARCHIVE_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/ARCHIVE_OUTPUT_NAME.html#prop_tgt:ARCHIVE_OUTPUT_NAME" title="ARCHIVE_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ARCHIVE_OUTPUT_NAME</span></code></a>,
 <span class="target" id="index-0-prop_tgt:LIBRARY_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/LIBRARY_OUTPUT_NAME.html#prop_tgt:LIBRARY_OUTPUT_NAME" title="LIBRARY_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LIBRARY_OUTPUT_NAME</span></code></a> and <span class="target" id="index-0-prop_tgt:RUNTIME_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/RUNTIME_OUTPUT_NAME.html#prop_tgt:RUNTIME_OUTPUT_NAME" title="RUNTIME_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">RUNTIME_OUTPUT_NAME</span></code></a>
 target properties and their configuration specific variants
@@ -503,26 +623,27 @@ properties can also be considered.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_PREFIX:tgt&gt;</span></code></dt><dd><p>Prefix of main file where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_PREFIX:tgt&gt;</span></code></dt><dd><p>Prefix of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename (such as <code class="docutils literal notranslate"><span class="pre">lib</span></code>).</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:PREFIX"></span><a class="reference internal" href="../prop_tgt/PREFIX.html#prop_tgt:PREFIX" title="PREFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PREFIX</span></code></a> target property.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_SUFFIX:tgt&gt;</span></code></dt><dd><p>Suffix of main file where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
-<p>The suffix corresponds to the file extension (such as “.so” or “.exe”).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_SUFFIX:tgt&gt;</span></code></dt><dd><p>Suffix of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename (extension such as <code class="docutils literal notranslate"><span class="pre">.so</span></code> or <code class="docutils literal notranslate"><span class="pre">.exe</span></code>).</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:SUFFIX"></span><a class="reference internal" href="../prop_tgt/SUFFIX.html#prop_tgt:SUFFIX" title="SUFFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SUFFIX</span></code></a> target property.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_NAME:tgt&gt;</span></code></dt><dd><p>Name of main file (.exe, .so.1.2, .a).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_NAME:tgt&gt;</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_DIR:tgt&gt;</span></code></dt><dd><p>Directory of main file (.exe, .so.1.2, .a).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_DIR:tgt&gt;</span></code></dt><dd><p>Directory of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> binary file.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE:tgt&gt;</span></code></dt><dd><p>File used to link (.a, .lib, .so) where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE:tgt&gt;</span></code></dt><dd><p>File used when linking to the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> target.  This will usually
+be the library that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> represents (<code class="docutils literal notranslate"><span class="pre">.a</span></code>, <code class="docutils literal notranslate"><span class="pre">.lib</span></code>, <code class="docutils literal notranslate"><span class="pre">.so</span></code>),
+but for a shared library on DLL platforms, it would be the <code class="docutils literal notranslate"><span class="pre">.lib</span></code>
+import library associated with the DLL.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_BASE_NAME:tgt&gt;</span></code></dt><dd><p>Base name of file used to link where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
-<p>The base name corresponds to the target linker file name (see
-<code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_NAME:tgt&gt;</span></code>) without prefix and suffix. For example,
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_BASE_NAME:tgt&gt;</span></code></dt><dd><p>Base name of file used to link the target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>, i.e.
+<code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_NAME:tgt&gt;</span></code> without prefix and suffix. For example,
 if target file name is <code class="docutils literal notranslate"><span class="pre">libbase.a</span></code>, the base name is <code class="docutils literal notranslate"><span class="pre">base</span></code>.</p>
 <p>See also the <span class="target" id="index-1-prop_tgt:OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/OUTPUT_NAME.html#prop_tgt:OUTPUT_NAME" title="OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OUTPUT_NAME</span></code></a>, <span class="target" id="index-1-prop_tgt:ARCHIVE_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/ARCHIVE_OUTPUT_NAME.html#prop_tgt:ARCHIVE_OUTPUT_NAME" title="ARCHIVE_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ARCHIVE_OUTPUT_NAME</span></code></a>,
 and <span class="target" id="index-1-prop_tgt:LIBRARY_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/LIBRARY_OUTPUT_NAME.html#prop_tgt:LIBRARY_OUTPUT_NAME" title="LIBRARY_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LIBRARY_OUTPUT_NAME</span></code></a> target properties and their configuration
@@ -534,7 +655,7 @@ properties can also be considered.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_PREFIX:tgt&gt;</span></code></dt><dd><p>Prefix of file used to link where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_PREFIX:tgt&gt;</span></code></dt><dd><p>Prefix of file used to link target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>.</p>
 <p>See also the <span class="target" id="index-1-prop_tgt:PREFIX"></span><a class="reference internal" href="../prop_tgt/PREFIX.html#prop_tgt:PREFIX" title="PREFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PREFIX</span></code></a> and <span class="target" id="index-0-prop_tgt:IMPORT_PREFIX"></span><a class="reference internal" href="../prop_tgt/IMPORT_PREFIX.html#prop_tgt:IMPORT_PREFIX" title="IMPORT_PREFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORT_PREFIX</span></code></a> target
 properties.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
@@ -547,15 +668,15 @@ properties.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_NAME:tgt&gt;</span></code></dt><dd><p>Name of file used to link (.a, .lib, .so).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_NAME:tgt&gt;</span></code></dt><dd><p>Name of file used to link target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_DIR:tgt&gt;</span></code></dt><dd><p>Directory of file used to link (.a, .lib, .so).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_DIR:tgt&gt;</span></code></dt><dd><p>Directory of file used to link target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_SONAME_FILE:tgt&gt;</span></code></dt><dd><p>File with soname (.so.3) where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_SONAME_FILE:tgt&gt;</span></code></dt><dd><p>File with soname (<code class="docutils literal notranslate"><span class="pre">.so.3</span></code>) where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_SONAME_FILE_NAME:tgt&gt;</span></code></dt><dd><p>Name of file with soname (.so.3).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_SONAME_FILE_NAME:tgt&gt;</span></code></dt><dd><p>Name of file with soname (<code class="docutils literal notranslate"><span class="pre">.so.3</span></code>).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_SONAME_FILE_DIR:tgt&gt;</span></code></dt><dd><p>Directory of with soname (.so.3).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_SONAME_FILE_DIR:tgt&gt;</span></code></dt><dd><p>Directory of with soname (<code class="docutils literal notranslate"><span class="pre">.so.3</span></code>).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_PDB_FILE:tgt&gt;</span></code></dt><dd><p>Full path to the linker generated program database file (.pdb)
 where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
@@ -592,11 +713,10 @@ structure.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_PROPERTY:prop&gt;</span></code></dt><dd><p>Value of the property <code class="docutils literal notranslate"><span class="pre">prop</span></code> on the target on which the generator
-expression is evaluated. Note that for generator expressions in
-<a class="reference internal" href="cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">Transitive Usage Requirements</span></a> this is the value of the property
-on the consuming target rather than the target specifying the
-requirement.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_PROPERTY:prop&gt;</span></code></dt><dd><p>Value of the property <code class="docutils literal notranslate"><span class="pre">prop</span></code> on the target for which the expression
+is being evaluated. Note that for generator expressions in
+<a class="reference internal" href="cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">Transitive Usage Requirements</span></a> this is the consuming target rather
+than the target specifying the requirement.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">$&lt;INSTALL_PREFIX&gt;</span></code></dt><dd><p>Content of the install prefix when the target is exported via
 <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>, or when evaluated in
@@ -737,14 +857,14 @@ would then print the result of <code class="docutils literal notranslate"><span 
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

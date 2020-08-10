@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>CMake Tutorial &mdash; CMake 3.17.2 Documentation</title>
+  <title>CMake Tutorial &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -473,12 +473,24 @@ tutorial assume that they are not common.</p>
 <p>If the platform has <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> then we will use them to compute the
 square root in the <code class="docutils literal notranslate"><span class="pre">mysqrt</span></code> function. We first test for the availability of
 these functions using the <span class="target" id="index-0-module:CheckSymbolExists"></span><a class="reference internal" href="../../module/CheckSymbolExists.html#module:CheckSymbolExists" title="CheckSymbolExists"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckSymbolExists</span></code></a> module in the top-level
-<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>. We’re going to use the new defines in
-<code class="docutils literal notranslate"><span class="pre">TutorialConfig.h.in</span></code>, so be sure to set them before that file is configured.</p>
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>. On some platforms, we will need to link to the m library.
+If <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> are not initially found, require the m library and try
+again.</p>
+<p>We’re going to use the new defines in <code class="docutils literal notranslate"><span class="pre">TutorialConfig.h.in</span></code>, so be sure to
+set them before that file is configured.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">CheckSymbolExists</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">set(</span><span class="no">CMAKE_REQUIRED_LIBRARIES</span><span class="w"> </span><span class="s">&quot;m&quot;</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">check_symbol_exists(</span><span class="nb">log</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_LOG</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">check_symbol_exists(</span><span class="nb">exp</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">if(NOT</span> <span class="nf">(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">))</span><span class="w"></span>
+<span class="w">  </span><span class="nf">unset(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">CACHE</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">unset(</span><span class="no">HAVE_EXP</span><span class="w"> </span><span class="no">CACHE</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">set(</span><span class="no">CMAKE_REQUIRED_LIBRARIES</span><span class="w"> </span><span class="s">&quot;m&quot;</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">check_symbol_exists(</span><span class="nb">log</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_LOG</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">check_symbol_exists(</span><span class="nb">exp</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">if(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
+<span class="w">    </span><span class="nf">target_link_libraries(</span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">m</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">endif()</span><span class="w"></span>
+<span class="nf">endif()</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Now let’s add these defines to <code class="docutils literal notranslate"><span class="pre">TutorialConfig.h.in</span></code> so that we can use them
@@ -535,10 +547,20 @@ include <code class="docutils literal notranslate"><span class="pre">TutorialCon
 <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code> and then specify those values as <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code>
 compile definitions.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">CheckSymbolExists</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">set(</span><span class="no">CMAKE_REQUIRED_LIBRARIES</span><span class="w"> </span><span class="s">&quot;m&quot;</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">check_symbol_exists(</span><span class="nb">log</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_LOG</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">check_symbol_exists(</span><span class="nb">exp</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">if(NOT</span> <span class="nf">(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">))</span><span class="w"></span>
+<span class="w">  </span><span class="nf">unset(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">CACHE</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">unset(</span><span class="no">HAVE_EXP</span><span class="w"> </span><span class="no">CACHE</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">set(</span><span class="no">CMAKE_REQUIRED_LIBRARIES</span><span class="w"> </span><span class="s">&quot;m&quot;</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">check_symbol_exists(</span><span class="nb">log</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_LOG</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">check_symbol_exists(</span><span class="nb">exp</span><span class="w"> </span><span class="s">&quot;math.h&quot;</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">if(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
+<span class="w">    </span><span class="nf">target_link_libraries(</span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">m</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">endif()</span><span class="w"></span>
+<span class="nf">endif()</span><span class="w"></span>
 
+<span class="c"># add compile definitions</span>
 <span class="nf">if(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span><span class="w"></span>
 <span class="w">  </span><span class="nf">target_compile_definitions(</span><span class="nb">MathFunctions</span><span class="w"></span>
 <span class="w">                             </span><span class="no">PRIVATE</span><span class="w"> </span><span class="s">&quot;HAVE_LOG&quot;</span><span class="w"> </span><span class="s">&quot;HAVE_EXP&quot;</span><span class="nf">)</span><span class="w"></span>
@@ -1237,14 +1259,14 @@ custom configuration file with the <code class="docutils literal notranslate"><s
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

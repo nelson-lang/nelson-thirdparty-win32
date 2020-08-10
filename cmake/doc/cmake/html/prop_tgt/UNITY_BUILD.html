@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>UNITY_BUILD &mdash; CMake 3.17.2 Documentation</title>
+  <title>UNITY_BUILD &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -62,10 +62,28 @@
 into batches for faster compilation.  This is done by creating a (set of)
 unity sources which <code class="docutils literal notranslate"><span class="pre">#include</span></code> the original sources, then compiling these
 unity sources instead of the originals.  This is known as a <em>Unity</em> or <em>Jumbo</em>
-build.  The <span class="target" id="index-0-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a class="reference internal" href="UNITY_BUILD_BATCH_SIZE.html#prop_tgt:UNITY_BUILD_BATCH_SIZE" title="UNITY_BUILD_BATCH_SIZE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_BATCH_SIZE</span></code></a> property controls the upper
-limit on how many sources can be combined per unity source file.</p>
+build.</p>
+<p>CMake provides different algorithms for selecting which sources are grouped
+together into a <em>bucket</em>. Algorithm selection is decided by the
+<span class="target" id="index-0-prop_tgt:UNITY_BUILD_MODE"></span><a class="reference internal" href="UNITY_BUILD_MODE.html#prop_tgt:UNITY_BUILD_MODE" title="UNITY_BUILD_MODE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_MODE</span></code></a> target property, which has the following acceptable
+values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">BATCH</span></code>
+When in this mode CMake determines which files are grouped together.
+The <span class="target" id="index-0-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a class="reference internal" href="UNITY_BUILD_BATCH_SIZE.html#prop_tgt:UNITY_BUILD_BATCH_SIZE" title="UNITY_BUILD_BATCH_SIZE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_BATCH_SIZE</span></code></a> property controls the upper limit on
+how many sources can be combined per unity source file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GROUP</span></code>
+When in this mode each target explicitly specifies how to group
+source files. Each source file that has the same
+<span class="target" id="index-0-prop_sf:UNITY_GROUP"></span><a class="reference internal" href="../prop_sf/UNITY_GROUP.html#prop_sf:UNITY_GROUP" title="UNITY_GROUP"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">UNITY_GROUP</span></code></a> value will be grouped together. Any sources
+that don’t have this property will be compiled individually. The
+<span class="target" id="index-1-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a class="reference internal" href="UNITY_BUILD_BATCH_SIZE.html#prop_tgt:UNITY_BUILD_BATCH_SIZE" title="UNITY_BUILD_BATCH_SIZE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_BATCH_SIZE</span></code></a> property is ignored when using
+this mode.</p></li>
+</ul>
+<p>If no explicit <span class="target" id="index-1-prop_tgt:UNITY_BUILD_MODE"></span><a class="reference internal" href="UNITY_BUILD_MODE.html#prop_tgt:UNITY_BUILD_MODE" title="UNITY_BUILD_MODE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_MODE</span></code></a> has been specified, CMake will
+default to <code class="docutils literal notranslate"><span class="pre">BATCH</span></code>.</p>
 <p>Unity builds are not currently supported for all languages.  CMake version
-3.17.2 supports combining <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">CXX</span></code> source files.  For targets that
+3.18.1 supports combining <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">CXX</span></code> source files.  For targets that
 mix source files from more than one language, CMake will separate the languages
 such that each generated unity source file only contains sources for a single
 language.</p>
@@ -107,7 +125,7 @@ to inject code into the unity source files before and after every
 <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a>, <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> or
 <span class="target" id="index-0-command:target_sources"></span><a class="reference internal" href="../command/target_sources.html#command:target_sources" title="target_sources"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_sources()</span></code></a> will be preserved in the generated unity source
 files.  This can be used to manually enforce a specific grouping based on
-the <span class="target" id="index-1-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a class="reference internal" href="UNITY_BUILD_BATCH_SIZE.html#prop_tgt:UNITY_BUILD_BATCH_SIZE" title="UNITY_BUILD_BATCH_SIZE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_BATCH_SIZE</span></code></a> target property.</p></li>
+the <span class="target" id="index-2-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a class="reference internal" href="UNITY_BUILD_BATCH_SIZE.html#prop_tgt:UNITY_BUILD_BATCH_SIZE" title="UNITY_BUILD_BATCH_SIZE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_BATCH_SIZE</span></code></a> target property.</p></li>
 </ul>
 </div>
 </div>
@@ -173,7 +191,7 @@ the <span class="target" id="index-1-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a 
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 
@@ -181,7 +199,7 @@ the <span class="target" id="index-1-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a 
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

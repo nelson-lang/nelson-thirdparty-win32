@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>ctest(1) &mdash; CMake 3.17.2 Documentation</title>
+  <title>ctest(1) &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -152,6 +152,8 @@ useful for debugging dashboard problems.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">--output-on-failure</span></code></dt><dd><p>Output anything outputted by the test program if the test should fail.
 This option can also be enabled by setting the
 <span class="target" id="index-0-envvar:CTEST_OUTPUT_ON_FAILURE"></span><a class="reference internal" href="../envvar/CTEST_OUTPUT_ON_FAILURE.html#envvar:CTEST_OUTPUT_ON_FAILURE" title="CTEST_OUTPUT_ON_FAILURE"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CTEST_OUTPUT_ON_FAILURE</span></code></a> environment variable</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--stop-on-failure</span></code></dt><dd><p>Stop running the tests when the first failure happens.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-F</span></code></dt><dd><p>Enable failover.</p>
 <p>This option allows CTest to resume a test set execution that was
@@ -1020,15 +1022,19 @@ Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">ResourceSpecFile</span></code></dt><dd><p>Specify a
-<a class="reference internal" href="#ctest-resource-specification-file"><span class="std std-ref">resource specification file</span></a>. See
-<a class="reference internal" href="#ctest-resource-allocation"><span class="std std-ref">Resource Allocation</span></a> for more information.</p>
+<a class="reference internal" href="#ctest-resource-specification-file"><span class="std std-ref">resource specification file</span></a>.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_RESOURCE_SPEC_FILE"></span><a class="reference internal" href="../variable/CTEST_RESOURCE_SPEC_FILE.html#variable:CTEST_RESOURCE_SPEC_FILE" title="CTEST_RESOURCE_SPEC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_RESOURCE_SPEC_FILE</span></code></a></p></li>
+<li><p><span class="target" id="index-32-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_RESOURCE_SPEC_FILE</span></code></p></li>
+</ul>
+<p>See <a class="reference internal" href="#ctest-resource-allocation"><span class="std std-ref">Resource Allocation</span></a> for more information.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">LabelsForSubprojects</span></code></dt><dd><p>Specify a semicolon-separated list of labels that will be treated as
 subprojects. This mapping will be passed on to CDash when configure, test or
 build results are submitted.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-2-variable:CTEST_LABELS_FOR_SUBPROJECTS"></span><a class="reference internal" href="../variable/CTEST_LABELS_FOR_SUBPROJECTS.html#variable:CTEST_LABELS_FOR_SUBPROJECTS" title="CTEST_LABELS_FOR_SUBPROJECTS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_LABELS_FOR_SUBPROJECTS</span></code></a></p></li>
-<li><p><span class="target" id="index-32-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_LABELS_FOR_SUBPROJECTS</span></code></p></li>
+<li><p><span class="target" id="index-33-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_LABELS_FOR_SUBPROJECTS</span></code></p></li>
 </ul>
 <p>See <a class="reference internal" href="#label-and-subproject-summary">Label and Subproject Summary</a>.</p>
 </dd>
@@ -1036,14 +1042,14 @@ build results are submitted.</p>
 tests when they may cause the CPU load to pass above a given threshold.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_TEST_LOAD"></span><a class="reference internal" href="../variable/CTEST_TEST_LOAD.html#variable:CTEST_TEST_LOAD" title="CTEST_TEST_LOAD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_TEST_LOAD</span></code></a></p></li>
-<li><p><span class="target" id="index-33-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_TEST_LOAD</span></code></p></li>
+<li><p><span class="target" id="index-34-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_TEST_LOAD</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TimeOut</span></code></dt><dd><p>The default timeout for each test if not specified by the
 <span class="target" id="index-1-prop_test:TIMEOUT"></span><a class="reference internal" href="../prop_test/TIMEOUT.html#prop_test:TIMEOUT" title="TIMEOUT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">TIMEOUT</span></code></a> test property.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_TEST_TIMEOUT"></span><a class="reference internal" href="../variable/CTEST_TEST_TIMEOUT.html#variable:CTEST_TEST_TIMEOUT" title="CTEST_TEST_TIMEOUT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_TEST_TIMEOUT</span></code></a></p></li>
-<li><p><span class="target" id="index-34-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DART_TESTING_TIMEOUT</span></code></p></li>
+<li><p><span class="target" id="index-35-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DART_TESTING_TIMEOUT</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -1059,13 +1065,13 @@ It will be executed in the location specified by the
 <code class="docutils literal notranslate"><span class="pre">BuildDirectory</span></code> setting.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_COVERAGE_COMMAND"></span><a class="reference internal" href="../variable/CTEST_COVERAGE_COMMAND.html#variable:CTEST_COVERAGE_COMMAND" title="CTEST_COVERAGE_COMMAND"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_COVERAGE_COMMAND</span></code></a></p></li>
-<li><p><span class="target" id="index-35-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">COVERAGE_COMMAND</span></code></p></li>
+<li><p><span class="target" id="index-36-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">COVERAGE_COMMAND</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CoverageExtraFlags</span></code></dt><dd><p>Specify command-line options to the <code class="docutils literal notranslate"><span class="pre">CoverageCommand</span></code> tool.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_COVERAGE_EXTRA_FLAGS"></span><a class="reference internal" href="../variable/CTEST_COVERAGE_EXTRA_FLAGS.html#variable:CTEST_COVERAGE_EXTRA_FLAGS" title="CTEST_COVERAGE_EXTRA_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_COVERAGE_EXTRA_FLAGS</span></code></a></p></li>
-<li><p><span class="target" id="index-36-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">COVERAGE_EXTRA_FLAGS</span></code></p></li>
+<li><p><span class="target" id="index-37-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">COVERAGE_EXTRA_FLAGS</span></code></p></li>
 </ul>
 <p>These options are the first arguments passed to <code class="docutils literal notranslate"><span class="pre">CoverageCommand</span></code>.</p>
 </dd>
@@ -1081,26 +1087,26 @@ Arguments to the command may specify some of the step settings.</p>
 will be launched through this tool.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_MEMORYCHECK_COMMAND"></span><a class="reference internal" href="../variable/CTEST_MEMORYCHECK_COMMAND.html#variable:CTEST_MEMORYCHECK_COMMAND" title="CTEST_MEMORYCHECK_COMMAND"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_MEMORYCHECK_COMMAND</span></code></a></p></li>
-<li><p><span class="target" id="index-37-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_COMMAND</span></code></p></li>
+<li><p><span class="target" id="index-38-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_COMMAND</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">MemoryCheckCommandOptions</span></code></dt><dd><p>Specify command-line options to the <code class="docutils literal notranslate"><span class="pre">MemoryCheckCommand</span></code> tool.
 They will be placed prior to the test command line.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_MEMORYCHECK_COMMAND_OPTIONS"></span><a class="reference internal" href="../variable/CTEST_MEMORYCHECK_COMMAND_OPTIONS.html#variable:CTEST_MEMORYCHECK_COMMAND_OPTIONS" title="CTEST_MEMORYCHECK_COMMAND_OPTIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_MEMORYCHECK_COMMAND_OPTIONS</span></code></a></p></li>
-<li><p><span class="target" id="index-38-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_COMMAND_OPTIONS</span></code></p></li>
+<li><p><span class="target" id="index-39-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_COMMAND_OPTIONS</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">MemoryCheckType</span></code></dt><dd><p>Specify the type of memory checking to perform.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_MEMORYCHECK_TYPE"></span><a class="reference internal" href="../variable/CTEST_MEMORYCHECK_TYPE.html#variable:CTEST_MEMORYCHECK_TYPE" title="CTEST_MEMORYCHECK_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_MEMORYCHECK_TYPE</span></code></a></p></li>
-<li><p><span class="target" id="index-39-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_TYPE</span></code></p></li>
+<li><p><span class="target" id="index-40-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_TYPE</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">MemoryCheckSanitizerOptions</span></code></dt><dd><p>Specify options to sanitizers when running with a sanitize-enabled build.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_MEMORYCHECK_SANITIZER_OPTIONS"></span><a class="reference internal" href="../variable/CTEST_MEMORYCHECK_SANITIZER_OPTIONS.html#variable:CTEST_MEMORYCHECK_SANITIZER_OPTIONS" title="CTEST_MEMORYCHECK_SANITIZER_OPTIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_MEMORYCHECK_SANITIZER_OPTIONS</span></code></a></p></li>
-<li><p><span class="target" id="index-40-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_SANITIZER_OPTIONS</span></code></p></li>
+<li><p><span class="target" id="index-41-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_SANITIZER_OPTIONS</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">MemoryCheckSuppressionFile</span></code></dt><dd><p>Specify a file containing suppression rules for the
@@ -1108,7 +1114,7 @@ They will be placed prior to the test command line.</p>
 appropriate to the tool.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_MEMORYCHECK_SUPPRESSIONS_FILE"></span><a class="reference internal" href="../variable/CTEST_MEMORYCHECK_SUPPRESSIONS_FILE.html#variable:CTEST_MEMORYCHECK_SUPPRESSIONS_FILE" title="CTEST_MEMORYCHECK_SUPPRESSIONS_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_MEMORYCHECK_SUPPRESSIONS_FILE</span></code></a></p></li>
-<li><p><span class="target" id="index-41-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_SUPPRESSIONS_FILE</span></code></p></li>
+<li><p><span class="target" id="index-42-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">MEMORYCHECK_SUPPRESSIONS_FILE</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -1118,42 +1124,42 @@ appropriate to the tool.</p>
 compatible with Bounds Checker.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none</p></li>
-<li><p><span class="target" id="index-42-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: none</p></li>
+<li><p><span class="target" id="index-43-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: none</p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">PurifyCommand</span></code></dt><dd><p>Specify a <code class="docutils literal notranslate"><span class="pre">MemoryCheckCommand</span></code> that is known to be command-line
 compatible with Purify.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none</p></li>
-<li><p><span class="target" id="index-43-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">PURIFYCOMMAND</span></code></p></li>
+<li><p><span class="target" id="index-44-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">PURIFYCOMMAND</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ValgrindCommand</span></code></dt><dd><p>Specify a <code class="docutils literal notranslate"><span class="pre">MemoryCheckCommand</span></code> that is known to be command-line
 compatible with Valgrind.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none</p></li>
-<li><p><span class="target" id="index-44-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">VALGRIND_COMMAND</span></code></p></li>
+<li><p><span class="target" id="index-45-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">VALGRIND_COMMAND</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ValgrindCommandOptions</span></code></dt><dd><p>Specify command-line options to the <code class="docutils literal notranslate"><span class="pre">ValgrindCommand</span></code> tool.
 They will be placed prior to the test command line.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none</p></li>
-<li><p><span class="target" id="index-45-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">VALGRIND_COMMAND_OPTIONS</span></code></p></li>
+<li><p><span class="target" id="index-46-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">VALGRIND_COMMAND_OPTIONS</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DrMemoryCommand</span></code></dt><dd><p>Specify a <code class="docutils literal notranslate"><span class="pre">MemoryCheckCommand</span></code> that is known to be a command-line
 compatible with DrMemory.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none</p></li>
-<li><p><span class="target" id="index-46-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DRMEMORY_COMMAND</span></code></p></li>
+<li><p><span class="target" id="index-47-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DRMEMORY_COMMAND</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DrMemoryCommandOptions</span></code></dt><dd><p>Specify command-line options to the <code class="docutils literal notranslate"><span class="pre">DrMemoryCommand</span></code> tool.
 They will be placed prior to the test command line.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none</p></li>
-<li><p><span class="target" id="index-47-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DRMEMORY_COMMAND_OPTIONS</span></code></p></li>
+<li><p><span class="target" id="index-48-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DRMEMORY_COMMAND_OPTIONS</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -1168,27 +1174,27 @@ Arguments to the command may specify some of the step settings.</p>
 (Operating system, compiler, etc.)</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_BUILD_NAME"></span><a class="reference internal" href="../variable/CTEST_BUILD_NAME.html#variable:CTEST_BUILD_NAME" title="CTEST_BUILD_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_BUILD_NAME</span></code></a></p></li>
-<li><p><span class="target" id="index-48-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">BUILDNAME</span></code></p></li>
+<li><p><span class="target" id="index-49-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">BUILDNAME</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CDashVersion</span></code></dt><dd><p>Legacy option.  Not used.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none, detected from server</p></li>
-<li><p><span class="target" id="index-49-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_CDASH_VERSION</span></code></p></li>
+<li><p><span class="target" id="index-50-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_CDASH_VERSION</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CTestSubmitRetryCount</span></code></dt><dd><p>Specify a number of attempts to retry submission on network failure.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none,
 use the <span class="target" id="index-1-command:ctest_submit"></span><a class="reference internal" href="../command/ctest_submit.html#command:ctest_submit" title="ctest_submit"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_submit()</span></code></a> <code class="docutils literal notranslate"><span class="pre">RETRY_COUNT</span></code> option.</p></li>
-<li><p><span class="target" id="index-50-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_SUBMIT_RETRY_COUNT</span></code></p></li>
+<li><p><span class="target" id="index-51-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_SUBMIT_RETRY_COUNT</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CTestSubmitRetryDelay</span></code></dt><dd><p>Specify a delay before retrying submission on network failure.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: none,
 use the <span class="target" id="index-2-command:ctest_submit"></span><a class="reference internal" href="../command/ctest_submit.html#command:ctest_submit" title="ctest_submit"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_submit()</span></code></a> <code class="docutils literal notranslate"><span class="pre">RETRY_DELAY</span></code> option.</p></li>
-<li><p><span class="target" id="index-51-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_SUBMIT_RETRY_DELAY</span></code></p></li>
+<li><p><span class="target" id="index-52-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_SUBMIT_RETRY_DELAY</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CurlOptions</span></code></dt><dd><p>Specify a semicolon-separated list of options to control the
@@ -1197,7 +1203,7 @@ server.  Possible options are <code class="docutils literal notranslate"><span c
 and <code class="docutils literal notranslate"><span class="pre">CURLOPT_SSL_VERIFYHOST_OFF</span></code>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_CURL_OPTIONS"></span><a class="reference internal" href="../variable/CTEST_CURL_OPTIONS.html#variable:CTEST_CURL_OPTIONS" title="CTEST_CURL_OPTIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_CURL_OPTIONS</span></code></a></p></li>
-<li><p><span class="target" id="index-52-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_CURL_OPTIONS</span></code></p></li>
+<li><p><span class="target" id="index-53-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_CURL_OPTIONS</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DropLocation</span></code></dt><dd><p>Legacy option.  When <code class="docutils literal notranslate"><span class="pre">SubmitURL</span></code> is not set, it is constructed from
@@ -1205,7 +1211,7 @@ and <code class="docutils literal notranslate"><span class="pre">CURLOPT_SSL_VER
 <code class="docutils literal notranslate"><span class="pre">DropLocation</span></code>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_DROP_LOCATION"></span><a class="reference internal" href="../variable/CTEST_DROP_LOCATION.html#variable:CTEST_DROP_LOCATION" title="CTEST_DROP_LOCATION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_DROP_LOCATION</span></code></a></p></li>
-<li><p><span class="target" id="index-53-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_LOCATION</span></code> if set,
+<li><p><span class="target" id="index-54-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_LOCATION</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_LOCATION</span></code></p></li>
 </ul>
 </dd>
@@ -1214,7 +1220,7 @@ else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_LOC
 <code class="docutils literal notranslate"><span class="pre">DropLocation</span></code>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_DROP_METHOD"></span><a class="reference internal" href="../variable/CTEST_DROP_METHOD.html#variable:CTEST_DROP_METHOD" title="CTEST_DROP_METHOD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_DROP_METHOD</span></code></a></p></li>
-<li><p><span class="target" id="index-54-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_METHOD</span></code> if set,
+<li><p><span class="target" id="index-55-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_METHOD</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_METHOD</span></code></p></li>
 </ul>
 </dd>
@@ -1223,7 +1229,7 @@ else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_MET
 <code class="docutils literal notranslate"><span class="pre">DropLocation</span></code>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_DROP_SITE"></span><a class="reference internal" href="../variable/CTEST_DROP_SITE.html#variable:CTEST_DROP_SITE" title="CTEST_DROP_SITE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_DROP_SITE</span></code></a></p></li>
-<li><p><span class="target" id="index-55-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_SITE</span></code> if set,
+<li><p><span class="target" id="index-56-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_SITE</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SITE</span></code></p></li>
 </ul>
 </dd>
@@ -1232,7 +1238,7 @@ else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SIT
 <code class="docutils literal notranslate"><span class="pre">DropLocation</span></code>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_DROP_SITE_PASSWORD"></span><a class="reference internal" href="../variable/CTEST_DROP_SITE_PASSWORD.html#variable:CTEST_DROP_SITE_PASSWORD" title="CTEST_DROP_SITE_PASSWORD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_PASSWORD</span></code></a></p></li>
-<li><p><span class="target" id="index-56-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_SITE_PASSWORD</span></code> if set,
+<li><p><span class="target" id="index-57-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_SITE_PASSWORD</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_PASWORD</span></code></p></li>
 </ul>
 </dd>
@@ -1241,27 +1247,27 @@ else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SIT
 <code class="docutils literal notranslate"><span class="pre">DropLocation</span></code>.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_DROP_SITE_USER"></span><a class="reference internal" href="../variable/CTEST_DROP_SITE_USER.html#variable:CTEST_DROP_SITE_USER" title="CTEST_DROP_SITE_USER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_USER</span></code></a></p></li>
-<li><p><span class="target" id="index-57-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_SITE_USER</span></code> if set,
+<li><p><span class="target" id="index-58-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">DROP_SITE_USER</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_USER</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">IsCDash</span></code></dt><dd><p>Legacy option.  Not used.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_DROP_SITE_CDASH"></span><a class="reference internal" href="../variable/CTEST_DROP_SITE_CDASH.html#variable:CTEST_DROP_SITE_CDASH" title="CTEST_DROP_SITE_CDASH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_CDASH</span></code></a></p></li>
-<li><p><span class="target" id="index-58-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_CDASH</span></code></p></li>
+<li><p><span class="target" id="index-59-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">CTEST_DROP_SITE_CDASH</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ScpCommand</span></code></dt><dd><p>Legacy option.  Not used.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_SCP_COMMAND"></span><a class="reference internal" href="../variable/CTEST_SCP_COMMAND.html#variable:CTEST_SCP_COMMAND" title="CTEST_SCP_COMMAND"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_SCP_COMMAND</span></code></a></p></li>
-<li><p><span class="target" id="index-59-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">SCPCOMMAND</span></code></p></li>
+<li><p><span class="target" id="index-60-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">SCPCOMMAND</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Site</span></code></dt><dd><p>Describe the dashboard client host site with a short string.
 (Hostname, domain, etc.)</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_SITE"></span><a class="reference internal" href="../variable/CTEST_SITE.html#variable:CTEST_SITE" title="CTEST_SITE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_SITE</span></code></a></p></li>
-<li><p><span class="target" id="index-60-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">SITE</span></code>,
+<li><p><span class="target" id="index-61-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">SITE</span></code>,
 initialized by the <span class="target" id="index-0-command:site_name"></span><a class="reference internal" href="../command/site_name.html#command:site_name" title="site_name"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">site_name()</span></code></a> command</p></li>
 </ul>
 </dd>
@@ -1269,14 +1275,14 @@ initialized by the <span class="target" id="index-0-command:site_name"></span><a
 to.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_SUBMIT_URL"></span><a class="reference internal" href="../variable/CTEST_SUBMIT_URL.html#variable:CTEST_SUBMIT_URL" title="CTEST_SUBMIT_URL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_SUBMIT_URL</span></code></a></p></li>
-<li><p><span class="target" id="index-61-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">SUBMIT_URL</span></code> if set,
+<li><p><span class="target" id="index-62-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">SUBMIT_URL</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_SUBMIT_URL</span></code></p></li>
 </ul>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TriggerSite</span></code></dt><dd><p>Legacy option.  Not used.</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#ctest-script">CTest Script</a> variable: <span class="target" id="index-0-variable:CTEST_TRIGGER_SITE"></span><a class="reference internal" href="../variable/CTEST_TRIGGER_SITE.html#variable:CTEST_TRIGGER_SITE" title="CTEST_TRIGGER_SITE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_TRIGGER_SITE</span></code></a></p></li>
-<li><p><span class="target" id="index-62-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">TRIGGER_SITE</span></code> if set,
+<li><p><span class="target" id="index-63-module:CTest"></span><a class="reference internal" href="../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module variable: <code class="docutils literal notranslate"><span class="pre">TRIGGER_SITE</span></code> if set,
 else <code class="docutils literal notranslate"><span class="pre">CTEST_TRIGGER_SITE</span></code></p></li>
 </ul>
 </dd>
@@ -1411,9 +1417,15 @@ properties to indicate a skipped test.</p>
 <span id="ctest-resource-specification-file"></span><h3><a class="toc-backref" href="#id35">Resource Specification File</a><a class="headerlink" href="#resource-specification-file" title="Permalink to this headline">¶</a></h3>
 <p>The resource specification file is a JSON file which is passed to CTest, either
 on the <span class="target" id="index-0-manual:ctest(1)"></span><a class="reference internal" href="#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest(1)</span></code></a> command line as <code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code>, or as the
-<code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> argument of <span class="target" id="index-2-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a>. The resource
-specification file must be a JSON object. All examples in this document assume
-the following resource specification file:</p>
+<code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> argument of <span class="target" id="index-2-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a>. If a dashboard script
+is used and <code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> is not specified, the value of
+<span class="target" id="index-1-variable:CTEST_RESOURCE_SPEC_FILE"></span><a class="reference internal" href="../variable/CTEST_RESOURCE_SPEC_FILE.html#variable:CTEST_RESOURCE_SPEC_FILE" title="CTEST_RESOURCE_SPEC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_RESOURCE_SPEC_FILE</span></code></a> in the dashboard script is used instead.
+If <code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code>, <code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code>, and
+<span class="target" id="index-2-variable:CTEST_RESOURCE_SPEC_FILE"></span><a class="reference internal" href="../variable/CTEST_RESOURCE_SPEC_FILE.html#variable:CTEST_RESOURCE_SPEC_FILE" title="CTEST_RESOURCE_SPEC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_RESOURCE_SPEC_FILE</span></code></a> in the dashboard script are not specified,
+the value of <span class="target" id="index-3-variable:CTEST_RESOURCE_SPEC_FILE"></span><a class="reference internal" href="../variable/CTEST_RESOURCE_SPEC_FILE.html#variable:CTEST_RESOURCE_SPEC_FILE" title="CTEST_RESOURCE_SPEC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_RESOURCE_SPEC_FILE</span></code></a> in the CMake build is used
+instead. If none of these are specified, no resource spec file is used.</p>
+<p>The resource specification file must be a JSON object. All examples in this
+document assume the following resource specification file:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;major&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -1681,14 +1693,14 @@ found on this web page.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>install &mdash; CMake 3.17.2 Documentation</title>
+  <title>install &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -70,22 +70,28 @@ install(<a class="reference internal" href="#export">EXPORT</a> &lt;export-name&
 </div>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>This command generates installation rules for a project.  Rules
-specified by calls to this command within a source directory are
-executed in order during installation.  The order across directories
-is not defined.</p>
+<p>This command generates installation rules for a project.  Install rules
+specified by calls to the <code class="docutils literal notranslate"><span class="pre">install()</span></code> command within a source directory
+are executed in order during installation.  Install rules in subdirectories
+added by calls to the <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command are interleaved
+with those in the parent directory to run in the order declared (see
+policy <span class="target" id="index-0-policy:CMP0082"></span><a class="reference internal" href="../policy/CMP0082.html#policy:CMP0082" title="CMP0082"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0082</span></code></a>).</p>
 <p>There are multiple signatures for this command.  Some of them define
 installation options for files and targets.  Options common to
 multiple signatures are covered here but they are valid only for
 signatures that specify them.  The common options are:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code></dt><dd><p>Specify the directory on disk to which a file will be installed.
-If a full path (with a leading slash or drive letter) is given
-it is used directly.  If a relative path is given it is interpreted
-relative to the value of the <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable.
+Arguments can be relative or absolute paths.</p>
+<p>If a relative path is given it is interpreted relative to the value
+of the <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable.
 The prefix can be relocated at install time using the <code class="docutils literal notranslate"><span class="pre">DESTDIR</span></code>
 mechanism explained in the <span class="target" id="index-1-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable
 documentation.</p>
+<p>If an absolute path (with a leading slash or drive letter) is given
+it is used verbatim.</p>
+<p>As absolute paths are not supported by <span class="target" id="index-0-manual:cpack(1)"></span><a class="reference internal" href="../manual/cpack.1.html#manual:cpack(1)" title="cpack(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack</span></code></a> installer
+generators, it is preferable to use relative paths throughout.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">PERMISSIONS</span></code></dt><dd><p>Specify permissions for installed files.  Valid permissions are
 <code class="docutils literal notranslate"><span class="pre">OWNER_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">OWNER_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">OWNER_EXECUTE</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP_READ</span></code>,
@@ -156,27 +162,39 @@ Windows platforms are unaffected.</p>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">TARGETS</span></code> form specifies rules for installing targets from a
-project.  There are several kinds of target files that may be installed:</p>
+project.  There are several kinds of target <a class="reference internal" href="../manual/cmake-buildsystem.7.html#output-artifacts"><span class="std std-ref">Output Artifacts</span></a>
+that may be installed:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code></dt><dd><p>Static libraries are treated as <code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code> targets, except those
-marked with the <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> property on macOS (see <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code>
-below.) For DLL platforms (all Windows-based systems including
-Cygwin), the DLL import library is treated as an <code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code> target.
-On AIX, the linker import file created for executables with
-<span class="target" id="index-0-prop_tgt:ENABLE_EXPORTS"></span><a class="reference internal" href="../prop_tgt/ENABLE_EXPORTS.html#prop_tgt:ENABLE_EXPORTS" title="ENABLE_EXPORTS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ENABLE_EXPORTS</span></code></a> is treated as an <code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code> target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code></dt><dd><p>Target artifacts of this kind include:</p>
+<ul class="simple">
+<li><p><em>Static libraries</em>
+(except on macOS when marked as <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code>, see below);</p></li>
+<li><p><em>DLL import libraries</em>
+(on all Windows-based systems including Cygwin; they have extension
+<code class="docutils literal notranslate"><span class="pre">.lib</span></code>, in contrast to the <code class="docutils literal notranslate"><span class="pre">.dll</span></code> libraries that go to <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code>);</p></li>
+<li><p>On AIX, the <em>linker import file</em> created for executables with
+<span class="target" id="index-0-prop_tgt:ENABLE_EXPORTS"></span><a class="reference internal" href="../prop_tgt/ENABLE_EXPORTS.html#prop_tgt:ENABLE_EXPORTS" title="ENABLE_EXPORTS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ENABLE_EXPORTS</span></code></a> enabled.</p></li>
+</ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code></dt><dd><p>Module libraries are always treated as <code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code> targets. For non-
-DLL platforms shared libraries are treated as <code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code> targets,
-except those marked with the <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> property on macOS (see
-<code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> below.)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code></dt><dd><p>Target artifacts of this kind include:</p>
+<ul class="simple">
+<li><p><em>Shared libraries</em>, except</p>
+<ul>
+<li><p>DLLs (these go to <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code>, see below),</p></li>
+<li><p>on macOS when marked as <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> (see below).</p></li>
+</ul>
+</li>
+</ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code></dt><dd><p>Executables are treated as <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code> objects, except those marked
-with the <code class="docutils literal notranslate"><span class="pre">MACOSX_BUNDLE</span></code> property on macOS (see <code class="docutils literal notranslate"><span class="pre">BUNDLE</span></code> below.)
-For DLL platforms (all Windows-based systems including Cygwin), the
-DLL part of a shared library is treated as a <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code> target.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code></dt><dd><p>Target artifacts of this kind include:</p>
+<ul class="simple">
+<li><p><em>Executables</em>
+(except on macOS when marked as <code class="docutils literal notranslate"><span class="pre">MACOSX_BUNDLE</span></code>, see <code class="docutils literal notranslate"><span class="pre">BUNDLE</span></code> below);</p></li>
+<li><p>DLLs (on all Windows-based systems including Cygwin; note that the
+accompanying import libraries are of kind <code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code>).</p></li>
+</ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">OBJECTS</span></code></dt><dd><p>Object libraries (a simple group of object files) are always treated
-as <code class="docutils literal notranslate"><span class="pre">OBJECTS</span></code> targets.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">OBJECTS</span></code></dt><dd><p>Object files associated with <em>object libraries</em>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></dt><dd><p>Both static and shared libraries marked with the <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code>
 property are treated as <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> targets on macOS.</p>
@@ -713,6 +731,14 @@ configurations.  The <code class="docutils literal notranslate"><span class="pre
 present, causes the contents of the properties matching
 <code class="docutils literal notranslate"><span class="pre">(IMPORTED_)?LINK_INTERFACE_LIBRARIES(_&lt;CONFIG&gt;)?</span></code> to be exported, when
 policy <span class="target" id="index-0-policy:CMP0022"></span><a class="reference internal" href="../policy/CMP0022.html#policy:CMP0022" title="CMP0022"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0022</span></code></a> is <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The installed <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;.cmake</span></code> file may come with additional
+per-configuration <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;-*.cmake</span></code> files to be loaded by
+globbing.  Do not use an export name that is the same as the package
+name in combination with installing a <code class="docutils literal notranslate"><span class="pre">&lt;package-name&gt;-config.cmake</span></code>
+file or the latter may be incorrectly matched by the glob and loaded.</p>
+</div>
 <p>When a <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code> option is given, the listed <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code> implicitly
 depends on all components mentioned in the export set. The exported
 <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;.cmake</span></code> file will require each of the exported components to be
@@ -763,6 +789,11 @@ is not defined.</p>
 </div>
 <div class="section" id="generated-installation-script">
 <h2>Generated Installation Script<a class="headerlink" href="#generated-installation-script" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Use of this feature is not recommended. Please consider using the
+<code class="docutils literal notranslate"><span class="pre">--install</span></code> argument of <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> instead.</p>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">install()</span></code> command generates a file, <code class="docutils literal notranslate"><span class="pre">cmake_install.cmake</span></code>, inside
 the build directory, which is used internally by the generated install target
 and by CPack. You can also invoke this script manually with <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-P</span></code>. This
@@ -852,7 +883,7 @@ details.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
@@ -860,7 +891,7 @@ details.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

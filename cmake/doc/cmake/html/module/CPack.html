@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-  <title>CPack &mdash; CMake 3.17.2 Documentation</title>
+  <title>CPack &mdash; CMake 3.18.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,7 +58,7 @@
             
   <div class="section" id="cpack">
 <span id="module:CPack"></span><h1>CPack<a class="headerlink" href="#cpack" title="Permalink to this headline">¶</a></h1>
-<p>Configure the binary and source package installers.</p>
+<p>Configure generators for binary installers and source packages.</p>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>The CPack module generates the configuration files <code class="docutils literal notranslate"><span class="pre">CPackConfig.cmake</span></code>
@@ -68,13 +68,16 @@ of installers or/and source packages.</p>
 <p>Depending on the CMake generator, the CPack module may also add two new build
 targets, <code class="docutils literal notranslate"><span class="pre">package</span></code> and <code class="docutils literal notranslate"><span class="pre">package_source</span></code>. See the <a class="reference internal" href="#packaging-targets">packaging targets</a>
 section below for details.</p>
-<p>The generated binary installers contain everything installed via CMake’s
-<span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command (and the deprecated commands <span class="target" id="index-0-command:install_files"></span><a class="reference internal" href="../command/install_files.html#command:install_files" title="install_files"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_files()</span></code></a>,
-<span class="target" id="index-0-command:install_programs"></span><a class="reference internal" href="../command/install_programs.html#command:install_programs" title="install_programs"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_programs()</span></code></a>, and <span class="target" id="index-0-command:install_targets"></span><a class="reference internal" href="../command/install_targets.html#command:install_targets" title="install_targets"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_targets()</span></code></a>).
-For certain kinds of binary installers (including the graphical
-installers on macOS and Windows), CPack generates installers that
-allow users to select individual application components to install.
-See <span class="target" id="index-0-module:CPackComponent"></span><a class="reference internal" href="CPackComponent.html#module:CPackComponent" title="CPackComponent"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPackComponent</span></code></a> module for further details.</p>
+<p>The generated binary installers will contain all files that have been installed
+via CMake’s <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command (and the deprecated commands
+<span class="target" id="index-0-command:install_files"></span><a class="reference internal" href="../command/install_files.html#command:install_files" title="install_files"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_files()</span></code></a>, <span class="target" id="index-0-command:install_programs"></span><a class="reference internal" href="../command/install_programs.html#command:install_programs" title="install_programs"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_programs()</span></code></a>, and
+<span class="target" id="index-0-command:install_targets"></span><a class="reference internal" href="../command/install_targets.html#command:install_targets" title="install_targets"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_targets()</span></code></a>).  Certain kinds of binary installers can be
+configured such that users can select individual application components to
+install.  See the <span class="target" id="index-0-module:CPackComponent"></span><a class="reference internal" href="CPackComponent.html#module:CPackComponent" title="CPackComponent"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPackComponent</span></code></a> module for further details.</p>
+<p>Source packages (configured through <code class="docutils literal notranslate"><span class="pre">CPackSourceConfig.cmake</span></code> and generated
+by the <span class="target" id="index-0-cpack_gen:CPack Archive Generator"></span><a class="reference internal" href="../cpack_gen/archive.html#cpack_gen:CPack Archive Generator" title="CPack Archive Generator"><code class="xref cmake cmake-cpack_gen docutils literal notranslate"><span class="pre">CPack</span> <span class="pre">Archive</span> <span class="pre">Generator</span></code></a>) will contain all source files in
+the project directory except those specified in
+<span class="target" id="index-0-variable:CPACK_SOURCE_IGNORE_FILES"></span><a class="reference internal" href="#variable:CPACK_SOURCE_IGNORE_FILES" title="CPACK_SOURCE_IGNORE_FILES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_SOURCE_IGNORE_FILES</span></code></a>.</p>
 </div>
 <div class="section" id="cpack-generators">
 <h2>CPack Generators<a class="headerlink" href="#cpack-generators" title="Permalink to this headline">¶</a></h2>
@@ -85,10 +88,8 @@ arguments, it will iterate over that list and produce one package for each
 generator.  In a <span class="target" id="index-0-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a>,
 <span class="target" id="index-2-variable:CPACK_GENERATOR"></span><a class="reference internal" href="#variable:CPACK_GENERATOR" title="CPACK_GENERATOR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_GENERATOR</span></code></a> is a <em>string naming a single generator</em>.  If you
 need per-cpack-generator logic to control <em>other</em> cpack settings, then you
-need a <span class="target" id="index-1-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a>.</p>
-<p>The CMake source tree itself contains a <span class="target" id="index-2-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a>.
-See the top level file <code class="docutils literal notranslate"><span class="pre">CMakeCPackOptions.cmake.in</span></code> for an example.</p>
-<p>If set, the <span class="target" id="index-3-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a> is included automatically
+need a <span class="target" id="index-1-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a>.
+If set, the <span class="target" id="index-2-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a> is included automatically
 on a per-generator basis.  It only need contain overrides.</p>
 <p>Here’s how it works:</p>
 <ul class="simple">
@@ -101,7 +102,7 @@ input file.</p></li>
 <li><p>foreach generator, it then</p>
 <ul>
 <li><p>sets <span class="target" id="index-4-variable:CPACK_GENERATOR"></span><a class="reference internal" href="#variable:CPACK_GENERATOR" title="CPACK_GENERATOR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_GENERATOR</span></code></a> to the one currently being iterated</p></li>
-<li><p>includes the <span class="target" id="index-4-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a></p></li>
+<li><p>includes the <span class="target" id="index-3-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a></p></li>
 <li><p>produces the package for that generator</p></li>
 </ul>
 </li>
@@ -109,7 +110,7 @@ input file.</p></li>
 <p>This is the key: For each generator listed in <span class="target" id="index-5-variable:CPACK_GENERATOR"></span><a class="reference internal" href="#variable:CPACK_GENERATOR" title="CPACK_GENERATOR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_GENERATOR</span></code></a> in
 <code class="docutils literal notranslate"><span class="pre">CPackConfig.cmake</span></code>, cpack will <em>reset</em> <span class="target" id="index-6-variable:CPACK_GENERATOR"></span><a class="reference internal" href="#variable:CPACK_GENERATOR" title="CPACK_GENERATOR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_GENERATOR</span></code></a>
 internally to <em>the one currently being used</em> and then include the
-<span class="target" id="index-5-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a>.</p>
+<span class="target" id="index-4-variable:CPACK_PROJECT_CONFIG_FILE"></span><a class="reference internal" href="#variable:CPACK_PROJECT_CONFIG_FILE" title="CPACK_PROJECT_CONFIG_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PROJECT_CONFIG_FILE</span></code></a>.</p>
 <p>For a list of available generators, see <span class="target" id="index-0-manual:cpack-generators(7)"></span><a class="reference internal" href="../manual/cpack-generators.7.html#manual:cpack-generators(7)" title="cpack-generators(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack-generators(7)</span></code></a>.</p>
 </div>
 <div class="section" id="targets-package-and-package-source">
@@ -121,7 +122,7 @@ one may call <code class="docutils literal notranslate"><span class="pre">cmake<
 <code class="docutils literal notranslate"><span class="pre">ninja</span> <span class="pre">package</span></code>. The VS generator creates an uppercase target <code class="docutils literal notranslate"><span class="pre">PACKAGE</span></code>.</p>
 <p>If CMake is run with the Makefile or Ninja generator, then <code class="docutils literal notranslate"><span class="pre">include(CPack)</span></code>
 also generates a target <code class="docutils literal notranslate"><span class="pre">package_source</span></code>. To build a source package,
-instead of <code class="docutils literal notranslate"><span class="pre">cpack</span> <span class="pre">-G</span> <span class="pre">TGZ</span> <span class="pre">--config</span> <span class="pre">CPackConfig.cmake</span></code> one may call
+instead of <code class="docutils literal notranslate"><span class="pre">cpack</span> <span class="pre">-G</span> <span class="pre">TGZ</span> <span class="pre">--config</span> <span class="pre">CPackSourceConfig.cmake</span></code> one may call
 <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--target</span> <span class="pre">package_source</span></code>, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">package_source</span></code>,
 or <code class="docutils literal notranslate"><span class="pre">ninja</span> <span class="pre">package_source</span></code>.</p>
 </div>
@@ -573,7 +574,7 @@ target or when running <span class="target" id="index-5-manual:cpack(1)"></span>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.17.2 Documentation</a> &#187;
+    <a href="../index.html">3.18.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
@@ -581,7 +582,7 @@ target or when running <span class="target" id="index-5-manual:cpack(1)"></span>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
 </html>

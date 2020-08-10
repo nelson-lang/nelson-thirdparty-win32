@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CTEST" "1" "Apr 28, 2020" "3.17.2" "CMake"
+.TH "CTEST" "1" "Jul 30, 2020" "3.18.1" "CMake"
 .SH NAME
 ctest \- CTest Command-Line Reference
 .
@@ -161,6 +161,9 @@ useful for debugging dashboard problems.
 Output anything outputted by the test program if the test should fail.
 This option can also be enabled by setting the
 \fBCTEST_OUTPUT_ON_FAILURE\fP environment variable
+.TP
+.B \fB\-\-stop\-on\-failure\fP
+Stop running the tests when the first failure happens.
 .TP
 .B \fB\-F\fP
 Enable failover.
@@ -1352,8 +1355,15 @@ Configuration settings include:
 .TP
 .B \fBResourceSpecFile\fP
 Specify a
-\fI\%resource specification file\fP\&. See
-\fI\%Resource Allocation\fP for more information.
+\fI\%resource specification file\fP\&.
+.INDENT 7.0
+.IP \(bu 2
+\fI\%CTest Script\fP variable: \fBCTEST_RESOURCE_SPEC_FILE\fP
+.IP \(bu 2
+\fBCTest\fP module variable: \fBCTEST_RESOURCE_SPEC_FILE\fP
+.UNINDENT
+.sp
+See \fI\%Resource Allocation\fP for more information.
 .TP
 .B \fBLabelsForSubprojects\fP
 Specify a semicolon\-separated list of labels that will be treated as
@@ -1862,9 +1872,16 @@ properties to indicate a skipped test.
 .sp
 The resource specification file is a JSON file which is passed to CTest, either
 on the \fI\%ctest(1)\fP command line as \fB\-\-resource\-spec\-file\fP, or as the
-\fBRESOURCE_SPEC_FILE\fP argument of \fBctest_test()\fP\&. The resource
-specification file must be a JSON object. All examples in this document assume
-the following resource specification file:
+\fBRESOURCE_SPEC_FILE\fP argument of \fBctest_test()\fP\&. If a dashboard script
+is used and \fBRESOURCE_SPEC_FILE\fP is not specified, the value of
+\fBCTEST_RESOURCE_SPEC_FILE\fP in the dashboard script is used instead.
+If \fB\-\-resource\-spec\-file\fP, \fBRESOURCE_SPEC_FILE\fP, and
+\fBCTEST_RESOURCE_SPEC_FILE\fP in the dashboard script are not specified,
+the value of \fBCTEST_RESOURCE_SPEC_FILE\fP in the CMake build is used
+instead. If none of these are specified, no resource spec file is used.
+.sp
+The resource specification file must be a JSON object. All examples in this
+document assume the following resource specification file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
