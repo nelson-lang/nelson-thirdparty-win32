@@ -185,5 +185,3 @@ copy .\libgit2\bin\git2.dll ..\NelSon\bin\%PLATFORM_NELSON%\git2.dll
 rem libslicot dependencies
 copy .\slicot\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
-rem libzmq dependencies
-copy .\libzmq\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
