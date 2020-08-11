@@ -62,3 +62,8 @@ copy %SRC%\boost_bzip2-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_bzip2-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
 copy %SRC%\boost_bzip2-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_bzip2-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
+
+copy %SRC%\boost_serialization-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_serialization-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
+copy %SRC%\boost_serialization-%VC_VERSION%-mt-gd-%BOOST_VERSION%.dll %DST%
+copy %SRC%\boost_serialization-%VC_VERSION%-mt-gd-%BOOST_VERSION%.lib %DST%
