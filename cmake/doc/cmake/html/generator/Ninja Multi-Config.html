@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Ninja Multi-Config &mdash; CMake 3.18.1 Documentation</title>
+  <title>Ninja Multi-Config &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="ninja-multi-config">
 <span id="generator:Ninja Multi-Config"></span><h1>Ninja Multi-Config<a class="headerlink" href="#ninja-multi-config" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
 <p>Generates multiple <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> files.</p>
 <p>This generator is very much like the <span class="target" id="index-0-generator:Ninja"></span><a class="reference internal" href="Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator, but with
 some key differences. Only these differences will be discussed in this
@@ -73,8 +76,7 @@ are intended to be run with <code class="docutils literal notranslate"><span cla
 <span class="target" id="index-1-variable:CMAKE_CONFIGURATION_TYPES"></span><a class="reference internal" href="../variable/CMAKE_CONFIGURATION_TYPES.html#variable:CMAKE_CONFIGURATION_TYPES" title="CMAKE_CONFIGURATION_TYPES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CONFIGURATION_TYPES</span></code></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--config</span> <span class="pre">&lt;Config&gt;</span></code> will always use <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code>
 to build. If no <code class="docutils literal notranslate"><span class="pre">--config</span></code> argument is specified, <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span></code> will
-default to <code class="docutils literal notranslate"><span class="pre">build-Debug.ninja</span></code>, unless a <code class="docutils literal notranslate"><span class="pre">build.ninja</span></code> is generated (see
-below), in which case that will be used instead.</p>
+use <code class="docutils literal notranslate"><span class="pre">build.ninja</span></code>.</p>
 <p>Each <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> file contains <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> targets as well as
 <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;:&lt;Config&gt;</span></code> targets, where <code class="docutils literal notranslate"><span class="pre">&lt;Config&gt;</span></code> is the same as the
 configuration specified in <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> Additionally, if
@@ -127,6 +129,74 @@ used to generate <code class="docutils literal notranslate"><span class="pre">ge
 configuration of <code class="docutils literal notranslate"><span class="pre">generated</span></code>. This is useful for running a release-optimized
 version of a generator utility while still building the debug version of the
 targets built with the generated code.</p>
+<div class="section" id="custom-commands">
+<h2>Custom Commands<a class="headerlink" href="#custom-commands" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code> generator adds extra capabilities to
+<span class="target" id="index-0-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> and <span class="target" id="index-0-command:add_custom_target"></span><a class="reference internal" href="../command/add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_target()</span></code></a> through its
+cross-config mode. The <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code>, and <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code>
+arguments can be evaluated in the context of either the &quot;command config&quot; (the
+&quot;native&quot; configuration of the <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> file in use) or the
+&quot;output config&quot; (the configuration used to evaluate the <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and
+<code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code>).</p>
+<p>If either <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> or <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> names a path that is common to
+more than one configuration (e.g. it does not use any generator expressions),
+all arguments are evaluated in the command config by default.
+If all <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> paths are unique to each configuration
+(e.g. by using the <code class="docutils literal notranslate"><span class="pre">$&lt;CONFIG&gt;</span></code> generator expression), the first argument of
+<code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> is still evaluated in the command config by default, while all
+subsequent arguments, as well as the arguments to <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code> and
+<code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code>, are evaluated in the output config. These defaults can
+be overridden with the <code class="docutils literal notranslate"><span class="pre">$&lt;OUTPUT_CONFIG:...&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">$&lt;COMMAND_CONFIG:...&gt;</span></code>
+generator-expressions. Note that if a target is specified by its name in
+<code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code>, or as the first argument of <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code>, it is always evaluated
+in the command config, even if it is wrapped in <code class="docutils literal notranslate"><span class="pre">$&lt;OUTPUT_CONFIG:...&gt;</span></code>
+(because its plain name is not a generator expression).</p>
+<p>As an example, consider the following:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_custom_command(</span><span class="w"></span>
+<span class="w">  </span><span class="no">OUTPUT</span><span class="w"> </span><span class="s">&quot;$&lt;CONFIG&gt;.txt&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">generator</span><span class="w"> </span><span class="s">&quot;$&lt;CONFIG&gt;.txt&quot;</span><span class="w"> </span><span class="s">&quot;$&lt;OUTPUT_CONFIG:$&lt;CONFIG&gt;&gt;&quot;</span><span class="w"> </span><span class="s">&quot;$&lt;COMMAND_CONFIG:$&lt;CONFIG&gt;&gt;&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="no">DEPENDS</span><span class="w"> </span><span class="nb">tgt1</span><span class="w"> </span><span class="s">&quot;$&lt;TARGET_FILE:tgt2&gt;&quot;</span><span class="w"> </span><span class="s">&quot;$&lt;OUTPUT_CONFIG:$&lt;TARGET_FILE:tgt3&gt;&gt;&quot;</span><span class="w"> </span><span class="s">&quot;$&lt;COMMAND_CONFIG:$&lt;TARGET_FILE:tgt4&gt;&gt;&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Assume that <code class="docutils literal notranslate"><span class="pre">generator</span></code>, <code class="docutils literal notranslate"><span class="pre">tgt1</span></code>, <code class="docutils literal notranslate"><span class="pre">tgt2</span></code>, <code class="docutils literal notranslate"><span class="pre">tgt3</span></code>, and <code class="docutils literal notranslate"><span class="pre">tgt4</span></code> are all
+executable targets, and assume that <code class="docutils literal notranslate"><span class="pre">$&lt;CONFIG&gt;.txt</span></code> is built in the <code class="docutils literal notranslate"><span class="pre">Debug</span></code>
+output config using the <code class="docutils literal notranslate"><span class="pre">Release</span></code> command config. The <code class="docutils literal notranslate"><span class="pre">Release</span></code> build of
+the <code class="docutils literal notranslate"><span class="pre">generator</span></code> target is called with <code class="docutils literal notranslate"><span class="pre">Debug.txt</span> <span class="pre">Debug</span> <span class="pre">Release</span></code> as
+arguments. The command depends on the <code class="docutils literal notranslate"><span class="pre">Release</span></code> builds of <code class="docutils literal notranslate"><span class="pre">tgt1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tgt4</span></code>, and the <code class="docutils literal notranslate"><span class="pre">Debug</span></code> builds of <code class="docutils literal notranslate"><span class="pre">tgt2</span></code> and <code class="docutils literal notranslate"><span class="pre">tgt3</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PRE_BUILD</span></code>, <code class="docutils literal notranslate"><span class="pre">PRE_LINK</span></code>, and <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> custom commands for targets
+only get run in their &quot;native&quot; configuration (the <code class="docutils literal notranslate"><span class="pre">Release</span></code> configuration in
+the <code class="docutils literal notranslate"><span class="pre">build-Release.ninja</span></code> file) unless they have no <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> or their
+<code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> are unique per config. Consider the following example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">exe</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_custom_command(</span><span class="w"></span>
+<span class="w">  </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span><span class="w"></span>
+<span class="w">  </span><span class="no">POST_BUILD</span><span class="w"></span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s">&quot;Running no-byproduct command&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_custom_command(</span><span class="w"></span>
+<span class="w">  </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span><span class="w"></span>
+<span class="w">  </span><span class="no">POST_BUILD</span><span class="w"></span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s">&quot;Running separate-byproduct command for $&lt;CONFIG&gt;&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="no">BYPRODUCTS</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">CONFIG</span><span class="o">&gt;</span><span class="p">.</span><span class="nb">txt</span><span class="w"></span>
+<span class="w">  </span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_custom_command(</span><span class="w"></span>
+<span class="w">  </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span><span class="w"></span>
+<span class="w">  </span><span class="no">POST_BUILD</span><span class="w"></span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s">&quot;Running common-byproduct command for $&lt;CONFIG&gt;&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="no">BYPRODUCTS</span><span class="w"> </span><span class="nb">exe.txt</span><span class="w"></span>
+<span class="w">  </span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>In this example, if you build <code class="docutils literal notranslate"><span class="pre">exe:Debug</span></code> in <code class="docutils literal notranslate"><span class="pre">build-Release.ninja</span></code>, the
+first and second custom commands get run, since their byproducts are unique
+per-config, but the last custom command does not. However, if you build
+<code class="docutils literal notranslate"><span class="pre">exe:Release</span></code> in <code class="docutils literal notranslate"><span class="pre">build-Release.ninja</span></code>, all three custom commands get run.</p>
+</div>
 </div>
 
 
@@ -135,6 +205,14 @@ targets built with the generated code.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Ninja Multi-Config</a><ul>
+<li><a class="reference internal" href="#custom-commands">Custom Commands</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="Ninja.html"
                         title="previous chapter">Ninja</a></p>
@@ -182,14 +260,14 @@ targets built with the generated code.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

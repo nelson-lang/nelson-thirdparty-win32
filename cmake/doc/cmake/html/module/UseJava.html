@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>UseJava &mdash; CMake 3.18.1 Documentation</title>
+  <title>UseJava &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -18,8 +18,8 @@
     <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="UseJavaSymlinks" href="UseJavaSymlinks.html" />
-    <link rel="prev" title="UseJavaClassFilelist" href="UseJavaClassFilelist.html" />
+    <link rel="next" title="UseSWIG" href="UseSWIG.html" />
+    <link rel="prev" title="UseEcos" href="UseEcos.html" />
   
  
 
@@ -31,10 +31,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="UseJavaSymlinks.html" title="UseJavaSymlinks"
+          <a href="UseSWIG.html" title="UseSWIG"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="UseJavaClassFilelist.html" title="UseJavaClassFilelist"
+          <a href="UseEcos.html" title="UseEcos"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -71,7 +71,8 @@ information on how to load Java into your CMake project.</p>
 <span class="w">        </span><span class="p">[</span><span class="no">VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">        </span><span class="p">[</span><span class="no">OUTPUT_NAME</span><span class="w"> </span><span class="nv">&lt;name&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">        </span><span class="p">[</span><span class="no">OUTPUT_DIR</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"></span>
-<span class="w">        </span><span class="p">[</span><span class="no">GENERATE_NATIVE_HEADERS</span><span class="w"> </span><span class="nv">&lt;target&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">GENERATE_NATIVE_HEADERS</span><span class="w"> </span><span class="nv">&lt;target&gt;</span><span class="w"></span>
+<span class="w">                           </span><span class="p">[</span><span class="nf">DESTINATION</span> <span class="nf">(</span><span class="nv">&lt;dir&gt;</span><span class="p">|</span><span class="no">INSTALL</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">BUILD</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="nf">)</span><span class="p">]]</span><span class="w"></span>
 <span class="w">        </span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -84,15 +85,26 @@ compiling the java sources and also to the dependencies of the target.
 <code class="docutils literal notranslate"><span class="pre">INCLUDE_JARS</span></code> also accepts other target names created by <code class="docutils literal notranslate"><span class="pre">add_jar()</span></code>.
 For backwards compatibility, jar files listed as sources are ignored (as
 they have been since the first version of this module).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Support for response files (prefixed by <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>) in the <code class="docutils literal notranslate"><span class="pre">SOURCES</span></code> list.</p>
+</div>
 <p>The default <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code> can also be changed by setting the variable
 <code class="docutils literal notranslate"><span class="pre">CMAKE_JAVA_TARGET_OUTPUT_DIR</span></code>.</p>
-<p>Optionally, using option <code class="docutils literal notranslate"><span class="pre">GENERATE_NATIVE_HEADERS</span></code>, native header files can
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>Optionally, using option <code class="docutils literal notranslate"><span class="pre">GENERATE_NATIVE_HEADERS</span></code>, native header files can
 be generated for methods declared as native.  These files provide the
 connective glue that allow your Java and C code to interact.  An INTERFACE
 target will be created for an easy usage of generated files.  Sub-option
 <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> can be used to specify the output directory for generated
 header files.</p>
 <p><code class="docutils literal notranslate"><span class="pre">GENERATE_NATIVE_HEADERS</span></code> option requires, at least, version 1.8 of the JDK.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> sub-option now supports the possibility to specify different
+output directories for <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> and <code class="docutils literal notranslate"><span class="pre">INSTALL</span></code> steps. This is required to
+export the interface target generated by <code class="docutils literal notranslate"><span class="pre">GENERATE_NATIVE_HEADERS</span></code> option.
+If <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> directory is not specified, a default directory will be used.</p>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">add_jar()</span></code> function sets the following target properties on
 <code class="docutils literal notranslate"><span class="pre">&lt;target_name&gt;</span></code>:</p>
 <dl class="simple">
@@ -107,6 +119,11 @@ header files.</p>
 with <code class="docutils literal notranslate"><span class="pre">javah</span></code>.</p>
 </dd>
 </dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span>The target generated by option <code class="docutils literal notranslate"><span class="pre">GENERATE_NATIVE_HEADERS</span></code> has the property
+<code class="docutils literal notranslate"><span class="pre">NATIVE_HEADERS_DIRECTORY</span></code> which specify the directory holding the native
+headers.</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install_jar(</span><span class="nv">&lt;target_name&gt;</span><span class="w"> </span><span class="nv">&lt;destination&gt;</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">install_jar(</span><span class="nv">&lt;target_name&gt;</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;destination&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -119,6 +136,9 @@ property on jars so installed.  This property holds the <code class="docutils li
 described above, and is used by <code class="docutils literal notranslate"><span class="pre">install_jar_exports()</span></code>.  You can get this
 information with <span class="target" id="index-0-command:get_property"></span><a class="reference internal" href="../command/get_property.html#command:get_property" title="get_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">get_property()</span></code></a> and the <code class="docutils literal notranslate"><span class="pre">INSTALL_DESTINATION</span></code>
 property key.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>The second signature with <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> and <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code> options.</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install_jni_symlink(</span><span class="nv">&lt;target_name&gt;</span><span class="w"> </span><span class="nv">&lt;destination&gt;</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">install_jni_symlink(</span><span class="nv">&lt;target_name&gt;</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;destination&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -126,6 +146,15 @@ property key.</p>
 <p>This command installs the <code class="docutils literal notranslate"><span class="pre">&lt;target_name&gt;</span></code> JNI symlinks to the given
 <code class="docutils literal notranslate"><span class="pre">&lt;destination&gt;</span></code>.  It should be called in the same scope as <code class="docutils literal notranslate"><span class="pre">add_jar()</span></code> or
 it will fail.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>The second signature with <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> and <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code> options.</p>
+</div>
+</div>
+<div class="section" id="exporting-jar-targets">
+<h2>Exporting JAR Targets<a class="headerlink" href="#exporting-jar-targets" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install_jar_exports(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nv">&lt;jars&gt;...</span><span class="w"></span>
 <span class="w">                    </span><span class="p">[</span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nv">&lt;namespace&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">                    </span><span class="no">FILE</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="w"></span>
@@ -135,6 +164,9 @@ it will fail.</p>
 <p>This command installs a target export file <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> for the named jar
 targets to the given <code class="docutils literal notranslate"><span class="pre">&lt;destination&gt;</span></code> directory.  Its function is similar to
 that of <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORTS)</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>The <code class="docutils literal notranslate"><span class="pre">NAMESPACE</span></code> option.</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export_jars(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nv">&lt;jars&gt;...</span><span class="w"></span>
 <span class="w">            </span><span class="p">[</span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nv">&lt;namespace&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">            </span><span class="no">FILE</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="nf">)</span><span class="w"></span>
@@ -142,6 +174,9 @@ that of <span class="target" id="index-0-command:install"></span><a class="refer
 </div>
 <p>This command writes a target export file <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> for the named <code class="docutils literal notranslate"><span class="pre">&lt;jars&gt;</span></code>
 targets.  Its function is similar to that of <span class="target" id="index-0-command:export"></span><a class="reference internal" href="../command/export.html#command:export" title="export"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export()</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>The <code class="docutils literal notranslate"><span class="pre">NAMESPACE</span></code> option.</p>
+</div>
 <div class="section" id="examples">
 <h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <p>To add compile flags to the target you can set these flags with the following
@@ -208,6 +243,18 @@ native headers can then be used to compile C/C++ sources with the
 <span class="nf">add_library(</span><span class="nb">bar</span><span class="w"> </span><span class="nb">bar.cpp</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">target_link_libraries(</span><span class="nb">bar</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">foo-native</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span>It is now possible to export the target generated by
+<code class="docutils literal notranslate"><span class="pre">GENERATE_NATIVE_HEADERS</span></code> option.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_jar(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.java</span><span class="w"> </span><span class="no">GENERATE_NATIVE_HEADERS</span><span class="w"> </span><span class="nb">foo-native</span><span class="w"></span>
+<span class="w">                                             </span><span class="no">DESTINATION</span><span class="w"> </span><span class="no">INSTALL</span><span class="w"> </span><span class="nb">include</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nb">foo-native</span><span class="w"> </span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">native</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">install(</span><span class="no">DIRECTORY</span><span class="w"> </span><span class="s">&quot;$&lt;TARGET_PROPERTY:foo-native,NATIVE_HEADERS_DIRECTORY&gt;/&quot;</span><span class="w"></span>
+<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">install(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">native</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">/to/export</span><span class="w"> </span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nb">foo</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -296,7 +343,7 @@ files.</p>
 as what you can find in the javadoc manpage.  Please look at the
 manpage for <code class="docutils literal notranslate"><span class="pre">CLASSPATH</span></code>, <code class="docutils literal notranslate"><span class="pre">DOCTITLE</span></code>, <code class="docutils literal notranslate"><span class="pre">WINDOWTITLE</span></code>, <code class="docutils literal notranslate"><span class="pre">AUTHOR</span></code>, <code class="docutils literal notranslate"><span class="pre">USE</span></code>
 and <code class="docutils literal notranslate"><span class="pre">VERSION</span></code>.</p>
-<p>If you don’t set the <code class="docutils literal notranslate"><span class="pre">INSTALLPATH</span></code>, then by default the documentation will
+<p>If you don't set the <code class="docutils literal notranslate"><span class="pre">INSTALLPATH</span></code>, then by default the documentation will
 be installed to :</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>${CMAKE_INSTALL_PREFIX}/share/javadoc/&lt;VAR&gt;
 </pre></div>
@@ -312,17 +359,16 @@ be installed to :</p>
 <span class="w">             </span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Create C header files from java classes. These files provide the connective glue
-that allow your Java and C code to interact.</p>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.11.</span></p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This command will no longer be supported starting with version 10 of the JDK
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.11: </span>This command will no longer be supported starting with version 10 of the JDK
 due to the <a class="reference external" href="http://openjdk.java.net/jeps/313">suppression of javah tool</a>.
 The <code class="docutils literal notranslate"><span class="pre">add_jar(GENERATE_NATIVE_HEADERS)</span></code> command should be used instead.</p>
 </div>
+<p>Create C header files from java classes. These files provide the connective glue
+that allow your Java and C code to interact.</p>
 <p>There are two main signatures for <code class="docutils literal notranslate"><span class="pre">create_javah()</span></code>.  The first signature
 returns generated files through variable specified by the <code class="docutils literal notranslate"><span class="pre">GENERATED_FILES</span></code>
 option.  For example:</p>
@@ -369,7 +415,8 @@ as option <code class="docutils literal notranslate"><span class="pre">-d</span>
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">UseJava</a><ul>
-<li><a class="reference internal" href="#creating-and-installing-jars">Creating And Installing JARs</a><ul>
+<li><a class="reference internal" href="#creating-and-installing-jars">Creating And Installing JARs</a></li>
+<li><a class="reference internal" href="#exporting-jar-targets">Exporting JAR Targets</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
@@ -381,11 +428,11 @@ as option <code class="docutils literal notranslate"><span class="pre">-d</span>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="UseJavaClassFilelist.html"
-                        title="previous chapter">UseJavaClassFilelist</a></p>
+  <p class="topless"><a href="UseEcos.html"
+                        title="previous chapter">UseEcos</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="UseJavaSymlinks.html"
-                        title="next chapter">UseJavaSymlinks</a></p>
+  <p class="topless"><a href="UseSWIG.html"
+                        title="next chapter">UseSWIG</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -414,10 +461,10 @@ as option <code class="docutils literal notranslate"><span class="pre">-d</span>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="UseJavaSymlinks.html" title="UseJavaSymlinks"
+          <a href="UseSWIG.html" title="UseSWIG"
              >next</a> |</li>
         <li class="right" >
-          <a href="UseJavaClassFilelist.html" title="UseJavaClassFilelist"
+          <a href="UseEcos.html" title="UseEcos"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -427,14 +474,14 @@ as option <code class="docutils literal notranslate"><span class="pre">-d</span>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

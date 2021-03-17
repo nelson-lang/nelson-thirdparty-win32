@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindX11 &mdash; CMake 3.18.1 Documentation</title>
+  <title>FindX11 &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -18,8 +18,8 @@
     <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="FindXMLRPC" href="FindXMLRPC.html" />
-    <link rel="prev" title="FindXercesC" href="FindXercesC.html" />
+    <link rel="next" title="FindXalanC" href="FindXalanC.html" />
+    <link rel="prev" title="FindwxWidgets" href="FindwxWidgets.html" />
   
  
 
@@ -31,10 +31,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="FindXMLRPC.html" title="FindXMLRPC"
+          <a href="FindXalanC.html" title="FindXalanC"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="FindXercesC.html" title="FindXercesC"
+          <a href="FindwxWidgets.html" title="FindwxWidgets"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -66,6 +66,9 @@ X11_LIBRARIES    - link against these to use X11
 </pre></div>
 </div>
 <p>and also the following more fine grained variables and targets:</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Imported targets.</p>
+</div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>X11_ICE_INCLUDE_PATH,          X11_ICE_LIB,        X11_ICE_FOUND,        X11::ICE
 X11_SM_INCLUDE_PATH,           X11_SM_LIB,         X11_SM_FOUND,         X11::SM
 X11_X11_INCLUDE_PATH,          X11_X11_LIB,                              X11::X11
@@ -75,6 +78,8 @@ X11_Xau_INCLUDE_PATH,          X11_Xau_LIB,        X11_Xau_FOUND,        X11::Xa
 X11_xcb_INCLUDE_PATH,          X11_xcb_LIB,        X11_xcb_FOUND,        X11::xcb
 X11_X11_xcb_INCLUDE_PATH,      X11_X11_xcb_LIB,    X11_X11_xcb_FOUND,    X11::X11_xcb
 X11_xcb_icccm_INCLUDE_PATH,    X11_xcb_icccm_LIB,  X11_xcb_icccm_FOUND,  X11::xcb_icccm
+X11_xcb_util_INCLUDE_PATH,     X11_xcb_util_LIB,   X11_xcb_util_FOUND,   X11::xcb_util
+X11_xcb_xfixes_INCLUDE_PATH,   X11_xcb_xfixes_LIB, X11_xcb_xfixes_FOUND, X11::xcb_xfixes
 X11_xcb_xkb_INCLUDE_PATH,      X11_xcb_xkb_LIB,    X11_xcb_xkb_FOUND,    X11::xcb_xkb
 X11_Xcomposite_INCLUDE_PATH,   X11_Xcomposite_LIB, X11_Xcomposite_FOUND, X11::Xcomposite
 X11_Xcursor_INCLUDE_PATH,      X11_Xcursor_LIB,    X11_Xcursor_FOUND,    X11::Xcursor
@@ -106,7 +111,24 @@ X11_dpms_INCLUDE_PATH,         (in X11_Xext_LIB),  X11_dpms_FOUND
 X11_XShm_INCLUDE_PATH,         (in X11_Xext_LIB),  X11_XShm_FOUND
 X11_Xshape_INCLUDE_PATH,       (in X11_Xext_LIB),  X11_Xshape_FOUND
 X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
+X11_Xaw_INCLUDE_PATH,          X11_Xaw_LIB         X11_Xaw_FOUND         X11::Xaw
 </pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Renamed <code class="docutils literal notranslate"><span class="pre">Xxf86misc</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_Xxf86misc</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_Xxf86vm</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_xkbfile</span></code>,
+<code class="docutils literal notranslate"><span class="pre">X11_Xtst</span></code>, and <code class="docutils literal notranslate"><span class="pre">X11_Xss</span></code> libraries to match their file names.
+Deprecated the <code class="docutils literal notranslate"><span class="pre">X11_Xinput</span></code> library.  Old names are still available
+for compatibility.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Added the <code class="docutils literal notranslate"><span class="pre">X11_Xext_INCLUDE_PATH</span></code> variable.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb</span></code>, <code class="docutils literal notranslate"><span class="pre">X11-xcb</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb-icccm</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb-xkb</span></code>, <code class="docutils literal notranslate"><span class="pre">xkbcommon</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</span></code> libraries.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>Added the <code class="docutils literal notranslate"><span class="pre">Xaw</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_util</span></code>, and <code class="docutils literal notranslate"><span class="pre">xcb_xfixes</span></code> libraries.</p>
 </div>
 </div>
 
@@ -117,11 +139,11 @@ X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="FindXercesC.html"
-                        title="previous chapter">FindXercesC</a></p>
+  <p class="topless"><a href="FindwxWidgets.html"
+                        title="previous chapter">FindwxWidgets</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="FindXMLRPC.html"
-                        title="next chapter">FindXMLRPC</a></p>
+  <p class="topless"><a href="FindXalanC.html"
+                        title="next chapter">FindXalanC</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -150,10 +172,10 @@ X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="FindXMLRPC.html" title="FindXMLRPC"
+          <a href="FindXalanC.html" title="FindXalanC"
              >next</a> |</li>
         <li class="right" >
-          <a href="FindXercesC.html" title="FindXercesC"
+          <a href="FindwxWidgets.html" title="FindwxWidgets"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -163,14 +185,14 @@ X11_XSync_INCLUDE_PATH,        (in X11_Xext_LIB),  X11_XSync_FOUND
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

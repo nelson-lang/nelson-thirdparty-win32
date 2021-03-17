@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>ctest_submit &mdash; CMake 3.18.1 Documentation</title>
+  <title>ctest_submit &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -94,13 +94,22 @@ Done       = Build is complete, in Done.xml
 <dt><code class="docutils literal notranslate"><span class="pre">FILES</span> <span class="pre">&lt;file&gt;...</span></code></dt><dd><p>Specify an explicit list of specific files to be submitted.
 Each individual file must exist at the time of the call.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">SUBMIT_URL</span> <span class="pre">&lt;url&gt;</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">https</span></code> URL of the dashboard server to send the submission
+<dt><code class="docutils literal notranslate"><span class="pre">SUBMIT_URL</span> <span class="pre">&lt;url&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">http</span></code> or <code class="docutils literal notranslate"><span class="pre">https</span></code> URL of the dashboard server to send the submission
 to.  If not given, the <span class="target" id="index-0-variable:CTEST_SUBMIT_URL"></span><a class="reference internal" href="../variable/CTEST_SUBMIT_URL.html#variable:CTEST_SUBMIT_URL" title="CTEST_SUBMIT_URL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_SUBMIT_URL</span></code></a> variable is used.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BUILD_ID</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable the ID assigned to this build by
+<dt><code class="docutils literal notranslate"><span class="pre">BUILD_ID</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable the ID assigned to this build by
 CDash.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">HTTPHEADER</span> <span class="pre">&lt;HTTP-header&gt;</span></code></dt><dd><p>Specify HTTP header to be included in the request to CDash during submission.
+<dt><code class="docutils literal notranslate"><span class="pre">HTTPHEADER</span> <span class="pre">&lt;HTTP-header&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>Specify HTTP header to be included in the request to CDash during submission.
 For example, CDash can be configured to only accept submissions from
 authenticated clients. In this case, you should provide a bearer token in your
 header:</p>
@@ -117,17 +126,27 @@ before attempting to re-submit.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">RETURN_VALUE</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable <code class="docutils literal notranslate"><span class="pre">0</span></code> for success and
 non-zero on failure.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">CAPTURE_CMAKE_ERROR</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable -1 if there are any errors running
+<dt><code class="docutils literal notranslate"><span class="pre">CAPTURE_CMAKE_ERROR</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable -1 if there are any errors running
 the command and prevent ctest from returning non-zero if an error occurs.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">QUIET</span></code></dt><dd><p>Suppress all non-error messages that would have otherwise been
+<dt><code class="docutils literal notranslate"><span class="pre">QUIET</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>Suppress all non-error messages that would have otherwise been
 printed to the console.</p>
 </dd>
 </dl>
 <div class="section" id="submit-to-cdash-upload-api">
 <h2>Submit to CDash Upload API<a class="headerlink" href="#submit-to-cdash-upload-api" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.</span></p>
+</div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ctest_submit(CDASH_UPLOAD &lt;file&gt; [CDASH_UPLOAD_TYPE &lt;type&gt;]
              [SUBMIT_URL &lt;url&gt;]
+             [BUILD_ID &lt;result-var&gt;]
              [HTTPHEADER &lt;header&gt;]
              [RETRY_COUNT &lt;count&gt;]
              [RETRY_DELAY &lt;delay&gt;]
@@ -140,9 +159,22 @@ file upload API. The API first sends a request to upload to CDash along
 with a content hash of the file. If CDash does not already have the file,
 then it is uploaded. Along with the file, a CDash type string is specified
 to tell CDash which handler to use to process the data.</p>
-<p>This signature accepts the <code class="docutils literal notranslate"><span class="pre">SUBMIT_URL</span></code>, <code class="docutils literal notranslate"><span class="pre">BUILD_ID</span></code>, <code class="docutils literal notranslate"><span class="pre">HTTPHEADER</span></code>,
-<code class="docutils literal notranslate"><span class="pre">RETRY_COUNT</span></code>, <code class="docutils literal notranslate"><span class="pre">RETRY_DELAY</span></code>, <code class="docutils literal notranslate"><span class="pre">RETURN_VALUE</span></code> and <code class="docutils literal notranslate"><span class="pre">QUIET</span></code> options
-as described above.</p>
+<p>This signature interprets options in the same way as the first one.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8: </span>Added the <code class="docutils literal notranslate"><span class="pre">RETRY_COUNT</span></code>, <code class="docutils literal notranslate"><span class="pre">RETRY_DELAY</span></code>, <code class="docutils literal notranslate"><span class="pre">QUIET</span></code> options.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>Added the <code class="docutils literal notranslate"><span class="pre">HTTPHEADER</span></code> option.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13: </span>Added the <code class="docutils literal notranslate"><span class="pre">RETURN_VALUE</span></code> option.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Added the <code class="docutils literal notranslate"><span class="pre">SUBMIT_URL</span></code> option.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15: </span>Added the <code class="docutils literal notranslate"><span class="pre">BUILD_ID</span></code> option.</p>
+</div>
 </div>
 </div>
 
@@ -207,14 +239,14 @@ as described above.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

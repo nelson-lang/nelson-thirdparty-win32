@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CTEST" "1" "Jul 30, 2020" "3.18.1" "CMake"
+.TH "CTEST" "1" "Mar 11, 2021" "3.20.0" "CMake"
 .SH NAME
 ctest \- CTest Command-Line Reference
 .
@@ -117,6 +117,16 @@ CMake\-generated build trees created for projects that use the
 This program will run the tests and report results.
 .SH OPTIONS
 .INDENT 0.0
+.TP
+.B \fB\-\-preset <preset>\fP, \fB\-\-preset=<preset>\fP
+Use a test preset to specify test options. The project binary directory
+is inferred from the \fBconfigurePreset\fP key. The current working directory
+must contain CMake preset files.
+See \fBpreset\fP for more details.
+.TP
+.B \fB\-\-list\-presets\fP
+Lists the available test presets. The current working directory must contain
+CMake preset files.
 .TP
 .B \fB\-C <cfg>, \-\-build\-config <cfg>\fP
 Choose configuration to test.
@@ -264,7 +274,7 @@ Exclude fixtures matching \fB<regex>\fP from automatically adding any tests to
 the test set.
 .sp
 If a test in the set of tests to be executed requires a particular fixture,
-that fixture’s setup and cleanup tests would normally be added to the test set
+that fixture\(aqs setup and cleanup tests would normally be added to the test set
 automatically. This option prevents adding setup or cleanup tests for fixtures
 matching the \fB<regex>\fP\&. Note that all other fixture behavior is retained,
 including test dependencies and skipping tests that have fixture setup tests
@@ -422,6 +432,9 @@ See \fI\%Label and Subproject Summary\fP\&.
 .sp
 \fB\-\-build\-and\-test\fP
 See \fI\%Build and Test Mode\fP\&.
+.sp
+\fB\-\-test\-dir <dir>\fP
+Specify the directory in which to look for tests.
 .INDENT 0.0
 .TP
 .B \fB\-\-test\-output\-size\-passed <size>\fP
@@ -776,7 +789,7 @@ Options for Dashboard Client include:
 .INDENT 0.0
 .TP
 .B \fB\-\-group <group>\fP
-Specify what group you’d like to submit results to
+Specify what group you\(aqd like to submit results to
 .sp
 Submit dashboard to specified group instead of default one.  By
 default, the dashboard is submitted to Nightly, Experimental, or
@@ -813,7 +826,7 @@ Do not compress test output when submitting.
 .sp
 This flag will turn off automatic compression of test output.  Use
 this to maintain compatibility with an older version of CDash which
-doesn’t support compressed test output.
+doesn\(aqt support compressed test output.
 .UNINDENT
 .SS Dashboard Client Steps
 .sp
@@ -1046,7 +1059,7 @@ as \fBgit pull\fP except that any local modifications are overwritten.
 Use \fBGITUpdateCustom\fP to specify a different approach.
 .TP
 .B \fBGITInitSubmodules\fP
-If set, CTest will update the repository’s submodules before updating.
+If set, CTest will update the repository\(aqs submodules before updating.
 .INDENT 7.0
 .IP \(bu 2
 \fI\%CTest Script\fP variable: \fBCTEST_GIT_INIT_SUBMODULES\fP
@@ -1231,7 +1244,7 @@ Additional configuration settings include:
 .INDENT 0.0
 .TP
 .B \fBNightlyStartTime\fP
-In the \fBNightly\fP dashboard mode, specify the “nightly start time”.
+In the \fBNightly\fP dashboard mode, specify the "nightly start time".
 With centralized version control systems (\fBcvs\fP and \fBsvn\fP),
 the \fBUpdate\fP step checks out the version of the software as of
 this time so that multiple clients choose a common version to test.
@@ -1334,10 +1347,10 @@ generator, specify whether the
 \fBCTestUseLaunchers\fP module (also included by the
 \fBCTest\fP module).  When enabled, the generated build
 system wraps each invocation of the compiler, linker, or
-custom command line with a “launcher” that communicates
+custom command line with a "launcher" that communicates
 with CTest via environment variables and files to report
 granular build warning and error information.  Otherwise,
-CTest must “scrape” the build output log for diagnostics.
+CTest must "scrape" the build output log for diagnostics.
 .INDENT 7.0
 .IP \(bu 2
 \fI\%CTest Script\fP variable: \fBCTEST_USE_LAUNCHERS\fP
@@ -1548,6 +1561,26 @@ They will be placed prior to the test command line.
 .IP \(bu 2
 \fBCTest\fP module variable: \fBDRMEMORY_COMMAND_OPTIONS\fP
 .UNINDENT
+.TP
+.B \fBCudaSanitizerCommand\fP
+Specify a \fBMemoryCheckCommand\fP that is known to be a command\-line
+compatible with cuda\-memcheck or compute\-sanitizer.
+.INDENT 7.0
+.IP \(bu 2
+\fI\%CTest Script\fP variable: none
+.IP \(bu 2
+\fBCTest\fP module variable: \fBCUDA_SANITIZER_COMMAND\fP
+.UNINDENT
+.TP
+.B \fBCudaSanitizerCommandOptions\fP
+Specify command\-line options to the \fBCudaSanitizerCommand\fP tool.
+They will be placed prior to the test command line.
+.INDENT 7.0
+.IP \(bu 2
+\fI\%CTest Script\fP variable: none
+.IP \(bu 2
+\fBCTest\fP module variable: \fBCUDA_SANITIZER_COMMAND_OPTIONS\fP
+.UNINDENT
 .UNINDENT
 .SS CTest Submit Step
 .sp
@@ -1726,7 +1759,7 @@ model is defined as follows:
 .INDENT 0.0
 .TP
 .B \fBkind\fP
-The string “ctestInfo”.
+The string "ctestInfo".
 .TP
 .B \fBversion\fP
 A JSON object specifying the version components.  Its members are
@@ -1796,7 +1829,7 @@ Can contain keys for each of the supported test properties.
 .SH RESOURCE ALLOCATION
 .sp
 CTest provides a mechanism for tests to specify the resources that they need
-in a fine\-grained way, and for users to specify the resources availiable on
+in a fine\-grained way, and for users to specify the resources available on
 the running machine. This allows CTest to internally keep track of which
 resources are in use and which are free, scheduling tests in a way that
 prevents them from trying to claim resources that are not available.
@@ -1816,7 +1849,7 @@ tests try to do this at once, some of them will fail to allocate, resulting in
 a failed test, even though the test would have succeeded if it had the memory
 it needed. By using the resource allocation feature, each test can specify how
 much memory it requires from a GPU, allowing CTest to schedule tests in a way
-that running several of these tests at once does not exhaust the GPU’s memory
+that running several of these tests at once does not exhaust the GPU\(aqs memory
 pool.
 .sp
 Please note that CTest has no concept of what a GPU is or how much memory it
@@ -1828,7 +1861,7 @@ requires from a certain resource, and CTest then schedules them in a way that
 prevents the total number of slots in use from exceeding the listed capacity.
 When a test is executed, and slots from a resource are allocated to that test,
 tests may assume that they have exclusive use of those slots for the duration
-of the test’s process.
+of the test\(aqs process.
 .sp
 The CTest resource allocation feature consists of two inputs:
 .INDENT 0.0
@@ -1978,7 +2011,7 @@ specified, a default value of \fB1\fP is assumed.
 .UNINDENT
 .UNINDENT
 .sp
-In the example file above, there are four GPUs with ID’s 0 through 3. GPU 0 has
+In the example file above, there are four GPUs with ID\(aqs 0 through 3. GPU 0 has
 2 slots, GPU 1 has 4, GPU 2 has 2, and GPU 3 has a default of 1 slot. There is
 also one cryptography chip with 4 slots.
 .SS \fBRESOURCE_GROUPS\fP Property
@@ -2086,6 +2119,6 @@ found on this web page.
 The Discourse Forum hosts discussion and questions about CMake.
 .UNINDENT
 .SH COPYRIGHT
-2000-2020 Kitware, Inc. and Contributors
+2000-2021 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

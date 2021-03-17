@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>ctest_test &mdash; CMake 3.18.1 Documentation</title>
+  <title>ctest_test &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -112,31 +112,49 @@ Tests not matching this expression are excluded.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">INCLUDE_LABEL</span> <span class="pre">&lt;label-include-regex&gt;</span></code></dt><dd><p>Specify a regular expression matching test labels to include.
 Tests not matching this expression are excluded.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>If a test in the set of tests to be executed requires a particular fixture,
-that fixture’s setup and cleanup tests would normally be added to the test
+<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>If a test in the set of tests to be executed requires a particular fixture,
+that fixture's setup and cleanup tests would normally be added to the test
 set automatically. This option prevents adding setup or cleanup tests for
 fixtures matching the <code class="docutils literal notranslate"><span class="pre">&lt;regex&gt;</span></code>. Note that all other fixture behavior is
 retained, including test dependencies and skipping tests that have fixture
 setup tests that fail.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE_SETUP</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Same as <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE</span></code> except only matching setup tests are excluded.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE_SETUP</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Same as <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE</span></code> except only matching setup tests are excluded.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE_CLEANUP</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Same as <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE</span></code> except only matching cleanup tests are excluded.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE_CLEANUP</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Same as <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FIXTURE</span></code> except only matching cleanup tests are excluded.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">PARALLEL_LEVEL</span> <span class="pre">&lt;level&gt;</span></code></dt><dd><p>Specify a positive number representing the number of tests to
 be run in parallel.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Specify a
+<dt><code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>Specify a
 <a class="reference internal" href="../manual/ctest.1.html#ctest-resource-specification-file"><span class="std std-ref">resource specification file</span></a>. See
 <a class="reference internal" href="../manual/ctest.1.html#ctest-resource-allocation"><span class="std std-ref">Resource Allocation</span></a> for more information.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">TEST_LOAD</span> <span class="pre">&lt;threshold&gt;</span></code></dt><dd><p>While running tests in parallel, try not to start tests when they
+<dt><code class="docutils literal notranslate"><span class="pre">TEST_LOAD</span> <span class="pre">&lt;threshold&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>While running tests in parallel, try not to start tests when they
 may cause the CPU load to pass above a given threshold.  If not
 specified the <span class="target" id="index-0-variable:CTEST_TEST_LOAD"></span><a class="reference internal" href="../variable/CTEST_TEST_LOAD.html#variable:CTEST_TEST_LOAD" title="CTEST_TEST_LOAD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_TEST_LOAD</span></code></a> variable will be checked,
 and then the <code class="docutils literal notranslate"><span class="pre">--test-load</span></code> command-line argument to <span class="target" id="index-0-manual:ctest(1)"></span><a class="reference internal" href="../manual/ctest.1.html#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest(1)</span></code></a>.
 See also the <code class="docutils literal notranslate"><span class="pre">TestLoad</span></code> setting in the <a class="reference internal" href="../manual/ctest.1.html#ctest-test-step"><span class="std std-ref">CTest Test Step</span></a>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">REPEAT</span> <span class="pre">&lt;mode&gt;:&lt;n&gt;</span></code></dt><dd><p>Run tests repeatedly based on the given <code class="docutils literal notranslate"><span class="pre">&lt;mode&gt;</span></code> up to <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> times.
+<dt><code class="docutils literal notranslate"><span class="pre">REPEAT</span> <span class="pre">&lt;mode&gt;:&lt;n&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
+<p>Run tests repeatedly based on the given <code class="docutils literal notranslate"><span class="pre">&lt;mode&gt;</span></code> up to <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> times.
 The modes are:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">UNTIL_FAIL</span></code></dt><dd><p>Require each test to run <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> times without failing in order to pass.
@@ -156,17 +174,26 @@ on busy machines.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">SCHEDULE_RANDOM</span> <span class="pre">&lt;ON|OFF&gt;</span></code></dt><dd><p>Launch tests in a random order.  This may be useful for detecting
 implicit test dependencies.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">STOP_ON_FAILURE</span></code></dt><dd><p>Stop the execution of the tests once one has failed.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">STOP_ON_FAILURE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>Stop the execution of the tests once one has failed.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">STOP_TIME</span> <span class="pre">&lt;time-of-day&gt;</span></code></dt><dd><p>Specify a time of day at which the tests should all stop running.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">RETURN_VALUE</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable <code class="docutils literal notranslate"><span class="pre">0</span></code> if all tests passed.
 Store non-zero if anything went wrong.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">CAPTURE_CMAKE_ERROR</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable -1 if there are any errors running
+<dt><code class="docutils literal notranslate"><span class="pre">CAPTURE_CMAKE_ERROR</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable -1 if there are any errors running
 the command and prevent ctest from returning non-zero if an error occurs.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">QUIET</span></code></dt><dd><p>Suppress any CTest-specific non-error messages that would have otherwise
+<dt><code class="docutils literal notranslate"><span class="pre">QUIET</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>Suppress any CTest-specific non-error messages that would have otherwise
 been printed to the console.  Output from the underlying test command is not
 affected.  Summary info detailing the percentage of passing tests is also
 unaffected by the <code class="docutils literal notranslate"><span class="pre">QUIET</span></code> option.</p>
@@ -229,14 +256,14 @@ and <span class="target" id="index-0-variable:CTEST_CUSTOM_MAXIMUM_FAILED_TEST_O
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

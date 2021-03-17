@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>add_compile_options &mdash; CMake 3.18.1 Documentation</title>
+  <title>add_compile_options &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -67,19 +67,21 @@ These options are used when compiling targets from the current
 directory and below.</p>
 <div class="section" id="arguments">
 <h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h2>
-<p>Arguments to <code class="docutils literal notranslate"><span class="pre">add_compile_options</span></code> may use “generator expressions” with
+<p>Arguments to <code class="docutils literal notranslate"><span class="pre">add_compile_options</span></code> may use &quot;generator expressions&quot; with
 the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
 manual for available expressions.  See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a>
 manual for more on defining buildsystem properties.</p>
 <p>The final set of compile or link options used for a target is constructed by
 accumulating options from the current target and the usage requirements of
-its dependencies.  The set of options is de-duplicated to avoid repetition.
-While beneficial for individual options, the de-duplication step can break
+its dependencies.  The set of options is de-duplicated to avoid repetition.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span>While beneficial for individual options, the de-duplication step can break
 up option groups.  For example, <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">A</span> <span class="pre">-D</span> <span class="pre">B</span></code> becomes <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">A</span> <span class="pre">B</span></code>.  One may
 specify a group of options using shell-like quoting along with a <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code>
 prefix.  The <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix is dropped, and the rest of the option string
 is parsed using the <span class="target" id="index-0-command:separate_arguments"></span><a class="reference internal" href="separate_arguments.html#command:separate_arguments" title="separate_arguments"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">separate_arguments()</span></code></a> <code class="docutils literal notranslate"><span class="pre">UNIX_COMMAND</span></code> mode.
 For example, <code class="docutils literal notranslate"><span class="pre">&quot;SHELL:-D</span> <span class="pre">A&quot;</span> <span class="pre">&quot;SHELL:-D</span> <span class="pre">B&quot;</span></code> becomes <code class="docutils literal notranslate"><span class="pre">-D</span> <span class="pre">A</span> <span class="pre">-D</span> <span class="pre">B</span></code>.</p>
+</div>
 </div>
 <div class="section" id="example">
 <h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
@@ -170,14 +172,14 @@ source file.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

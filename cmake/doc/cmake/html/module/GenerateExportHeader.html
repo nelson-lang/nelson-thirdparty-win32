@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>GenerateExportHeader &mdash; CMake 3.18.1 Documentation</title>
+  <title>GenerateExportHeader &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -60,6 +60,9 @@
 <span id="module:GenerateExportHeader"></span><h1>GenerateExportHeader<a class="headerlink" href="#generateexportheader" title="Permalink to this headline">¶</a></h1>
 <p>Function for generation of export macros for libraries</p>
 <p>This module provides the function <code class="docutils literal notranslate"><span class="pre">GENERATE_EXPORT_HEADER()</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span>Added support for C projects.  Previous versions supported C++ project only.</p>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">GENERATE_EXPORT_HEADER</span></code> function can be used to generate a file
 suitable for preprocessor inclusion which contains EXPORT macros to be
 used in library classes:</p>
@@ -186,8 +189,22 @@ all generated macros.</p>
 </pre></div>
 </div>
 <p>Generates the macros <code class="docutils literal notranslate"><span class="pre">VTK_SOMELIB_EXPORT</span></code> etc.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>Library target can be an <code class="docutils literal notranslate"><span class="pre">OBJECT</span></code> library.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7: </span>Added the <code class="docutils literal notranslate"><span class="pre">CUSTOM_CONTENT_FROM_VARIABLE</span></code> option.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>Added the <code class="docutils literal notranslate"><span class="pre">INCLUDE_GUARD_NAME</span></code> option.</p>
+</div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ADD_COMPILER_EXPORT_FLAGS( [&lt;output_variable&gt;] )
 </pre></div>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.0: </span>Set the target properties
+<span class="target" id="index-1-prop_tgt:&lt;LANG&gt;_VISIBILITY_PRESET"></span><a class="reference internal" href="../prop_tgt/LANG_VISIBILITY_PRESET.html#prop_tgt:&lt;LANG&gt;_VISIBILITY_PRESET" title="&lt;LANG&gt;_VISIBILITY_PRESET"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_VISIBILITY_PRESET</span></code></a> and
+<span class="target" id="index-1-prop_tgt:VISIBILITY_INLINES_HIDDEN"></span><a class="reference internal" href="../prop_tgt/VISIBILITY_INLINES_HIDDEN.html#prop_tgt:VISIBILITY_INLINES_HIDDEN" title="VISIBILITY_INLINES_HIDDEN"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">VISIBILITY_INLINES_HIDDEN</span></code></a> instead.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">ADD_COMPILER_EXPORT_FLAGS</span></code> function adds <code class="docutils literal notranslate"><span class="pre">-fvisibility=hidden</span></code> to
 <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS.html#variable:CMAKE_&lt;LANG&gt;_FLAGS" title="CMAKE_&lt;LANG&gt;_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_FLAGS</span></code></a> if supported, and is a no-op
@@ -195,9 +212,6 @@ on Windows which does not need extra compiler flags for exporting support.
 You may optionally pass a single argument to <code class="docutils literal notranslate"><span class="pre">ADD_COMPILER_EXPORT_FLAGS</span></code>
 that will be populated with the <code class="docutils literal notranslate"><span class="pre">CXX_FLAGS</span></code> required to enable visibility
 support for the compiler/architecture in use.</p>
-<p>This function is deprecated.  Set the target properties
-<span class="target" id="index-1-prop_tgt:&lt;LANG&gt;_VISIBILITY_PRESET"></span><a class="reference internal" href="../prop_tgt/LANG_VISIBILITY_PRESET.html#prop_tgt:&lt;LANG&gt;_VISIBILITY_PRESET" title="&lt;LANG&gt;_VISIBILITY_PRESET"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_VISIBILITY_PRESET</span></code></a> and
-<span class="target" id="index-1-prop_tgt:VISIBILITY_INLINES_HIDDEN"></span><a class="reference internal" href="../prop_tgt/VISIBILITY_INLINES_HIDDEN.html#prop_tgt:VISIBILITY_INLINES_HIDDEN" title="VISIBILITY_INLINES_HIDDEN"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">VISIBILITY_INLINES_HIDDEN</span></code></a> instead.</p>
 </div>
 
 
@@ -253,14 +267,14 @@ support for the compiler/architecture in use.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

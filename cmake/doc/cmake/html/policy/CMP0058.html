@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMP0058 &mdash; CMake 3.18.1 Documentation</title>
+  <title>CMP0058 &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="cmp0058">
 <span id="policy:CMP0058"></span><h1>CMP0058<a class="headerlink" href="#cmp0058" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
 <p>Ninja requires custom command byproducts to be explicit.</p>
 <p>When an intermediate file generated during the build is consumed
 by an expensive operation or a large tree of dependents, one may
@@ -66,8 +69,8 @@ file timestamp only when its content changes.  With this approach
 the generation rule must have a separate output file that is always
 updated with a new timestamp that is newer than any dependencies of
 the rule so that the build tool re-runs the rule only when the input
-changes.  We refer to the separate output file as a rule’s <em>witness</em>
-and the generated file as a rule’s <em>byproduct</em>.</p>
+changes.  We refer to the separate output file as a rule's <em>witness</em>
+and the generated file as a rule's <em>byproduct</em>.</p>
 <p>Byproducts may not be listed as outputs because their timestamps are
 allowed to be older than the inputs.  No build tools (like <code class="docutils literal notranslate"><span class="pre">make</span></code>)
 that existed when CMake was designed have a way to express byproducts.
@@ -143,7 +146,7 @@ rules for unknown dependencies in the build tree.  The <code class="docutils lit
 behavior for this policy is to not generate these and instead
 require projects to specify custom command <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> explicitly.</p>
 <p>This policy was introduced in CMake version 3.3.
-CMake version 3.18.1 warns when it sees unknown dependencies in
+CMake version 3.20.0-rc4 warns when it sees unknown dependencies in
 out-of-source build trees if the policy is not set and then uses
 <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.  Use the <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set
 the policy to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.  The policy setting
@@ -210,14 +213,14 @@ and may be removed in a future version of CMake.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

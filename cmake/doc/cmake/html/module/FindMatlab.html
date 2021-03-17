@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindMatlab &mdash; CMake 3.18.1 Documentation</title>
+  <title>FindMatlab &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FindMFC" href="FindMFC.html" />
-    <link rel="prev" title="FindLua" href="FindLua.html" />
+    <link rel="prev" title="FindLua51" href="FindLua51.html" />
   
  
 
@@ -34,7 +34,7 @@
           <a href="FindMFC.html" title="FindMFC"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="FindLua.html" title="FindLua"
+          <a href="FindLua51.html" title="FindLua51"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -67,8 +67,11 @@ can also be used:</p>
 <li><p>to run specific commands in Matlab in case Matlab is available</p></li>
 <li><p>for declaring Matlab unit test</p></li>
 <li><p>to retrieve various information from Matlab (mex extensions, versions and
-release queries, …)</p></li>
+release queries, ...)</p></li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span>Added Matlab Compiler Runtime (MCR) support.</p>
+</div>
 <p>The module supports the following components:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ENG_LIBRARY</span></code> and <code class="docutils literal notranslate"><span class="pre">MAT_LIBRARY</span></code>: respectively the <code class="docutils literal notranslate"><span class="pre">ENG</span></code> and <code class="docutils literal notranslate"><span class="pre">MAT</span></code>
@@ -80,6 +83,17 @@ instead of the regular Matlab installation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">MCC_COMPILER</span></code> the MCC compiler, included with the Matlab Compiler add-on.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">SIMULINK</span></code> the Simulink environment.</p></li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7: </span>Added the <code class="docutils literal notranslate"><span class="pre">MAT_LIBRARY</span></code> component.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13: </span>Added the <code class="docutils literal notranslate"><span class="pre">ENGINE_LIBRARY</span></code>, <code class="docutils literal notranslate"><span class="pre">DATAARRAY_LIBRARY</span></code> and <code class="docutils literal notranslate"><span class="pre">MCC_COMPILER</span></code>
+components.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.14: </span>Removed the <code class="docutils literal notranslate"><span class="pre">MX_LIBRARY</span></code>, <code class="docutils literal notranslate"><span class="pre">ENGINE_LIBRARY</span></code> and <code class="docutils literal notranslate"><span class="pre">DATAARRAY_LIBRARY</span></code>
+components.  These libraries are found unconditionally.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The version given to the <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> directive is the Matlab
@@ -132,7 +146,7 @@ versions.</p>
 <h2>Variables defined by the module<a class="headerlink" href="#variables-defined-by-the-module" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="result-variables">
 <h3>Result variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h3>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_FOUND</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">TRUE</span></code> if the Matlab installation is found, <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>
 otherwise. All variable below are defined if Matlab is found.</p>
 </dd>
@@ -154,16 +168,25 @@ is requested.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_MAT_LIBRARY</span></code></dt><dd><p>Matlab matrix library. Available only if the component <code class="docutils literal notranslate"><span class="pre">MAT_LIBRARY</span></code>
 is requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab_ENGINE_LIBRARY</span></code></dt><dd><p>Matlab C++ engine library, always available for R2018a and newer.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab_ENGINE_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>Matlab C++ engine library, always available for R2018a and newer.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab_DATAARRAY_LIBRARY</span></code></dt><dd><p>Matlab C++ data array library, always available for R2018a and newer.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab_DATAARRAY_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>Matlab C++ data array library, always available for R2018a and newer.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_LIBRARIES</span></code></dt><dd><p>the whole set of libraries of Matlab</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_MEX_COMPILER</span></code></dt><dd><p>the mex compiler of Matlab. Currently not used.
 Available only if the component <code class="docutils literal notranslate"><span class="pre">MEX_COMPILER</span></code> is requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab_MCC_COMPILER</span></code></dt><dd><p>the mcc compiler of Matlab. Included with the Matlab Compiler add-on.
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab_MCC_COMPILER</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>the mcc compiler of Matlab. Included with the Matlab Compiler add-on.
 Available only if the component <code class="docutils literal notranslate"><span class="pre">MCC_COMPILER</span></code> is requested.</p>
 </dd>
 </dl>
@@ -421,7 +444,7 @@ to run Matlab from the command line.
 <code class="docutils literal notranslate"><span class="pre">-nosplash</span> <span class="pre">-nodesktop</span> <span class="pre">-nodisplay</span></code> are always added.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TEST_ARGS</span></code></dt><dd><p>Additional options provided to the add_test command. These
-options are added to the default options (eg. “CONFIGURATIONS Release”)</p>
+options are added to the default options (eg. &quot;CONFIGURATIONS Release&quot;)</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NO_UNITTEST_FRAMEWORK</span></code></dt><dd><p>when set, indicates that the test should not
 use the unittest framework of Matlab (available for versions &gt;= R2013a).</p>
@@ -456,7 +479,7 @@ for the MEX file. Remaining arguments of the call are passed to the
 )
 </pre></div>
 </div>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">NAME</span></code></dt><dd><p>name of the target.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">SRC</span></code></dt><dd><p>list of source files.</p>
@@ -474,13 +497,26 @@ the same folder without any processing, with the same name as the final
 mex file, and with extension <cite>.m</cite>. In that case, typing <code class="docutils literal notranslate"><span class="pre">help</span> <span class="pre">&lt;name&gt;</span></code>
 in Matlab prints the documentation contained in this file.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">R2017b</span></code> or <code class="docutils literal notranslate"><span class="pre">R2018a</span></code> may be given to specify the version of the C API</dt><dd><p>to use: <code class="docutils literal notranslate"><span class="pre">R2017b</span></code> specifies the traditional (separate complex) C API,
+<dt><code class="docutils literal notranslate"><span class="pre">R2017b</span></code> or <code class="docutils literal notranslate"><span class="pre">R2018a</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p>May be given to specify the version of the C API
+to use: <code class="docutils literal notranslate"><span class="pre">R2017b</span></code> specifies the traditional (separate complex) C API,
 and corresponds to the <code class="docutils literal notranslate"><span class="pre">-R2017b</span></code> flag for the <cite>mex</cite> command. <code class="docutils literal notranslate"><span class="pre">R2018a</span></code>
 specifies the new interleaved complex C API, and corresponds to the
 <code class="docutils literal notranslate"><span class="pre">-R2018a</span></code> flag for the <cite>mex</cite> command. Ignored if MATLAB version prior
 to R2018a. Defaults to <code class="docutils literal notranslate"><span class="pre">R2017b</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">MODULE</span></code> or <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> may be given to specify the type of library to be</dt><dd><p>created. <code class="docutils literal notranslate"><span class="pre">EXECUTABLE</span></code> may be given to create an executable instead of
+<dt><code class="docutils literal notranslate"><span class="pre">MODULE</span></code> or <code class="docutils literal notranslate"><span class="pre">SHARED</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>May be given to specify the type of library to be
+created.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXECUTABLE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>May be given to create an executable instead of
 a library. If no type is given explicitly, the type is <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></dt><dd><p>This option has the same meaning as for <span class="target" id="index-0-prop_tgt:EXCLUDE_FROM_ALL"></span><a class="reference internal" href="../prop_tgt/EXCLUDE_FROM_ALL.html#prop_tgt:EXCLUDE_FROM_ALL" title="EXCLUDE_FROM_ALL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></a> and
@@ -523,8 +559,8 @@ function ret = mex_target_output_name(input1)
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="FindLua.html"
-                        title="previous chapter">FindLua</a></p>
+  <p class="topless"><a href="FindLua51.html"
+                        title="previous chapter">FindLua51</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="FindMFC.html"
                         title="next chapter">FindMFC</a></p>
@@ -559,7 +595,7 @@ function ret = mex_target_output_name(input1)
           <a href="FindMFC.html" title="FindMFC"
              >next</a> |</li>
         <li class="right" >
-          <a href="FindLua.html" title="FindLua"
+          <a href="FindLua51.html" title="FindLua51"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -569,14 +605,14 @@ function ret = mex_target_output_name(input1)
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

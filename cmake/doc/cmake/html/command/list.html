@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>list &mdash; CMake 3.18.1 Documentation</title>
+  <title>list &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -120,7 +120,7 @@ Be careful when counting with negative indices: they do not start from
 <div class="highlight-cmake notranslate" id="length"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">LENGTH</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="nv">&lt;output variable&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Returns the list’s length.</p>
+<p>Returns the list's length.</p>
 <div class="highlight-cmake notranslate" id="get"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">GET</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="nv">&lt;element index&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;element index&gt;</span><span class="w"> </span><span class="p">...]</span><span class="w"> </span><span class="nv">&lt;output variable&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -128,11 +128,17 @@ Be careful when counting with negative indices: they do not start from
 <div class="highlight-cmake notranslate" id="join"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">JOIN</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="nv">&lt;glue&gt;</span><span class="w"> </span><span class="nv">&lt;output variable&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Returns a string joining all list’s elements using the glue string.
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Returns a string joining all list's elements using the glue string.
 To join multiple strings, which are not part of a list, use <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> operator
 from <span class="target" id="index-0-command:string"></span><a class="reference internal" href="string.html#command:string" title="string"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">string()</span></code></a> command.</p>
 <div class="highlight-cmake notranslate" id="sublist"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">SUBLIST</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="nv">&lt;begin&gt;</span><span class="w"> </span><span class="nv">&lt;length&gt;</span><span class="w"> </span><span class="nv">&lt;output variable&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
 </div>
 <p>Returns a sublist of the given list.
 If <code class="docutils literal notranslate"><span class="pre">&lt;length&gt;</span></code> is 0, an empty list will be returned.
@@ -145,7 +151,7 @@ the remaining elements of the list starting at <code class="docutils literal not
 </pre></div>
 </div>
 <p>Returns the index of the element specified in the list or -1
-if it wasn’t found.</p>
+if it wasn't found.</p>
 </div>
 <div class="section" id="modification">
 <h2>Modification<a class="headerlink" href="#modification" title="Permalink to this headline">¶</a></h2>
@@ -156,7 +162,10 @@ if it wasn’t found.</p>
 <div class="highlight-cmake notranslate" id="filter"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">FILTER</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="no">INCLUDE</span><span class="p">|</span><span class="no">EXCLUDE</span><span class="o">&gt;</span><span class="w"> </span><span class="no">REGEX</span><span class="w"> </span><span class="nv">&lt;regular_expression&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Includes or removes items from the list that match the mode’s pattern.
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Includes or removes items from the list that match the mode's pattern.
 In <code class="docutils literal notranslate"><span class="pre">REGEX</span></code> mode, items will be matched against the given regular expression.</p>
 <p>For more information on regular expressions see also the
 <span class="target" id="index-1-command:string"></span><a class="reference internal" href="string.html#command:string" title="string"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">string()</span></code></a> command.</p>
@@ -167,17 +176,26 @@ In <code class="docutils literal notranslate"><span class="pre">REGEX</span></co
 <div class="highlight-cmake notranslate" id="pop-back"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">POP_BACK</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;out-var&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
 <p>If no variable name is given, removes exactly one element. Otherwise,
-assign the last element’s value to the given variable and removes it,
+assign the last element's value to the given variable and removes it,
 up to the last variable name given.</p>
 <div class="highlight-cmake notranslate" id="pop-front"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">POP_FRONT</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;out-var&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
 <p>If no variable name is given, removes exactly one element. Otherwise,
-assign the first element’s value to the given variable and removes it,
+assign the first element's value to the given variable and removes it,
 up to the last variable name given.</p>
 <div class="highlight-cmake notranslate" id="prepend"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">PREPEND</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;element&gt;</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
 </div>
 <p>Insert elements to the 0th position in the list.</p>
 <div class="highlight-cmake notranslate" id="remove-item"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">REMOVE_ITEM</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="nv">&lt;value&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;value&gt;</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
@@ -196,6 +214,9 @@ but if duplicates are encountered, only the first instance is preserved.</p>
 <div class="highlight-cmake notranslate" id="transform"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">TRANSFORM</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="nv">&lt;ACTION&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;SELECTOR&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">                      </span><span class="p">[</span><span class="no">OUTPUT_VARIABLE</span><span class="w"> </span><span class="nv">&lt;output variable&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
 </div>
 <p>Transforms the list by applying an action to all or, by specifying a
 <code class="docutils literal notranslate"><span class="pre">&lt;SELECTOR&gt;</span></code>, to the selected elements of the list, storing the result
@@ -281,8 +302,14 @@ expression will be transformed.</p>
 <div class="highlight-cmake notranslate" id="sort"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">SORT</span><span class="w"> </span><span class="nv">&lt;list&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">COMPARE</span><span class="w"> </span><span class="nv">&lt;compare&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">CASE</span><span class="w"> </span><span class="nv">&lt;case&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">ORDER</span><span class="w"> </span><span class="nv">&lt;order&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Sorts the list in-place alphabetically.
-Use the <code class="docutils literal notranslate"><span class="pre">COMPARE</span></code> keyword to select the comparison method for sorting.
+<p>Sorts the list in-place alphabetically.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13: </span>Added the <code class="docutils literal notranslate"><span class="pre">COMPARE</span></code>, <code class="docutils literal notranslate"><span class="pre">CASE</span></code>, and <code class="docutils literal notranslate"><span class="pre">ORDER</span></code> options.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Added the <code class="docutils literal notranslate"><span class="pre">COMPARE</span> <span class="pre">NATURAL</span></code> option.</p>
+</div>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">COMPARE</span></code> keyword to select the comparison method for sorting.
 The <code class="docutils literal notranslate"><span class="pre">&lt;compare&gt;</span></code> option should be one of:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">STRING</span></code>: Sorts a list of strings alphabetically.  This is the
@@ -380,14 +407,14 @@ behavior when the <code class="docutils literal notranslate"><span class="pre">O
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

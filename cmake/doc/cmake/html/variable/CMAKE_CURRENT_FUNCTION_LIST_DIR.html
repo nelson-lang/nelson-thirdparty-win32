@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMAKE_CURRENT_FUNCTION_LIST_DIR &mdash; CMake 3.18.1 Documentation</title>
+  <title>CMAKE_CURRENT_FUNCTION_LIST_DIR &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li> 
@@ -58,12 +58,15 @@
             
   <div class="section" id="cmake-current-function-list-dir">
 <span id="variable:CMAKE_CURRENT_FUNCTION_LIST_DIR"></span><h1>CMAKE_CURRENT_FUNCTION_LIST_DIR<a class="headerlink" href="#cmake-current-function-list-dir" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
 <p>When executing code inside a <span class="target" id="index-0-command:function"></span><a class="reference internal" href="../command/function.html#command:function" title="function"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">function()</span></code></a>, this variable
 contains the full directory of the listfile that defined the current function.</p>
 <p>It is quite common practice in CMake for modules to use some additional files,
 such as templates to be copied in after substituting CMake variables.
 In such cases, a function needs to know where to locate those files in a way
-that doesn’t depend on where the function is called.  Without
+that doesn't depend on where the function is called.  Without
 <code class="docutils literal notranslate"><span class="pre">CMAKE_CURRENT_FUNCTION_LIST_DIR</span></code>, the code to do that would typically use
 the following pattern:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">_THIS_MODULE_BASE_DIR</span><span class="w"> </span><span class="s">&quot;${CMAKE_CURRENT_LIST_DIR}&quot;</span><span class="nf">)</span><span class="w"></span>
@@ -78,7 +81,7 @@ the following pattern:</p>
 </div>
 <p>Using <code class="docutils literal notranslate"><span class="pre">CMAKE_CURRENT_FUNCTION_LIST_DIR</span></code> inside the function instead
 eliminates the need for the extra variable which would otherwise be visible
-outside the function’s scope.
+outside the function's scope.
 The above example can be written in the more concise and more robust form:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">function(</span><span class="nb">foo</span><span class="nf">)</span><span class="w"></span>
 <span class="w">  </span><span class="nf">configure_file(</span><span class="w"></span>
@@ -146,14 +149,14 @@ The above example can be written in the more concise and more robust form:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

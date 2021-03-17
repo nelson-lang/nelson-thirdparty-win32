@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>add_custom_target &mdash; CMake 3.18.1 Documentation</title>
+  <title>add_custom_target &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -84,7 +84,10 @@ from other targets.</p>
 target so that it will be run every time (the command cannot be
 called <code class="docutils literal notranslate"><span class="pre">ALL</span></code>).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code></dt><dd><p>Specify the files the command is expected to produce but whose
+<dt><code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.</span></p>
+</div>
+<p>Specify the files the command is expected to produce but whose
 modification time may or may not be updated on subsequent builds.
 If a byproduct name is a relative path it will be interpreted
 relative to the build tree directory corresponding to the
@@ -101,6 +104,10 @@ order-only dependencies to ensure the byproducts will be
 available before their dependents build.</p>
 <p>The <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> will remove <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> and other
 <span class="target" id="index-1-prop_sf:GENERATED"></span><a class="reference internal" href="../prop_sf/GENERATED.html#prop_sf:GENERATED" title="GENERATED"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">GENERATED</span></code></a> files during <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> may use
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></dt><dd><p>Specify the command-line(s) to execute at build time.
 If more than one <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> is specified they will be executed in order,
@@ -112,25 +119,36 @@ a <code class="docutils literal notranslate"><span class="pre">COMMAND</span></c
 <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> command), it will automatically be replaced
 by the location of the executable created at build time if either of
 the following is true:</p>
-<ul class="simple">
+<ul>
 <li><p>The target is not being cross-compiled (i.e. the
 <span class="target" id="index-0-variable:CMAKE_CROSSCOMPILING"></span><a class="reference internal" href="../variable/CMAKE_CROSSCOMPILING.html#variable:CMAKE_CROSSCOMPILING" title="CMAKE_CROSSCOMPILING"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CROSSCOMPILING</span></code></a> variable is not set to true).</p></li>
-<li><p>The target is being cross-compiled and an emulator is provided (i.e.
+<li><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>The target is being cross-compiled and an emulator is provided (i.e.
 its <span class="target" id="index-0-prop_tgt:CROSSCOMPILING_EMULATOR"></span><a class="reference internal" href="../prop_tgt/CROSSCOMPILING_EMULATOR.html#prop_tgt:CROSSCOMPILING_EMULATOR" title="CROSSCOMPILING_EMULATOR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CROSSCOMPILING_EMULATOR</span></code></a> target property is set).
 In this case, the contents of <span class="target" id="index-1-prop_tgt:CROSSCOMPILING_EMULATOR"></span><a class="reference internal" href="../prop_tgt/CROSSCOMPILING_EMULATOR.html#prop_tgt:CROSSCOMPILING_EMULATOR" title="CROSSCOMPILING_EMULATOR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CROSSCOMPILING_EMULATOR</span></code></a> will be
-prepended to the command before the location of the target executable.</p></li>
+prepended to the command before the location of the target executable.</p>
+</div>
+</li>
 </ul>
 <p>If neither of the above conditions are met, it is assumed that the
 command name is a program to be found on the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> at build time.</p>
 <p>Arguments to <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> may use
-<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.
-Use the <code class="docutils literal notranslate"><span class="pre">TARGET_FILE</span></code> generator expression to refer to the location of
-a target later in the command line (i.e. as a command argument rather
+<span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.
+Use the <span class="target" id="index-0-genex:TARGET_FILE"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:TARGET_FILE" title="TARGET_FILE"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">TARGET_FILE</span></code></a> generator expression to refer to the location
+of a target later in the command line (i.e. as a command argument rather
 than as the command to execute).</p>
-<p>Whenever a target is used as a command to execute or is mentioned in a
-generator expression as a command argument, a target-level dependency
-will be added automatically so that the mentioned target will be built
-before this custom target.</p>
+<p>Whenever one of the following target based generator expressions are used as
+a command to execute or is mentioned in a command argument, a target-level
+dependency will be added automatically so that the mentioned target will be
+built before this custom target (see policy <span class="target" id="index-0-policy:CMP0112"></span><a class="reference internal" href="../policy/CMP0112.html#policy:CMP0112" title="CMP0112"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0112</span></code></a>).</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGET_FILE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGET_LINKER_FILE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGET_SONAME_FILE</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGET_PDB_FILE</span></code></p></li>
+</ul>
+</div></blockquote>
 <p>The command and arguments are optional and if not specified an empty
 target will be created.</p>
 </dd>
@@ -140,21 +158,29 @@ build time.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code></dt><dd><p>Reference files and outputs of custom commands created with
 <span class="target" id="index-1-command:add_custom_command"></span><a class="reference internal" href="add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> command calls in the same directory
 (<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file).  They will be brought up to date when
-the target is built.
-A target-level dependency is added if any dependency is a byproduct
+the target is built.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.16: </span>A target-level dependency is added if any dependency is a byproduct
 of a target or any of its build events in the same directory to ensure
 the byproducts will be available before this target is built.</p>
+</div>
 <p>Use the <span class="target" id="index-1-command:add_dependencies"></span><a class="reference internal" href="add_dependencies.html#command:add_dependencies" title="add_dependencies"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_dependencies()</span></code></a> command to add dependencies
 on other targets.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">COMMAND_EXPAND_LISTS</span></code></dt><dd><p>Lists in <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments will be expanded, including those
+<dt><code class="docutils literal notranslate"><span class="pre">COMMAND_EXPAND_LISTS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>Lists in <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments will be expanded, including those
 created with
-<span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>,
+<span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>,
 allowing <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments such as
 <code class="docutils literal notranslate"><span class="pre">${CC}</span> <span class="pre">&quot;-I$&lt;JOIN:$&lt;TARGET_PROPERTY:foo,INCLUDE_DIRECTORIES&gt;,;-I&gt;&quot;</span> <span class="pre">foo.cc</span></code>
 to be properly expanded.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">JOB_POOL</span></code></dt><dd><p>Specify a <span class="target" id="index-0-prop_gbl:JOB_POOLS"></span><a class="reference internal" href="../prop_gbl/JOB_POOLS.html#prop_gbl:JOB_POOLS" title="JOB_POOLS"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">pool</span></code></a> for the <span class="target" id="index-1-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a>
+<dt><code class="docutils literal notranslate"><span class="pre">JOB_POOL</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Specify a <span class="target" id="index-0-prop_gbl:JOB_POOLS"></span><a class="reference internal" href="../prop_gbl/JOB_POOLS.html#prop_gbl:JOB_POOLS" title="JOB_POOLS"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">pool</span></code></a> for the <span class="target" id="index-1-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a>
 generator. Incompatible with <code class="docutils literal notranslate"><span class="pre">USES_TERMINAL</span></code>, which implies
 the <code class="docutils literal notranslate"><span class="pre">console</span></code> pool.
 Using a pool that is not defined by <span class="target" id="index-1-prop_gbl:JOB_POOLS"></span><a class="reference internal" href="../prop_gbl/JOB_POOLS.html#prop_gbl:JOB_POOLS" title="JOB_POOLS"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">JOB_POOLS</span></code></a> causes
@@ -173,17 +199,30 @@ correct behavior.  When <code class="docutils literal notranslate"><span class="
 is platform specific because there is no protection of
 tool-specific special characters.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">USES_TERMINAL</span></code></dt><dd><p>The command will be given direct access to the terminal if possible.
+<dt><code class="docutils literal notranslate"><span class="pre">USES_TERMINAL</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2.</span></p>
+</div>
+<p>The command will be given direct access to the terminal if possible.
 With the <span class="target" id="index-2-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator, this places the command in
 the <code class="docutils literal notranslate"><span class="pre">console</span></code> <span class="target" id="index-2-prop_gbl:JOB_POOLS"></span><a class="reference internal" href="../prop_gbl/JOB_POOLS.html#prop_gbl:JOB_POOLS" title="JOB_POOLS"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">pool</span></code></a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code></dt><dd><p>Execute the command with the given current working directory.
 If it is a relative path it will be interpreted relative to the
 build tree directory corresponding to the current source directory.</p>
-<p>Arguments to <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> may use
-<span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> may use
+<span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+</div>
 </dd>
 </dl>
+<div class="section" id="ninja-multi-config">
+<h2>Ninja Multi-Config<a class="headerlink" href="#ninja-multi-config" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">add_custom_target</span></code> supports the <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a>
+generator's cross-config capabilities. See the generator documentation
+for more information.</p>
+</div>
+</div>
 </div>
 
 
@@ -192,6 +231,14 @@ build tree directory corresponding to the current source directory.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">add_custom_target</a><ul>
+<li><a class="reference internal" href="#ninja-multi-config">Ninja Multi-Config</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="add_custom_command.html"
                         title="previous chapter">add_custom_command</a></p>
@@ -239,14 +286,14 @@ build tree directory corresponding to the current source directory.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

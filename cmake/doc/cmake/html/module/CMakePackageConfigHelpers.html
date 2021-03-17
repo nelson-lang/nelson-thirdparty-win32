@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMakePackageConfigHelpers &mdash; CMake 3.18.1 Documentation</title>
+  <title>CMakePackageConfigHelpers &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -125,13 +125,15 @@ They are calculated by <code class="docutils literal notranslate"><span class="p
 always relative to the installed location of the package.  This works both for
 relative and also for absolute locations.  For absolute locations it works
 only if the absolute location is a subdirectory of <code class="docutils literal notranslate"><span class="pre">INSTALL_PREFIX</span></code>.</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">INSTALL_PREFIX</span></code> argument is passed, this is used as base path to
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>If the <code class="docutils literal notranslate"><span class="pre">INSTALL_PREFIX</span></code> argument is passed, this is used as base path to
 calculate all the relative paths.  The <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> argument must be an absolute
 path.  If this argument is not passed, the <span class="target" id="index-1-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>
 variable will be used instead.  The default value is good when generating a
 FooConfig.cmake file to use your package from the install tree.  When
 generating a FooConfig.cmake file to use your package from the build tree this
 option should be used.</p>
+</div>
 <p>By default <code class="docutils literal notranslate"><span class="pre">configure_package_config_file</span></code> also generates two helper macros,
 <code class="docutils literal notranslate"><span class="pre">set_and_check()</span></code> and <code class="docutils literal notranslate"><span class="pre">check_required_components()</span></code> into the
 <code class="docutils literal notranslate"><span class="pre">FooConfig.cmake</span></code> file.</p>
@@ -148,7 +150,7 @@ non-optional components have been found, and if this is not the case, sets
 the <code class="docutils literal notranslate"><span class="pre">Foo_FOUND</span></code> variable to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, so that the package is considered to
 be not found.  It does that by testing the <code class="docutils literal notranslate"><span class="pre">Foo_&lt;Component&gt;_FOUND</span></code>
 variables for all requested required components.  This macro should be
-called even if the package doesn’t provide any components to make sure
+called even if the package doesn't provide any components to make sure
 users are not specifying components erroneously.  When using the
 <code class="docutils literal notranslate"><span class="pre">NO_CHECK_REQUIRED_COMPONENTS_MACRO</span></code> option, this macro is not generated
 into the <code class="docutils literal notranslate"><span class="pre">FooConfig.cmake</span></code> file.</p>
@@ -175,7 +177,7 @@ details on this.</p>
 <p><code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> is the output filename, it should be in the build tree.
 <code class="docutils literal notranslate"><span class="pre">&lt;major.minor.patch&gt;</span></code> is the version number of the project to be installed.</p>
 <p>If no <code class="docutils literal notranslate"><span class="pre">VERSION</span></code> is given, the <span class="target" id="index-0-variable:PROJECT_VERSION"></span><a class="reference internal" href="../variable/PROJECT_VERSION.html#variable:PROJECT_VERSION" title="PROJECT_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">PROJECT_VERSION</span></code></a> variable is used.
-If this hasn’t been set, it errors out.</p>
+If this hasn't been set, it errors out.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">COMPATIBILITY</span></code> mode <code class="docutils literal notranslate"><span class="pre">AnyNewerVersion</span></code> means that the installed
 package version will be considered compatible if it is newer or exactly the
 same as the requested version.  This mode should be used for packages which
@@ -196,7 +198,11 @@ without compatibility guarantees.
 If your project has more elaborated version matching rules, you will need to
 write your own custom <code class="docutils literal notranslate"><span class="pre">ConfigVersion.cmake</span></code> file instead of using this
 macro.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">ARCH_INDEPENDENT</span></code> is given, the installed package version will be
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>The <code class="docutils literal notranslate"><span class="pre">SameMinorVersion</span></code> compatibility mode.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>If <code class="docutils literal notranslate"><span class="pre">ARCH_INDEPENDENT</span></code> is given, the installed package version will be
 considered compatible even if it was built for a different architecture than
 the requested architecture.  Otherwise, an architecture check will be performed,
 and the package will be considered compatible only if the architecture matches
@@ -204,10 +210,18 @@ exactly.  For example, if the package is built for a 32-bit architecture, the
 package is only considered compatible if it is used on a 32-bit architecture,
 unless <code class="docutils literal notranslate"><span class="pre">ARCH_INDEPENDENT</span></code> is given, in which case the package is considered
 compatible on any architecture.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="docutils literal notranslate"><span class="pre">ARCH_INDEPENDENT</span></code> is intended for header-only libraries or similar
 packages with no binaries.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span><code class="docutils literal notranslate"><span class="pre">COMPATIBILITY_MODE</span></code> <code class="docutils literal notranslate"><span class="pre">AnyNewerVersion</span></code>, <code class="docutils literal notranslate"><span class="pre">SameMajorVersion</span></code> and
+<code class="docutils literal notranslate"><span class="pre">SameMinorVersion</span></code> handle the version range if any is specified
+(see <span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command for the details).
+<code class="docutils literal notranslate"><span class="pre">ExactVersion</span></code> mode is incompatible with version ranges and will display an
+author warning if one is specified.</p>
 </div>
 <p>Internally, this macro executes <span class="target" id="index-3-command:configure_file"></span><a class="reference internal" href="../command/configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> to create the
 resulting version file.  Depending on the <code class="docutils literal notranslate"><span class="pre">COMPATIBILITY</span></code>, the corresponding
@@ -316,14 +330,14 @@ check_required_components(Foo)
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

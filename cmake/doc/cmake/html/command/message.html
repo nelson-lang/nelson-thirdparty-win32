@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>message &mdash; CMake 3.18.1 Documentation</title>
+  <title>message &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -90,16 +90,16 @@ influences the way the message is handled:</p>
 <span class="target" id="index-0-variable:CMAKE_ERROR_DEPRECATED"></span><a class="reference internal" href="../variable/CMAKE_ERROR_DEPRECATED.html#variable:CMAKE_ERROR_DEPRECATED" title="CMAKE_ERROR_DEPRECATED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_ERROR_DEPRECATED</span></code></a> or <span class="target" id="index-0-variable:CMAKE_WARN_DEPRECATED"></span><a class="reference internal" href="../variable/CMAKE_WARN_DEPRECATED.html#variable:CMAKE_WARN_DEPRECATED" title="CMAKE_WARN_DEPRECATED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_WARN_DEPRECATED</span></code></a>
 is enabled, respectively, else no message.</p>
 </dd>
-<dt>(none) or <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code></dt><dd><p>Important message printed to stderr to attract user’s attention.</p>
+<dt>(none) or <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code></dt><dd><p>Important message printed to stderr to attract user's attention.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">STATUS</span></code></dt><dd><p>The main interesting messages that project users might be interested in.
 Ideally these should be concise, no more than a single line, but still
 informative.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code></dt><dd><p>Detailed informational messages intended for project users.  These messages
-should provide additional details that won’t be of interest in most cases,
+should provide additional details that won't be of interest in most cases,
 but which may be useful to those building the project when they want deeper
-insight into what’s happening.</p>
+insight into what's happening.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DEBUG</span></code></dt><dd><p>Detailed informational messages intended for developers working on the
 project itself as opposed to users who just want to build it.  These messages
@@ -111,6 +111,9 @@ using this log level would normally only be temporary and would expect to be
 removed before releasing the project, packaging up the files, etc.</p>
 </dd>
 </dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15: </span>Added the <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code>, <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code>, <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>, and <code class="docutils literal notranslate"><span class="pre">TRACE</span></code> levels.</p>
+</div>
 <p>The CMake command-line tool displays <code class="docutils literal notranslate"><span class="pre">STATUS</span></code> to <code class="docutils literal notranslate"><span class="pre">TRACE</span></code> messages on stdout
 with the message preceded by two hyphens and a space.  All other message types
 are sent to stderr and are not prefixed with hyphens.  The
@@ -118,15 +121,20 @@ are sent to stderr and are not prefixed with hyphens.  The
 The <span class="target" id="index-0-manual:ccmake(1)"></span><a class="reference internal" href="../manual/ccmake.1.html#manual:ccmake(1)" title="ccmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">curses</span> <span class="pre">interface</span></code></a> shows <code class="docutils literal notranslate"><span class="pre">STATUS</span></code> to <code class="docutils literal notranslate"><span class="pre">TRACE</span></code>
 messages one at a time on a status line and other messages in an
 interactive pop-up box.  The <code class="docutils literal notranslate"><span class="pre">--log-level</span></code> command-line option to each of
-these tools can be used to control which messages will be shown.
-To make a log level persist between CMake runs, the
+these tools can be used to control which messages will be shown.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17: </span>To make a log level persist between CMake runs, the
 <span class="target" id="index-0-variable:CMAKE_MESSAGE_LOG_LEVEL"></span><a class="reference internal" href="../variable/CMAKE_MESSAGE_LOG_LEVEL.html#variable:CMAKE_MESSAGE_LOG_LEVEL" title="CMAKE_MESSAGE_LOG_LEVEL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MESSAGE_LOG_LEVEL</span></code></a> variable can be set instead.
 Note that the command line option takes precedence over the cache variable.</p>
-<p>Messages of log levels <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code> and below will have each line preceded
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>Messages of log levels <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code> and below will have each line preceded
 by the content of the <span class="target" id="index-0-variable:CMAKE_MESSAGE_INDENT"></span><a class="reference internal" href="../variable/CMAKE_MESSAGE_INDENT.html#variable:CMAKE_MESSAGE_INDENT" title="CMAKE_MESSAGE_INDENT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MESSAGE_INDENT</span></code></a> variable (converted to
 a single string by concatenating its list items).  For <code class="docutils literal notranslate"><span class="pre">STATUS</span></code> to <code class="docutils literal notranslate"><span class="pre">TRACE</span></code>
 messages, this indenting content will be inserted after the hyphens.</p>
-<p>Messages of log levels <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code> and below can also have each line preceded
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17: </span>Messages of log levels <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code> and below can also have each line preceded
 with context of the form <code class="docutils literal notranslate"><span class="pre">[some.context.example]</span></code>.  The content between the
 square brackets is obtained by converting the <span class="target" id="index-0-variable:CMAKE_MESSAGE_CONTEXT"></span><a class="reference internal" href="../variable/CMAKE_MESSAGE_CONTEXT.html#variable:CMAKE_MESSAGE_CONTEXT" title="CMAKE_MESSAGE_CONTEXT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MESSAGE_CONTEXT</span></code></a>
 list variable to a dot-separated string.  The message context will always
@@ -136,12 +144,16 @@ enabled by giving the <span class="target" id="index-0-manual:cmake(1)"></span><
 command-line option or by setting the <span class="target" id="index-0-variable:CMAKE_MESSAGE_CONTEXT_SHOW"></span><a class="reference internal" href="../variable/CMAKE_MESSAGE_CONTEXT_SHOW.html#variable:CMAKE_MESSAGE_CONTEXT_SHOW" title="CMAKE_MESSAGE_CONTEXT_SHOW"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MESSAGE_CONTEXT_SHOW</span></code></a>
 variable to true.  See the <span class="target" id="index-1-variable:CMAKE_MESSAGE_CONTEXT"></span><a class="reference internal" href="../variable/CMAKE_MESSAGE_CONTEXT.html#variable:CMAKE_MESSAGE_CONTEXT" title="CMAKE_MESSAGE_CONTEXT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MESSAGE_CONTEXT</span></code></a> documentation for
 usage examples.</p>
+</div>
 <p>CMake Warning and Error message text displays using a simple markup
 language.  Non-indented text is formatted in line-wrapped paragraphs
 delimited by newlines.  Indented text is considered pre-formatted.</p>
 </div>
 <div class="section" id="reporting-checks">
 <h2>Reporting checks<a class="headerlink" href="#reporting-checks" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
 <p>A common pattern in CMake output is a message indicating the start of some
 sort of check, followed by another message reporting the result of that check.
 For example:</p>
@@ -275,14 +287,14 @@ indenting to nested checks if desired.  For example:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

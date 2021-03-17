@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindCUDAToolkit &mdash; CMake 3.18.1 Documentation</title>
+  <title>FindCUDAToolkit &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -18,8 +18,8 @@
     <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="FindCURL" href="FindCURL.html" />
-    <link rel="prev" title="FindCups" href="FindCups.html" />
+    <link rel="next" title="FindCups" href="FindCups.html" />
+    <link rel="prev" title="FindCoin3D" href="FindCoin3D.html" />
   
  
 
@@ -31,10 +31,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="FindCURL.html" title="FindCURL"
+          <a href="FindCups.html" title="FindCups"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="FindCups.html" title="FindCups"
+          <a href="FindCoin3D.html" title="FindCoin3D"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,13 +58,18 @@
             
   <div class="section" id="findcudatoolkit">
 <span id="module:FindCUDAToolkit"></span><h1>FindCUDAToolkit<a class="headerlink" href="#findcudatoolkit" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
 <p>This script locates the NVIDIA CUDA toolkit and the associated libraries, but
 does not require the <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language be enabled for a given project. This
 module does not search for the NVIDIA CUDA Samples.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>QNX support.</p>
+</div>
 <div class="section" id="search-behavior">
 <h2>Search Behavior<a class="headerlink" href="#search-behavior" title="Permalink to this headline">¶</a></h2>
-<p>Finding the CUDA Toolkit requires finding the <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> executable, which is
-searched for in the following order:</p>
+<p>The CUDA Toolkit search behavior uses the following order:</p>
 <ol class="arabic">
 <li><p>If the <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language has been enabled we will use the directory
 containing the compiler as the first search location for <code class="docutils literal notranslate"><span class="pre">nvcc</span></code>.</p></li>
@@ -73,14 +78,13 @@ containing the compiler as the first search location for <code class="docutils l
 will be searched.  If both an environment variable <strong>and</strong> a
 configuration variable are specified, the <em>configuration</em> variable takes
 precedence.</p>
-<p>The directory specified here must be such that the executable <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> can be
-found underneath the directory specified by <code class="docutils literal notranslate"><span class="pre">CUDAToolkit_ROOT</span></code>.  If
-<code class="docutils literal notranslate"><span class="pre">CUDAToolkit_ROOT</span></code> is specified, but no <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> is found underneath, this
-package is marked as <strong>not</strong> found.  No subsequent search attempts are
-performed.</p>
+<p>The directory specified here must be such that the executable <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> or
+the appropriate <code class="docutils literal notranslate"><span class="pre">version.txt</span></code> file can be found underneath the specified
+directory.</p>
 </li>
-<li><p>If the CUDA_PATH environment variable is defined, it will be searched.</p></li>
-<li><p>The user’s path is searched for <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> using <span class="target" id="index-0-command:find_program"></span><a class="reference internal" href="../command/find_program.html#command:find_program" title="find_program"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_program()</span></code></a>.  If
+<li><p>If the CUDA_PATH environment variable is defined, it will be searched
+for <code class="docutils literal notranslate"><span class="pre">nvcc</span></code>.</p></li>
+<li><p>The user's path is searched for <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> using <span class="target" id="index-0-command:find_program"></span><a class="reference internal" href="../command/find_program.html#command:find_program" title="find_program"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_program()</span></code></a>.  If
 this is found, no subsequent search attempts are performed.  Users are
 responsible for ensuring that the first <code class="docutils literal notranslate"><span class="pre">nvcc</span></code> to show up in the path is
 the desired path in the event that multiple CUDA Toolkits are installed.</p></li>
@@ -408,11 +412,11 @@ libraries all automatically have this dependency linked.</p>
 </div>
 <div class="section" id="result-variables">
 <span id="cuda-toolkit-curand"></span><h2>Result variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h2>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_FOUND</span></code></dt><dd><p>A boolean specifying whether or not the CUDA Toolkit was found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_VERSION</span></code></dt><dd><p>The exact version of the CUDA Toolkit found (as reported by
-<code class="docutils literal notranslate"><span class="pre">nvcc</span> <span class="pre">--version</span></code>).</p>
+<code class="docutils literal notranslate"><span class="pre">nvcc</span> <span class="pre">--version</span></code> or <code class="docutils literal notranslate"><span class="pre">version.txt</span></code>).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_VERSION_MAJOR</span></code></dt><dd><p>The major version of the CUDA Toolkit.</p>
 </dd>
@@ -429,12 +433,15 @@ required to compile a project linking against CUDA.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_LIBRARY_DIR</span></code></dt><dd><p>The path to the CUDA Toolkit library directory that contains the CUDA
 Runtime library <code class="docutils literal notranslate"><span class="pre">cudart</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_LIBRARY_ROOT</span></code></dt><dd><p>The path to the CUDA Toolkit directory containing the nvvm directory and
+<dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_LIBRARY_ROOT</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>The path to the CUDA Toolkit directory containing the nvvm directory and
 version.txt.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_TARGET_DIR</span></code></dt><dd><p>The path to the CUDA Toolkit directory including the target architecture
-when cross-compiling. When not cross-compiling this will be equivalant to
-<code class="docutils literal notranslate"><span class="pre">CUDAToolkit_ROOT_DIR</span></code>.</p>
+when cross-compiling. When not cross-compiling this will be equivalent to
+the parent directory of <code class="docutils literal notranslate"><span class="pre">CUDAToolkit_BIN_DIR</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_NVCC_EXECUTABLE</span></code></dt><dd><p>The path to the NVIDIA CUDA compiler <code class="docutils literal notranslate"><span class="pre">nvcc</span></code>.  Note that this path may
 <strong>not</strong> be the same as
@@ -484,11 +491,11 @@ modules that depend on this one.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="FindCups.html"
-                        title="previous chapter">FindCups</a></p>
+  <p class="topless"><a href="FindCoin3D.html"
+                        title="previous chapter">FindCoin3D</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="FindCURL.html"
-                        title="next chapter">FindCURL</a></p>
+  <p class="topless"><a href="FindCups.html"
+                        title="next chapter">FindCups</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -517,10 +524,10 @@ modules that depend on this one.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="FindCURL.html" title="FindCURL"
+          <a href="FindCups.html" title="FindCups"
              >next</a> |</li>
         <li class="right" >
-          <a href="FindCups.html" title="FindCups"
+          <a href="FindCoin3D.html" title="FindCoin3D"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -530,14 +537,14 @@ modules that depend on this one.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

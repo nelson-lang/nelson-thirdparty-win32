@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindMPI &mdash; CMake 3.18.1 Documentation</title>
+  <title>FindMPI &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FindODBC" href="FindODBC.html" />
-    <link rel="prev" title="FindMPEG" href="FindMPEG.html" />
+    <link rel="prev" title="FindMPEG2" href="FindMPEG2.html" />
   
  
 
@@ -34,7 +34,7 @@
           <a href="FindODBC.html" title="FindODBC"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="FindMPEG.html" title="FindMPEG"
+          <a href="FindMPEG2.html" title="FindMPEG2"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -63,6 +63,10 @@
 high-performance distributed-memory parallel applications, and is
 typically deployed on a cluster.  MPI is a standard interface (defined
 by the MPI forum) for which many implementations are available.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10: </span>Major overhaul of the module: many new variables, per-language components,
+support for a wider variety of runtimes.</p>
+</div>
 <div class="section" id="variables-for-using-mpi">
 <h2>Variables for using MPI<a class="headerlink" href="#variables-for-using-mpi" title="Permalink to this headline">¶</a></h2>
 <p>The module exposes the components <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">CXX</span></code>, <code class="docutils literal notranslate"><span class="pre">MPICXX</span></code> and <code class="docutils literal notranslate"><span class="pre">Fortran</span></code>.
@@ -99,7 +103,9 @@ simple MPI test programs compile with the provided settings.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">MPI_&lt;lang&gt;_LIBRARIES</span></code></dt><dd><p>All libraries to link MPI programs against.</p>
 </dd>
 </dl>
-<p>Additionally, the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets are defined:</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>Additionally, the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets are defined:</p>
+</div>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">MPI::MPI_&lt;lang&gt;</span></code></dt><dd><p>Target for using MPI from <code class="docutils literal notranslate"><span class="pre">&lt;lang&gt;</span></code>.</p>
 </dd>
@@ -125,7 +131,7 @@ were introduced with MPI-1.2, and therefore cannot be found for older MPI versio
 <dt><code class="docutils literal notranslate"><span class="pre">MPI_&lt;lang&gt;_VERSION</span></code></dt><dd><p>MPI version implemented for <code class="docutils literal notranslate"><span class="pre">&lt;lang&gt;</span></code> by the MPI distribution.</p>
 </dd>
 </dl>
-<p>Note that there’s no variable for the C bindings being accessible through <code class="docutils literal notranslate"><span class="pre">mpi.h</span></code>, since the MPI standards
+<p>Note that there's no variable for the C bindings being accessible through <code class="docutils literal notranslate"><span class="pre">mpi.h</span></code>, since the MPI standards
 always have required this binding to work in both C and C++ code.</p>
 <p>For running MPI programs, the module sets the following variables</p>
 <dl class="simple">
@@ -148,7 +154,7 @@ of processors detected on the host system.</p>
 <ol class="arabic simple">
 <li><p>Search for <code class="docutils literal notranslate"><span class="pre">MPIEXEC_EXECUTABLE</span></code> and, if found, use its base directory.</p></li>
 <li><p>Check if the compiler has MPI support built-in. This is the case if the user passed a
-compiler wrapper as <code class="docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER</span></code> or if they’re on a Cray system.</p></li>
+compiler wrapper as <code class="docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER</span></code> or if they're on a Cray system.</p></li>
 <li><p>Attempt to find an MPI compiler wrapper and determine the compiler information from it.</p></li>
 <li><p>Try to find an MPI implementation that does not ship such a wrapper by guessing settings.
 Currently, only Microsoft MPI and MPICH2 on Windows are supported.</p></li>
@@ -277,8 +283,11 @@ the MPI vendor and for example pick the correct one of multiple third party bina
 </div>
 <div class="section" id="backward-compatibility">
 <h2>Backward Compatibility<a class="headerlink" href="#backward-compatibility" title="Permalink to this headline">¶</a></h2>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.10.</span></p>
+</div>
 <p>For backward compatibility with older versions of FindMPI, these
-variables are set, but deprecated:</p>
+variables are set:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>MPI_COMPILER        MPI_LIBRARY        MPI_EXTRA_LIBRARY
 MPI_COMPILE_FLAGS   MPI_INCLUDE_PATH   MPI_LINK_FLAGS
 MPI_LIBRARIES
@@ -317,8 +326,8 @@ Additionally, the following variables are deprecated:</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="FindMPEG.html"
-                        title="previous chapter">FindMPEG</a></p>
+  <p class="topless"><a href="FindMPEG2.html"
+                        title="previous chapter">FindMPEG2</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="FindODBC.html"
                         title="next chapter">FindODBC</a></p>
@@ -353,7 +362,7 @@ Additionally, the following variables are deprecated:</p>
           <a href="FindODBC.html" title="FindODBC"
              >next</a> |</li>
         <li class="right" >
-          <a href="FindMPEG.html" title="FindMPEG"
+          <a href="FindMPEG2.html" title="FindMPEG2"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -363,14 +372,14 @@ Additionally, the following variables are deprecated:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

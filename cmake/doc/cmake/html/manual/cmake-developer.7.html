@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>cmake-developer(7) &mdash; CMake 3.18.1 Documentation</title>
+  <title>cmake-developer(7) &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -84,14 +84,13 @@ in turn link to developer guides for CMake itself.</p>
 </div>
 <div class="section" id="find-modules">
 <span id="id1"></span><h2><a class="toc-backref" href="#id4">Find Modules</a><a class="headerlink" href="#find-modules" title="Permalink to this headline">¶</a></h2>
-<p>A “find module” is a <code class="docutils literal notranslate"><span class="pre">Find&lt;PackageName&gt;.cmake</span></code> file to be loaded
-by the <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command when invoked for <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;</span></code>.</p>
-<p>The primary task of a find module is to determine whether a package
-exists on the system, set the <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_FOUND</span></code> variable to reflect
-this and provide any variables, macros and imported targets required to
-use the package.  A find module is useful in cases where an upstream
-library does not provide a
-<a class="reference internal" href="cmake-packages.7.html#config-file-packages"><span class="std std-ref">config file package</span></a>.</p>
+<p>A &quot;find module&quot; is a <code class="docutils literal notranslate"><span class="pre">Find&lt;PackageName&gt;.cmake</span></code> file to be loaded by the
+<span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command when invoked for <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;</span></code>.</p>
+<p>The primary task of a find module is to determine whether a package is
+available, set the <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_FOUND</span></code> variable to reflect this and
+provide any variables, macros and imported targets required to use the
+package.  A find module is useful in cases where an upstream library does
+not provide a <a class="reference internal" href="cmake-packages.7.html#config-file-packages"><span class="std std-ref">config file package</span></a>.</p>
 <p>The traditional approach is to use variables for everything, including
 libraries and executables: see the <a class="reference internal" href="#standard-variable-names">Standard Variable Names</a> section
 below.  This is what most of the existing find modules provided by CMake
@@ -138,43 +137,80 @@ variables starting with underscore are for temporary use only.</p>
 <p>For a <code class="docutils literal notranslate"><span class="pre">FindXxx.cmake</span></code> module that takes the approach of setting
 variables (either instead of or in addition to creating imported
 targets), the following variable names should be used to keep things
-consistent between find modules.  Note that all variables start with
-<code class="docutils literal notranslate"><span class="pre">Xxx_</span></code> to make sure they do not interfere with other find modules; the
-same consideration applies to macros, functions and imported targets.</p>
+consistent between Find modules.  Note that all variables start with
+<code class="docutils literal notranslate"><span class="pre">Xxx_</span></code>, which (unless otherwise noted) must match exactly the name
+of the <code class="docutils literal notranslate"><span class="pre">FindXxx.cmake</span></code> file, including upper/lowercase.
+This prefix on the variable names ensures that they do not conflict with
+variables of other Find modules.  The same pattern should also be followed
+for any macros, functions and imported targets defined by the Find module.</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_INCLUDE_DIRS</span></code></dt><dd><p>The final set of include directories listed in one variable for use by
-client code.  This should not be a cache entry.</p>
+client code. This should not be a cache entry (note that this also means
+this variable should not be used as the result variable of a
+<span class="target" id="index-0-command:find_path"></span><a class="reference internal" href="../command/find_path.html#command:find_path" title="find_path"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_path()</span></code></a> command - see <code class="docutils literal notranslate"><span class="pre">Xxx_INCLUDE_DIR</span></code> below for that).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARIES</span></code></dt><dd><p>The libraries to link against to use Xxx. These should include full
-paths.  This should not be a cache entry.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARIES</span></code></dt><dd><p>The libraries to use with the module.  These may be CMake targets, full
+absolute paths to a library binary or the name of a library that the
+linker must find in its search path.  This should not be a cache entry
+(note that this also means this variable should not be used as the
+result variable of a <span class="target" id="index-0-command:find_library"></span><a class="reference internal" href="../command/find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a> command - see
+<code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARY</span></code> below for that).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_DEFINITIONS</span></code></dt><dd><p>Definitions to use when compiling code that uses Xxx. This really
-shouldn’t include options such as <code class="docutils literal notranslate"><span class="pre">-DHAS_JPEG</span></code> that a client
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_DEFINITIONS</span></code></dt><dd><p>The compile definitions to use when compiling code that uses the module.
+This really shouldn't include options such as <code class="docutils literal notranslate"><span class="pre">-DHAS_JPEG</span></code> that a client
 source-code file uses to decide whether to <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;jpeg.h&gt;</span></code></p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_EXECUTABLE</span></code></dt><dd><p>Where to find the Xxx tool.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_EXECUTABLE</span></code></dt><dd><p>The full absolute path to an executable.  In this case, <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> might not
+be the name of the module, it might be the name of the tool (usually
+converted to all uppercase), assuming that tool has such a well-known name
+that it is unlikely that another tool with the same name exists.  It would
+be appropriate to use this as the result variable of a
+<span class="target" id="index-0-command:find_program"></span><a class="reference internal" href="../command/find_program.html#command:find_program" title="find_program"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_program()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yyy_EXECUTABLE</span></code></dt><dd><p>Where to find the Yyy tool that comes with Xxx.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_YYY_EXECUTABLE</span></code></dt><dd><p>Similar to <code class="docutils literal notranslate"><span class="pre">Xxx_EXECUTABLE</span></code> except here the <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> is always the module
+name and <code class="docutils literal notranslate"><span class="pre">YYY</span></code> is the tool name (again, usually fully uppercase).
+Prefer this form if the tool name is not very widely known or has the
+potential  to clash with another tool.  For greater consistency, also
+prefer this form if the module provides more than one executable.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARY_DIRS</span></code></dt><dd><p>Optionally, the final set of library directories listed in one
-variable for use by client code.  This should not be a cache entry.</p>
+variable for use by client code. This should not be a cache entry.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_ROOT_DIR</span></code></dt><dd><p>Where to find the base directory of Xxx.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_ROOT_DIR</span></code></dt><dd><p>Where to find the base directory of the module.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_Yy</span></code></dt><dd><p>Expect Version Yy if true. Make sure at most one of these is ever true.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_VV</span></code></dt><dd><p>Variables of this form specify whether the <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> module being provided
+is version <code class="docutils literal notranslate"><span class="pre">VV</span></code> of the module.  There should not be more than one
+variable of this form set to true for a given module.  For example, a
+module <code class="docutils literal notranslate"><span class="pre">Barry</span></code> might have evolved over many years and gone through a
+number of different major versions.  Version 3 of the <code class="docutils literal notranslate"><span class="pre">Barry</span></code> module
+might set the variable <code class="docutils literal notranslate"><span class="pre">Barry_VERSION_3</span></code> to true, whereas an older
+version of the module might set <code class="docutils literal notranslate"><span class="pre">Barry_VERSION_2</span></code> to true instead.
+It would be an error for both <code class="docutils literal notranslate"><span class="pre">Barry_VERSION_3</span></code> and <code class="docutils literal notranslate"><span class="pre">Barry_VERSION_2</span></code>
+to both be set to true.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_WRAP_Yy</span></code></dt><dd><p>If False, do not try to use the relevant CMake wrapping command.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_WRAP_YY</span></code></dt><dd><p>When a variable of this form is set to false, it indicates that the
+relevant wrapping command should not be used.  The wrapping command
+depends on the module, it may be implied by the module name or it might
+be specified by the <code class="docutils literal notranslate"><span class="pre">YY</span></code> part of the variable.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yy_FOUND</span></code></dt><dd><p>If False, optional Yy part of Xxx system is not available.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yy_FOUND</span></code></dt><dd><p>For variables of this form, <code class="docutils literal notranslate"><span class="pre">Yy</span></code> is the name of a component for the
+module.  It should match exactly one of the valid component names that
+may be passed to the <span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command for the module.
+If a variable of this form is set to false, it means that the <code class="docutils literal notranslate"><span class="pre">Yy</span></code>
+component of module <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> was not found or is not available.
+Variables of this form would typically be used for optional components
+so that the caller can check whether an optional component is available.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_FOUND</span></code></dt><dd><p>Set to false, or undefined, if we haven’t found, or don’t want to use
-Xxx.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_FOUND</span></code></dt><dd><p>When the <span class="target" id="index-3-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command returns to the caller, this
+variable will be set to true if the module was deemed to have been found
+successfully.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_NOT_FOUND_MESSAGE</span></code></dt><dd><p>Should be set by config-files in the case that it has set
 <code class="docutils literal notranslate"><span class="pre">Xxx_FOUND</span></code> to FALSE.  The contained message will be printed by the
-<span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command and by
-<code class="docutils literal notranslate"><span class="pre">find_package_handle_standard_args()</span></code> to inform the user about the
-problem.</p>
+<span class="target" id="index-4-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command and by
+<span class="target" id="index-0-command:find_package_handle_standard_args"></span><a class="reference internal" href="../module/FindPackageHandleStandardArgs.html#command:find_package_handle_standard_args" title="find_package_handle_standard_args"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package_handle_standard_args()</span></code></a> to inform the user about the
+problem.  Use this instead of calling <span class="target" id="index-0-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message()</span></code></a> directly to
+report a reason for failing to find the module or package.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_RUNTIME_LIBRARY_DIRS</span></code></dt><dd><p>Optionally, the runtime library search path for use when running an
 executable linked to shared libraries.  The list should be used by
@@ -191,19 +227,32 @@ existing modules provide <code class="docutils literal notranslate"><span class=
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_PATCH</span></code></dt><dd><p>The patch version of the package found, if any.</p>
 </dd>
 </dl>
-<p>The following names should not usually be used in CMakeLists.txt files, but
-are typically cache variables for users to edit and control the
-behaviour of find modules (like entering the path to a library manually)</p>
+<p>The following names should not usually be used in <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files.
+They are intended for use by Find modules to specify and cache the locations
+of specific files or directories.  Users are typically able to set and edit
+these variables to control the behavior of Find modules (like entering the
+path to a library manually):</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARY</span></code></dt><dd><p>The path of the Xxx library (as used with <span class="target" id="index-0-command:find_library"></span><a class="reference internal" href="../command/find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a>, for
-example).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARY</span></code></dt><dd><p>The path of the library.  Use this form only when the module provides a
+single library.  It is appropriate to use this as the result variable
+in a <span class="target" id="index-1-command:find_library"></span><a class="reference internal" href="../command/find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yy_LIBRARY</span></code></dt><dd><p>The path of the Yy library that is part of the Xxx system. It may or
-may not be required to use Xxx.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yy_LIBRARY</span></code></dt><dd><p>The path of library <code class="docutils literal notranslate"><span class="pre">Yy</span></code> provided by the module <code class="docutils literal notranslate"><span class="pre">Xxx</span></code>.  Use this form
+when the module provides more than one library or where other modules may
+also provide a library of the same name. It is also appropriate to use
+this form as the result variable in a <span class="target" id="index-2-command:find_library"></span><a class="reference internal" href="../command/find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_INCLUDE_DIR</span></code></dt><dd><p>Where to find headers for using the Xxx library.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_INCLUDE_DIR</span></code></dt><dd><p>When the module provides only a single library, this variable can be used
+to specify where to find headers for using the library (or more accurately,
+the path that consumers of the library should add to their header search
+path).  It would be appropriate to use this as the result variable in a
+<span class="target" id="index-1-command:find_path"></span><a class="reference internal" href="../command/find_path.html#command:find_path" title="find_path"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_path()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yy_INCLUDE_DIR</span></code></dt><dd><p>Where to find headers for using the Yy library of the Xxx system.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_Yy_INCLUDE_DIR</span></code></dt><dd><p>If the module provides more than one library or where other modules may
+also provide a library of the same name, this form is recommended for
+specifying where to find headers for using library <code class="docutils literal notranslate"><span class="pre">Yy</span></code> provided by
+the module.  Again, it would be appropriate to use this as the result
+variable in a <span class="target" id="index-2-command:find_path"></span><a class="reference internal" href="../command/find_path.html#command:find_path" title="find_path"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_path()</span></code></a> command.</p>
 </dd>
 </dl>
 <p>To prevent users being overwhelmed with settings to configure, try to
@@ -213,7 +262,8 @@ not-found library (e.g. <code class="docutils literal notranslate"><span class="
 most cache options as advanced.  For packages which provide both debug
 and release binaries, it is common to create cache variables with a
 <code class="docutils literal notranslate"><span class="pre">_LIBRARY_&lt;CONFIG&gt;</span></code> suffix, such as <code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY_RELEASE</span></code> and
-<code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY_DEBUG</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY_DEBUG</span></code>.  The <span class="target" id="index-0-module:SelectLibraryConfigurations"></span><a class="reference internal" href="../module/SelectLibraryConfigurations.html#module:SelectLibraryConfigurations" title="SelectLibraryConfigurations"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">SelectLibraryConfigurations</span></code></a> module
+can be helpful for such cases.</p>
 <p>While these are the standard variable names, you should provide
 backwards compatibility for any old names that were actually in use.
 Make sure you comment them as deprecated, so that no-one starts using
@@ -334,7 +384,7 @@ rest of the work for us</p>
 <p>This will check that the <code class="docutils literal notranslate"><span class="pre">REQUIRED_VARS</span></code> contain values (that do not
 end in <code class="docutils literal notranslate"><span class="pre">-NOTFOUND</span></code>) and set <code class="docutils literal notranslate"><span class="pre">Foo_FOUND</span></code> appropriately.  It will also
 cache those values.  If <code class="docutils literal notranslate"><span class="pre">Foo_VERSION</span></code> is set, and a required version
-was passed to <span class="target" id="index-3-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>, it will check the requested version
+was passed to <span class="target" id="index-5-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>, it will check the requested version
 against the one in <code class="docutils literal notranslate"><span class="pre">Foo_VERSION</span></code>.  It will also print messages as
 appropriate; note that if the package was found, it will print the
 contents of the first required variable to indicate where it was found.</p>
@@ -494,13 +544,13 @@ to cause the least disruption possible.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

@@ -1,2 +1,2 @@
-CMake 3.18.1
+CMake 3.20 rc-4
 https://cmake.org/download/

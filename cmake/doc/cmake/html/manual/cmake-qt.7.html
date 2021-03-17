@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>cmake-qt(7) &mdash; CMake 3.18.1 Documentation</title>
+  <title>cmake-qt(7) &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -81,7 +81,7 @@
 <h2><a class="toc-backref" href="#id2">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>CMake can find and use Qt 4 and Qt 5 libraries.  The Qt 4 libraries are found
 by the <span class="target" id="index-0-module:FindQt4"></span><a class="reference internal" href="../module/FindQt4.html#module:FindQt4" title="FindQt4"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindQt4</span></code></a> find-module shipped with CMake, whereas the
-Qt 5 libraries are found using “Config-file Packages” shipped with Qt 5. See
+Qt 5 libraries are found using &quot;Config-file Packages&quot; shipped with Qt 5. See
 <span class="target" id="index-0-manual:cmake-packages(7)"></span><a class="reference internal" href="cmake-packages.7.html#manual:cmake-packages(7)" title="cmake-packages(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-packages(7)</span></code></a> for more information about CMake packages, and
 see <a class="reference external" href="http://qt-project.org/doc/qt-5/cmake-manual.html">the Qt cmake manual</a>
 for your Qt version.</p>
@@ -113,7 +113,7 @@ and <code class="docutils literal notranslate"><span class="pre">rcc</span></cod
 automatically invoked by <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> if the appropriate conditions
 are met.  The automatic tool invocation may be used with both Qt 4 and Qt 5.</p>
 <div class="section" id="automoc">
-<h3><a class="toc-backref" href="#id4">AUTOMOC</a><a class="headerlink" href="#automoc" title="Permalink to this headline">¶</a></h3>
+<span id="qt-automoc"></span><h3><a class="toc-backref" href="#id4">AUTOMOC</a><a class="headerlink" href="#automoc" title="Permalink to this headline">¶</a></h3>
 <p>The <span class="target" id="index-0-prop_tgt:AUTOMOC"></span><a class="reference internal" href="../prop_tgt/AUTOMOC.html#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> target property controls whether <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a>
 inspects the C++ files in the target to determine if they require <code class="docutils literal notranslate"><span class="pre">moc</span></code> to
 be run, and to create rules to execute <code class="docutils literal notranslate"><span class="pre">moc</span></code> at the appropriate time.</p>
@@ -127,7 +127,7 @@ be included by the user in the C++ implementation file with a preprocessor
 <code class="docutils literal notranslate"><span class="pre">#include</span></code>.</p>
 <p>Included <code class="docutils literal notranslate"><span class="pre">moc_*.cpp</span></code> and <code class="docutils literal notranslate"><span class="pre">*.moc</span></code> files will be generated in the
 <code class="docutils literal notranslate"><span class="pre">&lt;AUTOGEN_BUILD_DIR&gt;/include</span></code> directory which is
-automatically added to the target’s <span class="target" id="index-0-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>.</p>
+automatically added to the target's <span class="target" id="index-0-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>.</p>
 <ul class="simple">
 <li><p>This differs from CMake 3.7 and below; see their documentation for details.</p></li>
 <li><p>For <span class="target" id="index-0-prop_gbl:GENERATOR_IS_MULTI_CONFIG"></span><a class="reference internal" href="../prop_gbl/GENERATOR_IS_MULTI_CONFIG.html#prop_gbl:GENERATOR_IS_MULTI_CONFIG" title="GENERATOR_IS_MULTI_CONFIG"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">multi</span> <span class="pre">configuration</span> <span class="pre">generators</span></code></a>,
@@ -136,8 +136,9 @@ the include directory is <code class="docutils literal notranslate"><span class=
 </ul>
 <p>Not included <code class="docutils literal notranslate"><span class="pre">moc_&lt;basename&gt;.cpp</span></code> files will be generated in custom
 folders to avoid name collisions and included in a separate
-<code class="docutils literal notranslate"><span class="pre">&lt;AUTOGEN_BUILD_DIR&gt;/mocs_compilation.cpp</span></code> file which is compiled
-into the target.</p>
+file which is compiled into the target, named either
+<code class="docutils literal notranslate"><span class="pre">&lt;AUTOGEN_BUILD_DIR&gt;/mocs_compilation.cpp</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&lt;AUTOGEN_BUILD_DIR&gt;/mocs_compilation_$&lt;CONFIG&gt;.cpp</span></code>.</p>
 <ul class="simple">
 <li><p>See <span class="target" id="index-1-prop_tgt:AUTOGEN_BUILD_DIR"></span><a class="reference internal" href="../prop_tgt/AUTOGEN_BUILD_DIR.html#prop_tgt:AUTOGEN_BUILD_DIR" title="AUTOGEN_BUILD_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOGEN_BUILD_DIR</span></code></a>.</p></li>
 </ul>
@@ -175,7 +176,7 @@ The <code class="docutils literal notranslate"><span class="pre">&lt;basename&gt
 <span class="target" id="index-0-prop_tgt:AUTOUIC_SEARCH_PATHS"></span><a class="reference internal" href="../prop_tgt/AUTOUIC_SEARCH_PATHS.html#prop_tgt:AUTOUIC_SEARCH_PATHS" title="AUTOUIC_SEARCH_PATHS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOUIC_SEARCH_PATHS</span></code></a> is a list of additional search paths.</p>
 <p>The generated generated <code class="docutils literal notranslate"><span class="pre">ui_*.h</span></code> files are placed in the
 <code class="docutils literal notranslate"><span class="pre">&lt;AUTOGEN_BUILD_DIR&gt;/include</span></code> directory which is
-automatically added to the target’s <span class="target" id="index-2-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>.</p>
+automatically added to the target's <span class="target" id="index-2-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>.</p>
 <ul class="simple">
 <li><p>This differs from CMake 3.7 and below; see their documentation for details.</p></li>
 <li><p>For <span class="target" id="index-1-prop_gbl:GENERATOR_IS_MULTI_CONFIG"></span><a class="reference internal" href="../prop_gbl/GENERATOR_IS_MULTI_CONFIG.html#prop_gbl:GENERATOR_IS_MULTI_CONFIG" title="GENERATOR_IS_MULTI_CONFIG"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">multi</span> <span class="pre">configuration</span> <span class="pre">generators</span></code></a>,
@@ -263,11 +264,11 @@ them to the <span class="target" id="index-0-prop_tgt:AUTOGEN_TARGET_DEPENDS"></
 generates a <code class="docutils literal notranslate"><span class="pre">PRE_BUILD</span></code> <span class="target" id="index-0-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">custom</span> <span class="pre">command</span></code></a>
 instead of the <code class="docutils literal notranslate"><span class="pre">&lt;ORIGIN&gt;_autogen</span></code> <span class="target" id="index-1-command:add_custom_target"></span><a class="reference internal" href="../command/add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">custom</span> <span class="pre">target</span></code></a>
 (for <span class="target" id="index-3-prop_tgt:AUTOMOC"></span><a class="reference internal" href="../prop_tgt/AUTOMOC.html#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> and <span class="target" id="index-4-prop_tgt:AUTOUIC"></span><a class="reference internal" href="../prop_tgt/AUTOUIC.html#prop_tgt:AUTOUIC" title="AUTOUIC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOUIC</span></code></a>).
-This isn’t always possible though and
+This isn't always possible though and
 an <code class="docutils literal notranslate"><span class="pre">&lt;ORIGIN&gt;_autogen</span></code> <span class="target" id="index-2-command:add_custom_target"></span><a class="reference internal" href="../command/add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">custom</span> <span class="pre">target</span></code></a> is used,
 when either</p>
 <ul class="simple">
-<li><p>the <code class="docutils literal notranslate"><span class="pre">&lt;ORIGIN&gt;</span></code> target depends on <span class="target" id="index-0-prop_sf:GENERATED"></span><a class="reference internal" href="../prop_sf/GENERATED.html#prop_sf:GENERATED" title="GENERATED"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">GENERATED</span></code></a> files which aren’t
+<li><p>the <code class="docutils literal notranslate"><span class="pre">&lt;ORIGIN&gt;</span></code> target depends on <span class="target" id="index-0-prop_sf:GENERATED"></span><a class="reference internal" href="../prop_sf/GENERATED.html#prop_sf:GENERATED" title="GENERATED"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">GENERATED</span></code></a> files which aren't
 excluded from <span class="target" id="index-4-prop_tgt:AUTOMOC"></span><a class="reference internal" href="../prop_tgt/AUTOMOC.html#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> and <span class="target" id="index-5-prop_tgt:AUTOUIC"></span><a class="reference internal" href="../prop_tgt/AUTOUIC.html#prop_tgt:AUTOUIC" title="AUTOUIC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOUIC</span></code></a> by
 <span class="target" id="index-1-prop_sf:SKIP_AUTOMOC"></span><a class="reference internal" href="../prop_sf/SKIP_AUTOMOC.html#prop_sf:SKIP_AUTOMOC" title="SKIP_AUTOMOC"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOMOC</span></code></a>, <span class="target" id="index-1-prop_sf:SKIP_AUTOUIC"></span><a class="reference internal" href="../prop_sf/SKIP_AUTOUIC.html#prop_sf:SKIP_AUTOUIC" title="SKIP_AUTOUIC"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOUIC</span></code></a>, <span class="target" id="index-3-prop_sf:SKIP_AUTOGEN"></span><a class="reference internal" href="../prop_sf/SKIP_AUTOGEN.html#prop_sf:SKIP_AUTOGEN" title="SKIP_AUTOGEN"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOGEN</span></code></a>
 or <span class="target" id="index-0-policy:CMP0071"></span><a class="reference internal" href="../policy/CMP0071.html#policy:CMP0071" title="CMP0071"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0071</span></code></a></p></li>
@@ -364,13 +365,13 @@ targets.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

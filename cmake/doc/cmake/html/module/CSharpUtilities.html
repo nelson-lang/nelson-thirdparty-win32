@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CSharpUtilities &mdash; CMake 3.18.1 Documentation</title>
+  <title>CSharpUtilities &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CTest" href="CTest.html" />
-    <link rel="prev" title="CPack" href="CPack.html" />
+    <link rel="prev" title="CPackIFWConfigureFile" href="CPackIFWConfigureFile.html" />
   
  
 
@@ -34,7 +34,7 @@
           <a href="CTest.html" title="CTest"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="CPack.html" title="CPack"
+          <a href="CPackIFWConfigureFile.html" title="CPackIFWConfigureFile"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="csharputilities">
 <span id="module:CSharpUtilities"></span><h1>CSharpUtilities<a class="headerlink" href="#csharputilities" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
 <p>Functions to make configuration of CSharp/.NET targets easier.</p>
 <p>A collection of CMake utility functions useful for dealing with CSharp
 targets for Visual Studio generators from version 2010 and later.</p>
@@ -96,19 +99,19 @@ same base name but only <code class="docutils literal notranslate"><span class="
 <span class="target" id="index-1-prop_sf:VS_CSHARP_&lt;tagname&gt;"></span><a class="reference internal" href="../prop_sf/VS_CSHARP_tagname.html#prop_sf:VS_CSHARP_&lt;tagname&gt;" title="VS_CSHARP_&lt;tagname&gt;"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">VS_CSHARP_&lt;tagname&gt;</span></code></a> properties are set as follows:</p>
 <dl class="simple">
 <dt>for the <strong>.cs</strong> file:</dt><dd><ul class="simple">
-<li><p>VS_CSHARP_SubType “Form”</p></li>
+<li><p>VS_CSHARP_SubType &quot;Form&quot;</p></li>
 </ul>
 </dd>
 <dt>for the <strong>.Designer.cs</strong> file (if it exists):</dt><dd><ul class="simple">
 <li><p>VS_CSHARP_DependentUpon &lt;cs-filename&gt;</p></li>
-<li><p>VS_CSHARP_DesignTime “” (delete tag if previously defined)</p></li>
-<li><p>VS_CSHARP_AutoGen “”(delete tag if previously defined)</p></li>
+<li><p>VS_CSHARP_DesignTime &quot;&quot; (delete tag if previously defined)</p></li>
+<li><p>VS_CSHARP_AutoGen &quot;&quot;(delete tag if previously defined)</p></li>
 </ul>
 </dd>
 <dt>for the <strong>.resx</strong> file (if it exists):</dt><dd><ul class="simple">
-<li><p>VS_RESOURCE_GENERATOR “” (delete tag if previously defined)</p></li>
+<li><p>VS_RESOURCE_GENERATOR &quot;&quot; (delete tag if previously defined)</p></li>
 <li><p>VS_CSHARP_DependentUpon &lt;cs-filename&gt;</p></li>
-<li><p>VS_CSHARP_SubType “Designer”</p></li>
+<li><p>VS_CSHARP_SubType &quot;Designer&quot;</p></li>
 </ul>
 </dd>
 </dl>
@@ -137,8 +140,8 @@ a match is found, the source file properties of the <em>designer</em> file
 are set depending on the extension of the matched file:</p>
 <dl class="simple">
 <dt>if match is <strong>.resx</strong> file:</dt><dd><ul class="simple">
-<li><p>VS_CSHARP_AutoGen “True”</p></li>
-<li><p>VS_CSHARP_DesignTime “True”</p></li>
+<li><p>VS_CSHARP_AutoGen &quot;True&quot;</p></li>
+<li><p>VS_CSHARP_DesignTime &quot;True&quot;</p></li>
 <li><p>VS_CSHARP_DependentUpon &lt;resx-filename&gt;</p></li>
 </ul>
 </dd>
@@ -147,8 +150,8 @@ are set depending on the extension of the matched file:</p>
 </ul>
 </dd>
 <dt>if match is <strong>.settings</strong> file:</dt><dd><ul class="simple">
-<li><p>VS_CSHARP_AutoGen “True”</p></li>
-<li><p>VS_CSHARP_DesignTimeSharedInput “True”</p></li>
+<li><p>VS_CSHARP_AutoGen &quot;True&quot;</p></li>
+<li><p>VS_CSHARP_DesignTimeSharedInput &quot;True&quot;</p></li>
 <li><p>VS_CSHARP_DependentUpon &lt;settings-filename&gt;</p></li>
 </ul>
 </dd>
@@ -234,7 +237,7 @@ the value of KEY without the file extension is returned:</p>
 </pre></div>
 </div>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">BASE</span></code></dt><dd><p>Name of the variable with the computed “base” of <code class="docutils literal notranslate"><span class="pre">KEY</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">BASE</span></code></dt><dd><p>Name of the variable with the computed &quot;base&quot; of <code class="docutils literal notranslate"><span class="pre">KEY</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">KEY</span></code></dt><dd><p>The key of which the base will be computed. Expected to be a
 upper case full filename.</p>
@@ -278,8 +281,8 @@ upper case full filename.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="CPack.html"
-                        title="previous chapter">CPack</a></p>
+  <p class="topless"><a href="CPackIFWConfigureFile.html"
+                        title="previous chapter">CPackIFWConfigureFile</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="CTest.html"
                         title="next chapter">CTest</a></p>
@@ -314,7 +317,7 @@ upper case full filename.</p>
           <a href="CTest.html" title="CTest"
              >next</a> |</li>
         <li class="right" >
-          <a href="CPack.html" title="CPack"
+          <a href="CPackIFWConfigureFile.html" title="CPackIFWConfigureFile"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -324,14 +327,14 @@ upper case full filename.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

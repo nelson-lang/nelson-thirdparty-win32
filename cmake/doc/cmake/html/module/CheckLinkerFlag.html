@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CheckLinkerFlag &mdash; CMake 3.18.1 Documentation</title>
+  <title>CheckLinkerFlag &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="checklinkerflag">
 <span id="module:CheckLinkerFlag"></span><h1>CheckLinkerFlag<a class="headerlink" href="#checklinkerflag" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
 <p>Check whether the compiler supports a given link flag.</p>
 <dl class="command">
 <dt id="command:check_linker_flag">
@@ -70,14 +73,11 @@
 <p>Check that the link <code class="docutils literal notranslate"><span class="pre">&lt;flag&gt;</span></code> is accepted by the <code class="docutils literal notranslate"><span class="pre">&lt;lang&gt;</span></code> compiler without
 a diagnostic.  Stores the result in an internal cache entry named <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code>.</p>
 <p>This command temporarily sets the <code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_LINK_OPTIONS</span></code> variable
-and calls the <code class="docutils literal notranslate"><span class="pre">check_&lt;lang&gt;_source_compiles</span></code> macro from the
-<code class="docutils literal notranslate"><span class="pre">Check&lt;lang&gt;SourceCompiles</span></code> module (<span class="target" id="index-0-module:CheckCSourceCompiles"></span><a class="reference internal" href="CheckCSourceCompiles.html#module:CheckCSourceCompiles" title="CheckCSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckCSourceCompiles</span></code></a>,
-<span class="target" id="index-1-module:CheckCSourceCompiles"></span><a class="reference internal" href="CheckCSourceCompiles.html#module:CheckCSourceCompiles" title="CheckCSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckCSourceCompiles</span></code></a>, <span class="target" id="index-0-module:CheckCXXSourceCompiles"></span><a class="reference internal" href="CheckCXXSourceCompiles.html#module:CheckCXXSourceCompiles" title="CheckCXXSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckCXXSourceCompiles</span></code></a>,
-<span class="target" id="index-0-module:CheckOBJCSourceCompiles"></span><a class="reference internal" href="CheckOBJCSourceCompiles.html#module:CheckOBJCSourceCompiles" title="CheckOBJCSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckOBJCSourceCompiles</span></code></a>, <span class="target" id="index-0-module:CheckOBJCXXSourceCompiles"></span><a class="reference internal" href="CheckOBJCXXSourceCompiles.html#module:CheckOBJCXXSourceCompiles" title="CheckOBJCXXSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckOBJCXXSourceCompiles</span></code></a> or
-<span class="target" id="index-0-module:CheckFortranSourceCompiles"></span><a class="reference internal" href="CheckFortranSourceCompiles.html#module:CheckFortranSourceCompiles" title="CheckFortranSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckFortranSourceCompiles</span></code></a>).  See documentation of these
-modules for a listing of variables that can otherwise modify the build.</p>
-<p>The underlying implementation rely on <span class="target" id="index-0-prop_tgt:LINK_OPTIONS"></span><a class="reference internal" href="../prop_tgt/LINK_OPTIONS.html#prop_tgt:LINK_OPTIONS" title="LINK_OPTIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINK_OPTIONS</span></code></a> property to
-check the specified flag. The <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix, as described in
+and calls the <span class="target" id="index-0-command:check_source_compiles"></span><a class="reference internal" href="CheckSourceCompiles.html#command:check_source_compiles" title="check_source_compiles"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">check_source_compiles()</span></code></a> command from the
+<span class="target" id="index-0-module:CheckSourceCompiles"></span><a class="reference internal" href="CheckSourceCompiles.html#module:CheckSourceCompiles" title="CheckSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckSourceCompiles</span></code></a> module.  See that module's documentation
+for a listing of variables that can otherwise modify the build.</p>
+<p>The underlying implementation relies on the <span class="target" id="index-0-prop_tgt:LINK_OPTIONS"></span><a class="reference internal" href="../prop_tgt/LINK_OPTIONS.html#prop_tgt:LINK_OPTIONS" title="LINK_OPTIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINK_OPTIONS</span></code></a> property
+to check the specified flag. The <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix, as described in the
 <span class="target" id="index-0-command:target_link_options"></span><a class="reference internal" href="../command/target_link_options.html#command:target_link_options" title="target_link_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_options()</span></code></a> command, can be used as well.</p>
 <p>A positive result from this check indicates only that the compiler did not
 issue a diagnostic message when given the link flag.  Whether the flag has any
@@ -143,14 +143,14 @@ cause a false negative for this check.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

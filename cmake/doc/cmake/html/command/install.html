@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>install &mdash; CMake 3.18.1 Documentation</title>
+  <title>install &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -72,10 +72,13 @@ install(<a class="reference internal" href="#export">EXPORT</a> &lt;export-name&
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>This command generates installation rules for a project.  Install rules
 specified by calls to the <code class="docutils literal notranslate"><span class="pre">install()</span></code> command within a source directory
-are executed in order during installation.  Install rules in subdirectories
+are executed in order during installation.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.14: </span>Install rules in subdirectories
 added by calls to the <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command are interleaved
 with those in the parent directory to run in the order declared (see
 policy <span class="target" id="index-0-policy:CMP0082"></span><a class="reference internal" href="../policy/CMP0082.html#policy:CMP0082" title="CMP0082"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0082</span></code></a>).</p>
+</div>
 <p>There are multiple signatures for this command.  Some of them define
 installation options for files and targets.  Options common to
 multiple signatures are covered here but they are valid only for
@@ -91,7 +94,10 @@ documentation.</p>
 <p>If an absolute path (with a leading slash or drive letter) is given
 it is used verbatim.</p>
 <p>As absolute paths are not supported by <span class="target" id="index-0-manual:cpack(1)"></span><a class="reference internal" href="../manual/cpack.1.html#manual:cpack(1)" title="cpack(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack</span></code></a> installer
-generators, it is preferable to use relative paths throughout.</p>
+generators, it is preferable to use relative paths throughout.
+In particular, there is no need to make paths absolute by prepending
+<span class="target" id="index-2-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>; this prefix is used by default if
+the DESTINATION is a relative path.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">PERMISSIONS</span></code></dt><dd><p>Specify permissions for installed files.  Valid permissions are
 <code class="docutils literal notranslate"><span class="pre">OWNER_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">OWNER_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">OWNER_EXECUTE</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP_READ</span></code>,
@@ -115,15 +121,18 @@ Release configurations, do the following:</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">CONFIGURATIONS</span></code> appears BEFORE <code class="docutils literal notranslate"><span class="pre">RUNTIME</span> <span class="pre">DESTINATION</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code></dt><dd><p>Specify an installation component name with which the install rule
-is associated, such as “runtime” or “development”.  During
+is associated, such as &quot;runtime&quot; or &quot;development&quot;.  During
 component-specific installation only install rules associated with
 the given component name will be executed.  During a full installation
 all components are installed unless marked with <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code>.
-If <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code> is not provided a default component “Unspecified” is
+If <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code> is not provided a default component &quot;Unspecified&quot; is
 created.  The default component name may be controlled with the
 <span class="target" id="index-0-variable:CMAKE_INSTALL_DEFAULT_COMPONENT_NAME"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_DEFAULT_COMPONENT_NAME.html#variable:CMAKE_INSTALL_DEFAULT_COMPONENT_NAME" title="CMAKE_INSTALL_DEFAULT_COMPONENT_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_DEFAULT_COMPONENT_NAME</span></code></a> variable.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></dt><dd><p>Specify that the file is excluded from a full installation and only
+<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Specify that the file is excluded from a full installation and only
 installed as part of a component-specific installation</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">RENAME</span></code></dt><dd><p>Specify a name for an installed file that may be different from the
@@ -134,15 +143,19 @@ installed by the command.</p>
 not exist.</p>
 </dd>
 </dl>
-<p>Command signatures that install files may print messages during
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>Command signatures that install files may print messages during
 installation.  Use the <span class="target" id="index-0-variable:CMAKE_INSTALL_MESSAGE"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_MESSAGE.html#variable:CMAKE_INSTALL_MESSAGE" title="CMAKE_INSTALL_MESSAGE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_MESSAGE</span></code></a> variable
 to control which messages are printed.</p>
-<p>Many of the <code class="docutils literal notranslate"><span class="pre">install()</span></code> variants implicitly create the directories
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>Many of the <code class="docutils literal notranslate"><span class="pre">install()</span></code> variants implicitly create the directories
 containing the installed files. If
 <span class="target" id="index-0-variable:CMAKE_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS.html#variable:CMAKE_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS" title="CMAKE_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS</span></code></a> is set, these
 directories will be created with the permissions specified. Otherwise,
 they will be created according to the uname rules on Unix-like platforms.
 Windows platforms are unaffected.</p>
+</div>
 </div>
 <div class="section" id="installing-targets">
 <h2>Installing Targets<a class="headerlink" href="#installing-targets" title="Permalink to this headline">¶</a></h2>
@@ -164,7 +177,7 @@ Windows platforms are unaffected.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">TARGETS</span></code> form specifies rules for installing targets from a
 project.  There are several kinds of target <a class="reference internal" href="../manual/cmake-buildsystem.7.html#output-artifacts"><span class="std std-ref">Output Artifacts</span></a>
 that may be installed:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code></dt><dd><p>Target artifacts of this kind include:</p>
 <ul class="simple">
 <li><p><em>Static libraries</em>
@@ -194,7 +207,10 @@ that may be installed:</p>
 accompanying import libraries are of kind <code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code>).</p></li>
 </ul>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">OBJECTS</span></code></dt><dd><p>Object files associated with <em>object libraries</em>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">OBJECTS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>Object files associated with <em>object libraries</em>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></dt><dd><p>Both static and shared libraries marked with the <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code>
 property are treated as <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> targets on macOS.</p>
@@ -292,13 +308,16 @@ subdirectory that follows the above recommendation:</p>
 <p>In addition to the common options listed above, each target can accept
 the following additional arguments:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">NAMELINK_COMPONENT</span></code></dt><dd><p>On some platforms a versioned shared library has a symbolic link such
+<dt><code class="docutils literal notranslate"><span class="pre">NAMELINK_COMPONENT</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>On some platforms a versioned shared library has a symbolic link such
 as:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>lib&lt;name&gt;.so -&gt; lib&lt;name&gt;.so.1
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">lib&lt;name&gt;.so.1</span></code> is the soname of the library and <code class="docutils literal notranslate"><span class="pre">lib&lt;name&gt;.so</span></code>
-is a “namelink” allowing linkers to find the library when given
+is a &quot;namelink&quot; allowing linkers to find the library when given
 <code class="docutils literal notranslate"><span class="pre">-l&lt;name&gt;</span></code>. The <code class="docutils literal notranslate"><span class="pre">NAMELINK_COMPONENT</span></code> option is similar to the
 <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code> option, but it changes the installation component of a shared
 library namelink if one is generated. If not specified, this defaults to the
@@ -316,7 +335,7 @@ value of <code class="docutils literal notranslate"><span class="pre">COMPONENT<
 </div>
 <p>In this scenario, if you choose to install only the <code class="docutils literal notranslate"><span class="pre">Development</span></code>
 component, both the headers and namelink will be installed without the
-library. (If you don’t also install the <code class="docutils literal notranslate"><span class="pre">Libraries</span></code> component, the
+library. (If you don't also install the <code class="docutils literal notranslate"><span class="pre">Libraries</span></code> component, the
 namelink will be a dangling symlink, and projects that link to the library
 will have build errors.) If you install only the <code class="docutils literal notranslate"><span class="pre">Libraries</span></code> component,
 only the library will be installed, without the headers and namelink.</p>
@@ -389,16 +408,20 @@ This is sufficient to satisfy transitive usage requirements of other
 targets that link to the object libraries in their implementation.</p>
 <p>Installing a target with the <span class="target" id="index-0-prop_tgt:EXCLUDE_FROM_ALL"></span><a class="reference internal" href="../prop_tgt/EXCLUDE_FROM_ALL.html#prop_tgt:EXCLUDE_FROM_ALL" title="EXCLUDE_FROM_ALL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></a> target property
 set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> has undefined behavior.</p>
-<p><a class="reference internal" href="#install-targets">install(TARGETS)</a> can install targets that were created in
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>An install destination given as a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> argument may
+use &quot;generator expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13: </span><a class="reference internal" href="#install-targets">install(TARGETS)</a> can install targets that were created in
 other directories.  When using such cross-directory install rules, running
 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code> (or similar) from a subdirectory will not guarantee that
 targets from other directories are up-to-date.  You can use
 <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> or <span class="target" id="index-0-command:add_dependencies"></span><a class="reference internal" href="add_dependencies.html#command:add_dependencies" title="add_dependencies"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_dependencies()</span></code></a>
 to ensure that such out-of-directory targets are built before the
 subdirectory-specific install rules are run.</p>
-<p>An install destination given as a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> argument may
-use “generator expressions” with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
-<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
 </div>
 <div class="section" id="installing-files">
 <h2>Installing Files<a class="headerlink" href="#installing-files" title="Permalink to this headline">¶</a></h2>
@@ -421,7 +444,7 @@ default permissions for the installed file also include <code class="docutils li
 programs that are not targets, such as shell scripts.  Use the <code class="docutils literal notranslate"><span class="pre">TARGETS</span></code>
 form to install targets built within the project.</p>
 <p>The list of <code class="docutils literal notranslate"><span class="pre">files...</span></code> given to <code class="docutils literal notranslate"><span class="pre">FILES</span></code> or <code class="docutils literal notranslate"><span class="pre">PROGRAMS</span></code> may use
-“generator expressions” with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
+&quot;generator expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
 <span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.
 However, if any item begins in a generator expression it must evaluate
 to a full path.</p>
@@ -503,7 +526,7 @@ file type if they wish to explicitly define the install destination.</p>
 <p>Projects wishing to follow the common practice of installing headers into a
 project-specific subdirectory will need to provide a destination rather than
 rely on the above.</p>
-<p>Note that some of the types’ built-in defaults use the <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> directory as
+<p>Note that some of the types' built-in defaults use the <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> directory as
 a prefix. The <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> prefix is calculated similarly to the types, with
 <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_DATAROOTDIR</span></code> as the variable and <code class="docutils literal notranslate"><span class="pre">share</span></code> as the built-in
 default. You cannot use <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> as a <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> parameter; please use
@@ -520,9 +543,16 @@ this advice while installing headers to a project-specific subdirectory:</p>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>An install destination given as a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> argument may
-use “generator expressions” with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>An install destination given as a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> argument may
+use &quot;generator expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
 <span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span>An install rename given as a <code class="docutils literal notranslate"><span class="pre">RENAME</span></code> argument may
+use &quot;generator expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
+<span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
 </div>
 <div class="section" id="installing-directories">
 <h2>Installing Directories<a class="headerlink" href="#installing-directories" title="Permalink to this headline">¶</a></h2>
@@ -554,9 +584,11 @@ If no permissions are specified files will be given the default
 permissions specified in the <code class="docutils literal notranslate"><span class="pre">FILES</span></code> form of the command, and the
 directories will be given the default permissions specified in the
 <code class="docutils literal notranslate"><span class="pre">PROGRAMS</span></code> form of the command.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">MESSAGE_NEVER</span></code> option disables file installation status output.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>The <code class="docutils literal notranslate"><span class="pre">MESSAGE_NEVER</span></code> option disables file installation status output.</p>
+</div>
 <p>Installation of directories may be controlled with fine granularity
-using the <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code> or <code class="docutils literal notranslate"><span class="pre">REGEX</span></code> options.  These “match” options specify a
+using the <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code> or <code class="docutils literal notranslate"><span class="pre">REGEX</span></code> options.  These &quot;match&quot; options specify a
 globbing pattern or regular expression to match directories or files
 encountered within input directories.  They may be used to apply
 certain options (see below) to a subset of the files and directories
@@ -667,7 +699,7 @@ define the install destination.</p>
 </tr>
 </tbody>
 </table>
-<p>Note that some of the types’ built-in defaults use the <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> directory as
+<p>Note that some of the types' built-in defaults use the <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> directory as
 a prefix. The <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> prefix is calculated similarly to the types, with
 <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_DATAROOTDIR</span></code> as the variable and <code class="docutils literal notranslate"><span class="pre">share</span></code> as the built-in
 default. You cannot use <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> as a <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> parameter; please use
@@ -677,10 +709,15 @@ projects must specify a <code class="docutils literal notranslate"><span class="
 path that begins with the appropriate <span class="target" id="index-6-module:GNUInstallDirs"></span><a class="reference internal" href="../module/GNUInstallDirs.html#module:GNUInstallDirs" title="GNUInstallDirs"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">GNUInstallDirs</span></code></a> variable.
 This allows package maintainers to control the install destination by setting
 the appropriate cache variables.</p>
-<p>The list of <code class="docutils literal notranslate"><span class="pre">dirs...</span></code> given to <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> and an install destination
-given as a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> argument may use “generator expressions”
-with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
-manual for available expressions.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>An install destination given as a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> argument may
+use &quot;generator expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
+<span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>The list of <code class="docutils literal notranslate"><span class="pre">dirs...</span></code> given to <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> may use
+&quot;generator expressions&quot; too.</p>
+</div>
 </div>
 <div class="section" id="custom-installation-logic">
 <h2>Custom Installation Logic<a class="headerlink" href="#custom-installation-logic" title="Permalink to this headline">¶</a></h2>
@@ -698,10 +735,12 @@ example, the code</p>
 </pre></div>
 </div>
 <p>will print a message during installation.</p>
-<p><code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> may use “generator expressions” with the syntax
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span><code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> may use &quot;generator expressions&quot; with the syntax
 <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code> (in the case of <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code>, this refers to their use in the file
-name, not the file’s contents).  See the
-<span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+name, not the file's contents).  See the
+<span class="target" id="index-5-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
 </div>
 <div class="section" id="installing-exports">
 <h2>Installing Exports<a class="headerlink" href="#installing-exports" title="Permalink to this headline">¶</a></h2>
@@ -755,13 +794,15 @@ to link against it would have build errors. Package managers, such as APT and
 RPM, typically handle this by listing the <code class="docutils literal notranslate"><span class="pre">Runtime</span></code> component as a dependency
 of the <code class="docutils literal notranslate"><span class="pre">Development</span></code> component in the package metadata, ensuring that the
 library is always installed if the headers and CMake export file are present.</p>
-<p>In addition to cmake language files, the <code class="docutils literal notranslate"><span class="pre">EXPORT_ANDROID_MK</span></code> mode maybe
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7: </span>In addition to cmake language files, the <code class="docutils literal notranslate"><span class="pre">EXPORT_ANDROID_MK</span></code> mode maybe
 used to specify an export to the android ndk build system.  This mode
 accepts the same options as the normal export mode.  The Android
 NDK supports the use of prebuilt libraries, both static and shared. This
 allows cmake to build the libraries of a project and make them available
 to an ndk build system complete with transitive dependencies, include flags
 and defines required to use the libraries.</p>
+</div>
 <p>The <code class="docutils literal notranslate"><span class="pre">EXPORT</span></code> form is useful to help outside projects use targets built
 and installed by the current project.  For example, the code</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nb">myexe</span><span class="w"> </span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">myproj</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">bin</span><span class="nf">)</span><span class="w"></span>
@@ -883,14 +924,14 @@ details.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

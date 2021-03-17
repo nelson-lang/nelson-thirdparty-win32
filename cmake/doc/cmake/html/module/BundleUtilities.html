@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>BundleUtilities &mdash; CMake 3.18.1 Documentation</title>
+  <title>BundleUtilities &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -101,9 +101,11 @@ and then, for each key, copy each prerequisite into the bundle.  Then
 fix each one up according to its own list of prerequisites.</p>
 <p>Then clear all the keys and call <code class="docutils literal notranslate"><span class="pre">verify_app</span></code> on the final bundle to
 ensure that it is truly standalone.</p>
-<p>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
 which are then ignored
 (e.g. <code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span> <span class="pre">&quot;vcredist_x86.exe;vcredist_x64.exe&quot;</span></code>).</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">copy_and_fixup_bundle(</span><span class="nv">&lt;src&gt;</span><span class="w"> </span><span class="nv">&lt;dst&gt;</span><span class="w"> </span><span class="nv">&lt;libs&gt;</span><span class="w"> </span><span class="nv">&lt;dirs&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -115,13 +117,15 @@ the new copied bundle in-place at <code class="docutils literal notranslate"><sp
 <p>Verifies that an application <code class="docutils literal notranslate"><span class="pre">&lt;app&gt;</span></code> appears valid based on running
 analysis tools on it.  Calls <span class="target" id="index-0-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message(FATAL_ERROR)</span></code></a> if the application
 is not verified.</p>
-<p>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
 which are then ignored
 (e.g. <code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span> <span class="pre">&quot;vcredist_x86.exe;vcredist_x64.exe&quot;</span></code>)</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">get_bundle_main_executable(</span><span class="nv">&lt;bundle&gt;</span><span class="w"> </span><span class="nv">&lt;result_var&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The result will be the full path name of the bundle’s main executable
+<p>The result will be the full path name of the bundle's main executable
 file or an <code class="docutils literal notranslate"><span class="pre">error:</span></code> prefixed string if it could not be determined.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">get_dotapp_dir(</span><span class="nv">&lt;exe&gt;</span><span class="w"> </span><span class="nv">&lt;dotapp_dir_var&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -172,20 +176,22 @@ given as extra <code class="docutils literal notranslate"><span class="pre">&lt;
 them.  Set values associated with each key such that we can loop over
 all of them and copy prerequisite libs into the bundle and then do
 appropriate <code class="docutils literal notranslate"><span class="pre">install_name_tool</span></code> fixups.</p>
-<p>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
 which are then ignored
 (e.g. <code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span> <span class="pre">&quot;vcredist_x86.exe;vcredist_x64.exe&quot;</span></code>)</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">copy_resolved_item_into_bundle(</span><span class="nv">&lt;resolved_item&gt;</span><span class="w"> </span><span class="nv">&lt;resolved_embedded_item&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Copy a resolved item into the bundle if necessary.
-Copy is not necessary, if the <code class="docutils literal notranslate"><span class="pre">&lt;resolved_item&gt;</span></code> is “the same as” the
+Copy is not necessary, if the <code class="docutils literal notranslate"><span class="pre">&lt;resolved_item&gt;</span></code> is &quot;the same as&quot; the
 <code class="docutils literal notranslate"><span class="pre">&lt;resolved_embedded_item&gt;</span></code>.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">copy_resolved_framework_into_bundle(</span><span class="nv">&lt;resolved_item&gt;</span><span class="w"> </span><span class="nv">&lt;resolved_embedded_item&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Copy a resolved framework into the bundle if necessary.
-Copy is not necessary, if the <code class="docutils literal notranslate"><span class="pre">&lt;resolved_item&gt;</span></code> is “the same as” the
+Copy is not necessary, if the <code class="docutils literal notranslate"><span class="pre">&lt;resolved_item&gt;</span></code> is &quot;the same as&quot; the
 <code class="docutils literal notranslate"><span class="pre">&lt;resolved_embedded_item&gt;</span></code>.</p>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">BU_COPY_FULL_FRAMEWORK_CONTENTS</span></code> is not set.  If you want
 full frameworks embedded in your bundles, set
@@ -218,14 +224,16 @@ marked writable before <code class="docutils literal notranslate"><span class="p
 <p>Verifies that the sum of all prerequisites of all files inside the
 bundle are contained within the bundle or are <code class="docutils literal notranslate"><span class="pre">system</span></code> libraries,
 presumed to exist everywhere.</p>
-<p>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>As an optional parameter (<code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span></code>) a list of file names can be passed,
 which are then ignored
 (e.g. <code class="docutils literal notranslate"><span class="pre">IGNORE_ITEM</span> <span class="pre">&quot;vcredist_x86.exe;vcredist_x64.exe&quot;</span></code>)</p>
+</div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">verify_bundle_symlinks(</span><span class="nv">&lt;bundle&gt;</span><span class="w"> </span><span class="nv">&lt;result_var&gt;</span><span class="w"> </span><span class="nv">&lt;info_var&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Verifies that any symlinks found in the <code class="docutils literal notranslate"><span class="pre">&lt;bundle&gt;</span></code> bundle point to other files
-that are already also in the bundle…  Anything that points to an
+that are already also in the bundle...  Anything that points to an
 external file causes this function to fail the verification.</p>
 </div>
 
@@ -282,14 +290,14 @@ external file causes this function to fail the verification.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

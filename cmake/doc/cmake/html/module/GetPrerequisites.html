@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>GetPrerequisites &mdash; CMake 3.18.1 Documentation</title>
+  <title>GetPrerequisites &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -73,6 +73,9 @@ ldd (Linux/Unix)
 otool (Mac OSX)
 </pre></div>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.16: </span>The tool specified by <code class="docutils literal notranslate"><span class="pre">CMAKE_OBJDUMP</span></code> will be used, if set.</p>
+</div>
 <p>The following functions are provided by this module:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>get_prerequisites
 list_prerequisites
@@ -88,8 +91,6 @@ gp_resolved_file_type
 gp_file_type
 </pre></div>
 </div>
-<p>Requires CMake 2.6 or greater because it uses function, break, return
-and PARENT_SCOPE.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GET_PREREQUISITES(&lt;target&gt; &lt;prerequisites_var&gt; &lt;exclude_system&gt; &lt;recurse&gt;
                   &lt;exepath&gt; &lt;dirs&gt; [&lt;rpaths&gt;])
 </pre></div>
@@ -101,16 +102,18 @@ list of required shared library files.</p>
 <p>&lt;target&gt; is the full path to an executable file.  &lt;prerequisites_var&gt;
 is the name of a CMake variable to contain the results.
 &lt;exclude_system&gt; must be 0 or 1 indicating whether to include or
-exclude “system” prerequisites.  If &lt;recurse&gt; is set to 1 all
+exclude &quot;system&quot; prerequisites.  If &lt;recurse&gt; is set to 1 all
 prerequisites will be found recursively, if set to 0 only direct
 prerequisites are listed.  &lt;exepath&gt; is the path to the top level
-executable used for &#64;executable_path replacment on the Mac.  &lt;dirs&gt; is
+executable used for &#64;executable_path replacement on the Mac.  &lt;dirs&gt; is
 a list of paths where libraries might be found: these paths are
 searched first when a target without any path info is given.  Then
 standard system locations are also searched: PATH, Framework
-locations, /usr/lib…</p>
-<p>The variable GET_PREREQUISITES_VERBOSE can be set to true to enable verbose
+locations, /usr/lib...</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>The variable GET_PREREQUISITES_VERBOSE can be set to true to enable verbose
 output.</p>
+</div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LIST_PREREQUISITES(&lt;target&gt; [&lt;recurse&gt; [&lt;exclude_system&gt; [&lt;verbose&gt;]]])
 </pre></div>
 </div>
@@ -119,7 +122,7 @@ output.</p>
 full path to a shared library or executable file.  If &lt;recurse&gt; is set
 to 1 all prerequisites will be found recursively, if set to 0 only
 direct prerequisites are listed.  &lt;exclude_system&gt; must be 0 or 1
-indicating whether to include or exclude “system” prerequisites.  With
+indicating whether to include or exclude &quot;system&quot; prerequisites.  With
 &lt;verbose&gt; set to 0 only the full path names of the prerequisites are
 printed, set to 1 extra informatin will be displayed.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LIST_PREREQUISITES_BY_GLOB(&lt;glob_arg&gt; &lt;glob_exp&gt;)
@@ -127,8 +130,8 @@ printed, set to 1 extra informatin will be displayed.</p>
 </div>
 <p>Print the prerequisites of shared library and executable files
 matching a globbing pattern.  &lt;glob_arg&gt; is GLOB or GLOB_RECURSE and
-&lt;glob_exp&gt; is a globbing expression used with “file(GLOB” or
-“file(GLOB_RECURSE” to retrieve a list of matching files.  If a
+&lt;glob_exp&gt; is a globbing expression used with &quot;file(GLOB&quot; or
+&quot;file(GLOB_RECURSE&quot; to retrieve a list of matching files.  If a
 matching file is executable, its prerequisites are listed.</p>
 <p>Any additional (optional) arguments provided are passed along as the
 optional arguments to the list_prerequisites calls.</p>
@@ -164,7 +167,7 @@ gp_resolve_item_override function.</p>
 describing type of prerequisite is returned in variable named
 &lt;type_var&gt;.</p>
 <p>Use &lt;exepath&gt; and &lt;dirs&gt; if necessary to resolve non-absolute &lt;file&gt;
-values – but only for non-embedded items.</p>
+values -- but only for non-embedded items.</p>
 <p>Possible types are:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>system
 local
@@ -242,14 +245,14 @@ other
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

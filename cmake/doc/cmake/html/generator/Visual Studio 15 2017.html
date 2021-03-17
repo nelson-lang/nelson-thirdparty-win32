@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Visual Studio 15 2017 &mdash; CMake 3.18.1 Documentation</title>
+  <title>Visual Studio 15 2017 &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="visual-studio-15-2017">
 <span id="generator:Visual Studio 15 2017"></span><h1>Visual Studio 15 2017<a class="headerlink" href="#visual-studio-15-2017" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.1.</span></p>
+</div>
 <p>Generates Visual Studio 15 (VS 2017) project files.</p>
 <div class="section" id="project-types">
 <h2>Project Types<a class="headerlink" href="#project-types" title="Permalink to this headline">¶</a></h2>
@@ -66,17 +69,21 @@ projects (JavaScript, Powershell, Python, etc.) are not supported.</p>
 </div>
 <div class="section" id="instance-selection">
 <h2>Instance Selection<a class="headerlink" href="#instance-selection" title="Permalink to this headline">¶</a></h2>
-<p>VS 2017 supports multiple installations on the same machine.
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>VS 2017 supports multiple installations on the same machine.
 The <span class="target" id="index-0-variable:CMAKE_GENERATOR_INSTANCE"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_INSTANCE.html#variable:CMAKE_GENERATOR_INSTANCE" title="CMAKE_GENERATOR_INSTANCE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_INSTANCE</span></code></a> variable may be set as a
 cache entry containing the absolute path to a Visual Studio instance.
 If the value is not specified explicitly by the user or a toolchain file,
 CMake queries the Visual Studio Installer to locate VS instances, chooses
 one, and sets the variable as a cache entry to hold the value persistently.</p>
-<p>When CMake first chooses an instance, if the <code class="docutils literal notranslate"><span class="pre">VS150COMNTOOLS</span></code> environment
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>When CMake first chooses an instance, if the <code class="docutils literal notranslate"><span class="pre">VS150COMNTOOLS</span></code> environment
 variable is set and points to the <code class="docutils literal notranslate"><span class="pre">Common7/Tools</span></code> directory within
 one of the instances, that instance will be used.  Otherwise, if more
 than one instance is installed we do not define which one is chosen
 by default.</p>
+</div>
 </div>
 <div class="section" id="platform-selection">
 <h2>Platform Selection<a class="headerlink" href="#platform-selection" title="Permalink to this headline">¶</a></h2>
@@ -105,13 +112,18 @@ This is supported only for:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">v141</span></code> toolset that comes with Visual Studio 15 2017 is selected by
 default.  The <span class="target" id="index-0-variable:CMAKE_GENERATOR_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_TOOLSET.html#variable:CMAKE_GENERATOR_TOOLSET" title="CMAKE_GENERATOR_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_TOOLSET</span></code></a> option may be set, perhaps
 via the <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> <code class="docutils literal notranslate"><span class="pre">-T</span></code> option, to specify another toolset.</p>
-<p>For each toolset that comes with this version of Visual Studio, there are
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8: </span>For each toolset that comes with this version of Visual Studio, there are
 variants that are themselves compiled for 32-bit (<code class="docutils literal notranslate"><span class="pre">x86</span></code>) and
 64-bit (<code class="docutils literal notranslate"><span class="pre">x64</span></code>) hosts (independent of the architecture they target).
 By default this generator uses the 32-bit variant even on a 64-bit host.
 One may explicitly request use of either the 32-bit or 64-bit host tools
 by adding either <code class="docutils literal notranslate"><span class="pre">host=x86</span></code> or <code class="docutils literal notranslate"><span class="pre">host=x64</span></code> to the toolset specification.
 See the <span class="target" id="index-1-variable:CMAKE_GENERATOR_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_TOOLSET.html#variable:CMAKE_GENERATOR_TOOLSET" title="CMAKE_GENERATOR_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_TOOLSET</span></code></a> variable for details.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Added suport for <code class="docutils literal notranslate"><span class="pre">host=x86</span></code> option.</p>
+</div>
 </div>
 </div>
 
@@ -179,14 +191,14 @@ See the <span class="target" id="index-1-variable:CMAKE_GENERATOR_TOOLSET"></spa
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

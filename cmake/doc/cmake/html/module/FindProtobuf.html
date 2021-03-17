@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindProtobuf &mdash; CMake 3.18.1 Documentation</title>
+  <title>FindProtobuf &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -59,8 +59,15 @@
   <div class="section" id="findprotobuf">
 <span id="module:FindProtobuf"></span><h1>FindProtobuf<a class="headerlink" href="#findprotobuf" title="Permalink to this headline">¶</a></h1>
 <p>Locate and configure the Google Protocol Buffers library.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Support for <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> version checks.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.6: </span>All input and output variables use the <code class="docutils literal notranslate"><span class="pre">Protobuf_</span></code> prefix.
+Variables with <code class="docutils literal notranslate"><span class="pre">PROTOBUF_</span></code> prefix are still supported for compatibility.</p>
+</div>
 <p>The following variables can be set and are optional:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">Protobuf_SRC_ROOT_FOLDER</span></code></dt><dd><p>When compiling with MSVC, if this cache variable is set
 the protobuf-default VS project build locations
 (vsprojects/Debug and vsprojects/Release
@@ -70,18 +77,27 @@ will be searched for libraries and binaries.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Protobuf_IMPORT_DIRS</span></code></dt><dd><p>List of additional directories to be searched for
 imported .proto files.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Protobuf_DEBUG</span></code></dt><dd><p>Show debug messages.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Protobuf_DEBUG</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Show debug messages.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Protobuf_USE_STATIC_LIBS</span></code></dt><dd><p>Set to ON to force the use of the static libraries.
+<dt><code class="docutils literal notranslate"><span class="pre">Protobuf_USE_STATIC_LIBS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>Set to ON to force the use of the static libraries.
 Default is OFF.</p>
 </dd>
 </dl>
 <p>Defines the following variables:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">Protobuf_FOUND</span></code></dt><dd><p>Found the Google Protocol Buffers library
 (libprotobuf &amp; header files)</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Protobuf_VERSION</span></code></dt><dd><p>Version of package found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Protobuf_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Version of package found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Protobuf_INCLUDE_DIRS</span></code></dt><dd><p>Include directories for Google Protocol Buffers</p>
 </dd>
@@ -92,15 +108,19 @@ Default is OFF.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Protobuf_LITE_LIBRARIES</span></code></dt><dd><p>The protobuf-lite libraries</p>
 </dd>
 </dl>
-<p>The following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets are also defined:</p>
-<dl class="simple">
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>The following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets are also defined:</p>
+</div>
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">protobuf::libprotobuf</span></code></dt><dd><p>The protobuf library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">protobuf::libprotobuf-lite</span></code></dt><dd><p>The protobuf lite library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">protobuf::libprotoc</span></code></dt><dd><p>The protoc library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">protobuf::protoc</span></code></dt><dd><p>The protoc compiler.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">protobuf::protoc</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10: </span>The protoc compiler.</p>
+</div>
 </dd>
 </dl>
 <p>The following cache variables are also available to set or use:</p>
@@ -148,12 +168,14 @@ calls only work properly within the same directory.</p>
     [DESCRIPTORS &lt;DESC&gt;] [EXPORT_MACRO &lt;MACRO&gt;] [&lt;ARGN&gt;...])
 </pre></div>
 </div>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">SRCS</span></code></dt><dd><p>Variable to define with autogenerated source files</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">HDRS</span></code></dt><dd><p>Variable to define with autogenerated header files</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">DESCRIPTORS</span></code></dt><dd><p>Variable to define with autogenerated descriptor files, if requested.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">DESCRIPTORS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10: </span>Variable to define with autogenerated descriptor files, if requested.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">EXPORT_MACRO</span></code></dt><dd><p>is a macro which should expand to <code class="docutils literal notranslate"><span class="pre">__declspec(dllexport)</span></code> or
 <code class="docutils literal notranslate"><span class="pre">__declspec(dllimport)</span></code> depending on what is being compiled.</p>
@@ -166,7 +188,10 @@ calls only work properly within the same directory.</p>
 <dl class="command">
 <dt id="command:protobuf_generate_python">
 <code class="sig-name descname">protobuf_generate_python</code><a class="headerlink" href="#command:protobuf_generate_python" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add custom commands to process <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files to Python:</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>Add custom commands to process <code class="docutils literal notranslate"><span class="pre">.proto</span></code> files to Python:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>protobuf_generate_python (&lt;PY&gt; [&lt;ARGN&gt;...])
 </pre></div>
 </div>
@@ -233,14 +258,14 @@ calls only work properly within the same directory.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

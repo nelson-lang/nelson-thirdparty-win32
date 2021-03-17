@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>target_precompile_headers &mdash; CMake 3.18.1 Documentation</title>
+  <title>target_precompile_headers &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="target-precompile-headers">
 <span id="command:target_precompile_headers"></span><h1>target_precompile_headers<a class="headerlink" href="#target-precompile-headers" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
 <p>Add a list of header files to precompile.</p>
 <p>Precompiling header files can speed up compilation by creating a partially
 processed version of some header files, and then using that version during
@@ -83,7 +86,7 @@ items will populate the <span class="target" id="index-1-prop_tgt:PRECOMPILE_HEA
 Repeated calls for the same <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> will append items in the order called.</p>
 <p>Projects should generally avoid using <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> or <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> for targets
 that will be <a class="reference internal" href="install.html#install-export"><span class="std std-ref">exported</span></a>, or they should at least use
-the <code class="docutils literal notranslate"><span class="pre">$&lt;BUILD_INTERFACE:...&gt;</span></code> generator expression to prevent precompile
+the <span class="target" id="index-0-genex:BUILD_INTERFACE"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:BUILD_INTERFACE" title="BUILD_INTERFACE"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;BUILD_INTERFACE:...&gt;</span></code></a> generator expression to prevent precompile
 headers from appearing in an installed exported target.  Consumers of a target
 should typically be in control of what precompile headers they use, not have
 precompile headers forced on them by the targets being consumed (since
@@ -115,11 +118,11 @@ included by absolute path.  For example:</p>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Arguments to <code class="docutils literal notranslate"><span class="pre">target_precompile_headers()</span></code> may use “generator expressions”
+<p>Arguments to <code class="docutils literal notranslate"><span class="pre">target_precompile_headers()</span></code> may use &quot;generator expressions&quot;
 with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.
 See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available
 expressions.
-The <code class="docutils literal notranslate"><span class="pre">$&lt;COMPILE_LANGUAGE:...&gt;</span></code> generator expression is particularly
+The <span class="target" id="index-0-genex:COMPILE_LANGUAGE"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:COMPILE_LANGUAGE" title="COMPILE_LANGUAGE"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;COMPILE_LANGUAGE:...&gt;</span></code></a> generator expression is particularly
 useful for specifying a language-specific header to precompile for
 only one language (e.g. <code class="docutils literal notranslate"><span class="pre">CXX</span></code> and not <code class="docutils literal notranslate"><span class="pre">C</span></code>).  In this case, header
 file names that are not explicitly in double quotes or angle brackets
@@ -227,14 +230,14 @@ source file, see the <span class="target" id="index-0-prop_sf:SKIP_PRECOMPILE_HE
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

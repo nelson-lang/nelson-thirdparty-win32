@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>MacroAddFileDependencies &mdash; CMake 3.18.1 Documentation</title>
+  <title>MacroAddFileDependencies &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="TestCXXAcceptsFlag" href="TestCXXAcceptsFlag.html" />
-    <link rel="prev" title="CMakeParseArguments" href="CMakeParseArguments.html" />
+    <link rel="prev" title="Documentation" href="Documentation.html" />
   
  
 
@@ -34,7 +34,7 @@
           <a href="TestCXXAcceptsFlag.html" title="TestCXXAcceptsFlag"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="CMakeParseArguments.html" title="CMakeParseArguments"
+          <a href="Documentation.html" title="Documentation"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,13 +58,18 @@
             
   <div class="section" id="macroaddfiledependencies">
 <span id="module:MacroAddFileDependencies"></span><h1>MacroAddFileDependencies<a class="headerlink" href="#macroaddfiledependencies" title="Permalink to this headline">¶</a></h1>
-<p>MACRO_ADD_FILE_DEPENDENCIES(&lt;_file&gt; depend_files…)</p>
-<p>Using the macro MACRO_ADD_FILE_DEPENDENCIES() is discouraged.  There
-are usually better ways to specify the correct dependencies.</p>
-<p>MACRO_ADD_FILE_DEPENDENCIES(&lt;_file&gt; depend_files…) is just a
-convenience wrapper around the OBJECT_DEPENDS source file property.
-You can just use set_property(SOURCE &lt;file&gt; APPEND PROPERTY
-OBJECT_DEPENDS depend_files) instead.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.14.</span></p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>MACRO_ADD_FILE_DEPENDENCIES(&lt;source&gt; &lt;files&gt;...)
+</pre></div>
+</div>
+<p>Do not use this command in new code.  It is just a wrapper around:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nv">&lt;source&gt;</span><span class="w"> </span><span class="no">APPEND</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">OBJECT_DEPENDS</span><span class="w"> </span><span class="nv">&lt;files&gt;...</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Instead use the <span class="target" id="index-0-command:set_property"></span><a class="reference internal" href="../command/set_property.html#command:set_property" title="set_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_property()</span></code></a> command to append to the
+<span class="target" id="index-0-prop_sf:OBJECT_DEPENDS"></span><a class="reference internal" href="../prop_sf/OBJECT_DEPENDS.html#prop_sf:OBJECT_DEPENDS" title="OBJECT_DEPENDS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">OBJECT_DEPENDS</span></code></a> source file property directly.</p>
 </div>
 
 
@@ -74,8 +79,8 @@ OBJECT_DEPENDS depend_files) instead.</p>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="CMakeParseArguments.html"
-                        title="previous chapter">CMakeParseArguments</a></p>
+  <p class="topless"><a href="Documentation.html"
+                        title="previous chapter">Documentation</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="TestCXXAcceptsFlag.html"
                         title="next chapter">TestCXXAcceptsFlag</a></p>
@@ -110,7 +115,7 @@ OBJECT_DEPENDS depend_files) instead.</p>
           <a href="TestCXXAcceptsFlag.html" title="TestCXXAcceptsFlag"
              >next</a> |</li>
         <li class="right" >
-          <a href="CMakeParseArguments.html" title="CMakeParseArguments"
+          <a href="Documentation.html" title="Documentation"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -120,14 +125,14 @@ OBJECT_DEPENDS depend_files) instead.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

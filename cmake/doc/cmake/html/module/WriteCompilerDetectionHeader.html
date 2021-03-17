@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>WriteCompilerDetectionHeader &mdash; CMake 3.18.1 Documentation</title>
+  <title>WriteCompilerDetectionHeader &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -18,8 +18,8 @@
     <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="FindALSA" href="FindALSA.html" />
-    <link rel="prev" title="UsewxWidgets" href="UsewxWidgets.html" />
+    <link rel="next" title="FindCUDA" href="FindCUDA.html" />
+    <link rel="prev" title="WriteBasicConfigVersionFile" href="WriteBasicConfigVersionFile.html" />
   
  
 
@@ -31,10 +31,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="FindALSA.html" title="FindALSA"
+          <a href="FindCUDA.html" title="FindCUDA"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="UsewxWidgets.html" title="UsewxWidgets"
+          <a href="WriteBasicConfigVersionFile.html" title="WriteBasicConfigVersionFile"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,6 +58,13 @@
             
   <div class="section" id="writecompilerdetectionheader">
 <span id="module:WriteCompilerDetectionHeader"></span><h1>WriteCompilerDetectionHeader<a class="headerlink" href="#writecompilerdetectionheader" title="Permalink to this headline">¶</a></h1>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.20: </span>This module is available only if policy <span class="target" id="index-0-policy:CMP0120"></span><a class="reference internal" href="../policy/CMP0120.html#policy:CMP0120" title="CMP0120"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0120</span></code></a>
+is not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.  Do not use it in new code.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
 <p>This module provides the function <code class="docutils literal notranslate"><span class="pre">write_compiler_detection_header()</span></code>.</p>
 <p>This function can be used to generate a file suitable for preprocessor
 inclusion which contains macros to be used in source code:</p>
@@ -109,7 +116,7 @@ to the version of CMake that introduced the given API and less
 than the version of CMake that introduced its succeeding API.
 The value of the <span class="target" id="index-0-variable:CMAKE_MINIMUM_REQUIRED_VERSION"></span><a class="reference internal" href="../variable/CMAKE_MINIMUM_REQUIRED_VERSION.html#variable:CMAKE_MINIMUM_REQUIRED_VERSION" title="CMAKE_MINIMUM_REQUIRED_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MINIMUM_REQUIRED_VERSION</span></code></a>
 variable is used if no explicit version is specified.
-(As of CMake version 3.18.1 there is only one API version.)</p>
+(As of CMake version 3.20.0-rc4 there is only one API version.)</p>
 <p><code class="docutils literal notranslate"><span class="pre">PROLOG</span></code> may be specified as text content to write at the start of the
 header. <code class="docutils literal notranslate"><span class="pre">EPILOG</span></code> may be specified as text content to write at the end
 of the header</p>
@@ -123,16 +130,28 @@ known to CMake to contain the value <code class="docutils literal notranslate"><
 Available features in this version of CMake are listed in the
 <span class="target" id="index-0-prop_gbl:CMAKE_C_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_C_KNOWN_FEATURES.html#prop_gbl:CMAKE_C_KNOWN_FEATURES" title="CMAKE_C_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_C_KNOWN_FEATURES</span></code></a> and
 <span class="target" id="index-0-prop_gbl:CMAKE_CXX_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html#prop_gbl:CMAKE_CXX_KNOWN_FEATURES" title="CMAKE_CXX_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_CXX_KNOWN_FEATURES</span></code></a> global properties.
-The <code class="docutils literal notranslate"><span class="pre">{c,cxx}_std_*</span></code> meta-features are ignored if requested.</p>
-<p>See the <span class="target" id="index-0-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a> manual for information on
+See the <span class="target" id="index-0-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a> manual for information on
 compile features.</p>
-<p><code class="docutils literal notranslate"><span class="pre">BARE_FEATURES</span></code> will define the compatibility macros with the name used in
-newer versions of the language standard, so the code can use the new feature
-name unconditionally.</p>
-<p><code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILERS</span></code> and <code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILER_VERSIONS</span></code> cause
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2: </span>Added <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> and <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> compiler support.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Added <code class="docutils literal notranslate"><span class="pre">Intel</span></code> compiler support.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.8: </span>The <code class="docutils literal notranslate"><span class="pre">{c,cxx}_std_*</span></code> meta-features are ignored if requested.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8: </span><code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILERS</span></code> and <code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILER_VERSIONS</span></code> cause
 the module to generate conditions that treat unknown compilers as simply
 lacking all features.  Without these options the default behavior is to
 generate a <code class="docutils literal notranslate"><span class="pre">#error</span></code> for unknown compilers and versions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span><code class="docutils literal notranslate"><span class="pre">BARE_FEATURES</span></code> will define the compatibility macros with the name used in
+newer versions of the language standard, so the code can use the new feature
+name unconditionally.</p>
+</div>
 <div class="section" id="feature-test-macros">
 <h2>Feature Test Macros<a class="headerlink" href="#feature-test-macros" title="Permalink to this headline">¶</a></h2>
 <p>For each compiler, a preprocessor macro is generated matching
@@ -363,11 +382,11 @@ library:</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="UsewxWidgets.html"
-                        title="previous chapter">UsewxWidgets</a></p>
+  <p class="topless"><a href="WriteBasicConfigVersionFile.html"
+                        title="previous chapter">WriteBasicConfigVersionFile</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="FindALSA.html"
-                        title="next chapter">FindALSA</a></p>
+  <p class="topless"><a href="FindCUDA.html"
+                        title="next chapter">FindCUDA</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -396,10 +415,10 @@ library:</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="FindALSA.html" title="FindALSA"
+          <a href="FindCUDA.html" title="FindCUDA"
              >next</a> |</li>
         <li class="right" >
-          <a href="UsewxWidgets.html" title="UsewxWidgets"
+          <a href="WriteBasicConfigVersionFile.html" title="WriteBasicConfigVersionFile"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -409,14 +428,14 @@ library:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

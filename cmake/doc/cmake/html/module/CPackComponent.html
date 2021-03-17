@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CPackComponent &mdash; CMake 3.18.1 Documentation</title>
+  <title>CPackComponent &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CPackIFW" href="CPackIFW.html" />
-    <link rel="prev" title="CMakeVerifyManifest" href="CMakeVerifyManifest.html" />
+    <link rel="prev" title="CPack" href="CPack.html" />
   
  
 
@@ -34,7 +34,7 @@
           <a href="CPackIFW.html" title="CPackIFW"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="CMakeVerifyManifest.html" title="CMakeVerifyManifest"
+          <a href="CPack.html" title="CPack"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -85,7 +85,7 @@
 by CPack allow users to select individual application <em>components</em> to install.
 This module allows developers to configure the packaging of such components.</p>
 <p>Contents is assigned to components by the <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code>
-argument of CMake’s <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command.  Components can be
+argument of CMake's <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command.  Components can be
 annotated with user-friendly names and descriptions, inter-component
 dependencies, etc., and grouped in various ways to customize the
 resulting installer, using the commands described below.</p>
@@ -118,7 +118,7 @@ list(REMOVE_ITEM CPACK_COMPONENTS_ALL &quot;foo&quot; &quot;bar&quot;)
 <dt id="variable:CPACK_&lt;GENNAME&gt;_COMPONENT_INSTALL">
 <code class="sig-name descname">CPACK_&lt;GENNAME&gt;_COMPONENT_INSTALL</code><a class="headerlink" href="#variable:CPACK_<GENNAME>_COMPONENT_INSTALL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable/Disable component install for CPack generator &lt;GENNAME&gt;.</p>
-<p>Each CPack Generator (RPM, DEB, ARCHIVE, NSIS, DMG, etc…) has a legacy
+<p>Each CPack Generator (RPM, DEB, ARCHIVE, NSIS, DMG, etc...) has a legacy
 default behavior.  e.g.  RPM builds monolithic whereas NSIS builds
 component.  One can change the default behavior by setting this variable to
 0/1 or OFF/ON.</p>
@@ -129,7 +129,7 @@ component.  One can change the default behavior by setting this variable to
 <code class="sig-name descname">CPACK_COMPONENTS_GROUPING</code><a class="headerlink" href="#variable:CPACK_COMPONENTS_GROUPING" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specify how components are grouped for multi-package component-aware CPack
 generators.</p>
-<p>Some generators like RPM or ARCHIVE (TGZ, ZIP, …) may generate
+<p>Some generators like RPM or ARCHIVE (TGZ, ZIP, ...) may generate
 several packages files when there are components, depending
 on the value of this variable:</p>
 <ul class="simple">
@@ -289,11 +289,11 @@ should be no more than a few lines long.</p>
 Parent groups are used to establish a hierarchy of groups, providing
 an arbitrary hierarchy of groups.</p>
 <p>EXPANDED indicates that, by default, the group should show up as
-“expanded”, so that the user immediately sees all of the components
+&quot;expanded&quot;, so that the user immediately sees all of the components
 within the group.  Otherwise, the group will initially show up as a
 single entry.</p>
 <p>BOLD_TITLE indicates that the group title should appear in bold, to
-call the user’s attention to the group.</p>
+call the user's attention to the group.</p>
 </div>
 <div class="section" id="add-installation-type">
 <h3><a class="toc-backref" href="#id7">Add installation type</a><a class="headerlink" href="#add-installation-type" title="Permalink to this headline">¶</a></h3>
@@ -310,9 +310,9 @@ a set of predefined component selections to the graphical installer.</p>
 </div>
 <p>The cpack_add_install_type command identifies a set of preselected
 components that represents a common use case for an application.  For
-example, a “Developer” install type might include an application along
-with its header and library files, while an “End user” install type
-might just include the application’s executable.  Each component
+example, a &quot;Developer&quot; install type might include an application along
+with its header and library files, while an &quot;End user&quot; install type
+might just include the application's executable.  Each component
 identifies itself with one or more install types via the INSTALL_TYPES
 argument to cpack_add_component.</p>
 <p>DISPLAY_NAME is the displayed name of the install type, which will
@@ -343,7 +343,7 @@ and extract the component in place.  This feature is useful for
 creating small installers that only download the requested components,
 saving bandwidth.  Additionally, the installers are small enough that
 they will be installed as part of the normal installation process, and
-the “Change” button in Windows Add/Remove Programs control panel will
+the &quot;Change&quot; button in Windows Add/Remove Programs control panel will
 allow one to add or remove parts of the application after the original
 installation.  On Windows, the downloaded-components functionality
 requires the ZipDLL plug-in for NSIS, available at:</p>
@@ -367,8 +367,8 @@ only those components explicitly marked as DOWNLOADED or that have a
 specified ARCHIVE_FILE will be downloaded.  Additionally, the ALL
 option implies ADD_REMOVE (unless NO_ADD_REMOVE is specified).</p>
 <p>ADD_REMOVE indicates that CPack should install a copy of the installer
-that can be called from Windows’ Add/Remove Programs dialog (via the
-“Modify” button) to change the set of installed components.
+that can be called from Windows' Add/Remove Programs dialog (via the
+&quot;Modify&quot; button) to change the set of installed components.
 NO_ADD_REMOVE turns off this behavior.  This option is ignored on Mac
 OS X.</p>
 </div>
@@ -398,8 +398,8 @@ OS X.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="CMakeVerifyManifest.html"
-                        title="previous chapter">CMakeVerifyManifest</a></p>
+  <p class="topless"><a href="CPack.html"
+                        title="previous chapter">CPack</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="CPackIFW.html"
                         title="next chapter">CPackIFW</a></p>
@@ -434,7 +434,7 @@ OS X.</p>
           <a href="CPackIFW.html" title="CPackIFW"
              >next</a> |</li>
         <li class="right" >
-          <a href="CMakeVerifyManifest.html" title="CMakeVerifyManifest"
+          <a href="CPack.html" title="CPack"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -444,14 +444,14 @@ OS X.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

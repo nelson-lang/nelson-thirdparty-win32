@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CPack External Generator &mdash; CMake 3.18.1 Documentation</title>
+  <title>CPack External Generator &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li> 
@@ -58,12 +58,15 @@
             
   <div class="section" id="cpack-external-generator">
 <span id="cpack_gen:CPack External Generator"></span><h1>CPack External Generator<a class="headerlink" href="#cpack-external-generator" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
 <p>CPack provides many generators to create packages for a variety of platforms
 and packaging systems. The intention is for CMake/CPack to be a complete
 end-to-end solution for building and packaging a software project. However, it
 may not always be possible to use CPack for the entire packaging process, due
 to either technical limitations or policies that require the use of certain
-tools. For this reason, CPack provides the “External” generator, which allows
+tools. For this reason, CPack provides the &quot;External&quot; generator, which allows
 external packaging software to take advantage of some of the functionality
 provided by CPack, such as component installation and the dependency graph.</p>
 <div class="section" id="integration-with-external-packaging-tools">
@@ -86,10 +89,10 @@ taken care of by the generator when enabled through the
 the various options passed to <span class="target" id="index-0-command:cpack_add_component"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component" title="cpack_add_component"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component()</span></code></a> and
 <span class="target" id="index-0-command:cpack_add_component_group"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component_group" title="cpack_add_component_group"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component_group()</span></code></a>, the dependencies between the components
 and component groups, and various other options passed to CPack.</p>
-<p>The JSON’s root object will always provide two fields:
+<p>The JSON's root object will always provide two fields:
 <code class="docutils literal notranslate"><span class="pre">formatVersionMajor</span></code> and <code class="docutils literal notranslate"><span class="pre">formatVersionMinor</span></code>, which are always integers
 that describe the output format of the generator. Backwards-compatible changes
-to the output format (for example, adding a new field that didn’t exist before)
+to the output format (for example, adding a new field that didn't exist before)
 cause the minor version to be incremented, and backwards-incompatible changes
 (for example, deleting a field or changing its meaning) cause the major version
 to be incremented and the minor version reset to 0. The format version is
@@ -130,7 +133,7 @@ it was not.</p>
 it was not.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">group</span></code></dt><dd><p>Only present if <code class="docutils literal notranslate"><span class="pre">GROUP</span></code> was passed to <span class="target" id="index-6-command:cpack_add_component"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component" title="cpack_add_component"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component()</span></code></a>. If
-so, this field is a string value containing the component’s group.</p>
+so, this field is a string value containing the component's group.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dependencies</span></code></dt><dd><p>An array of components the component depends on. This contains the values
 in the <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code> argument passed to <span class="target" id="index-7-command:cpack_add_component"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component" title="cpack_add_component"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component()</span></code></a>. If no
@@ -165,7 +168,7 @@ group objects have the following fields:</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">parentGroup</span></code></dt><dd><p>Only present if <code class="docutils literal notranslate"><span class="pre">PARENT_GROUP</span></code> was passed to
 <span class="target" id="index-3-command:cpack_add_component_group"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component_group" title="cpack_add_component_group"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component_group()</span></code></a>. If so, this field is a string value
-containing the component group’s parent group.</p>
+containing the component group's parent group.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">isExpandedByDefault</span></code></dt><dd><p>True if <code class="docutils literal notranslate"><span class="pre">EXPANDED</span></code> was passed to <span class="target" id="index-4-command:cpack_add_component_group"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component_group" title="cpack_add_component_group"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component_group()</span></code></a>,
 false if it was not.</p>
@@ -266,13 +269,13 @@ generator whose major version exactly matches the requested major version,
 and whose minor version is greater than or equal to the requested minor
 version. For example, if <code class="docutils literal notranslate"><span class="pre">CPACK_EXTERNAL_REQUESTED_VERSIONS</span></code> contains 1.0, and
 the CPack External generator knows how to generate 1.1, it will generate 1.1.
-If the generator doesn’t know how to generate a version in the list, it skips
-the version and looks at the next one. If it doesn’t know how to generate any
+If the generator doesn't know how to generate a version in the list, it skips
+the version and looks at the next one. If it doesn't know how to generate any
 of the requested versions, an error is thrown.</p>
 <p>If this variable is not set, or is empty, the CPack External generator will
 generate the highest major and minor version that it knows how to generate.</p>
 <p>If an invalid version is encountered in <code class="docutils literal notranslate"><span class="pre">CPACK_EXTERNAL_REQUESTED_VERSIONS</span></code> (one
-that doesn’t match <code class="docutils literal notranslate"><span class="pre">major.minor</span></code>, where <code class="docutils literal notranslate"><span class="pre">major</span></code> and <code class="docutils literal notranslate"><span class="pre">minor</span></code> are
+that doesn't match <code class="docutils literal notranslate"><span class="pre">major.minor</span></code>, where <code class="docutils literal notranslate"><span class="pre">major</span></code> and <code class="docutils literal notranslate"><span class="pre">minor</span></code> are
 integers), it is ignored.</p>
 </dd></dl>
 
@@ -299,6 +302,18 @@ a CMake script file to be run as part of the CPack invocation.
 It is invoked after (optional) staging took place and may
 run an external packaging tool. The script has access to
 the variables defined by the CPack config file.</p>
+</dd></dl>
+
+<dl class="variable">
+<dt id="variable:CPACK_EXTERNAL_BUILT_PACKAGES">
+<code class="sig-name descname">CPACK_EXTERNAL_BUILT_PACKAGES</code><a class="headerlink" href="#variable:CPACK_EXTERNAL_BUILT_PACKAGES" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">CPACK_EXTERNAL_PACKAGE_SCRIPT</span></code> script may set this list variable to the
+full paths of generated package files.  CPack will copy these files from the
+staging directory back to the top build directory and possibly produce
+checksum files if the <span class="target" id="index-0-variable:CPACK_PACKAGE_CHECKSUM"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_CHECKSUM" title="CPACK_PACKAGE_CHECKSUM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_CHECKSUM</span></code></a> is set.</p>
 </dd></dl>
 
 </div>
@@ -370,14 +385,14 @@ the variables defined by the CPack config file.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

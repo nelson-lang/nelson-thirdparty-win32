@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>add_executable &mdash; CMake 3.18.1 Documentation</title>
+  <title>add_executable &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -79,12 +79,20 @@
 </pre></div>
 </div>
 <p>Adds an executable target called <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> to be built from the source
-files listed in the command invocation.  (The source files can be omitted
-here if they are added later using <span class="target" id="index-0-command:target_sources"></span><a class="reference internal" href="target_sources.html#command:target_sources" title="target_sources"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_sources()</span></code></a>.)  The
+files listed in the command invocation.  The
 <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> corresponds to the logical target name and must be globally
 unique within a project.  The actual file name of the executable built is
 constructed based on conventions of the native platform (such as
 <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;.exe</span></code> or just <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>Source arguments to <code class="docutils literal notranslate"><span class="pre">add_executable</span></code> may use &quot;generator expressions&quot; with
+the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
+manual for available expressions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>The source files can be omitted if they are added later using
+<span class="target" id="index-0-command:target_sources"></span><a class="reference internal" href="target_sources.html#command:target_sources" title="target_sources"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_sources()</span></code></a>.</p>
+</div>
 <p>By default the executable file will be created in the build tree
 directory corresponding to the source tree directory in which the
 command was invoked.  See documentation of the
@@ -100,10 +108,8 @@ target property for details.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> is given the corresponding property will be set on
 the created target.  See documentation of the <span class="target" id="index-0-prop_tgt:EXCLUDE_FROM_ALL"></span><a class="reference internal" href="../prop_tgt/EXCLUDE_FROM_ALL.html#prop_tgt:EXCLUDE_FROM_ALL" title="EXCLUDE_FROM_ALL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></a>
 target property for details.</p>
-<p>Source arguments to <code class="docutils literal notranslate"><span class="pre">add_executable</span></code> may use “generator expressions” with
-the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
-manual for available expressions.  See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a>
-manual for more on defining buildsystem properties.</p>
+<p>See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a> manual for more on defining
+buildsystem properties.</p>
 <p>See also <span class="target" id="index-0-prop_sf:HEADER_FILE_ONLY"></span><a class="reference internal" href="../prop_sf/HEADER_FILE_ONLY.html#prop_sf:HEADER_FILE_ONLY" title="HEADER_FILE_ONLY"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">HEADER_FILE_ONLY</span></code></a> on what to do if some sources are
 pre-processed, and you want to have the original sources reachable from
 within IDE.</p>
@@ -136,10 +142,15 @@ properties for more information.</p>
 be used to refer to <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> in subsequent commands.  The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>
 does not appear in the generated buildsystem as a make target.  The
 <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> may not be an <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code>.</p>
-<p>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> to a non-<code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Target</span></a>
-has scope in the directory in which the alias is created and below.
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> can target a <code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Target</span></a></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> can target a non-<code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> Imported Target. Such alias is
+scoped to the directory in which it is created and subdirectories.
 The <span class="target" id="index-0-prop_tgt:ALIAS_GLOBAL"></span><a class="reference internal" href="../prop_tgt/ALIAS_GLOBAL.html#prop_tgt:ALIAS_GLOBAL" title="ALIAS_GLOBAL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ALIAS_GLOBAL</span></code></a> target property can be used to check if the
 alias is global or not.</p>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> targets can be used as targets to read properties
 from, executables for custom commands and custom targets.  They can also be
 tested for existence with the regular <span class="target" id="index-0-command:if"></span><a class="reference internal" href="if.html#command:if" title="if"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(TARGET)</span></code></a> subcommand.
@@ -213,14 +224,14 @@ An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></co
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

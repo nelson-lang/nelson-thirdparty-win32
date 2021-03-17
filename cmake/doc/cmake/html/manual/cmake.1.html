@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>cmake(1) &mdash; CMake 3.18.1 Documentation</title>
+  <title>cmake(1) &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -106,7 +106,7 @@ of this manual.</p>
 </div>
 <div class="section" id="introduction-to-cmake-buildsystems">
 <h2>Introduction to CMake Buildsystems<a class="headerlink" href="#introduction-to-cmake-buildsystems" title="Permalink to this headline">¶</a></h2>
-<p>A <em>buildsystem</em> describes how to build a project’s executables and libraries
+<p>A <em>buildsystem</em> describes how to build a project's executables and libraries
 from its source code using a <em>build tool</em> to automate the process.  For
 example, a buildsystem may be a <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> for use with a command-line
 <code class="docutils literal notranslate"><span class="pre">make</span></code> tool or a project file for an Integrated Development Environment
@@ -199,15 +199,15 @@ automatically choosing and invoking the appropriate native build tool.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">-S</span> <span class="pre">&lt;path-to-source&gt;</span></code></dt><dd><p>Path to root directory of the CMake project to build.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-B</span> <span class="pre">&lt;path-to-build&gt;</span></code></dt><dd><p>Path to directory which CMake will use as the root of build directory.</p>
-<p>If the directory doesn’t already exist CMake will make it.</p>
+<p>If the directory doesn't already exist CMake will make it.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">&lt;initial-cache&gt;</span></code></dt><dd><p>Pre-load a script to populate the cache.</p>
 <p>When CMake is first run in an empty build tree, it creates a
 <code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> file and populates it with customizable settings for
 the project.  This option may be used to specify a file from which
-to load cache entries before the first pass through the project’s
+to load cache entries before the first pass through the project's
 CMake listfiles.  The loaded entries take priority over the
-project’s default values.  The given file should be a CMake script
+project's default values.  The given file should be a CMake script
 containing <span class="target" id="index-0-command:set"></span><a class="reference internal" href="../command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> commands that use the <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> option, not a
 cache-format file.</p>
 <p>References to <span class="target" id="index-0-variable:CMAKE_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_SOURCE_DIR.html#variable:CMAKE_SOURCE_DIR" title="CMAKE_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SOURCE_DIR</span></code></a> and <span class="target" id="index-0-variable:CMAKE_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>
@@ -217,7 +217,7 @@ within the script evaluate to the top-level source and build tree.</p>
 <p>When CMake is first run in an empty build tree, it creates a
 <code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> file and populates it with customizable settings for
 the project.  This option may be used to specify a setting that
-takes priority over the project’s default value.  The option may be
+takes priority over the project's default value.  The option may be
 repeated for as many <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> entries as desired.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">:&lt;type&gt;</span></code> portion is given it must be one of the types
 specified by the <span class="target" id="index-1-command:set"></span><a class="reference internal" href="../command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> command documentation for its
@@ -381,6 +381,10 @@ was called.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">line</span></code></dt><dd><p>The line in <code class="docutils literal notranslate"><span class="pre">file</span></code> of the function call.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">defer</span></code></dt><dd><p>Optional member that is present when the function call was deferred
+by <span class="target" id="index-0-command:cmake_language"></span><a class="reference internal" href="../command/cmake_language.html#command:cmake_language" title="cmake_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_language(DEFER)</span></code></a>.  If present, its value is a
+string containing the deferred call <code class="docutils literal notranslate"><span class="pre">&lt;id&gt;</span></code>.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">cmd</span></code></dt><dd><p>The name of the function that was called.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">args</span></code></dt><dd><p>A string list of all function parameters.</p>
@@ -396,7 +400,7 @@ was called.</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="p">{</span>
     <span class="nt">&quot;major&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nt">&quot;minor&quot;</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="nt">&quot;minor&quot;</span><span class="p">:</span> <span class="mi">1</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -419,11 +423,12 @@ major and minor components following semantic version conventions.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">--warn-uninitialized</span></code></dt><dd><p>Warn about uninitialized values.</p>
 <p>Print a warning when an uninitialized variable is used.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">--warn-unused-vars</span></code></dt><dd><p>Warn about unused variables.</p>
-<p>Find variables that are declared or set, but not used.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">--warn-unused-vars</span></code></dt><dd><p>Does nothing.  In CMake versions 3.2 and below this enabled warnings about
+unused variables.  In CMake versions 3.3 through 3.18 the option was broken.
+In CMake 3.19 and above the option has been removed.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">--no-warn-unused-cli</span></code></dt><dd><p>Don’t warn about command line options.</p>
-<p>Don’t find variables that are declared on the command line, but not
+<dt><code class="docutils literal notranslate"><span class="pre">--no-warn-unused-cli</span></code></dt><dd><p>Don't warn about command line options.</p>
+<p>Don't find variables that are declared on the command line, but not
 used.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--check-system-vars</span></code></dt><dd><p>Find problems with variable usage in system files.</p>
@@ -431,7 +436,7 @@ used.</p>
 in <span class="target" id="index-1-variable:CMAKE_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_SOURCE_DIR.html#variable:CMAKE_SOURCE_DIR" title="CMAKE_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SOURCE_DIR</span></code></a> and <span class="target" id="index-1-variable:CMAKE_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>.
 This flag tells CMake to warn about other files as well.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">--profiling-output=&lt;path&gt;</span></code></dt><dd><p>Used in conjuction with <code class="docutils literal notranslate"><span class="pre">--profiling-format</span></code> to output to a given path.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">--profiling-output=&lt;path&gt;</span></code></dt><dd><p>Used in conjunction with <code class="docutils literal notranslate"><span class="pre">--profiling-format</span></code> to output to a given path.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--profiling-format=&lt;file&gt;</span></code></dt><dd><p>Enable the output of profiling data of CMake script in the given format.</p>
 <p>This can aid performance analysis of CMake scripts executed. Third party
@@ -441,6 +446,23 @@ applications should be used to process the output into human readable format.</p
 <a class="reference external" href="about:tracing">about:tracing</a> tab of Google Chrome or using a plugin for a tool like Trace
 Compass.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--preset</span> <span class="pre">&lt;preset&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--preset=&lt;preset&gt;</span></code></dt><dd><p>Reads a <span class="target" id="index-0-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">preset</span></code></a> from
+<code class="docutils literal notranslate"><span class="pre">&lt;path-to-source&gt;/CMakePresets.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;path-to-source&gt;/CMakeUserPresets.json</span></code>. The preset specifies the
+generator and the build directory, and optionally a list of variables and
+other arguments to pass to CMake. The current working directory must contain
+CMake preset files. The <span class="target" id="index-1-manual:cmake-gui(1)"></span><a class="reference internal" href="cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">GUI</span></code></a> can
+also recognize <code class="docutils literal notranslate"><span class="pre">CMakePresets.json</span></code> and <code class="docutils literal notranslate"><span class="pre">CMakeUserPresets.json</span></code> files. For
+full details on these files, see <span class="target" id="index-1-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-presets(7)</span></code></a>.</p>
+<p>The presets are read before all other command line options. The options
+specified by the preset (variables, generator, etc.) can all be overridden by
+manually specifying them on the command line. For example, if the preset sets
+a variable called <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> to <code class="docutils literal notranslate"><span class="pre">1</span></code>, but the user sets it to <code class="docutils literal notranslate"><span class="pre">2</span></code> with a
+<code class="docutils literal notranslate"><span class="pre">-D</span></code> argument, the value <code class="docutils literal notranslate"><span class="pre">2</span></code> is preferred.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--list-presets,</span> <span class="pre">--list-presets=&lt;[configure</span> <span class="pre">|</span> <span class="pre">build</span> <span class="pre">|</span> <span class="pre">test</span> <span class="pre">|</span> <span class="pre">all]&gt;</span></code></dt><dd><p>Lists the available presets. If no option is specified only configure presets
+will be listed. The current working directory must contain CMake preset files.</p>
+</dd>
 </dl>
 </div>
 </div>
@@ -448,16 +470,25 @@ Compass.</p>
 <span id="build-tool-mode"></span><h2>Build a Project<a class="headerlink" href="#build-a-project" title="Permalink to this headline">¶</a></h2>
 <p>CMake provides a command-line signature to build an already-generated
 project binary tree:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake --build &lt;dir&gt; <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>-- &lt;build-tool-options&gt;<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake --build <span class="o">[</span>&lt;dir&gt; <span class="p">|</span> --preset &lt;preset&gt;<span class="o">]</span> <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>-- &lt;build-tool-options&gt;<span class="o">]</span>
 </pre></div>
 </div>
-<p>This abstracts a native build tool’s command-line interface with the
+<p>This abstracts a native build tool's command-line interface with the
 following options:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">--build</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><p>Project binary directory to be built.  This is required and must be first.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">--build</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><p>Project binary directory to be built.  This is required (unless a preset
+is specified) and must be first.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--preset</span> <span class="pre">&lt;preset&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--preset=&lt;preset&gt;</span></code></dt><dd><p>Use a build preset to specify build options. The project binary directory
+is inferred from the <code class="docutils literal notranslate"><span class="pre">configurePreset</span></code> key. The current working directory
+must contain CMake preset files.
+See <span class="target" id="index-2-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">preset</span></code></a> for more details.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--list-presets</span></code></dt><dd><p>Lists the available build presets. The current working directory must
+contain CMake preset files.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--parallel</span> <span class="pre">[&lt;jobs&gt;],</span> <span class="pre">-j</span> <span class="pre">[&lt;jobs&gt;]</span></code></dt><dd><p>The maximum number of concurrent processes to use when building.
-If <code class="docutils literal notranslate"><span class="pre">&lt;jobs&gt;</span></code> is omitted the native build tool’s default number is used.</p>
+If <code class="docutils literal notranslate"><span class="pre">&lt;jobs&gt;</span></code> is omitted the native build tool's default number is used.</p>
 <p>The <span class="target" id="index-0-envvar:CMAKE_BUILD_PARALLEL_LEVEL"></span><a class="reference internal" href="../envvar/CMAKE_BUILD_PARALLEL_LEVEL.html#envvar:CMAKE_BUILD_PARALLEL_LEVEL" title="CMAKE_BUILD_PARALLEL_LEVEL"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_BUILD_PARALLEL_LEVEL</span></code></a> environment variable, if set,
 specifies a default parallel level when this option is not given.</p>
 <p>Some native build tools always build in parallel.  The use of <code class="docutils literal notranslate"><span class="pre">&lt;jobs&gt;</span></code>
@@ -499,6 +530,8 @@ The options are:</p>
 <dt><code class="docutils literal notranslate"><span class="pre">--config</span> <span class="pre">&lt;cfg&gt;</span></code></dt><dd><p>For multi-configuration generators, choose configuration <code class="docutils literal notranslate"><span class="pre">&lt;cfg&gt;</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--component</span> <span class="pre">&lt;comp&gt;</span></code></dt><dd><p>Component-based install. Only install component <code class="docutils literal notranslate"><span class="pre">&lt;comp&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--default-directory-permissions</span> <span class="pre">&lt;permissions&gt;</span></code></dt><dd><p>Default directory install permissions. Permissions in format <code class="docutils literal notranslate"><span class="pre">&lt;u=rwx,g=rx,o=rx&gt;</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--prefix</span> <span class="pre">&lt;prefix&gt;</span></code></dt><dd><p>Override the installation prefix, <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>.</p>
 </dd>
@@ -589,7 +622,8 @@ version components.</p>
 </dd>
 </dl>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">serverMode</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">true</span></code> if cmake supports server-mode and <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">serverMode</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">true</span></code> if cmake supports server-mode and <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise.
+Always false since CMake 3.20.</p>
 </dd>
 </dl>
 </dd>
@@ -598,7 +632,8 @@ version components.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">chdir</span> <span class="pre">&lt;dir&gt;</span> <span class="pre">&lt;cmd&gt;</span> <span class="pre">[&lt;arg&gt;...]</span></code></dt><dd><p>Change the current working directory and run a command.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">compare_files</span> <span class="pre">[--ignore-eol]</span> <span class="pre">&lt;file1&gt;</span> <span class="pre">&lt;file2&gt;</span></code></dt><dd><p>Check if <code class="docutils literal notranslate"><span class="pre">&lt;file1&gt;</span></code> is same as <code class="docutils literal notranslate"><span class="pre">&lt;file2&gt;</span></code>. If files are the same,
-then returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, if not it returns <code class="docutils literal notranslate"><span class="pre">1</span></code>.  The <code class="docutils literal notranslate"><span class="pre">--ignore-eol</span></code> option
+then returns <code class="docutils literal notranslate"><span class="pre">0</span></code>, if not it returns <code class="docutils literal notranslate"><span class="pre">1</span></code>.  In case of invalid
+arguments, it returns 2. The <code class="docutils literal notranslate"><span class="pre">--ignore-eol</span></code> option
 implies line-wise comparison and ignores LF/CRLF differences.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">copy</span> <span class="pre">&lt;file&gt;...</span> <span class="pre">&lt;destination&gt;</span></code></dt><dd><p>Copy files to <code class="docutils literal notranslate"><span class="pre">&lt;destination&gt;</span></code> (either file or directory).
@@ -621,6 +656,13 @@ directory and it must exist.
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Path to where <code class="docutils literal notranslate"><span class="pre">&lt;new&gt;</span></code> symbolic link will be created has to exist beforehand.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">create_hardlink</span> <span class="pre">&lt;old&gt;</span> <span class="pre">&lt;new&gt;</span></code></dt><dd><p>Create a hard link <code class="docutils literal notranslate"><span class="pre">&lt;new&gt;</span></code> naming <code class="docutils literal notranslate"><span class="pre">&lt;old&gt;</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Path to where <code class="docutils literal notranslate"><span class="pre">&lt;new&gt;</span></code> hard link will be created has to exist beforehand.
+<code class="docutils literal notranslate"><span class="pre">&lt;old&gt;</span></code> has to exist beforehand.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">[&lt;string&gt;...]</span></code></dt><dd><p>Displays arguments as text.</p>
@@ -896,6 +938,10 @@ human-readable text format.
 The help is printed to a named &lt;f&gt;ile if given.</p>
 </dd>
 </dl>
+<p>To view the presets available for a project, use</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake &lt;source-dir&gt; --list-presets
+</pre></div>
+</div>
 </div>
 <div class="section" id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
@@ -993,13 +1039,13 @@ found on this web page.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
  
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

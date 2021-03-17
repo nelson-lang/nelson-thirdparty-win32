@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindOpenSSL &mdash; CMake 3.18.1 Documentation</title>
+  <title>FindOpenSSL &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -59,29 +59,47 @@
   <div class="section" id="findopenssl">
 <span id="module:FindOpenSSL"></span><h1>FindOpenSSL<a class="headerlink" href="#findopenssl" title="Permalink to this headline">¶</a></h1>
 <p>Find the OpenSSL encryption library.</p>
+<p>This module finds an installed OpenSSL library and determines its version.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>When a version is requested, it can be specified as a simple value or as a
+range. For a detailed description of version range usage and capabilities,
+refer to the <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Support for OpenSSL 3.0.</p>
+</div>
 <div class="section" id="optional-components">
 <h2>Optional COMPONENTS<a class="headerlink" href="#optional-components" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
 <p>This module supports two optional COMPONENTS: <code class="docutils literal notranslate"><span class="pre">Crypto</span></code> and <code class="docutils literal notranslate"><span class="pre">SSL</span></code>.  Both
 components have associated imported targets, as described below.</p>
 </div>
 <div class="section" id="imported-targets">
 <h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
 <p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">OpenSSL::SSL</span></code></dt><dd><p>The OpenSSL <code class="docutils literal notranslate"><span class="pre">ssl</span></code> library, if found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OpenSSL::Crypto</span></code></dt><dd><p>The OpenSSL <code class="docutils literal notranslate"><span class="pre">crypto</span></code> library, if found.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">OpenSSL::applink</span></code></dt><dd><p>The OpenSSL <code class="docutils literal notranslate"><span class="pre">applink</span></code> components that might be need to be compiled into
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSSL::applink</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>The OpenSSL <code class="docutils literal notranslate"><span class="pre">applink</span></code> components that might be need to be compiled into
 projects under MSVC. This target is available only if found OpenSSL version
 is not less than 0.9.8. By linking this target the above OpenSSL targets can
 be linked even if the project has different MSVC runtime configurations with
-the above OpenSSL targets. This target has no effect on plaforms other than
+the above OpenSSL targets. This target has no effect on platforms other than
 MSVC.</p>
 </dd>
 </dl>
 <p>NOTE: Due to how <code class="docutils literal notranslate"><span class="pre">INTERFACE_SOURCES</span></code> are consumed by the consuming target,
-unless you certainly know what you are doing, it is always prefered to link
+unless you certainly know what you are doing, it is always preferred to link
 <code class="docutils literal notranslate"><span class="pre">OpenSSL::applink</span></code> target as <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> and to make sure that this target is
 linked at most once for the whole dependency graph of any library or
 executable:</p>
@@ -121,9 +139,13 @@ variable shall always be undefined if found openssl version is less than
 </div>
 <div class="section" id="hints">
 <h2>Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h2>
-<p>Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_ROOT_DIR</span></code> to the root directory of an OpenSSL installation.
-Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_USE_STATIC_LIBS</span></code> to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> to look for static libraries.
-Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_MSVC_STATIC_RT</span></code> set <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> to choose the MT version of the lib.</p>
+<p>Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_ROOT_DIR</span></code> to the root directory of an OpenSSL installation.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_USE_STATIC_LIBS</span></code> to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> to look for static libraries.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_MSVC_STATIC_RT</span></code> set <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> to choose the MT version of the lib.</p>
+</div>
 </div>
 </div>
 
@@ -191,14 +213,14 @@ Set <code class="docutils literal notranslate"><span class="pre">OPENSSL_MSVC_ST
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

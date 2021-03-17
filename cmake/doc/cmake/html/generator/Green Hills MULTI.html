@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Green Hills MULTI &mdash; CMake 3.18.1 Documentation</title>
+  <title>Green Hills MULTI &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li> 
@@ -58,18 +58,38 @@
             
   <div class="section" id="green-hills-multi">
 <span id="generator:Green Hills MULTI"></span><h1>Green Hills MULTI<a class="headerlink" href="#green-hills-multi" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15: </span>Linux support.</p>
+</div>
 <p>Generates Green Hills MULTI project files (experimental, work-in-progress).</p>
-<p>The buildsystem has predetermined build-configuration settings that can be controlled
+<p>Customizations are available through the following cache variables:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GHS_CUSTOMIZATION</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GHS_GPJ_MACROS</span></code></p></li>
+</ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>The buildsystem has predetermined build-configuration settings that can be controlled
 via the <span class="target" id="index-0-variable:CMAKE_BUILD_TYPE"></span><a class="reference internal" href="../variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE" title="CMAKE_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code></a> variable.</p>
+</div>
+<div class="section" id="toolset-and-platform-selection">
+<h2>Toolset and Platform Selection<a class="headerlink" href="#toolset-and-platform-selection" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
 <p>Customizations that are used to pick toolset and target system:</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">&lt;arch&gt;</span></code> can be supplied for setting the target architecture.
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">&lt;arch&gt;</span></code> can be supplied for setting the target architecture.
 <code class="docutils literal notranslate"><span class="pre">&lt;arch&gt;</span></code> usually is one of <code class="docutils literal notranslate"><span class="pre">arm</span></code>, <code class="docutils literal notranslate"><span class="pre">ppc</span></code>, <code class="docutils literal notranslate"><span class="pre">86</span></code>, etcetera.
 If the target architecture is not specified then
-the default architecture of <code class="docutils literal notranslate"><span class="pre">arm</span></code> will be used.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">&lt;toolset&gt;</span></code> option can be used to set the directory location of the toolset.
+the default architecture of <code class="docutils literal notranslate"><span class="pre">arm</span></code> will be used.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">&lt;toolset&gt;</span></code> option can be used to set the directory location of the toolset.
 Both absolute and relative paths are valid. Relative paths use <code class="docutils literal notranslate"><span class="pre">GHS_TOOLSET_ROOT</span></code>
 as the root. If the toolset is not specified then the latest toolset found in
-<code class="docutils literal notranslate"><span class="pre">GHS_TOOLSET_ROOT</span></code> will be used.</p>
+<code class="docutils literal notranslate"><span class="pre">GHS_TOOLSET_ROOT</span></code> will be used.</p></li>
+</ul>
 <p>Cache variables that are used for toolset and target system customization:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">GHS_TARGET_PLATFORM</span></code></p>
@@ -104,6 +124,9 @@ as the root. If the toolset is not specified then the latest toolset found in
 a specific RTOS is to be used.</div>
 <div class="line"><code class="docutils literal notranslate"><span class="pre">GHS_OS_DIR_OPTION</span></code> default value is <code class="docutils literal notranslate"><span class="pre">-os_dir</span></code>.</div>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15: </span>The <code class="docutils literal notranslate"><span class="pre">GHS_OS_DIR_OPTION</span></code> variable.</p>
+</div>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">GHS_BSP_NAME</span></code></p>
 <div class="line-block">
@@ -112,11 +135,12 @@ a specific RTOS is to be used.</div>
 </div>
 </li>
 </ul>
-<p>Customizations are available through the following cache variables:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">GHS_CUSTOMIZATION</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">GHS_GPJ_MACROS</span></code></p></li>
-</ul>
+</div>
+<div class="section" id="target-properties">
+<h2>Target Properties<a class="headerlink" href="#target-properties" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
 <p>The following properties are available:</p>
 <ul class="simple">
 <li><p><span class="target" id="index-0-prop_tgt:GHS_INTEGRITY_APP"></span><a class="reference internal" href="../prop_tgt/GHS_INTEGRITY_APP.html#prop_tgt:GHS_INTEGRITY_APP" title="GHS_INTEGRITY_APP"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">GHS_INTEGRITY_APP</span></code></a></p></li>
@@ -124,9 +148,10 @@ a specific RTOS is to be used.</div>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This generator is deemed experimental as of CMake 3.18.1
+<p>This generator is deemed experimental as of CMake 3.20.0-rc4
 and is still a work in progress.  Future versions of CMake
 may make breaking changes as the generator matures.</p>
+</div>
 </div>
 </div>
 
@@ -136,6 +161,15 @@ may make breaking changes as the generator matures.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Green Hills MULTI</a><ul>
+<li><a class="reference internal" href="#toolset-and-platform-selection">Toolset and Platform Selection</a></li>
+<li><a class="reference internal" href="#target-properties">Target Properties</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="Visual Studio 16 2019.html"
                         title="previous chapter">Visual Studio 16 2019</a></p>
@@ -183,14 +217,14 @@ may make breaking changes as the generator matures.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

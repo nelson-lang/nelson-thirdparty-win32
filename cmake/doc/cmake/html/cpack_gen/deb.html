@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CPack DEB Generator &mdash; CMake 3.18.1 Documentation</title>
+  <title>CPack DEB Generator &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li> 
@@ -112,6 +112,9 @@ for component-based installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_NAME</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Source">https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Source</a></p>
 </dd></dl>
 
@@ -120,7 +123,10 @@ for component-based installations.</p></li>
 <code class="sig-name descname">CPACK_DEBIAN_FILE_NAME</code><a class="headerlink" href="#variable:CPACK_DEBIAN_FILE_NAME" title="Permalink to this definition">¶</a></dt>
 <dt id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_FILE_NAME">
 <code class="sig-name descname">CPACK_DEBIAN_&lt;COMPONENT&gt;_FILE_NAME</code><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_FILE_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Package file name.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Package file name.</p>
 <ul class="simple">
 <li><p>Mandatory : YES</p></li>
 <li><p>Default   : <code class="docutils literal notranslate"><span class="pre">&lt;CPACK_PACKAGE_FILE_NAME&gt;[-&lt;component&gt;].deb</span></code></p></li>
@@ -132,6 +138,9 @@ package file name by itself in deb format:</p>
 </div>
 <p>Alternatively provided package file name must end
 with either <code class="docutils literal notranslate"><span class="pre">.deb</span></code> or <code class="docutils literal notranslate"><span class="pre">.ipk</span></code> suffix.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10: </span><code class="docutils literal notranslate"><span class="pre">.ipk</span></code> suffix used by OPKG packaging system.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Preferred setting of this variable is <code class="docutils literal notranslate"><span class="pre">DEB-DEFAULT</span></code> but for backward
@@ -149,7 +158,10 @@ manner that will prevent such errors.</p>
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_PACKAGE_EPOCH">
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_EPOCH</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_EPOCH" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Debian package epoch</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
+<p>The Debian package epoch</p>
 <ul class="simple">
 <li><p>Mandatory : No</p></li>
 <li><p>Default   : -</p></li>
@@ -173,7 +185,7 @@ allowed.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>For backward compatibility with CMake 3.9 and lower a failed test of this
-variable’s content is not a hard error when both
+variable's content is not a hard error when both
 <span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_RELEASE"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_RELEASE" title="CPACK_DEBIAN_PACKAGE_RELEASE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_RELEASE</span></code></a> and
 <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_EPOCH"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_EPOCH" title="CPACK_DEBIAN_PACKAGE_EPOCH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_EPOCH</span></code></a> variables are not set. An author
 warning is reported instead.</p>
@@ -183,7 +195,10 @@ warning is reported instead.</p>
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_PACKAGE_RELEASE">
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_RELEASE</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_RELEASE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Debian package release - Debian revision number.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>The Debian package release - Debian revision number.</p>
 <ul class="simple">
 <li><p>Mandatory : No</p></li>
 <li><p>Default   : -</p></li>
@@ -206,6 +221,9 @@ distro specific numbering.</p>
 <li><p>Default   : Output of <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">--print-architecture</span></code> (or <code class="docutils literal notranslate"><span class="pre">i386</span></code>
 if <code class="docutils literal notranslate"><span class="pre">dpkg</span></code> is not found)</p></li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ARCHITECTURE</span></code> variables.</p>
+</div>
 </dd></dl>
 
 <dl class="variable">
@@ -224,6 +242,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS</span></code> variables.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS" title="CPACK_DEBIAN_PACKAGE_SHLIBDEPS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS</span></code></a> or
@@ -244,7 +265,10 @@ component.</p>
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS">
 <code class="sig-name descname">CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS</code><a class="headerlink" href="#variable:CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets inter component dependencies if listed with
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Sets inter-component dependencies if listed with
 <span class="target" id="index-0-variable:CPACK_COMPONENT_&lt;compName&gt;_DEPENDS"></span><a class="reference internal" href="../module/CPackComponent.html#variable:CPACK_COMPONENT_&lt;compName&gt;_DEPENDS" title="CPACK_COMPONENT_&lt;compName&gt;_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DEPENDS</span></code></a> variables.</p>
 <ul class="simple">
 <li><p>Mandatory : NO</p></li>
@@ -283,6 +307,15 @@ based installers only) if set, or <span class="target" id="index-0-variable:CPAC
 <p>If after that description is not set, <span class="target" id="index-0-variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY" title="CPACK_PACKAGE_DESCRIPTION_SUMMARY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_SUMMARY</span></code></a> going to be
 used if set. Otherwise, <span class="target" id="index-1-variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY" title="CPACK_PACKAGE_DESCRIPTION_SUMMARY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_SUMMARY</span></code></a> will be added as the first
 line of description as defined in <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#description">Debian Policy Manual</a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION</span></code> variables.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION</span></code> variables.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>The <code class="docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_FILE</span></code> variable.</p>
+</div>
 </dd></dl>
 
 <dl class="variable">
@@ -290,21 +323,30 @@ line of description as defined in <a class="reference external" href="https://ww
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_SECTION</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SECTION" title="Permalink to this definition">¶</a></dt>
 <dt id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SECTION">
 <code class="sig-name descname">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SECTION</code><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_SECTION" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set Section control field e.g. admin, devel, doc, …</p>
+<dd><p>Set Section control field e.g. admin, devel, doc, ...</p>
 <ul class="simple">
 <li><p>Mandatory : YES</p></li>
-<li><p>Default   : “devel”</p></li>
+<li><p>Default   : &quot;devel&quot;</p></li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SECTION</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-archive.html#s-subsections">https://www.debian.org/doc/debian-policy/ch-archive.html#s-subsections</a></p>
 </dd></dl>
 
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_ARCHIVE_TYPE">
 <code class="sig-name descname">CPACK_DEBIAN_ARCHIVE_TYPE</code><a class="headerlink" href="#variable:CPACK_DEBIAN_ARCHIVE_TYPE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The archive format used for creating the Debian package.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.14.</span></p>
+</div>
+<p>The archive format used for creating the Debian package.</p>
 <ul class="simple">
 <li><p>Mandatory : YES</p></li>
-<li><p>Default   : “gnutar”</p></li>
+<li><p>Default   : &quot;gnutar&quot;</p></li>
 </ul>
 <p>Possible value is:</p>
 <ul class="simple">
@@ -322,10 +364,13 @@ will be emitted.</p>
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_COMPRESSION_TYPE">
 <code class="sig-name descname">CPACK_DEBIAN_COMPRESSION_TYPE</code><a class="headerlink" href="#variable:CPACK_DEBIAN_COMPRESSION_TYPE" title="Permalink to this definition">¶</a></dt>
-<dd><p>The compression used for creating the Debian package.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>The compression used for creating the Debian package.</p>
 <ul class="simple">
 <li><p>Mandatory : YES</p></li>
-<li><p>Default   : “gzip”</p></li>
+<li><p>Default   : &quot;gzip&quot;</p></li>
 </ul>
 <p>Possible values are:</p>
 <ul class="simple">
@@ -345,8 +390,11 @@ will be emitted.</p>
 extra</p>
 <ul class="simple">
 <li><p>Mandatory : YES</p></li>
-<li><p>Default   : “optional”</p></li>
+<li><p>Default   : &quot;optional&quot;</p></li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PRIORITY</span></code> varables.</p>
+</div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-archive.html#s-priorities">https://www.debian.org/doc/debian-policy/ch-archive.html#s-priorities</a></p>
 </dd></dl>
 
@@ -360,6 +408,9 @@ upstream documentation or information may be found.</p>
 <li><p>Mandatory : NO</p></li>
 <li><p>Default   : <span class="target" id="index-0-variable:CMAKE_PROJECT_HOMEPAGE_URL"></span><a class="reference internal" href="../variable/CMAKE_PROJECT_HOMEPAGE_URL.html#variable:CMAKE_PROJECT_HOMEPAGE_URL" title="CMAKE_PROJECT_HOMEPAGE_URL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_HOMEPAGE_URL</span></code></a></p></li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span>The <code class="docutils literal notranslate"><span class="pre">CMAKE_PROJECT_HOMEPAGE_URL</span></code> variable.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The content of this field is a simple URL without any surrounding
@@ -386,9 +437,43 @@ better package dependency list.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You may need set <span class="target" id="index-0-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a> to an appropriate value
-if you use this feature, because if you don’t <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>
+if you use this feature, because if you don't <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>
 may fail to find your own shared libs.
 See <a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling">https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also set <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS" title="CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS</span></code></a>
+to an appropriate value if you use this feature, in order to please
+<code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>. However, you should only do this for private
+shared libraries that could not get resolved otherwise.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS</span></code> variables.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Correct handling of <code class="docutils literal notranslate"><span class="pre">$ORIGIN</span></code> in <span class="target" id="index-1-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="variable">
+<dt id="variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS">
+<code class="sig-name descname">CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>May be set to a list of directories that will be given to <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>
+via its <code class="docutils literal notranslate"><span class="pre">-l</span></code> option. These will be searched by <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code> in order
+to find private shared library dependencies.</p>
+<ul class="simple">
+<li><p>Mandatory : NO</p></li>
+<li><p>Default   :</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You should prefer to set <span class="target" id="index-2-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a> to an appropriate
+value if you use <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>. The current option is really only
+needed for private shared library dependencies.</p>
 </div>
 </dd></dl>
 
@@ -423,6 +508,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PREDEPENDS</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
 </dd></dl>
 
@@ -445,6 +533,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ENHANCES</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
 </dd></dl>
 
@@ -470,6 +561,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_BREAKS</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-breaks">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-breaks</a></p>
 </dd></dl>
 
@@ -492,13 +586,16 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONFLICTS</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-conflicts">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-conflicts</a></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is a stronger restriction than
 <span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_BREAKS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_BREAKS" title="CPACK_DEBIAN_PACKAGE_BREAKS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">Breaks</span></code></a>, which prevents the
 broken package from being configured while the breaking package is in
-the “Unpacked” state but allows both packages to be unpacked at the same
+the &quot;Unpacked&quot; state but allows both packages to be unpacked at the same
 time.</p>
 </div>
 </dd></dl>
@@ -521,6 +618,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PROVIDES</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-virtual">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-virtual</a></p>
 </dd></dl>
 
@@ -542,6 +642,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_REPLACES</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
 </dd></dl>
 
@@ -563,6 +666,9 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_RECOMMENDS</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
 </dd></dl>
 
@@ -583,13 +689,19 @@ installations.</p></li>
 </ul>
 </li>
 </ul>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SUGGESTS</span></code> variables.</p>
+</div>
 <p>See <a class="reference external" href="http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">http://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
 </dd></dl>
 
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS">
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS" title="Permalink to this definition">¶</a></dt>
-<dd><ul class="simple">
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<ul class="simple">
 <li><p>Mandatory : NO</p></li>
 <li><p>Default   : OFF</p></li>
 </ul>
@@ -606,13 +718,16 @@ set. This can be done by setting SOVERSION property with
 <dl class="variable">
 <dt id="variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY">
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compatibility policy for auto-generated shlibs control file.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Compatibility policy for auto-generated shlibs control file.</p>
 <ul class="simple">
 <li><p>Mandatory : NO</p></li>
-<li><p>Default   : “=”</p></li>
+<li><p>Default   : &quot;=&quot;</p></li>
 </ul>
 <p>Defines compatibility policy for auto-generated shlibs control file.
-Possible values: “=”, “&gt;=”</p>
+Possible values: &quot;=&quot;, &quot;&gt;=&quot;</p>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-sharedlibs.html#s-sharedlibs-shlibdeps">https://www.debian.org/doc/debian-policy/ch-sharedlibs.html#s-sharedlibs-shlibdeps</a></p>
 </dd></dl>
 
@@ -633,13 +748,8 @@ Typical usage is for conffiles, postinst, postrm, prerm.</p>
     &quot;${CMAKE_CURRENT_SOURCE_DIR}/prerm;${CMAKE_CURRENT_SOURCE_DIR}/postrm&quot;)
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The original permissions of the files will be used in the final
-package unless the variable
-<span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION" title="CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION</span></code></a> is set.
-In particular, the scripts should have the proper executable
-flag prior to the generation of the package.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_EXTRA</span></code> variables.</p>
 </div>
 </dd></dl>
 
@@ -648,7 +758,10 @@ flag prior to the generation of the package.</p>
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION" title="Permalink to this definition">¶</a></dt>
 <dt id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_STRICT_PERMISSION">
 <code class="sig-name descname">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_STRICT_PERMISSION</code><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_CONTROL_STRICT_PERMISSION" title="Permalink to this definition">¶</a></dt>
-<dd><p>This variable indicates if the Debian policy on control files should be
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>This variable indicates if the Debian policy on control files should be
 strictly followed.</p>
 <ul class="simple">
 <li><p>Mandatory : NO</p></li>
@@ -658,11 +771,15 @@ strictly followed.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>set(CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION TRUE)
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
 <p>This overrides the permissions on the original files, following the rules
 set by Debian policy
 <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-files.html#s-permissions-owners">https://www.debian.org/doc/debian-policy/ch-files.html#s-permissions-owners</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original permissions of the files will be used in the final
+package unless this variable is set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>.
+In particular, the scripts should have the proper executable
+flag prior to the generation of the package.</p>
 </div>
 </dd></dl>
 
@@ -671,7 +788,10 @@ set by Debian policy
 <code class="sig-name descname">CPACK_DEBIAN_PACKAGE_SOURCE</code><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SOURCE" title="Permalink to this definition">¶</a></dt>
 <dt id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SOURCE">
 <code class="sig-name descname">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SOURCE</code><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_SOURCE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the <code class="docutils literal notranslate"><span class="pre">Source</span></code> field of the binary Debian package.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
+</div>
+<p>Sets the <code class="docutils literal notranslate"><span class="pre">Source</span></code> field of the binary Debian package.
 When the binary package name is not the same as the source package name
 (in particular when several components/binaries are generated from one
 source) the source from which the binary has been generated should be
@@ -697,6 +817,9 @@ revision number of the referenced source package as well.</p>
 </div>
 <div class="section" id="packaging-of-debug-information">
 <h2>Packaging of debug information<a class="headerlink" href="#packaging-of-debug-information" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
 <p>Dbgsym packages contain debug symbols for debugging packaged binaries.</p>
 <p>Dbgsym packaging has its own set of variables:</p>
 <dl class="variable">
@@ -719,14 +842,20 @@ or <code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</
 </div>
 <div class="section" id="building-debian-packages-on-windows">
 <h2>Building Debian packages on Windows<a class="headerlink" href="#building-debian-packages-on-windows" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
 <p>To communicate UNIX file permissions from the install stage
-to the CPack DEB generator the “cmake_mode_t” NTFS
+to the CPack DEB generator the &quot;cmake_mode_t&quot; NTFS
 alternate data stream (ADT) is used.</p>
 <p>When a filesystem without ADT support is used only owner read/write
 permissions can be preserved.</p>
 </div>
 <div class="section" id="reproducible-packages">
 <h2>Reproducible packages<a class="headerlink" href="#reproducible-packages" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
 <p>The environment variable <code class="docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> may be set to a UNIX
 timestamp, defined as the number of seconds, excluding leap seconds,
 since 01 Jan 1970 00:00:00 UTC.  If set, the CPack DEB generator will
@@ -798,14 +927,14 @@ use its value for timestamps in the package.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

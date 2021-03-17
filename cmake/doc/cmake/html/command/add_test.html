@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>add_test &mdash; CMake 3.18.1 Documentation</title>
+  <title>add_test &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -65,9 +65,10 @@
 <span class="w">         </span><span class="p">[</span><span class="no">COMMAND_EXPAND_LISTS</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Adds a test called <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  The test name may not contain spaces,
-quotes, or other characters special in CMake syntax.  The options are:</p>
-<dl class="simple">
+<p>Adds a test called <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  The test name may contain arbitrary
+characters, expressed as a <a class="reference internal" href="../manual/cmake-language.7.html#quoted-argument"><span class="std std-ref">Quoted Argument</span></a> or <a class="reference internal" href="../manual/cmake-language.7.html#bracket-argument"><span class="std std-ref">Bracket Argument</span></a>
+if necessary.  See policy <span class="target" id="index-0-policy:CMP0110"></span><a class="reference internal" href="../policy/CMP0110.html#policy:CMP0110" title="CMP0110"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0110</span></code></a>.  The options are:</p>
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></dt><dd><p>Specify the test command-line.  If <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> specifies an
 executable target (created by <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>) it will
 automatically be replaced by the location of the executable created
@@ -81,7 +82,10 @@ If not specified the test will be run with the current working
 directory set to the build directory corresponding to the
 current source directory.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">COMMAND_EXPAND_LISTS</span></code></dt><dd><p>Lists in <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments will be expanded, including those
+<dt><code class="docutils literal notranslate"><span class="pre">COMMAND_EXPAND_LISTS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>Lists in <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments will be expanded, including those
 created with
 <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
 </dd>
@@ -93,12 +97,15 @@ captured by <span class="target" id="index-1-manual:ctest(1)"></span><a class="r
 unless the <span class="target" id="index-0-prop_test:PASS_REGULAR_EXPRESSION"></span><a class="reference internal" href="../prop_test/PASS_REGULAR_EXPRESSION.html#prop_test:PASS_REGULAR_EXPRESSION" title="PASS_REGULAR_EXPRESSION"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">PASS_REGULAR_EXPRESSION</span></code></a>,
 <span class="target" id="index-0-prop_test:FAIL_REGULAR_EXPRESSION"></span><a class="reference internal" href="../prop_test/FAIL_REGULAR_EXPRESSION.html#prop_test:FAIL_REGULAR_EXPRESSION" title="FAIL_REGULAR_EXPRESSION"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">FAIL_REGULAR_EXPRESSION</span></code></a> or
 <span class="target" id="index-0-prop_test:SKIP_REGULAR_EXPRESSION"></span><a class="reference internal" href="../prop_test/SKIP_REGULAR_EXPRESSION.html#prop_test:SKIP_REGULAR_EXPRESSION" title="SKIP_REGULAR_EXPRESSION"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">SKIP_REGULAR_EXPRESSION</span></code></a> test property is used.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> and <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> options may use “generator
-expressions” with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>Added <span class="target" id="index-1-prop_test:SKIP_REGULAR_EXPRESSION"></span><a class="reference internal" href="../prop_test/SKIP_REGULAR_EXPRESSION.html#prop_test:SKIP_REGULAR_EXPRESSION" title="SKIP_REGULAR_EXPRESSION"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">SKIP_REGULAR_EXPRESSION</span></code></a> property.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> and <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> options may use &quot;generator
+expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
 <span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
 <p>Example usage:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_test(</span><span class="no">NAME</span><span class="w"> </span><span class="nb">mytest</span><span class="w"></span>
-<span class="w">         </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">testDriver</span><span class="w"> </span><span class="p">--</span><span class="nb">config</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">CONFIGURATION</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">         </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">testDriver</span><span class="w"> </span><span class="p">--</span><span class="nb">config</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">CONFIG</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">                            </span><span class="p">--</span><span class="nb">exe</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">TARGET_FILE</span><span class="o">:</span><span class="nb">myexe</span><span class="o">&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -174,14 +181,14 @@ command-line to support target names or generator expressions.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

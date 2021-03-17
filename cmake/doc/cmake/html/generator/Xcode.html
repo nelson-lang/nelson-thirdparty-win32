@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Xcode &mdash; CMake 3.18.1 Documentation</title>
+  <title>Xcode &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li> 
@@ -59,12 +59,43 @@
   <div class="section" id="xcode">
 <span id="generator:Xcode"></span><h1>Xcode<a class="headerlink" href="#xcode" title="Permalink to this headline">¶</a></h1>
 <p>Generate Xcode project files.</p>
-<p>This supports Xcode 5.0 and above.</p>
-<div class="section" id="toolset-selection">
-<h2>Toolset Selection<a class="headerlink" href="#toolset-selection" title="Permalink to this headline">¶</a></h2>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.15: </span>This generator supports Xcode 5.0 and above.</p>
+</div>
+<div class="section" id="toolset-and-build-system-selection">
+<span id="xcode-build-system-selection"></span><h2>Toolset and Build System Selection<a class="headerlink" href="#toolset-and-build-system-selection" title="Permalink to this headline">¶</a></h2>
 <p>By default Xcode is allowed to select its own default toolchain.
 The <span class="target" id="index-0-variable:CMAKE_GENERATOR_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_TOOLSET.html#variable:CMAKE_GENERATOR_TOOLSET" title="CMAKE_GENERATOR_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_TOOLSET</span></code></a> option may be set, perhaps
 via the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> <code class="docutils literal notranslate"><span class="pre">-T</span></code> option, to specify another toolset.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>This generator supports toolset specification using one of these forms:</p>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">toolset</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">toolset[,key=value]*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key=value[,key=value]*</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">toolset</span></code> specifies the toolset name.  The selected toolset name
+is provided in the <span class="target" id="index-0-variable:CMAKE_XCODE_PLATFORM_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_XCODE_PLATFORM_TOOLSET.html#variable:CMAKE_XCODE_PLATFORM_TOOLSET" title="CMAKE_XCODE_PLATFORM_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_XCODE_PLATFORM_TOOLSET</span></code></a> variable.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">key=value</span></code> pairs form a comma-separated list of options to
+specify generator-specific details of the toolset selection.
+Supported pairs are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">buildsystem=&lt;variant&gt;</span></code></dt><dd><p>Specify the buildsystem variant to use.
+See the <span class="target" id="index-0-variable:CMAKE_XCODE_BUILD_SYSTEM"></span><a class="reference internal" href="../variable/CMAKE_XCODE_BUILD_SYSTEM.html#variable:CMAKE_XCODE_BUILD_SYSTEM" title="CMAKE_XCODE_BUILD_SYSTEM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_XCODE_BUILD_SYSTEM</span></code></a> variable for allowed values.</p>
+<p>For example, to select the original build system under Xcode 12,
+run <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> with the option <code class="docutils literal notranslate"><span class="pre">-T</span> <span class="pre">buildsystem=1</span></code>.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="swift-support">
+<h2>Swift Support<a class="headerlink" href="#swift-support" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>When using the <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator with Xcode 6.1 or higher,
+one may enable the <code class="docutils literal notranslate"><span class="pre">Swift</span></code> language with the <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a>
+command or the <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a>.</p>
 </div>
 </div>
 
@@ -77,7 +108,8 @@ via the <span class="target" id="index-0-manual:cmake(1)"></span><a class="refer
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Xcode</a><ul>
-<li><a class="reference internal" href="#toolset-selection">Toolset Selection</a></li>
+<li><a class="reference internal" href="#toolset-and-build-system-selection">Toolset and Build System Selection</a></li>
+<li><a class="reference internal" href="#swift-support">Swift Support</a></li>
 </ul>
 </li>
 </ul>
@@ -129,14 +161,14 @@ via the <span class="target" id="index-0-manual:cmake(1)"></span><a class="refer
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

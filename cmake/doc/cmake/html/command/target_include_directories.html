@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>target_include_directories &mdash; CMake 3.18.1 Documentation</title>
+  <title>target_include_directories &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -59,7 +59,7 @@
   <div class="section" id="target-include-directories">
 <span id="command:target_include_directories"></span><h1>target_include_directories<a class="headerlink" href="#target-include-directories" title="Permalink to this headline">¶</a></h1>
 <p>Add include directories to a target.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_include_directories(</span><span class="nv">&lt;target&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">SYSTEM</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">BEFORE</span><span class="p">]</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_include_directories(</span><span class="nv">&lt;target&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">SYSTEM</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">AFTER</span><span class="p">|</span><span class="no">BEFORE</span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="o">&lt;</span><span class="no">INTERFACE</span><span class="p">|</span><span class="no">PUBLIC</span><span class="p">|</span><span class="no">PRIVATE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">items1...</span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="p">[</span><span class="o">&lt;</span><span class="no">INTERFACE</span><span class="p">|</span><span class="no">PUBLIC</span><span class="p">|</span><span class="no">PRIVATE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">items2...</span><span class="p">]</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -68,15 +68,17 @@
 The named <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> must have been created by a command such
 as <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> or <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> and must not be an
 <a class="reference internal" href="../manual/cmake-buildsystem.7.html#alias-targets"><span class="std std-ref">ALIAS target</span></a>.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">BEFORE</span></code> is specified, the content will be prepended to the property
-instead of being appended.</p>
+<p>By using <code class="docutils literal notranslate"><span class="pre">AFTER</span></code> or <code class="docutils literal notranslate"><span class="pre">BEFORE</span></code> explicitly, you can select between appending
+and prepending, independent of the default.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code>, <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> and <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> keywords are required to specify
 the scope of the following arguments.  <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> and <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> items will
 populate the <span class="target" id="index-0-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> property of <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code>.
 <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> and <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> items will populate the
 <span class="target" id="index-0-prop_tgt:INTERFACE_INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_INCLUDE_DIRECTORIES.html#prop_tgt:INTERFACE_INCLUDE_DIRECTORIES" title="INTERFACE_INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_INCLUDE_DIRECTORIES</span></code></a> property of <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code>.
-(<a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">IMPORTED targets</span></a> only support <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> items.)
 The following arguments specify include directories.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>Allow setting <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> items on <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">IMPORTED targets</span></a>.</p>
+</div>
 <p>Specified include directories may be absolute paths or relative paths.
 Repeated calls for the same &lt;target&gt; append items in the order called.  If
 <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> is specified, the compiler will be told the
@@ -87,7 +89,7 @@ considered in dependency calculations - see compiler docs).  If <code class="doc
 is used together with <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> or <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code>, the
 <span class="target" id="index-0-prop_tgt:INTERFACE_SYSTEM_INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_SYSTEM_INCLUDE_DIRECTORIES.html#prop_tgt:INTERFACE_SYSTEM_INCLUDE_DIRECTORIES" title="INTERFACE_SYSTEM_INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_SYSTEM_INCLUDE_DIRECTORIES</span></code></a> target property will be
 populated with the specified directories.</p>
-<p>Arguments to <code class="docutils literal notranslate"><span class="pre">target_include_directories</span></code> may use “generator expressions”
+<p>Arguments to <code class="docutils literal notranslate"><span class="pre">target_include_directories</span></code> may use &quot;generator expressions&quot;
 with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
 manual for available expressions.  See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a>
 manual for more on defining buildsystem properties.</p>
@@ -184,14 +186,14 @@ packages for redistribution.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMP0095 &mdash; CMake 3.18.1 Documentation</title>
+  <title>CMP0095 &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="cmp0095">
 <span id="policy:CMP0095"></span><h1>CMP0095<a class="headerlink" href="#cmp0095" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">RPATH</span></code> entries are properly escaped in the intermediary CMake install script.</p>
 <p>In CMake 3.15 and earlier, <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> entries set via
 <span class="target" id="index-0-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a> or via <span class="target" id="index-0-prop_tgt:INSTALL_RPATH"></span><a class="reference internal" href="../prop_tgt/INSTALL_RPATH.html#prop_tgt:INSTALL_RPATH" title="INSTALL_RPATH"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INSTALL_RPATH</span></code></a> have not been
@@ -65,7 +68,7 @@ escaped before being inserted into the <code class="docutils literal notranslate
 linkers on ELF-based systems (e.g. Linux and FreeBSD) allow certain keywords in
 <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> entries, such as <code class="docutils literal notranslate"><span class="pre">${ORIGIN}</span></code> (More details are available in the
 <code class="docutils literal notranslate"><span class="pre">ld.so</span></code> man pages on those systems). The syntax of these keywords can match
-CMake’s variable syntax. In order to not be substituted (usually to an empty
+CMake's variable syntax. In order to not be substituted (usually to an empty
 string) already by the intermediary <code class="docutils literal notranslate"><span class="pre">cmake_install.cmake</span></code> script, the user had
 to double-escape such <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> keywords, e.g.
 <code class="docutils literal notranslate"><span class="pre">set(CMAKE_INSTALL_RPATH</span> <span class="pre">&quot;\\\${ORIGIN}/../lib&quot;)</span></code>. Since the intermediary
@@ -76,7 +79,7 @@ any coincidental CMake syntax.</p>
 intermediary <code class="docutils literal notranslate"><span class="pre">cmake_install.cmake</span></code> script. The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior is to properly
 escape coincidental CMake syntax in <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> entries when generating the
 intermediary <code class="docutils literal notranslate"><span class="pre">cmake_install.cmake</span></code> script.</p>
-<p>This policy was introduced in CMake version 3.16. CMake version 3.18.1 warns
+<p>This policy was introduced in CMake version 3.16. CMake version 3.20.0-rc4 warns
 when the policy is not set and detected usage of CMake-like syntax and uses
 <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior. Use the <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code>
 or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.</p>
@@ -141,14 +144,14 @@ and may be removed in a future version of CMake.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

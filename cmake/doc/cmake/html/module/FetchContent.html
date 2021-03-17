@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FetchContent &mdash; CMake 3.18.1 Documentation</title>
+  <title>FetchContent &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="fetchcontent">
 <span id="module:FetchContent"></span><h1><a class="toc-backref" href="#id1">FetchContent</a><a class="headerlink" href="#fetchcontent" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11.</span></p>
+</div>
 <div class="contents topic" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
@@ -102,7 +105,7 @@ command like so:</p>
 </pre></div>
 </div>
 <p>The above command not only populates the content, it also adds it to the main
-build (if possible) so that the main build can use the populated project’s
+build (if possible) so that the main build can use the populated project's
 targets, etc.  In some cases, the main project may need to have more precise
 control over the population or may be required to explicitly define the
 population steps (e.g. if CMake versions earlier than 3.14 need to be
@@ -129,7 +132,11 @@ content in a single call, with no check for whether the content has been
 populated elsewhere in the project already.  This is a more low level
 operation and would not normally be the way the module is used, but it is
 sometimes useful as part of implementing some higher level feature or to
-populate some content in CMake’s script mode.</p>
+populate some content in CMake's script mode.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.14: </span><code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> commands can access the terminal. This is necessary
+for password prompts and real-time progress displays to work.</p>
+</div>
 </div>
 <div class="section" id="commands">
 <h2><a class="toc-backref" href="#id3">Commands</a><a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
@@ -145,7 +152,7 @@ populate some content in CMake’s script mode.</p>
 how to populate the specified content, but if such details have already
 been recorded earlier in this project (regardless of where in the project
 hierarchy), this and all later calls for the same content <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> are
-ignored.  This “first to record, wins” approach is what allows hierarchical
+ignored.  This &quot;first to record, wins&quot; approach is what allows hierarchical
 projects to have parent projects override content details of child projects.</p>
 <p>The content <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> can be any string without spaces, but good practice
 would be to use only letters, numbers and underscores.  The name will be
@@ -227,7 +234,7 @@ is simpler and provides additional features over the pattern above.</p>
 <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  When used this way, the command assumes the content details have
 been recorded by an earlier call to <span class="target" id="index-0-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.  The
 details are stored in a global property, so they are unaffected by things
-like variable or directory scope.  Therefore, it doesn’t matter where in the
+like variable or directory scope.  Therefore, it doesn't matter where in the
 project the details were previously declared, as long as they have been
 declared before the call to <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code>.  Those saved details
 are then used to construct a call to <span class="target" id="index-2-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> in a
@@ -264,7 +271,7 @@ performed using details saved from a <span class="target" id="index-1-command:fe
 <dt><code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_BASE_DIR</span></code></dt><dd><p>In most cases, the saved details do not specify any options relating to the
 directories to use for the internal sub-build, final source and build areas.
 It is generally best to leave these decisions up to the <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code>
-module to handle on the project’s behalf.  The <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_BASE_DIR</span></code>
+module to handle on the project's behalf.  The <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_BASE_DIR</span></code>
 cache variable controls the point under which all content population
 directories are collected, but in most cases developers would not need to
 change this.  The default location is <code class="docutils literal notranslate"><span class="pre">${CMAKE_BINARY_DIR}/_deps</span></code>, but if
@@ -352,7 +359,7 @@ populated content.</p></li>
 returned to the caller, but since these locations are not stored as global
 properties when this form is used, they are only available to the calling
 scope and below rather than the entire project hierarchy.  No
-<code class="docutils literal notranslate"><span class="pre">&lt;lcName&gt;_POPULATED</span></code> variable is set in the caller’s scope with this form.</p>
+<code class="docutils literal notranslate"><span class="pre">&lt;lcName&gt;_POPULATED</span></code> variable is set in the caller's scope with this form.</p>
 <p>The supported options for <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> are the same as those
 for <span class="target" id="index-2-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.  Those few options shown just
 above are either specific to <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> or their behavior is
@@ -392,12 +399,15 @@ prohibited (they are disabled by the <code class="docutils literal notranslate">
 <li><p><code class="docutils literal notranslate"><span class="pre">INSTALL_COMMAND</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">TEST_COMMAND</span></code></p></li>
 </ul>
-<p>If using <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> within CMake’s script mode, be aware
+<p>If using <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> within CMake's script mode, be aware
 that the implementation sets up a sub-build which therefore requires a CMake
 generator and build tool to be available. If these cannot be found by
 default, then the <span class="target" id="index-0-variable:CMAKE_GENERATOR"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR.html#variable:CMAKE_GENERATOR" title="CMAKE_GENERATOR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR</span></code></a> and/or
 <span class="target" id="index-0-variable:CMAKE_MAKE_PROGRAM"></span><a class="reference internal" href="../variable/CMAKE_MAKE_PROGRAM.html#variable:CMAKE_MAKE_PROGRAM" title="CMAKE_MAKE_PROGRAM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MAKE_PROGRAM</span></code></a> variables will need to be set appropriately
 on the command line invoking the script.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Added support for <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_NO_EXTRACT</span></code> and <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> options.</p>
+</div>
 </dd></dl>
 
 <dl class="command">
@@ -441,6 +451,9 @@ re-use the same content and ensure that it is only populated once.</p>
 <dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_MakeAvailable(</span><span class="w"> </span><span class="nv">&lt;name1&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;name2&gt;...</span><span class="p">]</span><span class="w"> </span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
 <p>This command implements the common pattern typically needed for most
 dependencies.  It iterates over each of the named dependencies in turn
 and for each one it loosely follows the
@@ -482,7 +495,7 @@ frameworks are available to the main build:</p>
 <span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="w"> </span><span class="nb">Catch2</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>If the sub-project’s <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file is not at the top level of its
+<p>If the sub-project's <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file is not at the top level of its
 source tree, the <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option can be used to tell <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code>
 where to find it.  The following example shows how to use that option and
 it also sets a variable which is meaningful to the subproject before pulling
@@ -588,7 +601,7 @@ define the override content details and leave the actual population to the
 child projects.  This saves repeating the same thing at each level of the
 project hierarchy unnecessarily.</p></li>
 </ul>
-<p>Projects don’t always need to add the populated content to the build.
+<p>Projects don't always need to add the populated content to the build.
 Sometimes the project just wants to make the downloaded content available at
 a predictable location.  The next example ensures that a set of standard
 company toolchain files (and potentially even the toolchain binaries
@@ -618,7 +631,7 @@ named toolchain file relative to the build directory.  Because the tarball has
 already been downloaded and unpacked by then, the toolchain file will be in
 place, even the very first time that <code class="docutils literal notranslate"><span class="pre">cmake</span></code> is run in the build directory.</p>
 <p>Lastly, the following example demonstrates how one might download and unpack a
-firmware tarball using CMake’s <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">script</span> <span class="pre">mode</span></code></a>.  The call to
+firmware tarball using CMake's <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">script</span> <span class="pre">mode</span></code></a>.  The call to
 <span class="target" id="index-4-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a> specifies all the content details and the
 unpacked firmware will be placed in a <code class="docutils literal notranslate"><span class="pre">firmware</span></code> directory below the
 current working directory.</p>
@@ -703,14 +716,14 @@ current working directory.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

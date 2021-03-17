@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Visual Studio 12 2013 &mdash; CMake 3.18.1 Documentation</title>
+  <title>Visual Studio 12 2013 &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li> 
@@ -60,7 +60,7 @@
 <span id="generator:Visual Studio 12 2013"></span><h1>Visual Studio 12 2013<a class="headerlink" href="#visual-studio-12-2013" title="Permalink to this headline">¶</a></h1>
 <p>Generates Visual Studio 12 (VS 2013) project files.</p>
 <p>For compatibility with CMake versions prior to 3.0, one may specify this
-generator using the name “Visual Studio 12” without the year component.</p>
+generator using the name &quot;Visual Studio 12&quot; without the year component.</p>
 <div class="section" id="project-types">
 <h2>Project Types<a class="headerlink" href="#project-types" title="Permalink to this headline">¶</a></h2>
 <p>Only Visual C++ and C# projects may be generated.  Other types of
@@ -69,7 +69,8 @@ projects (JavaScript, Powershell, Python, etc.) are not supported.</p>
 <div class="section" id="platform-selection">
 <h2>Platform Selection<a class="headerlink" href="#platform-selection" title="Permalink to this headline">¶</a></h2>
 <p>The default target platform name (architecture) is <code class="docutils literal notranslate"><span class="pre">Win32</span></code>.</p>
-<p>The <span class="target" id="index-0-variable:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_PLATFORM.html#variable:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a> variable may be set, perhaps
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>The <span class="target" id="index-0-variable:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_PLATFORM.html#variable:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a> variable may be set, perhaps
 via the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> <code class="docutils literal notranslate"><span class="pre">-A</span></code> option, to specify a target platform
 name (architecture).  For example:</p>
 <ul class="simple">
@@ -77,6 +78,7 @@ name (architecture).  For example:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-G</span> <span class="pre">&quot;Visual</span> <span class="pre">Studio</span> <span class="pre">12</span> <span class="pre">2013&quot;</span> <span class="pre">-A</span> <span class="pre">x64</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-G</span> <span class="pre">&quot;Visual</span> <span class="pre">Studio</span> <span class="pre">12</span> <span class="pre">2013&quot;</span> <span class="pre">-A</span> <span class="pre">ARM</span></code></p></li>
 </ul>
+</div>
 <p>For compatibility with CMake versions prior to 3.1, one may specify
 a target platform name optionally at the end of the generator name.
 This is supported only for:</p>
@@ -92,13 +94,18 @@ This is supported only for:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">v120</span></code> toolset that comes with Visual Studio 12 2013 is selected by
 default.  The <span class="target" id="index-0-variable:CMAKE_GENERATOR_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_TOOLSET.html#variable:CMAKE_GENERATOR_TOOLSET" title="CMAKE_GENERATOR_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_TOOLSET</span></code></a> option may be set, perhaps
 via the <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> <code class="docutils literal notranslate"><span class="pre">-T</span></code> option, to specify another toolset.</p>
-<p>For each toolset that comes with this version of Visual Studio, there are
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8: </span>For each toolset that comes with this version of Visual Studio, there are
 variants that are themselves compiled for 32-bit (<code class="docutils literal notranslate"><span class="pre">x86</span></code>) and
 64-bit (<code class="docutils literal notranslate"><span class="pre">x64</span></code>) hosts (independent of the architecture they target).
 By default this generator uses the 32-bit variant even on a 64-bit host.
 One may explicitly request use of either the 32-bit or 64-bit host tools
 by adding either <code class="docutils literal notranslate"><span class="pre">host=x86</span></code> or <code class="docutils literal notranslate"><span class="pre">host=x64</span></code> to the toolset specification.
 See the <span class="target" id="index-1-variable:CMAKE_GENERATOR_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_TOOLSET.html#variable:CMAKE_GENERATOR_TOOLSET" title="CMAKE_GENERATOR_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_TOOLSET</span></code></a> variable for details.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Added suport for <code class="docutils literal notranslate"><span class="pre">host=x86</span></code> option.</p>
+</div>
 </div>
 </div>
 
@@ -165,14 +172,14 @@ See the <span class="target" id="index-1-variable:CMAKE_GENERATOR_TOOLSET"></spa
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

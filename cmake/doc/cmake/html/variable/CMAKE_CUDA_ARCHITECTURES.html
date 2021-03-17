@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMAKE_CUDA_ARCHITECTURES &mdash; CMake 3.18.1 Documentation</title>
+  <title>CMAKE_CUDA_ARCHITECTURES &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li> 
@@ -58,8 +58,12 @@
             
   <div class="section" id="cmake-cuda-architectures">
 <span id="variable:CMAKE_CUDA_ARCHITECTURES"></span><h1>CMAKE_CUDA_ARCHITECTURES<a class="headerlink" href="#cmake-cuda-architectures" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
 <p>Default value for <span class="target" id="index-0-prop_tgt:CUDA_ARCHITECTURES"></span><a class="reference internal" href="../prop_tgt/CUDA_ARCHITECTURES.html#prop_tgt:CUDA_ARCHITECTURES" title="CUDA_ARCHITECTURES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_ARCHITECTURES</span></code></a> property of targets.</p>
-<p>This is initialized as follows depending on <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CUDA_COMPILER_ID</span></code></a>:</p>
+<p>Initialized by the <span class="target" id="index-0-envvar:CUDAARCHS"></span><a class="reference internal" href="../envvar/CUDAARCHS.html#envvar:CUDAARCHS" title="CUDAARCHS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CUDAARCHS</span></code></a> environment variable if set.
+Otherwise as follows depending on <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CUDA_COMPILER_ID</span></code></a>:</p>
 <ul class="simple">
 <li><p>For <code class="docutils literal notranslate"><span class="pre">Clang</span></code>: the oldest architecture that works.</p></li>
 <li><p>For <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code>: the default architecture chosen by the compiler.
@@ -69,6 +73,19 @@ See policy <span class="target" id="index-0-policy:CMP0104"></span><a class="ref
 and compiler versions.</p>
 <p>This variable is used to initialize the <span class="target" id="index-1-prop_tgt:CUDA_ARCHITECTURES"></span><a class="reference internal" href="../prop_tgt/CUDA_ARCHITECTURES.html#prop_tgt:CUDA_ARCHITECTURES" title="CUDA_ARCHITECTURES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_ARCHITECTURES</span></code></a> property
 on all targets. See the target property for additional information.</p>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="no">DEFINED</span><span class="w"> </span><span class="no">CMAKE_CUDA_ARCHITECTURES</span><span class="nf">)</span><span class="w"></span>
+<span class="w">  </span><span class="nf">set(</span><span class="no">CMAKE_CUDA_ARCHITECTURES</span><span class="w"> </span><span class="m">75</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">endif()</span><span class="w"></span>
+
+<span class="nf">project(</span><span class="nb">example</span><span class="w"> </span><span class="no">LANGUAGES</span><span class="w"> </span><span class="no">CUDA</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CMAKE_CUDA_ARCHITECTURES</span></code> will default to <code class="docutils literal notranslate"><span class="pre">75</span></code> unless overridden by the user.</p>
+</div>
 </div>
 
 
@@ -77,6 +94,14 @@ on all targets. See the target property for additional information.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">CMAKE_CUDA_ARCHITECTURES</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="CMAKE_COMPILER_IS_GNUG77.html"
                         title="previous chapter">CMAKE_COMPILER_IS_GNUG77</a></p>
@@ -124,14 +149,14 @@ on all targets. See the target property for additional information.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

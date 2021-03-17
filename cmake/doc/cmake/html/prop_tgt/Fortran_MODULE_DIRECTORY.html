@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Fortran_MODULE_DIRECTORY &mdash; CMake 3.18.1 Documentation</title>
+  <title>Fortran_MODULE_DIRECTORY &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -63,9 +63,16 @@
 the compiler supports a module output directory this specifies the
 directory in which the modules will be placed.  When this property is
 not set the modules will be placed in the build directory
-corresponding to the target’s source directory.  If the variable
+corresponding to the target's source directory.  If the variable
 <span class="target" id="index-0-variable:CMAKE_Fortran_MODULE_DIRECTORY"></span><a class="reference internal" href="../variable/CMAKE_Fortran_MODULE_DIRECTORY.html#variable:CMAKE_Fortran_MODULE_DIRECTORY" title="CMAKE_Fortran_MODULE_DIRECTORY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_Fortran_MODULE_DIRECTORY</span></code></a> is set when a target is created its
 value is used to initialize this property.</p>
+<p>When using one of the <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> with the Intel Fortran
+plugin installed in Visual Studio, a subdirectory named after the
+configuration will be appended to the path where modules are created.
+For example, if <code class="docutils literal notranslate"><span class="pre">Fortran_MODULE_DIRECTORY</span></code> is set to <code class="docutils literal notranslate"><span class="pre">C:/some/path</span></code>,
+modules will end up in <code class="docutils literal notranslate"><span class="pre">C:/some/path/Debug</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">C:/some/path/Release</span></code> etc.) when an Intel Fortran <code class="docutils literal notranslate"><span class="pre">.vfproj</span></code> file is
+generated, and in <code class="docutils literal notranslate"><span class="pre">C:/some/path</span></code> when any other generator is used.</p>
 <p>Note that some compilers will automatically search the module output
 directory for modules USEd during compilation but others will not.  If
 your sources USE modules their location must be specified by
@@ -125,14 +132,14 @@ your sources USE modules their location must be specified by
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>

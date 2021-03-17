@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>GoogleTest &mdash; CMake 3.18.1 Documentation</title>
+  <title>GoogleTest &mdash; CMake 3.20.0-rc4 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,6 +58,9 @@
             
   <div class="section" id="googletest">
 <span id="module:GoogleTest"></span><h1>GoogleTest<a class="headerlink" href="#googletest" title="Permalink to this headline">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
 <p>This module defines functions to help use the Google Test infrastructure.  Two
 mechanisms for adding tests are provided. <span class="target" id="index-0-command:gtest_add_tests"></span><a class="reference internal" href="#command:gtest_add_tests" title="gtest_add_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_add_tests()</span></code></a> has been
 around for some time, originally via <code class="docutils literal notranslate"><span class="pre">find_package(GTest)</span></code>.
@@ -100,7 +103,7 @@ macros:</p>
 <p><code class="docutils literal notranslate"><span class="pre">gtest_add_tests</span></code> attempts to identify tests by scanning source files.
 Although this is generally effective, it uses only a basic regular expression
 match, which can be defeated by atypical test declarations, and is unable to
-fully “split” parameterized tests.  Additionally, it requires that CMake be
+fully &quot;split&quot; parameterized tests.  Additionally, it requires that CMake be
 re-run to discover any newly added, removed or renamed tests (by default,
 this means that CMake is re-run when any test source file is changed, but see
 <code class="docutils literal notranslate"><span class="pre">SKIP_DEPENDENCY</span></code>).  However, it has the advantage of declaring tests at
@@ -140,6 +143,7 @@ with the list of discovered test cases.  This allows the caller to do
 things like manipulate test properties of the discovered tests.</p>
 </dd>
 </dl>
+<p>Usage example:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">GoogleTest</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">add_executable(</span><span class="nb">FooTest</span><span class="w"> </span><span class="nb">FooUnitTest.cxx</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">gtest_add_tests(</span><span class="no">TARGET</span><span class="w">      </span><span class="nb">FooTest</span><span class="w"></span>
@@ -198,6 +202,9 @@ for available tests:</p>
 )
 </pre></div>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
 <p><code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> sets up a post-build command on the test executable
 that generates the list of tests by parsing the output from running the test
 with the <code class="docutils literal notranslate"><span class="pre">--gtest_list_tests</span></code> argument.  Compared to the source parsing
@@ -252,7 +259,10 @@ default <code class="docutils literal notranslate"><span class="pre">&lt;target&
 executable is being used in multiple calls to <code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code>.
 Note that this variable is only available in CTest.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_TIMEOUT</span> <span class="pre">num</span></code></dt><dd><p>Specifies how long (in seconds) CMake will wait for the test to enumerate
+<dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_TIMEOUT</span> <span class="pre">num</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.3.</span></p>
+</div>
+<p>Specifies how long (in seconds) CMake will wait for the test to enumerate
 available tests.  If the test takes longer than this, discovery (and your
 build) will fail.  Most test executables will enumerate their tests very
 quickly, but under some exceptional circumstances, a test may require a
@@ -269,13 +279,19 @@ problem.  The ambiguous behavior of the <code class="docutils literal notranslat
 and 3.10.2 has not been preserved.</p>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">XML_OUTPUT_DIR</span> <span class="pre">dir</span></code></dt><dd><p>If specified, the parameter is passed along with <code class="docutils literal notranslate"><span class="pre">--gtest_output=xml:</span></code>
+<dt><code class="docutils literal notranslate"><span class="pre">XML_OUTPUT_DIR</span> <span class="pre">dir</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>If specified, the parameter is passed along with <code class="docutils literal notranslate"><span class="pre">--gtest_output=xml:</span></code>
 to test executable. The actual file name is the same as the test target,
 including prefix and suffix. This should be used instead of
 <code class="docutils literal notranslate"><span class="pre">EXTRA_ARGS</span> <span class="pre">--gtest_output=xml</span></code> to avoid race conditions writing the
 XML result output when using parallel test execution.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_MODE</span></code></dt><dd><p>Provides greater control over when <code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> performs test
+<dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_MODE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>Provides greater control over when <code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> performs test
 discovery. By default, <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> sets up a post-build command
 to perform test discovery at build time. In certain scenarios, like
 cross-compiling, this <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> behavior is not desirable.
@@ -347,14 +363,14 @@ to modify each call site.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.18.1 Documentation</a> &#187;
+    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2020 Kitware, Inc. and Contributors.
+        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
     </div>
   </body>
