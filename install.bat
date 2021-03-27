@@ -143,10 +143,20 @@ rem openblas
 mkdir ..\NelSon\bin\%PLATFORM_NELSON%\openblas
 copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\openblas\*.dll
 
-rem MKL blas, lapack, FFTW wrapper
+rem MKL blas, lapack, FFTW, VML wrapper
 mkdir ..\NelSon\bin\%PLATFORM_NELSON%\mkl
-copy .\mkl\*.* ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
-copy .\mkl\*.* ..\NelSon\bin\%PLATFORM_NELSON%\*.*
+copy .\mkl\mkl_license.txt ..\NelSon\bin\%PLATFORM_NELSON%\mkl\mkl_license.txt
+copy .\mkl\mkl_license.txt ..\NelSon\bin\%PLATFORM_NELSON%\mkl_license.txt
+
+copy .\mkl\blas-lapack-wrapper\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
+copy .\mkl\fftw-wrapper\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
+copy .\mkl\omp\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
+copy .\mkl\vml\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\mkl\*.*
+
+copy .\mkl\blas-lapack-wrapper\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+copy .\mkl\fftw-wrapper\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+copy .\mkl\omp\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
+copy .\mkl\vml\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem mpi library
 copy .\mpi\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
