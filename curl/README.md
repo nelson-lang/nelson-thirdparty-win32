@@ -1,2 +1,2 @@
 https://curl.haxx.se/windows/
-curl version: 7.72.0
+curl version: 7.76.1
