@@ -4,6 +4,16 @@
   * 2.4.x versions include bison version 2.7
   * 2.5.x versions include bison version 3.x
   
+### version 2.5.24
+  * upgrade win_bison to version 3.7.4
+  * upgrade m4 to version 1.4.18
+  * upgrade gnulib
+  * removed VS2015 support
+  * fixed win_bison --update option (renaming opened file)
+
+### version 2.5.23
+  * upgrade win_bison to version 3.7.1
+
 ### version 2.5.22
   * upgrade win_bison to version 3.5.0
 
@@ -148,4 +158,5 @@ fixed two "'<' : signed/unsigned mismatch" warnings in win_flex generated file
   * fixed win_flex.exe parallel invocations (now all temporary files are process specific)
   * added FLEX_TMP_DIR environment variable support to redirect temporary files folder
   * added '.exe' to program name in win_flex.exe --version output (CMake support)
-  * fixed win_bison.exe to use /data subfolder related to executable path rather than current working directory
+  * fixed win_bison.exe to use "/data" subfolder related to executable path rather than current working directory
+  * added BISON_PKGDATADIR environment variable to redirect "/data" subfolder to a different place
