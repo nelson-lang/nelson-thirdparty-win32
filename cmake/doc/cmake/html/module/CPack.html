@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CPack &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>CPack &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -382,16 +382,20 @@ compatibility.</p>
 as compressing the installer package.</p>
 <p>Some compression methods used by CPack generators such as Debian or Archive
 may take advantage of multiple CPU cores to speed up compression.
-<code class="docutils literal notranslate"><span class="pre">CPACK_THREADS</span></code> can be set to positive integer to specify how many threads
-will be used for compression. If it is set to 0, CPack will set it so that
-all available CPU cores are used.
-By default <code class="docutils literal notranslate"><span class="pre">CPACK_THREADS</span></code> is set to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
-<p>Currently only <code class="docutils literal notranslate"><span class="pre">xz</span></code> compression <em>may</em> take advantage of multiple cores. Other
-compression methods ignore this value and use only one thread.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Official CMake binaries available on <code class="docutils literal notranslate"><span class="pre">cmake.org</span></code> ship with a <code class="docutils literal notranslate"><span class="pre">liblzma</span></code>
-that does not support parallel compression.</p>
+<code class="docutils literal notranslate"><span class="pre">CPACK_THREADS</span></code> can be set to specify how many threads will be
+used for compression.</p>
+<p>A positive integer can be used to specify an exact desired thread count.</p>
+<p>When given a negative integer CPack will use the absolute value
+as the upper limit but may choose a lower value based on
+the available hardware concurrency.</p>
+<p>Given 0 CPack will try to use all available CPU cores.</p>
+<p>By default <code class="docutils literal notranslate"><span class="pre">CPACK_THREADS</span></code> is set to <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p>Currently only <code class="docutils literal notranslate"><span class="pre">xz</span></code> compression <em>may</em> take advantage of multiple cores.
+Other compression methods ignore this value and use only one thread.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21: </span>Official CMake binaries available on <code class="docutils literal notranslate"><span class="pre">cmake.org</span></code> now ship
+with a <code class="docutils literal notranslate"><span class="pre">liblzma</span></code> that supports parallel compression.
+Older versions did not.</p>
 </div>
 </dd></dl>
 
@@ -650,7 +654,7 @@ target or when running <span class="target" id="index-5-manual:cpack(1)"></span>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

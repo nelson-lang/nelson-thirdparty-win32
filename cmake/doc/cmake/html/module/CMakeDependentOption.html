@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMakeDependentOption &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>CMakeDependentOption &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -61,20 +61,23 @@
 <p>Macro to provide an option dependent on other options.</p>
 <p>This macro presents an option to the user only if a set of other
 conditions are true.</p>
-<p>Usage:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_dependent_option(</span><span class="nv">&lt;option&gt;</span><span class="w"> </span><span class="s">&quot;&lt;help_text&gt;&quot;</span><span class="w"> </span><span class="nv">&lt;value&gt;</span><span class="w"> </span><span class="nv">&lt;depends&gt;</span><span class="w"> </span><span class="nv">&lt;force&gt;</span><span class="nf">)</span><span class="w"></span>
+<dl class="command">
+<dt id="command:cmake_dependent_option">
+<code class="sig-name descname">cmake_dependent_option</code><a class="headerlink" href="#command:cmake_dependent_option" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_dependent_option(</span><span class="nv">&lt;option&gt;</span><span class="w"> </span><span class="s">&quot;&lt;help_text&gt;&quot;</span><span class="w"> </span><span class="nv">&lt;value&gt;</span><span class="w"> </span><span class="nv">&lt;depends&gt;</span><span class="w"> </span><span class="nv">&lt;force&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Where <code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> is available to the user if <code class="docutils literal notranslate"><span class="pre">&lt;depends&gt;</span></code> is true. When
+<p>Makes <code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> available to the user if <code class="docutils literal notranslate"><span class="pre">&lt;depends&gt;</span></code> is true. When
 <code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> is available, the given <code class="docutils literal notranslate"><span class="pre">&lt;help_text&gt;</span></code> and initial <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>
 are used. If the <code class="docutils literal notranslate"><span class="pre">&lt;depends&gt;</span></code> condition is not true, <code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> will not be
 presented and will always have the value given by <code class="docutils literal notranslate"><span class="pre">&lt;force&gt;</span></code>. Any value set by
-the user is preserved for when the option is presented again. Each element in
-the fourth parameter is evaluated as an if-condition, so
-<a class="reference internal" href="../command/if.html#condition-syntax"><span class="std std-ref">Condition Syntax</span></a> can be used.</p>
+the user is preserved for when the option is presented again. In case <code class="docutils literal notranslate"><span class="pre">&lt;depends&gt;</span></code>
+is a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a>, all elements must
+be true in order to initialize <code class="docutils literal notranslate"><span class="pre">&lt;option&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code>.</p>
+</dd></dl>
+
 <p>Example invocation:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_dependent_option(</span><span class="no">USE_FOO</span><span class="w"> </span><span class="s">&quot;Use Foo&quot;</span><span class="w"> </span><span class="no">ON</span><span class="w"></span>
-<span class="w">                       </span><span class="s">&quot;USE_BAR;NOT USE_ZOT&quot;</span><span class="w"> </span><span class="no">OFF</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_dependent_option(</span><span class="no">USE_FOO</span><span class="w"> </span><span class="s">&quot;Use Foo&quot;</span><span class="w"> </span><span class="no">ON</span><span class="w"> </span><span class="s">&quot;USE_BAR;NOT USE_ZOT&quot;</span><span class="w"> </span><span class="no">OFF</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>If <code class="docutils literal notranslate"><span class="pre">USE_BAR</span></code> is true and <code class="docutils literal notranslate"><span class="pre">USE_ZOT</span></code> is false, this provides an option called
@@ -82,6 +85,9 @@ the fourth parameter is evaluated as an if-condition, so
 hides the option from the user. If the status of <code class="docutils literal notranslate"><span class="pre">USE_BAR</span></code> or <code class="docutils literal notranslate"><span class="pre">USE_ZOT</span></code>
 ever changes, any value for the <code class="docutils literal notranslate"><span class="pre">USE_FOO</span></code> option is saved so that when the
 option is re-enabled it retains its old value.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22: </span>Full <a class="reference internal" href="../command/if.html#condition-syntax"><span class="std std-ref">Condition Syntax</span></a> is now supported.  See policy <span class="target" id="index-0-policy:CMP0127"></span><a class="reference internal" href="../policy/CMP0127.html#policy:CMP0127" title="CMP0127"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0127</span></code></a>.</p>
+</div>
 </div>
 
 
@@ -137,7 +143,7 @@ option is re-enabled it retains its old value.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

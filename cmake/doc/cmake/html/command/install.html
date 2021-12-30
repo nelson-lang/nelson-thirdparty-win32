@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>install &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>install &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -62,11 +62,13 @@
 <div class="section" id="synopsis">
 <h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
 <pre class="literal-block">install(<a class="reference internal" href="#targets">TARGETS</a> &lt;target&gt;... [...])
+install(<a class="reference internal" href="#imported-runtime-artifacts">IMPORTED_RUNTIME_ARTIFACTS</a> &lt;target&gt;... [...])
 install({<a class="reference internal" href="#files">FILES</a> | <a class="reference internal" href="#programs">PROGRAMS</a>} &lt;file&gt;... [...])
 install(<a class="reference internal" href="#directory">DIRECTORY</a> &lt;dir&gt;... [...])
 install(<a class="reference internal" href="#script">SCRIPT</a> &lt;file&gt; [...])
 install(<a class="reference internal" href="#code">CODE</a> &lt;code&gt; [...])
-install(<a class="reference internal" href="#export">EXPORT</a> &lt;export-name&gt; [...])</pre>
+install(<a class="reference internal" href="#export">EXPORT</a> &lt;export-name&gt; [...])
+install(<a class="reference internal" href="#runtime-dependency-set">RUNTIME_DEPENDENCY_SET</a> &lt;set-name&gt; [...])</pre>
 </div>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
@@ -78,6 +80,10 @@ are executed in order during installation.</p>
 added by calls to the <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command are interleaved
 with those in the parent directory to run in the order declared (see
 policy <span class="target" id="index-0-policy:CMP0082"></span><a class="reference internal" href="../policy/CMP0082.html#policy:CMP0082" title="CMP0082"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0082</span></code></a>).</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.22: </span>The environment variable <span class="target" id="index-0-envvar:CMAKE_INSTALL_MODE"></span><a class="reference internal" href="../envvar/CMAKE_INSTALL_MODE.html#envvar:CMAKE_INSTALL_MODE" title="CMAKE_INSTALL_MODE"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_MODE</span></code></a> can override the
+default copying behavior of <span class="target" id="index-0-command:install"></span><a class="reference internal" href="#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a>.</p>
 </div>
 <p>There are multiple signatures for this command.  Some of them define
 installation options for files and targets.  Options common to
@@ -160,6 +166,7 @@ Windows platforms are unaffected.</p>
 <div class="section" id="installing-targets">
 <h2>Installing Targets<a class="headerlink" href="#installing-targets" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-cmake notranslate" id="targets"><span id="install-targets"></span><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nb">targets...</span><span class="w"> </span><span class="p">[</span><span class="no">EXPORT</span><span class="w"> </span><span class="nv">&lt;export-name&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">RUNTIME_DEPENDENCIES</span><span class="w"> </span><span class="nb">args...</span><span class="p">|</span><span class="no">RUNTIME_DEPENDENCY_SET</span><span class="w"> </span><span class="nv">&lt;set-name&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">        </span><span class="p">[[</span><span class="no">ARCHIVE</span><span class="p">|</span><span class="no">LIBRARY</span><span class="p">|</span><span class="no">RUNTIME</span><span class="p">|</span><span class="no">OBJECTS</span><span class="p">|</span><span class="no">FRAMEWORK</span><span class="p">|</span><span class="no">BUNDLE</span><span class="p">|</span><span class="w"></span>
 <span class="w">          </span><span class="no">PRIVATE_HEADER</span><span class="p">|</span><span class="no">PUBLIC_HEADER</span><span class="p">|</span><span class="no">RESOURCE</span><span class="p">]</span><span class="w"></span>
 <span class="w">         </span><span class="p">[</span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"></span>
@@ -369,7 +376,7 @@ is not recommended to use <code class="docutils literal notranslate"><span class
 </dl>
 <p>The <a class="reference internal" href="#install-targets">install(TARGETS)</a> command can also accept the following options at the
 top level:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">EXPORT</span></code></dt><dd><p>This option associates the installed target files with an export called
 <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;</span></code>.  It must appear before any target options.  To actually
 install the export file itself, call <a class="reference internal" href="#install-export">install(EXPORT)</a>, documented below.
@@ -381,6 +388,45 @@ the name of the exported target.</p>
 <code class="docutils literal notranslate"><span class="pre">&lt;targets&gt;</span></code> when exported by the <a class="reference internal" href="#install-export">install(EXPORT)</a> command. If a
 relative path is specified, it is treated as relative to the
 <code class="docutils literal notranslate"><span class="pre">$&lt;INSTALL_PREFIX&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCY_SET</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>This option causes all runtime dependencies of installed executable, shared
+library, and module targets to be added to the specified runtime dependency
+set. This set can then be installed with an
+<a class="reference internal" href="#install-runtime-dependency-set">install(RUNTIME_DEPENDENCY_SET)</a> command.</p>
+<p>This keyword and the <code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCIES</span></code> keyword are mutually
+exclusive.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>This option causes all runtime dependencies of installed executable, shared
+library, and module targets to be installed along with the targets
+themselves. The <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code>, <code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code>, <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code>, and generic
+arguments are used to determine the properties (<code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code>,
+<code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code>, etc.) of the installation of these dependencies.</p>
+<p><code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCIES</span></code> is semantically equivalent to the following pair
+of calls:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="no">RUNTIME_DEPENDENCY_SET</span><span class="w"> </span><span class="nv">&lt;set-name&gt;</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">install(</span><span class="no">RUNTIME_DEPENDENCY_SET</span><span class="w"> </span><span class="nv">&lt;set-name&gt;</span><span class="w"> </span><span class="nb">args...</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;set-name&gt;</span></code> will be a randomly generated set name.
+The <code class="docutils literal notranslate"><span class="pre">args...</span></code> may include any of the following keywords supported by
+the <a class="reference internal" href="#install-runtime-dependency-set">install(RUNTIME_DEPENDENCY_SET)</a> command:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DIRECTORIES</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRE_INCLUDE_REGEXES</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRE_EXCLUDE_REGEXES</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_REGEXES</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_FILES</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_FILES</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCIES</span></code> and <code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCY_SET</span></code> keywords are
+mutually exclusive.</p>
 </dd>
 </dl>
 <p>One or more groups of properties may be specified in a single call to
@@ -422,6 +468,39 @@ targets from other directories are up-to-date.  You can use
 to ensure that such out-of-directory targets are built before the
 subdirectory-specific install rules are run.</p>
 </div>
+</div>
+<div class="section" id="installing-imported-runtime-artifacts">
+<h2>Installing Imported Runtime Artifacts<a class="headerlink" href="#installing-imported-runtime-artifacts" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded" id="imported-runtime-artifacts">
+<span id="install-imported-runtime-artifacts"></span><p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">IMPORTED_RUNTIME_ARTIFACTS</span><span class="w"> </span><span class="nb">targets...</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">RUNTIME_DEPENDENCY_SET</span><span class="w"> </span><span class="nv">&lt;set-name&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[[</span><span class="no">LIBRARY</span><span class="p">|</span><span class="no">RUNTIME</span><span class="p">|</span><span class="no">FRAMEWORK</span><span class="p">|</span><span class="no">BUNDLE</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">PERMISSIONS</span><span class="w"> </span><span class="nb">permissions...</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">CONFIGURATIONS</span><span class="w"> </span><span class="p">[</span><span class="nb">Debug</span><span class="p">|</span><span class="nb">Release</span><span class="p">|...]]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">OPTIONAL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="w"></span>
+<span class="w">        </span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">IMPORTED_RUNTIME_ARTIFACTS</span></code> form specifies rules for installing the
+runtime artifacts of imported targets. Projects may do this if they want to
+bundle outside executables or modules inside their installation. The
+<code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code>, <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code>, <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code>, and <code class="docutils literal notranslate"><span class="pre">BUNDLE</span></code> arguments have the
+same semantics that they do in the <a class="reference internal" href="#targets">TARGETS</a> mode. Only the runtime artifacts
+of imported targets are installed (except in the case of <span class="target" id="index-1-prop_tgt:FRAMEWORK"></span><a class="reference internal" href="../prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a>
+libraries, <span class="target" id="index-1-prop_tgt:MACOSX_BUNDLE"></span><a class="reference internal" href="../prop_tgt/MACOSX_BUNDLE.html#prop_tgt:MACOSX_BUNDLE" title="MACOSX_BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">MACOSX_BUNDLE</span></code></a> executables, and <span class="target" id="index-0-prop_tgt:BUNDLE"></span><a class="reference internal" href="../prop_tgt/BUNDLE.html#prop_tgt:BUNDLE" title="BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUNDLE</span></code></a>
+CFBundles.) For example, headers and import libraries associated with DLLs are
+not installed. In the case of <span class="target" id="index-2-prop_tgt:FRAMEWORK"></span><a class="reference internal" href="../prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a> libraries,
+<span class="target" id="index-2-prop_tgt:MACOSX_BUNDLE"></span><a class="reference internal" href="../prop_tgt/MACOSX_BUNDLE.html#prop_tgt:MACOSX_BUNDLE" title="MACOSX_BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">MACOSX_BUNDLE</span></code></a> executables, and <span class="target" id="index-1-prop_tgt:BUNDLE"></span><a class="reference internal" href="../prop_tgt/BUNDLE.html#prop_tgt:BUNDLE" title="BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUNDLE</span></code></a> CFBundles, the
+entire directory is installed.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCY_SET</span></code> option causes the runtime artifacts of the
+imported executable, shared library, and module library <code class="docutils literal notranslate"><span class="pre">targets</span></code> to be
+added to the <code class="docutils literal notranslate"><span class="pre">&lt;set-name&gt;</span></code> runtime dependency set. This set can then be
+installed with an <a class="reference internal" href="#install-runtime-dependency-set">install(RUNTIME_DEPENDENCY_SET)</a> command.</p>
 </div>
 <div class="section" id="installing-files">
 <h2>Installing Files<a class="headerlink" href="#installing-files" title="Permalink to this headline">¶</a></h2>
@@ -607,7 +686,8 @@ any expression.  For example, the code</p>
 </pre></div>
 </div>
 <p>will extract and install header files from a source tree.</p>
-<p>Some options may follow a <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code> or <code class="docutils literal notranslate"><span class="pre">REGEX</span></code> expression and are applied
+<p>Some options may follow a <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code> or <code class="docutils literal notranslate"><span class="pre">REGEX</span></code> expression as described
+under <a class="reference internal" href="string.html#regex-specification"><span class="std std-ref">string(REGEX)</span></a> and are applied
 only to files or directories matching them.  The <code class="docutils literal notranslate"><span class="pre">EXCLUDE</span></code> option will
 skip the matched file or directory.  The <code class="docutils literal notranslate"><span class="pre">PERMISSIONS</span></code> option overrides
 the permissions setting for the matched file or directory.  For
@@ -722,7 +802,8 @@ use &quot;generator expressions&quot; with the syntax <code class="docutils lite
 <div class="section" id="custom-installation-logic">
 <h2>Custom Installation Logic<a class="headerlink" href="#custom-installation-logic" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-cmake notranslate" id="script"><span id="code"></span><span id="install-script"></span><span id="install-code"></span><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="p">[[</span><span class="no">SCRIPT</span><span class="w"> </span><span class="nv">&lt;file&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">CODE</span><span class="w"> </span><span class="nv">&lt;code&gt;</span><span class="p">]]</span><span class="w"></span>
-<span class="w">        </span><span class="p">[</span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">ALL_COMPONENTS</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">SCRIPT</span></code> form will invoke the given CMake script files during
@@ -735,6 +816,12 @@ example, the code</p>
 </pre></div>
 </div>
 <p>will print a message during installation.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21: </span>When the <code class="docutils literal notranslate"><span class="pre">ALL_COMPONENTS</span></code> option is given, the custom installation
+script code will be executed for every component of a component-specific
+installation.  This option is mutually exclusive with the <code class="docutils literal notranslate"><span class="pre">COMPONENT</span></code>
+option.</p>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.14: </span><code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> may use &quot;generator expressions&quot; with the syntax
 <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code> (in the case of <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code>, this refers to their use in the file
@@ -818,7 +905,7 @@ executable from the installation tree using the imported target name
 <code class="docutils literal notranslate"><span class="pre">mp_myexe</span></code> as if the target were built in its own tree.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This command supercedes the <span class="target" id="index-0-command:install_targets"></span><a class="reference internal" href="install_targets.html#command:install_targets" title="install_targets"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_targets()</span></code></a> command and
+<p>This command supersedes the <span class="target" id="index-0-command:install_targets"></span><a class="reference internal" href="install_targets.html#command:install_targets" title="install_targets"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_targets()</span></code></a> command and
 the <span class="target" id="index-0-prop_tgt:PRE_INSTALL_SCRIPT"></span><a class="reference internal" href="../prop_tgt/PRE_INSTALL_SCRIPT.html#prop_tgt:PRE_INSTALL_SCRIPT" title="PRE_INSTALL_SCRIPT"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PRE_INSTALL_SCRIPT</span></code></a> and <span class="target" id="index-0-prop_tgt:POST_INSTALL_SCRIPT"></span><a class="reference internal" href="../prop_tgt/POST_INSTALL_SCRIPT.html#prop_tgt:POST_INSTALL_SCRIPT" title="POST_INSTALL_SCRIPT"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">POST_INSTALL_SCRIPT</span></code></a>
 target properties.  It also replaces the <code class="docutils literal notranslate"><span class="pre">FILES</span></code> forms of the
 <span class="target" id="index-0-command:install_files"></span><a class="reference internal" href="install_files.html#command:install_files" title="install_files"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_files()</span></code></a> and <span class="target" id="index-0-command:install_programs"></span><a class="reference internal" href="install_programs.html#command:install_programs" title="install_programs"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_programs()</span></code></a> commands.
@@ -827,6 +914,65 @@ those generated by <span class="target" id="index-1-command:install_targets"></s
 <span class="target" id="index-1-command:install_files"></span><a class="reference internal" href="install_files.html#command:install_files" title="install_files"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_files()</span></code></a>, and <span class="target" id="index-1-command:install_programs"></span><a class="reference internal" href="install_programs.html#command:install_programs" title="install_programs"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install_programs()</span></code></a> commands
 is not defined.</p>
 </div>
+</div>
+<div class="section" id="installing-runtime-dependencies">
+<h2>Installing Runtime Dependencies<a class="headerlink" href="#installing-runtime-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded" id="runtime-dependency-set">
+<span id="install-runtime-dependency-set"></span><p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">RUNTIME_DEPENDENCY_SET</span><span class="w"> </span><span class="nv">&lt;set-name&gt;</span><span class="w"></span>
+<span class="w">        </span><span class="p">[[</span><span class="no">LIBRARY</span><span class="p">|</span><span class="no">RUNTIME</span><span class="p">|</span><span class="no">FRAMEWORK</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">PERMISSIONS</span><span class="w"> </span><span class="nb">permissions...</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">CONFIGURATIONS</span><span class="w"> </span><span class="p">[</span><span class="nb">Debug</span><span class="p">|</span><span class="nb">Release</span><span class="p">|...]]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">NAMELINK_COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">         </span><span class="p">[</span><span class="no">OPTIONAL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">PRE_INCLUDE_REGEXES</span><span class="w"> </span><span class="nb">regexes...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">PRE_EXCLUDE_REGEXES</span><span class="w"> </span><span class="nb">regexes...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">POST_INCLUDE_REGEXES</span><span class="w"> </span><span class="nb">regexes...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">POST_EXCLUDE_REGEXES</span><span class="w"> </span><span class="nb">regexes...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">POST_INCLUDE_FILES</span><span class="w"> </span><span class="nb">files...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">POST_EXCLUDE_FILES</span><span class="w"> </span><span class="nb">files...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="no">DIRECTORIES</span><span class="w"> </span><span class="nb">directories...</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Installs a runtime dependency set previously created by one or more
+<a class="reference internal" href="#install-targets">install(TARGETS)</a> or <a class="reference internal" href="#install-imported-runtime-artifacts">install(IMPORTED_RUNTIME_ARTIFACTS)</a> commands. The
+dependencies of targets belonging to a runtime dependency set are installed in
+the <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code> destination and component on DLL platforms, and in the
+<code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code> destination and component on non-DLL platforms. macOS frameworks
+are installed in the <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> destination and component.
+Targets built within the build tree will never be installed as runtime
+dependencies, nor will their own dependencies, unless the targets themselves
+are installed with <a class="reference internal" href="#install-targets">install(TARGETS)</a>.</p>
+<p>The generated install script calls <span class="target" id="index-0-command:file"></span><a class="reference internal" href="file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code></a>
+on the build-tree files to calculate the runtime dependencies. The build-tree
+executable files are passed as the <code class="docutils literal notranslate"><span class="pre">EXECUTABLES</span></code> argument, the build-tree
+shared libraries as the <code class="docutils literal notranslate"><span class="pre">LIBRARIES</span></code> argument, and the build-tree modules as
+the <code class="docutils literal notranslate"><span class="pre">MODULES</span></code> argument. On macOS, if one of the executables is a
+<span class="target" id="index-3-prop_tgt:MACOSX_BUNDLE"></span><a class="reference internal" href="../prop_tgt/MACOSX_BUNDLE.html#prop_tgt:MACOSX_BUNDLE" title="MACOSX_BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">MACOSX_BUNDLE</span></code></a>, that executable is passed as the
+<code class="docutils literal notranslate"><span class="pre">BUNDLE_EXECUTABLE</span></code> argument. At most one such bundle executable may be in
+the runtime dependency set on macOS. The <span class="target" id="index-4-prop_tgt:MACOSX_BUNDLE"></span><a class="reference internal" href="../prop_tgt/MACOSX_BUNDLE.html#prop_tgt:MACOSX_BUNDLE" title="MACOSX_BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">MACOSX_BUNDLE</span></code></a> property
+has no effect on other platforms. Note that
+<span class="target" id="index-1-command:file"></span><a class="reference internal" href="file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code></a> only supports collecting the runtime
+dependencies for Windows, Linux and macOS platforms, so
+<code class="docutils literal notranslate"><span class="pre">install(RUNTIME_DEPENDENCY_SET)</span></code> has the same limitation.</p>
+<p>The following sub-arguments are forwarded through as the corresponding
+arguments to <span class="target" id="index-2-command:file"></span><a class="reference internal" href="file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code></a> (for those that provide
+a non-empty list of directories, regular expressions or files).  They all
+support <span class="target" id="index-6-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DIRECTORIES</span> <span class="pre">&lt;directories&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRE_INCLUDE_REGEXES</span> <span class="pre">&lt;regexes&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PRE_EXCLUDE_REGEXES</span> <span class="pre">&lt;regexes&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_REGEXES</span> <span class="pre">&lt;regexes&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span> <span class="pre">&lt;regexes&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_FILES</span> <span class="pre">&lt;files&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_FILES</span> <span class="pre">&lt;files&gt;</span></code></p></li>
+</ul>
 </div>
 <div class="section" id="generated-installation-script">
 <h2>Generated Installation Script<a class="headerlink" href="#generated-installation-script" title="Permalink to this headline">¶</a></h2>
@@ -868,10 +1014,12 @@ details.</p>
 <li><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
 <li><a class="reference internal" href="#installing-targets">Installing Targets</a></li>
+<li><a class="reference internal" href="#installing-imported-runtime-artifacts">Installing Imported Runtime Artifacts</a></li>
 <li><a class="reference internal" href="#installing-files">Installing Files</a></li>
 <li><a class="reference internal" href="#installing-directories">Installing Directories</a></li>
 <li><a class="reference internal" href="#custom-installation-logic">Custom Installation Logic</a></li>
 <li><a class="reference internal" href="#installing-exports">Installing Exports</a></li>
+<li><a class="reference internal" href="#installing-runtime-dependencies">Installing Runtime Dependencies</a></li>
 <li><a class="reference internal" href="#generated-installation-script">Generated Installation Script</a></li>
 </ul>
 </li>
@@ -924,7 +1072,7 @@ details.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

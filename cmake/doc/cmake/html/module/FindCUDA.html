@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindCUDA &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>FindCUDA &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -58,19 +58,20 @@
             
   <div class="section" id="findcuda">
 <span id="module:FindCUDA"></span><h1>FindCUDA<a class="headerlink" href="#findcuda" title="Permalink to this headline">¶</a></h1>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.10.</span></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><em>Deprecated since version 3.10.</em></p>
 </div>
 <p>It is no longer necessary to use this module or call <code class="docutils literal notranslate"><span class="pre">find_package(CUDA)</span></code>
 for compiling CUDA code. Instead, list <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> among the languages named
 in the top-level call to the <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> command, or call the
 <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a> command with <code class="docutils literal notranslate"><span class="pre">CUDA</span></code>.
-Then one can add CUDA (<code class="docutils literal notranslate"><span class="pre">.cu</span></code>) sources to programs directly
-in calls to <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> and <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>.</p>
+Then one can add CUDA (<code class="docutils literal notranslate"><span class="pre">.cu</span></code>) sources directly to targets similar to other
+languages.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.17: </span>To find and use the CUDA toolkit libraries the <span class="target" id="index-0-module:FindCUDAToolkit"></span><a class="reference internal" href="FindCUDAToolkit.html#module:FindCUDAToolkit" title="FindCUDAToolkit"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindCUDAToolkit</span></code></a>
-module has superseded this module.  It works whether or not the <code class="docutils literal notranslate"><span class="pre">CUDA</span></code>
-language is enabled.</p>
+<p><span class="versionmodified added">New in version 3.17: </span>To find and use the CUDA toolkit libraries manually, use the
+<span class="target" id="index-0-module:FindCUDAToolkit"></span><a class="reference internal" href="FindCUDAToolkit.html#module:FindCUDAToolkit" title="FindCUDAToolkit"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindCUDAToolkit</span></code></a> module instead.  It works regardless of the
+<code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language being enabled.</p>
 </div>
 <div class="section" id="documentation-of-deprecated-usage">
 <h2>Documentation of Deprecated Usage<a class="headerlink" href="#documentation-of-deprecated-usage" title="Permalink to this headline">¶</a></h2>
@@ -251,7 +252,7 @@ dependency files get regenerated.</p>
 </pre></div>
 </div>
 <p>Returns a list of generated files from the input source files to be used
-with <span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> or <span class="target" id="index-1-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>.</p>
+with <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> or <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_compile_ptx(</span><span class="nv">&lt;generated_files&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -562,7 +563,7 @@ Available for CUDA version 5+.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

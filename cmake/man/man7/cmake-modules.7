@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-MODULES" "7" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CMAKE-MODULES" "7" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cmake-modules \- CMake Modules Reference
 .
@@ -901,7 +901,7 @@ available and assumed to work.  If the header files declare the symbol
 as a function or variable then the symbol must also be available for
 linking.  If the symbol is a type, enum value, or C++ template it will
 not be recognized: consider using the \fBCheckTypeSize\fP
-or \fBCheckCXXSourceCompiles\fP module instead.
+or \fBCheckSourceCompiles\fP module instead.
 .UNINDENT
 .sp
 \fBNOTE:\fP
@@ -1028,6 +1028,15 @@ the name of the Fortran function
 .TP
 .B \fB<result>\fP
 variable to store the result; will be created as an internal cache variable.
+.UNINDENT
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This command does not detect functions in Fortran modules. In general it is
+recommended to use \fBCheckSourceCompiles\fP instead to determine if a
+Fortran function or subroutine is available.
 .UNINDENT
 .UNINDENT
 .sp
@@ -2458,7 +2467,7 @@ available and assumed to work.  If the header files declare the symbol
 as a function or variable then the symbol must also be available for
 linking (so intrinsics may not be detected).
 If the symbol is a type, enum value, or intrinsic it will not be recognized
-(consider using \fBCheckTypeSize\fP or \fBCheckCSourceCompiles\fP).
+(consider using \fBCheckTypeSize\fP or \fBCheckSourceCompiles\fP).
 If the check needs to be done in C++, consider using
 \fBCheckCXXSymbolExists\fP instead.
 .sp
@@ -2726,9 +2735,10 @@ Macro to provide an option dependent on other options.
 .sp
 This macro presents an option to the user only if a set of other
 conditions are true.
-.sp
-Usage:
 .INDENT 0.0
+.TP
+.B cmake_dependent_option
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
@@ -2739,13 +2749,14 @@ cmake_dependent_option(<option> "<help_text>" <value> <depends> <force>)
 .UNINDENT
 .UNINDENT
 .sp
-Where \fB<option>\fP is available to the user if \fB<depends>\fP is true. When
+Makes \fB<option>\fP available to the user if \fB<depends>\fP is true. When
 \fB<option>\fP is available, the given \fB<help_text>\fP and initial \fB<value>\fP
 are used. If the \fB<depends>\fP condition is not true, \fB<option>\fP will not be
 presented and will always have the value given by \fB<force>\fP\&. Any value set by
-the user is preserved for when the option is presented again. Each element in
-the fourth parameter is evaluated as an if\-condition, so
-Condition Syntax can be used.
+the user is preserved for when the option is presented again. In case \fB<depends>\fP
+is a semicolon\-separated list, all elements must
+be true in order to initialize \fB<option>\fP with \fB<value>\fP\&.
+.UNINDENT
 .sp
 Example invocation:
 .INDENT 0.0
@@ -2753,8 +2764,7 @@ Example invocation:
 .sp
 .nf
 .ft C
-cmake_dependent_option(USE_FOO "Use Foo" ON
-                       "USE_BAR;NOT USE_ZOT" OFF)
+cmake_dependent_option(USE_FOO "Use Foo" ON "USE_BAR;NOT USE_ZOT" OFF)
 .ft P
 .fi
 .UNINDENT
@@ -2765,6 +2775,9 @@ If \fBUSE_BAR\fP is true and \fBUSE_ZOT\fP is false, this provides an option cal
 hides the option from the user. If the status of \fBUSE_BAR\fP or \fBUSE_ZOT\fP
 ever changes, any value for the \fBUSE_FOO\fP option is saved so that when the
 option is re\-enabled it retains its old value.
+.sp
+New in version 3.22: Full Condition Syntax is now supported.  See policy \fBCMP0127\fP\&.
+
 .SS CMakeFindDependencyMacro
 .INDENT 0.0
 .TP
@@ -3223,12 +3236,12 @@ The \fBCOMPATIBILITY\fP mode \fBAnyNewerVersion\fP means that the installed
 package version will be considered compatible if it is newer or exactly the
 same as the requested version.  This mode should be used for packages which
 are fully backward compatible, also across major versions.
-If \fBSameMajorVersion\fP is used instead, then the behaviour differs from
+If \fBSameMajorVersion\fP is used instead, then the behavior differs from
 \fBAnyNewerVersion\fP in that the major version number must be the same as
 requested, e.g.  version 2.0 will not be considered compatible if 1.0 is
 requested.  This mode should be used for packages which guarantee backward
 compatibility within the same major version.
-If \fBSameMinorVersion\fP is used, the behaviour is the same as
+If \fBSameMinorVersion\fP is used, the behavior is the same as
 \fBSameMajorVersion\fP, but both major and minor version must be the same as
 requested, e.g version 0.2 will not be compatible if 0.1 is requested.
 If \fBExactVersion\fP is used, then the package is only considered compatible if
@@ -3780,21 +3793,26 @@ as compressing the installer package.
 .sp
 Some compression methods used by CPack generators such as Debian or Archive
 may take advantage of multiple CPU cores to speed up compression.
-\fBCPACK_THREADS\fP can be set to positive integer to specify how many threads
-will be used for compression. If it is set to 0, CPack will set it so that
-all available CPU cores are used.
+\fBCPACK_THREADS\fP can be set to specify how many threads will be
+used for compression.
+.sp
+A positive integer can be used to specify an exact desired thread count.
+.sp
+When given a negative integer CPack will use the absolute value
+as the upper limit but may choose a lower value based on
+the available hardware concurrency.
+.sp
+Given 0 CPack will try to use all available CPU cores.
+.sp
 By default \fBCPACK_THREADS\fP is set to \fB1\fP\&.
 .sp
-Currently only \fBxz\fP compression \fImay\fP take advantage of multiple cores. Other
-compression methods ignore this value and use only one thread.
+Currently only \fBxz\fP compression \fImay\fP take advantage of multiple cores.
+Other compression methods ignore this value and use only one thread.
 .sp
-\fBNOTE:\fP
-.INDENT 7.0
-.INDENT 3.5
-Official CMake binaries available on \fBcmake.org\fP ship with a \fBliblzma\fP
-that does not support parallel compression.
-.UNINDENT
-.UNINDENT
+New in version 3.21: Official CMake binaries available on \fBcmake.org\fP now ship
+with a \fBliblzma\fP that supports parallel compression.
+Older versions did not.
+
 .UNINDENT
 .SS Variables for Source Package Generators
 .sp
@@ -4453,6 +4471,12 @@ New in version 3.8.
 .sp
 list of dependency component or component group identifiers in
 QtIFW style.
+.sp
+New in version 3.21.
+
+.sp
+Component or group names listed as dependencies may contain hyphens.
+This requires QtIFW 3.1 or later.
 .TP
 .B \fBAUTO_DEPEND_ON\fP
 New in version 3.8.
@@ -4610,6 +4634,12 @@ New in version 3.8.
 .sp
 list of dependency component or component group identifiers in
 QtIFW style.
+.sp
+New in version 3.21.
+
+.sp
+Component or group names listed as dependencies may contain hyphens.
+This requires QtIFW 3.1 or later.
 .TP
 .B \fBAUTO_DEPEND_ON\fP
 New in version 3.8.
@@ -6158,8 +6188,8 @@ New in version 3.11.
 .sp
 Specify an alternative \fB\&.netrc\fP file to the one in your home directory
 if the \fBNETRC\fP level is \fBOPTIONAL\fP or \fBREQUIRED\fP\&. If this option
-is not specified, the value of the \fBCMAKE_NETRC_FILE\fP variable will
-be used instead (see \fBfile(DOWNLOAD)\fP)
+is not specified, the value of the \fBCMAKE_NETRC_FILE\fP variable
+will be used instead (see \fBfile(DOWNLOAD)\fP)
 .UNINDENT
 .sp
 New in version 3.1: Added support for \fItbz2\fP, \fI\&.tar.xz\fP, \fI\&.txz\fP, and \fI\&.7z\fP extensions.
@@ -6390,9 +6420,16 @@ overridden if required.
 .INDENT 7.0
 .TP
 .B \fBCONFIGURE_COMMAND <cmd>...\fP
-The default configure command runs CMake with options based on the main
-project. For non\-CMake external projects, the \fBCONFIGURE_COMMAND\fP
-option must be used to override this behavior
+The default configure command runs CMake with a few options based on
+the main project.  The options added are typically only those needed to
+use the same generator as the main project, but the \fBCMAKE_GENERATOR\fP
+option can be given to override this.  The project is responsible for
+adding any toolchain details, flags or other settings it wants to
+re\-use from the main project or otherwise specify (see \fBCMAKE_ARGS\fP,
+\fBCMAKE_CACHE_ARGS\fP and \fBCMAKE_CACHE_DEFAULT_ARGS\fP below).
+.sp
+For non\-CMake external projects, the \fBCONFIGURE_COMMAND\fP option must
+be used to override the default configure command
 (\fBgenerator expressions\fP are
 supported). For projects that require no configure step, specify this
 option with an empty string as the command to execute.
@@ -6503,6 +6540,16 @@ system, the build step will also. Otherwise, the build step will assume a
 Makefile\-based build and simply run \fBmake\fP with no arguments as the
 default build step. This can be overridden with custom build commands if
 required.
+.sp
+If both the main project and the external project use make as their build
+tool, the build step of the external project is invoked as a recursive
+make using \fB$(MAKE)\fP\&.  This will communicate some build tool settings
+from the main project to the external project.  If either the main project
+or external project is not using make, no build tool settings will be
+passed to the external project other than those established by the
+configure step (i.e. running \fBninja \-v\fP in the main project will not
+pass \fB\-v\fP to the external project\(aqs build step, even if it also uses
+\fBninja\fP as its build tool).
 .INDENT 7.0
 .TP
 .B \fBBUILD_COMMAND <cmd>...\fP
@@ -6563,6 +6610,29 @@ with a custom command using this option
 (\fBgenerator expressions\fP are
 supported). Passing an empty string as the \fB<cmd>\fP makes the install
 step do nothing.
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+If the \fBCMAKE_INSTALL_MODE\fP environment variable is set when the
+main project is built, it will only have an effect if the following
+conditions are met:
+.INDENT 0.0
+.IP \(bu 2
+The main project\(aqs configure step assumed the external project uses
+CMake as its build system.
+.IP \(bu 2
+The external project\(aqs install command actually runs. Note that due
+to the way \fBExternalProject\fP may use timestamps internally, if
+nothing the install step depends on needs to be re\-executed, the
+install command might also not need to run.
+.UNINDENT
+.sp
+Note also that \fBExternalProject\fP does not check whether the
+\fBCMAKE_INSTALL_MODE\fP environment variable changes from one run
+to another.
+.UNINDENT
 .UNINDENT
 .TP
 \fBTest Step Options:\fP
@@ -7653,13 +7723,14 @@ supported by the \fBExternalProject\fP module.  Whereas
 configure step to use the content in commands like \fBadd_subdirectory()\fP,
 \fBinclude()\fP or \fBfile()\fP operations.
 .sp
-Content population details would normally be defined separately from the
-command that performs the actual population.  This separation ensures that
-all of the dependency details are defined before anything may try to use those
-details to populate content.  This is particularly important in more complex
-project hierarchies where dependencies may be shared between multiple projects.
+Content population details should be defined separately from the command that
+performs the actual population.  This separation ensures that all the
+dependency details are defined before anything might try to use them to
+populate content.  This is particularly important in more complex project
+hierarchies where dependencies may be shared between multiple projects.
 .sp
-The following shows a typical example of declaring content details:
+The following shows a typical example of declaring content details for some
+dependencies and then ensuring they are populated with a separate call:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -7668,70 +7739,76 @@ The following shows a typical example of declaring content details:
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        release\-1.8.0
+  GIT_TAG        703bd9caab50b139428cea1aaff9974ebee5742e # release\-1.10.0
 )
+FetchContent_Declare(
+  myCompanyIcons
+  URL      https://intranet.mycompany.com/assets/iconset_1.12.tar.gz
+  URL_HASH MD5=5588a7b18261c20068beabfb4f530b87
+)
+
+FetchContent_MakeAvailable(googletest secret_sauce)
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
-For most typical cases, populating the content can then be done with a single
-command like so:
+The \fI\%FetchContent_MakeAvailable()\fP command ensures the named
+dependencies have been populated, either by an earlier call or by populating
+them itself.  When performing the population, it will also add them to the
+main build, if possible, so that the main build can use the populated
+projects\(aq targets, etc.  See the command\(aqs documentation for how these steps
+are performed.
+.sp
+When using a hierarchical project arrangement, projects at higher levels in
+the hierarchy are able to override the declared details of content specified
+anywhere lower in the project hierarchy.  The first details to be declared
+for a given dependency take precedence, regardless of where in the project
+hierarchy that occurs.  Similarly, the first call that tries to populate a
+dependency "wins", with subsequent populations reusing the result of the
+first instead of repeating the population again.
+See the \fI\%Examples\fP which demonstrate
+this scenario.
+.sp
+In some cases, the main project may need to have more precise control over
+the population, or it may be required to explicitly define the population
+steps in a way that cannot be captured by the declared details alone.
+For such situations, the lower level \fI\%FetchContent_GetProperties()\fP and
+\fI\%FetchContent_Populate()\fP commands can be used.  These lack the richer
+features provided by \fI\%FetchContent_MakeAvailable()\fP though, so their
+direct use should be considered a last resort.  The typical pattern of such
+custom steps looks like this:
 .INDENT 0.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-FetchContent_MakeAvailable(googletest)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-The above command not only populates the content, it also adds it to the main
-build (if possible) so that the main build can use the populated project\(aqs
-targets, etc.  In some cases, the main project may need to have more precise
-control over the population or may be required to explicitly define the
-population steps (e.g. if CMake versions earlier than 3.14 need to be
-supported).  The typical pattern of such custom steps looks like this:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-FetchContent_GetProperties(googletest)
-if(NOT googletest_POPULATED)
-  FetchContent_Populate(googletest)
-  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+# NOTE: Where possible, prefer to use FetchContent_MakeAvailable()
+#       instead of custom logic like this
+
+# Check if population has already been performed
+FetchContent_GetProperties(depname)
+if(NOT depname_POPULATED)
+  # Fetch the content using previously declared details
+  FetchContent_Populate(depname)
+
+  # Set custom variables, policies, etc.
+  # ...
+
+  # Bring the populated content into the build
+  add_subdirectory(${depname_SOURCE_DIR} ${depname_BINARY_DIR})
 endif()
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
-Regardless of which population method is used, when using the
-declare\-populate pattern with a hierarchical project arrangement, projects at
-higher levels in the hierarchy are able to override the population details of
-content specified anywhere lower in the project hierarchy.  The ability to
-detect whether content has already been populated ensures that even if
-multiple child projects want certain content to be available, the first one
-to populate it wins.  The other child project can simply make use of the
-already available content instead of repeating the population for itself.
-See the \fI\%Examples\fP section which demonstrates
-this scenario.
-.sp
 The \fBFetchContent\fP module also supports defining and populating
 content in a single call, with no check for whether the content has been
-populated elsewhere in the project already.  This is a more low level
-operation and would not normally be the way the module is used, but it is
-sometimes useful as part of implementing some higher level feature or to
-populate some content in CMake\(aqs script mode.
-.sp
-Changed in version 3.14: \fBFetchContent\fP commands can access the terminal. This is necessary
-for password prompts and real\-time progress displays to work.
-
+populated elsewhere already.  This should not be done in projects, but may
+be appropriate for populating content in CMake\(aqs script mode.
+See \fI\%FetchContent_Populate()\fP for details.
 .SS Commands
-.SS Declaring Content Details
 .INDENT 0.0
 .TP
 .B FetchContent_Declare
@@ -7747,7 +7824,7 @@ FetchContent_Declare(<name> <contentOptions>...)
 .UNINDENT
 .sp
 The \fBFetchContent_Declare()\fP function records the options that describe
-how to populate the specified content, but if such details have already
+how to populate the specified content.  If such details have already
 been recorded earlier in this project (regardless of where in the project
 hierarchy), this and all later calls for the same content \fB<name>\fP are
 ignored.  This "first to record, wins" approach is what allows hierarchical
@@ -7763,7 +7840,7 @@ name of the project.  Choosing an unusual name makes it unlikely that other
 projects needing that same content will use the same name, leading to
 the content being populated multiple times.
 .sp
-The \fB<contentOptions>\fP can be any of the download or update/patch options
+The \fB<contentOptions>\fP can be any of the download, update or patch options
 that the \fBExternalProject_Add()\fP command understands.  The configure,
 build, install and test steps are explicitly disabled and therefore options
 related to them will be ignored.  The \fBSOURCE_SUBDIR\fP option is an
@@ -7781,13 +7858,13 @@ hash.  For example:
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        release\-1.8.0
+  GIT_TAG        703bd9caab50b139428cea1aaff9974ebee5742e # release\-1.10.0
 )
 
 FetchContent_Declare(
   myCompanyIcons
   URL      https://intranet.mycompany.com/assets/iconset_1.12.tar.gz
-  URL_HASH 5588a7b18261c20068beabfb4f530b87
+  URL_HASH MD5=5588a7b18261c20068beabfb4f530b87
 )
 
 FetchContent_Declare(
@@ -7799,54 +7876,131 @@ FetchContent_Declare(
 .fi
 .UNINDENT
 .UNINDENT
-.UNINDENT
-.SS Populating The Content
 .sp
-For most common scenarios, population means making content available to the
-main build according to previously declared details for that dependency.
-There are two main patterns for populating content, one based on calling
-\fI\%FetchContent_GetProperties()\fP and
-\fI\%FetchContent_Populate()\fP for more precise control and the other on
-calling \fI\%FetchContent_MakeAvailable()\fP for a simpler, more automated
-approach.  The former generally follows this canonical pattern:
-.INDENT 0.0
-.INDENT 3.5
+Where contents are being fetched from a remote location and you do not
+control that server, it is advisable to use a hash for \fBGIT_TAG\fP rather
+than a branch or tag name.  A commit hash is more secure and helps to
+confirm that the downloaded contents are what you expected.
 .sp
-.nf
-.ft C
-# Check if population has already been performed
-FetchContent_GetProperties(<name>)
-string(TOLOWER "<name>" lcName)
-if(NOT ${lcName}_POPULATED)
-  # Fetch the content using previously declared details
-  FetchContent_Populate(<name>)
+Changed in version 3.14: Commands for the download, update or patch steps can access the terminal.
+This may be needed for things like password prompts or real\-time display
+of command progress.
 
-  # Set custom variables, policies, etc.
-  # ...
-
-  # Bring the populated content into the build
-  add_subdirectory(${${lcName}_SOURCE_DIR} ${${lcName}_BINARY_DIR})
-endif()
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
 .sp
-The above is such a common pattern that, where no custom steps are needed
-between the calls to \fI\%FetchContent_Populate()\fP and
-\fBadd_subdirectory()\fP, equivalent logic can be obtained by calling
-\fI\%FetchContent_MakeAvailable()\fP instead.  Where it meets the needs of
-the project, \fI\%FetchContent_MakeAvailable()\fP should be preferred, as it
-is simpler and provides additional features over the pattern above.
+New in version 3.22: The \fBCMAKE_TLS_VERIFY\fP, \fBCMAKE_TLS_CAINFO\fP,
+\fBCMAKE_NETRC\fP and \fBCMAKE_NETRC_FILE\fP variables now
+provide the defaults for their corresponding content options, just like
+they do for \fBExternalProject_Add()\fP\&. Previously, these variables
+were ignored by the \fBFetchContent\fP module.
+
+.UNINDENT
 .INDENT 0.0
 .TP
-.B FetchContent_Populate
+.B FetchContent_MakeAvailable
+New in version 3.14.
+
 .INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-FetchContent_Populate( <name> )
+FetchContent_MakeAvailable(<name1> [<name2>...])
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This command ensures that each of the named dependencies are populated and
+potentially added to the build by the time it returns.  It iterates over
+the list, and for each dependency, the following logic is applied:
+.INDENT 7.0
+.IP \(bu 2
+If the dependency has already been populated earlier in this run, set
+the \fB<lowercaseName>_POPULATED\fP, \fB<lowercaseName>_SOURCE_DIR\fP and
+\fB<lowercaseName>_BINARY_DIR\fP variables in the same way as a call to
+\fI\%FetchContent_GetProperties()\fP, then skip the remaining steps
+below and move on to the next dependency in the list.
+.IP \(bu 2
+Call \fI\%FetchContent_Populate()\fP to populate the dependency using
+the details recorded by an earlier call to \fI\%FetchContent_Declare()\fP\&.
+Halt with a fatal error if no such details have been recorded.
+\fI\%FETCHCONTENT_SOURCE_DIR_<uppercaseName>\fP can be used to override
+the declared details and use content provided at the specified location
+instead.
+.IP \(bu 2
+If the top directory of the populated content contains a \fBCMakeLists.txt\fP
+file, call \fBadd_subdirectory()\fP to add it to the main build.
+It is not an error for there to be no \fBCMakeLists.txt\fP file, which
+allows the command to be used for dependencies that make downloaded
+content available at a known location, but which do not need or support
+being added directly to the build.
+.sp
+New in version 3.18: The \fBSOURCE_SUBDIR\fP option can be given in the declared details to
+look somewhere below the top directory instead (i.e. the same way that
+\fBSOURCE_SUBDIR\fP is used by the \fBExternalProject_Add()\fP
+command).  The path provided with \fBSOURCE_SUBDIR\fP must be relative
+and will be treated as relative to the top directory.  It can also
+point to a directory that does not contain a \fBCMakeLists.txt\fP file
+or even to a directory that doesn\(aqt exist.  This can be used to avoid
+adding a project that contains a \fBCMakeLists.txt\fP file in its top
+directory.
+
+.UNINDENT
+.sp
+Projects should aim to declare the details of all dependencies they might
+use before they call \fBFetchContent_MakeAvailable()\fP for any of them.
+This ensures that if any of the dependencies are also sub\-dependencies of
+one or more of the others, the main project still controls the details
+that will be used (because it will declare them first before the
+dependencies get a chance to).  In the following code samples, assume that
+the \fBuses_other\fP dependency also uses \fBFetchContent\fP to add the \fBother\fP
+dependency internally:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+# WRONG: Should declare all details first
+FetchContent_Declare(uses_other ...)
+FetchContent_MakeAvailable(uses_other)
+
+FetchContent_Declare(other ...)    # Will be ignored, uses_other beat us to it
+FetchContent_MakeAvailable(other)  # Would use details declared by uses_other
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+# CORRECT: All details declared first, so they will take priority
+FetchContent_Declare(uses_other ...)
+FetchContent_Declare(other ...)
+FetchContent_MakeAvailable(uses_other other)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B FetchContent_Populate
+.
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+Where possible, prefer to use \fI\%FetchContent_MakeAvailable()\fP
+instead of implementing population manually with this command.
+.UNINDENT
+.UNINDENT
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+FetchContent_Populate(<name>)
 .ft P
 .fi
 .UNINDENT
@@ -7875,20 +8029,28 @@ population has already been processed with the
 \fBFetchContent_Populate()\fP\&.
 .sp
 \fBFetchContent_Populate()\fP will set three variables in the scope of the
-caller; \fB<lcName>_POPULATED\fP, \fB<lcName>_SOURCE_DIR\fP and
-\fB<lcName>_BINARY_DIR\fP, where \fB<lcName>\fP is the lowercased \fB<name>\fP\&.
-\fB<lcName>_POPULATED\fP will always be set to \fBTrue\fP by the call.
-\fB<lcName>_SOURCE_DIR\fP is the location where the
-content can be found upon return (it will have already been populated), while
-\fB<lcName>_BINARY_DIR\fP is a directory intended for use as a corresponding
-build directory.  The main use case for the two directory variables is to
-call \fBadd_subdirectory()\fP immediately after population, i.e.:
+caller:
+.INDENT 7.0
+.TP
+.B \fB<lowercaseName>_POPULATED\fP
+This will always be set to \fBTRUE\fP by the call.
+.TP
+.B \fB<lowercaseName>_SOURCE_DIR\fP
+The location where the populated content can be found upon return.
+.TP
+.B \fB<lowercaseName>_BINARY_DIR\fP
+A directory intended for use as a corresponding build directory.
+.UNINDENT
+.sp
+The main use case for the \fB<lowercaseName>_SOURCE_DIR\fP and
+\fB<lowercaseName>_BINARY_DIR\fP variables is to call
+\fBadd_subdirectory()\fP immediately after population:
 .INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-FetchContent_Populate(FooBar ...)
+FetchContent_Populate(FooBar)
 add_subdirectory(${foobar_SOURCE_DIR} ${foobar_BINARY_DIR})
 .ft P
 .fi
@@ -7898,78 +8060,10 @@ add_subdirectory(${foobar_SOURCE_DIR} ${foobar_BINARY_DIR})
 The values of the three variables can also be retrieved from anywhere in the
 project hierarchy using the \fI\%FetchContent_GetProperties()\fP command.
 .sp
-A number of cache variables influence the behavior of all content population
-performed using details saved from a \fI\%FetchContent_Declare()\fP call:
-.INDENT 7.0
-.TP
-.B \fBFETCHCONTENT_BASE_DIR\fP
-In most cases, the saved details do not specify any options relating to the
-directories to use for the internal sub\-build, final source and build areas.
-It is generally best to leave these decisions up to the \fBFetchContent\fP
-module to handle on the project\(aqs behalf.  The \fBFETCHCONTENT_BASE_DIR\fP
-cache variable controls the point under which all content population
-directories are collected, but in most cases developers would not need to
-change this.  The default location is \fB${CMAKE_BINARY_DIR}/_deps\fP, but if
-developers change this value, they should aim to keep the path short and
-just below the top level of the build tree to avoid running into path
-length problems on Windows.
-.TP
-.B \fBFETCHCONTENT_QUIET\fP
-The logging output during population can be quite verbose, making the
-configure stage quite noisy.  This cache option (\fBON\fP by default) hides
-all population output unless an error is encountered.  If experiencing
-problems with hung downloads, temporarily switching this option off may
-help diagnose which content population is causing the issue.
-.TP
-.B \fBFETCHCONTENT_FULLY_DISCONNECTED\fP
-When this option is enabled, no attempt is made to download or update
-any content.  It is assumed that all content has already been populated in
-a previous run or the source directories have been pointed at existing
-contents the developer has provided manually (using options described
-further below).  When the developer knows that no changes have been made to
-any content details, turning this option \fBON\fP can significantly speed up
-the configure stage.  It is \fBOFF\fP by default.
-.TP
-.B \fBFETCHCONTENT_UPDATES_DISCONNECTED\fP
-This is a less severe download/update control compared to
-\fBFETCHCONTENT_FULLY_DISCONNECTED\fP\&.  Instead of bypassing all download and
-update logic, the \fBFETCHCONTENT_UPDATES_DISCONNECTED\fP only disables the
-update stage.  Therefore, if content has not been downloaded previously,
-it will still be downloaded when this option is enabled.  This can speed up
-the configure stage, but not as much as
-\fBFETCHCONTENT_FULLY_DISCONNECTED\fP\&.  It is \fBOFF\fP by default.
-.UNINDENT
-.sp
-In addition to the above cache variables, the following cache variables are
-also defined for each content name (\fB<ucName>\fP is the uppercased value of
-\fB<name>\fP):
-.INDENT 7.0
-.TP
-.B \fBFETCHCONTENT_SOURCE_DIR_<ucName>\fP
-If this is set, no download or update steps are performed for the specified
-content and the \fB<lcName>_SOURCE_DIR\fP variable returned to the caller is
-pointed at this location.  This gives developers a way to have a separate
-checkout of the content that they can modify freely without interference
-from the build.  The build simply uses that existing source, but it still
-defines \fB<lcName>_BINARY_DIR\fP to point inside its own build area.
-Developers are strongly encouraged to use this mechanism rather than
-editing the sources populated in the default location, as changes to
-sources in the default location can be lost when content population details
-are changed by the project.
-.TP
-.B \fBFETCHCONTENT_UPDATES_DISCONNECTED_<ucName>\fP
-This is the per\-content equivalent of
-\fBFETCHCONTENT_UPDATES_DISCONNECTED\fP\&. If the global option or this option
-is \fBON\fP, then updates will be disabled for the named content.
-Disabling updates for individual content can be useful for content whose
-details rarely change, while still leaving other frequently changing
-content with updates enabled.
-.UNINDENT
-.sp
 The \fBFetchContent_Populate()\fP command also supports a syntax allowing the
 content details to be specified directly rather than using any saved
 details.  This is more low\-level and use of this form is generally to be
-avoided in favour of using saved content details as outlined above.
+avoided in favor of using saved content details as outlined above.
 Nevertheless, in certain situations it can be useful to invoke the content
 population as an isolated operation (typically as part of implementing some
 other higher level feature or when using CMake in script mode):
@@ -7978,7 +8072,8 @@ other higher level feature or when using CMake in script mode):
 .sp
 .nf
 .ft C
-FetchContent_Populate( <name>
+FetchContent_Populate(
+  <name>
   [QUIET]
   [SUBBUILD_DIR <subBuildDir>]
   [SOURCE_DIR <srcDir>]
@@ -8010,16 +8105,17 @@ The \fBFETCHCONTENT_FULLY_DISCONNECTED\fP and
 \fBFETCHCONTENT_UPDATES_DISCONNECTED\fP cache variables are ignored.
 .UNINDENT
 .sp
-The \fB<lcName>_SOURCE_DIR\fP and \fB<lcName>_BINARY_DIR\fP variables are still
-returned to the caller, but since these locations are not stored as global
-properties when this form is used, they are only available to the calling
-scope and below rather than the entire project hierarchy.  No
-\fB<lcName>_POPULATED\fP variable is set in the caller\(aqs scope with this form.
+The \fB<lowercaseName>_SOURCE_DIR\fP and \fB<lowercaseName>_BINARY_DIR\fP
+variables are still returned to the caller, but since these locations are
+not stored as global properties when this form is used, they are only
+available to the calling scope and below rather than the entire project
+hierarchy.  No \fB<lowercaseName>_POPULATED\fP variable is set in the caller\(aqs
+scope with this form.
 .sp
 The supported options for \fBFetchContent_Populate()\fP are the same as those
 for \fI\%FetchContent_Declare()\fP\&.  Those few options shown just
 above are either specific to \fBFetchContent_Populate()\fP or their behavior is
-slightly modified from how \fBExternalProject_Add()\fP treats them.
+slightly modified from how \fBExternalProject_Add()\fP treats them:
 .INDENT 7.0
 .TP
 .B \fBQUIET\fP
@@ -8033,9 +8129,9 @@ content details are provided directly.
 .B \fBSUBBUILD_DIR\fP
 The \fBSUBBUILD_DIR\fP argument can be provided to change the location of the
 sub\-build created to perform the population.  The default value is
-\fB${CMAKE_CURRENT_BINARY_DIR}/<lcName>\-subbuild\fP and it would be unusual
-to need to override this default.  If a relative path is specified, it will
-be interpreted as relative to \fBCMAKE_CURRENT_BINARY_DIR\fP\&.
+\fB${CMAKE_CURRENT_BINARY_DIR}/<lowercaseName>\-subbuild\fP and it would be
+unusual to need to override this default.  If a relative path is specified,
+it will be interpreted as relative to \fBCMAKE_CURRENT_BINARY_DIR\fP\&.
 This option should not be confused with the \fBSOURCE_SUBDIR\fP option which
 only affects the \fI\%FetchContent_MakeAvailable()\fP command.
 .TP
@@ -8043,9 +8139,9 @@ only affects the \fI\%FetchContent_MakeAvailable()\fP command.
 The \fBSOURCE_DIR\fP and \fBBINARY_DIR\fP arguments are supported by
 \fBExternalProject_Add()\fP, but different default values are used by
 \fBFetchContent_Populate()\fP\&.  \fBSOURCE_DIR\fP defaults to
-\fB${CMAKE_CURRENT_BINARY_DIR}/<lcName>\-src\fP and \fBBINARY_DIR\fP defaults to
-\fB${CMAKE_CURRENT_BINARY_DIR}/<lcName>\-build\fP\&.  If a relative path is
-specified, it will be interpreted as relative to
+\fB${CMAKE_CURRENT_BINARY_DIR}/<lowercaseName>\-src\fP and \fBBINARY_DIR\fP
+defaults to \fB${CMAKE_CURRENT_BINARY_DIR}/<lowercaseName>\-build\fP\&.
+If a relative path is specified, it will be interpreted as relative to
 \fBCMAKE_CURRENT_BINARY_DIR\fP\&.
 .UNINDENT
 .sp
@@ -8071,13 +8167,14 @@ default, then the \fBCMAKE_GENERATOR\fP and/or
 \fBCMAKE_MAKE_PROGRAM\fP variables will need to be set appropriately
 on the command line invoking the script.
 .sp
-New in version 3.18: Added support for \fBDOWNLOAD_NO_EXTRACT\fP and \fBSOURCE_SUBDIR\fP options.
+New in version 3.18: Added support for the \fBDOWNLOAD_NO_EXTRACT\fP option.
 
 .UNINDENT
 .INDENT 0.0
 .TP
 .B FetchContent_GetProperties
-When using saved content details, a call to \fI\%FetchContent_Populate()\fP
+When using saved content details, a call to
+\fI\%FetchContent_MakeAvailable()\fP or \fI\%FetchContent_Populate()\fP
 records information in global properties which can be queried at any time.
 This information includes the source and binary directories associated with
 the content and also whether or not the content population has been processed
@@ -8087,7 +8184,8 @@ during the current configure run.
 .sp
 .nf
 .ft C
-FetchContent_GetProperties( <name>
+FetchContent_GetProperties(
+  <name>
   [SOURCE_DIR <srcDirVar>]
   [BINARY_DIR <binDirVar>]
   [POPULATED <doneVar>]
@@ -8102,62 +8200,114 @@ specify which properties should be retrieved.  Each option accepts a value
 which is the name of the variable in which to store that property.  Most of
 the time though, only \fB<name>\fP is given, in which case the call will then
 set the same variables as a call to
-\fI\%FetchContent_Populate(name)\fP\&.  This allows
-the following canonical pattern to be used, which ensures that the relevant
-variables will always be defined regardless of whether or not the population
-has been performed elsewhere in the project already:
+\fI\%FetchContent_MakeAvailable(name)\fP or
+\fI\%FetchContent_Populate(name)\fP\&.
+.sp
+This command is rarely needed when using
+\fI\%FetchContent_MakeAvailable()\fP\&.  It is more commonly used as part of
+implementing the following pattern with \fI\%FetchContent_Populate()\fP,
+which ensures that the relevant variables will always be defined regardless
+of whether or not the population has been performed elsewhere in the project
+already:
 .INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-FetchContent_GetProperties(foobar)
-if(NOT foobar_POPULATED)
-  FetchContent_Populate(foobar)
-  ...
+# Check if population has already been performed
+FetchContent_GetProperties(depname)
+if(NOT depname_POPULATED)
+  # Fetch the content using previously declared details
+  FetchContent_Populate(depname)
+
+  # Set custom variables, policies, etc.
+  # ...
+
+  # Bring the populated content into the build
+  add_subdirectory(${depname_SOURCE_DIR} ${depname_BINARY_DIR})
 endif()
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
+.UNINDENT
+.SS Variables
 .sp
-The above pattern allows other parts of the overall project hierarchy to
-re\-use the same content and ensure that it is only populated once.
+A number of cache variables can influence the behavior where details from a
+\fI\%FetchContent_Declare()\fP call are used to populate content.
+The variables are all intended for the developer to customize behavior and
+should not normally be set by the project.
+.INDENT 0.0
+.TP
+.B FETCHCONTENT_BASE_DIR
+In most cases, the saved details do not specify any options relating to the
+directories to use for the internal sub\-build, final source and build areas.
+It is generally best to leave these decisions up to the \fBFetchContent\fP
+module to handle on the project\(aqs behalf.  The \fBFETCHCONTENT_BASE_DIR\fP
+cache variable controls the point under which all content population
+directories are collected, but in most cases, developers would not need to
+change this.  The default location is \fB${CMAKE_BINARY_DIR}/_deps\fP, but if
+developers change this value, they should aim to keep the path short and
+just below the top level of the build tree to avoid running into path
+length problems on Windows.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B FetchContent_MakeAvailable
-.INDENT 7.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-FetchContent_MakeAvailable( <name1> [<name2>...] )
-.ft P
-.fi
+.B FETCHCONTENT_QUIET
+The logging output during population can be quite verbose, making the
+configure stage quite noisy.  This cache option (\fBON\fP by default) hides
+all population output unless an error is encountered.  If experiencing
+problems with hung downloads, temporarily switching this option off may
+help diagnose which content population is causing the issue.
 .UNINDENT
+.INDENT 0.0
+.TP
+.B FETCHCONTENT_FULLY_DISCONNECTED
+When this option is enabled, no attempt is made to download or update
+any content.  It is assumed that all content has already been populated in
+a previous run or the source directories have been pointed at existing
+contents the developer has provided manually (using options described
+further below).  When the developer knows that no changes have been made to
+any content details, turning this option \fBON\fP can significantly speed up
+the configure stage.  It is \fBOFF\fP by default.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B FETCHCONTENT_UPDATES_DISCONNECTED
+This is a less severe download/update control compared to
+\fI\%FETCHCONTENT_FULLY_DISCONNECTED\fP\&.  Instead of bypassing all
+download and update logic, \fBFETCHCONTENT_UPDATES_DISCONNECTED\fP only
+disables the update stage.  Therefore, if content has not been downloaded
+previously, it will still be downloaded when this option is enabled.
+This can speed up the configure stage, but not as much as
+\fI\%FETCHCONTENT_FULLY_DISCONNECTED\fP\&.  It is \fBOFF\fP by default.
 .UNINDENT
 .sp
-New in version 3.14.
-
-.sp
-This command implements the common pattern typically needed for most
-dependencies.  It iterates over each of the named dependencies in turn
-and for each one it loosely follows the
-\fI\%canonical pattern\fP as
-presented at the beginning of this section.  An important difference is
-that \fBadd_subdirectory()\fP will only be called on the
-populated content if there is a \fBCMakeLists.txt\fP file in its top level
-source directory.  This allows the command to be used for dependencies
-that make downloaded content available at a known location but which do
-not need or support being added directly to the build.
-.sp
-The \fBSOURCE_SUBDIR\fP option can be given in the declared details to
-instruct \fBFetchContent_MakeAvailable()\fP to look for a \fBCMakeLists.txt\fP
-file in a subdirectory below the top level (i.e. the same way that
-\fBSOURCE_SUBDIR\fP is used by the \fBExternalProject_Add()\fP command).
-\fBSOURCE_SUBDIR\fP must always be a relative path.  See the next section
-for an example of this option.
+In addition to the above cache variables, the following cache variables are
+also defined for each content name:
+.INDENT 0.0
+.TP
+.B FETCHCONTENT_SOURCE_DIR_<uppercaseName>
+If this is set, no download or update steps are performed for the specified
+content and the \fB<lowercaseName>_SOURCE_DIR\fP variable returned to the
+caller is pointed at this location.  This gives developers a way to have a
+separate checkout of the content that they can modify freely without
+interference from the build.  The build simply uses that existing source,
+but it still defines \fB<lowercaseName>_BINARY_DIR\fP to point inside its own
+build area.  Developers are strongly encouraged to use this mechanism rather
+than editing the sources populated in the default location, as changes to
+sources in the default location can be lost when content population details
+are changed by the project.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B FETCHCONTENT_UPDATES_DISCONNECTED_<uppercaseName>
+This is the per\-content equivalent of
+\fI\%FETCHCONTENT_UPDATES_DISCONNECTED\fP\&.  If the global option or
+this option is \fBON\fP, then updates will be disabled for the named content.
+Disabling updates for individual content can be useful for content whose
+details rarely change, while still leaving other frequently changing content
+with updates enabled.
 .UNINDENT
 .SS Examples
 .sp
@@ -8172,16 +8322,16 @@ include(FetchContent)
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        release\-1.8.0
+  GIT_TAG        703bd9caab50b139428cea1aaff9974ebee5742e # release\-1.10.0
 )
 FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v2.5.0
+  GIT_TAG        de6fe184a9ac1a06895cdd1c9b437f0a0bdf14ad # v2.13.4
 )
 
 # After the following call, the CMake targets defined by googletest and
-# Catch2 will be defined and available to the rest of the build
+# Catch2 will be available to the rest of the build
 FetchContent_MakeAvailable(googletest Catch2)
 .ft P
 .fi
@@ -8202,7 +8352,7 @@ include(FetchContent)
 FetchContent_Declare(
   protobuf
   GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
-  GIT_TAG        v3.12.0
+  GIT_TAG        ae50d9b9902526efd6c7a1907d09739f959c6297 # v3.15.0
   SOURCE_SUBDIR  cmake
 )
 set(protobuf_BUILD_TESTS OFF)
@@ -8245,7 +8395,7 @@ FetchContent_Declare(
 FetchContent_Declare(
   projE
   GIT_REPOSITORY git@mycompany.com:git/projE.git
-  GIT_TAG        origin/release/2.3\-rc1
+  GIT_TAG        v2.3\-rc1
 )
 
 # Order is important, see notes in the discussion further below
@@ -9303,7 +9453,7 @@ to 1 all prerequisites will be found recursively, if set to 0 only
 direct prerequisites are listed.  <exclude_system> must be 0 or 1
 indicating whether to include or exclude "system" prerequisites.  With
 <verbose> set to 0 only the full path names of the prerequisites are
-printed, set to 1 extra informatin will be displayed.
+printed, set to 1 extra information will be displayed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -9461,7 +9611,10 @@ Inclusion of this module defines the following variables:
 .INDENT 3.5
 Destination for files of a given type.  This value may be passed to
 the \fBDESTINATION\fP options of \fBinstall()\fP commands for the
-corresponding file type.
+corresponding file type.  It should typically be a path relative to
+the installation prefix so that it can be converted to an absolute
+path in a relocatable way (see \fBCMAKE_INSTALL_FULL_<dir>\fP).
+However, an absolute path is also allowed.
 .UNINDENT
 .UNINDENT
 .sp
@@ -9798,6 +9951,7 @@ gtest_discover_tests(target
                      [WORKING_DIRECTORY dir]
                      [TEST_PREFIX prefix]
                      [TEST_SUFFIX suffix]
+                     [TEST_FILTER expr]
                      [NO_PRETTY_TYPES] [NO_PRETTY_VALUES]
                      [PROPERTIES name1 value1...]
                      [TEST_LIST var]
@@ -9856,6 +10010,16 @@ multiple calls to \fBgtest_discover_tests()\fP but with different
 Similar to \fBTEST_PREFIX\fP except the \fBsuffix\fP is appended to the name of
 every discovered test case.  Both \fBTEST_PREFIX\fP and \fBTEST_SUFFIX\fP may
 be specified.
+.TP
+.B \fBTEST_FILTER expr\fP
+New in version 3.22.
+
+.sp
+Filter expression to pass as a \fB\-\-gtest_filter\fP argument during test
+discovery.  Note that the expression is a wildcard\-based format that
+matches against the original test names as used by gtest.  For type or
+value\-parameterized tests, these names may be different to the potentially
+pretty\-printed test names that \fBctest\fP uses.
 .TP
 .B \fBNO_PRETTY_TYPES\fP
 By default, the type index of type\-parameterized tests is replaced by the
@@ -10209,26 +10373,57 @@ ECOS_ADD_TARGET_LIB
 .UNINDENT
 .SS UseJava
 .sp
-Use Module for Java
-.sp
-This file provides functions for Java.  It is assumed that
+This file provides support for \fBJava\fP\&.  It is assumed that
 \fBFindJava\fP has already been loaded.  See \fBFindJava\fP for
-information on how to load Java into your CMake project.
+information on how to load Java into your \fBCMake\fP project.
+.SS Synopsis
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\fI\%Creating and Installing JARS\fP
+  \fI\%add_jar\fP (<target_name> [SOURCES] <source1> [<source2>...] ...)
+  \fI\%install_jar\fP (<target_name> DESTINATION <destination> [COMPONENT <component>])
+  \fI\%install_jni_symlink\fP (<target_name> DESTINATION <destination> [COMPONENT <component>])
+
+\fI\%Header Generation\fP
+  \fI\%create_javah\fP ((TARGET <target> | GENERATED_FILES <VAR>) CLASSES <class>... ...)
+
+\fI\%Exporting JAR Targets\fP
+  \fI\%install_jar_exports\fP (TARGETS <jars>... FILE <filename> DESTINATION <destination> ...)
+  \fI\%export_jars\fP (TARGETS <jars>... [NAMESPACE <namespace>] FILE <filename>)
+
+\fI\%Finding JARs\fP
+  \fI\%find_jar\fP (<VAR> NAMES <name1> [<name2>...] [PATHS <path1> [<path2>... ENV <var>]] ...)
+
+\fI\%Creating Java Documentation\fP
+  \fI\%create_javadoc\fP (<VAR> (PACKAGES <pkg1> [<pkg2>...] | FILES <file1> [<file2>...]) ...)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
 .SS Creating And Installing JARs
 .INDENT 0.0
+.TP
+.B add_jar
+Creates a jar file containing java objects and, optionally, resources:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
 add_jar(<target_name>
         [SOURCES] <source1> [<source2>...] [<resource1>...]
+        [RESOURCES NAMESPACE <ns1> <resource1>... [NAMESPACE <nsX> <resourceX>...]... ]
         [INCLUDE_JARS <jar1> [<jar2>...]]
         [ENTRY_POINT <entry>]
         [VERSION <version>]
+        [MANIFEST <manifest>]
         [OUTPUT_NAME <name>]
         [OUTPUT_DIR <dir>]
         [GENERATE_NATIVE_HEADERS <target>
-                           [DESTINATION (<dir>|INSTALL <dir> [BUILD <dir>])]]
+                                 [DESTINATION (<dir>|INSTALL <dir> [BUILD <dir>])]]
         )
 .ft P
 .fi
@@ -10239,44 +10434,192 @@ This command creates a \fB<target_name>.jar\fP\&.  It compiles the given
 \fB<source>\fP files and adds the given \fB<resource>\fP files to
 the jar file.  Source files can be java files or listing files
 (prefixed by \fB@\fP).  If only resource files are given then just a jar file
-is created.  The list of \fBINCLUDE_JARS\fP are added to the classpath when
-compiling the java sources and also to the dependencies of the target.
-\fBINCLUDE_JARS\fP also accepts other target names created by \fBadd_jar()\fP\&.
-For backwards compatibility, jar files listed as sources are ignored (as
-they have been since the first version of this module).
+is created.
+.INDENT 7.0
+.TP
+.B \fBSOURCES\fP
+Compiles the specified source files and adds the result in the jar file.
 .sp
-New in version 3.4: Support for response files (prefixed by \fB@\fP) in the \fBSOURCES\fP list.
+New in version 3.4: Support for response files, prefixed by \fB@\fP\&.
+
+.TP
+.B \fBRESOURCES\fP
+New in version 3.21.
 
 .sp
-The default \fBOUTPUT_DIR\fP can also be changed by setting the variable
-\fBCMAKE_JAVA_TARGET_OUTPUT_DIR\fP\&.
+Adds the named \fB<resource>\fP files to the jar by stripping the source file
+path and placing the file beneath \fB<ns>\fP within the jar.
 .sp
-New in version 3.11: Optionally, using option \fBGENERATE_NATIVE_HEADERS\fP, native header files can
-be generated for methods declared as native.  These files provide the
-connective glue that allow your Java and C code to interact.  An INTERFACE
-target will be created for an easy usage of generated files.  Sub\-option
-\fBDESTINATION\fP can be used to specify the output directory for generated
-header files.
+For example:
+.INDENT 7.0
+.INDENT 3.5
 .sp
-\fBGENERATE_NATIVE_HEADERS\fP option requires, at least, version 1.8 of the JDK.
+.nf
+.ft C
+RESOURCES NAMESPACE "/com/my/namespace" "a/path/to/resource.txt"
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+results in a resource accessible via \fB/com/my/namespace/resource.txt\fP
+within the jar.
+.sp
+Resources may be added without adjusting the namespace by adding them to
+the list of \fBSOURCES\fP (original behavior), in this case, resource
+paths must be relative to \fBCMAKE_CURRENT_SOURCE_DIR\fP\&.  Adding resources
+without using the \fBRESOURCES\fP parameter in out of source builds will
+almost certainly result in confusion.
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+Adding resources via the \fBSOURCES\fP parameter relies upon a hard\-coded
+list of file extensions which are tested to determine whether they
+compile (e.g. File.java). \fBSOURCES\fP files which match the extensions
+are compiled. Files which do not match are treated as resources. To
+include uncompiled resources matching those file extensions use
+the \fBRESOURCES\fP parameter.
+.UNINDENT
+.UNINDENT
+.TP
+.B \fBINCLUDE_JARS\fP
+The list of jars are added to the classpath when compiling the java sources
+and also to the dependencies of the target. \fBINCLUDE_JARS\fP also accepts
+other target names created by \fBadd_jar()\fP\&. For backwards compatibility,
+jar files listed as sources are ignored (as they have been since the first
+version of this module).
+.TP
+.B \fBENTRY_POINT\fP
+Defines an entry point in the jar file.
+.TP
+.B \fBVERSION\fP
+Adds a version to the target output name.
+.sp
+The following example will create a jar file with the name
+\fBshibboleet\-1.2.0.jar\fP and will create a symlink \fBshibboleet.jar\fP
+pointing to the jar with the version information.
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.TP
+.B \fBMANIFEST\fP
+Defines a custom manifest for the jar.
+.TP
+.B \fBOUTPUT_NAME\fP
+Specify a different output name for the target.
+.TP
+.B \fBOUTPUT_DIR\fP
+Sets the directory where the jar file will be generated. If not specified,
+\fBCMAKE_CURRENT_BINARY_DIR\fP is used as the output directory.
+.TP
+.B \fBGENERATE_NATIVE_HEADERS\fP
+New in version 3.11.
 
 .sp
-New in version 3.20: \fBDESTINATION\fP sub\-option now supports the possibility to specify different
-output directories for \fBBUILD\fP and \fBINSTALL\fP steps. This is required to
-export the interface target generated by \fBGENERATE_NATIVE_HEADERS\fP option.
-If \fBBUILD\fP directory is not specified, a default directory will be used.
+Generates native header files for methods declared as native. These files
+provide the connective glue that allow your Java and C code to interact.
+An INTERFACE target will be created for an easy usage of generated files.
+Sub\-option \fBDESTINATION\fP can be used to specify the output directory for
+generated header files.
+.sp
+This option requires, at least, version 1.8 of the JDK.
+.sp
+For an optimum usage of this option, it is recommended to include module
+JNI before any call to \fBadd_jar()\fP\&. The produced target for native
+headers can then be used to compile C/C++ sources with the
+\fBtarget_link_libraries()\fP command.
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+find_package(JNI)
+add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo\-native)
+add_library(bar bar.cpp)
+target_link_libraries(bar PRIVATE foo\-native)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+New in version 3.20: \fBDESTINATION\fP sub\-option now supports the possibility to specify
+different output directories for \fBBUILD\fP and \fBINSTALL\fP steps. If
+\fBBUILD\fP directory is not specified, a default directory will be used.
+.sp
+To export the interface target generated by \fBGENERATE_NATIVE_HEADERS\fP
+option, sub\-option \fBINSTALL\fP of \fBDESTINATION\fP is required:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo\-native
+                     DESTINATION INSTALL include)
+install(TARGETS foo\-native EXPORT native)
+install(DIRECTORY "$<TARGET_PROPERTY:foo\-native,NATIVE_HEADERS_DIRECTORY>/"
+        DESTINATION include)
+install(EXPORT native DESTINATION /to/export NAMESPACE foo)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
 
+.UNINDENT
+.sp
+Some variables can be set to customize the behavior of \fBadd_jar()\fP as well
+as the java compiler:
+.INDENT 7.0
+.TP
+.B \fBCMAKE_JAVA_COMPILE_FLAGS\fP
+Specify additional flags to java compiler.
+.TP
+.B \fBCMAKE_JAVA_INCLUDE_PATH\fP
+Specify additional paths to the class path.
+.TP
+.B \fBCMAKE_JNI_TARGET\fP
+If the target is a JNI library, sets this boolean variable to \fBTRUE\fP to
+enable creation of a JNI symbolic link (see also
+\fI\%install_jni_symlink()\fP).
+.TP
+.B \fBCMAKE_JAR_CLASSES_PREFIX\fP
+If multiple jars should be produced from the same java source filetree,
+to prevent the accumulation of duplicate class files in subsequent jars,
+set/reset \fBCMAKE_JAR_CLASSES_PREFIX\fP prior to calling the \fBadd_jar()\fP:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(CMAKE_JAR_CLASSES_PREFIX com/redhat/foo)
+add_jar(foo foo.java)
+
+set(CMAKE_JAR_CLASSES_PREFIX com/redhat/bar)
+add_jar(bar bar.java)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .sp
 The \fBadd_jar()\fP function sets the following target properties on
 \fB<target_name>\fP:
-.INDENT 0.0
+.INDENT 7.0
 .TP
 .B \fBINSTALL_FILES\fP
-The files which should be installed.  This is used by \fBinstall_jar()\fP\&.
+The files which should be installed.  This is used by
+\fI\%install_jar()\fP\&.
 .TP
 .B \fBJNI_SYMLINK\fP
 The JNI symlink which should be installed.  This is used by
-\fBinstall_jni_symlink()\fP\&.
+\fI\%install_jni_symlink()\fP\&.
 .TP
 .B \fBJAR_FILE\fP
 The location of the jar file so that you can include it.
@@ -10284,13 +10627,20 @@ The location of the jar file so that you can include it.
 .B \fBCLASSDIR\fP
 The directory where the class files can be found.  For example to use them
 with \fBjavah\fP\&.
-.UNINDENT
-.sp
-New in version 3.20: The target generated by option \fBGENERATE_NATIVE_HEADERS\fP has the property
-\fBNATIVE_HEADERS_DIRECTORY\fP which specify the directory holding the native
-headers.
+.TP
+.B \fBNATIVE_HEADERS_DIRECTORY\fP
+New in version 3.20.
 
+.sp
+The directory where native headers are generated. Defined when option
+\fBGENERATE_NATIVE_HEADERS\fP is specified.
+.UNINDENT
+.UNINDENT
 .INDENT 0.0
+.TP
+.B install_jar
+This command installs the jar file to the given destination:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
@@ -10302,19 +10652,36 @@ install_jar(<target_name> DESTINATION <destination> [COMPONENT <component>])
 .UNINDENT
 .UNINDENT
 .sp
-This command installs the \fB<target_name>\fP files to the given
-\fB<destination>\fP\&.  It should be called in the same scope as \fBadd_jar()\fP or
-it will fail.
-.sp
-The \fBinstall_jar()\fP function sets the \fBINSTALL_DESTINATION\fP target
-property on jars so installed.  This property holds the \fB<destination>\fP as
-described above, and is used by \fBinstall_jar_exports()\fP\&.  You can get this
-information with \fBget_property()\fP and the \fBINSTALL_DESTINATION\fP
-property key.
+This command installs the \fB<target_name>\fP file to the given
+\fB<destination>\fP\&.  It should be called in the same scope as
+\fI\%add_jar()\fP or it will fail.
 .sp
 New in version 3.4: The second signature with \fBDESTINATION\fP and \fBCOMPONENT\fP options.
 
+.INDENT 7.0
+.TP
+.B \fBDESTINATION\fP
+Specify the directory on disk to which a file will be installed.
+.TP
+.B \fBCOMPONENT\fP
+Specify an installation component name with which the install rule is
+associated, such as "runtime" or "development".
+.UNINDENT
+.sp
+The \fBinstall_jar()\fP command sets the following target properties
+on \fB<target_name>\fP:
+.INDENT 7.0
+.TP
+.B \fBINSTALL_DESTINATION\fP
+Holds the \fB<destination>\fP as described above, and is used by
+\fI\%install_jar_exports()\fP\&.
+.UNINDENT
+.UNINDENT
 .INDENT 0.0
+.TP
+.B install_jni_symlink
+Installs JNI symlinks for target generated by \fI\%add_jar()\fP:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
@@ -10327,16 +10694,135 @@ install_jni_symlink(<target_name> DESTINATION <destination> [COMPONENT <componen
 .UNINDENT
 .sp
 This command installs the \fB<target_name>\fP JNI symlinks to the given
-\fB<destination>\fP\&.  It should be called in the same scope as \fBadd_jar()\fP or
-it will fail.
+\fB<destination>\fP\&.  It should be called in the same scope as
+\fI\%add_jar()\fP or it will fail.
 .sp
 New in version 3.4: The second signature with \fBDESTINATION\fP and \fBCOMPONENT\fP options.
 
-.SS Exporting JAR Targets
+.INDENT 7.0
+.TP
+.B \fBDESTINATION\fP
+Specify the directory on disk to which a file will be installed.
+.TP
+.B \fBCOMPONENT\fP
+Specify an installation component name with which the install rule is
+associated, such as "runtime" or "development".
+.UNINDENT
 .sp
+Utilize the following commands to create a JNI symbolic link:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(CMAKE_JNI_TARGET TRUE)
+add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
+install_jar(shibboleet ${LIB_INSTALL_DIR}/shibboleet)
+install_jni_symlink(shibboleet ${JAVA_LIB_INSTALL_DIR})
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Header Generation
+.INDENT 0.0
+.TP
+.B create_javah
+New in version 3.4.
+
+.sp
+Generates C header files for java classes:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+create_javah(TARGET <target> | GENERATED_FILES <VAR>
+             CLASSES <class>...
+             [CLASSPATH <classpath>...]
+             [DEPENDS <depend>...]
+             [OUTPUT_NAME <path>|OUTPUT_DIR <path>]
+             )
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Deprecated since version 3.11: This command will no longer be supported starting with version 10 of the JDK
+due to the \fI\%suppression of javah tool\fP\&.
+The \fI\%add_jar(GENERATE_NATIVE_HEADERS)\fP command should be
+used instead.
+
+.sp
+Create C header files from java classes. These files provide the connective
+glue that allow your Java and C code to interact.
+.sp
+There are two main signatures for \fBcreate_javah()\fP\&.  The first signature
+returns generated files through variable specified by the \fBGENERATED_FILES\fP
+option.  For example:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+create_javah(GENERATED_FILES files_headers
+  CLASSES org.cmake.HelloWorld
+  CLASSPATH hello.jar
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The second signature for \fBcreate_javah()\fP creates a target which
+encapsulates header files generation. E.g.
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+create_javah(TARGET target_headers
+  CLASSES org.cmake.HelloWorld
+  CLASSPATH hello.jar
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Both signatures share same options.
+.INDENT 7.0
+.TP
+.B \fBCLASSES\fP
+Specifies Java classes used to generate headers.
+.TP
+.B \fBCLASSPATH\fP
+Specifies various paths to look up classes. Here \fB\&.class\fP files, jar
+files or targets created by command add_jar can be used.
+.TP
+.B \fBDEPENDS\fP
+Targets on which the javah target depends.
+.TP
+.B \fBOUTPUT_NAME\fP
+Concatenates the resulting header files for all the classes listed by
+option \fBCLASSES\fP into \fB<path>\fP\&.  Same behavior as option \fB\-o\fP of
+\fBjavah\fP tool.
+.TP
+.B \fBOUTPUT_DIR\fP
+Sets the directory where the header files will be generated.  Same behavior
+as option \fB\-d\fP of \fBjavah\fP tool.  If not specified,
+\fBCMAKE_CURRENT_BINARY_DIR\fP is used as the output directory.
+.UNINDENT
+.UNINDENT
+.SS Exporting JAR Targets
+.INDENT 0.0
+.TP
+.B install_jar_exports
 New in version 3.7.
 
-.INDENT 0.0
+.sp
+Installs a target export file:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
@@ -10352,11 +10838,38 @@ install_jar_exports(TARGETS <jars>...
 .sp
 This command installs a target export file \fB<filename>\fP for the named jar
 targets to the given \fB<destination>\fP directory.  Its function is similar to
-that of \fBinstall(EXPORTS)\fP\&.
-.sp
-New in version 3.9: The \fBNAMESPACE\fP option.
+that of \fBinstall(EXPORT)\fP\&.
+.INDENT 7.0
+.TP
+.B \fBTARGETS\fP
+List of targets created by \fI\%add_jar()\fP command.
+.TP
+.B \fBNAMESPACE\fP
+New in version 3.9.
 
+.sp
+The \fB<namespace>\fP value will be prepend to the target names as they are
+written to the import file.
+.TP
+.B \fBFILE\fP
+Specify name of the export file.
+.TP
+.B \fBDESTINATION\fP
+Specify the directory on disk to which a file will be installed.
+.TP
+.B \fBCOMPONENT\fP
+Specify an installation component name with which the install rule is
+associated, such as "runtime" or "development".
+.UNINDENT
+.UNINDENT
 .INDENT 0.0
+.TP
+.B export_jars
+New in version 3.7.
+
+.sp
+Writes a target export file:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
@@ -10371,176 +10884,28 @@ export_jars(TARGETS <jars>...
 .sp
 This command writes a target export file \fB<filename>\fP for the named \fB<jars>\fP
 targets.  Its function is similar to that of \fBexport()\fP\&.
-.sp
-New in version 3.9: The \fBNAMESPACE\fP option.
+.INDENT 7.0
+.TP
+.B \fBTARGETS\fP
+List of targets created by \fI\%add_jar()\fP command.
+.TP
+.B \fBNAMESPACE\fP
+New in version 3.9.
 
-.SS Examples
 .sp
-To add compile flags to the target you can set these flags with the following
-variable:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(CMAKE_JAVA_COMPILE_FLAGS \-nowarn)
-.ft P
-.fi
+The \fB<namespace>\fP value will be prepend to the target names as they are
+written to the import file.
+.TP
+.B \fBFILE\fP
+Specify name of the export file.
 .UNINDENT
 .UNINDENT
-.sp
-To add a path or a jar file to the class path you can do this with the
-\fBCMAKE_JAVA_INCLUDE_PATH\fP variable.
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(CMAKE_JAVA_INCLUDE_PATH /usr/share/java/shibboleet.jar)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-To use a different output name for the target you can set it with:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_jar(foobar foobar.java OUTPUT_NAME shibboleet.jar)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-To use a different output directory than \fBCMAKE_CURRENT_BINARY_DIR\fP you can
-set it with:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_jar(foobar foobar.java OUTPUT_DIR ${PROJECT_BINARY_DIR}/bin)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-To define an entry point in your jar you can set it with the \fBENTRY_POINT\fP
-named argument:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_jar(example ENTRY_POINT com/examples/MyProject/Main)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-To define a custom manifest for the jar, you can set it with the \fBMANIFEST\fP
-named argument:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_jar(example MANIFEST /path/to/manifest)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-To add a version to the target output name you can set it using the \fBVERSION\fP
-named argument to \fBadd_jar()\fP\&.  The following example will create a jar file
-with the name \fBshibboleet\-1.0.0.jar\fP and will create a symlink
-\fBshibboleet.jar\fP pointing to the jar with the version information.
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-If the target is a JNI library, utilize the following commands to
-create a JNI symbolic link:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(CMAKE_JNI_TARGET TRUE)
-add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
-install_jar(shibboleet ${LIB_INSTALL_DIR}/shibboleet)
-install_jni_symlink(shibboleet ${JAVA_LIB_INSTALL_DIR})
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-If a single target needs to produce more than one jar from its
-java source code, to prevent the accumulation of duplicate class
-files in subsequent jars, set/reset \fBCMAKE_JAR_CLASSES_PREFIX\fP prior
-to calling the \fBadd_jar()\fP function:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(CMAKE_JAR_CLASSES_PREFIX com/redhat/foo)
-add_jar(foo foo.java)
-
-set(CMAKE_JAR_CLASSES_PREFIX com/redhat/bar)
-add_jar(bar bar.java)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-For an optimum usage of option \fBGENERATE_NATIVE_HEADERS\fP, it is recommended to
-include module JNI before any call to \fBadd_jar()\fP\&. The produced target for
-native headers can then be used to compile C/C++ sources with the
-\fBtarget_link_libraries()\fP command.
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-find_package(JNI)
-add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo\-native)
-add_library(bar bar.cpp)
-target_link_libraries(bar PRIVATE foo\-native)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-New in version 3.20: It is now possible to export the target generated by
-\fBGENERATE_NATIVE_HEADERS\fP option.
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo\-native
-                                             DESTINATION INSTALL include)
-install(TARGETS foo\-native EXPORT native)
-install(DIRECTORY "$<TARGET_PROPERTY:foo\-native,NATIVE_HEADERS_DIRECTORY>/"
-        DESTINATION include)
-install(EXPORT native DESTINATION /to/export NAMESPACE foo)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-
 .SS Finding JARs
 .INDENT 0.0
+.TP
+.B find_jar
+Finds the specified jar file:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
@@ -10562,202 +10927,138 @@ If the full path to a jar is found the result is stored in the
 variable and the search will not repeated unless the variable is
 cleared.  If nothing is found, the result will be \fB<VAR>\-NOTFOUND\fP, and
 the search will be attempted again next time \fBfind_jar()\fP is invoked with
-the same variable.  The name of the full path to a file that is
-searched for is specified by the names listed after \fBNAMES\fP argument.
-Additional search locations can be specified after the \fBPATHS\fP argument.
-If you require special a version of a jar file you can specify it with
-the \fBVERSIONS\fP argument.  The argument after \fBDOC\fP will be used for the
-documentation string in the cache.
-.SS Javadoc
-.sp
-The \fBcreate_javadoc()\fP command can be used to create java documentation
-based on files or packages.  For more details please read the javadoc manpage.
-.sp
-There are two main signatures for \fBcreate_javadoc()\fP\&.  The first signature
-works with package names on a path with source files.
+the same variable.
+.INDENT 7.0
+.TP
+.B \fBNAMES\fP
+Specify one or more possible names for the jar file.
+.TP
+.B \fBPATHS\fP
+Specify directories to search in addition to the default locations.
+The \fBENV\fP var sub\-option reads paths from a system environment variable.
+.TP
+.B \fBVERSIONS\fP
+Specify jar versions.
+.TP
+.B \fBDOC\fP
+Specify the documentation string for the \fB<VAR>\fP cache entry.
+.UNINDENT
+.UNINDENT
+.SS Creating Java Documentation
 .INDENT 0.0
+.TP
+.B create_javadoc
+Creates java documentation based on files and packages:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
 create_javadoc(<VAR>
-               PACKAGES <pkg1> [<pkg2>...]
+               (PACKAGES <pkg1> [<pkg2>...] | FILES <file1> [<file2>...])
                [SOURCEPATH <sourcepath>]
                [CLASSPATH <classpath>]
                [INSTALLPATH <install path>]
-               [DOCTITLE "the documentation title"]
-               [WINDOWTITLE "the title of the document"]
-               [AUTHOR TRUE|FALSE]
-               [USE TRUE|FALSE]
-               [VERSION TRUE|FALSE]
+               [DOCTITLE <the documentation title>]
+               [WINDOWTITLE <the title of the document>]
+               [AUTHOR (TRUE|FALSE)]
+               [USE (TRUE|FALSE)]
+               [VERSION (TRUE|FALSE)]
                )
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
-For example:
-.INDENT 0.0
+The \fBcreate_javadoc()\fP command can be used to create java documentation.
+There are two main signatures for \fBcreate_javadoc()\fP\&.
+.sp
+The first signature works with package names on a path with source files:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
 create_javadoc(my_example_doc
-  PACKAGES com.example.foo com.example.bar
-  SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
-  CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
-  WINDOWTITLE "My example"
-  DOCTITLE "<h1>My example</h1>"
-  AUTHOR TRUE
-  USE TRUE
-  VERSION TRUE
-)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-The second signature for \fBcreate_javadoc()\fP works on a given list of
-files.
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-create_javadoc(<VAR>
-               FILES <file1> [<file2>...]
-               [CLASSPATH <classpath>]
-               [INSTALLPATH <install path>]
-               [DOCTITLE "the documentation title"]
-               [WINDOWTITLE "the title of the document"]
-               [AUTHOR TRUE|FALSE]
-               [USE TRUE|FALSE]
-               [VERSION TRUE|FALSE]
+               PACKAGES com.example.foo com.example.bar
+               SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
+               CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
+               WINDOWTITLE "My example"
+               DOCTITLE "<h1>My example</h1>"
+               AUTHOR TRUE
+               USE TRUE
+               VERSION TRUE
               )
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
-For example:
-.INDENT 0.0
+The second signature for \fBcreate_javadoc()\fP works on a given list of files:
+.INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
 create_javadoc(my_example_doc
-  FILES ${example_SRCS}
-  CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
-  WINDOWTITLE "My example"
-  DOCTITLE "<h1>My example</h1>"
-  AUTHOR TRUE
-  USE TRUE
-  VERSION TRUE
-)
+               FILES java/A.java java/B.java
+               CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
+               WINDOWTITLE "My example"
+               DOCTITLE "<h1>My example</h1>"
+               AUTHOR TRUE
+               USE TRUE
+               VERSION TRUE
+              )
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
-Both signatures share most of the options.  These options are the same
-as what you can find in the javadoc manpage.  Please look at the
-manpage for \fBCLASSPATH\fP, \fBDOCTITLE\fP, \fBWINDOWTITLE\fP, \fBAUTHOR\fP, \fBUSE\fP
-and \fBVERSION\fP\&.
-.sp
-If you don\(aqt set the \fBINSTALLPATH\fP, then by default the documentation will
-be installed to :
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-${CMAKE_INSTALL_PREFIX}/share/javadoc/<VAR>
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.SS Header Generation
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-create_javah(TARGET <target> | GENERATED_FILES <VAR>
-             CLASSES <class>...
-             [CLASSPATH <classpath>...]
-             [DEPENDS <depend>...]
-             [OUTPUT_NAME <path>|OUTPUT_DIR <path>]
-             )
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-New in version 3.4.
-
-.sp
-Deprecated since version 3.11: This command will no longer be supported starting with version 10 of the JDK
-due to the \fI\%suppression of javah tool\fP\&.
-The \fBadd_jar(GENERATE_NATIVE_HEADERS)\fP command should be used instead.
-
-.sp
-Create C header files from java classes. These files provide the connective glue
-that allow your Java and C code to interact.
-.sp
-There are two main signatures for \fBcreate_javah()\fP\&.  The first signature
-returns generated files through variable specified by the \fBGENERATED_FILES\fP
-option.  For example:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-create_javah(GENERATED_FILES files_headers
-  CLASSES org.cmake.HelloWorld
-  CLASSPATH hello.jar
-)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-The second signature for \fBcreate_javah()\fP creates a target which encapsulates
-header files generation. E.g.
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-create_javah(TARGET target_headers
-  CLASSES org.cmake.HelloWorld
-  CLASSPATH hello.jar
-)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-Both signatures share same options.
-.INDENT 0.0
+Both signatures share most of the options. For more details please read the
+javadoc manpage.
+.INDENT 7.0
 .TP
-.B \fBCLASSES <class>...\fP
-Specifies Java classes used to generate headers.
+.B \fBPACKAGES\fP
+Specify java packages.
 .TP
-.B \fBCLASSPATH <classpath>...\fP
-Specifies various paths to look up classes. Here .class files, jar files or
-targets created by command add_jar can be used.
+.B \fBFILES\fP
+Specify java source files. If relative paths are specified, they are
+relative to \fBCMAKE_CURRENT_SOURCE_DIR\fP\&.
 .TP
-.B \fBDEPENDS <depend>...\fP
-Targets on which the javah target depends.
+.B \fBSOURCEPATH\fP
+Specify the directory where to look for packages. By default,
+\fBCMAKE_CURRENT_SOURCE_DIR\fP directory is used.
 .TP
-.B \fBOUTPUT_NAME <path>\fP
-Concatenates the resulting header files for all the classes listed by option
-\fBCLASSES\fP into \fB<path>\fP\&.  Same behavior as option \fB\-o\fP of javah tool.
+.B \fBCLASSPATH\fP
+Specify where to find user class files. Same behavior as option
+\fB\-classpath\fP of \fBjavadoc\fP tool.
 .TP
-.B \fBOUTPUT_DIR <path>\fP
-Sets the directory where the header files will be generated.  Same behavior
-as option \fB\-d\fP of javah tool.  If not specified,
-\fBCMAKE_CURRENT_BINARY_DIR\fP is used as the output directory.
+.B \fBINSTALLPATH\fP
+Specify where to install the java documentation. If you specified, the
+documentation will be installed to
+\fB${CMAKE_INSTALL_PREFIX}/share/javadoc/<VAR>\fP\&.
+.TP
+.B \fBDOCTITLE\fP
+Specify the title to place near the top of the overview summary file.
+Same behavior as option \fB\-doctitle\fP of \fBjavadoc\fP tool.
+.TP
+.B \fBWINDOWTITLE\fP
+Specify the title to be placed in the HTML \fB<title>\fP tag. Same behavior
+as option \fB\-windowtitle\fP of \fBjavadoc\fP tool.
+.TP
+.B \fBAUTHOR\fP
+When value \fBTRUE\fP is specified, includes the \fB@author\fP text in the
+generated docs. Same behavior as option  \fB\-author\fP of \fBjavadoc\fP tool.
+.TP
+.B \fBUSE\fP
+When value \fBTRUE\fP is specified, creates class and package usage pages.
+Includes one Use page for each documented class and package. Same behavior
+as option \fB\-use\fP of \fBjavadoc\fP tool.
+.TP
+.B \fBVERSION\fP
+When value \fBTRUE\fP is specified, includes the version text in the
+generated docs. Same behavior as option \fB\-version\fP of \fBjavadoc\fP tool.
+.UNINDENT
 .UNINDENT
 .SS UseSWIG
 .sp
@@ -10802,7 +11103,13 @@ behavior will choose a different target name and store it in the
 
 .sp
 Changed in version 3.15: Alternate library name (set with the \fBOUTPUT_NAME\fP property,
-for example) will be passed on to Python and CSharp wrapper libraries.
+for example) will be passed on to \fBPython\fP and \fBCSharp\fP wrapper
+libraries.
+
+.sp
+Changed in version 3.21: Generated library use standard naming conventions for \fBCSharp\fP language
+when policy \fBCMP0122\fP is set to \fBNEW\fP\&. Otherwise, the legacy
+behavior is applied.
 
 .sp
 \fBNOTE:\fP
@@ -10992,8 +11299,17 @@ New in version 3.20.
 .sp
 If set to \fBTRUE\fP, implicit dependencies are generated by the \fBswig\fP tool
 itself. This property is only meaningful for
-Makefile and
-Ninja generators. Default value is \fBFALSE\fP\&.
+Makefile,
+Ninja, \fBXcode\fP, and
+Visual Studio
+(\fBVisual Studio 11 2012\fP and above) generators. Default value is
+\fBFALSE\fP\&.
+.sp
+New in version 3.21: Added the support of \fBXcode\fP generator.
+
+.sp
+New in version 3.22: Added the support of Visual Studio Generators\&.
+
 .TP
 .B \fBSWIG_MODULE_NAME\fP
 Specify the actual import name of the module in the target language.
@@ -11188,12 +11504,21 @@ New in version 3.20.
 
 .sp
 If set to \fBTRUE\fP, implicit dependencies are generated by the \fBswig\fP tool
-itself. This property is only meaningful for
-Makefile and
-Ninja generators. Default value is \fBFALSE\fP\&.
+itself. This variable is only meaningful for
+Makefile,
+Ninja, \fBXcode\fP, and
+Visual Studio
+(\fBVisual Studio 11 2012\fP and above) generators. Default value is
+\fBFALSE\fP\&.
 .sp
 Source file property \fBUSE_SWIG_DEPENDENCIES\fP, if not defined, will be
 initialized with the value of this variable.
+.sp
+New in version 3.21: Added the support of \fBXcode\fP generator.
+
+.sp
+New in version 3.22: Added the support of Visual Studio Generators\&.
+
 .UNINDENT
 .SS UsewxWidgets
 .sp
@@ -11527,11 +11852,9 @@ add_executable(Foo main.cpp ${BISON_MyParser_OUTPUTS})
 Find Basic Linear Algebra Subprograms (BLAS) library
 .sp
 This module finds an installed Fortran library that implements the
-BLAS linear\-algebra interface (see \fI\%http://www.netlib.org/blas/\fP).
+\fI\%BLAS linear\-algebra interface\fP\&.
 .sp
-The approach follows that taken for the \fBautoconf\fP macro file,
-\fBacx_blas.m4\fP (distributed at
-\fI\%http://ac\-archive.sourceforge.net/ac\-archive/acx_blas.html\fP).
+At least one of the \fBC\fP, \fBCXX\fP, or \fBFortran\fP languages must be enabled.
 .SS Input Variables
 .sp
 The following variables may be set to influence this module\(aqs behavior:
@@ -11541,92 +11864,8 @@ The following variables may be set to influence this module\(aqs behavior:
 if \fBON\fP use static linkage
 .TP
 .B \fBBLA_VENDOR\fP
-If set, checks only the specified vendor, if not set checks all the
-possibilities.  List of vendors valid in this module:
-.INDENT 7.0
-.IP \(bu 2
-\fBGoto\fP
-.IP \(bu 2
-\fBFlexiBLAS\fP
-.IP \(bu 2
-\fBOpenBLAS\fP
-.IP \(bu 2
-\fBFLAME\fP
-.IP \(bu 2
-\fBATLAS PhiPACK\fP
-.IP \(bu 2
-\fBCXML\fP
-.IP \(bu 2
-\fBDXML\fP
-.IP \(bu 2
-\fBSunPerf\fP
-.IP \(bu 2
-\fBSCSL\fP
-.IP \(bu 2
-\fBSGIMATH\fP
-.IP \(bu 2
-\fBIBMESSL\fP
-.IP \(bu 2
-\fBIntel10_32\fP (intel mkl v10 32 bit, threaded code)
-.IP \(bu 2
-\fBIntel10_64lp\fP (intel mkl v10+ 64 bit, threaded code, lp64 model)
-.IP \(bu 2
-\fBIntel10_64lp_seq\fP (intel mkl v10+ 64 bit, sequential code, lp64 model)
-.IP \(bu 2
-\fBIntel10_64ilp\fP (intel mkl v10+ 64 bit, threaded code, ilp64 model)
-.IP \(bu 2
-\fBIntel10_64ilp_seq\fP (intel mkl v10+ 64 bit, sequential code, ilp64 model)
-.IP \(bu 2
-\fBIntel10_64_dyn\fP (intel mkl v10+ 64 bit, single dynamic library)
-.IP \(bu 2
-\fBIntel\fP (obsolete versions of mkl 32 and 64 bit)
-.IP \(bu 2
-\fBACML\fP
-.IP \(bu 2
-\fBACML_MP\fP
-.IP \(bu 2
-\fBACML_GPU\fP
-.IP \(bu 2
-\fBApple\fP
-.IP \(bu 2
-\fBNAS\fP
-.IP \(bu 2
-\fBArm\fP
-.IP \(bu 2
-\fBArm_mp\fP
-.IP \(bu 2
-\fBArm_ilp64\fP
-.IP \(bu 2
-\fBArm_ilp64_mp\fP
-.IP \(bu 2
-\fBEML\fP
-.IP \(bu 2
-\fBEML_mt\fP
-.IP \(bu 2
-\fBGeneric\fP
-.UNINDENT
-.sp
-New in version 3.6: \fBOpenBLAS\fP support.
-
-.sp
-New in version 3.11: \fBFLAME\fP support.
-
-.sp
-New in version 3.13: Added ILP64 MKL variants (\fBIntel10_64ilp\fP, \fBIntel10_64ilp_seq\fP).
-
-.sp
-New in version 3.17: Added single dynamic library MKL variant (\fBIntel10_64_dyn\fP).
-
-.sp
-New in version 3.18: Arm Performance Libraries support (\fBArm\fP, \fBArm_mp\fP, \fBArm_ilp64\fP,
-\fBArm_ilp64_mp\fP).
-
-.sp
-New in version 3.19: \fBFlexiBLAS\fP support.
-
-.sp
-New in version 3.20: Elbrus Math Library support (\fBEML\fP, \fBEML_mt\fP).
-
+Set to one of the \fI\%BLAS/LAPACK Vendors\fP to search for BLAS only
+from the specified vendor.  If not set, all vendors are considered.
 .TP
 .B \fBBLA_F95\fP
 if \fBON\fP tries to find the BLAS95 interfaces
@@ -11637,16 +11876,34 @@ New in version 3.11.
 .sp
 if set \fBpkg\-config\fP will be used to search for a BLAS library first
 and if one is found that is preferred
+.TP
+.B \fBBLA_SIZEOF_INTEGER\fP
+New in version 3.22.
+
+.sp
+Specify the BLAS/LAPACK library integer size:
+.INDENT 7.0
+.TP
+.B \fB4\fP
+Search for a BLAS/LAPACK with 32\-bit integer interfaces.
+.TP
+.B \fB8\fP
+Search for a BLAS/LAPACK with 64\-bit integer interfaces.
+.TP
+.B \fBANY\fP
+Search for any BLAS/LAPACK.
+Most likely, a BLAS/LAPACK with 32\-bit integer interfaces will be found.
+.UNINDENT
 .UNINDENT
 .SS Imported targets
 .sp
-New in version 3.18.
-
-.sp
-This module defines the following \fBIMPORTED\fP target:
+This module defines the following \fBIMPORTED\fP targets:
 .INDENT 0.0
 .TP
 .B \fBBLAS::BLAS\fP
+New in version 3.18.
+
+.sp
 The libraries to use for BLAS, if found.
 .UNINDENT
 .SS Result Variables
@@ -11671,14 +11928,122 @@ to use BLAS95 interface
 .B \fBBLAS95_FOUND\fP
 library implementing the BLAS95 interface is found
 .UNINDENT
+.SS BLAS/LAPACK Vendors
+.INDENT 0.0
+.TP
+.B \fBGeneric\fP
+Generic reference implementation
+.TP
+.B \fBACML\fP, \fBACML_MP\fP, \fBACML_GPU\fP
+AMD Core Math Library
+.TP
+.B \fBApple\fP, \fBNAS\fP
+Apple BLAS (Accelerate), and Apple NAS (vecLib)
+.TP
+.B \fBArm\fP, \fBArm_mp\fP, \fBArm_ilp64\fP, \fBArm_ilp64_mp\fP
+New in version 3.18.
+
 .sp
-\fBNOTE:\fP
+Arm Performance Libraries
+.TP
+.B \fBATLAS\fP
+Automatically Tuned Linear Algebra Software
+.TP
+.B \fBCXML\fP, \fBDXML\fP
+Compaq/Digital Extended Math Library
+.TP
+.B \fBEML\fP, \fBEML_mt\fP
+New in version 3.20.
+
+.sp
+Elbrus Math Library
+.TP
+.B \fBFLAME\fP
+New in version 3.11.
+
+.sp
+BLIS Framework
+.TP
+.B \fBFlexiBLAS\fP
+New in version 3.19.
+
+.TP
+.B \fBFujitsu_SSL2\fP, \fBFujitsu_SSL2BLAMP\fP, \fBFujitsu_SSL2SVE\fP, \fBFujitsu_SSL2BLAMPSVE\fP
+New in version 3.20.
+
+.sp
+Fujitsu SSL2 serial and parallel blas/lapack with SVE instructions
+.TP
+.B \fBGoto\fP
+GotoBLAS
+.UNINDENT
+.sp
+\fBIBMESSL\fP, \fBIBMESSL_SMP\fP
 .INDENT 0.0
 .INDENT 3.5
-C, CXX or Fortran must be enabled to detect a BLAS library.
-C or CXX must be enabled to use Intel Math Kernel Library (MKL).
+IBM Engineering and Scientific Subroutine Library
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \fBIntel\fP
+Intel MKL 32 bit and 64 bit obsolete versions
+.TP
+.B \fBIntel10_32\fP
+Intel MKL v10 32 bit, threaded code
+.TP
+.B \fBIntel10_64lp\fP
+Intel MKL v10+ 64 bit, threaded code, lp64 model
+.TP
+.B \fBIntel10_64lp_seq\fP
+Intel MKL v10+ 64 bit, sequential code, lp64 model
+.TP
+.B \fBIntel10_64ilp\fP
+New in version 3.13.
+
 .sp
-For example, to use Intel MKL libraries and/or Intel compiler:
+Intel MKL v10+ 64 bit, threaded code, ilp64 model
+.TP
+.B \fBIntel10_64ilp_seq\fP
+New in version 3.13.
+
+.sp
+Intel MKL v10+ 64 bit, sequential code, ilp64 model
+.TP
+.B \fBIntel10_64_dyn\fP
+New in version 3.17.
+
+.sp
+Intel MKL v10+ 64 bit, single dynamic library
+.TP
+.B \fBNVHPC\fP
+New in version 3.21.
+
+.sp
+NVIDIA HPC SDK
+.TP
+.B \fBOpenBLAS\fP
+New in version 3.6.
+
+.TP
+.B \fBPhiPACK\fP
+Portable High Performance ANSI C (PHiPAC)
+.TP
+.B \fBSCSL\fP, \fBSCSL_mp\fP
+Scientific Computing Software Library
+.TP
+.B \fBSGIMATH\fP
+SGI Scientific Mathematical Library
+.TP
+.B \fBSunPerf\fP
+Sun Performance Library
+.UNINDENT
+.SS Intel MKL
+.sp
+To use the Intel MKL implementation of BLAS, a project must enable at least
+one of the \fBC\fP or \fBCXX\fP languages.  Set \fBBLA_VENDOR\fP to an Intel MKL
+variant either on the command\-line as \fB\-DBLA_VENDOR=Intel10_64lp\fP or in
+project code:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -11690,19 +12055,86 @@ find_package(BLAS)
 .fi
 .UNINDENT
 .UNINDENT
-.UNINDENT
-.UNINDENT
-.SS Hints
+.sp
+In order to build a project using Intel MKL, and end user must first
+establish an Intel MKL environment:
 .INDENT 0.0
 .TP
-.B \fBMKLROOT\fP
-New in version 3.15.
-
+.B Intel oneAPI
+Source the full Intel environment script:
+.INDENT 7.0
+.INDENT 3.5
 .sp
-Set this environment variable to a directory that contains an MKL
-installation, or add the directory to the dynamic library loader environment
-variable for your platform (\fBLIB\fP, \fBDYLD_LIBRARY_PATH\fP or
-\fBLD_LIBRARY_PATH\fP).
+.nf
+.ft C
+\&. /opt/intel/oneapi/setvars.sh
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Or, source the MKL component environment script:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\&. /opt/intel/oneapi/mkl/latest/env/vars.sh
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.TP
+.B Intel Classic
+Source the full Intel environment script:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\&. /opt/intel/bin/compilervars.sh intel64
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Or, source the MKL component environment script:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\&. /opt/intel/mkl/bin/mklvars.sh intel64
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+The above environment scripts set the \fBMKLROOT\fP environment variable
+to the top of the MKL installation.  They also add the location of the
+runtime libraries to the dynamic library loader environment variable for
+your platform (e.g. \fBLD_LIBRARY_PATH\fP).  This is necessary for programs
+linked against MKL to run.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+As of Intel oneAPI 2021.2, loading only the MKL component does not
+make all of its dependencies available.  In particular, the \fBiomp5\fP
+library must be available separately, or provided by also loading
+the compiler component environment:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+\&. /opt/intel/oneapi/compiler/latest/env/vars.sh
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .SS FindBoost
 .sp
@@ -11896,7 +12328,7 @@ Interface target to disable automatic linking with MSVC
 (adds \fB\-DBOOST_ALL_NO_LIB\fP).
 .TP
 .B \fBBoost::dynamic_linking\fP
-Interface target to enable dynamic linking linking with MSVC
+Interface target to enable dynamic linking with MSVC
 (adds \fB\-DBOOST_ALL_DYN_LINK\fP).
 .UNINDENT
 .sp
@@ -12339,11 +12771,16 @@ situation, users are encouraged to either (1) set \fBCUDAToolkit_ROOT\fP or
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SS Options
+.SS Arguments
 .INDENT 0.0
 .TP
-.B \fBVERSION\fP
-If specified, describes the version of the CUDA Toolkit to search for.
+.B \fB[<version>]\fP
+The \fB[<version>]\fP argument requests a version with which the package found
+should be compatible. See find_package version format
+for more details.
+.UNINDENT
+.SS Options
+.INDENT 0.0
 .TP
 .B \fBREQUIRED\fP
 If specified, configuration will error if a suitable CUDA Toolkit is not
@@ -12702,7 +13139,7 @@ The exact version of the CUDA Toolkit found (as reported by
 .B \fBCUDAToolkit_VERSION_MAJOR\fP
 The major version of the CUDA Toolkit.
 .TP
-.B \fBCUDAToolkit_VERSION_MAJOR\fP
+.B \fBCUDAToolkit_VERSION_MINOR\fP
 The minor version of the CUDA Toolkit.
 .TP
 .B \fBCUDAToolkit_VERSION_PATCH\fP
@@ -13274,32 +13711,59 @@ documentation.
 .sp
 This module locates the developer\(aqs image library.
 \fI\%http://openil.sourceforge.net/\fP
+.SS IMPORTED Targets
+.sp
+New in version 3.21.
+
+.sp
+This module defines the \fBIMPORTED\fP targets:
+.INDENT 0.0
+.TP
+.B \fBDevIL::IL\fP
+Defined if the system has DevIL.
+.TP
+.B \fBDevIL::ILU\fP
+Defined if the system has DevIL Utilities.
+.TP
+.B \fBDevIL::ILUT\fP
+Defined if the system has DevIL Utility Toolkit.
+.UNINDENT
+.SS Result Variables
 .sp
 This module sets:
 .INDENT 0.0
-.INDENT 3.5
+.TP
+.B \fBIL_LIBRARIES\fP
+The name of the IL library. These include the full path to
+the core DevIL library. This one has to be linked into the
+application.
+.TP
+.B \fBILU_LIBRARIES\fP
+The name of the ILU library. Again, the full path. This
+library is for filters and effects, not actual loading. It
+doesn\(aqt have to be linked if the functionality it provides
+is not used.
+.TP
+.B \fBILUT_LIBRARIES\fP
+The name of the ILUT library. Full path. This part of the
+library interfaces with OpenGL. It is not strictly needed
+in applications.
+.TP
+.B \fBIL_INCLUDE_DIR\fP
+where to find the il.h, ilu.h and ilut.h files.
+.TP
+.B \fBDevIL_FOUND\fP
+This is set to TRUE if all the above variables were set.
+This will be set to false if ILU or ILUT are not found,
+even if they are not needed. In most systems, if one
+library is found all the others are as well. That\(aqs the
+way the DevIL developers release it.
+.TP
+.B \fBDevIL_ILUT_FOUND\fP
+New in version 3.21.
+
 .sp
-.nf
-.ft C
-IL_LIBRARIES \-   the name of the IL library. These include the full path to
-                 the core DevIL library. This one has to be linked into the
-                 application.
-ILU_LIBRARIES \-  the name of the ILU library. Again, the full path. This
-                 library is for filters and effects, not actual loading. It
-                 doesn\(aqt have to be linked if the functionality it provides
-                 is not used.
-ILUT_LIBRARIES \- the name of the ILUT library. Full path. This part of the
-                 library interfaces with OpenGL. It is not strictly needed
-                 in applications.
-IL_INCLUDE_DIR \- where to find the il.h, ilu.h and ilut.h files.
-DevIL_FOUND    \- this is set to TRUE if all the above variables were set.
-                 This will be set to false if ILU or ILUT are not found,
-                 even if they are not needed. In most systems, if one
-                 library is found all the others are as well. That\(aqs the
-                 way the DevIL developers release it.
-.ft P
-.fi
-.UNINDENT
+This is set to TRUE if the ILUT library is found.
 .UNINDENT
 .SS FindDoxygen
 .sp
@@ -13570,7 +14034,8 @@ them to be separated by whitespace. CMake variables hold lists as a string with
 items separated by semi\-colons, so a conversion needs to be performed. The
 \fBdoxygen_add_docs()\fP command specifically checks the following Doxygen config
 options and will convert their associated CMake variable\(aqs contents into the
-required form if set.
+required form if set. CMake variables are named \fBDOXYGEN_<name>\fP for the
+Doxygen settings specified here.
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -14422,7 +14887,7 @@ Process the given pot file to mo files.
 If INSTALL_DESTINATION is given then automatically install rules will
 be created, the language subdirectory will be taken into account
 (by default use share/locale/).
-If ALL is specified, the pot file is processed when building the all traget.
+If ALL is specified, the pot file is processed when building the all target.
 It creates a custom target "potfile".
 .ft P
 .fi
@@ -14440,7 +14905,7 @@ Process the given po files to mo files for the given language.
 If INSTALL_DESTINATION is given then automatically install rules will
 be created, the language subdirectory will be taken into account
 (by default use share/locale/).
-If ALL is specified, the po files are processed when building the all traget.
+If ALL is specified, the po files are processed when building the all target.
 It creates a custom target "pofiles".
 .ft P
 .fi
@@ -15561,6 +16026,30 @@ The iconv libraries to be linked.
 .UNINDENT
 .INDENT 0.0
 .TP
+.B Iconv_VERSION
+New in version 3.21.
+
+.sp
+The version of iconv found (x.y)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Iconv_VERSION_MAJOR
+New in version 3.21.
+
+.sp
+The major version of iconv
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Iconv_VERSION_MINOR
+New in version 3.21.
+
+.sp
+The minor version of iconv
+.UNINDENT
+.INDENT 0.0
+.TP
 .B Iconv_IS_BUILT_IN
 A variable indicating whether iconv support is stemming from the
 C library or not. Even if the C library provides \fIiconv()\fP, the presence of
@@ -15591,6 +16080,14 @@ The iconv library (if not implicitly given in the C library).
 .INDENT 3.5
 On POSIX platforms, iconv might be part of the C library and the cache
 variables \fBIconv_INCLUDE_DIR\fP and \fBIconv_LIBRARY\fP might be empty.
+.UNINDENT
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Some libiconv implementations don\(aqt embed the version number in their header files.
+In this case the variables \fBIconv_VERSION*\fP will be empty.
 .UNINDENT
 .UNINDENT
 .SS FindIcotool
@@ -15873,18 +16370,53 @@ New in version 3.2.
 Find the Gettext libintl headers and libraries.
 .sp
 This module reports information about the Gettext libintl
-installation in several variables.  General variables:
+installation in several variables.
 .INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-Intl_FOUND \- true if the libintl headers and libraries were found
-Intl_INCLUDE_DIRS \- the directory containing the libintl headers
-Intl_LIBRARIES \- libintl libraries to be linked
-.ft P
-.fi
+.TP
+.B Intl_FOUND
+True if libintl is found.
 .UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_INCLUDE_DIRS
+The directory containing the libintl headers.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_LIBRARIES
+The intl libraries to be linked.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_VERSION
+New in version 3.21.
+
+.sp
+The version of intl found (x.y.z)
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_VERSION_MAJOR
+New in version 3.21.
+
+.sp
+The major version of intl
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_VERSION_MINOR
+New in version 3.21.
+
+.sp
+The minor version of intl
+.UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_VERSION_PATCH
+New in version 3.21.
+
+.sp
+The patch version of intl
 .UNINDENT
 .sp
 New in version 3.20: This module defines \fBIMPORTED\fP target \fBIntl::Intl\fP\&.
@@ -15892,24 +16424,23 @@ New in version 3.20: This module defines \fBIMPORTED\fP target \fBIntl::Intl\fP\
 .sp
 The following cache variables may also be set:
 .INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-Intl_INCLUDE_DIR \- the directory containing the libintl headers
-Intl_LIBRARY \- the libintl library (if any)
-Intl_HAVE_GETTEXT_BUILTIN \- check if gettext is in the C library
-Intl_HAVE_DCGETTEXT_BUILTIN \- check if dcgettext is in the C library
-Intl_IS_BUILTIN \- whether intl is a part of the C library determined
-    from the result of Intl_HAVE_GETTEXT_BUILTIN and Intl_HAVE_DCGETTEXT_BUILTIN
-.ft P
-.fi
+.TP
+.B Intl_INCLUDE_DIR
+The directory containing the libintl headers
 .UNINDENT
+.INDENT 0.0
+.TP
+.B Intl_LIBRARY
+The libintl library (if any)
 .UNINDENT
-.sp
-New in version 3.20: Added the \fBIntl_HAVE_GETTEXT_BUILTIN\fP, \fBIntl_HAVE_DCGETTEXT_BUILTIN\fP and
-\fBIntl_IS_BUILTIN\fP variables.
+.INDENT 0.0
+.TP
+.B Intl_IS_BUILT_IN
+New in version 3.20.
 
+.sp
+whether \fBintl\fP is a part of the C library.
+.UNINDENT
 .sp
 \fBNOTE:\fP
 .INDENT 0.0
@@ -15918,6 +16449,14 @@ On some platforms, such as Linux with GNU libc, the gettext
 functions are present in the C standard library and libintl
 is not required.  \fBIntl_LIBRARIES\fP will be empty in this
 case.
+.UNINDENT
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Some libintl implementations don\(aqt embed the version number in their header files.
+In this case the variables \fBIntl_VERSION*\fP will be empty.
 .UNINDENT
 .UNINDENT
 .sp
@@ -15939,21 +16478,46 @@ Now \fBfind_package(ITK)\fP will search for \fBITKConfig.cmake\fP
 directly.
 .SS FindJasper
 .sp
-Try to find the Jasper JPEG2000 library
-.sp
-Once done this will define
+Find the Jasper JPEG2000 library.
+.SS IMPORTED Targets
 .INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-JASPER_FOUND \- system has Jasper
-JASPER_INCLUDE_DIR \- the Jasper include directory
-JASPER_LIBRARIES \- the libraries needed to use Jasper
-JASPER_VERSION_STRING \- the version of Jasper found (since CMake 2.8.8)
-.ft P
-.fi
+.TP
+.B \fBJasper::Jasper\fP
+The jasper library, if found.
 .UNINDENT
+.SS Result Variables
+.sp
+This module defines the following variables:
+.INDENT 0.0
+.TP
+.B \fBJASPER_FOUND\fP
+system has Jasper
+.TP
+.B \fBJASPER_INCLUDE_DIRS\fP
+New in version 3.22.
+
+.sp
+the Jasper include directory
+.TP
+.B \fBJASPER_LIBRARIES\fP
+the libraries needed to use Jasper
+.TP
+.B \fBJASPER_VERSION_STRING\fP
+the version of Jasper found
+.UNINDENT
+.SS Cache variables
+.sp
+The following cache variables may also be set:
+.INDENT 0.0
+.TP
+.B \fBJASPER_INCLUDE_DIR\fP
+where to find jasper/jasper.h, etc.
+.TP
+.B \fBJASPER_LIBRARY_RELEASE\fP
+where to find the Jasper library (optimized).
+.TP
+.B \fBJASPER_LIBARRY_DEBUG\fP
+where to find the Jasper library (debug).
 .UNINDENT
 .SS FindJava
 .sp
@@ -16371,11 +16935,9 @@ Author: Alexander Neundorf <\fI\%neundorf@kde.org\fP>
 Find Linear Algebra PACKage (LAPACK) library
 .sp
 This module finds an installed Fortran library that implements the
-LAPACK linear\-algebra interface (see \fI\%http://www.netlib.org/lapack/\fP).
+\fI\%LAPACK linear\-algebra interface\fP\&.
 .sp
-The approach follows that taken for the \fBautoconf\fP macro file,
-\fBacx_lapack.m4\fP (distributed at
-\fI\%http://ac\-archive.sourceforge.net/ac\-archive/acx_lapack.html\fP).
+At least one of the \fBC\fP, \fBCXX\fP, or \fBFortran\fP languages must be enabled.
 .SS Input Variables
 .sp
 The following variables may be set to influence this module\(aqs behavior:
@@ -16385,72 +16947,8 @@ The following variables may be set to influence this module\(aqs behavior:
 if \fBON\fP use static linkage
 .TP
 .B \fBBLA_VENDOR\fP
-If set, checks only the specified vendor, if not set checks all the
-possibilities.  List of vendors valid in this module:
-.INDENT 7.0
-.IP \(bu 2
-\fBFlexiBLAS\fP
-.IP \(bu 2
-\fBOpenBLAS\fP
-.IP \(bu 2
-\fBFLAME\fP
-.IP \(bu 2
-\fBIntel10_32\fP (intel mkl v10 32 bit, threaded code)
-.IP \(bu 2
-\fBIntel10_64lp\fP (intel mkl v10+ 64 bit, threaded code, lp64 model)
-.IP \(bu 2
-\fBIntel10_64lp_seq\fP (intel mkl v10+ 64 bit, sequential code, lp64 model)
-.IP \(bu 2
-\fBIntel10_64ilp\fP (intel mkl v10+ 64 bit, threaded code, ilp64 model)
-.IP \(bu 2
-\fBIntel10_64ilp_seq\fP (intel mkl v10+ 64 bit, sequential code, ilp64 model)
-.IP \(bu 2
-\fBIntel10_64_dyn\fP (intel mkl v10+ 64 bit, single dynamic library)
-.IP \(bu 2
-\fBIntel\fP (obsolete versions of mkl 32 and 64 bit)
-.IP \(bu 2
-\fBACML\fP
-.IP \(bu 2
-\fBApple\fP
-.IP \(bu 2
-\fBNAS\fP
-.IP \(bu 2
-\fBArm\fP
-.IP \(bu 2
-\fBArm_mp\fP
-.IP \(bu 2
-\fBArm_ilp64\fP
-.IP \(bu 2
-\fBArm_ilp64_mp\fP
-.IP \(bu 2
-\fBEML\fP
-.IP \(bu 2
-\fBEML_mt\fP
-.IP \(bu 2
-\fBGeneric\fP
-.UNINDENT
-.sp
-New in version 3.6: \fBOpenBLAS\fP support.
-
-.sp
-New in version 3.11: \fBFLAME\fP support.
-.sp
-New in version 3.13: Added ILP64 MKL variants (\fBIntel10_64ilp\fP, \fBIntel10_64ilp_seq\fP).
-
-
-.sp
-New in version 3.17: Added single dynamic library MKL variant (\fBIntel10_64_dyn\fP).
-
-.sp
-New in version 3.18: Arm Performance Libraries support (\fBArm\fP, \fBArm_mp\fP, \fBArm_ilp64\fP,
-\fBArm_ilp64_mp\fP).
-
-.sp
-New in version 3.19: \fBFlexiBLAS\fP support.
-
-.sp
-New in version 3.20: Elbrus Math Library support (\fBEML\fP, \fBEML_mt\fP).
-
+Set to one of the BLAS/LAPACK Vendors to search for BLAS only
+from the specified vendor.  If not set, all vendors are considered.
 .TP
 .B \fBBLA_F95\fP
 if \fBON\fP tries to find the BLAS95/LAPACK95 interfaces
@@ -16461,16 +16959,34 @@ New in version 3.20.
 .sp
 if set \fBpkg\-config\fP will be used to search for a LAPACK library first
 and if one is found that is preferred
+.TP
+.B \fBBLA_SIZEOF_INTEGER\fP
+New in version 3.22.
+
+.sp
+Specify the BLAS/LAPACK library integer size:
+.INDENT 7.0
+.TP
+.B \fB4\fP
+Search for a BLAS/LAPACK with 32\-bit integer interfaces.
+.TP
+.B \fB8\fP
+Search for a BLAS/LAPACK with 64\-bit integer interfaces.
+.TP
+.B \fBANY\fP
+Search for any BLAS/LAPACK.
+Most likely, a BLAS/LAPACK with 32\-bit integer interfaces will be found.
+.UNINDENT
 .UNINDENT
 .SS Imported targets
 .sp
-New in version 3.18.
-
-.sp
-This module defines the following \fBIMPORTED\fP target:
+This module defines the following \fBIMPORTED\fP targets:
 .INDENT 0.0
 .TP
 .B \fBLAPACK::LAPACK\fP
+New in version 3.18.
+
+.sp
 The libraries to use for LAPACK, if found.
 .UNINDENT
 .SS Result Variables
@@ -16495,14 +17011,12 @@ to use LAPACK95
 .B \fBLAPACK95_FOUND\fP
 library implementing the LAPACK95 interface is found
 .UNINDENT
+.SS Intel MKL
 .sp
-\fBNOTE:\fP
-.INDENT 0.0
-.INDENT 3.5
-C, CXX or Fortran must be enabled to detect a BLAS/LAPACK library.
-C or CXX must be enabled to use Intel Math Kernel Library (MKL).
-.sp
-For example, to use Intel MKL libraries and/or Intel compiler:
+To use the Intel MKL implementation of LAPACK, a project must enable at least
+one of the \fBC\fP or \fBCXX\fP languages.  Set \fBBLA_VENDOR\fP to an Intel MKL
+variant either on the command\-line as \fB\-DBLA_VENDOR=Intel10_64lp\fP or in
+project code:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -16514,8 +17028,10 @@ find_package(LAPACK)
 .fi
 .UNINDENT
 .UNINDENT
-.UNINDENT
-.UNINDENT
+.sp
+In order to build a project using Intel MKL, and end user must first
+establish an Intel MKL environment.  See the \fBFindBLAS\fP module
+section on Intel MKL for details.
 .SS FindLATEX
 .sp
 Find LaTeX
@@ -17062,7 +17578,7 @@ between the release name and the version.
 .UNINDENT
 .sp
 The variable \fI\%Matlab_ROOT_DIR\fP may be specified in order to give
-the path of the desired Matlab version. Otherwise, the behaviour is platform
+the path of the desired Matlab version. Otherwise, the behavior is platform
 specific:
 .INDENT 0.0
 .IP \(bu 2
@@ -17095,7 +17611,7 @@ returning an exit code can be used as well (0 indicating a success).
 .SS Module Input Variables
 .sp
 Users or projects may set the following variables to configure the module
-behaviour:
+behavior:
 .INDENT 0.0
 .TP
 .B \fI\%Matlab_ROOT_DIR\fP
@@ -17107,6 +17623,34 @@ outputs debug information
 .B \fI\%MATLAB_ADDITIONAL_VERSIONS\fP
 additional versions of Matlab for the automatic retrieval of the installed
 versions.
+.UNINDENT
+.SS Imported targets
+.sp
+New in version 3.22.
+
+.sp
+This module defines the following \fBIMPORTED\fP targets:
+.INDENT 0.0
+.TP
+.B \fBMatlab::mex\fP
+The \fBmex\fP library, always available.
+.TP
+.B \fBMatlab::mx\fP
+The mx library of Matlab (arrays), always available.
+.TP
+.B \fBMatlab::eng\fP
+Matlab engine library. Available only if the \fBENG_LIBRARY\fP component
+is requested.
+.TP
+.B \fBMatlab::mat\fP
+Matlab matrix library. Available only if the \fBMAT_LIBRARY\fP component
+is requested.
+.TP
+.B \fBMatlab::MatlabEngine\fP
+Matlab C++ engine library, always available for R2018a and newer.
+.TP
+.B \fBMatlab::MatlabDataArray\fP
+Matlab C++ data array library, always available for R2018a and newer.
 .UNINDENT
 .SS Variables defined by the module
 .SS Result variables
@@ -17218,7 +17762,7 @@ installation path.
 \fBSymbol clash in a MEX target\fP
 By default, every symbols inside a MEX
 file defined with the command \fI\%matlab_add_mex()\fP have hidden
-visibility, except for the entry point. This is the default behaviour of
+visibility, except for the entry point. This is the default behavior of
 the MEX compiler, which lowers the risk of symbol collision between the
 libraries shipped with Matlab, and the libraries to which the MEX file is
 linking to. This is also the default on Windows platforms.
@@ -17257,7 +17801,7 @@ outputted to the console.
 .TP
 .B MATLAB_ADDITIONAL_VERSIONS
 If set, specifies additional versions of Matlab that may be looked for.
-The variable should be a list of strings, organised by pairs of release
+The variable should be a list of strings, organized by pairs of release
 name and versions, such as follows:
 .INDENT 7.0
 .INDENT 3.5
@@ -17461,7 +18005,7 @@ where \fBmatlab_file_name\fP is the \fBUNITTEST_FILE\fP without the extension.
 .TP
 .B \fBUNITTEST_PRECOMMAND\fP
 Matlab script command to be ran before the file
-containing the test (eg. GPU device initialisation based on CMake
+containing the test (eg. GPU device initialization based on CMake
 variables).
 .TP
 .B \fBTIMEOUT\fP
@@ -17813,7 +18357,7 @@ This module performs a four step search for an MPI implementation:
 Search for \fBMPIEXEC_EXECUTABLE\fP and, if found, use its base directory.
 .IP 2. 3
 Check if the compiler has MPI support built\-in. This is the case if the user passed a
-compiler wrapper as \fBCMAKE_<LANG>_COMPILER\fP or if they\(aqre on a Cray system.
+compiler wrapper as \fBCMAKE_<LANG>_COMPILER\fP or if they use Cray system compiler wrappers.
 .IP 3. 3
 Attempt to find an MPI compiler wrapper and determine the compiler information from it.
 .IP 4. 3
@@ -18014,6 +18558,13 @@ For consumption use \fBMPI_<lang>_INCLUDE_DIRS\fP and for specifying folders use
 .B \fBMPIEXEC\fP
 Use \fBMPIEXEC_EXECUTABLE\fP instead.
 .UNINDENT
+.SS FindMsys
+.sp
+New in version 3.21.
+
+.sp
+Find MSYS, a POSIX\-compatible environment that runs natively
+on Microsoft Windows
 .SS FindODBC
 .sp
 New in version 3.12.
@@ -19467,14 +20018,27 @@ following variables will also be set:
 .INDENT 0.0
 .TP
 .B \fBPKG_CONFIG_FOUND\fP
-if pkg\-config executable was found
-.TP
-.B \fBPKG_CONFIG_EXECUTABLE\fP
-pathname of the pkg\-config program
+True if a pkg\-config executable was found.
 .TP
 .B \fBPKG_CONFIG_VERSION_STRING\fP
-version of pkg\-config (since CMake 2.8.8)
+New in version 2.8.8.
+
+.sp
+The version of pkg\-config that was found.
+.TP
+.B \fBPKG_CONFIG_EXECUTABLE\fP
+The pathname of the pkg\-config program.
+.TP
+.B \fBPKG_CONFIG_ARGN\fP
+New in version 3.22.
+
+.sp
+A list of arguments to pass to pkg\-config.
 .UNINDENT
+.sp
+Both \fBPKG_CONFIG_EXECUTABLE\fP and \fBPKG_CONFIG_ARGN\fP are initialized by the
+module, but may be overridden by the user.  See \fI\%Variables Affecting Behavior\fP
+for how these variables are initialized.
 .INDENT 0.0
 .TP
 .B pkg_check_modules
@@ -19760,12 +20324,32 @@ pkg_get_variable(GI_GIRDIR gobject\-introspection\-1.0 girdir)
 .INDENT 0.0
 .TP
 .B PKG_CONFIG_EXECUTABLE
-This can be set to the path of the pkg\-config executable.  If not provided,
-it will be set by the module as a result of calling \fBfind_program()\fP
-internally.
+This cache variable can be set to the path of the pkg\-config executable.
+\fBfind_program()\fP is called internally by the module with this
+variable.
 .sp
-New in version 3.1: The \fBPKG_CONFIG\fP environment variable can be used as a hint.
+New in version 3.1: The \fBPKG_CONFIG\fP environment variable can be used as a hint if
+\fBPKG_CONFIG_EXECUTABLE\fP has not yet been set.
 
+.sp
+Changed in version 3.22: If the \fBPKG_CONFIG\fP environment variable is set, only the first
+argument is taken from it when using it as a hint.
+
+.UNINDENT
+.INDENT 0.0
+.TP
+.B PKG_CONFIG_ARGN
+New in version 3.22.
+
+.sp
+This cache variable can be set to a list of arguments to additionally pass
+to pkg\-config if needed. If not provided, it will be initialized from the
+\fBPKG_CONFIG\fP environment variable, if set. The first argument in that
+environment variable is assumed to be the pkg\-config program, while all
+remaining arguments after that are used to initialize \fBPKG_CONFIG_ARGN\fP\&.
+If no such environment variable is defined, \fBPKG_CONFIG_ARGN\fP is
+initialized to an empty string. The module does not update the variable once
+it has been set in the cache.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -20392,6 +20976,14 @@ If set to TRUE, search \fBonly\fP for static libraries.
 .IP \(bu 2
 If set to FALSE, search \fBonly\fP for shared libraries.
 .UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+This hint will be ignored on \fBWindows\fP because static libraries are not
+available on this platform.
+.UNINDENT
+.UNINDENT
 .TP
 .B \fBPython_FIND_ABI\fP
 New in version 3.16.
@@ -21011,6 +21603,14 @@ If set to TRUE, search \fBonly\fP for static libraries.
 .IP \(bu 2
 If set to FALSE, search \fBonly\fP for shared libraries.
 .UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+This hint will be ignored on \fBWindows\fP because static libraries are not
+available on this platform.
+.UNINDENT
+.UNINDENT
 .TP
 .B \fBPython2_FIND_STRATEGY\fP
 New in version 3.15.
@@ -21573,6 +22173,14 @@ order.
 If set to TRUE, search \fBonly\fP for static libraries.
 .IP \(bu 2
 If set to FALSE, search \fBonly\fP for shared libraries.
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+This hint will be ignored on \fBWindows\fP because static libraries are not
+available on this platform.
+.UNINDENT
 .UNINDENT
 .TP
 .B \fBPython3_FIND_ABI\fP
@@ -23463,12 +24071,33 @@ Find Vulkan, which is a low\-overhead, cross\-platform 3D graphics
 and computing API.
 .SS IMPORTED Targets
 .sp
-This module defines \fBIMPORTED\fP target \fBVulkan::Vulkan\fP, if
-Vulkan has been found.
-.sp
-New in version 3.19: This module defines \fBIMPORTED\fP target \fBVulkan::glslc\fP, if
-Vulkan and the GLSLC SPIR\-V compiler has been found.
+This module defines \fBIMPORTED\fP targets if Vulkan has been found:
+.INDENT 0.0
+.TP
+.B \fBVulkan::Vulkan\fP
+The main Vulkan library.
+.TP
+.B \fBVulkan::glslc\fP
+New in version 3.19.
 
+.sp
+The GLSLC SPIR\-V compiler, if it has been found.
+.TP
+.B \fBVulkan::Headers\fP
+New in version 3.21.
+
+.sp
+Provides just Vulkan headers include paths, if found.  No library is
+included in this target.  This can be useful for applications that
+load Vulkan library dynamically.
+.TP
+.B \fBVulkan::glslangValidator\fP
+New in version 3.21.
+
+.sp
+The glslangValidator tool, if found.  It is used to compile GLSL and
+HLSL shaders into SPIR\-V.
+.UNINDENT
 .SS Result Variables
 .sp
 This module defines the following variables:
@@ -23494,6 +24123,7 @@ The module will also define three cache variables:
 Vulkan_INCLUDE_DIR        \- the Vulkan include directory
 Vulkan_LIBRARY            \- the path to the Vulkan library
 Vulkan_GLSLC_EXECUTABLE   \- the path to the GLSL SPIR\-V compiler
+Vulkan_GLSLANG_VALIDATOR_EXECUTABLE \- the path to the glslangValidator tool
 .ft P
 .fi
 .UNINDENT
@@ -24495,7 +25125,7 @@ to the version of CMake that introduced the given API and less
 than the version of CMake that introduced its succeeding API.
 The value of the \fBCMAKE_MINIMUM_REQUIRED_VERSION\fP
 variable is used if no explicit version is specified.
-(As of CMake version 3.20.0\-rc4 there is only one API version.)
+(As of CMake version 3.22.1 there is only one API version.)
 .sp
 \fBPROLOG\fP may be specified as text content to write at the start of the
 header. \fBEPILOG\fP may be specified as text content to write at the end
@@ -24845,22 +25475,174 @@ target_compile_definitions(compat_support
 .fi
 .UNINDENT
 .UNINDENT
+.SS Example Usage
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This section was migrated from the \fBcmake\-compile\-features(7)\fP
+manual since it relies on the \fBWriteCompilerDetectionHeader\fP module
+which is removed by policy \fBCMP0120\fP\&.
+.UNINDENT
+.UNINDENT
+.sp
+Compile features may be preferred if available, without creating a hard
+requirement.  For example, a library may provide alternative
+implementations depending on whether the \fBcxx_variadic_templates\fP
+feature is available:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+#if Foo_COMPILER_CXX_VARIADIC_TEMPLATES
+template<int I, int... Is>
+struct Interface;
+
+template<int I>
+struct Interface<I>
+{
+  static int accumulate()
+  {
+    return I;
+  }
+};
+
+template<int I, int... Is>
+struct Interface
+{
+  static int accumulate()
+  {
+    return I + Interface<Is...>::accumulate();
+  }
+};
+#else
+template<int I1, int I2 = 0, int I3 = 0, int I4 = 0>
+struct Interface
+{
+  static int accumulate() { return I1 + I2 + I3 + I4; }
+};
+#endif
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Such an interface depends on using the correct preprocessor defines for the
+compiler features.  CMake can generate a header file containing such
+defines using the \fI\%WriteCompilerDetectionHeader\fP module.  The
+module contains the \fBwrite_compiler_detection_header\fP function which
+accepts parameters to control the content of the generated header file:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+write_compiler_detection_header(
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/foo_compiler_detection.h"
+  PREFIX Foo
+  COMPILERS GNU
+  FEATURES
+    cxx_variadic_templates
+)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Such a header file may be used internally in the source code of a project,
+and it may be installed and used in the interface of library code.
+.sp
+For each feature listed in \fBFEATURES\fP, a preprocessor definition
+is created in the header file, and defined to either \fB1\fP or \fB0\fP\&.
+.sp
+Additionally, some features call for additional defines, such as the
+\fBcxx_final\fP and \fBcxx_override\fP features. Rather than being used in
+\fB#ifdef\fP code, the \fBfinal\fP keyword is abstracted by a symbol
+which is defined to either \fBfinal\fP, a compiler\-specific equivalent, or
+to empty.  That way, C++ code can be written to unconditionally use the
+symbol, and compiler support determines what it is expanded to:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+struct Interface {
+  virtual void Execute() = 0;
+};
+
+struct Concrete Foo_FINAL {
+  void Execute() Foo_OVERRIDE;
+};
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+In this case, \fBFoo_FINAL\fP will expand to \fBfinal\fP if the
+compiler supports the keyword, or to empty otherwise.
+.sp
+In this use\-case, the project code may wish to enable a particular language
+standard if available from the compiler. The \fBCXX_STANDARD\fP
+target property may be set to the desired language standard for a particular
+target, and the \fBCMAKE_CXX_STANDARD\fP variable may be set to
+influence all following targets:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+write_compiler_detection_header(
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/foo_compiler_detection.h"
+  PREFIX Foo
+  COMPILERS GNU
+  FEATURES
+    cxx_final cxx_override
+)
+
+# Includes foo_compiler_detection.h and uses the Foo_FINAL symbol
+# which will expand to \(aqfinal\(aq if the compiler supports the requested
+# CXX_STANDARD.
+add_library(foo foo.cpp)
+set_property(TARGET foo PROPERTY CXX_STANDARD 11)
+
+# Includes foo_compiler_detection.h and uses the Foo_FINAL symbol
+# which will expand to \(aqfinal\(aq if the compiler supports the feature,
+# even though CXX_STANDARD is not set explicitly.  The requirement of
+# cxx_constexpr causes CMake to set CXX_STANDARD internally, which
+# affects the compile flags.
+add_library(foo_impl foo_impl.cpp)
+target_compile_features(foo_impl PRIVATE cxx_constexpr)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The \fBwrite_compiler_detection_header\fP function also creates compatibility
+code for other features which have standard equivalents.  For example, the
+\fBcxx_static_assert\fP feature is emulated with a template and abstracted
+via the \fB<PREFIX>_STATIC_ASSERT\fP and \fB<PREFIX>_STATIC_ASSERT_MSG\fP
+function\-macros.
 .SS Deprecated Find Modules
 .SS FindCUDA
 .sp
-Deprecated since version 3.10.
-
+\fBWARNING:\fP
+.INDENT 0.0
+.INDENT 3.5
+\fIDeprecated since version 3.10.\fP
+.UNINDENT
+.UNINDENT
 .sp
 It is no longer necessary to use this module or call \fBfind_package(CUDA)\fP
 for compiling CUDA code. Instead, list \fBCUDA\fP among the languages named
 in the top\-level call to the \fBproject()\fP command, or call the
 \fBenable_language()\fP command with \fBCUDA\fP\&.
-Then one can add CUDA (\fB\&.cu\fP) sources to programs directly
-in calls to \fBadd_library()\fP and \fBadd_executable()\fP\&.
+Then one can add CUDA (\fB\&.cu\fP) sources directly to targets similar to other
+languages.
 .sp
-New in version 3.17: To find and use the CUDA toolkit libraries the \fBFindCUDAToolkit\fP
-module has superseded this module.  It works whether or not the \fBCUDA\fP
-language is enabled.
+New in version 3.17: To find and use the CUDA toolkit libraries manually, use the
+\fBFindCUDAToolkit\fP module instead.  It works regardless of the
+\fBCUDA\fP language being enabled.
 
 .SS Documentation of Deprecated Usage
 .sp

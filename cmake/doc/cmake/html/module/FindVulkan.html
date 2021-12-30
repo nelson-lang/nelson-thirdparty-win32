@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindVulkan &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>FindVulkan &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -65,12 +65,29 @@
 and computing API.</p>
 <div class="section" id="imported-targets">
 <h2>IMPORTED Targets<a class="headerlink" href="#imported-targets" title="Permalink to this headline">¶</a></h2>
-<p>This module defines <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target <code class="docutils literal notranslate"><span class="pre">Vulkan::Vulkan</span></code>, if
-Vulkan has been found.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19: </span>This module defines <span class="target" id="index-1-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target <code class="docutils literal notranslate"><span class="pre">Vulkan::glslc</span></code>, if
-Vulkan and the GLSLC SPIR-V compiler has been found.</p>
+<p>This module defines <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets if Vulkan has been found:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Vulkan</span></code></dt><dd><p>The main Vulkan library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslc</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
 </div>
+<p>The GLSLC SPIR-V compiler, if it has been found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Headers</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>Provides just Vulkan headers include paths, if found.  No library is
+included in this target.  This can be useful for applications that
+load Vulkan library dynamically.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslangValidator</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>The glslangValidator tool, if found.  It is used to compile GLSL and
+HLSL shaders into SPIR-V.</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="result-variables">
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h2>
@@ -84,6 +101,7 @@ Vulkan_LIBRARIES      - link against this library to use Vulkan
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Vulkan_INCLUDE_DIR        - the Vulkan include directory
 Vulkan_LIBRARY            - the path to the Vulkan library
 Vulkan_GLSLC_EXECUTABLE   - the path to the GLSL SPIR-V compiler
+Vulkan_GLSLANG_VALIDATOR_EXECUTABLE - the path to the glslangValidator tool
 </pre></div>
 </div>
 </div>
@@ -163,7 +181,7 @@ environment.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

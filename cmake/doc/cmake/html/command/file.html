@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>file &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>file &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -89,9 +89,10 @@ been superseded, respectively, by sub-commands
 
 <a class="reference internal" href="#filesystem">Filesystem</a>
   file({<a class="reference internal" href="#glob">GLOB</a> | <a class="reference internal" href="#glob-recurse">GLOB_RECURSE</a>} &lt;out-var&gt; [...] [&lt;globbing-expr&gt;...])
-  file(<a class="reference internal" href="#rename">RENAME</a> &lt;oldname&gt; &lt;newname&gt;)
-  file({<a class="reference internal" href="#remove">REMOVE</a> | <a class="reference internal" href="#remove-recurse">REMOVE_RECURSE</a> } [&lt;files&gt;...])
   file(<a class="reference internal" href="#make-directory">MAKE_DIRECTORY</a> [&lt;dir&gt;...])
+  file({<a class="reference internal" href="#remove">REMOVE</a> | <a class="reference internal" href="#remove-recurse">REMOVE_RECURSE</a> } [&lt;files&gt;...])
+  file(<a class="reference internal" href="#rename">RENAME</a> &lt;oldname&gt; &lt;newname&gt; [...])
+  file(<a class="reference internal" href="#copy-file">COPY_FILE</a> &lt;oldname&gt; &lt;newname&gt; [...])
   file({<a class="reference internal" href="#copy">COPY</a> | <a class="reference internal" href="#install">INSTALL</a>} &lt;file&gt;... DESTINATION &lt;dir&gt; [...])
   file(<a class="reference internal" href="#size">SIZE</a> &lt;filename&gt; &lt;out-var&gt;)
   file(<a class="reference internal" href="#read-symlink">READ_SYMLINK</a> &lt;linkname&gt; &lt;out-var&gt;)
@@ -100,7 +101,7 @@ been superseded, respectively, by sub-commands
   file(<a class="reference internal" href="#chmod-recurse">CHMOD_RECURSE</a> &lt;files&gt;... &lt;directories&gt;... PERMISSIONS &lt;permissions&gt;... [...])
 
 <a class="reference internal" href="#path-conversion">Path Conversion</a>
-  file(<a class="reference internal" href="#real-path">REAL_PATH</a> &lt;path&gt; &lt;out-var&gt; [BASE_DIRECTORY &lt;dir&gt;])
+  file(<a class="reference internal" href="#real-path">REAL_PATH</a> &lt;path&gt; &lt;out-var&gt; [BASE_DIRECTORY &lt;dir&gt;] [EXPAND_TILDE])
   file(<a class="reference internal" href="#relative-path">RELATIVE_PATH</a> &lt;out-var&gt; &lt;directory&gt; &lt;file&gt;)
   file({<a class="reference internal" href="#to-cmake-path">TO_CMAKE_PATH</a> | <a class="reference internal" href="#to-native-path">TO_NATIVE_PATH</a>} &lt;path&gt; &lt;out-var&gt;)
 
@@ -150,7 +151,8 @@ instead of terminating at them.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">NO_HEX_CONVERSION</span></code></dt><dd><p>Intel Hex and Motorola S-record files are automatically converted to
 binary while reading unless this option is given.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">REGEX</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Consider only strings that match the given regular expression.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">REGEX</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Consider only strings that match the given regular expression,
+as described under <a class="reference internal" href="string.html#regex-specification"><span class="std std-ref">string(REGEX)</span></a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ENCODING</span> <span class="pre">&lt;encoding-type&gt;</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
@@ -198,6 +200,8 @@ the <code class="docutils literal notranslate"><span class="pre">&lt;format&gt;<
 <span class="w">  </span><span class="p">[</span><span class="no">PRE_EXCLUDE_REGEXES</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;regexes&gt;...</span><span class="p">]]</span><span class="w"></span>
 <span class="w">  </span><span class="p">[</span><span class="no">POST_INCLUDE_REGEXES</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;regexes&gt;...</span><span class="p">]]</span><span class="w"></span>
 <span class="w">  </span><span class="p">[</span><span class="no">POST_EXCLUDE_REGEXES</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;regexes&gt;...</span><span class="p">]]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">POST_INCLUDE_FILES</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;files&gt;...</span><span class="p">]]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">POST_EXCLUDE_FILES</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;files&gt;...</span><span class="p">]]</span><span class="w"></span>
 <span class="w">  </span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -206,8 +210,10 @@ the <code class="docutils literal notranslate"><span class="pre">&lt;format&gt;<
 </div>
 <p>Recursively get the list of libraries depended on by the given files.</p>
 <p>Please note that this sub-command is not intended to be used in project mode.
-Instead, use it in an <span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(CODE)</span></code></a> or <span class="target" id="index-1-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(SCRIPT)</span></code></a>
-block. For example:</p>
+It is intended for use at install time, either from code generated by the
+<span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(RUNTIME_DEPENDENCY_SET)</span></code></a> command, or from code provided by
+the project via <span class="target" id="index-1-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(CODE)</span></code></a> or <span class="target" id="index-2-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(SCRIPT)</span></code></a>.
+For example:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">CODE</span><span class="w"> </span><span class="p">[[</span><span class="w"></span>
 <span class="w">  </span><span class="nf">file(</span><span class="no">GET_RUNTIME_DEPENDENCIES</span><span class="w"></span>
 <span class="w">    </span><span class="c"># ...</span>
@@ -270,7 +276,7 @@ package.</p>
 </dl>
 <p>The following arguments specify filters for including or excluding libraries to
 be resolved. See below for a full description of how they work.</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">PRE_INCLUDE_REGEXES</span> <span class="pre">&lt;regexes&gt;</span></code></dt><dd><p>List of pre-include regexes through which to filter the names of
 not-yet-resolved dependencies.</p>
 </dd>
@@ -282,6 +288,18 @@ dependencies.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span> <span class="pre">&lt;regexes&gt;</span></code></dt><dd><p>List of post-exclude regexes through which to filter the names of resolved
 dependencies.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_FILES</span> <span class="pre">&lt;files&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>List of post-include filenames through which to filter the names of resolved
+dependencies. Symlinks are resolved when attempting to match these filenames.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_FILES</span> <span class="pre">&lt;files&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>List of post-exclude filenames through which to filter the names of resolved
+dependencies. Symlinks are resolved when attempting to match these filenames.</p>
 </dd>
 </dl>
 <p>These arguments can be used to exclude unwanted system libraries when
@@ -297,16 +315,18 @@ resolution proceeds to step 4.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code> searches for the dependency according to
 the linking rules of the platform (see below).</p></li>
 <li><p>If the dependency is found, and its full path matches one of the
-<code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_REGEXES</span></code>, the full path is added to the resolved
-dependencies, and <code class="docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code> recursively resolves
-that library's own dependencies. Otherwise, resolution proceeds to step 6.</p></li>
-<li><p>If the dependency is found, but its full path matches one of the
-<code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span></code>, it is not added to the resolved dependencies, and
-dependency resolution stops for that dependency.</p></li>
-<li><p>If the dependency is found, and its full path does not match either
-<code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_REGEXES</span></code> or <code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span></code>, the full path is added
+<code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_REGEXES</span></code> or <code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_FILES</span></code>, the full path is added
 to the resolved dependencies, and <code class="docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code>
-recursively resolves that library's own dependencies.</p></li>
+recursively resolves that library's own dependencies. Otherwise, resolution
+proceeds to step 6.</p></li>
+<li><p>If the dependency is found, but its full path matches one of the
+<code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span></code> or <code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_FILES</span></code>, it is not added to the
+resolved dependencies, and dependency resolution stops for that dependency.</p></li>
+<li><p>If the dependency is found, and its full path does not match either
+<code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_REGEXES</span></code>, <code class="docutils literal notranslate"><span class="pre">POST_INCLUDE_FILES</span></code>, <code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_REGEXES</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">POST_EXCLUDE_FILES</span></code>, the full path is added to the resolved
+dependencies, and <code class="docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code>  recursively resolves
+that library's own dependencies.</p></li>
 </ol>
 <p>Different platforms have different rules for how dependencies are resolved.
 These specifics are described here.</p>
@@ -486,8 +506,8 @@ modified.</p>
 <div class="highlight-cmake notranslate" id="generate"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">GENERATE</span><span class="w"> </span><span class="no">OUTPUT</span><span class="w"> </span><span class="nb">output-file</span><span class="w"></span>
 <span class="w">     </span><span class="o">&lt;</span><span class="no">INPUT</span><span class="w"> </span><span class="nb">input-file</span><span class="p">|</span><span class="no">CONTENT</span><span class="w"> </span><span class="nb">content</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">CONDITION</span><span class="w"> </span><span class="nb">expression</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">target</span><span class="p">]</span><span class="w"></span>
-<span class="w">     </span><span class="p">[</span><span class="no">FILE_PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]</span><span class="w"></span>
-<span class="w">     </span><span class="p">[</span><span class="no">NO_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">USE_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">NO_SOURCE_PERMISSIONS</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">USE_SOURCE_PERMISSIONS</span><span class="w"> </span><span class="p">|</span><span class="w"></span>
+<span class="w">      </span><span class="no">FILE_PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">NEWLINE_STYLE</span><span class="w"> </span><span class="p">[</span><span class="no">UNIX</span><span class="p">|</span><span class="no">DOS</span><span class="p">|</span><span class="no">WIN32</span><span class="p">|</span><span class="no">LF</span><span class="p">|</span><span class="no">CRLF</span><span class="p">]</span><span class="w"> </span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -526,13 +546,26 @@ See policy <span class="target" id="index-1-policy:CMP0070"></span><a class="ref
 require a target for evaluation (e.g. <code class="docutils literal notranslate"><span class="pre">$&lt;COMPILE_FEATURES:...&gt;</span></code>,
 <code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_PROPERTY:prop&gt;</span></code>).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FILE_PERMISSIONS</span> <span class="pre">&lt;permissions&gt;...</span></code></dt><dd><p>Use user provided permissions for the generated file.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">NO_SOURCE_PERMISSIONS</span></code></dt><dd><p>The generated file permissions default to the standard 644 value
+<dt><code class="docutils literal notranslate"><span class="pre">NO_SOURCE_PERMISSIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>The generated file permissions default to the standard 644 value
 (-rw-r--r--).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">USE_SOURCE_PERMISSIONS</span></code></dt><dd><p>Transfer the file permissions of the original file to the generated file.
-This option expects INPUT option.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">USE_SOURCE_PERMISSIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>Transfer the file permissions of the <code class="docutils literal notranslate"><span class="pre">INPUT</span></code> file to the generated file.
+This is already the default behavior if none of the three permissions-related
+keywords are given (<code class="docutils literal notranslate"><span class="pre">NO_SOURCE_PERMISSIONS</span></code>, <code class="docutils literal notranslate"><span class="pre">USE_SOURCE_PERMISSIONS</span></code>
+or <code class="docutils literal notranslate"><span class="pre">FILE_PERMISSIONS</span></code>).  The <code class="docutils literal notranslate"><span class="pre">USE_SOURCE_PERMISSIONS</span></code> keyword mostly
+serves as a way of making the intended behavior clearer at the call site.
+It is an error to specify this option without <code class="docutils literal notranslate"><span class="pre">INPUT</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FILE_PERMISSIONS</span> <span class="pre">&lt;permissions&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>Use the specified permissions for the generated file.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NEWLINE_STYLE</span> <span class="pre">&lt;style&gt;</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.20.</span></p>
@@ -647,11 +680,10 @@ If <code class="docutils literal notranslate"><span class="pre">FOLLOW_SYMLINKS<
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/dir/*.py  - match all python files in /dir and subdirectories
 </pre></div>
 </div>
-<div class="highlight-cmake notranslate" id="rename"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">RENAME</span><span class="w"> </span><span class="nv">&lt;oldname&gt;</span><span class="w"> </span><span class="nv">&lt;newname&gt;</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate" id="make-directory"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">MAKE_DIRECTORY</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;directories&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Move a file or directory within a filesystem from <code class="docutils literal notranslate"><span class="pre">&lt;oldname&gt;</span></code> to
-<code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code>, replacing the destination atomically.</p>
+<p>Create the given directories and their parents as needed.</p>
 <div class="highlight-cmake notranslate" id="remove-recurse"><span id="remove"></span><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">REMOVE</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;files&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">file(</span><span class="no">REMOVE_RECURSE</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;files&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
@@ -662,22 +694,73 @@ given file does not exist.  Relative input paths are evaluated with respect
 to the current source directory.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 3.15: </span>Empty input paths are ignored with a warning.  Previous versions of CMake
-interpreted empty string as a relative path with respect to the current
+interpreted empty strings as a relative path with respect to the current
 directory and removed its contents.</p>
 </div>
-<div class="highlight-cmake notranslate" id="make-directory"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">MAKE_DIRECTORY</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;directories&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate" id="rename"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">RENAME</span><span class="w"> </span><span class="nv">&lt;oldname&gt;</span><span class="w"> </span><span class="nv">&lt;newname&gt;</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">RESULT</span><span class="w"> </span><span class="nv">&lt;result&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">NO_REPLACE</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Create the given directories and their parents as needed.</p>
+<p>Move a file or directory within a filesystem from <code class="docutils literal notranslate"><span class="pre">&lt;oldname&gt;</span></code> to
+<code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code>, replacing the destination atomically.</p>
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">RESULT</span> <span class="pre">&lt;result&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>Set <code class="docutils literal notranslate"><span class="pre">&lt;result&gt;</span></code> variable to <code class="docutils literal notranslate"><span class="pre">0</span></code> on success or an error message otherwise.
+If <code class="docutils literal notranslate"><span class="pre">RESULT</span></code> is not specified and the operation fails, an error is emitted.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">NO_REPLACE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code> path already exists, do not replace it.
+If <code class="docutils literal notranslate"><span class="pre">RESULT</span> <span class="pre">&lt;result&gt;</span></code> is used, the result variable will be
+set to <code class="docutils literal notranslate"><span class="pre">NO_REPLACE</span></code>.  Otherwise, an error is emitted.</p>
+</dd>
+</dl>
+<div class="highlight-cmake notranslate" id="copy-file"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">COPY_FILE</span><span class="w"> </span><span class="nv">&lt;oldname&gt;</span><span class="w"> </span><span class="nv">&lt;newname&gt;</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">RESULT</span><span class="w"> </span><span class="nv">&lt;result&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">ONLY_IF_DIFFERENT</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>Copy a file from <code class="docutils literal notranslate"><span class="pre">&lt;oldname&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code>. Directories are not
+supported. Symlinks are ignored and <code class="docutils literal notranslate"><span class="pre">&lt;oldfile&gt;</span></code>'s content is read and
+written to <code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code> as a new file.</p>
+<p>The options are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">RESULT</span> <span class="pre">&lt;result&gt;</span></code></dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">&lt;result&gt;</span></code> variable to <code class="docutils literal notranslate"><span class="pre">0</span></code> on success or an error message otherwise.
+If <code class="docutils literal notranslate"><span class="pre">RESULT</span></code> is not specified and the operation fails, an error is emitted.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ONLY_IF_DIFFERENT</span></code></dt><dd><p>If the <code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code> path already exists, do not replace it if the file's
+contents are already the same as <code class="docutils literal notranslate"><span class="pre">&lt;oldname&gt;</span></code> (this avoids updating
+<code class="docutils literal notranslate"><span class="pre">&lt;newname&gt;</span></code>'s timestamp).</p>
+</dd>
+</dl>
+<p>This sub-command has some similarities to <span class="target" id="index-3-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> with the
+<code class="docutils literal notranslate"><span class="pre">COPYONLY</span></code> option.  An important difference is that <span class="target" id="index-4-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a>
+creates a dependency on the source file, so CMake will be re-run if it changes.
+The <code class="docutils literal notranslate"><span class="pre">file(COPY_FILE)</span></code> sub-command does not create such a dependency.</p>
+<p>See also the <code class="docutils literal notranslate"><span class="pre">file(COPY)</span></code> sub-command just below which provides
+further file-copying capabilities.</p>
 <div class="highlight-cmake notranslate" id="install"><span id="copy"></span><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="o">&lt;</span><span class="no">COPY</span><span class="p">|</span><span class="no">INSTALL</span><span class="o">&gt;</span><span class="w"> </span><span class="nv">&lt;files&gt;...</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="w"></span>
+<span class="w">     </span><span class="p">[</span><span class="no">NO_SOURCE_PERMISSIONS</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">USE_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">FILE_PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">DIRECTORY_PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]</span><span class="w"></span>
-<span class="w">     </span><span class="p">[</span><span class="no">NO_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">USE_SOURCE_PERMISSIONS</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">FOLLOW_SYMLINK_CHAIN</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[</span><span class="no">FILES_MATCHING</span><span class="p">]</span><span class="w"></span>
 <span class="w">     </span><span class="p">[[</span><span class="no">PATTERN</span><span class="w"> </span><span class="nv">&lt;pattern&gt;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">REGEX</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="p">]</span><span class="w"></span>
 <span class="w">      </span><span class="p">[</span><span class="no">EXCLUDE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permissions&gt;...</span><span class="p">]]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For a simple file copying operation, the <code class="docutils literal notranslate"><span class="pre">file(COPY_FILE)</span></code> sub-command
+just above may be easier to use.</p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">COPY</span></code> signature copies files, directories, and symlinks to a
 destination folder.  Relative input paths are evaluated with respect
@@ -712,16 +795,19 @@ directory structure:</p>
 </div>
 <p>This will install all of the symlinks and <code class="docutils literal notranslate"><span class="pre">libfoo.so.1.2.3</span></code> itself into
 <code class="docutils literal notranslate"><span class="pre">lib</span></code>.</p>
-<p>See the <span class="target" id="index-2-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(DIRECTORY)</span></code></a> command for documentation of
+<p>See the <span class="target" id="index-3-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(DIRECTORY)</span></code></a> command for documentation of
 permissions, <code class="docutils literal notranslate"><span class="pre">FILES_MATCHING</span></code>, <code class="docutils literal notranslate"><span class="pre">PATTERN</span></code>, <code class="docutils literal notranslate"><span class="pre">REGEX</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">EXCLUDE</span></code> options.  Copying directories preserves the structure
 of their content even if options are used to select a subset of
 files.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">INSTALL</span></code> signature differs slightly from <code class="docutils literal notranslate"><span class="pre">COPY</span></code>: it prints
-status messages (subject to the <span class="target" id="index-0-variable:CMAKE_INSTALL_MESSAGE"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_MESSAGE.html#variable:CMAKE_INSTALL_MESSAGE" title="CMAKE_INSTALL_MESSAGE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_MESSAGE</span></code></a> variable),
-and <code class="docutils literal notranslate"><span class="pre">NO_SOURCE_PERMISSIONS</span></code> is default.
-Installation scripts generated by the <span class="target" id="index-3-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command
+status messages, and <code class="docutils literal notranslate"><span class="pre">NO_SOURCE_PERMISSIONS</span></code> is default.</p>
+<p>Installation scripts generated by the <span class="target" id="index-4-command:install"></span><a class="reference internal" href="install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command
 use this signature (with some undocumented options for internal use).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.22: </span>The environment variable <span class="target" id="index-0-envvar:CMAKE_INSTALL_MODE"></span><a class="reference internal" href="../envvar/CMAKE_INSTALL_MODE.html#envvar:CMAKE_INSTALL_MODE" title="CMAKE_INSTALL_MODE"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_MODE</span></code></a> can override the
+default copying behavior of <span class="target" id="index-0-command:file"></span><a class="reference internal" href="#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(INSTALL)</span></code></a>.</p>
+</div>
 <div class="highlight-cmake notranslate" id="size"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">SIZE</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="w"> </span><span class="nv">&lt;variable&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -813,7 +899,7 @@ the <code class="docutils literal notranslate"><span class="pre">&lt;directories
 </div>
 <div class="section" id="path-conversion">
 <h2>Path Conversion<a class="headerlink" href="#path-conversion" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-cmake notranslate" id="real-path"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">REAL_PATH</span><span class="w"> </span><span class="nv">&lt;path&gt;</span><span class="w"> </span><span class="nv">&lt;out-var&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">BASE_DIRECTORY</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate" id="real-path"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">REAL_PATH</span><span class="w"> </span><span class="nv">&lt;path&gt;</span><span class="w"> </span><span class="nv">&lt;out-var&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">BASE_DIRECTORY</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXPAND_TILDE</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <div class="versionadded">
@@ -821,9 +907,21 @@ the <code class="docutils literal notranslate"><span class="pre">&lt;directories
 </div>
 <p>Compute the absolute path to an existing file or directory with symlinks
 resolved.</p>
-<p>If the provided <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> is a relative path, it is evaluated relative to the
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">BASE_DIRECTORY</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><p>If the provided <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> is a relative path, it is evaluated relative to the
 given base directory <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code>. If no base directory is provided, the default
 base directory will be <span class="target" id="index-1-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPAND_TILDE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> is <code class="docutils literal notranslate"><span class="pre">~</span></code> or starts with <code class="docutils literal notranslate"><span class="pre">~/</span></code>, the <code class="docutils literal notranslate"><span class="pre">~</span></code> is replaced by
+the user's home directory.  The path to the home directory is obtained from
+environment variables.  On Windows, the <code class="docutils literal notranslate"><span class="pre">USERPROFILE</span></code> environment variable
+is used, falling back to the <code class="docutils literal notranslate"><span class="pre">HOME</span></code> environment variable if <code class="docutils literal notranslate"><span class="pre">USERPROFILE</span></code>
+is not defined.  On all other platforms, only <code class="docutils literal notranslate"><span class="pre">HOME</span></code> is used.</p>
+</dd>
+</dl>
 <div class="highlight-cmake notranslate" id="relative-path"><div class="highlight"><pre><span></span><span class="nf">file(</span><span class="no">RELATIVE_PATH</span><span class="w"> </span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="nv">&lt;directory&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -838,7 +936,8 @@ path with forward-slashes (<code class="docutils literal notranslate"><span clas
 system search path like <code class="docutils literal notranslate"><span class="pre">$ENV{PATH}</span></code>.  A search path will be converted
 to a cmake-style list separated by <code class="docutils literal notranslate"><span class="pre">;</span></code> characters.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">TO_NATIVE_PATH</span></code> mode converts a cmake-style <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> into a native
-path with platform-specific slashes (<code class="docutils literal notranslate"><span class="pre">\</span></code> on Windows and <code class="docutils literal notranslate"><span class="pre">/</span></code> elsewhere).</p>
+path with platform-specific slashes (<code class="docutils literal notranslate"><span class="pre">\</span></code> on Windows hosts and <code class="docutils literal notranslate"><span class="pre">/</span></code>
+elsewhere).</p>
 <p>Always use double quotes around the <code class="docutils literal notranslate"><span class="pre">&lt;path&gt;</span></code> to be sure it is treated
 as a single argument to this command.</p>
 </div>
@@ -886,7 +985,7 @@ A <code class="docutils literal notranslate"><span class="pre">0</span></code> n
 <p><span class="versionmodified added">New in version 3.11.</span></p>
 </div>
 <p>Specify whether the .netrc file is to be used for operation.  If this
-option is not specified, the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code> variable
+option is not specified, the value of the <span class="target" id="index-0-variable:CMAKE_NETRC"></span><a class="reference internal" href="../variable/CMAKE_NETRC.html#variable:CMAKE_NETRC" title="CMAKE_NETRC"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code></a> variable
 will be used instead.
 Valid levels are:</p>
 <dl class="simple">
@@ -906,20 +1005,19 @@ in the URL.</p>
 </div>
 <p>Specify an alternative .netrc file to the one in your home directory,
 if the <code class="docutils literal notranslate"><span class="pre">NETRC</span></code> level is <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code> or <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code>. If this option
-is not specified, the value of the <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code> variable will
+is not specified, the value of the <span class="target" id="index-0-variable:CMAKE_NETRC_FILE"></span><a class="reference internal" href="../variable/CMAKE_NETRC_FILE.html#variable:CMAKE_NETRC_FILE" title="CMAKE_NETRC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code></a> variable will
 be used instead.</p>
 </dd>
-</dl>
-<p>If neither <code class="docutils literal notranslate"><span class="pre">NETRC</span></code> option is given CMake will check variables
-<code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code>, respectively.</p>
-<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span> <span class="pre">&lt;ON|OFF&gt;</span></code></dt><dd><p>Specify whether to verify the server certificate for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.
-The default is to <em>not</em> verify.</p>
+The default is to <em>not</em> verify. If this option is not specified, the value
+of the <span class="target" id="index-0-variable:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERIFY.html#variable:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a> variable will be used instead.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.18: </span>Added support to <code class="docutils literal notranslate"><span class="pre">file(UPLOAD)</span></code>.</p>
 </div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">TLS_CAINFO</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Specify a custom Certificate Authority file for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">TLS_CAINFO</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Specify a custom Certificate Authority file for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs. If this
+option is not specified, the value of the <span class="target" id="index-0-variable:CMAKE_TLS_CAINFO"></span><a class="reference internal" href="../variable/CMAKE_TLS_CAINFO.html#variable:CMAKE_TLS_CAINFO" title="CMAKE_TLS_CAINFO"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code></a>
+variable will be used instead.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.18: </span>Added support to <code class="docutils literal notranslate"><span class="pre">file(UPLOAD)</span></code>.</p>
 </div>
@@ -927,8 +1025,7 @@ The default is to <em>not</em> verify.</p>
 </dl>
 <p>For <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs CMake must be built with OpenSSL support.  <code class="docutils literal notranslate"><span class="pre">TLS/SSL</span></code>
 certificates are not checked by default.  Set <code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span></code> to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to
-check certificates. If neither <code class="docutils literal notranslate"><span class="pre">TLS</span></code> option is given CMake will check
-variables <code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code> and <code class="docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code>, respectively.</p>
+check certificates.</p>
 <p>Additional options to <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> are:</p>
 <p><code class="docutils literal notranslate"><span class="pre">EXPECTED_HASH</span> <span class="pre">ALGO=&lt;value&gt;</span></code></p>
 <blockquote>
@@ -1102,7 +1199,7 @@ extracted.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

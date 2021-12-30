@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CTEST" "1" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CTEST" "1" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 ctest \- CTest Command-Line Reference
 .
@@ -41,6 +41,8 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 \fI\%Description\fP
 .IP \(bu 2
 \fI\%Options\fP
+.IP \(bu 2
+\fI\%Label Matching\fP
 .IP \(bu 2
 \fI\%Label and Subproject Summary\fP
 .IP \(bu 2
@@ -222,6 +224,14 @@ Output to log file.
 .sp
 This option tells CTest to write all its output to a \fB<file>\fP log file.
 .TP
+.B \fB\-\-output\-junit <file>\fP
+Write test results in JUnit format.
+.sp
+This option tells CTest to write test results to \fB<file>\fP in JUnit XML
+format. If \fB<file>\fP already exists, it will be overwritten. If using the
+\fB\-S\fP option to run a dashboard script, use the \fBOUTPUT_JUNIT\fP keyword
+with the \fBctest_test()\fP command instead.
+.TP
 .B \fB\-N,\-\-show\-only[=<format>]\fP
 Disable actual execution of tests.
 .sp
@@ -246,10 +256,14 @@ See \fI\%Show as JSON Object Model\fP\&.
 .UNINDENT
 .TP
 .B \fB\-L <regex>, \-\-label\-regex <regex>\fP
-Run tests with labels matching regular expression.
+Run tests with labels matching regular expression as described under
+string(REGEX)\&.
 .sp
 This option tells CTest to run only the tests whose labels match the
-given regular expression.
+given regular expression.  When more than one \fB\-L\fP option is given,
+a test will only be run if each regular expression matches at least one
+of the test\(aqs labels (i.e. the multiple \fB\-L\fP labels form an \fBAND\fP
+relationship).  See \fI\%Label Matching\fP\&.
 .TP
 .B \fB\-R <regex>, \-\-tests\-regex <regex>\fP
 Run tests matching regular expression.
@@ -267,7 +281,10 @@ given regular expression.
 Exclude tests with labels matching regular expression.
 .sp
 This option tells CTest to NOT run the tests whose labels match the
-given regular expression.
+given regular expression.  When more than one \fB\-LE\fP option is given,
+a test will only be excluded if each regular expression matches at least one
+of the test\(aqs labels (i.e. the multiple \fB\-LE\fP labels form an \fBAND\fP
+relationship).  See \fI\%Label Matching\fP\&.
 .TP
 .B \fB\-FA <regex>, \-\-fixture\-exclude\-any <regex>\fP
 Exclude fixtures matching \fB<regex>\fP from automatically adding any tests to
@@ -405,11 +422,13 @@ name which can be very annoying.
 Set the interactive mode to \fB0\fP or \fB1\fP\&.
 .sp
 This option causes CTest to run tests in either an interactive mode
-or a non\-interactive mode.  On Windows this means that in
-non\-interactive mode, all system debug pop up windows are blocked.
-In dashboard mode (\fBExperimental\fP, \fBNightly\fP, \fBContinuous\fP), the default
-is non\-interactive.  When just running tests not for a dashboard the
-default is to allow popups and interactive debugging.
+or a non\-interactive mode.  In dashboard mode (\fBExperimental\fP, \fBNightly\fP,
+\fBContinuous\fP), the default is non\-interactive.  In non\-interactive mode,
+the environment variable \fBDASHBOARD_TEST_FROM_CTEST\fP is set.
+.sp
+Prior to CMake 3.11, interactive mode on Windows allowed system debug
+popup windows to appear.  Now, due to CTest\(aqs use of \fBlibuv\fP to launch
+test processes, all system debug popup windows are always blocked.
 .TP
 .B \fB\-\-no\-label\-summary\fP
 Disable timing summary information for labels.
@@ -631,11 +650,57 @@ The \fBcmake\-variables(7)\fP manual is printed in a
 human\-readable text format.
 The help is printed to a named <f>ile if given.
 .UNINDENT
+.SH LABEL MATCHING
+.sp
+Tests may have labels attached to them. Tests may be included
+or excluded from a test run by filtering on the labels.
+Each individual filter is a regular expression applied to
+the labels attached to a test.
+.sp
+When \fB\-L\fP is used, in order for a test to be included in a
+test run, each regular expression must match at least one
+label.  Using more than one \fB\-L\fP option means "match \fBall\fP
+of these".
+.sp
+The \fB\-LE\fP option works just like \fB\-L\fP, but excludes tests
+rather than including them. A test is excluded if each regular
+expression matches at least one label.
+.sp
+If a test has no labels attached to it, then \fB\-L\fP will never
+include that test, and \fB\-LE\fP will never exclude that test.
+As an example of tests with labels, consider five tests,
+with the following labels:
+.INDENT 0.0
+.IP \(bu 2
+\fItest1\fP has labels \fItuesday\fP and \fIproduction\fP
+.IP \(bu 2
+\fItest2\fP has labels \fItuesday\fP and \fItest\fP
+.IP \(bu 2
+\fItest3\fP has labels \fIwednesday\fP and \fIproduction\fP
+.IP \(bu 2
+\fItest4\fP has label \fIwednesday\fP
+.IP \(bu 2
+\fItest5\fP has labels \fIfriday\fP and \fItest\fP
+.UNINDENT
+.sp
+Running \fBctest\fP with \fB\-L tuesday \-L test\fP will select \fItest2\fP, which has
+both labels. Running CTest with \fB\-L test\fP will select \fItest2\fP and
+\fItest5\fP, because both of them have a label that matches that regular
+expression.
+.sp
+Because the matching works with regular expressions, take note that
+running CTest with \fB\-L es\fP will match all five tests.
+To select the \fItuesday\fP and \fIwednesday\fP tests together, use a single
+regular expression that matches either of them, like \fB\-L "tue|wed"\fP\&.
 .SH LABEL AND SUBPROJECT SUMMARY
 .sp
 CTest prints timing summary information for each \fBLABEL\fP and subproject
 associated with the tests run. The label time summary will not include labels
 that are mapped to subprojects.
+.sp
+New in version 3.22: Labels added dynamically during test execution are also reported in the
+timing summary.  See Additional Labels\&.
+
 .sp
 When the \fBPROCESSORS\fP test property is set, CTest will display a
 weighted test timing result in label and subproject summaries. The time is
@@ -1411,6 +1476,8 @@ The default timeout for each test if not specified by the
 \fBCTest\fP module variable: \fBDART_TESTING_TIMEOUT\fP
 .UNINDENT
 .UNINDENT
+.sp
+To report extra test values to CDash, see Additional Test Measurements\&.
 .SS CTest Coverage Step
 .sp
 In a \fI\%CTest Script\fP, the \fBctest_coverage()\fP command runs this step.
@@ -2118,6 +2185,8 @@ found on this web page.
 .sp
 The Discourse Forum hosts discussion and questions about CMake.
 .UNINDENT
+.sp
+: \fI\%https://cdash.org\fP
 .SH COPYRIGHT
 2000-2021 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.

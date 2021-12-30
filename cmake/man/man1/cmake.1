@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE" "1" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CMAKE" "1" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cmake \- CMake Command-Line Reference
 .
@@ -298,6 +298,14 @@ Some CMake generators support a platform name to be given to the
 native build system to choose a compiler or SDK.  See the
 \fBCMAKE_GENERATOR_PLATFORM\fP variable for details.
 .TP
+.B \fB\-\-toolchain <path\-to\-file>\fP
+Specify the cross compiling toolchain file, equivalent to setting
+\fBCMAKE_TOOLCHAIN_FILE\fP variable.
+.TP
+.B \fB\-\-install\-prefix <directory>\fP
+Specify the installation directory, used by the
+\fBCMAKE_INSTALL_PREFIX\fP variable. Must be an absolute path.
+.TP
 .B \fB\-Wno\-dev\fP
 Suppress developer warnings.
 .sp
@@ -580,9 +588,9 @@ Compass.
 .B \fB\-\-preset <preset>\fP, \fB\-\-preset=<preset>\fP
 Reads a \fBpreset\fP from
 \fB<path\-to\-source>/CMakePresets.json\fP and
-\fB<path\-to\-source>/CMakeUserPresets.json\fP\&. The preset specifies the
-generator and the build directory, and optionally a list of variables and
-other arguments to pass to CMake. The current working directory must contain
+\fB<path\-to\-source>/CMakeUserPresets.json\fP\&. The preset may specify the
+generator and the build directory, and a list of variables and other
+arguments to pass to CMake. The current working directory must contain
 CMake preset files. The \fBCMake GUI\fP can
 also recognize \fBCMakePresets.json\fP and \fBCMakeUserPresets.json\fP files. For
 full details on these files, see \fBcmake\-presets(7)\fP\&.
@@ -606,7 +614,8 @@ project binary tree:
 .sp
 .nf
 .ft C
-cmake \-\-build [<dir> | \-\-preset <preset>] [<options>] [\-\- <build\-tool\-options>]
+cmake \-\-build <dir>             [<options>] [\-\- <build\-tool\-options>]
+cmake \-\-build \-\-preset <preset> [<options>] [\-\- <build\-tool\-options>]
 .ft P
 .fi
 .UNINDENT
@@ -805,6 +814,14 @@ A string containing the name of the generator.
 .B \fBplatformSupport\fP
 \fBtrue\fP if the generator supports platforms and \fBfalse\fP otherwise.
 .TP
+.B \fBsupportedPlatforms\fP
+New in version 3.21.
+
+.sp
+Optional member that may be present when the generator supports
+platform specification via \fBCMAKE_GENERATOR_PLATFORM\fP
+(\fB\-A ...\fP).  The value is a list of platforms known to be supported.
+.TP
 .B \fBextraGenerators\fP
 A list of strings with all the extra generators compatible with
 the generator.
@@ -995,7 +1012,7 @@ Create SHA512 checksum of files in \fBsha512sum\fP compatible format:
 Deprecated since version 3.17.
 
 .sp
-Remove the file(s). The planned behaviour was that if any of the
+Remove the file(s). The planned behavior was that if any of the
 listed files already do not exist, the command returns a non\-zero exit code,
 but no message is logged. The \fB\-f\fP option changes the behavior to return a
 zero exit code (i.e. success) in such situations instead.

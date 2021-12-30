@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>string &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>string &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -400,38 +400,65 @@ will be set to the empty string <code class="docutils literal notranslate"><span
 be in Coordinated Universal Time (UTC) rather than local time.</p>
 <p>The optional <code class="docutils literal notranslate"><span class="pre">&lt;format_string&gt;</span></code> may contain the following format
 specifiers:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%%        A literal percent sign (%).
-%d        The day of the current month (01-31).
-%H        The hour on a 24-hour clock (00-23).
-%I        The hour on a 12-hour clock (01-12).
-%j        The day of the current year (001-366).
-%m        The month of the current year (01-12).
-%b        Abbreviated month name (e.g. Oct).
-%B        Full month name (e.g. October).
-%M        The minute of the current hour (00-59).
-%s        Seconds since midnight (UTC) 1-Jan-1970 (UNIX time).
-%S        The second of the current minute.
-          60 represents a leap second. (00-60)
-%U        The week number of the current year (00-53).
-%w        The day of the current week. 0 is Sunday. (0-6)
-%a        Abbreviated weekday name (e.g. Fri).
-%A        Full weekday name (e.g. Friday).
-%y        The last two digits of the current year (00-99)
-%Y        The current year.
-</pre></div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">%%</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6: </span><code class="docutils literal notranslate"><span class="pre">%s</span></code> format specifier (UNIX time).</p>
+<p>A literal percent sign (%).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%d</span></code></dt><dd><p>The day of the current month (01-31).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%H</span></code></dt><dd><p>The hour on a 24-hour clock (00-23).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%I</span></code></dt><dd><p>The hour on a 12-hour clock (01-12).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%j</span></code></dt><dd><p>The day of the current year (001-366).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%m</span></code></dt><dd><p>The month of the current year (01-12).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%b</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7: </span><code class="docutils literal notranslate"><span class="pre">%a</span></code> and <code class="docutils literal notranslate"><span class="pre">%b</span></code> format specifiers (abbreviated month and weekday names).</p>
+<p>Abbreviated month name (e.g. Oct).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%B</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span><code class="docutils literal notranslate"><span class="pre">%%</span></code> specifier (literal <code class="docutils literal notranslate"><span class="pre">%</span></code>).</p>
+<p>Full month name (e.g. October).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%M</span></code></dt><dd><p>The minute of the current hour (00-59).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%s</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7: </span><code class="docutils literal notranslate"><span class="pre">%A</span></code> and <code class="docutils literal notranslate"><span class="pre">%B</span></code> format specifiers (full month and weekday names).</p>
+<p>Seconds since midnight (UTC) 1-Jan-1970 (UNIX time).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%S</span></code></dt><dd><p>The second of the current minute.  60 represents a leap second. (00-60)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%U</span></code></dt><dd><p>The week number of the current year (00-53).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%V</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
 </div>
+<p>The ISO 8601 week number of the current year (01-53).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%w</span></code></dt><dd><p>The day of the current week. 0 is Sunday. (0-6)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%a</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Abbreviated weekday name (e.g. Fri).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%A</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
+<p>Full weekday name (e.g. Friday).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%y</span></code></dt><dd><p>The last two digits of the current year (00-99).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">%Y</span></code></dt><dd><p>The current year.</p>
+</dd>
+</dl>
 <p>Unknown format specifiers will be ignored and copied to the output
 as-is.</p>
 <p>If no explicit <code class="docutils literal notranslate"><span class="pre">&lt;format_string&gt;</span></code> is given, it will default to:</p>
@@ -608,7 +635,7 @@ JSON objects are considered equal, or a false value otherwise.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

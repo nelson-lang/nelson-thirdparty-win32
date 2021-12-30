@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>ctest(1) &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>ctest(1) &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -56,52 +56,53 @@
           <div class="body" role="main">
             
   <span class="target" id="manual:ctest(1)"></span><div class="section" id="ctest-1">
-<h1><a class="toc-backref" href="#id13">ctest(1)</a><a class="headerlink" href="#ctest-1" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id14">ctest(1)</a><a class="headerlink" href="#ctest-1" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#ctest-1" id="id13">ctest(1)</a></p>
+<li><p><a class="reference internal" href="#ctest-1" id="id14">ctest(1)</a></p>
 <ul>
-<li><p><a class="reference internal" href="#synopsis" id="id14">Synopsis</a></p></li>
-<li><p><a class="reference internal" href="#description" id="id15">Description</a></p></li>
-<li><p><a class="reference internal" href="#options" id="id16">Options</a></p></li>
-<li><p><a class="reference internal" href="#label-and-subproject-summary" id="id17">Label and Subproject Summary</a></p></li>
-<li><p><a class="reference internal" href="#build-and-test-mode" id="id18">Build and Test Mode</a></p></li>
-<li><p><a class="reference internal" href="#dashboard-client" id="id19">Dashboard Client</a></p>
+<li><p><a class="reference internal" href="#synopsis" id="id15">Synopsis</a></p></li>
+<li><p><a class="reference internal" href="#description" id="id16">Description</a></p></li>
+<li><p><a class="reference internal" href="#options" id="id17">Options</a></p></li>
+<li><p><a class="reference internal" href="#label-matching" id="id18">Label Matching</a></p></li>
+<li><p><a class="reference internal" href="#label-and-subproject-summary" id="id19">Label and Subproject Summary</a></p></li>
+<li><p><a class="reference internal" href="#build-and-test-mode" id="id20">Build and Test Mode</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-client" id="id21">Dashboard Client</a></p>
 <ul>
-<li><p><a class="reference internal" href="#dashboard-client-steps" id="id20">Dashboard Client Steps</a></p></li>
-<li><p><a class="reference internal" href="#dashboard-client-modes" id="id21">Dashboard Client Modes</a></p></li>
-<li><p><a class="reference internal" href="#dashboard-client-via-ctest-command-line" id="id22">Dashboard Client via CTest Command-Line</a></p></li>
-<li><p><a class="reference internal" href="#dashboard-client-via-ctest-script" id="id23">Dashboard Client via CTest Script</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-client-steps" id="id22">Dashboard Client Steps</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-client-modes" id="id23">Dashboard Client Modes</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-client-via-ctest-command-line" id="id24">Dashboard Client via CTest Command-Line</a></p></li>
+<li><p><a class="reference internal" href="#dashboard-client-via-ctest-script" id="id25">Dashboard Client via CTest Script</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#dashboard-client-configuration" id="id24">Dashboard Client Configuration</a></p>
+<li><p><a class="reference internal" href="#dashboard-client-configuration" id="id26">Dashboard Client Configuration</a></p>
 <ul>
-<li><p><a class="reference internal" href="#ctest-start-step" id="id25">CTest Start Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-update-step" id="id26">CTest Update Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-configure-step" id="id27">CTest Configure Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-build-step" id="id28">CTest Build Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-test-step" id="id29">CTest Test Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-coverage-step" id="id30">CTest Coverage Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-memcheck-step" id="id31">CTest MemCheck Step</a></p></li>
-<li><p><a class="reference internal" href="#ctest-submit-step" id="id32">CTest Submit Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-start-step" id="id27">CTest Start Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-update-step" id="id28">CTest Update Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-configure-step" id="id29">CTest Configure Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-build-step" id="id30">CTest Build Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-test-step" id="id31">CTest Test Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-coverage-step" id="id32">CTest Coverage Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-memcheck-step" id="id33">CTest MemCheck Step</a></p></li>
+<li><p><a class="reference internal" href="#ctest-submit-step" id="id34">CTest Submit Step</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#show-as-json-object-model" id="id33">Show as JSON Object Model</a></p></li>
-<li><p><a class="reference internal" href="#resource-allocation" id="id34">Resource Allocation</a></p>
+<li><p><a class="reference internal" href="#show-as-json-object-model" id="id35">Show as JSON Object Model</a></p></li>
+<li><p><a class="reference internal" href="#resource-allocation" id="id36">Resource Allocation</a></p>
 <ul>
-<li><p><a class="reference internal" href="#resource-specification-file" id="id35">Resource Specification File</a></p></li>
-<li><p><a class="reference internal" href="#resource-groups-property" id="id36"><code class="docutils literal notranslate"><span class="pre">RESOURCE_GROUPS</span></code> Property</a></p></li>
-<li><p><a class="reference internal" href="#environment-variables" id="id37">Environment Variables</a></p></li>
+<li><p><a class="reference internal" href="#resource-specification-file" id="id37">Resource Specification File</a></p></li>
+<li><p><a class="reference internal" href="#resource-groups-property" id="id38"><code class="docutils literal notranslate"><span class="pre">RESOURCE_GROUPS</span></code> Property</a></p></li>
+<li><p><a class="reference internal" href="#environment-variables" id="id39">Environment Variables</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#see-also" id="id38">See Also</a></p></li>
+<li><p><a class="reference internal" href="#see-also" id="id40">See Also</a></p></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="synopsis">
-<h2><a class="toc-backref" href="#id14">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ctest [&lt;options&gt;]
 ctest --build-and-test &lt;path-to-source&gt; &lt;path-to-build&gt;
       --build-generator &lt;generator&gt; [&lt;options&gt;...]
@@ -112,14 +113,14 @@ ctest {-D &lt;dashboard&gt; | -M &lt;model&gt; -T &lt;action&gt; | -S &lt;script
 </div>
 </div>
 <div class="section" id="description">
-<h2><a class="toc-backref" href="#id15">Description</a><a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id16">Description</a><a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
 <p>The <strong>ctest</strong> executable is the CMake test driver program.
 CMake-generated build trees created for projects that use the
 <span class="target" id="index-0-command:enable_testing"></span><a class="reference internal" href="../command/enable_testing.html#command:enable_testing" title="enable_testing"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_testing()</span></code></a> and <span class="target" id="index-0-command:add_test"></span><a class="reference internal" href="../command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> commands have testing support.
 This program will run the tests and report results.</p>
 </div>
 <div class="section" id="options">
-<span id="ctest-options"></span><h2><a class="toc-backref" href="#id16">Options</a><a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<span id="ctest-options"></span><h2><a class="toc-backref" href="#id17">Options</a><a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">--preset</span> <span class="pre">&lt;preset&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--preset=&lt;preset&gt;</span></code></dt><dd><p>Use a test preset to specify test options. The project binary directory
 is inferred from the <code class="docutils literal notranslate"><span class="pre">configurePreset</span></code> key. The current working directory
@@ -196,6 +197,12 @@ if <code class="docutils literal notranslate"><span class="pre">--quiet</span></
 <dt><code class="docutils literal notranslate"><span class="pre">-O</span> <span class="pre">&lt;file&gt;,</span> <span class="pre">--output-log</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Output to log file.</p>
 <p>This option tells CTest to write all its output to a <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> log file.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--output-junit</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><p>Write test results in JUnit format.</p>
+<p>This option tells CTest to write test results to <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> in JUnit XML
+format. If <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> already exists, it will be overwritten. If using the
+<code class="docutils literal notranslate"><span class="pre">-S</span></code> option to run a dashboard script, use the <code class="docutils literal notranslate"><span class="pre">OUTPUT_JUNIT</span></code> keyword
+with the <span class="target" id="index-0-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a> command instead.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-N,--show-only[=&lt;format&gt;]</span></code></dt><dd><p>Disable actual execution of tests.</p>
 <p>This option tells CTest to list the tests that would be run but not
 actually run them.  Useful in conjunction with the <code class="docutils literal notranslate"><span class="pre">-R</span></code> and <code class="docutils literal notranslate"><span class="pre">-E</span></code>
@@ -212,9 +219,13 @@ See <a class="reference internal" href="#show-as-json-object-model">Show as JSON
 </dl>
 </div></blockquote>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">&lt;regex&gt;,</span> <span class="pre">--label-regex</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Run tests with labels matching regular expression.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">&lt;regex&gt;,</span> <span class="pre">--label-regex</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Run tests with labels matching regular expression as described under
+<a class="reference internal" href="../command/string.html#regex-specification"><span class="std std-ref">string(REGEX)</span></a>.</p>
 <p>This option tells CTest to run only the tests whose labels match the
-given regular expression.</p>
+given regular expression.  When more than one <code class="docutils literal notranslate"><span class="pre">-L</span></code> option is given,
+a test will only be run if each regular expression matches at least one
+of the test's labels (i.e. the multiple <code class="docutils literal notranslate"><span class="pre">-L</span></code> labels form an <code class="docutils literal notranslate"><span class="pre">AND</span></code>
+relationship).  See <a class="reference internal" href="#label-matching">Label Matching</a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-R</span> <span class="pre">&lt;regex&gt;,</span> <span class="pre">--tests-regex</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Run tests matching regular expression.</p>
 <p>This option tells CTest to run only the tests whose names match the
@@ -226,7 +237,10 @@ given regular expression.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-LE</span> <span class="pre">&lt;regex&gt;,</span> <span class="pre">--label-exclude</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Exclude tests with labels matching regular expression.</p>
 <p>This option tells CTest to NOT run the tests whose labels match the
-given regular expression.</p>
+given regular expression.  When more than one <code class="docutils literal notranslate"><span class="pre">-LE</span></code> option is given,
+a test will only be excluded if each regular expression matches at least one
+of the test's labels (i.e. the multiple <code class="docutils literal notranslate"><span class="pre">-LE</span></code> labels form an <code class="docutils literal notranslate"><span class="pre">AND</span></code>
+relationship).  See <a class="reference internal" href="#label-matching">Label Matching</a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-FA</span> <span class="pre">&lt;regex&gt;,</span> <span class="pre">--fixture-exclude-any</span> <span class="pre">&lt;regex&gt;</span></code></dt><dd><p>Exclude fixtures matching <code class="docutils literal notranslate"><span class="pre">&lt;regex&gt;</span></code> from automatically adding any tests to
 the test set.</p>
@@ -328,11 +342,12 @@ name which can be very annoying.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--interactive-debug-mode</span> <span class="pre">[0|1]</span></code></dt><dd><p>Set the interactive mode to <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 <p>This option causes CTest to run tests in either an interactive mode
-or a non-interactive mode.  On Windows this means that in
-non-interactive mode, all system debug pop up windows are blocked.
-In dashboard mode (<code class="docutils literal notranslate"><span class="pre">Experimental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nightly</span></code>, <code class="docutils literal notranslate"><span class="pre">Continuous</span></code>), the default
-is non-interactive.  When just running tests not for a dashboard the
-default is to allow popups and interactive debugging.</p>
+or a non-interactive mode.  In dashboard mode (<code class="docutils literal notranslate"><span class="pre">Experimental</span></code>, <code class="docutils literal notranslate"><span class="pre">Nightly</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Continuous</span></code>), the default is non-interactive.  In non-interactive mode,
+the environment variable <span class="target" id="index-0-envvar:DASHBOARD_TEST_FROM_CTEST"></span><a class="reference internal" href="../envvar/DASHBOARD_TEST_FROM_CTEST.html#envvar:DASHBOARD_TEST_FROM_CTEST" title="DASHBOARD_TEST_FROM_CTEST"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">DASHBOARD_TEST_FROM_CTEST</span></code></a> is set.</p>
+<p>Prior to CMake 3.11, interactive mode on Windows allowed system debug
+popup windows to appear.  Now, due to CTest's use of <code class="docutils literal notranslate"><span class="pre">libuv</span></code> to launch
+test processes, all system debug popup windows are always blocked.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--no-label-summary</span></code></dt><dd><p>Disable timing summary information for labels.</p>
 <p>This option tells CTest not to print summary information for each
@@ -491,11 +506,48 @@ The help is printed to a named &lt;f&gt;ile if given.</p>
 </dd>
 </dl>
 </div>
+<div class="section" id="label-matching">
+<span id="id1"></span><h2><a class="toc-backref" href="#id18">Label Matching</a><a class="headerlink" href="#label-matching" title="Permalink to this headline">¶</a></h2>
+<p>Tests may have labels attached to them. Tests may be included
+or excluded from a test run by filtering on the labels.
+Each individual filter is a regular expression applied to
+the labels attached to a test.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">-L</span></code> is used, in order for a test to be included in a
+test run, each regular expression must match at least one
+label.  Using more than one <code class="docutils literal notranslate"><span class="pre">-L</span></code> option means &quot;match <strong>all</strong>
+of these&quot;.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">-LE</span></code> option works just like <code class="docutils literal notranslate"><span class="pre">-L</span></code>, but excludes tests
+rather than including them. A test is excluded if each regular
+expression matches at least one label.</p>
+<p>If a test has no labels attached to it, then <code class="docutils literal notranslate"><span class="pre">-L</span></code> will never
+include that test, and <code class="docutils literal notranslate"><span class="pre">-LE</span></code> will never exclude that test.
+As an example of tests with labels, consider five tests,
+with the following labels:</p>
+<ul class="simple">
+<li><p><em>test1</em> has labels <em>tuesday</em> and <em>production</em></p></li>
+<li><p><em>test2</em> has labels <em>tuesday</em> and <em>test</em></p></li>
+<li><p><em>test3</em> has labels <em>wednesday</em> and <em>production</em></p></li>
+<li><p><em>test4</em> has label <em>wednesday</em></p></li>
+<li><p><em>test5</em> has labels <em>friday</em> and <em>test</em></p></li>
+</ul>
+<p>Running <code class="docutils literal notranslate"><span class="pre">ctest</span></code> with <code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">tuesday</span> <span class="pre">-L</span> <span class="pre">test</span></code> will select <em>test2</em>, which has
+both labels. Running CTest with <code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">test</span></code> will select <em>test2</em> and
+<em>test5</em>, because both of them have a label that matches that regular
+expression.</p>
+<p>Because the matching works with regular expressions, take note that
+running CTest with <code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">es</span></code> will match all five tests.
+To select the <em>tuesday</em> and <em>wednesday</em> tests together, use a single
+regular expression that matches either of them, like <code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">&quot;tue|wed&quot;</span></code>.</p>
+</div>
 <div class="section" id="label-and-subproject-summary">
-<span id="id1"></span><h2><a class="toc-backref" href="#id17">Label and Subproject Summary</a><a class="headerlink" href="#label-and-subproject-summary" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2><a class="toc-backref" href="#id19">Label and Subproject Summary</a><a class="headerlink" href="#label-and-subproject-summary" title="Permalink to this headline">¶</a></h2>
 <p>CTest prints timing summary information for each <code class="docutils literal notranslate"><span class="pre">LABEL</span></code> and subproject
 associated with the tests run. The label time summary will not include labels
 that are mapped to subprojects.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22: </span>Labels added dynamically during test execution are also reported in the
+timing summary.  See <a class="reference internal" href="../command/ctest_test.html#additional-labels"><span class="std std-ref">Additional Labels</span></a>.</p>
+</div>
 <p>When the <span class="target" id="index-1-prop_test:PROCESSORS"></span><a class="reference internal" href="../prop_test/PROCESSORS.html#prop_test:PROCESSORS" title="PROCESSORS"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">PROCESSORS</span></code></a> test property is set, CTest will display a
 weighted test timing result in label and subproject summaries. The time is
 reported with <cite>sec*proc</cite> instead of just <cite>sec</cite>.</p>
@@ -529,7 +581,7 @@ likely have a larger impact than effort to reduce the cost of the test suite
 for <code class="docutils literal notranslate"><span class="pre">SubprojectB</span></code>).</p>
 </div>
 <div class="section" id="build-and-test-mode">
-<span id="id2"></span><h2><a class="toc-backref" href="#id18">Build and Test Mode</a><a class="headerlink" href="#build-and-test-mode" title="Permalink to this headline">¶</a></h2>
+<span id="id3"></span><h2><a class="toc-backref" href="#id20">Build and Test Mode</a><a class="headerlink" href="#build-and-test-mode" title="Permalink to this headline">¶</a></h2>
 <p>CTest provides a command-line signature to configure (i.e. run cmake on),
 build, and/or execute a test:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ctest --build-and-test &lt;path-to-source&gt; &lt;path-to-build&gt;
@@ -588,11 +640,11 @@ test command line, so it must be the last option given.</p>
 </dl>
 </div>
 <div class="section" id="dashboard-client">
-<span id="id3"></span><h2><a class="toc-backref" href="#id19">Dashboard Client</a><a class="headerlink" href="#dashboard-client" title="Permalink to this headline">¶</a></h2>
-<p>CTest can operate as a client for the <a class="reference external" href="http://cdash.org/">CDash</a> software quality dashboard
+<span id="id4"></span><h2><a class="toc-backref" href="#id21">Dashboard Client</a><a class="headerlink" href="#dashboard-client" title="Permalink to this headline">¶</a></h2>
+<p>CTest can operate as a client for the <a class="reference internal" href="#cdash">CDash</a> software quality dashboard
 application.  As a dashboard client, CTest performs a sequence of steps
 to configure, build, and test software, and then submits the results to
-a <a class="reference external" href="http://cdash.org/">CDash</a> server. The command-line signature used to submit to <a class="reference external" href="http://cdash.org/">CDash</a> is:</p>
+a <a class="reference internal" href="#cdash">CDash</a> server. The command-line signature used to submit to <a class="reference internal" href="#cdash">CDash</a> is:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ctest (-D &lt;dashboard&gt; | -M &lt;model&gt; -T &lt;action&gt; | -S &lt;script&gt; | -SP &lt;script&gt;)
       [-- &lt;dashboard-options&gt;...]
 </pre></div>
@@ -628,7 +680,7 @@ doesn't support compressed test output.</p>
 </dd>
 </dl>
 <div class="section" id="dashboard-client-steps">
-<h3><a class="toc-backref" href="#id20">Dashboard Client Steps</a><a class="headerlink" href="#dashboard-client-steps" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">Dashboard Client Steps</a><a class="headerlink" href="#dashboard-client-steps" title="Permalink to this headline">¶</a></h3>
 <p>CTest defines an ordered list of testing steps of which some or all may
 be run as a dashboard client:</p>
 <dl class="simple">
@@ -668,7 +720,7 @@ See the <a class="reference internal" href="#ctest-submit-step">CTest Submit Ste
 </dl>
 </div>
 <div class="section" id="dashboard-client-modes">
-<h3><a class="toc-backref" href="#id21">Dashboard Client Modes</a><a class="headerlink" href="#dashboard-client-modes" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id23">Dashboard Client Modes</a><a class="headerlink" href="#dashboard-client-modes" title="Permalink to this headline">¶</a></h3>
 <p>CTest defines three modes of operation as a dashboard client:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Nightly</span></code></dt><dd><p>This mode is intended to be invoked once per day, typically at night.
@@ -688,7 +740,7 @@ and <code class="docutils literal notranslate"><span class="pre">Submit</span></
 </dl>
 </div>
 <div class="section" id="dashboard-client-via-ctest-command-line">
-<h3><a class="toc-backref" href="#id22">Dashboard Client via CTest Command-Line</a><a class="headerlink" href="#dashboard-client-via-ctest-command-line" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Dashboard Client via CTest Command-Line</a><a class="headerlink" href="#dashboard-client-via-ctest-command-line" title="Permalink to this headline">¶</a></h3>
 <p>CTest can perform testing on an already-generated build tree.
 Run the <code class="docutils literal notranslate"><span class="pre">ctest</span></code> command with the current working directory set
 to the build tree and use one of these signatures:</p>
@@ -715,7 +767,7 @@ The module uses variables to obtain a value for each setting
 as documented with the settings below.</p>
 </div>
 <div class="section" id="dashboard-client-via-ctest-script">
-<span id="ctest-script"></span><h3><a class="toc-backref" href="#id23">Dashboard Client via CTest Script</a><a class="headerlink" href="#dashboard-client-via-ctest-script" title="Permalink to this headline">¶</a></h3>
+<span id="ctest-script"></span><h3><a class="toc-backref" href="#id25">Dashboard Client via CTest Script</a><a class="headerlink" href="#dashboard-client-via-ctest-script" title="Permalink to this headline">¶</a></h3>
 <p>CTest can perform testing driven by a <span class="target" id="index-0-manual:cmake-language(7)"></span><a class="reference internal" href="cmake-language.7.html#manual:cmake-language(7)" title="cmake-language(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-language(7)</span></code></a>
 script that creates and maintains the source and build tree as
 well as performing the testing steps.  Run the <code class="docutils literal notranslate"><span class="pre">ctest</span></code> command
@@ -732,11 +784,11 @@ arguments or from variables set in the script.</p>
 </div>
 </div>
 <div class="section" id="dashboard-client-configuration">
-<h2><a class="toc-backref" href="#id24">Dashboard Client Configuration</a><a class="headerlink" href="#dashboard-client-configuration" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id26">Dashboard Client Configuration</a><a class="headerlink" href="#dashboard-client-configuration" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#dashboard-client-steps">Dashboard Client Steps</a> may be configured by named
 settings as documented in the following sections.</p>
 <div class="section" id="ctest-start-step">
-<span id="id4"></span><h3><a class="toc-backref" href="#id25">CTest Start Step</a><a class="headerlink" href="#ctest-start-step" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3><a class="toc-backref" href="#id27">CTest Start Step</a><a class="headerlink" href="#ctest-start-step" title="Permalink to this headline">¶</a></h3>
 <p>Start a new dashboard submission to be composed of results recorded
 by the following steps.</p>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_start"></span><a class="reference internal" href="../command/ctest_start.html#command:ctest_start" title="ctest_start"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_start()</span></code></a> command runs this step.
@@ -761,7 +813,7 @@ directory.</p>
 </dl>
 </div>
 <div class="section" id="ctest-update-step">
-<span id="id5"></span><h3><a class="toc-backref" href="#id26">CTest Update Step</a><a class="headerlink" href="#ctest-update-step" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3><a class="toc-backref" href="#id28">CTest Update Step</a><a class="headerlink" href="#ctest-update-step" title="Permalink to this headline">¶</a></h3>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_update"></span><a class="reference internal" href="../command/ctest_update.html#command:ctest_update" title="ctest_update"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_update()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings to specify the version control tool include:</p>
@@ -946,7 +998,7 @@ else <code class="docutils literal notranslate"><span class="pre">CTEST_NIGHTLY_
 </dl>
 </div>
 <div class="section" id="ctest-configure-step">
-<span id="id6"></span><h3><a class="toc-backref" href="#id27">CTest Configure Step</a><a class="headerlink" href="#ctest-configure-step" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3><a class="toc-backref" href="#id29">CTest Configure Step</a><a class="headerlink" href="#ctest-configure-step" title="Permalink to this headline">¶</a></h3>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_configure"></span><a class="reference internal" href="../command/ctest_configure.html#command:ctest_configure" title="ctest_configure"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_configure()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
@@ -972,7 +1024,7 @@ build results are submitted.</p>
 </dl>
 </div>
 <div class="section" id="ctest-build-step">
-<span id="id7"></span><h3><a class="toc-backref" href="#id28">CTest Build Step</a><a class="headerlink" href="#ctest-build-step" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3><a class="toc-backref" href="#id30">CTest Build Step</a><a class="headerlink" href="#ctest-build-step" title="Permalink to this headline">¶</a></h3>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_build"></span><a class="reference internal" href="../command/ctest_build.html#command:ctest_build" title="ctest_build"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_build()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
@@ -1026,8 +1078,8 @@ CTest must &quot;scrape&quot; the build output log for diagnostics.</p>
 </dl>
 </div>
 <div class="section" id="ctest-test-step">
-<span id="id8"></span><h3><a class="toc-backref" href="#id29">CTest Test Step</a><a class="headerlink" href="#ctest-test-step" title="Permalink to this headline">¶</a></h3>
-<p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a> command runs this step.
+<span id="id9"></span><h3><a class="toc-backref" href="#id31">CTest Test Step</a><a class="headerlink" href="#ctest-test-step" title="Permalink to this headline">¶</a></h3>
+<p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-1-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
 <dl>
@@ -1063,9 +1115,10 @@ tests when they may cause the CPU load to pass above a given threshold.</p>
 </ul>
 </dd>
 </dl>
+<p>To report extra test values to CDash, see <a class="reference internal" href="../command/ctest_test.html#additional-test-measurements"><span class="std std-ref">Additional Test Measurements</span></a>.</p>
 </div>
 <div class="section" id="ctest-coverage-step">
-<span id="id9"></span><h3><a class="toc-backref" href="#id30">CTest Coverage Step</a><a class="headerlink" href="#ctest-coverage-step" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3><a class="toc-backref" href="#id32">CTest Coverage Step</a><a class="headerlink" href="#ctest-coverage-step" title="Permalink to this headline">¶</a></h3>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_coverage"></span><a class="reference internal" href="../command/ctest_coverage.html#command:ctest_coverage" title="ctest_coverage"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_coverage()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
@@ -1088,7 +1141,7 @@ It will be executed in the location specified by the
 </dl>
 </div>
 <div class="section" id="ctest-memcheck-step">
-<span id="id10"></span><h3><a class="toc-backref" href="#id31">CTest MemCheck Step</a><a class="headerlink" href="#ctest-memcheck-step" title="Permalink to this headline">¶</a></h3>
+<span id="id11"></span><h3><a class="toc-backref" href="#id33">CTest MemCheck Step</a><a class="headerlink" href="#ctest-memcheck-step" title="Permalink to this headline">¶</a></h3>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_memcheck"></span><a class="reference internal" href="../command/ctest_memcheck.html#command:ctest_memcheck" title="ctest_memcheck"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_memcheck()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
@@ -1189,7 +1242,7 @@ They will be placed prior to the test command line.</p>
 </dl>
 </div>
 <div class="section" id="ctest-submit-step">
-<span id="id11"></span><h3><a class="toc-backref" href="#id32">CTest Submit Step</a><a class="headerlink" href="#ctest-submit-step" title="Permalink to this headline">¶</a></h3>
+<span id="id12"></span><h3><a class="toc-backref" href="#id34">CTest Submit Step</a><a class="headerlink" href="#ctest-submit-step" title="Permalink to this headline">¶</a></h3>
 <p>In a <a class="reference internal" href="#ctest-script">CTest Script</a>, the <span class="target" id="index-0-command:ctest_submit"></span><a class="reference internal" href="../command/ctest_submit.html#command:ctest_submit" title="ctest_submit"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_submit()</span></code></a> command runs this step.
 Arguments to the command may specify some of the step settings.</p>
 <p>Configuration settings include:</p>
@@ -1314,7 +1367,7 @@ else <code class="docutils literal notranslate"><span class="pre">CTEST_TRIGGER_
 </div>
 </div>
 <div class="section" id="show-as-json-object-model">
-<span id="id12"></span><h2><a class="toc-backref" href="#id33">Show as JSON Object Model</a><a class="headerlink" href="#show-as-json-object-model" title="Permalink to this headline">¶</a></h2>
+<span id="id13"></span><h2><a class="toc-backref" href="#id35">Show as JSON Object Model</a><a class="headerlink" href="#show-as-json-object-model" title="Permalink to this headline">¶</a></h2>
 <p>When the <code class="docutils literal notranslate"><span class="pre">--show-only=json-v1</span></code> command line option is given, the test
 information is output in JSON format.  Version 1.0 of the JSON object
 model is defined as follows:</p>
@@ -1372,7 +1425,7 @@ Can contain keys for each of the supported test properties.</p>
 </dl>
 </div>
 <div class="section" id="resource-allocation">
-<span id="ctest-resource-allocation"></span><h2><a class="toc-backref" href="#id34">Resource Allocation</a><a class="headerlink" href="#resource-allocation" title="Permalink to this headline">¶</a></h2>
+<span id="ctest-resource-allocation"></span><h2><a class="toc-backref" href="#id36">Resource Allocation</a><a class="headerlink" href="#resource-allocation" title="Permalink to this headline">¶</a></h2>
 <p>CTest provides a mechanism for tests to specify the resources that they need
 in a fine-grained way, and for users to specify the resources available on
 the running machine. This allows CTest to internally keep track of which
@@ -1427,7 +1480,7 @@ the corresponding
 <a class="reference internal" href="#ctest-resource-environment-variables"><span class="std std-ref">environment variables</span></a>)
 if the user does not pass a resource specification file. Passing this file,
 either through the <code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code> command-line argument or the
-<code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> argument to <span class="target" id="index-1-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a>, is what activates the
+<code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> argument to <span class="target" id="index-2-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a>, is what activates the
 resource allocation feature. Tests should check the
 <code class="docutils literal notranslate"><span class="pre">CTEST_RESOURCE_GROUP_COUNT</span></code> environment variable to find out whether or not
 resource allocation is activated. This variable will always (and only) be
@@ -1438,10 +1491,10 @@ have resource allocation, then it can return a failing exit code or use the
 <span class="target" id="index-0-prop_test:SKIP_RETURN_CODE"></span><a class="reference internal" href="../prop_test/SKIP_RETURN_CODE.html#prop_test:SKIP_RETURN_CODE" title="SKIP_RETURN_CODE"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">SKIP_RETURN_CODE</span></code></a> or <span class="target" id="index-0-prop_test:SKIP_REGULAR_EXPRESSION"></span><a class="reference internal" href="../prop_test/SKIP_REGULAR_EXPRESSION.html#prop_test:SKIP_REGULAR_EXPRESSION" title="SKIP_REGULAR_EXPRESSION"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">SKIP_REGULAR_EXPRESSION</span></code></a>
 properties to indicate a skipped test.</p>
 <div class="section" id="resource-specification-file">
-<span id="ctest-resource-specification-file"></span><h3><a class="toc-backref" href="#id35">Resource Specification File</a><a class="headerlink" href="#resource-specification-file" title="Permalink to this headline">¶</a></h3>
+<span id="ctest-resource-specification-file"></span><h3><a class="toc-backref" href="#id37">Resource Specification File</a><a class="headerlink" href="#resource-specification-file" title="Permalink to this headline">¶</a></h3>
 <p>The resource specification file is a JSON file which is passed to CTest, either
 on the <span class="target" id="index-0-manual:ctest(1)"></span><a class="reference internal" href="#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest(1)</span></code></a> command line as <code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code>, or as the
-<code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> argument of <span class="target" id="index-2-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a>. If a dashboard script
+<code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> argument of <span class="target" id="index-3-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a>. If a dashboard script
 is used and <code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code> is not specified, the value of
 <span class="target" id="index-1-variable:CTEST_RESOURCE_SPEC_FILE"></span><a class="reference internal" href="../variable/CTEST_RESOURCE_SPEC_FILE.html#variable:CTEST_RESOURCE_SPEC_FILE" title="CTEST_RESOURCE_SPEC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_RESOURCE_SPEC_FILE</span></code></a> in the dashboard script is used instead.
 If <code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code>, <code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code>, and
@@ -1533,11 +1586,11 @@ specified, a default value of <code class="docutils literal notranslate"><span c
 also one cryptography chip with 4 slots.</p>
 </div>
 <div class="section" id="resource-groups-property">
-<h3><a class="toc-backref" href="#id36"><code class="docutils literal notranslate"><span class="pre">RESOURCE_GROUPS</span></code> Property</a><a class="headerlink" href="#resource-groups-property" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id38"><code class="docutils literal notranslate"><span class="pre">RESOURCE_GROUPS</span></code> Property</a><a class="headerlink" href="#resource-groups-property" title="Permalink to this headline">¶</a></h3>
 <p>See <span class="target" id="index-1-prop_test:RESOURCE_GROUPS"></span><a class="reference internal" href="../prop_test/RESOURCE_GROUPS.html#prop_test:RESOURCE_GROUPS" title="RESOURCE_GROUPS"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">RESOURCE_GROUPS</span></code></a> for a description of this property.</p>
 </div>
 <div class="section" id="environment-variables">
-<span id="ctest-resource-environment-variables"></span><h3><a class="toc-backref" href="#id37">Environment Variables</a><a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h3>
+<span id="ctest-resource-environment-variables"></span><h3><a class="toc-backref" href="#id39">Environment Variables</a><a class="headerlink" href="#environment-variables" title="Permalink to this headline">¶</a></h3>
 <p>Once CTest has decided which resources to allocate to a test, it passes this
 information to the test executable as a series of environment variables. For
 each example below, we will assume that the test in question has a
@@ -1553,7 +1606,7 @@ property. For example:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">CTEST_RESOURCE_GROUP_COUNT=3</span></code></p></li>
 </ul>
 <p>This variable will only be defined if <span class="target" id="index-1-manual:ctest(1)"></span><a class="reference internal" href="#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest(1)</span></code></a> has been given a
-<code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code>, or if <span class="target" id="index-3-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a> has been given a
+<code class="docutils literal notranslate"><span class="pre">--resource-spec-file</span></code>, or if <span class="target" id="index-4-command:ctest_test"></span><a class="reference internal" href="../command/ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a> has been given a
 <code class="docutils literal notranslate"><span class="pre">RESOURCE_SPEC_FILE</span></code>. If no resource specification file has been given,
 this variable will not be defined.</p>
 </dd></dl>
@@ -1609,7 +1662,7 @@ variable.</p>
 </div>
 </div>
 <div class="section" id="see-also">
-<h2><a class="toc-backref" href="#id38">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id40">See Also</a><a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
 <p>The following resources are available to get help using CMake:</p>
 <dl>
 <dt>Home Page</dt><dd><p><a class="reference external" href="https://cmake.org">https://cmake.org</a></p>
@@ -1623,6 +1676,7 @@ found on this web page.</p>
 <p>The Discourse Forum hosts discussion and questions about CMake.</p>
 </dd>
 </dl>
+<p><span class="target" id="cdash">CDash</span>: <a class="reference external" href="https://cdash.org">https://cdash.org</a></p>
 </div>
 </div>
 
@@ -1638,6 +1692,7 @@ found on this web page.</p>
 <li><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li><a class="reference internal" href="#description">Description</a></li>
 <li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#label-matching">Label Matching</a></li>
 <li><a class="reference internal" href="#label-and-subproject-summary">Label and Subproject Summary</a></li>
 <li><a class="reference internal" href="#build-and-test-mode">Build and Test Mode</a></li>
 <li><a class="reference internal" href="#dashboard-client">Dashboard Client</a><ul>
@@ -1717,7 +1772,7 @@ found on this web page.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>

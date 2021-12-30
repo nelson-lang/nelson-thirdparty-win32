@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CPACK-GENERATORS" "7" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CPACK-GENERATORS" "7" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cpack-generators \- CPack Generator Reference
 .
@@ -138,14 +138,11 @@ not all compression modes support threading in all environments. Currently,
 only the XZ compression may support it.
 .sp
 See also the \fBCPACK_THREADS\fP variable.
-.UNINDENT
 .sp
-\fBNOTE:\fP
-.INDENT 0.0
-.INDENT 3.5
-Official CMake binaries available on \fBcmake.org\fP ship with a \fBliblzma\fP
-that does not support parallel compression.
-.UNINDENT
+New in version 3.21: Official CMake binaries available on \fBcmake.org\fP now ship
+with a \fBliblzma\fP that supports parallel compression.
+Older versions did not.
+
 .UNINDENT
 .SS CPack Bundle Generator
 .sp
@@ -651,14 +648,28 @@ Default   : "gzip"
 .sp
 Possible values are:
 .INDENT 7.0
-.IP \(bu 2
-lzma
-.IP \(bu 2
-xz
-.IP \(bu 2
-bzip2
-.IP \(bu 2
-gzip
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBlzma\fP
+Lempel–Ziv–Markov chain algorithm
+.TP
+.B \fBxz\fP
+XZ Utils compression
+.TP
+.B \fBbzip2\fP
+bzip2 Burrows–Wheeler algorithm
+.TP
+.B \fBgzip\fP
+GNU Gzip compression
+.TP
+.B \fBzstd\fP
+New in version 3.22.
+
+.sp
+Zstandard compression
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
@@ -675,7 +686,7 @@ Mandatory : YES
 Default   : "optional"
 .UNINDENT
 .sp
-New in version 3.5: Per\-component \fBCPACK_DEBIAN_<COMPONENT>_PACKAGE_PRIORITY\fP varables.
+New in version 3.5: Per\-component \fBCPACK_DEBIAN_<COMPONENT>_PACKAGE_PRIORITY\fP variables.
 
 .sp
 See \fI\%https://www.debian.org/doc/debian\-policy/ch\-archive.html#s\-priorities\fP
@@ -1200,8 +1211,20 @@ Default   : OFF
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
+Setting this also strips the ELF files in the generated non\-dbgsym package,
+which results in debuginfo only being available in the dbgsym package.
+.UNINDENT
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
 Binaries must contain debug symbols before packaging so use either \fBDebug\fP
 or \fBRelWithDebInfo\fP for \fBCMAKE_BUILD_TYPE\fP variable value.
+.sp
+Additionally, if \fBCPACK_STRIP_FILES\fP is set, the files will be stripped before
+they get to the DEB generator, so will not contain debug symbols and
+a dbgsym package will not get built. Do not use with \fBCPACK_STRIP_FILES\fP\&.
 .UNINDENT
 .UNINDENT
 .SS Building Debian packages on Windows
@@ -1281,7 +1304,7 @@ installed.  By default no background image is set.
 New in version 3.6.
 
 .sp
-Default behaviour is to include a symlink to \fB/Applications\fP in the DMG.
+Default behavior is to include a symlink to \fB/Applications\fP in the DMG.
 Set this option to \fBON\fP to avoid adding the symlink.
 .UNINDENT
 .INDENT 0.0
@@ -1349,6 +1372,16 @@ File name when packaging \fB<component>\fP as its own DMG
 .IP \(bu 2
 Default: \fBCPACK_PACKAGE_FILE_NAME\-<component>\fP
 .UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_DMG_FILESYSTEM
+New in version 3.21.
+
+.sp
+The filesystem format. Common values are \fBAPFS\fP and \fBHFS+\fP\&.
+See \fBman hdiutil\fP for a full list of supported formats.
+Defaults to \fBHFS+\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1763,7 +1796,7 @@ Default:
 .INDENT 2.0
 .IP \(bu 2
 \fBCPACK_DEBIAN_PACKAGE_DESCRIPTION\fP (this may be set already
-for Debian packaging, so we may as well re\-use it).
+for Debian packaging, so it is used as a fallback).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -1785,7 +1818,7 @@ Default:
 .IP \(bu 2
 \fBCMAKE_PROJECT_HOMEPAGE_URL\fP, or if that is not set,
 \fBCPACK_DEBIAN_PACKAGE_HOMEPAGE\fP (this may be set already
-for Debian packaging, so we may as well re\-use it).
+for Debian packaging, so it is used as a fallback).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -2339,7 +2372,7 @@ Promoting Updates:
 .sp
 CPack Nullsoft Scriptable Install System (NSIS) generator specific options.
 .sp
-Changed in version 3.17: The NSIS generator requires NSIS 3.0 or newer.
+Changed in version 3.22: The NSIS generator requires NSIS 3.03 or newer.
 
 .SS Variables specific to CPack NSIS generator
 .sp
@@ -2579,6 +2612,24 @@ New in version 3.20.
 
 .sp
 If set, trim down the size of the control to the size of the branding text string.
+Allowed values for this variable are \fBLEFT\fP, \fBCENTER\fP or \fBRIGHT\fP\&.
+If not specified, the default behavior is \fBLEFT\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_EXECUTABLE
+New in version 3.21.
+
+.sp
+If set, specify the name of the NSIS executable. Default is \fBmakensis\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NSIS_IGNORE_LICENSE_PAGE
+New in version 3.22.
+
+.sp
+If set, do not display the page containing the license during installation.
 .UNINDENT
 .SS CPack NuGet Generator
 .sp
@@ -3807,8 +3858,10 @@ Mandatory : NO
 Default   : \-
 .UNINDENT
 .sp
-May be used to set weak RPM dependencies (suggests). Note that you must
-enclose the complete requires string between quotes.
+May be used to set weak RPM dependencies (suggests). If \fBrpmbuild\fP doesn\(aqt
+support the \fBSuggests\fP tag, CPack will emit a warning and ignore this
+variable. Note that you must enclose the complete requires string between
+quotes.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -4470,6 +4523,10 @@ Default   : OFF
 .INDENT 3.5
 Binaries must contain debug symbols before packaging so use either \fBDebug\fP
 or \fBRelWithDebInfo\fP for \fBCMAKE_BUILD_TYPE\fP variable value.
+.sp
+Additionally, if \fBCPACK_STRIP_FILES\fP is set, the files will be stripped before
+they get to the RPM generator, so will not contain debug symbols and
+a debuginfo package will not get built. Do not use with \fBCPACK_STRIP_FILES\fP\&.
 .UNINDENT
 .UNINDENT
 .sp
@@ -4761,6 +4818,32 @@ example:
 .nf
 .ft C
 set(CPACK_RPM_BUILDREQUIRES "python >= 2.5.0, cmake >= 2.8")
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_RPM_REQUIRES_EXCLUDE_FROM
+New in version 3.22.
+
+.INDENT 7.0
+.IP \(bu 2
+Mandatory : NO
+.IP \(bu 2
+Default   : \-
+.UNINDENT
+.sp
+May be used to keep the dependency generator from scanning specific files
+or directories for dependencies.  Note that you can use a regular
+expression that matches all of the directories or files, for example:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(CPACK_RPM_REQUIRES_EXCLUDE_FROM "bin/libqsqloci.*\e\e.so.*")
 .ft P
 .fi
 .UNINDENT

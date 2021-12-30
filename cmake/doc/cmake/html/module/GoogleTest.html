@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>GoogleTest &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>GoogleTest &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -193,6 +193,7 @@ for available tests:</p>
                      [WORKING_DIRECTORY dir]
                      [TEST_PREFIX prefix]
                      [TEST_SUFFIX suffix]
+                     [TEST_FILTER expr]
                      [NO_PRETTY_TYPES] [NO_PRETTY_VALUES]
                      [PROPERTIES name1 value1...]
                      [TEST_LIST var]
@@ -240,6 +241,15 @@ multiple calls to <code class="docutils literal notranslate"><span class="pre">g
 <dt><code class="docutils literal notranslate"><span class="pre">TEST_SUFFIX</span> <span class="pre">suffix</span></code></dt><dd><p>Similar to <code class="docutils literal notranslate"><span class="pre">TEST_PREFIX</span></code> except the <code class="docutils literal notranslate"><span class="pre">suffix</span></code> is appended to the name of
 every discovered test case.  Both <code class="docutils literal notranslate"><span class="pre">TEST_PREFIX</span></code> and <code class="docutils literal notranslate"><span class="pre">TEST_SUFFIX</span></code> may
 be specified.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TEST_FILTER</span> <span class="pre">expr</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
+</div>
+<p>Filter expression to pass as a <code class="docutils literal notranslate"><span class="pre">--gtest_filter</span></code> argument during test
+discovery.  Note that the expression is a wildcard-based format that
+matches against the original test names as used by gtest.  For type or
+value-parameterized tests, these names may be different to the potentially
+pretty-printed test names that <code class="docutils literal notranslate"><span class="pre">ctest</span></code> uses.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NO_PRETTY_TYPES</span></code></dt><dd><p>By default, the type index of type-parameterized tests is replaced by the
 actual type name in the CTest test name.  If this behavior is undesirable
@@ -363,7 +373,7 @@ to modify each call site.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

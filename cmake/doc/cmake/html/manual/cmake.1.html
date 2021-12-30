@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>cmake(1) &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>cmake(1) &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -146,7 +146,7 @@ is already configured in the shell.  When using one of the
 </dl>
 </div>
 <div class="section" id="generate-a-project-buildsystem">
-<h2>Generate a Project Buildsystem<a class="headerlink" href="#generate-a-project-buildsystem" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Generate a Project Buildsystem<a class="headerlink" href="#generate-a-project-buildsystem" title="Permalink to this headline">¶</a></h2>
 <p>Run CMake with one of the following command signatures to specify the
 source and build trees and generate a buildsystem:</p>
 <dl>
@@ -253,6 +253,12 @@ the native build system how to choose a compiler.  See the
 <p>Some CMake generators support a platform name to be given to the
 native build system to choose a compiler or SDK.  See the
 <span class="target" id="index-0-variable:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_PLATFORM.html#variable:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a> variable for details.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--toolchain</span> <span class="pre">&lt;path-to-file&gt;</span></code></dt><dd><p>Specify the cross compiling toolchain file, equivalent to setting
+<span class="target" id="index-0-variable:CMAKE_TOOLCHAIN_FILE"></span><a class="reference internal" href="../variable/CMAKE_TOOLCHAIN_FILE.html#variable:CMAKE_TOOLCHAIN_FILE" title="CMAKE_TOOLCHAIN_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code></a> variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--install-prefix</span> <span class="pre">&lt;directory&gt;</span></code></dt><dd><p>Specify the installation directory, used by the
+<span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable. Must be an absolute path.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">-Wno-dev</span></code></dt><dd><p>Suppress developer warnings.</p>
 <p>Suppress warnings that are meant for the author of the
@@ -448,9 +454,9 @@ Compass.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--preset</span> <span class="pre">&lt;preset&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--preset=&lt;preset&gt;</span></code></dt><dd><p>Reads a <span class="target" id="index-0-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">preset</span></code></a> from
 <code class="docutils literal notranslate"><span class="pre">&lt;path-to-source&gt;/CMakePresets.json</span></code> and
-<code class="docutils literal notranslate"><span class="pre">&lt;path-to-source&gt;/CMakeUserPresets.json</span></code>. The preset specifies the
-generator and the build directory, and optionally a list of variables and
-other arguments to pass to CMake. The current working directory must contain
+<code class="docutils literal notranslate"><span class="pre">&lt;path-to-source&gt;/CMakeUserPresets.json</span></code>. The preset may specify the
+generator and the build directory, and a list of variables and other
+arguments to pass to CMake. The current working directory must contain
 CMake preset files. The <span class="target" id="index-1-manual:cmake-gui(1)"></span><a class="reference internal" href="cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">GUI</span></code></a> can
 also recognize <code class="docutils literal notranslate"><span class="pre">CMakePresets.json</span></code> and <code class="docutils literal notranslate"><span class="pre">CMakeUserPresets.json</span></code> files. For
 full details on these files, see <span class="target" id="index-1-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-presets(7)</span></code></a>.</p>
@@ -470,7 +476,8 @@ will be listed. The current working directory must contain CMake preset files.</
 <span id="build-tool-mode"></span><h2>Build a Project<a class="headerlink" href="#build-a-project" title="Permalink to this headline">¶</a></h2>
 <p>CMake provides a command-line signature to build an already-generated
 project binary tree:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake --build <span class="o">[</span>&lt;dir&gt; <span class="p">|</span> --preset &lt;preset&gt;<span class="o">]</span> <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>-- &lt;build-tool-options&gt;<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake --build &lt;dir&gt;             <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>-- &lt;build-tool-options&gt;<span class="o">]</span>
+cmake --build --preset &lt;preset&gt; <span class="o">[</span>&lt;options&gt;<span class="o">]</span> <span class="o">[</span>-- &lt;build-tool-options&gt;<span class="o">]</span>
 </pre></div>
 </div>
 <p>This abstracts a native build tool's command-line interface with the
@@ -533,7 +540,7 @@ The options are:</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--default-directory-permissions</span> <span class="pre">&lt;permissions&gt;</span></code></dt><dd><p>Default directory install permissions. Permissions in format <code class="docutils literal notranslate"><span class="pre">&lt;u=rwx,g=rx,o=rx&gt;</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">--prefix</span> <span class="pre">&lt;prefix&gt;</span></code></dt><dd><p>Override the installation prefix, <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">--prefix</span> <span class="pre">&lt;prefix&gt;</span></code></dt><dd><p>Override the installation prefix, <span class="target" id="index-1-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">--strip</span></code></dt><dd><p>Strip before installing.</p>
 </dd>
@@ -594,12 +601,19 @@ with the following keys:</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">generators</span></code></dt><dd><p>A list available generators. Each generator is a JSON object with the
 following keys:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">name</span></code></dt><dd><p>A string containing the name of the generator.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">toolsetSupport</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">true</span></code> if the generator supports toolsets and <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">platformSupport</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">true</span></code> if the generator supports platforms and <code class="docutils literal notranslate"><span class="pre">false</span></code> otherwise.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">supportedPlatforms</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>Optional member that may be present when the generator supports
+platform specification via <span class="target" id="index-1-variable:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_PLATFORM.html#variable:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a>
+(<code class="docutils literal notranslate"><span class="pre">-A</span> <span class="pre">...</span></code>).  The value is a list of platforms known to be supported.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">extraGenerators</span></code></dt><dd><p>A list of strings with all the extra generators compatible with
 the generator.</p>
@@ -718,7 +732,7 @@ silently ignored.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">remove</span> <span class="pre">[-f]</span> <span class="pre">&lt;file&gt;...</span></code></dt><dd><div class="deprecated">
 <p><span class="versionmodified deprecated">Deprecated since version 3.17.</span></p>
 </div>
-<p>Remove the file(s). The planned behaviour was that if any of the
+<p>Remove the file(s). The planned behavior was that if any of the
 listed files already do not exist, the command returns a non-zero exit code,
 but no message is logged. The <code class="docutils literal notranslate"><span class="pre">-f</span></code> option changes the behavior to return a
 zero exit code (i.e. success) in such situations instead.
@@ -1039,7 +1053,7 @@ found on this web page.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>

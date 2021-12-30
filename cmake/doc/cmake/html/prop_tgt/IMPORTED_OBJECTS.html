@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>IMPORTED_OBJECTS &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>IMPORTED_OBJECTS &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -117,11 +117,11 @@ architecture:</p>
 </pre></div>
 </div>
 <p>In some cases, you may want to have configuration-specific object files
-as well.  The <span class="target" id="index-0-variable:CMAKE_CFG_INTDIR"></span><a class="reference internal" href="../variable/CMAKE_CFG_INTDIR.html#variable:CMAKE_CFG_INTDIR" title="CMAKE_CFG_INTDIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CFG_INTDIR</span></code></a> variable can be a convenient
-way of capturing this in combination with the SDK:</p>
+as well.  The <code class="docutils literal notranslate"><span class="pre">$(CONFIGURATION)</span></code> Xcode variable is often used for this and
+can be used in conjunction with the others mentioned above:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">someObjs</span><span class="w"> </span><span class="no">OBJECT</span><span class="w"> </span><span class="no">IMPORTED</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">someObjs</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">IMPORTED_OBJECTS</span><span class="w"></span>
-<span class="w">  </span><span class="s">&quot;/path/to/somewhere/${CMAKE_CFG_INTDIR}/$(CURRENT_ARCH)/func.o&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;/path/to/somewhere/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(CURRENT_ARCH)/func.o&quot;</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 
 <span class="c"># Example paths:</span>
@@ -129,15 +129,13 @@ way of capturing this in combination with the SDK:</p>
 <span class="c">#   /path/to/somewhere/Debug-iphonesimulator/x86_64/func.o</span>
 </pre></div>
 </div>
-<p>When any Xcode variable or <span class="target" id="index-1-variable:CMAKE_CFG_INTDIR"></span><a class="reference internal" href="../variable/CMAKE_CFG_INTDIR.html#variable:CMAKE_CFG_INTDIR" title="CMAKE_CFG_INTDIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CFG_INTDIR</span></code></a> is used, CMake is
-not able to fully evaluate the path(s) at configure time.  One consequence
-of this is that the configuration-specific
-<span class="target" id="index-1-prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;"></span><a class="reference internal" href="IMPORTED_OBJECTS_CONFIG.html#prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS_&lt;CONFIG&gt;</span></code></a> properties cannot be used, since
-CMake cannot determine whether an object file exists at a particular
-<code class="docutils literal notranslate"><span class="pre">&lt;CONFIG&gt;</span></code> location.  The <code class="docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code> property must be used for
-these situations and the configuration-specific aspects of the path must be
-handled by using <span class="target" id="index-2-variable:CMAKE_CFG_INTDIR"></span><a class="reference internal" href="../variable/CMAKE_CFG_INTDIR.html#variable:CMAKE_CFG_INTDIR" title="CMAKE_CFG_INTDIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CFG_INTDIR</span></code></a> or with another Xcode variable
-<code class="docutils literal notranslate"><span class="pre">$(CONFIGURATION)</span></code>.</p>
+<p>When any Xcode variable is used, CMake is not able to fully evaluate the
+path(s) at configure time.  One consequence of this is that the
+configuration-specific <span class="target" id="index-1-prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;"></span><a class="reference internal" href="IMPORTED_OBJECTS_CONFIG.html#prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS_&lt;CONFIG&gt;</span></code></a> properties cannot
+be used, since CMake cannot determine whether an object file exists at a
+particular <code class="docutils literal notranslate"><span class="pre">&lt;CONFIG&gt;</span></code> location.  The <code class="docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code> property must be
+used for these situations and the configuration-specific aspects of the path
+should be handled by the <code class="docutils literal notranslate"><span class="pre">$(CONFIGURATION)</span></code> Xcode variable.</p>
 </div>
 </div>
 
@@ -202,7 +200,7 @@ handled by using <span class="target" id="index-2-variable:CMAKE_CFG_INTDIR"></s
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 

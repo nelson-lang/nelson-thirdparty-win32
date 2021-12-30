@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-PACKAGES" "7" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CMAKE-PACKAGES" "7" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cmake-packages \- CMake Packages Reference
 .
@@ -130,7 +130,9 @@ package.
 .sp
 By setting the \fBCMAKE_DISABLE_FIND_PACKAGE_<PackageName>\fP variable to
 \fBTRUE\fP, the \fB<PackageName>\fP package will not be searched, and will always
-be \fBNOTFOUND\fP\&.
+be \fBNOTFOUND\fP\&. Likewise, setting the
+\fBCMAKE_REQUIRE_FIND_PACKAGE_<PackageName>\fP to \fBTRUE\fP will make the
+package REQUIRED.
 .SS Config\-file Packages
 .sp
 A config\-file package is a set of files provided by upstreams for downstreams
@@ -563,7 +565,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/ClimbingStatsMacros.cmake")
 set(_supported_components Plot Table)
 
 foreach(_comp ${ClimbingStats_FIND_COMPONENTS})
-  if (NOT ";${_supported_components};" MATCHES _comp)
+  if (NOT ";${_supported_components};" MATCHES ";${_comp};")
     set(ClimbingStats_FOUND False)
     set(ClimbingStats_NOT_FOUND_MESSAGE "Unsupported component: ${_comp}")
   endif()

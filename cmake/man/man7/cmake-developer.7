@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-DEVELOPER" "7" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CMAKE-DEVELOPER" "7" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cmake-developer \- CMake Developer Reference
 .
@@ -387,6 +387,30 @@ find_library(Foo_LIBRARY
   NAMES foo
   PATHS ${PC_Foo_LIBRARY_DIRS}
 )
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Alternatively, if the library is available with multiple configurations, you can
+use \fBSelectLibraryConfigurations\fP to automatically set the
+\fBFoo_LIBRARY\fP variable instead:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+find_library(Foo_LIBRARY_RELEASE
+  NAMES foo
+  PATHS ${PC_Foo_LIBRARY_DIRS}/Release
+)
+find_library(Foo_LIBRARY_DEBUG
+  NAMES foo
+  PATHS ${PC_Foo_LIBRARY_DIRS}/Debug
+)
+
+include(SelectLibraryConfigurations)
+select_library_configurations(Foo)
 .ft P
 .fi
 .UNINDENT

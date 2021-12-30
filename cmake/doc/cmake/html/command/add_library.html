@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>add_library &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>add_library &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -216,7 +216,7 @@ call are <code class="docutils literal notranslate"><span class="pre">PRIVATE</s
 </div>
 </div>
 <div class="section" id="imported-libraries">
-<h2><a class="toc-backref" href="#id5">Imported Libraries</a><a class="headerlink" href="#imported-libraries" title="Permalink to this headline">¶</a></h2>
+<span id="add-library-imported-libraries"></span><h2><a class="toc-backref" href="#id5">Imported Libraries</a><a class="headerlink" href="#imported-libraries" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="nv">&lt;type&gt;</span><span class="w"> </span><span class="no">IMPORTED</span><span class="w"> </span><span class="p">[</span><span class="no">GLOBAL</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -234,13 +234,25 @@ are specified by setting properties whose names begin in <code class="docutils l
 <dt><code class="docutils literal notranslate"><span class="pre">STATIC</span></code>, <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>, <code class="docutils literal notranslate"><span class="pre">MODULE</span></code>, <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code></dt><dd><p>References a library file located outside the project.  The
 <span class="target" id="index-0-prop_tgt:IMPORTED_LOCATION"></span><a class="reference internal" href="../prop_tgt/IMPORTED_LOCATION.html#prop_tgt:IMPORTED_LOCATION" title="IMPORTED_LOCATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_LOCATION</span></code></a> target property (or its per-configuration
 variant <span class="target" id="index-0-prop_tgt:IMPORTED_LOCATION_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/IMPORTED_LOCATION_CONFIG.html#prop_tgt:IMPORTED_LOCATION_&lt;CONFIG&gt;" title="IMPORTED_LOCATION_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_LOCATION_&lt;CONFIG&gt;</span></code></a>) specifies the
-location of the main library file on disk.  In the case of a <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>
-library on Windows, the <span class="target" id="index-0-prop_tgt:IMPORTED_IMPLIB"></span><a class="reference internal" href="../prop_tgt/IMPORTED_IMPLIB.html#prop_tgt:IMPORTED_IMPLIB" title="IMPORTED_IMPLIB"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_IMPLIB</span></code></a> target property
-(or its per-configuration variant <span class="target" id="index-0-prop_tgt:IMPORTED_IMPLIB_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/IMPORTED_IMPLIB_CONFIG.html#prop_tgt:IMPORTED_IMPLIB_&lt;CONFIG&gt;" title="IMPORTED_IMPLIB_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_IMPLIB_&lt;CONFIG&gt;</span></code></a>)
-specifies the location of the DLL import library file (<code class="docutils literal notranslate"><span class="pre">.lib</span></code> or
-<code class="docutils literal notranslate"><span class="pre">.dll.a</span></code>) on disk, and the <code class="docutils literal notranslate"><span class="pre">IMPORTED_LOCATION</span></code> is the location of
-the <code class="docutils literal notranslate"><span class="pre">.dll</span></code> runtime library (and is optional).
-Additional usage requirements may be specified in <code class="docutils literal notranslate"><span class="pre">INTERFACE_*</span></code> properties.</p>
+location of the main library file on disk:</p>
+<ul class="simple">
+<li><p>For a <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> library on most non-Windows platforms, the main library
+file is the <code class="docutils literal notranslate"><span class="pre">.so</span></code> or <code class="docutils literal notranslate"><span class="pre">.dylib</span></code> file used by both linkers and dynamic
+loaders.  If the referenced library file has a <code class="docutils literal notranslate"><span class="pre">SONAME</span></code> (or on macOS,
+has a <code class="docutils literal notranslate"><span class="pre">LC_ID_DYLIB</span></code> starting in <code class="docutils literal notranslate"><span class="pre">&#64;rpath/</span></code>), the value of that field
+should be set in the <span class="target" id="index-0-prop_tgt:IMPORTED_SONAME"></span><a class="reference internal" href="../prop_tgt/IMPORTED_SONAME.html#prop_tgt:IMPORTED_SONAME" title="IMPORTED_SONAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_SONAME</span></code></a> target property.
+If the referenced library file does not have a <code class="docutils literal notranslate"><span class="pre">SONAME</span></code>, but the
+platform supports it, then  the <span class="target" id="index-0-prop_tgt:IMPORTED_NO_SONAME"></span><a class="reference internal" href="../prop_tgt/IMPORTED_NO_SONAME.html#prop_tgt:IMPORTED_NO_SONAME" title="IMPORTED_NO_SONAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_NO_SONAME</span></code></a> target
+property should be set.</p></li>
+<li><p>For a <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> library on Windows, the <span class="target" id="index-0-prop_tgt:IMPORTED_IMPLIB"></span><a class="reference internal" href="../prop_tgt/IMPORTED_IMPLIB.html#prop_tgt:IMPORTED_IMPLIB" title="IMPORTED_IMPLIB"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_IMPLIB</span></code></a>
+target property (or its per-configuration variant
+<span class="target" id="index-0-prop_tgt:IMPORTED_IMPLIB_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/IMPORTED_IMPLIB_CONFIG.html#prop_tgt:IMPORTED_IMPLIB_&lt;CONFIG&gt;" title="IMPORTED_IMPLIB_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_IMPLIB_&lt;CONFIG&gt;</span></code></a>) specifies the location of the
+DLL import library file (<code class="docutils literal notranslate"><span class="pre">.lib</span></code> or <code class="docutils literal notranslate"><span class="pre">.dll.a</span></code>) on disk, and the
+<code class="docutils literal notranslate"><span class="pre">IMPORTED_LOCATION</span></code> is the location of the <code class="docutils literal notranslate"><span class="pre">.dll</span></code> runtime
+library (and is optional, but needed by the <span class="target" id="index-0-genex:TARGET_RUNTIME_DLLS"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:TARGET_RUNTIME_DLLS" title="TARGET_RUNTIME_DLLS"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">TARGET_RUNTIME_DLLS</span></code></a>
+generator expression).</p></li>
+</ul>
+<p>Additional usage requirements may be specified in <code class="docutils literal notranslate"><span class="pre">INTERFACE_*</span></code> properties.</p>
 <p>An <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code> library type is typically only used in the implementation of
 <a class="reference internal" href="../manual/cmake-developer.7.html#find-modules"><span class="std std-ref">Find Modules</span></a>.  It allows the path to an imported library (often found
 using the <span class="target" id="index-0-command:find_library"></span><a class="reference internal" href="find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a> command) to be used without having to know
@@ -353,7 +365,7 @@ installed or exported.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

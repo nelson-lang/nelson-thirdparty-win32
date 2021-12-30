@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-PRESETS" "7" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CMAKE-PRESETS" "7" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cmake-presets \- CMakePresets.json
 .
@@ -56,10 +56,10 @@ The files are a JSON document with an object as the root:
 .nf
 .ft C
 {
-  "version": 2,
+  "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 20,
+    "minor": 21,
     "patch": 0
   },
   "configurePresets": [
@@ -92,6 +92,17 @@ The files are a JSON document with an object as the root:
       "displayName": "Ninja Multi\-Config",
       "description": "Default build using Ninja Multi\-Config generator",
       "generator": "Ninja Multi\-Config"
+    },
+    {
+      "name": "windows\-only",
+      "inherits": "default",
+      "displayName": "Windows\-only configuration",
+      "description": "This build is only available on Windows",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
     }
   ],
   "buildPresets": [
@@ -126,7 +137,7 @@ The root object recognizes the following fields:
 .INDENT 0.0
 .INDENT 3.5
 A required integer representing the version of the JSON schema.
-The supported versions are \fB1\fP and \fB2\fP\&.
+The supported versions are \fB1\fP, \fB2\fP, and \fB3\fP\&.
 .UNINDENT
 .UNINDENT
 .sp
@@ -175,7 +186,7 @@ desired by the vendor, though will typically be a map.
 .INDENT 0.0
 .INDENT 3.5
 An optional array of \fI\%Configure Preset\fP objects.
-This is allowed in preset files specifying version 1 or above.
+This is allowed in preset files specifying version \fB1\fP or above.
 .UNINDENT
 .UNINDENT
 .sp
@@ -183,7 +194,7 @@ This is allowed in preset files specifying version 1 or above.
 .INDENT 0.0
 .INDENT 3.5
 An optional array of \fI\%Build Preset\fP objects.
-This is allowed in preset files specifying version 2 or above.
+This is allowed in preset files specifying version \fB2\fP or above.
 .UNINDENT
 .UNINDENT
 .sp
@@ -191,7 +202,7 @@ This is allowed in preset files specifying version 2 or above.
 .INDENT 0.0
 .INDENT 3.5
 An optional array of \fI\%Test Preset\fP objects.
-This is allowed in preset files specifying version 2 or above.
+This is allowed in preset files specifying version \fB2\fP or above.
 .UNINDENT
 .UNINDENT
 .SS Configure Preset
@@ -239,6 +250,14 @@ containing one string.
 .UNINDENT
 .UNINDENT
 .sp
+\fBcondition\fP
+.INDENT 0.0
+.INDENT 3.5
+An optional \fI\%Condition\fP object. This is allowed in preset files specifying
+version \fB3\fP or above.
+.UNINDENT
+.UNINDENT
+.sp
 \fBvendor\fP
 .INDENT 0.0
 .INDENT 3.5
@@ -270,7 +289,9 @@ An optional string with a human\-friendly description of the preset.
 .INDENT 3.5
 An optional string representing the generator to use for the preset. If
 \fBgenerator\fP is not specified, it must be inherited from the
-\fBinherits\fP preset (unless this preset is \fBhidden\fP).
+\fBinherits\fP preset (unless this preset is \fBhidden\fP). In version \fB3\fP
+or above, this field may be omitted to fall back to regular generator
+discovery procedure.
 .sp
 Note that for Visual Studio generators, unlike in the command line \fB\-G\fP
 argument, you cannot include the platform name in the generator name. Use
@@ -322,6 +343,18 @@ before invoking CMake.
 .UNINDENT
 .UNINDENT
 .sp
+\fBtoolchainFile\fP
+.INDENT 0.0
+.INDENT 3.5
+An optional string representing the path to the toolchain file.
+This field supports \fI\%macro expansion\fP\&. If a relative path is specified,
+it is calculated relative to the build directory, and if not found,
+relative to the source directory. This field takes precedence over any
+\fBCMAKE_TOOLCHAIN_FILE\fP value. It is allowed in preset files
+specifying version \fB3\fP or above.
+.UNINDENT
+.UNINDENT
+.sp
 \fBbinaryDir\fP
 .INDENT 0.0
 .INDENT 3.5
@@ -329,7 +362,18 @@ An optional string representing the path to the output binary directory.
 This field supports \fI\%macro expansion\fP\&. If a relative path is specified,
 it is calculated relative to the source directory. If \fBbinaryDir\fP is not
 specified, it must be inherited from the \fBinherits\fP preset (unless this
-preset is \fBhidden\fP).
+preset is \fBhidden\fP). In version \fB3\fP or above, this field may be
+omitted.
+.UNINDENT
+.UNINDENT
+.sp
+\fBinstallDir\fP
+.INDENT 0.0
+.INDENT 3.5
+An optional string representing the path to the installation directory.
+This field supports \fI\%macro expansion\fP\&. If a relative path is specified,
+it is calculated relative to the source directory. This is allowed in
+preset files specifying version \fB3\fP or above.
 .UNINDENT
 .UNINDENT
 .sp
@@ -549,6 +593,14 @@ containing one string.
 .UNINDENT
 .UNINDENT
 .sp
+\fBcondition\fP
+.INDENT 0.0
+.INDENT 3.5
+An optional \fI\%Condition\fP object. This is allowed in preset files specifying
+version \fB3\fP or above.
+.UNINDENT
+.UNINDENT
+.sp
 \fBvendor\fP
 .INDENT 0.0
 .INDENT 3.5
@@ -593,6 +645,22 @@ and the \fBenvironment\fP from all its parents. If multiple presets in
 this union define the same variable, the standard rules of \fBinherits\fP
 are applied. Setting a variable to \fBnull\fP causes it to not be set,
 even if a value was inherited from another preset.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+For a CMake project using ExternalProject with a configuration preset
+having environment variables needed in the ExternalProject, use a build
+preset that inherits that configuration preset or the ExternalProject
+will not have the environment variables set in the configuration preset.
+Example: suppose the host defaults to one compiler (say Clang)
+and the user wishes to use another compiler (say GCC). Set configuration
+preset environment variables \fBCC\fP and \fBCXX\fP and use a build preset
+that inherits that configuration preset. Otherwise the ExternalProject
+may use a different (system default) compiler than the top\-level CMake
+project.
+.UNINDENT
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .sp
@@ -708,6 +776,14 @@ presets in \fBCMakeUserPresets.json\fP\&.
 .sp
 This field can also be a string, which is equivalent to an array
 containing one string.
+.UNINDENT
+.UNINDENT
+.sp
+\fBcondition\fP
+.INDENT 0.0
+.INDENT 3.5
+An optional \fI\%Condition\fP object. This is allowed in preset files specifying
+version \fB3\fP or above.
 .UNINDENT
 .UNINDENT
 .sp
@@ -935,7 +1011,8 @@ contain the following fields.
 .INDENT 3.5
 An optional string specifying a regex for test names. Equivalent to
 passing \fB\-\-tests\-regex\fP on the command line. This field supports
-macro expansion.
+macro expansion. CMake regex syntax is described under
+string(REGEX)\&.
 .UNINDENT
 .UNINDENT
 .sp
@@ -1205,6 +1282,149 @@ Equivalent to passing \fB\-\-no\-tests=ignore\fP on the command line.
 .UNINDENT
 .UNINDENT
 .UNINDENT
+.SS Condition
+.sp
+The \fBcondition\fP field of a preset, allowed in preset files specifying version
+\fB3\fP or above, is used to determine whether or not the preset is enabled. For
+example, this can be used to disable a preset on platforms other than Windows.
+\fBcondition\fP may be either a boolean, \fBnull\fP, or an object. If it is a
+boolean, the boolean indicates whether the preset is enabled or disabled. If it
+is \fBnull\fP, the preset is enabled, but the \fBnull\fP condition is not inherited
+by any presets that may inherit from the preset. Sub\-conditions (for example in
+a \fBnot\fP, \fBanyOf\fP, or \fBallOf\fP condition) may not be \fBnull\fP\&. If it is an
+object, it has the following fields:
+.sp
+\fBtype\fP
+.INDENT 0.0
+.INDENT 3.5
+A required string with one of the following values:
+.sp
+\fB"const"\fP
+.INDENT 0.0
+.INDENT 3.5
+Indicates that the condition is constant. This is equivalent to using a
+boolean in place of the object. The condition object will have the
+following additional fields:
+.sp
+\fBvalue\fP
+.INDENT 0.0
+.INDENT 3.5
+A required boolean which provides a constant value for the condition\(aqs
+evaluation.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB"equals"\fP
+.sp
+\fB"notEquals"\fP
+.INDENT 0.0
+.INDENT 3.5
+Indicates that the condition compares two strings to see if they are equal
+(or not equal). The condition object will have the following additional
+fields:
+.sp
+\fBlhs\fP
+.INDENT 0.0
+.INDENT 3.5
+First string to compare. This field supports macro expansion.
+.UNINDENT
+.UNINDENT
+.sp
+\fBrhs\fP
+.INDENT 0.0
+.INDENT 3.5
+Second string to compare. This field supports macro expansion.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB"inList"\fP
+.sp
+\fB"notInList"\fP
+.INDENT 0.0
+.INDENT 3.5
+Indicates that the condition searches for a string in a list of strings.
+The condition object will have the following additional fields:
+.sp
+\fBstring\fP
+.INDENT 0.0
+.INDENT 3.5
+A required string to search for. This field supports macro expansion.
+.UNINDENT
+.UNINDENT
+.sp
+\fBlist\fP
+.INDENT 0.0
+.INDENT 3.5
+A required list of strings to search. This field supports macro
+expansion, and uses short\-circuit evaluation.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB"matches"\fP
+.sp
+\fB"notMatches"\fP
+.INDENT 0.0
+.INDENT 3.5
+Indicates that the condition searches for a regular expression in a string.
+The condition object will have the following additional fields:
+.sp
+\fBstring\fP
+.INDENT 0.0
+.INDENT 3.5
+A required string to search. This field supports macro expansion.
+.UNINDENT
+.UNINDENT
+.sp
+\fBregex\fP
+.INDENT 0.0
+.INDENT 3.5
+A required regular expression to search for. This field supports macro
+expansion.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB"anyOf"\fP
+.sp
+\fB"allOf"\fP
+.INDENT 0.0
+.INDENT 3.5
+Indicates that the condition is an aggregation of zero or more nested
+conditions. The condition object will have the following additional fields:
+.sp
+\fBconditions\fP
+.INDENT 0.0
+.INDENT 3.5
+A required array of condition objects. These conditions use short\-circuit
+evaluation.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB"not"\fP
+.INDENT 0.0
+.INDENT 3.5
+Indicates that the condition is an inversion of another condition. The
+condition object will have the following additional fields:
+.sp
+\fBcondition\fP
+.INDENT 0.0
+.INDENT 3.5
+A required condition object.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .SS Macro Expansion
 .sp
 As mentioned above, some fields support macro expansion. Macros are
@@ -1257,6 +1477,15 @@ Name specified in the preset\(aqs \fBname\fP field.
 Generator specified in the preset\(aqs \fBgenerator\fP field. For build and
 test presets, this will evaluate to the generator specified by
 \fBconfigurePreset\fP\&.
+.UNINDENT
+.UNINDENT
+.sp
+\fB${hostSystemName}\fP
+.INDENT 0.0
+.INDENT 3.5
+The name of the host operating system. Contains the same value as
+\fBCMAKE_HOST_SYSTEM_NAME\fP\&. This is allowed in preset files
+specifying version \fB3\fP or above.
 .UNINDENT
 .UNINDENT
 .sp

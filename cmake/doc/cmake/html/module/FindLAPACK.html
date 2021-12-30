@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>FindLAPACK &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>FindLAPACK &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
@@ -60,62 +60,16 @@
 <span id="module:FindLAPACK"></span><h1>FindLAPACK<a class="headerlink" href="#findlapack" title="Permalink to this headline">¶</a></h1>
 <p>Find Linear Algebra PACKage (LAPACK) library</p>
 <p>This module finds an installed Fortran library that implements the
-LAPACK linear-algebra interface (see <a class="reference external" href="http://www.netlib.org/lapack/">http://www.netlib.org/lapack/</a>).</p>
-<p>The approach follows that taken for the <code class="docutils literal notranslate"><span class="pre">autoconf</span></code> macro file,
-<code class="docutils literal notranslate"><span class="pre">acx_lapack.m4</span></code> (distributed at
-<a class="reference external" href="http://ac-archive.sourceforge.net/ac-archive/acx_lapack.html">http://ac-archive.sourceforge.net/ac-archive/acx_lapack.html</a>).</p>
+<a class="reference external" href="http://www.netlib.org/lapack/">LAPACK linear-algebra interface</a>.</p>
+<p>At least one of the <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">CXX</span></code>, or <code class="docutils literal notranslate"><span class="pre">Fortran</span></code> languages must be enabled.</p>
 <div class="section" id="input-variables">
 <h2>Input Variables<a class="headerlink" href="#input-variables" title="Permalink to this headline">¶</a></h2>
 <p>The following variables may be set to influence this module's behavior:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">BLA_STATIC</span></code></dt><dd><p>if <code class="docutils literal notranslate"><span class="pre">ON</span></code> use static linkage</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BLA_VENDOR</span></code></dt><dd><p>If set, checks only the specified vendor, if not set checks all the
-possibilities.  List of vendors valid in this module:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">FlexiBLAS</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">OpenBLAS</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">FLAME</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel10_32</span></code> (intel mkl v10 32 bit, threaded code)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel10_64lp</span></code> (intel mkl v10+ 64 bit, threaded code, lp64 model)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel10_64lp_seq</span></code> (intel mkl v10+ 64 bit, sequential code, lp64 model)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel10_64ilp</span></code> (intel mkl v10+ 64 bit, threaded code, ilp64 model)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel10_64ilp_seq</span></code> (intel mkl v10+ 64 bit, sequential code, ilp64 model)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel10_64_dyn</span></code> (intel mkl v10+ 64 bit, single dynamic library)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Intel</span></code> (obsolete versions of mkl 32 and 64 bit)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">ACML</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Apple</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">NAS</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Arm</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Arm_mp</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Arm_ilp64</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Arm_ilp64_mp</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EML</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EML_mt</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">Generic</span></code></p></li>
-</ul>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6: </span><code class="docutils literal notranslate"><span class="pre">OpenBLAS</span></code> support.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11: </span><code class="docutils literal notranslate"><span class="pre">FLAME</span></code> support.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.13: </span>Added ILP64 MKL variants (<code class="docutils literal notranslate"><span class="pre">Intel10_64ilp</span></code>, <code class="docutils literal notranslate"><span class="pre">Intel10_64ilp_seq</span></code>).</p>
-</div>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.17: </span>Added single dynamic library MKL variant (<code class="docutils literal notranslate"><span class="pre">Intel10_64_dyn</span></code>).</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18: </span>Arm Performance Libraries support (<code class="docutils literal notranslate"><span class="pre">Arm</span></code>, <code class="docutils literal notranslate"><span class="pre">Arm_mp</span></code>, <code class="docutils literal notranslate"><span class="pre">Arm_ilp64</span></code>,
-<code class="docutils literal notranslate"><span class="pre">Arm_ilp64_mp</span></code>).</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19: </span><code class="docutils literal notranslate"><span class="pre">FlexiBLAS</span></code> support.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span>Elbrus Math Library support (<code class="docutils literal notranslate"><span class="pre">EML</span></code>, <code class="docutils literal notranslate"><span class="pre">EML_mt</span></code>).</p>
-</div>
+<dt><code class="docutils literal notranslate"><span class="pre">BLA_VENDOR</span></code></dt><dd><p>Set to one of the <a class="reference internal" href="FindBLAS.html#blas-lapack-vendors"><span class="std std-ref">BLAS/LAPACK Vendors</span></a> to search for BLAS only
+from the specified vendor.  If not set, all vendors are considered.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">BLA_F95</span></code></dt><dd><p>if <code class="docutils literal notranslate"><span class="pre">ON</span></code> tries to find the BLAS95/LAPACK95 interfaces</p>
 </dd>
@@ -125,16 +79,30 @@ possibilities.  List of vendors valid in this module:</p>
 <p>if set <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> will be used to search for a LAPACK library first
 and if one is found that is preferred</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">BLA_SIZEOF_INTEGER</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
+</div>
+<p>Specify the BLAS/LAPACK library integer size:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">4</span></code></dt><dd><p>Search for a BLAS/LAPACK with 32-bit integer interfaces.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">8</span></code></dt><dd><p>Search for a BLAS/LAPACK with 64-bit integer interfaces.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ANY</span></code></dt><dd><p>Search for any BLAS/LAPACK.
+Most likely, a BLAS/LAPACK with 32-bit integer interfaces will be found.</p>
+</dd>
+</dl>
+</dd>
 </dl>
 </div>
 <div class="section" id="imported-targets">
 <h2>Imported targets<a class="headerlink" href="#imported-targets" title="Permalink to this headline">¶</a></h2>
-<div class="versionadded">
+<p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">LAPACK::LAPACK</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.18.</span></p>
 </div>
-<p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">LAPACK::LAPACK</span></code></dt><dd><p>The libraries to use for LAPACK, if found.</p>
+<p>The libraries to use for LAPACK, if found.</p>
 </dd>
 </dl>
 </div>
@@ -155,16 +123,20 @@ to use LAPACK95</p>
 <dt><code class="docutils literal notranslate"><span class="pre">LAPACK95_FOUND</span></code></dt><dd><p>library implementing the LAPACK95 interface is found</p>
 </dd>
 </dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>C, CXX or Fortran must be enabled to detect a BLAS/LAPACK library.
-C or CXX must be enabled to use Intel Math Kernel Library (MKL).</p>
-<p>For example, to use Intel MKL libraries and/or Intel compiler:</p>
+</div>
+<div class="section" id="intel-mkl">
+<h2>Intel MKL<a class="headerlink" href="#intel-mkl" title="Permalink to this headline">¶</a></h2>
+<p>To use the Intel MKL implementation of LAPACK, a project must enable at least
+one of the <code class="docutils literal notranslate"><span class="pre">C</span></code> or <code class="docutils literal notranslate"><span class="pre">CXX</span></code> languages.  Set <code class="docutils literal notranslate"><span class="pre">BLA_VENDOR</span></code> to an Intel MKL
+variant either on the command-line as <code class="docutils literal notranslate"><span class="pre">-DBLA_VENDOR=Intel10_64lp</span></code> or in
+project code:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">BLA_VENDOR</span><span class="w"> </span><span class="nb">Intel10_64lp</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">find_package(</span><span class="no">LAPACK</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-</div>
+<p>In order to build a project using Intel MKL, and end user must first
+establish an Intel MKL environment.  See the <span class="target" id="index-0-module:FindBLAS"></span><a class="reference internal" href="FindBLAS.html#module:FindBLAS" title="FindBLAS"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindBLAS</span></code></a> module
+section on <a class="reference internal" href="FindBLAS.html#intel-mkl"><span class="std std-ref">Intel MKL</span></a> for details.</p>
 </div>
 </div>
 
@@ -180,6 +152,7 @@ C or CXX must be enabled to use Intel Math Kernel Library (MKL).</p>
 <li><a class="reference internal" href="#input-variables">Input Variables</a></li>
 <li><a class="reference internal" href="#imported-targets">Imported targets</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#intel-mkl">Intel MKL</a></li>
 </ul>
 </li>
 </ul>
@@ -231,7 +204,7 @@ C or CXX must be enabled to use Intel Math Kernel Library (MKL).</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 

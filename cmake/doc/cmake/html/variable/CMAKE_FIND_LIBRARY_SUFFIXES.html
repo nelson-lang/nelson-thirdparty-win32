@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CMAKE_FIND_LIBRARY_SUFFIXES &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>CMAKE_FIND_LIBRARY_SUFFIXES &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li> 
@@ -61,8 +61,11 @@
 <p>Suffixes to append when looking for libraries.</p>
 <p>This specifies what suffixes to add to library names when the
 <span class="target" id="index-0-command:find_library"></span><a class="reference internal" href="../command/find_library.html#command:find_library" title="find_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_library()</span></code></a> command looks for libraries.  On Windows systems this
-is typically <code class="docutils literal notranslate"><span class="pre">.lib</span></code> and <code class="docutils literal notranslate"><span class="pre">.dll</span></code>, meaning that when trying to find the
-<code class="docutils literal notranslate"><span class="pre">foo</span></code> library it will look for <code class="docutils literal notranslate"><span class="pre">foo.dll</span></code> etc.</p>
+is typically <code class="docutils literal notranslate"><span class="pre">.lib</span></code> and, depending on the compiler, <code class="docutils literal notranslate"><span class="pre">.dll.a</span></code>, <code class="docutils literal notranslate"><span class="pre">.a</span></code>
+(e.g. GCC and Clang), so when it tries to find the <code class="docutils literal notranslate"><span class="pre">foo</span></code> library, it will
+look for <code class="docutils literal notranslate"><span class="pre">[&lt;prefix&gt;]foo.lib</span></code> and/or <code class="docutils literal notranslate"><span class="pre">[&lt;prefix&gt;]foo[.dll].a</span></code>, depending on
+the compiler used and the <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code> specified in the
+<span class="target" id="index-0-variable:CMAKE_FIND_LIBRARY_PREFIXES"></span><a class="reference internal" href="CMAKE_FIND_LIBRARY_PREFIXES.html#variable:CMAKE_FIND_LIBRARY_PREFIXES" title="CMAKE_FIND_LIBRARY_PREFIXES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_LIBRARY_PREFIXES</span></code></a>.</p>
 </div>
 
 
@@ -118,7 +121,7 @@ is typically <code class="docutils literal notranslate"><span class="pre">.lib</
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li> 

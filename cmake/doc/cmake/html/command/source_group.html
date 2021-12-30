@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>source_group &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>source_group &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -66,7 +66,9 @@ There are two different signatures to create source groups.</p>
 </div>
 <p>Defines a group into which sources will be placed in project files.
 This is intended to set up file tabs in Visual Studio.
-The options are:</p>
+The group is scoped in the directory where the command is called,
+and applies to sources in targets created in that directory.</p>
+<p>The options are:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">TREE</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.8.</span></p>
@@ -74,7 +76,8 @@ The options are:</p>
 <p>CMake will automatically detect, from <code class="docutils literal notranslate"><span class="pre">&lt;src&gt;</span></code> files paths, source groups
 it needs to create, to keep structure of source groups analogically to the
 actual files and directories structure in the project. Paths of <code class="docutils literal notranslate"><span class="pre">&lt;src&gt;</span></code>
-files will be cut to be relative to <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;</span></code>.</p>
+files will be cut to be relative to <code class="docutils literal notranslate"><span class="pre">&lt;root&gt;</span></code>. The command fails if the
+paths within <code class="docutils literal notranslate"><span class="pre">src</span></code> do not start with <code class="docutils literal notranslate"><span class="pre">root</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">PREFIX</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.8.</span></p>
@@ -168,7 +171,7 @@ appropriately:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

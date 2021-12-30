@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>CPack DEB Generator &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>CPack DEB Generator &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li> 
@@ -373,12 +373,23 @@ will be emitted.</p>
 <li><p>Default   : &quot;gzip&quot;</p></li>
 </ul>
 <p>Possible values are:</p>
-<ul class="simple">
-<li><p>lzma</p></li>
-<li><p>xz</p></li>
-<li><p>bzip2</p></li>
-<li><p>gzip</p></li>
-</ul>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">lzma</span></code></dt><dd><p>Lempel–Ziv–Markov chain algorithm</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">xz</span></code></dt><dd><p>XZ Utils compression</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bzip2</span></code></dt><dd><p>bzip2 Burrows–Wheeler algorithm</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gzip</span></code></dt><dd><p>GNU Gzip compression</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">zstd</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
+</div>
+<p>Zstandard compression</p>
+</dd>
+</dl>
+</div></blockquote>
 </dd></dl>
 
 <dl class="variable">
@@ -393,7 +404,7 @@ extra</p>
 <li><p>Default   : &quot;optional&quot;</p></li>
 </ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PRIORITY</span></code> varables.</p>
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PRIORITY</span></code> variables.</p>
 </div>
 <p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-archive.html#s-priorities">https://www.debian.org/doc/debian-policy/ch-archive.html#s-priorities</a></p>
 </dd></dl>
@@ -836,8 +847,16 @@ revision number of the referenced source package as well.</p>
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>Setting this also strips the ELF files in the generated non-dbgsym package,
+which results in debuginfo only being available in the dbgsym package.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Binaries must contain debug symbols before packaging so use either <code class="docutils literal notranslate"><span class="pre">Debug</span></code>
 or <code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</span></code> for <span class="target" id="index-0-variable:CMAKE_BUILD_TYPE"></span><a class="reference internal" href="../variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE" title="CMAKE_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code></a> variable value.</p>
+<p>Additionally, if <span class="target" id="index-0-variable:CPACK_STRIP_FILES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_STRIP_FILES" title="CPACK_STRIP_FILES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_STRIP_FILES</span></code></a> is set, the files will be stripped before
+they get to the DEB generator, so will not contain debug symbols and
+a dbgsym package will not get built. Do not use with <span class="target" id="index-1-variable:CPACK_STRIP_FILES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_STRIP_FILES" title="CPACK_STRIP_FILES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_STRIP_FILES</span></code></a>.</p>
 </div>
 </div>
 <div class="section" id="building-debian-packages-on-windows">
@@ -927,7 +946,7 @@ use its value for timestamps in the package.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li> 

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>cmake_path &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>cmake_path &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -123,8 +123,8 @@ will be unpredictable.</p>
 
 <a class="reference internal" href="#native-conversion">Native Conversion</a>
   cmake_path(<a class="reference internal" href="#native-path">NATIVE_PATH</a> &lt;path-var&gt; [NORMALIZE] &lt;out-var&gt;)
-  cmake_path(<a class="reference internal" href="#convert">CONVERT</a> &lt;input&gt; <a class="reference internal" href="#to-cmake-path-list">TO_CMAKE_PATH_LIST</a> &lt;out-var&gt;)
-  cmake_path(<a class="reference internal" href="#convert">CONVERT</a> &lt;input&gt; <a class="reference internal" href="#to-native-path-list">TO_NATIVE_PATH_LIST</a> &lt;out-var&gt;)
+  cmake_path(<a class="reference internal" href="#convert">CONVERT</a> &lt;input&gt; <a class="reference internal" href="#to-cmake-path-list">TO_CMAKE_PATH_LIST</a> &lt;out-var&gt; [NORMALIZE])
+  cmake_path(<a class="reference internal" href="#convert">CONVERT</a> &lt;input&gt; <a class="reference internal" href="#to-native-path-list">TO_NATIVE_PATH_LIST</a> &lt;out-var&gt; [NORMALIZE])
 
 <a class="reference internal" href="#hashing">Hashing</a>
   cmake_path(<a class="reference internal" href="#hash">HASH</a> &lt;path-var&gt; &lt;out-var&gt;)</pre>
@@ -441,9 +441,10 @@ false while <code class="docutils literal notranslate"><span class="pre">HAS_ROO
 <p>Checks if <code class="docutils literal notranslate"><span class="pre">&lt;path-var&gt;</span></code> is the prefix of <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code>.</p>
 <p>When the <code class="docutils literal notranslate"><span class="pre">NORMALIZE</span></code> option is specified, <code class="docutils literal notranslate"><span class="pre">&lt;path-var&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code>
 are <a class="reference internal" href="#normalization"><span class="std std-ref">normalized</span></a> before the check.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/b/c/d&quot;</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">cmake_path(</span><span class="no">IS_PREFIX</span><span class="w"> </span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/b&quot;</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span><span class="w">    </span><span class="c"># result = true</span>
-<span class="nf">cmake_path(</span><span class="no">IS_PREFIX</span><span class="w"> </span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/x/y/z&quot;</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span><span class="w">  </span><span class="c"># result = false</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/b/c&quot;</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">cmake_path(</span><span class="no">IS_PREFIX</span><span class="w"> </span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/b/c/d&quot;</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span><span class="w"> </span><span class="c"># result = true</span>
+<span class="nf">cmake_path(</span><span class="no">IS_PREFIX</span><span class="w"> </span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/b&quot;</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span><span class="w">     </span><span class="c"># result = false</span>
+<span class="nf">cmake_path(</span><span class="no">IS_PREFIX</span><span class="w"> </span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/x/y/z&quot;</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span><span class="w">   </span><span class="c"># result = false</span>
 
 <span class="nf">set(</span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/b&quot;</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">cmake_path(</span><span class="no">IS_PREFIX</span><span class="w"> </span><span class="nb">path</span><span class="w"> </span><span class="s">&quot;/a/c/../b&quot;</span><span class="w"> </span><span class="no">NORMALIZE</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span><span class="w">   </span><span class="c"># result = true</span>
@@ -609,7 +610,8 @@ If <code class="docutils literal notranslate"><span class="pre">BASE_DIRECTORY</
 <span class="target" id="index-1-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a>.</p>
 <p>When the <code class="docutils literal notranslate"><span class="pre">NORMALIZE</span></code> option is specified, the path is <a class="reference internal" href="#normalization"><span class="std std-ref">normalized</span></a> after the path computation.</p>
 <p>Because <code class="docutils literal notranslate"><span class="pre">cmake_path()</span></code> does not access the filesystem, symbolic links are
-not resolved.  To compute a real path with symbolic links resolved, use the
+not resolved and any leading tilde is not expanded.  To compute a real path
+with symbolic links resolved and leading tildes expanded, use the
 <span class="target" id="index-1-command:file"></span><a class="reference internal" href="file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(REAL_PATH)</span></code></a> command instead.</p>
 </div>
 <div class="section" id="native-conversion">
@@ -758,7 +760,7 @@ value of <code class="docutils literal notranslate"><span class="pre">p1</span><
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

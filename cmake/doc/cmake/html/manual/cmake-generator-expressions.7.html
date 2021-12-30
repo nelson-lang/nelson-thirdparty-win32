@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>cmake-generator-expressions(7) &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>cmake-generator-expressions(7) &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -56,37 +56,37 @@
           <div class="body" role="main">
             
   <span class="target" id="manual:cmake-generator-expressions(7)"></span><div class="section" id="cmake-generator-expressions-7">
-<h1><a class="toc-backref" href="#id3">cmake-generator-expressions(7)</a><a class="headerlink" href="#cmake-generator-expressions-7" title="Permalink to this headline">¶</a></h1>
+<h1><a class="toc-backref" href="#id4">cmake-generator-expressions(7)</a><a class="headerlink" href="#cmake-generator-expressions-7" title="Permalink to this headline">¶</a></h1>
 <div class="contents topic" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#cmake-generator-expressions-7" id="id3">cmake-generator-expressions(7)</a></p>
+<li><p><a class="reference internal" href="#cmake-generator-expressions-7" id="id4">cmake-generator-expressions(7)</a></p>
 <ul>
-<li><p><a class="reference internal" href="#introduction" id="id4">Introduction</a></p></li>
-<li><p><a class="reference internal" href="#boolean-generator-expressions" id="id5">Boolean Generator Expressions</a></p>
+<li><p><a class="reference internal" href="#introduction" id="id5">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#boolean-generator-expressions" id="id6">Boolean Generator Expressions</a></p>
 <ul>
-<li><p><a class="reference internal" href="#logical-operators" id="id6">Logical Operators</a></p></li>
-<li><p><a class="reference internal" href="#string-comparisons" id="id7">String Comparisons</a></p></li>
-<li><p><a class="reference internal" href="#variable-queries" id="id8">Variable Queries</a></p></li>
+<li><p><a class="reference internal" href="#logical-operators" id="id7">Logical Operators</a></p></li>
+<li><p><a class="reference internal" href="#string-comparisons" id="id8">String Comparisons</a></p></li>
+<li><p><a class="reference internal" href="#variable-queries" id="id9">Variable Queries</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#string-valued-generator-expressions" id="id9">String-Valued Generator Expressions</a></p>
+<li><p><a class="reference internal" href="#string-valued-generator-expressions" id="id10">String-Valued Generator Expressions</a></p>
 <ul>
-<li><p><a class="reference internal" href="#escaped-characters" id="id10">Escaped Characters</a></p></li>
-<li><p><a class="reference internal" href="#conditional-expressions" id="id11">Conditional Expressions</a></p></li>
-<li><p><a class="reference internal" href="#string-transformations" id="id12">String Transformations</a></p></li>
-<li><p><a class="reference internal" href="#id2" id="id13">Variable Queries</a></p></li>
-<li><p><a class="reference internal" href="#target-dependent-queries" id="id14">Target-Dependent Queries</a></p></li>
-<li><p><a class="reference internal" href="#output-related-expressions" id="id15">Output-Related Expressions</a></p></li>
+<li><p><a class="reference internal" href="#escaped-characters" id="id11">Escaped Characters</a></p></li>
+<li><p><a class="reference internal" href="#conditional-expressions" id="id12">Conditional Expressions</a></p></li>
+<li><p><a class="reference internal" href="#string-transformations" id="id13">String Transformations</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id14">Variable Queries</a></p></li>
+<li><p><a class="reference internal" href="#target-dependent-queries" id="id15">Target-Dependent Queries</a></p></li>
+<li><p><a class="reference internal" href="#output-related-expressions" id="id16">Output-Related Expressions</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#debugging" id="id16">Debugging</a></p></li>
+<li><p><a class="reference internal" href="#debugging" id="id17">Debugging</a></p></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="introduction">
-<h2><a class="toc-backref" href="#id4">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>Generator expressions are evaluated during build system generation to produce
 information specific to each build configuration.</p>
 <p>Generator expressions are allowed in the context of many target properties,
@@ -106,13 +106,13 @@ among others.</p>
 <p>Generator expressions can be nested, as shown in most of the examples below.</p>
 </div>
 <div class="section" id="boolean-generator-expressions">
-<span id="id1"></span><h2><a class="toc-backref" href="#id5">Boolean Generator Expressions</a><a class="headerlink" href="#boolean-generator-expressions" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id6">Boolean Generator Expressions</a><a class="headerlink" href="#boolean-generator-expressions" title="Permalink to this headline">¶</a></h2>
 <p>Boolean expressions evaluate to either <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code>.
 They are typically used to construct the condition in a <a class="reference internal" href="#conditional-generator-expressions"><span class="std std-ref">conditional
 generator expression</span></a>.</p>
 <p>Available boolean expressions are:</p>
 <div class="section" id="logical-operators">
-<h3><a class="toc-backref" href="#id6">Logical Operators</a><a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id7">Logical Operators</a><a class="headerlink" href="#logical-operators" title="Permalink to this headline">¶</a></h3>
 <dl class="genex">
 <dt id="genex:BOOL">
 <code class="sig-name descname">$&lt;BOOL:string&gt;</code><a class="headerlink" href="#genex:BOOL" title="Permalink to this definition">¶</a></dt>
@@ -151,7 +151,7 @@ Otherwise evaluates to <code class="docutils literal notranslate"><span class="p
 
 </div>
 <div class="section" id="string-comparisons">
-<h3><a class="toc-backref" href="#id7">String Comparisons</a><a class="headerlink" href="#string-comparisons" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">String Comparisons</a><a class="headerlink" href="#string-comparisons" title="Permalink to this headline">¶</a></h3>
 <dl class="genex">
 <dt id="genex:STREQUAL">
 <code class="sig-name descname">$&lt;STREQUAL:string1,string2&gt;</code><a class="headerlink" href="#genex:STREQUAL" title="Permalink to this definition">¶</a></dt>
@@ -172,7 +172,10 @@ combine with a <a class="reference internal" href="#string-transforming-generato
 <dl class="genex">
 <dt id="genex:IN_LIST">
 <code class="sig-name descname">$&lt;IN_LIST:string,list&gt;</code><a class="headerlink" href="#genex:IN_LIST" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">string</span></code> is member of the semicolon-separated <code class="docutils literal notranslate"><span class="pre">list</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">string</span></code> is member of the semicolon-separated <code class="docutils literal notranslate"><span class="pre">list</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 Uses case-sensitive comparisons.</p>
 </dd></dl>
 
@@ -197,29 +200,38 @@ Uses case-sensitive comparisons.</p>
 <dl class="genex">
 <dt id="genex:VERSION_LESS_EQUAL">
 <code class="sig-name descname">$&lt;VERSION_LESS_EQUAL:v1,v2&gt;</code><a class="headerlink" href="#genex:VERSION_LESS_EQUAL" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">v1</span></code> is a version less than or equal to <code class="docutils literal notranslate"><span class="pre">v2</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">v1</span></code> is a version less than or equal to <code class="docutils literal notranslate"><span class="pre">v2</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt id="genex:VERSION_GREATER_EQUAL">
 <code class="sig-name descname">$&lt;VERSION_GREATER_EQUAL:v1,v2&gt;</code><a class="headerlink" href="#genex:VERSION_GREATER_EQUAL" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">v1</span></code> is a version greater than or equal to <code class="docutils literal notranslate"><span class="pre">v2</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">v1</span></code> is a version greater than or equal to <code class="docutils literal notranslate"><span class="pre">v2</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="variable-queries">
-<h3><a class="toc-backref" href="#id8">Variable Queries</a><a class="headerlink" href="#variable-queries" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Variable Queries</a><a class="headerlink" href="#variable-queries" title="Permalink to this headline">¶</a></h3>
 <dl class="genex">
 <dt id="genex:TARGET_EXISTS">
 <code class="sig-name descname">$&lt;TARGET_EXISTS:target&gt;</code><a class="headerlink" href="#genex:TARGET_EXISTS" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">target</span></code> exists, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if <code class="docutils literal notranslate"><span class="pre">target</span></code> exists, else <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt id="genex:CONFIG">
 <code class="sig-name descname">$&lt;CONFIG:cfgs&gt;</code><a class="headerlink" href="#genex:CONFIG" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if config is any one of the entries in <code class="docutils literal notranslate"><span class="pre">cfgs</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>. This is a
-case-insensitive comparison. The mapping in
+<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if config is any one of the entries in comma-separated list
+<code class="docutils literal notranslate"><span class="pre">cfgs</span></code>, else <code class="docutils literal notranslate"><span class="pre">0</span></code>. This is a case-insensitive comparison. The mapping in
 <span class="target" id="index-0-prop_tgt:MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;"></span><a class="reference internal" href="../prop_tgt/MAP_IMPORTED_CONFIG_CONFIG.html#prop_tgt:MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;" title="MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;</span></code></a> is also considered by this
 expression when it is evaluated on a property on an <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a>
 target.</p>
@@ -255,7 +267,10 @@ See also the <span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_COMPIL
 <dl class="genex">
 <dt id="genex:CUDA_COMPILER_ID">
 <code class="sig-name descname">$&lt;CUDA_COMPILER_ID:compiler_ids&gt;</code><a class="headerlink" href="#genex:CUDA_COMPILER_ID" title="Permalink to this definition">¶</a></dt>
-<dd><p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
 <code class="docutils literal notranslate"><span class="pre">1</span></code> if the CMake's compiler id of the CUDA compiler matches any one
 of the entries in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-2-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
@@ -264,7 +279,10 @@ See also the <span class="target" id="index-2-variable:CMAKE_&lt;LANG&gt;_COMPIL
 <dl class="genex">
 <dt id="genex:OBJC_COMPILER_ID">
 <code class="sig-name descname">$&lt;OBJC_COMPILER_ID:compiler_ids&gt;</code><a class="headerlink" href="#genex:OBJC_COMPILER_ID" title="Permalink to this definition">¶</a></dt>
-<dd><p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
 <code class="docutils literal notranslate"><span class="pre">1</span></code> if the CMake's compiler id of the Objective-C compiler matches any one
 of the entries in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-3-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
@@ -273,7 +291,10 @@ See also the <span class="target" id="index-3-variable:CMAKE_&lt;LANG&gt;_COMPIL
 <dl class="genex">
 <dt id="genex:OBJCXX_COMPILER_ID">
 <code class="sig-name descname">$&lt;OBJCXX_COMPILER_ID:compiler_ids&gt;</code><a class="headerlink" href="#genex:OBJCXX_COMPILER_ID" title="Permalink to this definition">¶</a></dt>
-<dd><p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
 <code class="docutils literal notranslate"><span class="pre">1</span></code> if the CMake's compiler id of the Objective-C++ compiler matches any one
 of the entries in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-4-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
@@ -289,12 +310,24 @@ See also the <span class="target" id="index-5-variable:CMAKE_&lt;LANG&gt;_COMPIL
 </dd></dl>
 
 <dl class="genex">
-<dt id="genex:ISPC_COMPILER_ID">
-<code class="sig-name descname">$&lt;ISPC_COMPILER_ID:compiler_ids&gt;</code><a class="headerlink" href="#genex:ISPC_COMPILER_ID" title="Permalink to this definition">¶</a></dt>
+<dt id="genex:HIP_COMPILER_ID">
+<code class="sig-name descname">$&lt;HIP_COMPILER_ID:compiler_ids&gt;</code><a class="headerlink" href="#genex:HIP_COMPILER_ID" title="Permalink to this definition">¶</a></dt>
 <dd><p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
-<code class="docutils literal notranslate"><span class="pre">1</span></code> if the CMake's compiler id of the ISPC compiler matches any one
+<code class="docutils literal notranslate"><span class="pre">1</span></code> if the CMake's compiler id of the HIP compiler matches any one
 of the entries in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-6-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
+<dt id="genex:ISPC_COMPILER_ID">
+<code class="sig-name descname">$&lt;ISPC_COMPILER_ID:compiler_ids&gt;</code><a class="headerlink" href="#genex:ISPC_COMPILER_ID" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code> is a comma-separated list.
+<code class="docutils literal notranslate"><span class="pre">1</span></code> if the CMake's compiler id of the ISPC compiler matches any one
+of the entries in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+See also the <span class="target" id="index-7-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
@@ -314,21 +347,30 @@ See also the <span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_COMPIL
 <dl class="genex">
 <dt id="genex:CUDA_COMPILER_VERSION">
 <code class="sig-name descname">$&lt;CUDA_COMPILER_VERSION:version&gt;</code><a class="headerlink" href="#genex:CUDA_COMPILER_VERSION" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the CXX compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the CXX compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-2-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt id="genex:OBJC_COMPILER_VERSION">
 <code class="sig-name descname">$&lt;OBJC_COMPILER_VERSION:version&gt;</code><a class="headerlink" href="#genex:OBJC_COMPILER_VERSION" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the OBJC compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the OBJC compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-3-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt id="genex:OBJCXX_COMPILER_VERSION">
 <code class="sig-name descname">$&lt;OBJCXX_COMPILER_VERSION:version&gt;</code><a class="headerlink" href="#genex:OBJCXX_COMPILER_VERSION" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the OBJCXX compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the OBJCXX compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
 See also the <span class="target" id="index-4-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
@@ -340,10 +382,20 @@ See also the <span class="target" id="index-5-variable:CMAKE_&lt;LANG&gt;_COMPIL
 </dd></dl>
 
 <dl class="genex">
+<dt id="genex:HIP_COMPILER_VERSION">
+<code class="sig-name descname">$&lt;HIP_COMPILER_VERSION:version&gt;</code><a class="headerlink" href="#genex:HIP_COMPILER_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the HIP compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+See also the <span class="target" id="index-6-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
 <dt id="genex:ISPC_COMPILER_VERSION">
 <code class="sig-name descname">$&lt;ISPC_COMPILER_VERSION:version&gt;</code><a class="headerlink" href="#genex:ISPC_COMPILER_VERSION" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the ISPC compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
-See also the <span class="target" id="index-6-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> if the version of the ISPC compiler matches <code class="docutils literal notranslate"><span class="pre">version</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.
+See also the <span class="target" id="index-7-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
@@ -358,7 +410,10 @@ policies.</p>
 <dl class="genex">
 <dt id="genex:COMPILE_FEATURES">
 <code class="sig-name descname">$&lt;COMPILE_FEATURES:features&gt;</code><a class="headerlink" href="#genex:COMPILE_FEATURES" title="Permalink to this definition">¶</a></dt>
-<dd><p>where <code class="docutils literal notranslate"><span class="pre">features</span></code> is a comma-spearated list.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">features</span></code> is a comma-spearated list.
 Evaluates to <code class="docutils literal notranslate"><span class="pre">1</span></code> if all of the <code class="docutils literal notranslate"><span class="pre">features</span></code> are available for the 'head'
 target, and <code class="docutils literal notranslate"><span class="pre">0</span></code> otherwise. If this expression is used while evaluating
 the link implementation of a target and if any dependency transitively
@@ -371,7 +426,10 @@ compile features and a list of supported compilers.</p>
 <span class="target" id="boolean-compile-language-generator-expression"></span><dl class="genex">
 <dt id="genex:COMPILE_LANG_AND_ID">
 <code class="sig-name descname">$&lt;COMPILE_LANG_AND_ID:language,compiler_ids&gt;</code><a class="headerlink" href="#genex:COMPILE_LANG_AND_ID" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for compilation unit matches <code class="docutils literal notranslate"><span class="pre">language</span></code> and
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for compilation unit matches <code class="docutils literal notranslate"><span class="pre">language</span></code> and
 the CMake's compiler id of the language compiler matches any one of the
 entries in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>. This expression is a short form
 for the combination of <code class="docutils literal notranslate"><span class="pre">$&lt;COMPILE_LANGUAGE:language&gt;</span></code> and
@@ -406,7 +464,10 @@ would be expressed as:</p>
 <dl class="genex">
 <dt id="genex:COMPILE_LANGUAGE">
 <code class="sig-name descname">$&lt;COMPILE_LANGUAGE:languages&gt;</code><a class="headerlink" href="#genex:COMPILE_LANGUAGE" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for compilation unit matches any of the entries
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for compilation unit matches any of the entries
 in <code class="docutils literal notranslate"><span class="pre">languages</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.  This expression may be used to specify
 compile options, compile definitions, and include directories for source files of a
 particular language in a target. For example:</p>
@@ -448,7 +509,10 @@ instead:</p>
 <span class="target" id="boolean-link-language-generator-expression"></span><dl class="genex">
 <dt id="genex:LINK_LANG_AND_ID">
 <code class="sig-name descname">$&lt;LINK_LANG_AND_ID:language,compiler_ids&gt;</code><a class="headerlink" href="#genex:LINK_LANG_AND_ID" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for link step matches <code class="docutils literal notranslate"><span class="pre">language</span></code> and the
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for link step matches <code class="docutils literal notranslate"><span class="pre">language</span></code> and the
 CMake's compiler id of the language linker matches any one of the entries
 in <code class="docutils literal notranslate"><span class="pre">compiler_ids</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>. This expression is a short form for the
 combination of <code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:language&gt;</span></code> and
@@ -486,7 +550,10 @@ generator expression.</p>
 <dl class="genex">
 <dt id="genex:LINK_LANGUAGE">
 <code class="sig-name descname">$&lt;LINK_LANGUAGE:languages&gt;</code><a class="headerlink" href="#genex:LINK_LANGUAGE" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for link step matches any of the entries
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code> when the language used for link step matches any of the entries
 in <code class="docutils literal notranslate"><span class="pre">languages</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code>.  This expression may be used to specify
 link libraries, link options, link directories and link dependencies of a
 particular language in a target. For example:</p>
@@ -545,7 +612,10 @@ correctly add target <code class="docutils literal notranslate"><span class="pre
 <dl class="genex">
 <dt id="genex:DEVICE_LINK">
 <code class="sig-name descname">$&lt;DEVICE_LINK:list&gt;</code><a class="headerlink" href="#genex:DEVICE_LINK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the list if it is the device link step, an empty list otherwise.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>Returns the list if it is the device link step, an empty list otherwise.
 The device link step is controlled by <span class="target" id="index-0-prop_tgt:CUDA_SEPARABLE_COMPILATION"></span><a class="reference internal" href="../prop_tgt/CUDA_SEPARABLE_COMPILATION.html#prop_tgt:CUDA_SEPARABLE_COMPILATION" title="CUDA_SEPARABLE_COMPILATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_SEPARABLE_COMPILATION</span></code></a>
 and <span class="target" id="index-0-prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS"></span><a class="reference internal" href="../prop_tgt/CUDA_RESOLVE_DEVICE_SYMBOLS.html#prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS" title="CUDA_RESOLVE_DEVICE_SYMBOLS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_RESOLVE_DEVICE_SYMBOLS</span></code></a> properties and
 policy <span class="target" id="index-0-policy:CMP0105"></span><a class="reference internal" href="../policy/CMP0105.html#policy:CMP0105" title="CMP0105"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0105</span></code></a>. This expression can only be used to specify link
@@ -555,7 +625,10 @@ options.</p>
 <dl class="genex">
 <dt id="genex:HOST_LINK">
 <code class="sig-name descname">$&lt;HOST_LINK:list&gt;</code><a class="headerlink" href="#genex:HOST_LINK" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the list if it is the normal link step, an empty list otherwise.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>Returns the list if it is the normal link step, an empty list otherwise.
 This expression is mainly useful when a device link step is also involved
 (see <code class="docutils literal notranslate"><span class="pre">$&lt;DEVICE_LINK:list&gt;</span></code> generator expression). This expression can only
 be used to specify link options.</p>
@@ -564,7 +637,7 @@ be used to specify link options.</p>
 </div>
 </div>
 <div class="section" id="string-valued-generator-expressions">
-<h2><a class="toc-backref" href="#id9">String-Valued Generator Expressions</a><a class="headerlink" href="#string-valued-generator-expressions" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10">String-Valued Generator Expressions</a><a class="headerlink" href="#string-valued-generator-expressions" title="Permalink to this headline">¶</a></h2>
 <p>These expressions expand to some string.
 For example,</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include_directories(</span><span class="na">/usr/include/</span><span class="o">$&lt;</span><span class="no">CXX_COMPILER_ID</span><span class="o">&gt;</span><span class="na">/</span><span class="nf">)</span><span class="w"></span>
@@ -579,7 +652,7 @@ within a conditional expression:</p>
 </pre></div>
 </div>
 <p>expands to <code class="docutils literal notranslate"><span class="pre">OLD_COMPILER</span></code> if the
-<span class="target" id="index-7-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_COMPILER_VERSION</span></code></a> is less
+<span class="target" id="index-8-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_COMPILER_VERSION</span></code></a> is less
 than 4.2.0.</p>
 <p>And here two nested string-valued expressions:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="p">-</span><span class="no">I</span><span class="o">$&lt;</span><span class="no">JOIN</span><span class="o">:$&lt;</span><span class="no">TARGET_PROPERTY</span><span class="o">:</span><span class="no">INCLUDE_DIRECTORIES</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">-</span><span class="no">I</span><span class="o">&gt;</span><span class="w"></span>
@@ -596,7 +669,7 @@ introduce a helper variable to keep the code readable:</p>
 </div>
 <p>The following string-valued generator expressions are available:</p>
 <div class="section" id="escaped-characters">
-<h3><a class="toc-backref" href="#id10">Escaped Characters</a><a class="headerlink" href="#escaped-characters" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Escaped Characters</a><a class="headerlink" href="#escaped-characters" title="Permalink to this headline">¶</a></h3>
 <p>String literals to escape the special meaning a character would otherwise have:</p>
 <dl class="genex">
 <dt id="genex:ANGLE-R">
@@ -618,7 +691,7 @@ introduce a helper variable to keep the code readable:</p>
 
 </div>
 <div class="section" id="conditional-expressions">
-<span id="conditional-generator-expressions"></span><h3><a class="toc-backref" href="#id11">Conditional Expressions</a><a class="headerlink" href="#conditional-expressions" title="Permalink to this headline">¶</a></h3>
+<span id="conditional-generator-expressions"></span><h3><a class="toc-backref" href="#id12">Conditional Expressions</a><a class="headerlink" href="#conditional-expressions" title="Permalink to this headline">¶</a></h3>
 <p>Conditional generator expressions depend on a boolean condition
 that must be <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
 <dl class="genex">
@@ -631,7 +704,10 @@ Otherwise evaluates to the empty string.</p>
 <dl class="genex">
 <dt id="genex:IF">
 <code class="sig-name descname">$&lt;IF:condition,true_string,false_string&gt;</code><a class="headerlink" href="#genex:IF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluates to <code class="docutils literal notranslate"><span class="pre">true_string</span></code> if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>Evaluates to <code class="docutils literal notranslate"><span class="pre">true_string</span></code> if <code class="docutils literal notranslate"><span class="pre">condition</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span></code>.
 Otherwise evaluates to <code class="docutils literal notranslate"><span class="pre">false_string</span></code>.</p>
 </dd></dl>
 
@@ -643,7 +719,7 @@ Otherwise evaluates to <code class="docutils literal notranslate"><span class="p
 otherwise expands to the empty string.</p>
 </div>
 <div class="section" id="string-transformations">
-<span id="string-transforming-generator-expressions"></span><h3><a class="toc-backref" href="#id12">String Transformations</a><a class="headerlink" href="#string-transformations" title="Permalink to this headline">¶</a></h3>
+<span id="string-transforming-generator-expressions"></span><h3><a class="toc-backref" href="#id13">String Transformations</a><a class="headerlink" href="#string-transformations" title="Permalink to this headline">¶</a></h3>
 <dl class="genex">
 <dt id="genex:JOIN">
 <code class="sig-name descname">$&lt;JOIN:list,string&gt;</code><a class="headerlink" href="#genex:JOIN" title="Permalink to this definition">¶</a></dt>
@@ -653,13 +729,19 @@ otherwise expands to the empty string.</p>
 <dl class="genex">
 <dt id="genex:REMOVE_DUPLICATES">
 <code class="sig-name descname">$&lt;REMOVE_DUPLICATES:list&gt;</code><a class="headerlink" href="#genex:REMOVE_DUPLICATES" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes duplicated items in the given <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Removes duplicated items in the given <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt id="genex:FILTER">
 <code class="sig-name descname">$&lt;FILTER:list,INCLUDE|EXCLUDE,regex&gt;</code><a class="headerlink" href="#genex:FILTER" title="Permalink to this definition">¶</a></dt>
-<dd><p>Includes or removes items from <code class="docutils literal notranslate"><span class="pre">list</span></code> that match the regular expression <code class="docutils literal notranslate"><span class="pre">regex</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Includes or removes items from <code class="docutils literal notranslate"><span class="pre">list</span></code> that match the regular expression <code class="docutils literal notranslate"><span class="pre">regex</span></code>.</p>
 </dd></dl>
 
 <dl class="genex">
@@ -677,7 +759,10 @@ otherwise expands to the empty string.</p>
 <dl class="genex">
 <dt id="genex:GENEX_EVAL">
 <code class="sig-name descname">$&lt;GENEX_EVAL:expr&gt;</code><a class="headerlink" href="#genex:GENEX_EVAL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Content of <code class="docutils literal notranslate"><span class="pre">expr</span></code> evaluated as a generator expression in the current
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Content of <code class="docutils literal notranslate"><span class="pre">expr</span></code> evaluated as a generator expression in the current
 context. This enables consumption of generator expressions whose
 evaluation results itself in generator expressions.</p>
 </dd></dl>
@@ -685,7 +770,10 @@ evaluation results itself in generator expressions.</p>
 <dl class="genex">
 <dt id="genex:TARGET_GENEX_EVAL">
 <code class="sig-name descname">$&lt;TARGET_GENEX_EVAL:tgt,expr&gt;</code><a class="headerlink" href="#genex:TARGET_GENEX_EVAL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Content of <code class="docutils literal notranslate"><span class="pre">expr</span></code> evaluated as a generator expression in the context of
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Content of <code class="docutils literal notranslate"><span class="pre">expr</span></code> evaluated as a generator expression in the context of
 <code class="docutils literal notranslate"><span class="pre">tgt</span></code> target. This enables consumption of custom target properties that
 themselves contain generator expressions.</p>
 <p>Having the capability to evaluate generator expressions is very useful when
@@ -718,7 +806,7 @@ is passed as is (i.e. <code class="docutils literal notranslate"><span class="pr
 
 </div>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id13">Variable Queries</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id14">Variable Queries</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;CONFIG&gt;</code></dt>
@@ -742,104 +830,139 @@ See also the <span class="target" id="index-1-variable:CMAKE_SYSTEM_NAME"></span
 <dt>
 <code class="sig-name descname">$&lt;C_COMPILER_ID&gt;</code></dt>
 <dd><p>The CMake's compiler id of the C compiler used.
-See also the <span class="target" id="index-7-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+See also the <span class="target" id="index-8-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;CXX_COMPILER_ID&gt;</code></dt>
 <dd><p>The CMake's compiler id of the CXX compiler used.
-See also the <span class="target" id="index-8-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+See also the <span class="target" id="index-9-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;CUDA_COMPILER_ID&gt;</code></dt>
 <dd><p>The CMake's compiler id of the CUDA compiler used.
-See also the <span class="target" id="index-9-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
-</dd></dl>
-
-<dl class="genex">
-<dt>
-<code class="sig-name descname">$&lt;OBJC_COMPILER_ID&gt;</code></dt>
-<dd><p>The CMake's compiler id of the OBJC compiler used.
 See also the <span class="target" id="index-10-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
-<code class="sig-name descname">$&lt;OBJCXX_COMPILER_ID&gt;</code></dt>
-<dd><p>The CMake's compiler id of the OBJCXX compiler used.
+<code class="sig-name descname">$&lt;OBJC_COMPILER_ID&gt;</code></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>The CMake's compiler id of the OBJC compiler used.
 See also the <span class="target" id="index-11-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
+<dt>
+<code class="sig-name descname">$&lt;OBJCXX_COMPILER_ID&gt;</code></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>The CMake's compiler id of the OBJCXX compiler used.
+See also the <span class="target" id="index-12-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;Fortran_COMPILER_ID&gt;</code></dt>
 <dd><p>The CMake's compiler id of the Fortran compiler used.
-See also the <span class="target" id="index-12-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+See also the <span class="target" id="index-13-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
+<dt>
+<code class="sig-name descname">$&lt;HIP_COMPILER_ID&gt;</code></dt>
+<dd><p>The CMake's compiler id of the HIP compiler used.
+See also the <span class="target" id="index-14-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;ISPC_COMPILER_ID&gt;</code></dt>
-<dd><p>The CMake's compiler id of the ISPC compiler used.
-See also the <span class="target" id="index-13-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>The CMake's compiler id of the ISPC compiler used.
+See also the <span class="target" id="index-15-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_ID</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;C_COMPILER_VERSION&gt;</code></dt>
 <dd><p>The version of the C compiler used.
-See also the <span class="target" id="index-8-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+See also the <span class="target" id="index-9-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;CXX_COMPILER_VERSION&gt;</code></dt>
 <dd><p>The version of the CXX compiler used.
-See also the <span class="target" id="index-9-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+See also the <span class="target" id="index-10-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;CUDA_COMPILER_VERSION&gt;</code></dt>
 <dd><p>The version of the CUDA compiler used.
-See also the <span class="target" id="index-10-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
-</dd></dl>
-
-<dl class="genex">
-<dt>
-<code class="sig-name descname">$&lt;OBJC_COMPILER_VERSION&gt;</code></dt>
-<dd><p>The version of the OBJC compiler used.
 See also the <span class="target" id="index-11-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
-<code class="sig-name descname">$&lt;OBJCXX_COMPILER_VERSION&gt;</code></dt>
-<dd><p>The version of the OBJCXX compiler used.
+<code class="sig-name descname">$&lt;OBJC_COMPILER_VERSION&gt;</code></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>The version of the OBJC compiler used.
 See also the <span class="target" id="index-12-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
+<dt>
+<code class="sig-name descname">$&lt;OBJCXX_COMPILER_VERSION&gt;</code></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>The version of the OBJCXX compiler used.
+See also the <span class="target" id="index-13-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;Fortran_COMPILER_VERSION&gt;</code></dt>
 <dd><p>The version of the Fortran compiler used.
-See also the <span class="target" id="index-13-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
-</dd></dl>
-
-<dl class="genex">
-<dt>
-<code class="sig-name descname">$&lt;ISPC_COMPILER_VERSION&gt;</code></dt>
-<dd><p>The version of the ISPC compiler used.
 See also the <span class="target" id="index-14-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt>
+<code class="sig-name descname">$&lt;HIP_COMPILER_VERSION&gt;</code></dt>
+<dd><p>The version of the HIP compiler used.
+See also the <span class="target" id="index-15-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
+<dt>
+<code class="sig-name descname">$&lt;ISPC_COMPILER_VERSION&gt;</code></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>The version of the ISPC compiler used.
+See also the <span class="target" id="index-16-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="genex">
+<dt>
 <code class="sig-name descname">$&lt;COMPILE_LANGUAGE&gt;</code></dt>
-<dd><p>The compile language of source files when evaluating compile options.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>The compile language of source files when evaluating compile options.
 See <a class="reference internal" href="#boolean-compile-language-generator-expression"><span class="std std-ref">the related boolean expression</span></a>
 <code class="docutils literal notranslate"><span class="pre">$&lt;COMPILE_LANGUAGE:language&gt;</span></code>
 for notes about the portability of this generator expression.</p>
@@ -848,7 +971,10 @@ for notes about the portability of this generator expression.</p>
 <dl class="genex">
 <dt>
 <code class="sig-name descname">$&lt;LINK_LANGUAGE&gt;</code></dt>
-<dd><p>The link language of target when evaluating link options.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>The link language of target when evaluating link options.
 See <a class="reference internal" href="#boolean-link-language-generator-expression"><span class="std std-ref">the related boolean expression</span></a> <code class="docutils literal notranslate"><span class="pre">$&lt;LINK_LANGUAGE:language&gt;</span></code>
 for notes about the portability of this generator expression.</p>
 <div class="admonition note">
@@ -861,7 +987,7 @@ these properties.</p>
 
 </div>
 <div class="section" id="target-dependent-queries">
-<h3><a class="toc-backref" href="#id14">Target-Dependent Queries</a><a class="headerlink" href="#target-dependent-queries" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3><a class="toc-backref" href="#id15">Target-Dependent Queries</a><a class="headerlink" href="#target-dependent-queries" title="Permalink to this headline">¶</a></h3>
 <p>These queries refer to a target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>. This can be any runtime artifact,
 namely:</p>
 <ul class="simple">
@@ -876,7 +1002,10 @@ which is just the string <code class="docutils literal notranslate"><span class=
 <dl class="genex">
 <dt id="genex:TARGET_NAME_IF_EXISTS">
 <code class="sig-name descname">$&lt;TARGET_NAME_IF_EXISTS:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_NAME_IF_EXISTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>The target name <code class="docutils literal notranslate"><span class="pre">tgt</span></code> if the target exists, an empty string otherwise.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>The target name <code class="docutils literal notranslate"><span class="pre">tgt</span></code> if the target exists, an empty string otherwise.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
 </dd></dl>
@@ -890,7 +1019,10 @@ expression is evaluated on.</p>
 <dl class="genex">
 <dt id="genex:TARGET_FILE_BASE_NAME">
 <code class="sig-name descname">$&lt;TARGET_FILE_BASE_NAME:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_FILE_BASE_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base name of <code class="docutils literal notranslate"><span class="pre">tgt</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_NAME:tgt&gt;</span></code> without prefix and
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Base name of <code class="docutils literal notranslate"><span class="pre">tgt</span></code>, i.e. <code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_FILE_NAME:tgt&gt;</span></code> without prefix and
 suffix.
 For example, if the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename is <code class="docutils literal notranslate"><span class="pre">libbase.so</span></code>, the base name is <code class="docutils literal notranslate"><span class="pre">base</span></code>.</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/OUTPUT_NAME.html#prop_tgt:OUTPUT_NAME" title="OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OUTPUT_NAME</span></code></a>, <span class="target" id="index-0-prop_tgt:ARCHIVE_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/ARCHIVE_OUTPUT_NAME.html#prop_tgt:ARCHIVE_OUTPUT_NAME" title="ARCHIVE_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ARCHIVE_OUTPUT_NAME</span></code></a>,
@@ -908,7 +1040,10 @@ expression is evaluated on.</p>
 <dl class="genex">
 <dt id="genex:TARGET_FILE_PREFIX">
 <code class="sig-name descname">$&lt;TARGET_FILE_PREFIX:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_FILE_PREFIX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prefix of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename (such as <code class="docutils literal notranslate"><span class="pre">lib</span></code>).</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Prefix of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename (such as <code class="docutils literal notranslate"><span class="pre">lib</span></code>).</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:PREFIX"></span><a class="reference internal" href="../prop_tgt/PREFIX.html#prop_tgt:PREFIX" title="PREFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PREFIX</span></code></a> target property.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
@@ -917,7 +1052,10 @@ expression is evaluated on.</p>
 <dl class="genex">
 <dt id="genex:TARGET_FILE_SUFFIX">
 <code class="sig-name descname">$&lt;TARGET_FILE_SUFFIX:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_FILE_SUFFIX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Suffix of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename (extension such as <code class="docutils literal notranslate"><span class="pre">.so</span></code> or <code class="docutils literal notranslate"><span class="pre">.exe</span></code>).</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Suffix of the <code class="docutils literal notranslate"><span class="pre">tgt</span></code> filename (extension such as <code class="docutils literal notranslate"><span class="pre">.so</span></code> or <code class="docutils literal notranslate"><span class="pre">.exe</span></code>).</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:SUFFIX"></span><a class="reference internal" href="../prop_tgt/SUFFIX.html#prop_tgt:SUFFIX" title="SUFFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SUFFIX</span></code></a> target property.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on.</p>
@@ -951,7 +1089,10 @@ import library associated with the DLL.</p>
 <dl class="genex">
 <dt id="genex:TARGET_LINKER_FILE_BASE_NAME">
 <code class="sig-name descname">$&lt;TARGET_LINKER_FILE_BASE_NAME:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_LINKER_FILE_BASE_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base name of file used to link the target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>, i.e.
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Base name of file used to link the target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>, i.e.
 <code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_LINKER_FILE_NAME:tgt&gt;</span></code> without prefix and suffix. For example,
 if target file name is <code class="docutils literal notranslate"><span class="pre">libbase.a</span></code>, the base name is <code class="docutils literal notranslate"><span class="pre">base</span></code>.</p>
 <p>See also the <span class="target" id="index-1-prop_tgt:OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/OUTPUT_NAME.html#prop_tgt:OUTPUT_NAME" title="OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OUTPUT_NAME</span></code></a>, <span class="target" id="index-1-prop_tgt:ARCHIVE_OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/ARCHIVE_OUTPUT_NAME.html#prop_tgt:ARCHIVE_OUTPUT_NAME" title="ARCHIVE_OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ARCHIVE_OUTPUT_NAME</span></code></a>,
@@ -968,7 +1109,10 @@ expression is evaluated on.</p>
 <dl class="genex">
 <dt id="genex:TARGET_LINKER_FILE_PREFIX">
 <code class="sig-name descname">$&lt;TARGET_LINKER_FILE_PREFIX:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_LINKER_FILE_PREFIX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prefix of file used to link target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Prefix of file used to link target <code class="docutils literal notranslate"><span class="pre">tgt</span></code>.</p>
 <p>See also the <span class="target" id="index-1-prop_tgt:PREFIX"></span><a class="reference internal" href="../prop_tgt/PREFIX.html#prop_tgt:PREFIX" title="PREFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PREFIX</span></code></a> and <span class="target" id="index-0-prop_tgt:IMPORT_PREFIX"></span><a class="reference internal" href="../prop_tgt/IMPORT_PREFIX.html#prop_tgt:IMPORT_PREFIX" title="IMPORT_PREFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORT_PREFIX</span></code></a> target
 properties.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
@@ -978,7 +1122,10 @@ expression is evaluated on.</p>
 <dl class="genex">
 <dt id="genex:TARGET_LINKER_FILE_SUFFIX">
 <code class="sig-name descname">$&lt;TARGET_LINKER_FILE_SUFFIX:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_LINKER_FILE_SUFFIX" title="Permalink to this definition">¶</a></dt>
-<dd><p>Suffix of file used to link where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Suffix of file used to link where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
 <p>The suffix corresponds to the file extension (such as &quot;.so&quot; or &quot;.lib&quot;).</p>
 <p>See also the <span class="target" id="index-1-prop_tgt:SUFFIX"></span><a class="reference internal" href="../prop_tgt/SUFFIX.html#prop_tgt:SUFFIX" title="SUFFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SUFFIX</span></code></a> and <span class="target" id="index-0-prop_tgt:IMPORT_SUFFIX"></span><a class="reference internal" href="../prop_tgt/IMPORT_SUFFIX.html#prop_tgt:IMPORT_SUFFIX" title="IMPORT_SUFFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORT_SUFFIX</span></code></a> target
 properties.</p>
@@ -1027,7 +1174,10 @@ expression is evaluated on (see policy <span class="target" id="index-5-policy:C
 <dl class="genex">
 <dt id="genex:TARGET_PDB_FILE">
 <code class="sig-name descname">$&lt;TARGET_PDB_FILE:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_PDB_FILE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Full path to the linker generated program database file (.pdb)
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Full path to the linker generated program database file (.pdb)
 where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
 <p>See also the <span class="target" id="index-0-prop_tgt:PDB_NAME"></span><a class="reference internal" href="../prop_tgt/PDB_NAME.html#prop_tgt:PDB_NAME" title="PDB_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PDB_NAME</span></code></a> and <span class="target" id="index-0-prop_tgt:PDB_OUTPUT_DIRECTORY"></span><a class="reference internal" href="../prop_tgt/PDB_OUTPUT_DIRECTORY.html#prop_tgt:PDB_OUTPUT_DIRECTORY" title="PDB_OUTPUT_DIRECTORY"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PDB_OUTPUT_DIRECTORY</span></code></a>
 target properties and their configuration specific variants
@@ -1037,7 +1187,10 @@ target properties and their configuration specific variants
 <dl class="genex">
 <dt id="genex:TARGET_PDB_FILE_BASE_NAME">
 <code class="sig-name descname">$&lt;TARGET_PDB_FILE_BASE_NAME:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_PDB_FILE_BASE_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base name of the linker generated program database file (.pdb)
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.15.</span></p>
+</div>
+<p>Base name of the linker generated program database file (.pdb)
 where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
 <p>The base name corresponds to the target PDB file name (see
 <code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_PDB_FILE_NAME:tgt&gt;</span></code>) without prefix and suffix. For example,
@@ -1053,7 +1206,10 @@ expression is evaluated on.</p>
 <dl class="genex">
 <dt id="genex:TARGET_PDB_FILE_NAME">
 <code class="sig-name descname">$&lt;TARGET_PDB_FILE_NAME:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_PDB_FILE_NAME" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name of the linker generated program database file (.pdb).</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Name of the linker generated program database file (.pdb).</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on (see policy <span class="target" id="index-6-policy:CMP0112"></span><a class="reference internal" href="../policy/CMP0112.html#policy:CMP0112" title="CMP0112"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0112</span></code></a>).</p>
 </dd></dl>
@@ -1061,7 +1217,10 @@ expression is evaluated on (see policy <span class="target" id="index-6-policy:C
 <dl class="genex">
 <dt id="genex:TARGET_PDB_FILE_DIR">
 <code class="sig-name descname">$&lt;TARGET_PDB_FILE_DIR:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_PDB_FILE_DIR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Directory of the linker generated program database file (.pdb).</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Directory of the linker generated program database file (.pdb).</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on (see policy <span class="target" id="index-7-policy:CMP0112"></span><a class="reference internal" href="../policy/CMP0112.html#policy:CMP0112" title="CMP0112"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0112</span></code></a>).</p>
 </dd></dl>
@@ -1069,7 +1228,10 @@ expression is evaluated on (see policy <span class="target" id="index-7-policy:C
 <dl class="genex">
 <dt id="genex:TARGET_BUNDLE_DIR">
 <code class="sig-name descname">$&lt;TARGET_BUNDLE_DIR:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_BUNDLE_DIR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Full path to the bundle directory (<code class="docutils literal notranslate"><span class="pre">my.app</span></code>, <code class="docutils literal notranslate"><span class="pre">my.framework</span></code>, or
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>Full path to the bundle directory (<code class="docutils literal notranslate"><span class="pre">my.app</span></code>, <code class="docutils literal notranslate"><span class="pre">my.framework</span></code>, or
 <code class="docutils literal notranslate"><span class="pre">my.bundle</span></code>) where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a target.</p>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is not added as a dependency of the target this
 expression is evaluated on (see policy <span class="target" id="index-8-policy:CMP0112"></span><a class="reference internal" href="../policy/CMP0112.html#policy:CMP0112" title="CMP0112"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0112</span></code></a>).</p>
@@ -1078,7 +1240,10 @@ expression is evaluated on (see policy <span class="target" id="index-8-policy:C
 <dl class="genex">
 <dt id="genex:TARGET_BUNDLE_CONTENT_DIR">
 <code class="sig-name descname">$&lt;TARGET_BUNDLE_CONTENT_DIR:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_BUNDLE_CONTENT_DIR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Full path to the bundle content directory where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>Full path to the bundle content directory where <code class="docutils literal notranslate"><span class="pre">tgt</span></code> is the name of a
 target. For the macOS SDK it leads to <code class="docutils literal notranslate"><span class="pre">my.app/Contents</span></code>, <code class="docutils literal notranslate"><span class="pre">my.framework</span></code>,
 or <code class="docutils literal notranslate"><span class="pre">my.bundle/Contents</span></code>. For all other SDKs (e.g. iOS) it leads to
 <code class="docutils literal notranslate"><span class="pre">my.app</span></code>, <code class="docutils literal notranslate"><span class="pre">my.framework</span></code>, or <code class="docutils literal notranslate"><span class="pre">my.bundle</span></code> due to the flat bundle
@@ -1105,16 +1270,52 @@ than the target specifying the requirement.</p>
 </dd></dl>
 
 <dl class="genex">
+<dt id="genex:TARGET_RUNTIME_DLLS">
+<code class="sig-name descname">$&lt;TARGET_RUNTIME_DLLS:tgt&gt;</code><a class="headerlink" href="#genex:TARGET_RUNTIME_DLLS" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>List of DLLs that the target depends on at runtime. This is determined by
+the locations of all the <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> and <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> targets in the target's
+transitive dependencies. Using this generator expression on targets other
+than executables, <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> libraries, and <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> libraries is an error.
+On non-DLL platforms, it evaluates to an empty string.</p>
+<p>This generator expression can be used to copy all of the DLLs that a target
+depends on into its output directory in a <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> custom command. For
+example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">foo</span><span class="w"> </span><span class="no">CONFIG</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span><span class="w"> </span><span class="c"># package generated by install(EXPORT)</span>
+
+<span class="nf">add_executable(</span><span class="nb">exe</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">target_link_libraries(</span><span class="nb">exe</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">foo</span><span class="o">::</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo</span><span class="o">::</span><span class="nb">bar</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">add_custom_command(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span><span class="w"> </span><span class="no">POST_BUILD</span><span class="w"></span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">copy</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">TARGET_RUNTIME_DLLS</span><span class="o">:</span><span class="nb">exe</span><span class="o">&gt;</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">TARGET_FILE_DIR</span><span class="o">:</span><span class="nb">exe</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="no">COMMAND_EXPAND_LISTS</span><span class="w"></span>
+<span class="w">  </span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> are supported only if they know the location
+of their <code class="docutils literal notranslate"><span class="pre">.dll</span></code> files.  An imported <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> or <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> library
+must have <span class="target" id="index-0-prop_tgt:IMPORTED_LOCATION"></span><a class="reference internal" href="../prop_tgt/IMPORTED_LOCATION.html#prop_tgt:IMPORTED_LOCATION" title="IMPORTED_LOCATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_LOCATION</span></code></a> set to its <code class="docutils literal notranslate"><span class="pre">.dll</span></code> file.  See
+the <a class="reference internal" href="../command/add_library.html#add-library-imported-libraries"><span class="std std-ref">add_library imported libraries</span></a>
+section for details.  Many <a class="reference internal" href="cmake-developer.7.html#find-modules"><span class="std std-ref">Find Modules</span></a> produce imported targets
+with the <code class="docutils literal notranslate"><span class="pre">UNKNOWN</span></code> type and therefore will be ignored.</p>
+</div>
+</dd></dl>
+
+<dl class="genex">
 <dt id="genex:INSTALL_PREFIX">
 <code class="sig-name descname">$&lt;INSTALL_PREFIX&gt;</code><a class="headerlink" href="#genex:INSTALL_PREFIX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Content of the install prefix when the target is exported via
-<span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>, or when evaluated in
-<span class="target" id="index-0-prop_tgt:INSTALL_NAME_DIR"></span><a class="reference internal" href="../prop_tgt/INSTALL_NAME_DIR.html#prop_tgt:INSTALL_NAME_DIR" title="INSTALL_NAME_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INSTALL_NAME_DIR</span></code></a>, and empty otherwise.</p>
+<span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>, or when evaluated in the
+<span class="target" id="index-0-prop_tgt:INSTALL_NAME_DIR"></span><a class="reference internal" href="../prop_tgt/INSTALL_NAME_DIR.html#prop_tgt:INSTALL_NAME_DIR" title="INSTALL_NAME_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INSTALL_NAME_DIR</span></code></a> property or the <code class="docutils literal notranslate"><span class="pre">INSTALL_NAME_DIR</span></code> argument of
+<span class="target" id="index-1-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(RUNTIME_DEPENDENCY_SET)</span></code></a>, and empty otherwise.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="output-related-expressions">
-<h3><a class="toc-backref" href="#id15">Output-Related Expressions</a><a class="headerlink" href="#output-related-expressions" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Output-Related Expressions</a><a class="headerlink" href="#output-related-expressions" title="Permalink to this headline">¶</a></h3>
 <dl class="genex">
 <dt id="genex:TARGET_NAME">
 <code class="sig-name descname">$&lt;TARGET_NAME:...&gt;</code><a class="headerlink" href="#genex:TARGET_NAME" title="Permalink to this definition">¶</a></dt>
@@ -1126,7 +1327,10 @@ name of a target- it may not contain generator expressions.</p>
 <dl class="genex">
 <dt id="genex:LINK_ONLY">
 <code class="sig-name descname">$&lt;LINK_ONLY:...&gt;</code><a class="headerlink" href="#genex:LINK_ONLY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Content of <code class="docutils literal notranslate"><span class="pre">...</span></code> except when evaluated in a link interface while
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Content of <code class="docutils literal notranslate"><span class="pre">...</span></code> except when evaluated in a link interface while
 propagating <a class="reference internal" href="cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">Transitive Usage Requirements</span></a>, in which case it is the
 empty string.
 Intended for use only in an <span class="target" id="index-0-prop_tgt:INTERFACE_LINK_LIBRARIES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a> target
@@ -1137,7 +1341,7 @@ to specify private link dependencies without other usage requirements.</p>
 <dl class="genex">
 <dt id="genex:INSTALL_INTERFACE">
 <code class="sig-name descname">$&lt;INSTALL_INTERFACE:...&gt;</code><a class="headerlink" href="#genex:INSTALL_INTERFACE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Content of <code class="docutils literal notranslate"><span class="pre">...</span></code> when the property is exported using <span class="target" id="index-1-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>,
+<dd><p>Content of <code class="docutils literal notranslate"><span class="pre">...</span></code> when the property is exported using <span class="target" id="index-2-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>,
 and empty otherwise.</p>
 </dd></dl>
 
@@ -1159,20 +1363,28 @@ same behavior as <span class="target" id="index-0-command:string"></span><a clas
 <dl class="genex">
 <dt id="genex:TARGET_OBJECTS">
 <code class="sig-name descname">$&lt;TARGET_OBJECTS:objLib&gt;</code><a class="headerlink" href="#genex:TARGET_OBJECTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of objects resulting from build of <code class="docutils literal notranslate"><span class="pre">objLib</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>List of objects resulting from build of <code class="docutils literal notranslate"><span class="pre">objLib</span></code>.</p>
 </dd></dl>
 
 <dl class="genex">
 <dt id="genex:SHELL_PATH">
 <code class="sig-name descname">$&lt;SHELL_PATH:...&gt;</code><a class="headerlink" href="#genex:SHELL_PATH" title="Permalink to this definition">¶</a></dt>
-<dd><p>Content of <code class="docutils literal notranslate"><span class="pre">...</span></code> converted to shell path style. For example, slashes are
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>Content of <code class="docutils literal notranslate"><span class="pre">...</span></code> converted to shell path style. For example, slashes are
 converted to backslashes in Windows shells and drive letters are converted
-to posix paths in MSYS shells. The <code class="docutils literal notranslate"><span class="pre">...</span></code> must be an absolute path.
-The <code class="docutils literal notranslate"><span class="pre">...</span></code> may be a <a class="reference internal" href="cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a>
+to posix paths in MSYS shells. The <code class="docutils literal notranslate"><span class="pre">...</span></code> must be an absolute path.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>The <code class="docutils literal notranslate"><span class="pre">...</span></code> may be a <a class="reference internal" href="cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a>
 of paths, in which case each path is converted individually and a result
 list is generated using the shell path separator (<code class="docutils literal notranslate"><span class="pre">:</span></code> on POSIX and
 <code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows).  Be sure to enclose the argument containing this genex
 in double quotes in CMake source code so that <code class="docutils literal notranslate"><span class="pre">;</span></code> does not split arguments.</p>
+</div>
 </dd></dl>
 
 <dl class="genex">
@@ -1204,7 +1416,7 @@ With other generators, the content of <code class="docutils literal notranslate"
 </div>
 </div>
 <div class="section" id="debugging">
-<h2><a class="toc-backref" href="#id16">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">Debugging</a><a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
 <p>Since generator expressions are evaluated during generation of the buildsystem,
 and not during processing of <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files, it is not possible to
 inspect their result with the <span class="target" id="index-0-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message()</span></code></a> command.</p>
@@ -1298,7 +1510,7 @@ would then print the result of <code class="docutils literal notranslate"><span 
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>

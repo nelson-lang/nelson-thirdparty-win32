@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>LINK_WHAT_YOU_USE &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>LINK_WHAT_YOU_USE &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -61,14 +61,20 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.7.</span></p>
 </div>
-<p>This is a boolean option that when set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> will automatically run
-<code class="docutils literal notranslate"><span class="pre">ldd</span> <span class="pre">-r</span> <span class="pre">-u</span></code> on the target after it is linked. In addition, the linker flag
-<code class="docutils literal notranslate"><span class="pre">-Wl,--no-as-needed</span></code> will be passed to the target with the link command so
-that all libraries specified on the command line will be linked into the
-target. This will result in the link producing a list of libraries that
-provide no symbols used by this target but are being linked to it.
-This is only applicable to executable and shared library targets and
-will only work when ld and ldd accept the flags used.</p>
+<p>This is a boolean option that, when set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, will automatically run
+contents of variable <span class="target" id="index-0-variable:CMAKE_LINK_WHAT_YOU_USE_CHECK"></span><a class="reference internal" href="../variable/CMAKE_LINK_WHAT_YOU_USE_CHECK.html#variable:CMAKE_LINK_WHAT_YOU_USE_CHECK" title="CMAKE_LINK_WHAT_YOU_USE_CHECK"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_LINK_WHAT_YOU_USE_CHECK</span></code></a> on the target
+after it is linked. In addition, the linker flag specified by variable
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_LINK_WHAT_YOU_USE_FLAG"></span><a class="reference internal" href="../variable/CMAKE_LANG_LINK_WHAT_YOU_USE_FLAG.html#variable:CMAKE_&lt;LANG&gt;_LINK_WHAT_YOU_USE_FLAG" title="CMAKE_&lt;LANG&gt;_LINK_WHAT_YOU_USE_FLAG"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_LINK_WHAT_YOU_USE_FLAG</span></code></a>  will be passed to the target
+with the link command so that all libraries specified on the command line will
+be linked into the target. This will result in the link producing a list of
+libraries that provide no symbols used by this target but are being linked to
+it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For now, it is only supported for <code class="docutils literal notranslate"><span class="pre">ELF</span></code> platforms and is only applicable to
+executable and shared or module library targets. This property will be
+ignored for any other targets and configurations.</p>
+</div>
 <p>This property is initialized by the value of
 the <span class="target" id="index-0-variable:CMAKE_LINK_WHAT_YOU_USE"></span><a class="reference internal" href="../variable/CMAKE_LINK_WHAT_YOU_USE.html#variable:CMAKE_LINK_WHAT_YOU_USE" title="CMAKE_LINK_WHAT_YOU_USE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_LINK_WHAT_YOU_USE</span></code></a> variable if it is set
 when a target is created.</p>
@@ -127,7 +133,7 @@ when a target is created.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 

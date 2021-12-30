@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>AUTOMOC &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>AUTOMOC &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
@@ -60,9 +60,9 @@
 <span id="prop_tgt:AUTOMOC"></span><h1>AUTOMOC<a class="headerlink" href="#automoc" title="Permalink to this headline">¶</a></h1>
 <p>Should the target be processed with auto-moc (for Qt projects).</p>
 <p><span class="target" id="index-0-prop_tgt:AUTOMOC"></span><a class="reference internal" href="#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> is a boolean specifying whether CMake will handle the Qt
-<code class="docutils literal notranslate"><span class="pre">moc</span></code> preprocessor automatically, i.e.  without having to use the
-<span class="target" id="index-0-module:FindQt4"></span><a class="reference internal" href="../module/FindQt4.html#module:FindQt4" title="FindQt4"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">QT4_WRAP_CPP()</span></code></a> or <code class="docutils literal notranslate"><span class="pre">QT5_WRAP_CPP()</span></code> macro.
-Currently Qt4 and Qt5 are supported.</p>
+<code class="docutils literal notranslate"><span class="pre">moc</span></code> preprocessor automatically, i.e.  without having to use commands like
+<span class="target" id="index-0-module:FindQt4"></span><a class="reference internal" href="../module/FindQt4.html#module:FindQt4" title="FindQt4"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">QT4_WRAP_CPP()</span></code></a>, <code class="docutils literal notranslate"><span class="pre">QT5_WRAP_CPP()</span></code>, etc.
+Currently, Qt versions 4 to 6 are supported.</p>
 <p>This property is initialized by the value of the <span class="target" id="index-0-variable:CMAKE_AUTOMOC"></span><a class="reference internal" href="../variable/CMAKE_AUTOMOC.html#variable:CMAKE_AUTOMOC" title="CMAKE_AUTOMOC"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_AUTOMOC</span></code></a>
 variable if it is set when a target is created.</p>
 <p>When this property is set <code class="docutils literal notranslate"><span class="pre">ON</span></code>, CMake will scan the header and
@@ -183,10 +183,13 @@ CMake generated file</p>
 <h2>Qt version detection<a class="headerlink" href="#qt-version-detection" title="Permalink to this headline">¶</a></h2>
 <p><span class="target" id="index-2-prop_tgt:AUTOMOC"></span><a class="reference internal" href="#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> enabled targets need to know the Qt major and minor
 version they're working with.  The major version usually is provided by the
-<code class="docutils literal notranslate"><span class="pre">INTERFACE_QT_MAJOR_VERSION</span></code> property of the <code class="docutils literal notranslate"><span class="pre">Qt[45]Core</span></code> library,
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_QT_MAJOR_VERSION</span></code> property of the <code class="docutils literal notranslate"><span class="pre">Qt[456]Core</span></code> library,
 that the target links to.  To find the minor version, CMake builds a list of
 available Qt versions from</p>
 <ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Qt6Core_VERSION_MAJOR</span></code> and <code class="docutils literal notranslate"><span class="pre">Qt6Core_VERSION_MINOR</span></code> variables
+(usually set by <code class="docutils literal notranslate"><span class="pre">find_package(Qt6...)</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Qt6Core_VERSION_MAJOR</span></code> and <code class="docutils literal notranslate"><span class="pre">Qt6Core_VERSION_MINOR</span></code> directory properties</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Qt5Core_VERSION_MAJOR</span></code> and <code class="docutils literal notranslate"><span class="pre">Qt5Core_VERSION_MINOR</span></code> variables
 (usually set by <code class="docutils literal notranslate"><span class="pre">find_package(Qt5...)</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Qt5Core_VERSION_MAJOR</span></code> and <code class="docutils literal notranslate"><span class="pre">Qt5Core_VERSION_MINOR</span></code> directory properties</p></li>
@@ -200,13 +203,13 @@ entry in the list with a matching major version is taken.  If no matching major
 version was found, an error is generated.
 If  <code class="docutils literal notranslate"><span class="pre">INTERFACE_QT_MAJOR_VERSION</span></code> is not a valid number, the first
 entry in the list is taken.</p>
-<p>A <code class="docutils literal notranslate"><span class="pre">find_package(Qt[45]...)</span></code> call sets the <code class="docutils literal notranslate"><span class="pre">QT/Qt5Core_VERSION_MAJOR/MINOR</span></code>
+<p>A <code class="docutils literal notranslate"><span class="pre">find_package(Qt[456]...)</span></code> call sets the <code class="docutils literal notranslate"><span class="pre">QT/Qt[56]Core_VERSION_MAJOR/MINOR</span></code>
 variables.  If the call is in a different context than the
 <span class="target" id="index-1-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> or <span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> call, e.g. in a function,
 then the version variables might not be available to the <span class="target" id="index-3-prop_tgt:AUTOMOC"></span><a class="reference internal" href="#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a>
 enabled target.
 In that case the version variables can be forwarded from the
-<code class="docutils literal notranslate"><span class="pre">find_package(Qt[45]...)</span></code> calling context to the <span class="target" id="index-2-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>
+<code class="docutils literal notranslate"><span class="pre">find_package(Qt[456]...)</span></code> calling context to the <span class="target" id="index-2-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>
 or <span class="target" id="index-2-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> calling context as directory properties.
 The following Qt5 example demonstrates the procedure.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">function</span> <span class="nf">(</span><span class="nb">add_qt5_client</span><span class="nf">)</span><span class="w"></span>
@@ -340,7 +343,7 @@ with Qt.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 

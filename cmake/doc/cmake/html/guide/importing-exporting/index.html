@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>Importing and Exporting Guide &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>Importing and Exporting Guide &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>
@@ -259,11 +259,17 @@ project. Start by specifying the <span class="target" id="index-0-command:cmake_
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.15</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">project(</span><span class="nb">MathFunctions</span><span class="nf">)</span><span class="w"></span>
 
+<span class="c"># make cache variables for install destinations</span>
+<span class="nf">include(</span><span class="nb">GNUInstallDirs</span><span class="nf">)</span><span class="w"></span>
+
 <span class="c"># specify the C++ standard</span>
 <span class="nf">set(</span><span class="no">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="m">11</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">set(</span><span class="no">CMAKE_CXX_STANDARD_REQUIRED</span><span class="w"> </span><span class="nb">True</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
+<p>The <span class="target" id="index-0-module:GNUInstallDirs"></span><a class="reference internal" href="../../module/GNUInstallDirs.html#module:GNUInstallDirs" title="GNUInstallDirs"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">GNUInstallDirs</span></code></a> module is included in order to provide the
+project with the flexibility to install into different platform layouts by
+making the directories available as cache variables.</p>
 <p>Create a library called <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> with the <span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="../../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a>
 command:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">MathFunctions.cxx</span><span class="nf">)</span><span class="w"></span>
@@ -274,7 +280,7 @@ include directories for the target:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_include_directories(</span><span class="nb">MathFunctions</span><span class="w"></span>
 <span class="w">                           </span><span class="no">PUBLIC</span><span class="w"></span>
 <span class="w">                           </span><span class="s">&quot;$&lt;BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}&gt;&quot;</span><span class="w"></span>
-<span class="w">                           </span><span class="s">&quot;$&lt;INSTALL_INTERFACE:include&gt;&quot;</span><span class="w"></span>
+<span class="w">                           </span><span class="s">&quot;$&lt;INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}&gt;&quot;</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -295,10 +301,10 @@ the <code class="docutils literal notranslate"><span class="pre">EXPORT</span></
 targets.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"></span>
 <span class="w">        </span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span><span class="w"></span>
-<span class="w">        </span><span class="no">LIBRARY</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="w"></span>
-<span class="w">        </span><span class="no">ARCHIVE</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="w"></span>
-<span class="w">        </span><span class="no">RUNTIME</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">bin</span><span class="w"></span>
-<span class="w">        </span><span class="no">INCLUDES</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="w"></span>
+<span class="w">        </span><span class="no">LIBRARY</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">ARCHIVE</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">RUNTIME</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_BINDIR</span><span class="o">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">INCLUDES</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_INCLUDEDIR</span><span class="o">}</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -322,7 +328,7 @@ relative path was given, it is treated as relative to the
 <span class="target" id="index-3-command:install"></span><a class="reference internal" href="../../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(FILES)</span></code></a> command. The header file should be installed to the
 <code class="docutils literal notranslate"><span class="pre">include</span></code> directory, as specified by the
 <span class="target" id="index-1-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> command above.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="nb">MathFunctions.h</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="nb">MathFunctions.h</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_INCLUDEDIR</span><span class="o">}</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Now that the <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> library and header file are installed, we also
@@ -333,7 +339,7 @@ command.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span><span class="w"></span>
 <span class="w">        </span><span class="no">FILE</span><span class="w"> </span><span class="nb">MathFunctionsTargets.cmake</span><span class="w"></span>
 <span class="w">        </span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="o">::</span><span class="w"></span>
-<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span><span class="w"></span>
+<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -421,7 +427,7 @@ We will examine the contents of the package configuration file in the next
 section.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">configure_package_config_file(</span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/Config.cmake.in</span><span class="w"></span>
 <span class="w">  </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="no">INSTALL_DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span><span class="w"></span>
+<span class="w">  </span><span class="no">INSTALL_DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -432,7 +438,7 @@ the package.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">FILES</span><span class="w"></span>
 <span class="w">          </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake&quot;</span><span class="w"></span>
 <span class="w">          </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfigVersion.cmake&quot;</span><span class="w"></span>
-<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span><span class="w"></span>
+<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -685,7 +691,7 @@ we'll also specify the C++ standard.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">MathFunctions</span><span class="w"> </span><span class="m">3.4.1</span><span class="w"> </span><span class="no">EXACT</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
-<p>Create an exectuable:</p>
+<p>Create an executable:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">myexe</span><span class="w"> </span><span class="nb">main.cc</span><span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -730,6 +736,9 @@ for this project adds two subdirectories: <code class="docutils literal notransl
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.15</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">project(</span><span class="nb">MathFunctionsComponents</span><span class="nf">)</span><span class="w"></span>
 
+<span class="c"># make cache variables for install destinations</span>
+<span class="nf">include(</span><span class="nb">GNUInstallDirs</span><span class="nf">)</span><span class="w"></span>
+
 <span class="c"># specify the C++ standard</span>
 <span class="nf">set(</span><span class="no">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="m">11</span><span class="nf">)</span><span class="w"></span>
 <span class="nf">set(</span><span class="no">CMAKE_CXX_STANDARD_REQUIRED</span><span class="w"> </span><span class="nb">True</span><span class="nf">)</span><span class="w"></span>
@@ -754,7 +763,7 @@ for this project adds two subdirectories: <code class="docutils literal notransl
 <span class="c"># create config file</span>
 <span class="nf">configure_package_config_file(</span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/Config.cmake.in</span><span class="w"></span>
 <span class="w">  </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake&quot;</span><span class="w"></span>
-<span class="w">  </span><span class="no">INSTALL_DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span><span class="w"></span>
+<span class="w">  </span><span class="no">INSTALL_DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions</span><span class="w"></span>
 <span class="w">  </span><span class="no">NO_CHECK_REQUIRED_COMPONENTS_MACRO</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 
@@ -762,7 +771,7 @@ for this project adds two subdirectories: <code class="docutils literal notransl
 <span class="nf">install(</span><span class="no">FILES</span><span class="w"></span>
 <span class="w">          </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake&quot;</span><span class="w"></span>
 <span class="w">          </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfigVersion.cmake&quot;</span><span class="w"></span>
-<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span><span class="w"></span>
+<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -800,26 +809,26 @@ of the CMakeLists files:</p>
 <span class="nf">target_include_directories(</span><span class="nb">SquareRoot</span><span class="w"></span>
 <span class="w">                           </span><span class="no">PUBLIC</span><span class="w"></span>
 <span class="w">                           </span><span class="s">&quot;$&lt;BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}&gt;&quot;</span><span class="w"></span>
-<span class="w">                           </span><span class="s">&quot;$&lt;INSTALL_INTERFACE:include&gt;&quot;</span><span class="w"></span>
+<span class="w">                           </span><span class="s">&quot;$&lt;INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}&gt;&quot;</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 
 <span class="c"># install the target and create export-set</span>
 <span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nb">SquareRoot</span><span class="w"></span>
 <span class="w">        </span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">SquareRootTargets</span><span class="w"></span>
-<span class="w">        </span><span class="no">LIBRARY</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="w"></span>
-<span class="w">        </span><span class="no">ARCHIVE</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="w"></span>
-<span class="w">        </span><span class="no">RUNTIME</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">bin</span><span class="w"></span>
-<span class="w">        </span><span class="no">INCLUDES</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="w"></span>
+<span class="w">        </span><span class="no">LIBRARY</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">ARCHIVE</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">RUNTIME</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_BINDIR</span><span class="o">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">INCLUDES</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_INCLUDEDIR</span><span class="o">}</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 
 <span class="c"># install header file</span>
-<span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="nb">SquareRoot.h</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="nb">SquareRoot.h</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_INCLUDEDIR</span><span class="o">}</span><span class="nf">)</span><span class="w"></span>
 
 <span class="c"># generate and install export file</span>
 <span class="nf">install(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">SquareRootTargets</span><span class="w"></span>
 <span class="w">        </span><span class="no">FILE</span><span class="w"> </span><span class="nb">MathFunctionsSquareRootTargets.cmake</span><span class="w"></span>
 <span class="w">        </span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="o">::</span><span class="w"></span>
-<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span><span class="w"></span>
+<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions</span><span class="w"></span>
 <span class="nf">)</span><span class="w"></span>
 </pre></div>
 </div>
@@ -940,7 +949,7 @@ package components.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../../index.html">3.22.1 Documentation</a> &#187;
   </li>
  
       </ul>

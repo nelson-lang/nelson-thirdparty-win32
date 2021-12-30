@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>add_custom_command &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>add_custom_command &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -126,8 +126,10 @@ available before their dependents build.</p>
 <p>The <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> will remove <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> and other
 <span class="target" id="index-1-prop_sf:GENERATED"></span><a class="reference internal" href="../prop_sf/GENERATED.html#prop_sf:GENERATED" title="GENERATED"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">GENERATED</span></code></a> files during <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> may use
-<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<p><span class="versionmodified added">New in version 3.20: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> may use a restricted set of
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.
+<a class="reference internal" href="../manual/cmake-generator-expressions.7.html#target-dependent-queries"><span class="std std-ref">Target-dependent expressions</span></a> are not
+permitted.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></dt><dd><p>Specify the command-line(s) to execute at build time.
@@ -270,8 +272,10 @@ If the output of the custom command is not actually created
 as a file on disk it should be marked with the <span class="target" id="index-0-prop_sf:SYMBOLIC"></span><a class="reference internal" href="../prop_sf/SYMBOLIC.html#prop_sf:SYMBOLIC" title="SYMBOLIC"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SYMBOLIC</span></code></a>
 source file property.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> may use
-<span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<p><span class="versionmodified added">New in version 3.20: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> may use a restricted set of
+<span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.
+<a class="reference internal" href="../manual/cmake-generator-expressions.7.html#target-dependent-queries"><span class="std std-ref">Target-dependent expressions</span></a> are not
+permitted.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">USES_TERMINAL</span></code></dt><dd><div class="versionadded">
@@ -301,25 +305,38 @@ build tree directory corresponding to the current source directory.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.7.</span></p>
 </div>
-<p>Specify a <code class="docutils literal notranslate"><span class="pre">.d</span></code> depfile for the <span class="target" id="index-3-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator and
-<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>.
-A <code class="docutils literal notranslate"><span class="pre">.d</span></code> file holds dependencies usually emitted by the custom
-command itself.
-Using <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> with other generators than <span class="target" id="index-4-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> or
-<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> is an error.</p>
+<p>Specify a <code class="docutils literal notranslate"><span class="pre">.d</span></code> depfile which holds dependencies for the custom command.
+It is usually emitted by the custom command itself.  This keyword may only
+be used if the generator supports it, as detailed below.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span>Added the support of <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>.</p>
+<p><span class="versionmodified added">New in version 3.7: </span>The <span class="target" id="index-3-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator supports <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> since the keyword
+was first added.</p>
 </div>
-<p>If the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> argument is relative, it should be relative to
-<span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>, and any relative paths inside the
-<code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> should also be relative to <span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>
-(see policy <span class="target" id="index-0-policy:CMP0116"></span><a class="reference internal" href="../policy/CMP0116.html#policy:CMP0116" title="CMP0116"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0116</span></code></a>. This policy is always <code class="docutils literal notranslate"><span class="pre">NEW</span></code> for
-<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>).</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17: </span>Added the <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a> generator, which included
+support for the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> keyword.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span>Added support for <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>, this option cannot be specified at the
-same time as <code class="docutils literal notranslate"><span class="pre">IMPLICIT_DEPENDS</span></code> option.</p>
+<p><code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> cannot be specified at the same time as the
+<code class="docutils literal notranslate"><span class="pre">IMPLICIT_DEPENDS</span></code> option for <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>.</p>
 </div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21: </span>Added support for <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> with VS 2012 and above,
+and for the <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator.  Support for
+<span class="target" id="index-6-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a> was also
+added.</p>
+</div>
+<p>Using <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> with generators other than those listed above is an error.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> argument is relative, it should be relative to
+<span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>, and any relative paths inside the
+<code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> should also be relative to <span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>.
+See policy <span class="target" id="index-0-policy:CMP0116"></span><a class="reference internal" href="../policy/CMP0116.html#policy:CMP0116" title="CMP0116"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0116</span></code></a>, which is always <code class="docutils literal notranslate"><span class="pre">NEW</span></code> for
+<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>, <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>,
+and the <span class="target" id="index-1-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator.</p>
 </dd>
 </dl>
 </div>
@@ -358,7 +375,7 @@ source as part of a library.</p>
 </div>
 </div>
 <div class="section" id="build-events">
-<h2>Build Events<a class="headerlink" href="#build-events" title="Permalink to this headline">¶</a></h2>
+<span id="add-custom-command-target"></span><h2>Build Events<a class="headerlink" href="#build-events" title="Permalink to this headline">¶</a></h2>
 <p>The second signature adds a custom command to a target such as a
 library or executable.  This is useful for performing an operation
 before or after building the target.  The command becomes part of the
@@ -403,6 +420,9 @@ lines or custom commands will be omitted for the specific
 configuration and no &quot;empty-string-command&quot; will be added.</p>
 <p>This allows to add individual build events for every configuration.</p>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21: </span>Support for target-dependent generator expressions.</p>
+</div>
 </div>
 <div class="section" id="examples-build-events">
 <h2>Examples: Build Events<a class="headerlink" href="#examples-build-events" title="Permalink to this headline">¶</a></h2>
@@ -439,7 +459,7 @@ executable can use to verify it before loading.</p>
 <div class="section" id="ninja-multi-config">
 <h2>Ninja Multi-Config<a class="headerlink" href="#ninja-multi-config" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">add_custom_command</span></code> supports the <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a>
+<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">add_custom_command</span></code> supports the <span class="target" id="index-1-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a>
 generator's cross-config capabilities. See the generator documentation
 for more information.</p>
 </div>
@@ -511,7 +531,7 @@ for more information.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 

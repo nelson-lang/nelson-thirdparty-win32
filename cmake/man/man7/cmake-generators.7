@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-GENERATORS" "7" "Mar 11, 2021" "3.20.0" "CMake"
+.TH "CMAKE-GENERATORS" "7" "Dec 07, 2021" "3.22.1" "CMake"
 .SH NAME
 cmake-generators \- CMake Generators Reference
 .
@@ -233,7 +233,9 @@ The \fBNinja Multi\-Config\fP generator recognizes the following variables:
 .INDENT 0.0
 .TP
 .B \fBCMAKE_CONFIGURATION_TYPES\fP
-Specifies the total set of configurations to build.
+Specifies the total set of configurations to build. Unlike with other
+multi\-config generators, this variable has a value of
+\fBDebug;Release;RelWithDebInfo\fP by default.
 .TP
 .B \fBCMAKE_CROSS_CONFIGS\fP
 Specifies a semicolon\-separated list of
@@ -455,14 +457,26 @@ Specify target platform matching a Windows CE SDK name.
 .UNINDENT
 .SS Visual Studio 10 2010
 .sp
-Generates Visual Studio 10 (VS 2010) project files.
+Deprecated.  Generates Visual Studio 10 (VS 2010) project files.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This generator is deprecated and will be removed in a future version
+of CMake.  It will still be possible to build with VS 10 2010 tools
+using the \fBVisual Studio 11 2012\fP (or above) generator
+with \fBCMAKE_GENERATOR_TOOLSET\fP set to \fBv100\fP, or by
+using the \fBNMake Makefiles\fP generator.
+.UNINDENT
+.UNINDENT
 .sp
 For compatibility with CMake versions prior to 3.0, one may specify this
 generator using the name \fBVisual Studio 10\fP without the year component.
 .SS Project Types
 .sp
-Only Visual C++ and C# projects may be generated.  Other types of
-projects (Database, Website, etc.) are not supported.
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (Database,
+Website, etc.) are not supported.
 .SS Platform Selection
 .sp
 The default target platform name (architecture) is \fBWin32\fP\&.
@@ -504,8 +518,9 @@ For compatibility with CMake versions prior to 3.0, one may specify this
 generator using the name "Visual Studio 11" without the year component.
 .SS Project Types
 .sp
-Only Visual C++ and C# projects may be generated.  Other types of
-projects (JavaScript, Database, Website, etc.) are not supported.
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (JavaScript,
+Database, Website, etc.) are not supported.
 .SS Platform Selection
 .sp
 The default target platform name (architecture) is \fBWin32\fP\&.
@@ -553,8 +568,9 @@ For compatibility with CMake versions prior to 3.0, one may specify this
 generator using the name "Visual Studio 12" without the year component.
 .SS Project Types
 .sp
-Only Visual C++ and C# projects may be generated.  Other types of
-projects (JavaScript, Powershell, Python, etc.) are not supported.
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (JavaScript,
+Powershell, Python, etc.) are not supported.
 .SS Platform Selection
 .sp
 The default target platform name (architecture) is \fBWin32\fP\&.
@@ -598,7 +614,7 @@ by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
 See the \fBCMAKE_GENERATOR_TOOLSET\fP variable for details.
 
 .sp
-New in version 3.14: Added suport for \fBhost=x86\fP option.
+New in version 3.14: Added support for \fBhost=x86\fP option.
 
 .SS Visual Studio 14 2015
 .sp
@@ -608,8 +624,9 @@ New in version 3.1.
 Generates Visual Studio 14 (VS 2015) project files.
 .SS Project Types
 .sp
-Only Visual C++ and C# projects may be generated.  Other types of
-projects (JavaScript, Powershell, Python, etc.) are not supported.
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (JavaScript,
+Powershell, Python, etc.) are not supported.
 .SS Platform Selection
 .sp
 The default target platform name (architecture) is \fBWin32\fP\&.
@@ -652,7 +669,7 @@ by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
 See the \fBCMAKE_GENERATOR_TOOLSET\fP variable for details.
 
 .sp
-New in version 3.14: Added suport for \fBhost=x86\fP option.
+New in version 3.14: Added support for \fBhost=x86\fP option.
 
 .SS Windows 10 SDK Maximum Version for VS 2015
 .sp
@@ -677,24 +694,26 @@ New in version 3.7.1.
 Generates Visual Studio 15 (VS 2017) project files.
 .SS Project Types
 .sp
-Only Visual C++ and C# projects may be generated.  Other types of
-projects (JavaScript, Powershell, Python, etc.) are not supported.
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (JavaScript,
+Powershell, Python, etc.) are not supported.
 .SS Instance Selection
 .sp
-New in version 3.9: VS 2017 supports multiple installations on the same machine.
+New in version 3.11.
+
+.sp
+VS 2017 supports multiple installations on the same machine.
 The \fBCMAKE_GENERATOR_INSTANCE\fP variable may be set as a
 cache entry containing the absolute path to a Visual Studio instance.
 If the value is not specified explicitly by the user or a toolchain file,
 CMake queries the Visual Studio Installer to locate VS instances, chooses
 one, and sets the variable as a cache entry to hold the value persistently.
-
 .sp
-New in version 3.11: When CMake first chooses an instance, if the \fBVS150COMNTOOLS\fP environment
+When CMake first chooses an instance, if the \fBVS150COMNTOOLS\fP environment
 variable is set and points to the \fBCommon7/Tools\fP directory within
 one of the instances, that instance will be used.  Otherwise, if more
 than one instance is installed we do not define which one is chosen
 by default.
-
 .SS Platform Selection
 .sp
 The default target platform name (architecture) is \fBWin32\fP\&.
@@ -739,7 +758,7 @@ by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
 See the \fBCMAKE_GENERATOR_TOOLSET\fP variable for details.
 
 .sp
-New in version 3.14: Added suport for \fBhost=x86\fP option.
+New in version 3.14: Added support for \fBhost=x86\fP option.
 
 .SS Visual Studio 16 2019
 .sp
@@ -749,8 +768,9 @@ New in version 3.14.
 Generates Visual Studio 16 (VS 2019) project files.
 .SS Project Types
 .sp
-Only Visual C++ and C# projects may be generated.  Other types of
-projects (JavaScript, Powershell, Python, etc.) are not supported.
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (JavaScript,
+Powershell, Python, etc.) are not supported.
 .SS Instance Selection
 .sp
 VS 2019 supports multiple installations on the same machine.
@@ -789,7 +809,7 @@ The \fBv142\fP toolset that comes with Visual Studio 16 2019 is selected by
 default.  The \fBCMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
 via the \fBcmake(1)\fP \fB\-T\fP option, to specify another toolset.
 .sp
-New in version 3.8: For each toolset that comes with this version of Visual Studio, there are
+For each toolset that comes with this version of Visual Studio, there are
 variants that are themselves compiled for 32\-bit (\fBx86\fP) and
 64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
 By default this generator uses the 64\-bit variant on x64 hosts and
@@ -797,10 +817,63 @@ the 32\-bit variant otherwise.
 One may explicitly request use of either the 32\-bit or 64\-bit host tools
 by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
 See the \fBCMAKE_GENERATOR_TOOLSET\fP variable for details.
+.SS Visual Studio 17 2022
+.sp
+New in version 3.21.
 
 .sp
-New in version 3.14: Added suport for \fBhost=x86\fP option.
-
+Generates Visual Studio 17 (VS 2022) project files.
+.SS Project Types
+.sp
+Only Visual C++ and C# projects may be generated (and Fortran with
+Intel compiler integration).  Other types of projects (JavaScript,
+Powershell, Python, etc.) are not supported.
+.SS Instance Selection
+.sp
+VS 2022 supports multiple installations on the same machine.
+The \fBCMAKE_GENERATOR_INSTANCE\fP variable may be set as a
+cache entry containing the absolute path to a Visual Studio instance.
+If the value is not specified explicitly by the user or a toolchain file,
+CMake queries the Visual Studio Installer to locate VS instances, chooses
+one, and sets the variable as a cache entry to hold the value persistently.
+.sp
+When CMake first chooses an instance, if the \fBVS170COMNTOOLS\fP environment
+variable is set and points to the \fBCommon7/Tools\fP directory within
+one of the instances, that instance will be used.  Otherwise, if more
+than one instance is installed we do not define which one is chosen
+by default.
+.SS Platform Selection
+.sp
+The default target platform name (architecture) is that of the host
+and is provided in the \fBCMAKE_VS_PLATFORM_NAME_DEFAULT\fP variable.
+.sp
+The \fBCMAKE_GENERATOR_PLATFORM\fP variable may be set, perhaps
+via the \fBcmake(1)\fP \fB\-A\fP option, to specify a target platform
+name (architecture).  For example:
+.INDENT 0.0
+.IP \(bu 2
+\fBcmake \-G "Visual Studio 17 2022" \-A Win32\fP
+.IP \(bu 2
+\fBcmake \-G "Visual Studio 17 2022" \-A x64\fP
+.IP \(bu 2
+\fBcmake \-G "Visual Studio 17 2022" \-A ARM\fP
+.IP \(bu 2
+\fBcmake \-G "Visual Studio 17 2022" \-A ARM64\fP
+.UNINDENT
+.SS Toolset Selection
+.sp
+The \fBv143\fP toolset that comes with VS 17 2022 is selected by default.
+The \fBCMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
+via the \fBcmake(1)\fP \fB\-T\fP option, to specify another toolset.
+.sp
+For each toolset that comes with this version of Visual Studio, there are
+variants that are themselves compiled for 32\-bit (\fBx86\fP) and
+64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
+By default this generator uses the 64\-bit variant on x64 hosts and
+the 32\-bit variant otherwise.
+One may explicitly request use of either the 32\-bit or 64\-bit host tools
+by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
+See the \fBCMAKE_GENERATOR_TOOLSET\fP variable for details.
 .SS Other Generators
 .SS Green Hills MULTI
 .sp
@@ -909,7 +982,7 @@ The following properties are available:
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
-This generator is deemed experimental as of CMake 3.20.0\-rc4
+This generator is deemed experimental as of CMake 3.22.1
 and is still a work in progress.  Future versions of CMake
 may make breaking changes as the generator matures.
 .UNINDENT

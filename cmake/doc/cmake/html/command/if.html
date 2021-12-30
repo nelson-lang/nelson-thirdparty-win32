@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <meta charset="utf-8" />
-  <title>if &mdash; CMake 3.20.0-rc4 Documentation</title>
+  <title>if &mdash; CMake 3.22.1 Documentation</title>
 
     <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
@@ -103,11 +103,22 @@ or a non-zero number.  False if the constant is <code class="docutils literal no
 <code class="docutils literal notranslate"><span class="pre">NO</span></code>, <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, <code class="docutils literal notranslate"><span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">IGNORE</span></code>, <code class="docutils literal notranslate"><span class="pre">NOTFOUND</span></code>, the empty string,
 or ends in the suffix <code class="docutils literal notranslate"><span class="pre">-NOTFOUND</span></code>.  Named boolean constants are
 case-insensitive.  If the argument is not one of these specific
-constants, it is treated as a variable or string and the following
-signature is used.</p>
+constants, it is treated as a variable or string (see <a class="reference internal" href="#variable-expansion">Variable Expansion</a>
+further below) and one of the following two forms applies.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">if(&lt;variable|string&gt;)</span></code></dt><dd><p>True if given a variable that is defined to a value that is not a false
-constant.  False otherwise.  (Note macro arguments are not variables.)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">if(&lt;variable&gt;)</span></code></dt><dd><p>True if given a variable that is defined to a value that is not a false
+constant.  False otherwise, including if the variable is undefined.
+Note that macro arguments are not variables.
+Environment variables also cannot be tested this way, e.g.
+<code class="docutils literal notranslate"><span class="pre">if(ENV{some_var})</span></code> will always evaluate to false.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">if(&lt;string&gt;)</span></code></dt><dd><p>A quoted string always evaluates to false unless:</p>
+<ul class="simple">
+<li><p>The string's value is one of the true constants, or</p></li>
+<li><p>Policy <span class="target" id="index-0-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a> is not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code> and the string's value
+happens to be a variable name that is affected by <span class="target" id="index-1-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a>'s
+behavior.</p></li>
+</ul>
 </dd>
 </dl>
 </div>
@@ -186,7 +197,17 @@ for full paths.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">if(IS_SYMLINK</span> <span class="pre">file-name)</span></code></dt><dd><p>True if the given name is a symbolic link.  Behavior is well-defined
 only for full paths.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">if(IS_ABSOLUTE</span> <span class="pre">path)</span></code></dt><dd><p>True if the given path is an absolute path.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">if(IS_ABSOLUTE</span> <span class="pre">path)</span></code></dt><dd><p>True if the given path is an absolute path.  Note the following special
+cases:</p>
+<ul class="simple">
+<li><p>An empty <code class="docutils literal notranslate"><span class="pre">path</span></code> evaluates to false.</p></li>
+<li><p>On Windows hosts, any <code class="docutils literal notranslate"><span class="pre">path</span></code> that begins with a drive letter and colon
+(e.g. <code class="docutils literal notranslate"><span class="pre">C:</span></code>), a forward slash or a backslash will evaluate to true.
+This means a path like <code class="docutils literal notranslate"><span class="pre">C:no\base\dir</span></code> will evaluate to true, even
+though the non-drive part of the path is relative.</p></li>
+<li><p>On non-Windows hosts, any <code class="docutils literal notranslate"><span class="pre">path</span></code> that begins with a tilde (<code class="docutils literal notranslate"><span class="pre">~</span></code>)
+evaluates to true.</p></li>
+</ul>
 </dd>
 </dl>
 </div>
@@ -194,7 +215,7 @@ only for full paths.</p>
 <h3>Comparisons<a class="headerlink" href="#comparisons" title="Permalink to this headline">¶</a></h3>
 <dl id="matches">
 <dt><code class="docutils literal notranslate"><span class="pre">if(&lt;variable|string&gt;</span> <span class="pre">MATCHES</span> <span class="pre">regex)</span></code></dt><dd><p>True if the given string or variable's value matches the given regular
-condition.  See <a class="reference internal" href="string.html#regex-specification"><span class="std std-ref">Regex Specification</span></a> for regex format.</p>
+expression.  See <a class="reference internal" href="string.html#regex-specification"><span class="std std-ref">Regex Specification</span></a> for regex format.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.9: </span><code class="docutils literal notranslate"><span class="pre">()</span></code> groups are captured in <span class="target" id="index-0-variable:CMAKE_MATCH_&lt;n&gt;"></span><a class="reference internal" href="../variable/CMAKE_MATCH_n.html#variable:CMAKE_MATCH_&lt;n&gt;" title="CMAKE_MATCH_&lt;n&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MATCH_&lt;n&gt;</span></code></a> variables.</p>
 </div>
@@ -359,7 +380,7 @@ such, otherwise they are assumed to be variables and are dereferenced.</p></li>
 specified in a <a class="reference internal" href="../manual/cmake-language.7.html#quoted-argument"><span class="std std-ref">Quoted Argument</span></a> or a <a class="reference internal" href="../manual/cmake-language.7.html#bracket-argument"><span class="std std-ref">Bracket Argument</span></a>.
 A quoted or bracketed variable or keyword will be interpreted as a
 string and not dereferenced or interpreted.
-See policy <span class="target" id="index-0-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a>.</p>
+See policy <span class="target" id="index-2-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a>.</p>
 </div>
 <p>There is no automatic evaluation for environment or cache
 <a class="reference internal" href="../manual/cmake-language.7.html#variable-references"><span class="std std-ref">Variable References</span></a>.  Their values must be referenced as
@@ -439,7 +460,7 @@ condition syntax accepts <code class="docutils literal notranslate"><span class=
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.20.0-rc4 Documentation</a> &#187;
+    <a href="../index.html">3.22.1 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
