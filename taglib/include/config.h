@@ -11,10 +11,9 @@
 /* #undef HAVE_OPENBSD_BYTESWAP */
 
 /* Defined if your compiler supports some atomic operations */
-#define   HAVE_STD_ATOMIC 1
 /* #undef HAVE_GCC_ATOMIC */
 /* #undef HAVE_MAC_ATOMIC */
-/* #undef HAVE_WIN_ATOMIC */
+#define   HAVE_WIN_ATOMIC 1
 /* #undef HAVE_IA64_ATOMIC */
 
 /* Defined if your compiler supports some safer version of vsprintf */
@@ -25,11 +24,11 @@
 #define   HAVE_ISO_STRDUP 1
 
 /* Defined if zlib is installed */
-#define   HAVE_ZLIB 1
+/* #undef HAVE_ZLIB */
 
 /* Indicates whether debug messages are shown even in release mode */
 /* #undef TRACE_IN_RELEASE */
 
-#define TESTS_DIR "D:/taglib-master/tests/"
+#define TESTS_DIR "D:/taglib-1.12-32/taglib-1.12/tests/"
 
 #endif

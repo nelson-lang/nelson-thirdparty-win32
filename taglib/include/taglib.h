@@ -29,8 +29,8 @@
 #include "taglib_config.h"
 
 #define TAGLIB_MAJOR_VERSION 1
-#define TAGLIB_MINOR_VERSION 11
-#define TAGLIB_PATCH_VERSION 1
+#define TAGLIB_MINOR_VERSION 12
+#define TAGLIB_PATCH_VERSION 0
 
 #if defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 1)) || defined(__clang__)
 #define TAGLIB_IGNORE_MISSING_DESTRUCTOR _Pragma("GCC diagnostic ignored \"-Wnon-virtual-dtor\"")
@@ -42,6 +42,16 @@
 #define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long long>(x)
 #else
 #define TAGLIB_CONSTRUCT_BITSET(x) static_cast<unsigned long>(x)
+#endif
+
+#if __cplusplus >= 201402
+#define TAGLIB_DEPRECATED [[deprecated]]
+#elif defined(__GNUC__) || defined(__clang__)
+#define TAGLIB_DEPRECATED __attribute__((deprecated))
+#elif defined(_MSC_VER)
+#define TAGLIB_DEPRECATED __declspec(deprecated)
+#else
+#define TAGLIB_DEPRECATED
 #endif
 
 #include <string>
