@@ -1,1 +1,0 @@
-https://github.com/unicode-org/icu/releases
