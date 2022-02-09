@@ -5,7 +5,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -26,16 +26,13 @@
 /* Define if using a Windows compiler (i.e. Visual Studio) */
 #define H5_HAVE_VISUAL_STUDIO 1
 
-/* Define if building universal (internal helper macro) */
-/* #undef H5_AC_APPLE_UNIVERSAL_BUILD */
-
 /* Define if C++ compiler recognizes offsetof */
 /* #undef H5_CXX_HAVE_OFFSETOF */
 
 /* Define the default plugins path to compile */
 #define H5_DEFAULT_PLUGINDIR "%ALLUSERSPROFILE%\\hdf5\\lib\\plugin"
 
-/* Define if `dev_t' is a scalar */
+/* Define if dev_t is a scalar */
 /* #undef H5_DEV_T_IS_SCALAR */
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
@@ -91,6 +88,9 @@
 /* Define to 1 if you have the `alarm' function. */
 /* #undef H5_HAVE_ALARM */
 
+/* Define to 1 if you have the <arpa/inet.h> header file. */
+/* #undef H5_HAVE_ARPA_INET_H */
+
 /* Define to 1 if you have the `asprintf' function. */
 /* #undef H5_HAVE_ASPRINTF */
 
@@ -144,7 +144,7 @@
 #define H5_HAVE_FILTER_DEFLATE 1
 
 /* Define if support for szip filter is enabled */
-#define H5_HAVE_FILTER_SZIP 1
+/* #undef H5_HAVE_FILTER_SZIP */
 
 /* Determine if __float128 is available */
 /* #undef H5_HAVE_FLOAT128 */
@@ -235,7 +235,7 @@
 /* #undef H5_HAVE_LIBPTHREAD */
 
 /* Define to 1 if you have the `sz' library (-lsz). */
-#define H5_HAVE_LIBSZ 1
+/* #undef H5_HAVE_LIBSZ */
 
 /* Define to 1 if you have the `ws2_32' library (-lws2_32). */
 #define H5_HAVE_LIBWS2_32 1
@@ -264,14 +264,14 @@
 /* Define to 1 if you have the `lstat' function. */
 /* #undef H5_HAVE_LSTAT */
 
-/* Define to 1 if you have the <mach/mach_time.h> header file. */
-/* #undef H5_HAVE_MACH_MACH_TIME_H */
-
 /* Define if the map API (H5M) should be compiled */
 /* #undef H5_HAVE_MAP_API */
 
 /* Define to 1 if you have the <memory.h> header file. */
 #define H5_HAVE_MEMORY_H 1
+
+/* Define whether the Mirror virtual file driver (VFD) will be compiled */
+/* #undef H5_HAVE_MIRROR_VFD */
 
 /* Define if we have MPE support */
 /* #undef H5_HAVE_MPE */
@@ -279,11 +279,17 @@
 /* Define to 1 if you have the <mpe.h> header file. */
 /* #undef H5_HAVE_MPE_H */
 
-/* Define if MPI_Comm_c2f and MPI_Comm_f2c exists */
+/* Define if MPI_Comm_c2f and MPI_Comm_f2c exist */
 /* #undef H5_HAVE_MPI_MULTI_LANG_Comm */
 
-/* Define if MPI_Info_c2f and MPI_Info_f2c exists */
+/* Define if MPI_Info_c2f and MPI_Info_f2c exist */
 /* #undef H5_HAVE_MPI_MULTI_LANG_Info */
+
+/* Define to 1 if you have the <netdb.h> header file. */
+/* #undef H5_HAVE_NETDB_H */
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+/* #undef H5_HAVE_NETINET_IN_H */
 
 /* Define to 1 if you have the <openssl/evp.h> header file. */
 /* #undef H5_HAVE_OPENSSL_EVP_H */
@@ -365,7 +371,7 @@
 #define H5_HAVE_STDINT_H 1
 
 /* Define to 1 if you have the <stdint.h> header file for Cplusplus. */
-#define H5_HAVE_STDINT_H_CXX 1
+/* #undef H5_HAVE_STDINT_H_CXX */
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define H5_HAVE_STDLIB_H 1
@@ -412,9 +418,6 @@
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define H5_HAVE_SYS_STAT_H 1
 
-/* Define to 1 if you have the <sys/timeb.h> header file. */
-#define H5_HAVE_SYS_TIMEB_H 1
-
 /* Define to 1 if you have the <sys/time.h> header file. */
 /* #undef H5_HAVE_SYS_TIME_H */
 
@@ -422,7 +425,7 @@
 #define H5_HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the <szlib.h> header file. */
-#define H5_HAVE_SZLIB_H 1
+/* #undef H5_HAVE_SZLIB_H */
 
 #if defined(_WIN32) && !defined(H5_BUILT_AS_DYNAMIC_LIB)
 /* Not supported on WIN32 platforms with static linking */
@@ -483,6 +486,9 @@
 /* Define if the compiler understands __inline__ */
 /* #undef H5_HAVE___INLINE__ */
 
+/* Define if the library will ignore file locks when disabled */
+#define H5_IGNORE_DISABLED_FILE_LOCKS 1
+
 /* Define if the high-level library headers should be included in hdf5.h */
 #define H5_INCLUDE_HL 1
 
@@ -527,7 +533,7 @@
 #define H5_PACKAGE_NAME "HDF5"
 
 /* Define to the full name and version of this package. */
-#define H5_PACKAGE_STRING "HDF5 1.12.0"
+#define H5_PACKAGE_STRING "HDF5 1.12.1"
 
 /* Define to the one symbol short name of this package. */
 #define H5_PACKAGE_TARNAME "hdf5"
@@ -536,13 +542,13 @@
 #define H5_PACKAGE_URL "http://www.hdfgroup.org"
 
 /* Define to the version of this package. */
-#define H5_PACKAGE_VERSION "1.12.0"
+#define H5_PACKAGE_VERSION "1.12.1"
 
 /* Determine the maximum decimal precision in C */
-/* #undef H5_PAC_C_MAX_REAL_PRECISION */
+#define H5_PAC_C_MAX_REAL_PRECISION 0
 
 /* Define Fortran Maximum Real Decimal Precision */
-/* #undef H5_PAC_FC_MAX_REAL_PRECISION */
+#define H5_PAC_FC_MAX_REAL_PRECISION 
 
 /* Width for printf() for type `long long' or `__int64', use `ll' */
 #define H5_PRINTF_LL_WIDTH "I64"
@@ -599,6 +605,7 @@
 #define H5_SIZEOF_INT_LEAST8_T 1
 
 #if !defined(__APPLE__)
+
 /* The size of `size_t', as computed by sizeof. */
 #define H5_SIZEOF_SIZE_T 4
 
@@ -608,8 +615,17 @@
 /* The size of `long', as computed by sizeof. */
 #define H5_SIZEOF_LONG 4
 
+/* The size of `long double', as computed by sizeof. */
+#define H5_SIZEOF_LONG_DOUBLE 8
+
 #else
-   # if defined(__LP64__) && __LP64__
+
+  /* On Apple, to support Universal Binaries (where multiple CPU
+     architectures exist in one library/executable), we can't assume
+     the machine doing the compiling has the same endianness or type
+     sizes as all the various architectures (PowerPC, Intel, ARM). */
+
+  # if defined(__LP64__) && __LP64__
   #define H5_SIZEOF_LONG 8
   #define H5_SIZEOF_SIZE_T 8
   #define H5_SIZEOF_SSIZE_T 8
@@ -619,10 +635,15 @@
   #define H5_SIZEOF_SSIZE_T 4
   # endif
 
-#endif
+  # if defined(__i386__) || defined(__x86_64__)
+  #define H5_SIZEOF_LONG_DOUBLE 16
+  # elif defined(__aarch64__)
+  #define H5_SIZEOF_LONG_DOUBLE 8
+  # else
+  #define H5_SIZEOF_LONG_DOUBLE 8
+  # endif
 
-/* The size of `long double', as computed by sizeof. */
-#define H5_SIZEOF_LONG_DOUBLE 8
+#endif
 
 /* Define size of long long and/or __int64 bit integer type only if the type
    exists.  */
@@ -687,7 +708,7 @@
 #define H5_SIZEOF_UNSIGNED 4
 
 /* The size of `_Quad', as computed by sizeof. */
-#define H5_SIZEOF__QUAD 
+#define H5_SIZEOF__QUAD 0
 
 /* The size of `__float128', as computed by sizeof. */
 #define H5_SIZEOF___FLOAT128 0
@@ -720,13 +741,19 @@
 /* Define using v1.12 public API symbols by default */
 #define H5_USE_112_API_DEFAULT 1
 
+/* Define if the library will use file locking */
+#define H5_USE_FILE_LOCKING 1
+
+/* Define if the library will use recursive RW locks for thread safety */
+/* #undef H5_USE_RECURSIVE_RW_LOCKS */
+
 /* Define if a memory checking tool will be used on the library, to cause
    library to be very picky about memory operations and also disable the
    internal free list manager code. */
 /* #undef H5_USING_MEMCHECKER */
 
 /* Version number of package */
-#define H5_VERSION "1.12.0"
+#define H5_VERSION "1.12.1"
 
 /* Data accuracy is prefered to speed during data conversions */
 #define H5_WANT_DATA_ACCURACY 1

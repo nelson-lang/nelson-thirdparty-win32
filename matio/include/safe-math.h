@@ -1,5 +1,5 @@
 /* Overflow-safe math functions
- * Portable Snippets - https://gitub.com/nemequ/portable-snippets
+ * Portable Snippets - https://github.com/nemequ/portable-snippets
  * Created by Evan Nemerson <evan@nemerson.com>
  *
  *   To the extent possible under law, the authors have waived all
@@ -19,11 +19,15 @@
 #  elif defined(__GNUC__) && (__GNUC__ >= 5) && !defined(__INTEL_COMPILER)
 #    define PSNIP_SAFE_HAVE_BUILTIN_OVERFLOW
 #  endif
-#  if defined(__has_include)
+#  if defined(HAVE_INTSAFE_H)
+#    define PSNIP_SAFE_HAVE_INTSAFE_H
+#  elif defined(__has_include)
 #    if __has_include(<intsafe.h>)
 #      define PSNIP_SAFE_HAVE_INTSAFE_H
 #    endif
-#  elif defined(_WIN32)
+#  elif defined(_MSC_VER) && _MSC_VER >= 1600
+#    define PSNIP_SAFE_HAVE_INTSAFE_H
+#  elif defined(__CYGWIN__) && defined(__GNUC__) && __GNUC__ >= 5
 #    define PSNIP_SAFE_HAVE_INTSAFE_H
 #  endif
 #endif /* !defined(PSNIP_SAFE_FORCE_PORTABLE) */
@@ -167,8 +171,11 @@
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)) && defined(__SIZEOF_INT128__) && !defined(__ibmxl__)
 #define PSNIP_SAFE_HAVE_128
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 typedef __int128  psnip_safe_int128_t;
 typedef unsigned __int128 psnip_safe_uint128_t;
+#pragma GCC diagnostic pop
 #endif /* defined(__GNUC__) */
 
 #if !defined(PSNIP_SAFE_NO_FIXED)
@@ -711,9 +718,9 @@ PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned short, ushort, add)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned short, ushort, sub)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned short, ushort, mul)
 #elif defined(PSNIP_SAFE_HAVE_INTSAFE_H)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned short, ushort, add, UShortAdd)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned short, ushort, sub, UShortSub)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned short, ushort, mul, UShortMult)
+PSNIP_SAFE_DEFINE_INTSAFE(USHORT, ushort, add, UShortAdd)
+PSNIP_SAFE_DEFINE_INTSAFE(USHORT, ushort, sub, UShortSub)
+PSNIP_SAFE_DEFINE_INTSAFE(USHORT, ushort, mul, UShortMult)
 #elif defined(PSNIP_SAFE_HAVE_LARGER_USHORT)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned short, ushort, add, USHRT_MAX)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned short, ushort, sub, USHRT_MAX)
@@ -748,9 +755,9 @@ PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned int, uint, add)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned int, uint, sub)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned int, uint, mul)
 #elif defined(PSNIP_SAFE_HAVE_INTSAFE_H)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned int, uint, add, UIntAdd)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned int, uint, sub, UIntSub)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned int, uint, mul, UIntMult)
+PSNIP_SAFE_DEFINE_INTSAFE(UINT, uint, add, UIntAdd)
+PSNIP_SAFE_DEFINE_INTSAFE(UINT, uint, sub, UIntSub)
+PSNIP_SAFE_DEFINE_INTSAFE(UINT, uint, mul, UIntMult)
 #elif defined(PSNIP_SAFE_HAVE_LARGER_UINT)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned int, uint, add, UINT_MAX)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned int, uint, sub, UINT_MAX)
@@ -785,9 +792,9 @@ PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned long, ulong, add)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned long, ulong, sub)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned long, ulong, mul)
 #elif defined(PSNIP_SAFE_HAVE_INTSAFE_H)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned long, ulong, add, ULongAdd)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned long, ulong, sub, ULongSub)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned long, ulong, mul, ULongMult)
+PSNIP_SAFE_DEFINE_INTSAFE(ULONG, ulong, add, ULongAdd)
+PSNIP_SAFE_DEFINE_INTSAFE(ULONG, ulong, sub, ULongSub)
+PSNIP_SAFE_DEFINE_INTSAFE(ULONG, ulong, mul, ULongMult)
 #elif defined(PSNIP_SAFE_HAVE_LARGER_ULONG)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned long, ulong, add, ULONG_MAX)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned long, ulong, sub, ULONG_MAX)
@@ -822,9 +829,9 @@ PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned long long, ullong, add)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned long long, ullong, sub)
 PSNIP_SAFE_DEFINE_BUILTIN_BINARY_OP(unsigned long long, ullong, mul)
 #elif defined(PSNIP_SAFE_HAVE_INTSAFE_H)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned long long, ullong, add, ULongLongAdd)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned long long, ullong, sub, ULongLongSub)
-PSNIP_SAFE_DEFINE_INTSAFE(unsigned long long, ullong, mul, ULongLongMult)
+PSNIP_SAFE_DEFINE_INTSAFE(ULONGLONG, ullong, add, ULongLongAdd)
+PSNIP_SAFE_DEFINE_INTSAFE(ULONGLONG, ullong, sub, ULongLongSub)
+PSNIP_SAFE_DEFINE_INTSAFE(ULONGLONG, ullong, mul, ULongLongMult)
 #elif defined(PSNIP_SAFE_HAVE_LARGER_ULLONG)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned long long, ullong, add, ULLONG_MAX)
 PSNIP_SAFE_DEFINE_PROMOTED_UNSIGNED_BINARY_OP(unsigned long long, ullong, sub, ULLONG_MAX)
@@ -1046,26 +1053,26 @@ PSNIP_SAFE_DEFINE_UNSIGNED_MOD(psnip_uint64_t, uint64, 0xffffffffffffffffULL)
 #endif
 
 #if !defined(PSNIP_SAFE_HAVE_BUILTINS) && (defined(PSNIP_SAFE_EMULATE_NATIVE) || defined(PSNIP_BUILTIN_EMULATE_NATIVE))
-#  define __builtin_sadd_overflow(a, b, res)   psnip_safe_int_add(res, a, b)
-#  define __builtin_saddl_overflow(a, b, res)  psnip_safe_long_add(res, a, b)
-#  define __builtin_saddll_overflow(a, b, res) psnip_safe_llong_add(res, a, b)
-#  define __builtin_uadd_overflow(a, b, res)   psnip_safe_uint_add(res, a, b)
-#  define __builtin_uaddl_overflow(a, b, res)  psnip_safe_ulong_add(res, a, b)
-#  define __builtin_uaddll_overflow(a, b, res) psnip_safe_ullong_add(res, a, b)
+#  define __builtin_sadd_overflow(a, b, res)   (!psnip_safe_int_add(res, a, b))
+#  define __builtin_saddl_overflow(a, b, res)  (!psnip_safe_long_add(res, a, b))
+#  define __builtin_saddll_overflow(a, b, res) (!psnip_safe_llong_add(res, a, b))
+#  define __builtin_uadd_overflow(a, b, res)   (!psnip_safe_uint_add(res, a, b))
+#  define __builtin_uaddl_overflow(a, b, res)  (!psnip_safe_ulong_add(res, a, b))
+#  define __builtin_uaddll_overflow(a, b, res) (!psnip_safe_ullong_add(res, a, b))
 
-#  define __builtin_ssub_overflow(a, b, res)   psnip_safe_int_sub(res, a, b)
-#  define __builtin_ssubl_overflow(a, b, res)  psnip_safe_long_sub(res, a, b)
-#  define __builtin_ssubll_overflow(a, b, res) psnip_safe_llong_sub(res, a, b)
-#  define __builtin_usub_overflow(a, b, res)   psnip_safe_uint_sub(res, a, b)
-#  define __builtin_usubl_overflow(a, b, res)  psnip_safe_ulong_sub(res, a, b)
-#  define __builtin_usubll_overflow(a, b, res) psnip_safe_ullong_sub(res, a, b)
+#  define __builtin_ssub_overflow(a, b, res)   (!psnip_safe_int_sub(res, a, b))
+#  define __builtin_ssubl_overflow(a, b, res)  (!psnip_safe_long_sub(res, a, b))
+#  define __builtin_ssubll_overflow(a, b, res) (!psnip_safe_llong_sub(res, a, b))
+#  define __builtin_usub_overflow(a, b, res)   (!psnip_safe_uint_sub(res, a, b))
+#  define __builtin_usubl_overflow(a, b, res)  (!psnip_safe_ulong_sub(res, a, b))
+#  define __builtin_usubll_overflow(a, b, res) (!psnip_safe_ullong_sub(res, a, b))
 
-#  define __builtin_smul_overflow(a, b, res)   psnip_safe_int_mul(res, a, b)
-#  define __builtin_smull_overflow(a, b, res)  psnip_safe_long_mul(res, a, b)
-#  define __builtin_smulll_overflow(a, b, res) psnip_safe_llong_mul(res, a, b)
-#  define __builtin_umul_overflow(a, b, res)   psnip_safe_uint_mul(res, a, b)
-#  define __builtin_umull_overflow(a, b, res)  psnip_safe_ulong_mul(res, a, b)
-#  define __builtin_umulll_overflow(a, b, res) psnip_safe_ullong_mul(res, a, b)
+#  define __builtin_smul_overflow(a, b, res)   (!psnip_safe_int_mul(res, a, b))
+#  define __builtin_smull_overflow(a, b, res)  (!psnip_safe_long_mul(res, a, b))
+#  define __builtin_smulll_overflow(a, b, res) (!psnip_safe_llong_mul(res, a, b))
+#  define __builtin_umul_overflow(a, b, res)   (!psnip_safe_uint_mul(res, a, b))
+#  define __builtin_umull_overflow(a, b, res)  (!psnip_safe_ulong_mul(res, a, b))
+#  define __builtin_umulll_overflow(a, b, res) (!psnip_safe_ullong_mul(res, a, b))
 #endif
 
 #endif /* !defined(PSNIP_SAFE_H) */

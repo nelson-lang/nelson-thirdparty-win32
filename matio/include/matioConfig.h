@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2020, Christopher C. Hulbert
+ * Copyright (c) 2012-2021, Christopher C. Hulbert
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,6 +62,13 @@
 #define HAVE_INTTYPES_H 1
 #else
 #undef HAVE_INTTYPES_H
+#endif
+
+/* Define to 1 if you have the <intsafe.h> header file. */
+#if defined(_MSC_VER) && _MSC_VER >= 1600
+#define HAVE_INTSAFE_H 1
+#else
+#undef HAVE_INTSAFE_H
 #endif
 
 /* Define to 1 if you have the `m' library (-lm). */
@@ -210,13 +217,16 @@
 
 /* Platform */
 #if defined(_WIN64)
-#   define MATIO_PLATFORM "x86_64-pc-windows"
+#define MATIO_PLATFORM "x86_64-pc-windows"
 #elif defined(_WIN32)
-#   define MATIO_PLATFORM "i686-pc-windows"
+#define MATIO_PLATFORM "i686-pc-windows"
 #endif
 
 /* Debug disabled */
 #undef NODEBUG
+
+/* Fixed types in safe-math.h disabled */
+#define PSNIP_SAFE_NO_FIXED 1
 
 /* Name of package */
 #define PACKAGE "matio"
@@ -228,7 +238,7 @@
 #define PACKAGE_NAME "MATIO"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "MATIO 1.5.17"
+#define PACKAGE_STRING "MATIO 1.5.21"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "matio"
@@ -237,7 +247,7 @@
 #define PACKAGE_URL "https://sourceforge.net/projects/matio"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.5.17"
+#define PACKAGE_VERSION "1.5.21"
 
 /* The size of `char', as computed by sizeof. */
 #define SIZEOF_CHAR 1
@@ -261,22 +271,22 @@
 #define SIZEOF_SHORT 2
 
 #if defined(_WIN64)
-    /* The size of `void *', as computed by sizeof. */
-#   define SIZEOF_VOID_P 8
-    /* The size of `size_t', as computed by sizeof. */
-#    define SIZEOF_SIZE_T 8
+/* The size of `void *', as computed by sizeof. */
+#define SIZEOF_VOID_P 8
+/* The size of `size_t', as computed by sizeof. */
+#define SIZEOF_SIZE_T 8
 #elif defined(_WIN32)
-    /* The size of `void *', as computed by sizeof. */
-#   define SIZEOF_VOID_P 4
-    /* The size of `size_t', as computed by sizeof. */
-#    define SIZEOF_SIZE_T 4
+/* The size of `void *', as computed by sizeof. */
+#define SIZEOF_VOID_P 4
+/* The size of `size_t', as computed by sizeof. */
+#define SIZEOF_SIZE_T 4
 #endif
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
 /* Version number of package */
-#define VERSION "1.5.17"
+#define VERSION "1.5.21"
 
 /* Z prefix */
 #undef Z_PREFIX
