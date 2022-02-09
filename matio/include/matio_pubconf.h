@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010-2020, Christopher C. Hulbert
+ * Copyright (c) 2010-2021, Christopher C. Hulbert
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,13 +34,13 @@
 #define MATIO_MINOR_VERSION 5
 
 /* Matio release level number */
-#define MATIO_RELEASE_LEVEL 18
+#define MATIO_RELEASE_LEVEL 21
 
 /* Matio version number */
-#define MATIO_VERSION 1518
+#define MATIO_VERSION 1521
 
 /* Matio version string */
-#define MATIO_VERSION_STR "1.5.18"
+#define MATIO_VERSION_STR "1.5.21"
 
 /* Default file format */
 #define MAT_FT_DEFAULT MAT_FT_MAT5
@@ -118,42 +118,42 @@
 #endif
 
 #if MATIO_HAVE_INTTYPES_H
-#   include <inttypes.h>
+#include <inttypes.h>
 #endif
 
 #if MATIO_HAVE_STDINT_H
-#   include <stdint.h>
+#include <stdint.h>
 #else
-#   include "stdint_msvc.h"
+#include "stdint_msvc.h"
 #define MATIO_HAVE_STDINT_H 1
 #endif
 
 #ifdef _mat_int64_t
-    typedef _mat_int64_t mat_int64_t;
+typedef _mat_int64_t mat_int64_t;
 #endif
 #ifdef _mat_uint64_t
-    typedef _mat_uint64_t mat_uint64_t;
+typedef _mat_uint64_t mat_uint64_t;
 #endif
 #ifdef _mat_int32_t
-    typedef _mat_int32_t mat_int32_t;
+typedef _mat_int32_t mat_int32_t;
 #endif
 #ifdef _mat_uint32_t
-    typedef _mat_uint32_t mat_uint32_t;
+typedef _mat_uint32_t mat_uint32_t;
 #endif
 #ifdef _mat_int16_t
-    typedef _mat_int16_t mat_int16_t;
+typedef _mat_int16_t mat_int16_t;
 #endif
 #ifdef _mat_uint16_t
-    typedef _mat_uint16_t mat_uint16_t;
+typedef _mat_uint16_t mat_uint16_t;
 #endif
 #ifdef _mat_int8_t
-    typedef _mat_int8_t mat_int8_t;
+typedef _mat_int8_t mat_int8_t;
 #endif
 #ifdef _mat_uint8_t
-    typedef _mat_uint8_t mat_uint8_t;
+typedef _mat_uint8_t mat_uint8_t;
 #endif
 
-/* 
+/*
   The following macros handle noreturn attributes according to the latest
   C11/C++11 standard with fallback to the MSVC extension if using an older
   compiler.
