@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2020 Intel Corporation.
+* Copyright 1999-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!     Intel(R) Math Kernel Library (Intel(R) MKL) interface for service routines
+!     Intel(R) oneAPI Math Kernel Library (oneMKL) interface for service routines
 !******************************************************************************/
 
 #ifndef _MKL_SERVICE_H_
@@ -43,20 +43,20 @@ extern "C" {
 #define _Mkl_Api(rtype,name,arg)    extern rtype MKL_CALL_CONV name arg;
 #endif
 
-_Mkl_Api(void,MKL_Get_Version,(MKLVersion *ver)) /* Returns information about the version of the Intel(R) MKL software */
+_Mkl_Api(void,MKL_Get_Version,(MKLVersion *ver)) /* Returns information about the version of the oneMKL software */
 #define mkl_get_version             MKL_Get_Version
 
-_Mkl_Api(void,MKL_Get_Version_String,(char * buffer, int len)) /* Returns a string that contains Intel(R) MKL version information */
+_Mkl_Api(void,MKL_Get_Version_String,(char * buffer, int len)) /* Returns a string that contains oneMKL version information */
 #define mkl_get_version_string      MKL_Get_Version_String
 
-_Mkl_Api(void,MKL_Free_Buffers,(void)) /* Frees the memory allocated by the Intel(R) MKL Memory Manager */
+_Mkl_Api(void,MKL_Free_Buffers,(void)) /* Frees the memory allocated by the oneMKL Memory Manager */
 #define mkl_free_buffers            MKL_Free_Buffers
 
-_Mkl_Api(void,MKL_Thread_Free_Buffers,(void)) /* Frees the memory allocated by the Intel(R) MKL Memory Manager in the current thread only */
+_Mkl_Api(void,MKL_Thread_Free_Buffers,(void)) /* Frees the memory allocated by the oneMKL Memory Manager in the current thread only */
 #define mkl_thread_free_buffers     MKL_Thread_Free_Buffers
 
-_Mkl_Api(MKL_INT64,MKL_Mem_Stat,(int* nbuffers)) /* Intel(R) MKL Memory Manager statistical information. */
-                                                 /* Returns an amount of memory, allocated by the Intel(R) MKL Memory Manager */
+_Mkl_Api(MKL_INT64,MKL_Mem_Stat,(int* nbuffers)) /* oneMKL Memory Manager statistical information. */
+                                                 /* Returns an amount of memory, allocated by the oneMKL Memory Manager */
                                                  /* in <nbuffers> buffers. */
 #define mkl_mem_stat                MKL_Mem_Stat
 
@@ -64,7 +64,7 @@ _Mkl_Api(MKL_INT64,MKL_Mem_Stat,(int* nbuffers)) /* Intel(R) MKL Memory Manager 
 #define  MKL_PEAK_MEM_ENABLE        1
 #define  MKL_PEAK_MEM_RESET        -1
 #define  MKL_PEAK_MEM               2
-_Mkl_Api(MKL_INT64,MKL_Peak_Mem_Usage,(int reset))    /* Returns the peak amount of memory, allocated by the Intel(R) MKL Memory Manager */
+_Mkl_Api(MKL_INT64,MKL_Peak_Mem_Usage,(int reset))    /* Returns the peak amount of memory, allocated by the oneMKL Memory Manager */
 #define mkl_peak_mem_usage          MKL_Peak_Mem_Usage
 
 _Mkl_Api(void*,MKL_malloc,(size_t size, int align)) /* Allocates the aligned buffer */
@@ -79,7 +79,7 @@ _Mkl_Api(void*,MKL_realloc,(void *ptr, size_t size)) /* Changes the size of memo
 _Mkl_Api(void,MKL_free,(void *ptr))                 /* Frees the memory allocated by MKL_malloc() */
 #define mkl_free                    MKL_free
 
-_Mkl_Api(int,MKL_Disable_Fast_MM,(void))            /* Turns off the Intel(R) MKL Memory Manager */
+_Mkl_Api(int,MKL_Disable_Fast_MM,(void))            /* Turns off the oneMKL Memory Manager */
 #define  mkl_disable_fast_mm        MKL_Disable_Fast_MM
 
 _Mkl_Api(void,MKL_Get_Cpu_Clocks,(unsigned MKL_INT64 *)) /* Gets CPU clocks */
@@ -113,7 +113,7 @@ _Mkl_Api(void,MKL_Set_Dynamic,(int bool_MKL_DYNAMIC))
 _Mkl_Api(int,MKL_Get_Dynamic,(void))
 #define mkl_get_dynamic             MKL_Get_Dynamic
 
-/* Intel(R) MKL Progress routine */
+/* oneMKL Progress routine */
 #ifndef _MKL_PROGRESS_H_
 #define _MKL_PROGRESS_H_
 _Mkl_Api(int,MKL_PROGRESS, ( int* thread, int* step, char* stage, int lstage ))
@@ -134,6 +134,7 @@ _Mkl_Api(int,MKL_Enable_Instructions,(int))
 #define  MKL_ENABLE_AVX512_E2       7
 #define  MKL_ENABLE_AVX512_E3       8
 #define  MKL_ENABLE_AVX512_E4       9
+#define  MKL_ENABLE_AVX2_E1        10
 #define  MKL_SINGLE_PATH_ENABLE     0x0600
 
 /* Single Dynamic library interface */
@@ -158,7 +159,7 @@ _Mkl_Api(XerblaEntry,mkl_set_xerbla,(XerblaEntry xerbla))
 typedef int (* ProgressEntry) (int* thread, int* step, char* stage, int stage_len);
 _Mkl_Api(ProgressEntry,mkl_set_progress,(ProgressEntry progress))
 
-/* Intel(R) MKL CBWR */
+/* oneMKL CBWR */
 _Mkl_Api(int,MKL_CBWR_Get,(int))
 #define mkl_cbwr_get                MKL_CBWR_Get
 _Mkl_Api(int,MKL_CBWR_Set,(int))
@@ -196,8 +197,7 @@ enum {
     MKL_BLACS_CUSTOM = 0,
     MKL_BLACS_MSMPI = 1,
     MKL_BLACS_INTELMPI = 2,
-    MKL_BLACS_MPICH2 = 3,
-    MKL_BLACS_LASTMPI = 4
+    MKL_BLACS_LASTMPI = 3
 };
 int MKL_Set_mpi(int vendor, const char *custom_library_name);
 #define mkl_set_mpi MKL_Set_mpi

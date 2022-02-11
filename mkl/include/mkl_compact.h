@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2017-2020 Intel Corporation.
+* Copyright 2017-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interfaces for Compact format
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interfaces for Compact format
 !******************************************************************************/
 #ifndef _MKL_COMPACT_H
 #define _MKL_COMPACT_H

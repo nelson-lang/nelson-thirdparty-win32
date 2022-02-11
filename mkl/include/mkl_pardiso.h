@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2004-2020 Intel Corporation.
+* Copyright 2004-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 /*
-*   Content : Intel(R) MKL PARDISO C header file
+*   Content : oneMKL PARDISO C header file
 *
 *           Contains interface to PARDISO.
 *
@@ -112,7 +112,7 @@ _Mkl_Api(void,PARDISO_HANDLE_RESTORE,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *
 _Mkl_Api(void,pardiso_handle_delete,( const char*, MKL_INT *));
 _Mkl_Api(void,PARDISO_HANDLE_DELETE,( const char*, MKL_INT *));
 
-/* Intel(R) MKL Progress routine */
+/* oneMKL Progress routine */
 #ifndef _MKL_PARDISO_PIVOT_H_
 #define _MKL_PARDISO_PIVOT_H_
 _Mkl_Api(int,MKL_PARDISO_PIVOT, ( const double* aii, double* bii, const double* eps ))

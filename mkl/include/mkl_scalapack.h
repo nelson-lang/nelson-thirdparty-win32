@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2020 Intel Corporation.
+* Copyright 1999-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface for SCALAPACK routines
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface for SCALAPACK routines
 !******************************************************************************/
 
 #ifndef _MKL_SCALAPACK_H_
@@ -752,7 +752,7 @@ void	pdlasnbt(MKL_INT* ieflag);
 
 void	pxerbla(const MKL_INT* ictxt, const char* srname, const MKL_INT* info, MKL_INT srname_len);
 
-/* Declarations are added in Intel(R) MKL 11.2 Beta */
+/* Declarations are added in oneMKL 11.2 Beta */
 
 void	bdlaapp(const MKL_INT* iside, const MKL_INT* m, const MKL_INT* n, const MKL_INT* nb, double* a, const MKL_INT* lda, const MKL_INT* nitraf, const MKL_INT* itraf, double* dtraf, double* work);
 void	bdlaexc(const MKL_INT* n, double* t, const MKL_INT* ldt, const MKL_INT* j1, const MKL_INT* n1, const MKL_INT* n2, MKL_INT* itraf, double* dtraf, double* work, MKL_INT* info);
@@ -822,7 +822,7 @@ void	sstegr2(const char* jobz, const char* range, const MKL_INT* n, float* d, fl
 void	sstegr2a(const char* jobz, const char* range, const MKL_INT* n, float* d, float* e, const float* vl, const float* vu, const MKL_INT* il, const MKL_INT* iu, MKL_INT* m, float* w, float* z, const MKL_INT* ldz, const MKL_INT* nzc, float* work, const MKL_INT* lwork, MKL_INT* iwork, const MKL_INT* liwork, const MKL_INT* dol, const MKL_INT* dou, MKL_INT* needil, MKL_INT* neediu, MKL_INT* inderr, MKL_INT* nsplit, float* pivmin, float* scale, float* wl, float* wu, MKL_INT* info);
 void	sstegr2b(const char* jobz, const MKL_INT* n, float* d, float* e, const MKL_INT* m, const float* w, float* z, const MKL_INT* ldz, const MKL_INT* nzc, MKL_INT* isuppz, float* work, const MKL_INT* lwork, MKL_INT* iwork, const MKL_INT* liwork, const MKL_INT* dol, const MKL_INT* dou, MKL_INT* needil, MKL_INT* neediu, MKL_INT* indwlc, const float* pivmin, const float* scale, const float* wl, const float* wu, MKL_INT* vstart, MKL_INT* finish, MKL_INT* maxcls, MKL_INT* ndepth, MKL_INT* parity, const MKL_INT* zoffset, MKL_INT* info);
 
-/* Declarations added Intel(R) MKL 11.3.2 */
+/* Declarations added oneMKL 11.3.2 */
 
 void	pchengst(const MKL_INT* ibtype, const char* uplo, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* ia, const MKL_INT* ja, const MKL_INT* desca, const MKL_Complex8* b, const MKL_INT* ib, const MKL_INT* jb, const MKL_INT* descb, float* scale, MKL_Complex8* work, const MKL_INT* lwork, MKL_INT* info);
 void	pzhengst(const MKL_INT* ibtype, const char* uplo, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* ia, const MKL_INT* ja, const MKL_INT* desca, const MKL_Complex16* b, const MKL_INT* ib, const MKL_INT* jb, const MKL_INT* descb, double* scale, MKL_Complex16* work, const MKL_INT* lwork, MKL_INT* info);
@@ -2794,7 +2794,7 @@ void	PXERBLA(const MKL_INT* ictxt, const char* srname, const MKL_INT* info, MKL_
 void	PXERBLA_(const MKL_INT* ictxt, const char* srname, const MKL_INT* info, MKL_INT srname_len);
 void	pxerbla_(const MKL_INT* ictxt, const char* srname, const MKL_INT* info, MKL_INT srname_len);
 
-/* Declarations are added in Intel(R) MKL 11.2 Beta */
+/* Declarations are added in oneMKL 11.2 Beta */
 
 void	BDLAAPP(const MKL_INT* iside, const MKL_INT* m, const MKL_INT* n, const MKL_INT* nb, double* a, const MKL_INT* lda, const MKL_INT* nitraf, const MKL_INT* itraf, double* dtraf, double* work);
 void	BDLAAPP_(const MKL_INT* iside, const MKL_INT* m, const MKL_INT* n, const MKL_INT* nb, double* a, const MKL_INT* lda, const MKL_INT* nitraf, const MKL_INT* itraf, double* dtraf, double* work);
@@ -3028,7 +3028,7 @@ void	SSTEGR2B(const char* jobz, const MKL_INT* n, float* d, float* e, const MKL_
 void	SSTEGR2B_(const char* jobz, const MKL_INT* n, float* d, float* e, const MKL_INT* m, const float* w, float* z, const MKL_INT* ldz, const MKL_INT* nzc, MKL_INT* isuppz, float* work, const MKL_INT* lwork, MKL_INT* iwork, const MKL_INT* liwork, const MKL_INT* dol, const MKL_INT* dou, MKL_INT* needil, MKL_INT* neediu, MKL_INT* indwlc, const float* pivmin, const float* scale, const float* wl, const float* wu, MKL_INT* vstart, MKL_INT* finish, MKL_INT* maxcls, MKL_INT* ndepth, MKL_INT* parity, const MKL_INT* zoffset, MKL_INT* info);
 void	sstegr2b_(const char* jobz, const MKL_INT* n, float* d, float* e, const MKL_INT* m, const float* w, float* z, const MKL_INT* ldz, const MKL_INT* nzc, MKL_INT* isuppz, float* work, const MKL_INT* lwork, MKL_INT* iwork, const MKL_INT* liwork, const MKL_INT* dol, const MKL_INT* dou, MKL_INT* needil, MKL_INT* neediu, MKL_INT* indwlc, const float* pivmin, const float* scale, const float* wl, const float* wu, MKL_INT* vstart, MKL_INT* finish, MKL_INT* maxcls, MKL_INT* ndepth, MKL_INT* parity, const MKL_INT* zoffset, MKL_INT* info);
 
-/* Declarations added Intel(R) MKL 11.3.2 */
+/* Declarations added oneMKL 11.3.2 */
 
 void	PCHENGST(const MKL_INT* ibtype, const char* uplo, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* ia, const MKL_INT* ja, const MKL_INT* desca, const MKL_Complex8* b, const MKL_INT* ib, const MKL_INT* jb, const MKL_INT* descb, float* scale, MKL_Complex8* work, const MKL_INT* lwork, MKL_INT* info);
 void	PZHENGST(const MKL_INT* ibtype, const char* uplo, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* ia, const MKL_INT* ja, const MKL_INT* desca, const MKL_Complex16* b, const MKL_INT* ib, const MKL_INT* jb, const MKL_INT* descb, double* scale, MKL_Complex16* work, const MKL_INT* lwork, MKL_INT* info);

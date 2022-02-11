@@ -1,6 +1,6 @@
 /* file: mkl_vsl_defines.h */
 /*******************************************************************************
-* Copyright 2006-2020 Intel Corporation.
+* Copyright 2006-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -68,7 +68,7 @@ extern "C" {
 #define VSL_RNG_ERROR_NO_NUMBERS                -1121
 #define VSL_RNG_ERROR_INVALID_ABSTRACT_STREAM   -1122
 
-/* non determenistic stream related errors */
+/* non deterministic stream related errors */
 #define VSL_RNG_ERROR_NONDETERM_NOT_SUPPORTED     -1130
 #define VSL_RNG_ERROR_NONDETERM_NRETRIES_EXCEEDED -1131
 
@@ -712,7 +712,7 @@ extern "C" {
 //               * left exponential tail;
 //               * right exponential tail.
 //
-//            othewise table lookup method is used
+//            otherwise table lookup method is used
 */
 #define VSL_RNG_METHOD_BINOMIAL_BTPE 0 /* vsliRngBinomial */
 
@@ -735,7 +735,7 @@ extern "C" {
 //               * left exponential tail;
 //               * right exponential tail.
 //
-//            othewise table lookup method is used
+//            otherwise table lookup method is used
 */
 #define VSL_RNG_METHOD_HYPERGEOMETRIC_H2PE 0 /* vsliRngHypergeometric */
 
@@ -751,7 +751,7 @@ extern "C" {
 //               * left exponential tail;
 //               * right exponential tail.
 //
-//            othewise table lookup method is used
+//            otherwise table lookup method is used
 //
 // POISNORM   for lambda>=1 method is based on Poisson inverse CDF
 //            approximation by Gaussian inverse CDF; for lambda<1
@@ -782,7 +782,7 @@ extern "C" {
 //               * left exponential tail;
 //               * right exponential tail.
 //
-//            othewise table lookup method is used.
+//            otherwise table lookup method is used.
 */
 #define VSL_RNG_METHOD_NEGBINOMIAL_NBAR 0 /* vsliRngNegbinomial */
 
@@ -853,7 +853,7 @@ extern "C" {
 // (central/raw moments up to 4th order, variance-covariance,
 //  minimum, maximum, skewness/kurtosis) using the following methods
 //  - FAST  - estimates are computed for price of one or two passes over
-//            observations using highly optimized Intel(R) MKL routines
+//            observations using highly optimized oneMKL routines
 //  - 1PASS - estimate is computed for price of one pass of the observations
 //  - FAST_USER_MEAN - estimates are computed for price of one or two passes
 //            over observations given user defined mean for central moments,

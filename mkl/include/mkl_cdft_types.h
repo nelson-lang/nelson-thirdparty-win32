@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2002-2020 Intel Corporation.
+* Copyright 2002-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface for Cluster DFT routines
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface for Cluster DFT routines
 !******************************************************************************/
 
 /* Avoid multiple definition */

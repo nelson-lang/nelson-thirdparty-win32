@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2020 Intel Corporation.
+* Copyright 1999-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 ! Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) types definition
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) types definition
 !****************************************************************************/
 
 #ifndef _MKL_TYPES_H_
@@ -24,7 +24,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-/* Intel(R) MKL Complex type for single precision */
+/* oneMKL Complex type for single precision */
 #ifndef MKL_Complex8
 typedef
 struct _MKL_Complex8 {
@@ -33,7 +33,7 @@ struct _MKL_Complex8 {
 } MKL_Complex8;
 #endif
 
-/* Intel(R) MKL Complex type for double precision */
+/* oneMKL Complex type for double precision */
 #ifndef MKL_Complex16
 typedef
 struct _MKL_Complex16 {
@@ -42,7 +42,7 @@ struct _MKL_Complex16 {
 } MKL_Complex16;
 #endif
 
-/* Intel(R) MKL Version type */
+/* oneMKL Version type */
 typedef
 struct {
     int    MajorVersion;
@@ -54,7 +54,7 @@ struct {
     char * Platform;
 } MKLVersion;
 
-/* Intel(R) MKL integer types for LP64 and ILP64 */
+/* oneMKL integer types for LP64 and ILP64 */
 #if (!defined(__INTEL_COMPILER)) & defined(_MSC_VER)
     #define MKL_INT64 __int64
     #define MKL_UINT64 unsigned __int64
@@ -65,7 +65,7 @@ struct {
 
 #ifdef MKL_ILP64
 
-/* Intel(R) MKL ILP64 integer types */
+/* oneMKL ILP64 integer types */
 #ifndef MKL_INT
     #define MKL_INT MKL_INT64
 #endif
@@ -76,7 +76,7 @@ struct {
 
 #else
 
-/* Intel(R) MKL LP64 integer types */
+/* oneMKL LP64 integer types */
 #ifndef MKL_INT
     #define MKL_INT int
 #endif
@@ -87,7 +87,7 @@ struct {
 
 #endif
 
-/* Intel(R) MKL integer types */
+/* oneMKL integer types */
 #ifndef MKL_UINT8
     #define MKL_UINT8 unsigned char
 #endif
@@ -103,8 +103,11 @@ struct {
 #ifndef MKL_INT32
     #define MKL_INT32 int
 #endif
+#ifndef MKL_F16
+    #define MKL_F16 unsigned short
+#endif
 
-/* Intel(R) MKL domain names */
+/* oneMKL domain names */
 #define MKL_DOMAIN_ALL      0
 #define MKL_DOMAIN_BLAS     1
 #define MKL_DOMAIN_FFT      2
@@ -112,7 +115,7 @@ struct {
 #define MKL_DOMAIN_PARDISO  4
 #define MKL_DOMAIN_LAPACK   5
 
-/* Intel(R) MKL CBWR */
+/* oneMKL CBWR */
 
 /* mkl_cbwr_get options */
 #define MKL_CBWR_BRANCH 1
@@ -157,7 +160,8 @@ typedef enum {
 typedef enum {
     MKL_NOTRANS = 111,
     MKL_TRANS = 112,
-    MKL_CONJTRANS = 113
+    MKL_CONJTRANS = 113,
+    MKL_CONJ = 114
 } MKL_TRANSPOSE;
 
 typedef enum {

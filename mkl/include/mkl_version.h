@@ -1,6 +1,6 @@
 #if 0
 /*******************************************************************************
-* Copyright 2015-2020 Intel Corporation.
+* Copyright 2015-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -17,19 +17,23 @@
 #if 0
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface
 !******************************************************************************/
 #endif
 
 #ifndef _MKL_VERSION_H_
 #define _MKL_VERSION_H_
 
-#define __INTEL_MKL_BUILD_DATE 20201104
+#define __INTEL_MKL_BUILD_DATE 20211112
 
-#define __INTEL_MKL__          2021
+
+#define __INTEL_MKL__          2022
+
 #define __INTEL_MKL_MINOR__    0
-#define __INTEL_MKL_UPDATE__   1
+#define __INTEL_MKL_UPDATE__   0
 
-#define INTEL_MKL_VERSION      202101
+
+#define INTEL_MKL_VERSION      20220000
+
 
 #endif

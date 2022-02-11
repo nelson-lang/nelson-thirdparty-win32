@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2006-2020 Intel Corporation.
+* Copyright 2006-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,11 +14,11 @@
 
 /**
  * This header file describes how memory allocation can be replaced
- * in the Intel(R) Math Kernel Library (Intel(R) MKL). It contains
+ * in the Intel(R) oneAPI Math Kernel Library (oneMKL). It contains
  * all declarations required by an application developer to replace
  * the memory allocation.
  *
- * Intel(R) MKL supporting this feature only use the following
+ * oneMKL supporting this feature only use the following
  * functions to allocate or free memory:
  * - malloc
  * - calloc
@@ -38,10 +38,10 @@
  * Therefore an application can safely set these function pointers
  * at the very beginning of its execution to some other replacement
  * functions. The function pointers must remain valid while
- * Intel(R) MKL is in use.
+ * oneMKL is in use.
  *
  * Setting these pointers is optional because the copies contained in
- * Intel(R) MKL point to the standard C library functions by default.
+ * oneMKL point to the standard C library functions by default.
  *
  * On Windows(R) data exported by a DLL and data contained in a static
  * library are accessed differently. To support mixing static

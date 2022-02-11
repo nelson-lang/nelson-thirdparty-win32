@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2020 Intel Corporation.
+* Copyright 1999-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface
 !******************************************************************************/
 
 #ifndef _MKL_H_

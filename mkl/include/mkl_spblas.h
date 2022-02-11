@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2005-2020 Intel Corporation.
+* Copyright 2005-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 ! Content:
-!  Intel(R) Math Kernel Library (Intel(R) MKL) interface for Sparse BLAS
+!  Intel(R) oneAPI Math Kernel Library (oneMKL) interface for Sparse BLAS
 !  level 2,3 routines
 !
 !******************************************************************************/
@@ -32,10 +32,6 @@
 #pragma message("WARNING: MKL SpBLAS was declared deprecated. Use MKL IE SpBLAS instead")
 #define MKL_DEPRECATED
 #endif
-
-#if defined(MKL_STDCALL) && !defined(__MIC__) && !defined(__TARGET_ARCH_MIC)
-#include "mkl_spblas_stdcall.h"
-#else
 
 #ifdef __cplusplus
 extern "C" {
@@ -1730,5 +1726,4 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
 #ifdef __cplusplus
 }
 #endif /*__cplusplus */
-#endif /* MKL_STDCALL */
 #endif /*_MKL_SPBLAS_H_ */

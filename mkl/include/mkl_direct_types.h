@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2016-2020 Intel Corporation.
+* Copyright 2016-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) types definition for functions
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) types definition for functions
 !      than can be inlined
 !******************************************************************************/
 #include "mkl_types.h"

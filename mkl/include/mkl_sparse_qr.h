@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2018-2020 Intel Corporation.
+* Copyright 2018-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 *   Content:
-*           Intel(R) Math Kernel Library (Intel(R) MKL) Sparse QR C header file
+*           Intel(R) oneAPI Math Kernel Library (oneMKL) Sparse QR C header file
 *
 *           Contains interface to: MKL_SPARSE_X_QR
 *                                  MKL_SPARSE_QR_REORDER
@@ -33,9 +33,7 @@
 #include "mkl_types.h"
 #include "mkl_spblas.h"
 
-#if defined(MKL_STDCALL)
-#include "mkl_sparse_qr_stdcall.h"
-#else
+#ifndef MKL_STDCALL
 
 #ifdef __cplusplus
 extern "C" {

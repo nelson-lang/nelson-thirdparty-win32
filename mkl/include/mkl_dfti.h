@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2002-2020 Intel Corporation.
+* Copyright 2002-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 ! Content:
-!    Intel(R) Math Kernel Library (Intel(R) MKL)
+!    Intel(R) oneAPI Math Kernel Library (oneMKL)
 !    Discrete Fourier Transform Interface (DFTI)
 !****************************************************************************/
 
@@ -55,10 +55,11 @@ struct DFTI_DESCRIPTOR{};
 #define DFTI_MKL_INTERNAL_ERROR          7
 #define DFTI_NUMBER_OF_THREADS_ERROR     8
 #define DFTI_1D_LENGTH_EXCEEDS_INT32     9
+#define DFTI_1D_MEMORY_EXCEEDS_INT32     9
 
 #define DFTI_MAX_MESSAGE_LENGTH 80 /* Maximum length of error string */
 #define DFTI_MAX_NAME_LENGTH 10 /* DEPRECATED */
-#define DFTI_VERSION_LENGTH 198 /* Maximum length of Intel(R) MKL version string */
+#define DFTI_VERSION_LENGTH 198 /* Maximum length of oneMKL version string */
 
 /* Descriptor configuration parameters [default values in brackets] */
 enum DFTI_CONFIG_PARAM
@@ -244,7 +245,7 @@ DFTI_EXTERN char* DftiErrorMessage(MKL_LONG);
 DFTI_EXTERN MKL_LONG DftiErrorClass(MKL_LONG, MKL_LONG);
 /**********************************************************************
  * INTERNAL INTERFACES. These internal interfaces are not intended to
- * be called directly by Intel(R) MKL users and may change in future releases.
+ * be called directly by oneMKL users and may change in future releases.
  */
 DFTI_EXTERN MKL_LONG DftiCreateDescriptor_s_1d(DFTI_DESCRIPTOR_HANDLE *,
                                    enum DFTI_CONFIG_VALUE domain,

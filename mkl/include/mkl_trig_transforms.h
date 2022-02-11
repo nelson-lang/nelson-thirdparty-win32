@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2006-2020 Intel Corporation.
+* Copyright 2006-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,13 +14,13 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface for TT routines
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface for TT routines
 !******************************************************************************/
 
 #ifndef _MKL_TRIG_TRANSFORMS_H_
 #define _MKL_TRIG_TRANSFORMS_H_
 
-/* definitions of Intel(R) MKL types */
+/* definitions of oneMKL types */
 #include "mkl_types.h"
 #include "mkl_dfti.h"
 
