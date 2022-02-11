@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2020 Intel Corporation.
+* Copyright 2020-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) for OpenMP compiler offload
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) for OpenMP compiler offload
 !      interface
 !******************************************************************************/
 
@@ -42,6 +42,12 @@ int vsRngGaussian(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], con
 
 #pragma omp declare variant (MKL_VARIANT_NAME(vsl, vdRngGaussian)) match(construct={target variant dispatch}, device={arch(gen)})
 int vdRngGaussian(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vsRngGaussianMV)) match(construct={target variant dispatch}, device={arch(gen)})
+int vsRngGaussianMV(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const MKL_INT, const MKL_INT, const float*, const float*) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vdRngGaussianMV)) match(construct={target variant dispatch}, device={arch(gen)})
+int vdRngGaussianMV(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const MKL_INT, const MKL_INT, const double*, const double*) NOTHROW;
 
 #pragma omp declare variant (MKL_VARIANT_NAME(vsl, vsRngLognormal)) match(construct={target variant dispatch}, device={arch(gen)})
 int vsRngLognormal(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float, const float, const float) NOTHROW;
@@ -85,6 +91,39 @@ int vsRngWeibull(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], cons
 #pragma omp declare variant (MKL_VARIANT_NAME(vsl, vdRngWeibull)) match(construct={target variant dispatch}, device={arch(gen)})
 int vdRngWeibull(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double, const double) NOTHROW;
 
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vsRngBeta)) match(construct={target variant dispatch}, device={arch(gen)})
+int vsRngBeta(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float, const float, const float) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vdRngBeta)) match(construct={target variant dispatch}, device={arch(gen)})
+int vdRngBeta(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double, const double, const double) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vsRngGamma)) match(construct={target variant dispatch}, device={arch(gen)})
+int vsRngGamma(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float, const float) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vdRngGamma)) match(construct={target variant dispatch}, device={arch(gen)})
+int vdRngGamma(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double, const double) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vsRngChiSquare)) match(construct={target variant dispatch}, device={arch(gen)})
+int vsRngChiSquare(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const int) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, vdRngChiSquare)) match(construct={target variant dispatch}, device={arch(gen)})
+int vdRngChiSquare(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const int) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngHypergeometric)) match(construct={target variant dispatch}, device={arch(gen)})
+int viRngHypergeometric(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const int, const int, const int) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngBinomial)) match(construct={target variant dispatch}, device={arch(gen)})
+int viRngBinomial(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const int, const double) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngMultinomial)) match(construct={target variant dispatch}, device={arch(gen)})
+int viRngMultinomial(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const int, const int, const double*) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngPoissonV)) match(construct={target variant dispatch}, device={arch(gen)})
+int viRngPoissonV(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double*) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngNegbinomial)) match(construct={target variant dispatch}, device={arch(gen)})
+int viRngNegbinomial(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double, const double) NOTHROW;
+
 #pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngBernoulli)) match(construct={target variant dispatch}, device={arch(gen)})
 int viRngBernoulli(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double) NOTHROW;
 
@@ -102,6 +141,12 @@ int viRngUniformBits32(const MKL_INT, VSLStreamStatePtr, const MKL_INT, unsigned
 
 #pragma omp declare variant (MKL_VARIANT_NAME(vsl, viRngUniformBits64)) match(construct={target variant dispatch}, device={arch(gen)})
 int viRngUniformBits64(const MKL_INT, VSLStreamStatePtr, const MKL_INT, unsigned MKL_INT64 []) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, sSSCompute)) match(construct={target variant dispatch}, device={arch(gen)})
+int vslsSSCompute(VSLSSTaskPtr, const unsigned MKL_INT64, const MKL_INT) NOTHROW;
+
+#pragma omp declare variant (MKL_VARIANT_NAME(vsl, dSSCompute)) match(construct={target variant dispatch}, device={arch(gen)})
+int vsldSSCompute(VSLSSTaskPtr, const unsigned MKL_INT64, const MKL_INT) NOTHROW;
 
 #ifdef __cplusplus
 }

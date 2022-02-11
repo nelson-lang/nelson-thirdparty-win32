@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2020 Intel Corporation.
+* Copyright 1999-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface for PBLAS routines
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface for PBLAS routines
 !******************************************************************************/
 
 #ifndef _MKL_PBLAS_H_

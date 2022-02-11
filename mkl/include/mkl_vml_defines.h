@@ -1,6 +1,6 @@
 /* file: mkl_vml_defines.h */
 /*******************************************************************************
-* Copyright 2006-2020 Intel Corporation.
+* Copyright 2006-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -109,14 +109,30 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 /*
 //  OpenMP(R) number of threads mode macros
 //  VML_NUM_THREADS_OMP_AUTO   - Maximum number of threads is determined by
-//                               environmental variable OPM_NUM_THREADS or
+//                               environmental variable OMP_NUM_THREADS or
 //                               omp_set_num_threads() function
 //  VML_NUM_THREADS_OMP_FIXED  - Number of threads is determined by
-//                               environmental variable OPM_NUM_THREADS
+//                               environmental variable OMP_NUM_THREADS
 //                               omp_set_num_threads() functions
 */
 #define VML_NUM_THREADS_OMP_AUTO   0x00000000
 #define VML_NUM_THREADS_OMP_FIXED  0x00010000
+
+/*
+//  TBB partitioner control macros
+//  VML_TBB_PARTITIONER_AUTO   - Automatic TBB partitioner tbb::auto_partitioner().
+//                               Performs sufficient splitting to balance load.
+//  VML_TBB_PARTITIONER_STATIC - Static TBB partitioner tbb::static_partitioner().
+//                               Distributes range iterations among worker threads as uniformly as possible,
+//                               without a possibility for further load balancing.
+//  VML_TBB_PARTITIONER_SIMPLE - Simple TBB partitioner tbb::simple_partitioner().
+//                               Recursively splits a range until it is no longer divisible.
+//
+*/
+#define VML_TBB_PARTITIONER_AUTO   0x00000000
+#define VML_TBB_PARTITIONER_STATIC 0x00010000
+#define VML_TBB_PARTITIONER_SIMPLE 0x00020000
+
 
 /*
 //  FTZ & DAZ mode macros
@@ -155,6 +171,7 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 //                                (not including error callback bits)
 //  VML_ERRMODE_CALLBACK_MASK   - extract error callback bits
 //  VML_NUM_THREADS_OMP_MASK    - extract OpenMP(R) number of threads mode bits
+//  VML_TBB_PARTITIONER_MASK    - extract TBB partitioner control bits
 //  VML_FTZDAZ_MASK             - extract FTZ & DAZ bits
 //  VML_TRAP_EXCEPTIONS_MASK    - extract exception trap bits
 */
@@ -164,6 +181,7 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 #define VML_ERRMODE_STDHANDLER_MASK 0x00002F00
 #define VML_ERRMODE_CALLBACK_MASK   0x00001000
 #define VML_NUM_THREADS_OMP_MASK    0x00030000
+#define VML_TBB_PARTITIONER_MASK    0x00030000
 #define VML_FTZDAZ_MASK             0x003C0000
 #define VML_TRAP_EXCEPTIONS_MASK    0x0F000000
 

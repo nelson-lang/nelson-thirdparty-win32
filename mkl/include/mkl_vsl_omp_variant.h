@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2020 Intel Corporation.
+* Copyright 2020-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) for OpenMP compiler offload
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) for OpenMP compiler offload
 !      interface
 !******************************************************************************/
 
@@ -37,6 +37,10 @@ int MKL_VARIANT_NAME(vsl, viRngUniform)(const MKL_INT, VSLStreamStatePtr, const 
 int MKL_VARIANT_NAME(vsl, vsRngGaussian)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float) NOTHROW;
 
 int MKL_VARIANT_NAME(vsl, vdRngGaussian)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vsRngGaussianMV)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const MKL_INT, const MKL_INT, const float*, const float*) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vdRngGaussianMV)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const MKL_INT, const MKL_INT, const double*, const double*) NOTHROW;
 
 int MKL_VARIANT_NAME(vsl, vsRngLognormal)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float, const float, const float) NOTHROW;
 
@@ -66,6 +70,28 @@ int MKL_VARIANT_NAME(vsl, vsRngWeibull)(const MKL_INT, VSLStreamStatePtr, const 
 
 int MKL_VARIANT_NAME(vsl, vdRngWeibull)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double, const double) NOTHROW;
 
+int MKL_VARIANT_NAME(vsl, vsRngBeta)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float, const float, const float) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vdRngBeta)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double, const double, const double) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vsRngGamma)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const float, const float, const float) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vdRngGamma)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const double, const double, const double) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vsRngChiSquare)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, float [], const int) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, vdRngChiSquare)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, double [], const int) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, viRngHypergeometric)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const int, const int, const int) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, viRngBinomial)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const int, const double) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, viRngMultinomial)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const int, const int, const double*) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, viRngPoissonV)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double*) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, viRngNegbinomial)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double, const double) NOTHROW;
+
 int MKL_VARIANT_NAME(vsl, viRngBernoulli)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double) NOTHROW;
 
 int MKL_VARIANT_NAME(vsl, viRngGeometric)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, int [], const double) NOTHROW;
@@ -77,6 +103,10 @@ int MKL_VARIANT_NAME(vsl, viRngUniformBits)(const MKL_INT, VSLStreamStatePtr, co
 int MKL_VARIANT_NAME(vsl, viRngUniformBits32)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, unsigned int []) NOTHROW;
 
 int MKL_VARIANT_NAME(vsl, viRngUniformBits64)(const MKL_INT, VSLStreamStatePtr, const MKL_INT, unsigned MKL_INT64 []) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, sSSCompute)(VSLSSTaskPtr, const unsigned MKL_INT64, const MKL_INT) NOTHROW;
+
+int MKL_VARIANT_NAME(vsl, dSSCompute)(VSLSSTaskPtr, const unsigned MKL_INT64, const MKL_INT) NOTHROW;
 
 #ifdef __cplusplus
 }

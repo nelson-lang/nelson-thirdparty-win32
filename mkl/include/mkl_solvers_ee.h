@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2012-2020 Intel Corporation.
+* Copyright 2012-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 /*
-*   Content : Intel(R) MKL FEAST C header file
+*   Content : oneMKL FEAST C header file
 *
 *           Contains interface to FEAST.
 *
@@ -24,10 +24,6 @@
 #if !defined( __MKL_SOLVERS_EE_H )
 #define __MKL_SOLVERS_EE_H
 #include "mkl_types.h"
-
-#if defined(MKL_STDCALL) && !defined(__MIC__) && !defined(__TARGET_ARCH_MIC)
-#include "mkl_solvers_ee_stdcall.h"
-#else
 
 #ifdef __cplusplus
 extern "C" {
@@ -148,7 +144,6 @@ sparse_status_t mkl_sparse_s_svd(char *whichE, char *whichV, MKL_INT *pm, sparse
 }
 #endif /* __cplusplus */
 
-#endif
 #endif
 
 

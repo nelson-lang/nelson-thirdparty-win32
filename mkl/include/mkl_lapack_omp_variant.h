@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2019-2020 Intel Corporation.
+* Copyright 2019-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -22,22 +22,12 @@
 #define _MKL_LAPACK_OMP_VARIANT_H_
 
 #include "mkl_types.h"
+#include "mkl_omp_variant.h"
 
-#if defined(_WIN32) || defined(_WIN64)
-#define MKL_LAPACK_OPENMP_OFFLOAD(name) mkl_lapack_openmp_offload_cl_ ## name
-#else
-#define MKL_LAPACK_OPENMP_OFFLOAD(name) mkl_lapack_openmp_offload_ ## name
-#endif /* defined(_WIN32) || defined(_WIN64) */
+#define MKL_LAPACK_OPENMP_OFFLOAD(name) MKL_VARIANT_NAME(lapack, name)
 
 #ifdef __cplusplus
 extern "C" {
-#if __cplusplus > 199711L
-#define NOTHROW noexcept
-#else
-#define NOTHROW throw()
-#endif
-#else
-#define NOTHROW
 #endif /* __cplusplus */
 
 void MKL_LAPACK_OPENMP_OFFLOAD(cgebrd)(const MKL_INT* m, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda,
@@ -275,6 +265,137 @@ void MKL_LAPACK_OPENMP_OFFLOAD(zunmqr)(const char* side, const char* trans, cons
                                        const MKL_INT* k, const MKL_Complex16* a, const MKL_INT* lda,
                                        const MKL_Complex16* tau, MKL_Complex16* c, const MKL_INT* ldc,
                                        MKL_Complex16* work, const MKL_INT* lwork, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetrf_batch_strided)(const MKL_INT* m, const MKL_INT* n, MKL_Complex8* a,
+                                                     const MKL_INT* lda, const MKL_INT* stride_a, MKL_INT* ipiv,
+                                                     const MKL_INT* stride_ipiv, const MKL_INT* batch_size,
+                                                     MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetrf_batch_strided)(const MKL_INT* m, const MKL_INT* n, double* a, const MKL_INT* lda,
+                                                     const MKL_INT* stride_a, MKL_INT* ipiv, const MKL_INT* stride_ipiv,
+                                                     const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetrf_batch_strided)(const MKL_INT* m, const MKL_INT* n, float* a, const MKL_INT* lda,
+                                                     const MKL_INT* stride_a, MKL_INT* ipiv, const MKL_INT* stride_ipiv,
+                                                     const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetrf_batch_strided)(const MKL_INT* m, const MKL_INT* n, MKL_Complex16* a,
+                                                     const MKL_INT* lda, const MKL_INT* stride_a, MKL_INT* ipiv,
+                                                     const MKL_INT* stride_ipiv, const MKL_INT* batch_size,
+                                                     MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetri_oop_batch_strided)(const MKL_INT* n, const MKL_Complex8* a, const MKL_INT* lda,
+                                                         const MKL_INT* stride_a, const MKL_INT* ipiv,
+                                                         const MKL_INT* stride_ipiv, MKL_Complex8* ainv,
+                                                         const MKL_INT* ldainv, const MKL_INT* stride_ainv,
+                                                         const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetri_oop_batch_strided)(const MKL_INT* n, const double* a, const MKL_INT* lda,
+                                                         const MKL_INT* stride_a, const MKL_INT* ipiv,
+                                                         const MKL_INT* stride_ipiv, double* ainv,
+                                                         const MKL_INT* ldainv, const MKL_INT* stride_ainv,
+                                                         const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetri_oop_batch_strided)(const MKL_INT* n, const float* a, const MKL_INT* lda,
+                                                         const MKL_INT* stride_a, const MKL_INT* ipiv,
+                                                         const MKL_INT* stride_ipiv, float* ainv, const MKL_INT* ldainv,
+                                                         const MKL_INT* stride_ainv, const MKL_INT* batch_size,
+                                                         MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetri_oop_batch_strided)(const MKL_INT* n, const MKL_Complex16* a, const MKL_INT* lda,
+                                                         const MKL_INT* stride_a, const MKL_INT* ipiv,
+                                                         const MKL_INT* stride_ipiv, MKL_Complex16* ainv,
+                                                         const MKL_INT* ldainv, const MKL_INT* stride_ainv,
+                                                         const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetri_oop_batch)(const MKL_INT* n, const MKL_Complex8** a, const MKL_INT* lda, const MKL_INT** ipiv,
+                                                 MKL_Complex8** ainv, const MKL_INT* ldainv, const MKL_INT* group_count,
+                                                 const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetri_oop_batch)(const MKL_INT* n, const double** a, const MKL_INT* lda, const MKL_INT** ipiv,
+                                                 double** ainv, const MKL_INT* ldainv, const MKL_INT* group_count,
+                                                 const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetri_oop_batch)(const MKL_INT* n, const float** a, const MKL_INT* lda, const MKL_INT** ipiv,
+                                                 float** ainv, const MKL_INT* ldainv, const MKL_INT* group_count,
+                                                 const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetri_oop_batch)(const MKL_INT* n, const MKL_Complex16** a, const MKL_INT* lda, const MKL_INT** ipiv,
+                                                 MKL_Complex16** ainv, const MKL_INT* ldainv, const MKL_INT* group_count,
+                                                 const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetrs_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                     const MKL_Complex8* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                                                     const MKL_INT* ipiv, const MKL_INT* stride_ipiv, MKL_Complex8* b,
+                                                     const MKL_INT* ldb, const MKL_INT* stride_b,
+                                                     const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetrs_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                     const double* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                                                     const MKL_INT* ipiv, const MKL_INT* stride_ipiv, double* b,
+                                                     const MKL_INT* ldb, const MKL_INT* stride_b,
+                                                     const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetrs_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                     const float* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                                                     const MKL_INT* ipiv, const MKL_INT* stride_ipiv, float* b,
+                                                     const MKL_INT* ldb, const MKL_INT* stride_b,
+                                                     const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetrs_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                     const MKL_Complex16* a, const MKL_INT* lda,
+                                                     const MKL_INT* stride_a, const MKL_INT* ipiv,
+                                                     const MKL_INT* stride_ipiv, MKL_Complex16* b, const MKL_INT* ldb,
+                                                     const MKL_INT* stride_b, const MKL_INT* batch_size,
+                                                     MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetrfnp_batch_strided)(const MKL_INT* m, const MKL_INT* n, MKL_Complex8* a,
+                                                       const MKL_INT* lda, const MKL_INT* stride_a,
+                                                       const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetrfnp_batch_strided)(const MKL_INT* m, const MKL_INT* n, double* a,
+                                                       const MKL_INT* lda, const MKL_INT* stride_a,
+                                                       const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetrfnp_batch_strided)(const MKL_INT* m, const MKL_INT* n, float* a, const MKL_INT* lda,
+                                                       const MKL_INT* stride_a, const MKL_INT* batch_size,
+                                                       MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetrfnp_batch_strided)(const MKL_INT* m, const MKL_INT* n, MKL_Complex16* a,
+                                                       const MKL_INT* lda, const MKL_INT* stride_a,
+                                                       const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetrsnp_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                       const MKL_Complex8* a, const MKL_INT* lda,
+                                                       const MKL_INT* stride_a, MKL_Complex8* b, const MKL_INT* ldb,
+                                                       const MKL_INT* stride_b, const MKL_INT* batch_size,
+                                                       MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetrsnp_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                       const double* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                                                       double* b, const MKL_INT* ldb, const MKL_INT* stride_b,
+                                                       const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetrsnp_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                       const float* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                                                       float* b, const MKL_INT* ldb, const MKL_INT* stride_b,
+                                                       const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetrsnp_batch_strided)(const char* trans, const MKL_INT* n, const MKL_INT* nrhs,
+                                                       const MKL_Complex16* a, const MKL_INT* lda,
+                                                       const MKL_INT* stride_a, MKL_Complex16* b, const MKL_INT* ldb,
+                                                       const MKL_INT* stride_b, const MKL_INT* batch_size,
+                                                       MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cpotrf)(const char* uplo, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dpotrf)(const char* uplo, const MKL_INT* n, double* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(spotrf)(const char* uplo, const MKL_INT* n, float* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zpotrf)(const char* uplo, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cpotri)(const char* uplo, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dpotri)(const char* uplo, const MKL_INT* n, double* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(spotri)(const char* uplo, const MKL_INT* n, float* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zpotri)(const char* uplo, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cpotrs)(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex8* a, const MKL_INT* lda, MKL_Complex8* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dpotrs)(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const double* a, const MKL_INT* lda, double* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(spotrs)(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const float* a, const MKL_INT* lda, float* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zpotrs)(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex16* a, const MKL_INT* lda, MKL_Complex16* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+
+void MKL_LAPACK_OPENMP_OFFLOAD(cgetrf_batch)(const MKL_INT* m, const MKL_INT* n, MKL_Complex8** a, const MKL_INT* lda,
+                                             MKL_INT** ipiv, const MKL_INT* group_count, const MKL_INT* group_size,
+                                             MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(dgetrf_batch)(const MKL_INT* m, const MKL_INT* n, double** a, const MKL_INT* lda,
+                                             MKL_INT** ipiv, const MKL_INT* group_count, const MKL_INT* group_size,
+                                             MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(sgetrf_batch)(const MKL_INT* m, const MKL_INT* n, float** a, const MKL_INT* lda,
+                                             MKL_INT** ipiv, const MKL_INT* group_count, const MKL_INT* group_size,
+                                             MKL_INT* info) NOTHROW;
+void MKL_LAPACK_OPENMP_OFFLOAD(zgetrf_batch)(const MKL_INT* m, const MKL_INT* n, MKL_Complex16** a, const MKL_INT* lda,
+                                             MKL_INT** ipiv, const MKL_INT* group_count, const MKL_INT* group_size,
+                                             MKL_INT* info) NOTHROW;
 
 #ifdef __cplusplus
 }

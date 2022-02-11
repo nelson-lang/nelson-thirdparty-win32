@@ -1,6 +1,6 @@
-/* file: mkl_vsl_functions_win.h */
+/* file: mkl_vsl_functions.h */
 /*******************************************************************************
-* Copyright 2006-2020 Intel Corporation.
+* Copyright 2006-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -849,7 +849,7 @@ _mkl_api(int,vslssseditmissingvalues,(VSLSSTaskPtr* , const MKL_INT* , const flo
 _MKL_API(int,VSLSSSEDITMISSINGVALUES,(VSLSSTaskPtr* , const MKL_INT* , const float* , const MKL_INT* , const float* , const MKL_INT* , const float* , const MKL_INT* , float* , const MKL_INT* , float* ) NOTHROW)
 
 /*
-// Editors to modify matrixparametrization parameters
+// Editors to modify matrix parametrization parameters
 */
 _Mkl_Api(int,vsldSSEditCorParameterization,(VSLSSTaskPtr  , const double* , const MKL_INT* , double* , const MKL_INT* ) NOTHROW)
 _mkl_api(int,vsldsseditcorparameterization,(VSLSSTaskPtr* , const double* , const MKL_INT* , double* , const MKL_INT* ) NOTHROW)

@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2014-2020 Intel Corporation.
+* Copyright 2014-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) C/C++ macros for MKL_DIRECT_CALL
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) C/C++ macros for MKL_DIRECT_CALL
 !******************************************************************************/
 #ifndef _MKL_DIRECT_CALL_H
 #define _MKL_DIRECT_CALL_H

@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2019-2020 Intel Corporation.
+* Copyright 2019-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -27,6 +27,148 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
+
+// Matrix transposition and copy API
+
+#define mkl_simatcopy_batch_strided MKL_Simatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(simatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Simatcopy_batch_strided(const char ordering, const char trans,
+                                 size_t rows, size_t cols,
+                                 const float alpha,
+                                 float * AB, size_t lda, size_t ldb,
+                                 size_t stride, size_t batch_size) NOTHROW;
+
+#define mkl_dimatcopy_batch_strided MKL_Dimatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dimatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Dimatcopy_batch_strided(const char ordering, const char trans,
+                                 size_t rows, size_t cols,
+                                 const double alpha,
+                                 double * AB, size_t lda, size_t ldb,
+                                 size_t stride, size_t batch_size) NOTHROW;
+
+#define mkl_cimatcopy_batch_strided MKL_Cimatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(cimatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Cimatcopy_batch_strided(const char ordering, const char trans,
+                                 size_t rows, size_t cols,
+                                 const MKL_Complex8 alpha,
+                                 MKL_Complex8 * AB, size_t lda, size_t ldb,
+                                 size_t stride, size_t batch_size) NOTHROW;
+
+#define mkl_zimatcopy_batch_strided MKL_Zimatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zimatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Zimatcopy_batch_strided(const char ordering, const char trans,
+                                 size_t rows, size_t cols,
+                                 const MKL_Complex16 alpha,
+                                 MKL_Complex16 * AB, size_t lda, size_t ldb,
+                                 size_t stride, size_t batch_size) NOTHROW;
+
+#define mkl_somatcopy_batch_strided MKL_Somatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(somatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Somatcopy_batch_strided(char ordering, char trans,
+                                 size_t rows, size_t cols,
+                                 const float alpha,
+                                 const float * A, size_t lda, size_t stridea,
+                                 float *B, size_t ldb, size_t strideb, size_t batch_size) NOTHROW;
+
+#define mkl_domatcopy_batch_strided MKL_Domatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(domatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Domatcopy_batch_strided(char ordering, char trans,
+                                 size_t rows, size_t cols,
+                                 const double alpha,
+                                 const double * A, size_t lda, size_t stridea,
+                                 double *B, size_t ldb, size_t strideb, size_t batch_size) NOTHROW;
+
+#define mkl_comatcopy_batch_strided MKL_Comatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(comatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Comatcopy_batch_strided(char ordering, char trans,
+                                 size_t rows, size_t cols,
+                                 const MKL_Complex8 alpha,
+                                 const MKL_Complex8 * A, size_t lda, size_t stridea,
+                                 MKL_Complex8 *B, size_t ldb, size_t strideb, size_t batch_size) NOTHROW;
+
+#define mkl_zomatcopy_batch_strided MKL_Zomatcopy_batch_strided
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zomatcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Zomatcopy_batch_strided(char ordering, char trans,
+                                 size_t rows, size_t cols,
+                                 const MKL_Complex16 alpha,
+                                 const MKL_Complex16 * A, size_t lda, size_t stridea,
+                                 MKL_Complex16 *B, size_t ldb, size_t strideb, size_t batch_size) NOTHROW;
+
+#define mkl_simatcopy_batch MKL_Simatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(simatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Simatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const float * alpha_array, float ** AB_array,
+    const size_t * lda_array, const size_t * ldb_array,
+    size_t group_count, const size_t * group_size) NOTHROW;
+
+#define mkl_dimatcopy_batch MKL_Dimatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dimatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Dimatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const double * alpha_array, double ** AB_array,
+    const size_t * lda_array, const size_t * ldb_array,
+    size_t group_count, const size_t * group_size) NOTHROW;
+
+#define mkl_cimatcopy_batch MKL_Cimatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(cimatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Cimatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const MKL_Complex8 * alpha_array, MKL_Complex8 ** AB_array,
+    const size_t * lda_array, const size_t * ldb_array,
+    size_t group_count, const size_t * group_size) NOTHROW;
+
+#define mkl_zimatcopy_batch MKL_Zimatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zimatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Zimatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const MKL_Complex16 * alpha_array, MKL_Complex16 ** AB_array,
+    const size_t * lda_array, const size_t * ldb_array,
+    size_t group_count, const size_t * group_size) NOTHROW;
+
+#define mkl_somatcopy_batch MKL_Somatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(somatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Somatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const float * alpha_array, const float ** A_array,
+    const size_t * lda_array, float ** B_array,
+    const size_t * ldb_array, size_t group_count,
+    const size_t * group_size) NOTHROW;
+
+#define mkl_domatcopy_batch MKL_Domatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(domatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Domatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const double * alpha_array, const double ** A_array,
+    const size_t * lda_array, double ** B_array,
+    const size_t * ldb_array, size_t group_count,
+    const size_t * group_size) NOTHROW;
+
+#define mkl_comatcopy_batch MKL_Comatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(comatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Comatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const MKL_Complex8 * alpha_array, const MKL_Complex8 ** A_array,
+    const size_t * lda_array, MKL_Complex8 ** B_array,
+    const size_t * ldb_array, size_t group_count,
+    const size_t * group_size) NOTHROW;
+
+#define mkl_zomatcopy_batch MKL_Zomatcopy_batch
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zomatcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void MKL_Zomatcopy_batch(
+    char ordering, const char * trans_array,
+    const size_t * rows_array, const size_t * cols_array,
+    const MKL_Complex16 * alpha_array, const MKL_Complex16 ** A_array,
+    const size_t * lda_array, MKL_Complex16 ** B_array,
+    const size_t * ldb_array, size_t group_count,
+    const size_t * group_size) NOTHROW;
 
 // BATCH APIs
 
@@ -160,6 +302,126 @@ void zgemm_batch_strided(const char *transa, const char *transb, const MKL_INT *
                  const MKL_Complex16 *beta, MKL_Complex16 *c, const MKL_INT *ldc, const MKL_INT *stridec,
                  const MKL_INT *batch_size) NOTHROW;
 
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(ssyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_ssyrk_batch(const CBLAS_LAYOUT Layout, const CBLAS_UPLO *Uplo_Array, const CBLAS_TRANSPOSE *Trans_Array,
+                       const MKL_INT *N_Array, const MKL_INT *K_Array,
+                       const float *alpha_Array, const float **A_Array, const MKL_INT *lda_Array,
+                       const float *beta_Array, float **C_Array, const MKL_INT *ldc_Array,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+    
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dsyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_dsyrk_batch(const CBLAS_LAYOUT Layout, const CBLAS_UPLO *Uplo_Array, const CBLAS_TRANSPOSE *Trans_Array,
+                       const MKL_INT *N_Array, const MKL_INT *K_Array,
+                       const double *alpha_Array, const double **A_Array, const MKL_INT *lda_Array,
+                       const double *beta_Array, double **C_Array, const MKL_INT *ldc_Array,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+    
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(csyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_csyrk_batch(const CBLAS_LAYOUT Layout, const CBLAS_UPLO *Uplo_Array, const CBLAS_TRANSPOSE *Trans_Array,
+                       const MKL_INT *N_Array, const MKL_INT *K_Array,
+                       const void *alpha_Array, const void **A_Array, const MKL_INT *lda_Array,
+                       const void *beta_Array, void **C_Array, const MKL_INT *ldc_Array,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+    
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zsyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zsyrk_batch(const CBLAS_LAYOUT Layout, const CBLAS_UPLO *Uplo_Array, const CBLAS_TRANSPOSE *Trans_Array,
+                       const MKL_INT *N_Array, const MKL_INT *K_Array,
+                       const void *alpha_Array, const void **A_Array, const MKL_INT *lda_Array,
+                       const void *beta_Array, void **C_Array, const MKL_INT *ldc_Array,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(ssyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_ssyrk_batch_strided(const CBLAS_LAYOUT Layout, const CBLAS_UPLO Uplo,
+                               const CBLAS_TRANSPOSE Trans, const MKL_INT N,
+                               const MKL_INT K, const float alpha, const float *A,
+                               const MKL_INT lda, const MKL_INT stridea,
+                               const float beta, float *C, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dsyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_dsyrk_batch_strided(const CBLAS_LAYOUT Layout, const CBLAS_UPLO Uplo,
+                               const CBLAS_TRANSPOSE Trans, const MKL_INT N,
+                               const MKL_INT K, const double alpha, const double *A,
+                               const MKL_INT lda, const MKL_INT stridea,
+                               const double beta, double *C, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;    
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(csyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_csyrk_batch_strided(const CBLAS_LAYOUT Layout, const CBLAS_UPLO Uplo,
+                               const CBLAS_TRANSPOSE Trans, const MKL_INT N,
+                               const MKL_INT K, const void *alpha, const void *A,
+                               const MKL_INT lda, const MKL_INT stridea,
+                               const void *beta, void *C, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zsyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zsyrk_batch_strided(const CBLAS_LAYOUT Layout, const CBLAS_UPLO Uplo,
+                               const CBLAS_TRANSPOSE Trans, const MKL_INT N,
+                               const MKL_INT K, const void *alpha, const void *A,
+                               const MKL_INT lda, const MKL_INT stridea,
+                               const void *beta, void *C, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;    
+    
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(ssyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void ssyrk_batch(const char *uplo_array, const char *trans_array,
+                 const MKL_INT *n_array, const MKL_INT *k_array,
+                 const float *alpha_array, const float **a_array, const MKL_INT *lda_array,
+                 const float *beta_array, float **c_array, const MKL_INT *ldc_array,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(dsyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void dsyrk_batch(const char *uplo_array, const char *trans_array,
+                 const MKL_INT *n_array, const MKL_INT *k_array,
+                 const double *alpha_array, const double **a_array, const MKL_INT *lda_array,
+                 const double *beta_array, double **c_array, const MKL_INT *ldc_array,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(csyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void csyrk_batch(const char *uplo_array, const char *trans_array,
+                 const MKL_INT *n_array, const MKL_INT *k_array,
+                 const MKL_Complex8 *alpha_array, const MKL_Complex8 **a_array, const MKL_INT *lda_array,
+                 const MKL_Complex8 *beta_array, MKL_Complex8 **c_array, const MKL_INT *ldc_array,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zsyrk_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void zsyrk_batch(const char *uplo_array, const char *trans_array,
+                 const MKL_INT *n_array, const MKL_INT *k_array,
+                 const MKL_Complex16 *alpha_array, const MKL_Complex16 **a_array, const MKL_INT *lda_array,
+                 const MKL_Complex16 *beta_array, MKL_Complex16 **c_array, const MKL_INT *ldc_array,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(ssyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void ssyrk_batch_strided(const char *Uplo,
+                         const char *Trans, const MKL_INT *N,
+                         const MKL_INT *K, const float *alpha, const float *A,
+                         const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *beta, float *C, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(dsyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dsyrk_batch_strided(const char *Uplo,
+                         const char *Trans, const MKL_INT *N,
+                         const MKL_INT *K, const double *alpha, const double *A,
+                         const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *beta, double *C, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;    
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(csyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void csyrk_batch_strided(const char *Uplo,
+                         const char *Trans, const MKL_INT *N,
+                         const MKL_INT *K, const MKL_Complex8 *alpha, const MKL_Complex8 *A,
+                         const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *beta, MKL_Complex8 *C, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zsyrk_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zsyrk_batch_strided(const char *Uplo,
+                         const char *Trans, const MKL_INT *N,
+                         const MKL_INT *K, const MKL_Complex16 *alpha, const MKL_Complex16 *A,
+                         const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *beta, MKL_Complex16 *C, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;    
+    
 #pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(strsm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
 void cblas_strsm_batch(const CBLAS_LAYOUT Layout, const CBLAS_SIDE *Side_Array,
                            const CBLAS_UPLO *Uplo_Array, const CBLAS_TRANSPOSE *TransA_Array,
@@ -272,6 +534,244 @@ void ztrsm_batch_strided(const char *side, const char *uplo, const char *transa,
                              const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha, const MKL_Complex16 *a,
                              const MKL_INT *lda, const MKL_INT *stridea, MKL_Complex16 *b, const MKL_INT *ldb, const MKL_INT *strideb, const MKL_INT *batch_size) NOTHROW;
     
+// Level2
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(sgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const float *alpha,
+                 const float **a, const MKL_INT *lda, const float **x, const MKL_INT *incx,
+                 const float *beta, float **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(sgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const float *alpha,
+                         const float *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const float *beta, float *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(dgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const double *alpha,
+                 const double **a, const MKL_INT *lda, const double **x, const MKL_INT *incx,
+                 const double *beta, double **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(dgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const double *alpha,
+                         const double *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const double *beta, double *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(cgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex8 *alpha,
+                 const MKL_Complex8 **a, const MKL_INT *lda, const MKL_Complex8 **x, const MKL_INT *incx,
+                 const MKL_Complex8 *beta, MKL_Complex8 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(cgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex8 *alpha,
+                         const MKL_Complex8 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const MKL_Complex8 *beta, MKL_Complex8 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha,
+                 const MKL_Complex16 **a, const MKL_INT *lda, const MKL_Complex16 **x, const MKL_INT *incx,
+                 const MKL_Complex16 *beta, MKL_Complex16 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha,
+                         const MKL_Complex16 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const MKL_Complex16 *beta, MKL_Complex16 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(sgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_sgemv_batch(const CBLAS_LAYOUT Layout,
+                       const CBLAS_TRANSPOSE *TransA, const MKL_INT *M, const MKL_INT *N,
+                       const float *alpha, const float **A, const MKL_INT *lda,
+                       const float **X, const MKL_INT *incX, const float *beta,
+                       float **Y, const MKL_INT *incY,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(sgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_sgemv_batch_strided(const CBLAS_LAYOUT Layout,
+                               const CBLAS_TRANSPOSE TransA, const MKL_INT M, const MKL_INT N,
+                               const float alpha, const float *A, const MKL_INT lda, const MKL_INT stridea,
+                               const float *X, const MKL_INT incX, const MKL_INT stridex, const float beta,
+                               float *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_dgemv_batch(const CBLAS_LAYOUT Layout,
+                       const CBLAS_TRANSPOSE *TransA, const MKL_INT *M, const MKL_INT *N,
+                       const double *alpha, const double **A, const MKL_INT *lda,
+                       const double **X, const MKL_INT *incX, const double *beta,
+                       double **Y, const MKL_INT *incY,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_dgemv_batch_strided(const CBLAS_LAYOUT Layout,
+                               const CBLAS_TRANSPOSE TransA, const MKL_INT M, const MKL_INT N,
+                               const double alpha, const double *A, const MKL_INT lda, const MKL_INT stridea,
+                               const double *X, const MKL_INT incX, const MKL_INT stridex, const double beta,
+                               double *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(cgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_cgemv_batch(const CBLAS_LAYOUT Layout,
+                       const CBLAS_TRANSPOSE *TransA, const MKL_INT *M, const MKL_INT *N,
+                       const void *alpha, const void **A, const MKL_INT *lda,
+                       const void **X, const MKL_INT *incX, const void *beta,
+                       void **Y, const MKL_INT *incY,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(cgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_cgemv_batch_strided(const CBLAS_LAYOUT Layout,
+                               const CBLAS_TRANSPOSE TransA, const MKL_INT M, const MKL_INT N,
+                               const void *alpha, const void *A, const MKL_INT lda, const MKL_INT stridea,
+                               const void *X, const MKL_INT incX, const MKL_INT stridex, const void *beta,
+                               void *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zgemv_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zgemv_batch(const CBLAS_LAYOUT Layout,
+                       const CBLAS_TRANSPOSE *TransA, const MKL_INT *M, const MKL_INT *N,
+                       const void *alpha, const void **A, const MKL_INT *lda,
+                       const void **X, const MKL_INT *incX, const void *beta,
+                       void **Y, const MKL_INT *incY,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zgemv_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zgemv_batch_strided(const CBLAS_LAYOUT Layout,
+                               const CBLAS_TRANSPOSE TransA, const MKL_INT M, const MKL_INT N,
+                               const void *alpha, const void *A, const MKL_INT lda, const MKL_INT stridea,
+                               const void *X, const MKL_INT incX, const MKL_INT stridex, const void *beta,
+                               void *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(sdgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void sdgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const float **a, const MKL_INT *lda,
+                 const float **x, const MKL_INT *incx,
+                 float **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(sdgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sdgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const float *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         float *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(ddgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void ddgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const double **a, const MKL_INT *lda,
+                 const double **x, const MKL_INT *incx,
+                 double **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(ddgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void ddgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const double *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         double *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(cdgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cdgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const MKL_Complex8 **a, const MKL_INT *lda,
+                 const MKL_Complex8 **x, const MKL_INT *incx,
+                 MKL_Complex8 **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(cdgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cdgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const MKL_Complex8 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         MKL_Complex8 *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zdgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void zdgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const MKL_Complex16 **a, const MKL_INT *lda,
+                 const MKL_Complex16 **x, const MKL_INT *incx,
+                 MKL_Complex16 **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zdgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zdgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const MKL_Complex16 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         MKL_Complex16 *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(sdgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_sdgmm_batch(const CBLAS_LAYOUT layout,
+                       const CBLAS_SIDE *side, const MKL_INT *m, const MKL_INT *n,
+                       const float **a, const MKL_INT *lda,
+                       const float **x, const MKL_INT *incx,
+                       float **c, const MKL_INT *ldc,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(sdgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_sdgmm_batch_strided(const CBLAS_LAYOUT layout,
+                               const CBLAS_SIDE side, const MKL_INT m, const MKL_INT n,
+                               const float *a, const MKL_INT lda, const MKL_INT stridea,
+                               const float *x, const MKL_INT incx, const MKL_INT stridex,
+                               float *c, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(ddgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_ddgmm_batch(const CBLAS_LAYOUT layout,
+                       const CBLAS_SIDE *side, const MKL_INT *m, const MKL_INT *n,
+                       const double **a, const MKL_INT *lda,
+                       const double **x, const MKL_INT *incx,
+                       double **c, const MKL_INT *ldc,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(ddgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_ddgmm_batch_strided(const CBLAS_LAYOUT layout,
+                               const CBLAS_SIDE side, const MKL_INT m, const MKL_INT n,
+                               const double *a, const MKL_INT lda, const MKL_INT stridea,
+                               const double *x, const MKL_INT incx, const MKL_INT stridex,
+                               double *c, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(cdgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_cdgmm_batch(const CBLAS_LAYOUT layout,
+                       const CBLAS_SIDE *side, const MKL_INT *m, const MKL_INT *n,
+                       const void **a, const MKL_INT *lda,
+                       const void **x, const MKL_INT *incx,
+                       void **c, const MKL_INT *ldc,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(cdgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_cdgmm_batch_strided(const CBLAS_LAYOUT layout,
+                               const CBLAS_SIDE side, const MKL_INT m, const MKL_INT n,
+                               const void *a, const MKL_INT lda, const MKL_INT stridea,
+                               const void *x, const MKL_INT incx, const MKL_INT stridex,
+                               void *c, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zdgmm_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zdgmm_batch(const CBLAS_LAYOUT layout,
+                       const CBLAS_SIDE *side, const MKL_INT *m, const MKL_INT *n,
+                       const void **a, const MKL_INT *lda,
+                       const void **x, const MKL_INT *incx,
+                       void **c, const MKL_INT *ldc,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zdgmm_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zdgmm_batch_strided(const CBLAS_LAYOUT layout,
+                               const CBLAS_SIDE side, const MKL_INT m, const MKL_INT n,
+                               const void *a, const MKL_INT lda, const MKL_INT stridea,
+                               const void *x, const MKL_INT incx, const MKL_INT stridex,
+                               void *c, const MKL_INT ldc, const MKL_INT stridec,
+                               const MKL_INT batch_size) NOTHROW;
+
 // Level 1
 
 #pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(saxpy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
@@ -368,6 +868,102 @@ void caxpy_batch_strided(const MKL_INT *n, const MKL_Complex8 *alpha,
 void zaxpy_batch_strided(const MKL_INT *n, const MKL_Complex16 *alpha,
                          const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex,
                          MKL_Complex16 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(scopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_scopy_batch(const MKL_INT *n,
+                       const float **x, const MKL_INT *incx,
+                       float **y, const MKL_INT *incy,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_dcopy_batch(const MKL_INT *n,
+                       const double **x, const MKL_INT *incx,
+                       double **y, const MKL_INT *incy,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(ccopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_ccopy_batch(const MKL_INT *n,
+                       const void **x, const MKL_INT *incx,
+                       void **y, const MKL_INT *incy,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zcopy_batch(const MKL_INT *n,
+                       const void **x, const MKL_INT *incx,
+                       void **y, const MKL_INT *incy,
+                       const MKL_INT group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(scopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void scopy_batch(const MKL_INT *n,
+                 const float **x, const MKL_INT *incx,
+                 float **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(dcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void dcopy_batch(const MKL_INT *n,
+                 const double **x, const MKL_INT *incx,
+                 double **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(ccopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void ccopy_batch(const MKL_INT *n,
+                 const MKL_Complex8 **x, const MKL_INT *incx,
+                 MKL_Complex8 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zcopy_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void zcopy_batch(const MKL_INT *n,
+                 const MKL_Complex16 **x, const MKL_INT *incx,
+                 MKL_Complex16 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(scopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_scopy_batch_strided(const MKL_INT N,
+                               const float *X, const MKL_INT incX, const MKL_INT stridex,
+                               float *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(dcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_dcopy_batch_strided(const MKL_INT N,
+                               const double *X, const MKL_INT incX, const MKL_INT stridex,
+                               double *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(ccopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_ccopy_batch_strided(const MKL_INT N,
+                               const void *X, const MKL_INT incX, const MKL_INT stridex,
+                               void *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zcopy_batch_strided(const MKL_INT N,
+                               const void *X, const MKL_INT incX, const MKL_INT stridex,
+                               void *Y, const MKL_INT incY, const MKL_INT stridey,
+                               const MKL_INT batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(scopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void scopy_batch_strided(const MKL_INT *N,
+                         const float *X, const MKL_INT *incX, const MKL_INT *stridex,
+                         float *Y, const MKL_INT *incY, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(dcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dcopy_batch_strided(const MKL_INT *N,
+                         const double *X, const MKL_INT *incX, const MKL_INT *stridex,
+                         double *Y, const MKL_INT *incY, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(ccopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void ccopy_batch_strided(const MKL_INT *N,
+                         const MKL_Complex8 *X, const MKL_INT *incX, const MKL_INT *stridex,
+                         MKL_Complex8 *Y, const MKL_INT *incY, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zcopy_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zcopy_batch_strided(const MKL_INT *N,
+                         const MKL_Complex16 *X, const MKL_INT *incX, const MKL_INT *stridex,
+                         MKL_Complex16 *Y, const MKL_INT *incY, const MKL_INT *stridey,
                          const MKL_INT *batch_size) NOTHROW;
 
 // CBLAS API
@@ -1058,6 +1654,7 @@ double cblas_dzasum(const MKL_INT N, const void *X, const MKL_INT incX) NOTHROW;
 
 
 // Routines with S, D, C, Z prefixes (Standard)
+
 #pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(isamax)) match(construct={target variant dispatch}, device={arch(gen)})
 CBLAS_INDEX cblas_isamax(const MKL_INT N, const float  *X, const MKL_INT incX) NOTHROW;
 
@@ -2004,9 +2601,33 @@ void csscal(const MKL_INT *n, const float *a, MKL_Complex8 *x, const MKL_INT *in
 #pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zdscal)) match(construct={target variant dispatch}, device={arch(gen)})
 void zdscal(const MKL_INT *n, const double *a, MKL_Complex16 *x, const MKL_INT *incx) NOTHROW;
 
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(saxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void saxpby(const MKL_INT *n, const float *alpha, const float *x, const MKL_INT *incx, const float *beta, float *y, const MKL_INT *incy) NOTHROW;
 
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(caxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void caxpby(const MKL_INT *n, const MKL_Complex8 *alpha, const MKL_Complex8 *x, const MKL_INT *incx, const MKL_Complex8 *beta, MKL_Complex8 *y, const MKL_INT *incy) NOTHROW;
 
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(daxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void daxpby(const MKL_INT *n, const double *alpha, const double *x, const MKL_INT *incx, const double *beta, double *y, const MKL_INT *incy) NOTHROW;
 
+#pragma omp declare variant (MKL_BLAS_VARIANT_NAME(zaxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void zaxpby(const MKL_INT *n, const MKL_Complex16 *alpha, const MKL_Complex16 *x, const MKL_INT *incx, const MKL_Complex16 *beta, MKL_Complex16 *y, const MKL_INT *incy) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(saxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_saxpby(const MKL_INT N, const float alpha, const float *X,
+                  const MKL_INT incX, const float beta, float *Y, const MKL_INT incY) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(daxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_daxpby(const MKL_INT N, const double alpha, const double *X,
+                  const MKL_INT incX, const double beta, double *Y, const MKL_INT incY) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(caxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_caxpby(const MKL_INT N, const void *alpha, const void *X,
+                  const MKL_INT incX, const void *beta, void *Y, const MKL_INT incY) NOTHROW;
+
+#pragma omp declare variant (MKL_CBLAS_VARIANT_NAME(zaxpby)) match(construct={target variant dispatch}, device={arch(gen)})
+void cblas_zaxpby(const MKL_INT N, const void *alpha, const void *X,
+                  const MKL_INT incX, const void *beta, void *Y, const MKL_INT incY) NOTHROW ;
 
 #ifdef __cplusplus
 }

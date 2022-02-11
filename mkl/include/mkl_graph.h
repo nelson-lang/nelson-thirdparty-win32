@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2020 Intel Corporation.
+* Copyright 2020-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -24,7 +24,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 /*
-*  Graph functionality has been added to Intel(R) Math Kernel Library (Intel(R) MKL) as a preview
+*  Graph functionality has been added to Intel(R) oneAPI Math Kernel Library (oneMKL) as a preview
 *  feature with limited functionality. The supported functionality and API will be extended in
 *  future releases to provide better coverage of various graph operations.
 

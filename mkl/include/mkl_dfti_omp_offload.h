@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2019-2020 Intel Corporation.
+* Copyright 2019-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL)
+!      Intel(R) oneAPI Math Kernel Library (oneMKL)
 !      Discrete Fourier Transform Interface (DFTI) for OpenMP target (offload)
 !******************************************************************************/
 

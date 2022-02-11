@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2020 Intel Corporation.
+* Copyright 1999-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -14,7 +14,7 @@
 
 /*
 !  Content:
-!      Intel(R) Math Kernel Library (Intel(R) MKL) interface for BLAS routines
+!      Intel(R) oneAPI Math Kernel Library (oneMKL) interface for BLAS routines
 !******************************************************************************/
 
 #ifndef _MKL_BLAS_H_
@@ -32,10 +32,6 @@
 #else
 #define NOTHROW
 #endif
-
-#if defined(MKL_STDCALL) && !defined(__MIC__) && !defined(__TARGET_ARCH_MIC)
-#include "mkl_blas_stdcall.h"
-#else
 
 #ifdef __cplusplus
 extern "C" {
@@ -485,6 +481,7 @@ void ZGEMM_BATCH_STRIDED(const char *transa, const char *transb, const MKL_INT *
                  const MKL_Complex16 *b, const MKL_INT *ldb, const MKL_INT *strideb,
                  const MKL_Complex16 *beta, MKL_Complex16 *c, const MKL_INT *ldc, const MKL_INT *stridec,
                  const MKL_INT *batch_size) NOTHROW;
+
 void DZGEMM(const char *transa, const char *transb, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
             const MKL_Complex16 *alpha, const double *a, const MKL_INT *lda,
             const MKL_Complex16 *b, const MKL_INT *ldb, const MKL_Complex16 *beta,
@@ -566,6 +563,20 @@ void GEMM_S16S16S32_COMPUTE(const char *transa, const char *transb, const char *
                             const MKL_INT16 *a, const MKL_INT *lda, const MKL_INT16 *ao,
                             const MKL_INT16 *b, const MKL_INT *ldb, const MKL_INT16 *bo,
                             const float *beta, MKL_INT32 *c, const MKL_INT *ldc, const MKL_INT32 *co);
+
+void HGEMM(const char *transa, const char *transb,
+           const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+           const MKL_F16 *alpha, const MKL_F16 *a, const MKL_INT *lda,
+           const MKL_F16 *b, const MKL_INT *ldb,
+           const MKL_F16 *beta, MKL_F16 *c, const MKL_INT *ldc);
+size_t HGEMM_PACK_GET_SIZE (const char *identifier, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k);
+void HGEMM_PACK (const char *identifier, const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+                 const MKL_F16 *alpha, const MKL_F16 *src, const MKL_INT *ld, MKL_F16 *dest);
+void HGEMM_COMPUTE(const char *transa, const char *transb,
+                   const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+                   const MKL_F16 *a, const MKL_INT *lda,
+                   const MKL_F16 *b, const MKL_INT *ldb,
+                   const MKL_F16 *beta, MKL_F16 *c, const MKL_INT *ldc);
 
 /* Lower case declaration */
 
@@ -900,6 +911,7 @@ void cgemm_batch_strided(const char *transa, const char *transb, const MKL_INT *
                  const MKL_Complex8 *b, const MKL_INT *ldb, const MKL_INT *strideb,
                  const MKL_Complex8 *beta, MKL_Complex8 *c, const MKL_INT *ldc, const MKL_INT *stridec,
                  const MKL_INT *batch_size) NOTHROW;
+
 void scgemm(const char *transa, const char *transb, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
             const MKL_Complex8 *alpha, const float *a, const MKL_INT *lda,
             const MKL_Complex8 *b, const MKL_INT *ldb, const MKL_Complex8 *beta,
@@ -1056,16 +1068,16 @@ void ztrsm_batch_strided(const char *side, const char *uplo, const char *transa,
            const MKL_INT *stridea, MKL_Complex16 *b, const MKL_INT *ldb, const MKL_INT *strideb,
            const MKL_INT *batch_size) NOTHROW;
 
-void gemm_s8u8s32(const char *transa, const char *transb, const char *offsetc,
-                  const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
-                  const float *alpha, const MKL_INT8 *a, const MKL_INT *lda, const MKL_INT8 *ao,
-                  const MKL_UINT8 *b, const MKL_INT *ldb, const MKL_INT8 *bo,
-                  const float *beta, MKL_INT32 *c, const MKL_INT *ldc, const MKL_INT32 *co);
 void gemm_s16s16s32(const char *transa, const char *transb, const char *offsetc,
                     const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
                     const float *alpha, const MKL_INT16 *a, const MKL_INT *lda, const MKL_INT16 *ao,
                     const MKL_INT16 *b, const MKL_INT *ldb, const MKL_INT16 *bo,
                     const float *beta, MKL_INT32 *c, const MKL_INT *ldc, const MKL_INT32 *co);
+void gemm_s8u8s32(const char *transa, const char *transb, const char *offsetc,
+                  const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+                  const float *alpha, const MKL_INT8 *a, const MKL_INT *lda, const MKL_INT8 *ao,
+                  const MKL_UINT8 *b, const MKL_INT *ldb, const MKL_INT8 *bo,
+                  const float *beta, MKL_INT32 *c, const MKL_INT *ldc, const MKL_INT32 *co);
 
 size_t gemm_s8u8s32_pack_get_size (const char *identifier, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k);
 size_t gemm_s16s16s32_pack_get_size (const char *identifier, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k);
@@ -1085,6 +1097,20 @@ void gemm_s16s16s32_compute(const char *transa, const char *transb, const char *
                             const MKL_INT16 *a, const MKL_INT *lda, const MKL_INT16 *ao,
                             const MKL_INT16 *b, const MKL_INT *ldb, const MKL_INT16 *bo,
                             const float *beta, MKL_INT32 *c, const MKL_INT *ldc, const MKL_INT32 *co);
+
+void hgemm(const char *transa, const char *transb,
+           const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+           const MKL_F16 *alpha, const MKL_F16 *a, const MKL_INT *lda,
+           const MKL_F16 *b, const MKL_INT *ldb,
+           const MKL_F16 *beta, MKL_F16 *c, const MKL_INT *ldc);
+size_t hgemm_pack_get_size (const char *identifier, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k);
+void hgemm_pack (const char *identifier, const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+                 const MKL_F16 *alpha, const MKL_F16 *src, const MKL_INT *ld, MKL_F16 *dest);
+void hgemm_compute(const char *transa, const char *transb,
+                   const MKL_INT *m, const MKL_INT *n, const MKL_INT *k,
+                   const MKL_F16 *a, const MKL_INT *lda,
+                   const MKL_F16 *b, const MKL_INT *ldb,
+                   const MKL_F16 *beta, MKL_F16 *c, const MKL_INT *ldc);
 
 /*
  * Jit routines
@@ -1129,7 +1155,7 @@ zgemm_jit_kernel_t mkl_jit_get_zgemm_ptr(const void* jitter);
 
 mkl_jit_status_t mkl_jit_destroy(void* jitter);
 
-// Level1 BLAS batch API
+/* Level1 BLAS batch API */
 
 void SAXPY_BATCH(const MKL_INT *n, const float *alpha,
                  const float **x, const MKL_INT *incx,
@@ -1167,6 +1193,34 @@ void zaxpy_batch(const MKL_INT *n, const MKL_Complex16 *alpha,
                  MKL_Complex16 **y, const MKL_INT *incy,
                  const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
 
+void SCOPY_BATCH(const MKL_INT *n, const float **x, const MKL_INT *incx,
+                 float **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+void scopy_batch(const MKL_INT *n, const float **x, const MKL_INT *incx,
+                 float **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+
+void DCOPY_BATCH(const MKL_INT *n, const double **x, const MKL_INT *incx,
+                 double **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+void dcopy_batch(const MKL_INT *n, const double **x, const MKL_INT *incx,
+                 double **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+
+void CCOPY_BATCH(const MKL_INT *n, const MKL_Complex8 **x, const MKL_INT *incx,
+                 MKL_Complex8 **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+void ccopy_batch(const MKL_INT *n, const MKL_Complex8 **x, const MKL_INT *incx,
+                 MKL_Complex8 **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+
+void ZCOPY_BATCH(const MKL_INT *n, const MKL_Complex16 **x, const MKL_INT *incx,
+                 MKL_Complex16 **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+void zcopy_batch(const MKL_INT *n, const MKL_Complex16 **x, const MKL_INT *incx,
+                 MKL_Complex16 **y, const MKL_INT *incy, const MKL_INT *group_count,
+                 const MKL_INT *group_size) NOTHROW;
+
 void SAXPY_BATCH_STRIDED(const MKL_INT *n, const float *alpha,
                          const float *x, const MKL_INT *incx, const MKL_INT *stridex,
                          float *y, const MKL_INT *incy, const MKL_INT *stridey,
@@ -1203,8 +1257,224 @@ void zaxpy_batch_strided(const MKL_INT *n, const MKL_Complex16 *alpha,
                          MKL_Complex16 *y, const MKL_INT *incy, const MKL_INT *stridey,
                          const MKL_INT *batch_size) NOTHROW;
 
+void SCOPY_BATCH_STRIDED(const MKL_INT *n, const float* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, float*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+void scopy_batch_strided(const MKL_INT *n, const float* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, float*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+
+void DCOPY_BATCH_STRIDED(const MKL_INT *n, const double* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, double*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+void dcopy_batch_strided(const MKL_INT *n, const double* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, double*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+
+void CCOPY_BATCH_STRIDED(const MKL_INT *n, const MKL_Complex8* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, MKL_Complex8*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+void ccopy_batch_strided(const MKL_INT *n, const MKL_Complex8* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, MKL_Complex8*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+
+void ZCOPY_BATCH_STRIDED(const MKL_INT *n, const MKL_Complex16* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, MKL_Complex16*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+void zcopy_batch_strided(const MKL_INT *n, const MKL_Complex16* x, const MKL_INT *incx,
+                         const MKL_INT* stridex, MKL_Complex16*y, const MKL_INT* incy,
+                         const MKL_INT* stridey, const MKL_INT *batch_size) NOTHROW;
+
+/* Level2 BLAS batch API */
+void sgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const float *alpha,
+                 const float **a, const MKL_INT *lda, const float **x, const MKL_INT *incx,
+                 const float *beta, float **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void sgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const float *alpha,
+                         const float *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const float *beta, float *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void dgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const double *alpha,
+                 const double **a, const MKL_INT *lda, const double **x, const MKL_INT *incx,
+                 const double *beta, double **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void dgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const double *alpha,
+                         const double *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const double *beta, double *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void cgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex8 *alpha,
+                 const MKL_Complex8 **a, const MKL_INT *lda, const MKL_Complex8 **x, const MKL_INT *incx,
+                 const MKL_Complex8 *beta, MKL_Complex8 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void cgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex8 *alpha,
+                         const MKL_Complex8 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const MKL_Complex8 *beta, MKL_Complex8 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void zgemv_batch(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha,
+                 const MKL_Complex16 **a, const MKL_INT *lda, const MKL_Complex16 **x, const MKL_INT *incx,
+                 const MKL_Complex16 *beta, MKL_Complex16 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void zgemv_batch_strided(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha,
+                         const MKL_Complex16 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const MKL_Complex16 *beta, MKL_Complex16 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+
+void SGEMV_BATCH(const char *trans, const MKL_INT *m, const MKL_INT *n, const float *alpha,
+                 const float **a, const MKL_INT *lda, const float **x, const MKL_INT *incx,
+                 const float *beta, float **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void SGEMV_BATCH_STRIDED(const char *trans, const MKL_INT *m, const MKL_INT *n, const float *alpha,
+                         const float *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const float *beta, float *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void DGEMV_BATCH(const char *trans, const MKL_INT *m, const MKL_INT *n, const double *alpha,
+                 const double **a, const MKL_INT *lda, const double **x, const MKL_INT *incx,
+                 const double *beta, double **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void DGEMV_BATCH_STRIDED(const char *trans, const MKL_INT *m, const MKL_INT *n, const double *alpha,
+                         const double *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const double *beta, double *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void CGEMV_BATCH(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex8 *alpha,
+                 const MKL_Complex8 **a, const MKL_INT *lda, const MKL_Complex8 **x, const MKL_INT *incx,
+                 const MKL_Complex8 *beta, MKL_Complex8 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void CGEMV_BATCH_STRIDED(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex8 *alpha,
+                         const MKL_Complex8 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const MKL_Complex8 *beta, MKL_Complex8 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void ZGEMV_BATCH(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha,
+                 const MKL_Complex16 **a, const MKL_INT *lda, const MKL_Complex16 **x, const MKL_INT *incx,
+                 const MKL_Complex16 *beta, MKL_Complex16 **y, const MKL_INT *incy,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void ZGEMV_BATCH_STRIDED(const char *trans, const MKL_INT *m, const MKL_INT *n, const MKL_Complex16 *alpha,
+                         const MKL_Complex16 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex, 
+                         const MKL_Complex16 *beta, MKL_Complex16 *y, const MKL_INT *incy, const MKL_INT *stridey,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void sdgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const float **a, const MKL_INT *lda,
+                 const float **x, const MKL_INT *incx,
+                 float **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void sdgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const float *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         float *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+void ddgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const double **a, const MKL_INT *lda,
+                 const double **x, const MKL_INT *incx,
+                 double **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void ddgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const double *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         double *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void cdgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const MKL_Complex8 **a, const MKL_INT *lda,
+                 const MKL_Complex8 **x, const MKL_INT *incx,
+                 MKL_Complex8 **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void cdgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const MKL_Complex8 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         MKL_Complex8 *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+void zdgmm_batch(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const MKL_Complex16 **a, const MKL_INT *lda,
+                 const MKL_Complex16 **x, const MKL_INT *incx,
+                 MKL_Complex16 **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void zdgmm_batch_strided(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const MKL_Complex16 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         MKL_Complex16 *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void SDGMM_BATCH(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const float **a, const MKL_INT *lda,
+                 const float **x, const MKL_INT *incx,
+                 float **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void SDGMM_BATCH_STRIDED(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const float *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const float *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         float *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+void DDGMM_BATCH(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const double **a, const MKL_INT *lda,
+                 const double **x, const MKL_INT *incx,
+                 double **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void DDGMM_BATCH_STRIDED(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const double *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const double *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         double *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
+void CDGMM_BATCH(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const MKL_Complex8 **a, const MKL_INT *lda,
+                 const MKL_Complex8 **x, const MKL_INT *incx,
+                 MKL_Complex8 **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void CDGMM_BATCH_STRIDED(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const MKL_Complex8 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex8 *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         MKL_Complex8 *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+    
+void ZDGMM_BATCH(const char *side, const MKL_INT *m, const MKL_INT *n,
+                 const MKL_Complex16 **a, const MKL_INT *lda,
+                 const MKL_Complex16 **x, const MKL_INT *incx,
+                 MKL_Complex16 **c, const MKL_INT *ldc,
+                 const MKL_INT *group_count, const MKL_INT *group_size) NOTHROW;
+
+void ZDGMM_BATCH_STRIDED(const char *side, const MKL_INT *m, const MKL_INT *n,
+                         const MKL_Complex16 *a, const MKL_INT *lda, const MKL_INT *stridea,
+                         const MKL_Complex16 *x, const MKL_INT *incx, const MKL_INT *stridex,
+                         MKL_Complex16 *c, const MKL_INT *ldc, const MKL_INT *stridec,
+                         const MKL_INT *batch_size) NOTHROW;
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-#endif /* MKL_STDCALL */
+
+#include "mkl_blas_64.h"
+
 #endif /* _MKL_BLAS_H_ */

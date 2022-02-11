@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2004-2020 Intel Corporation.
+* Copyright 2004-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -13,7 +13,7 @@
 *******************************************************************************/
 
 /*
-*   Content : Intel(R) MKL DSS C header file
+*   Content : oneMKL DSS C header file
 *
 *           Contains main datatypes, prototypes and constants definition
 *

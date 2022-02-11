@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2019-2020 Intel Corporation.
+* Copyright 2019-2021 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -274,6 +274,147 @@ void cunmqr(const char* side, const char* trans, const MKL_INT* m, const MKL_INT
 void zunmqr(const char* side, const char* trans, const MKL_INT* m, const MKL_INT* n, const MKL_INT* k,
             const MKL_Complex16* a, const MKL_INT* lda, const MKL_Complex16* tau, MKL_Complex16* c, const MKL_INT* ldc,
             MKL_Complex16* work, const MKL_INT* lwork, MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetrf_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetrf_batch_strided(const MKL_INT* m, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda,
+                          const MKL_INT* stride_a, MKL_INT* ipiv, const MKL_INT* stride_ipiv, const MKL_INT* batch_size,
+                          MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetrf_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetrf_batch_strided(const MKL_INT* m, const MKL_INT* n, double* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                          MKL_INT* ipiv, const MKL_INT* stride_ipiv, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetrf_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetrf_batch_strided(const MKL_INT* m, const MKL_INT* n, float* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                          MKL_INT* ipiv, const MKL_INT* stride_ipiv, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetrf_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetrf_batch_strided(const MKL_INT* m, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* lda,
+                          const MKL_INT* stride_a, MKL_INT* ipiv, const MKL_INT* stride_ipiv, const MKL_INT* batch_size,
+                          MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetri_oop_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetri_oop_batch_strided(const MKL_INT* n, const MKL_Complex8* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                              const MKL_INT* ipiv, const MKL_INT* stride_ipiv, MKL_Complex8* ainv,
+                              const MKL_INT* ldainv, const MKL_INT* stride_ainv, const MKL_INT* batch_size,
+                              MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetri_oop_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetri_oop_batch_strided(const MKL_INT* n, const double* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                              const MKL_INT* ipiv, const MKL_INT* stride_ipiv, double* ainv, const MKL_INT* ldainv,
+                              const MKL_INT* stride_ainv, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetri_oop_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetri_oop_batch_strided(const MKL_INT* n, const float* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                              const MKL_INT* ipiv, const MKL_INT* stride_ipiv, float* ainv, const MKL_INT* ldainv,
+                              const MKL_INT* stride_ainv, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetri_oop_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetri_oop_batch_strided(const MKL_INT* n, const MKL_Complex16* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                              const MKL_INT* ipiv, const MKL_INT* stride_ipiv, MKL_Complex16* ainv,
+                              const MKL_INT* ldainv, const MKL_INT* stride_ainv, const MKL_INT* batch_size,
+                              MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetri_oop_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetri_oop_batch(const MKL_INT* n, const MKL_Complex8** a, const MKL_INT* lda, const MKL_INT** ipiv, MKL_Complex8** ainv,
+                      const MKL_INT* ldainv, const MKL_INT* group_count, const MKL_INT* group_size,
+                      MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetri_oop_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetri_oop_batch(const MKL_INT* n, const double** a, const MKL_INT* lda, const MKL_INT** ipiv, double** ainv,
+                      const MKL_INT* ldainv, const MKL_INT* group_count, const MKL_INT* group_size,
+                      MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetri_oop_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetri_oop_batch(const MKL_INT* n, const float** a, const MKL_INT* lda, const MKL_INT** ipiv, float** ainv, const MKL_INT* ldainv,
+                      const MKL_INT* group_count, const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetri_oop_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetri_oop_batch(const MKL_INT* n, const MKL_Complex16** a, const MKL_INT* lda, const MKL_INT** ipiv, MKL_Complex16** ainv,
+                      const MKL_INT* ldainv, const MKL_INT* group_count, const MKL_INT* group_size,
+                      MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetrs_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetrs_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex8* a,
+                          const MKL_INT* lda, const MKL_INT* stride_a, const MKL_INT* ipiv, const MKL_INT* stride_ipiv,
+                          MKL_Complex8* b, const MKL_INT* ldb, const MKL_INT* stride_b, const MKL_INT* batch_size,
+                          MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetrs_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetrs_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const double* a, const MKL_INT* lda,
+                          const MKL_INT* stride_a, const MKL_INT* ipiv, const MKL_INT* stride_ipiv, double* b,
+                          const MKL_INT* ldb, const MKL_INT* stride_b, const MKL_INT* batch_size,
+                          MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetrs_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetrs_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const float* a, const MKL_INT* lda,
+                          const MKL_INT* stride_a, const MKL_INT* ipiv, const MKL_INT* stride_ipiv, float* b,
+                          const MKL_INT* ldb, const MKL_INT* stride_b, const MKL_INT* batch_size,
+                          MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetrs_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetrs_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex16* a,
+                          const MKL_INT* lda, const MKL_INT* stride_a, const MKL_INT* ipiv, const MKL_INT* stride_ipiv,
+                          MKL_Complex16* b, const MKL_INT* ldb, const MKL_INT* stride_b, const MKL_INT* batch_size,
+                          MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetrfnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetrfnp_batch_strided(const MKL_INT* m, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda,
+                            const MKL_INT* stride_a, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetrfnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetrfnp_batch_strided(const MKL_INT* m, const MKL_INT* n, double* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                            const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetrfnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetrfnp_batch_strided(const MKL_INT* m, const MKL_INT* n, float* a, const MKL_INT* lda, const MKL_INT* stride_a,
+                            const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetrfnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetrfnp_batch_strided(const MKL_INT* m, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* lda,
+                            const MKL_INT* stride_a, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetrsnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetrsnp_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex8* a,
+                            const MKL_INT* lda, const MKL_INT* stride_a, MKL_Complex8* b, const MKL_INT* ldb,
+                            const MKL_INT* stride_b, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetrsnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetrsnp_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const double* a,
+                            const MKL_INT* lda, const MKL_INT* stride_a, double* b, const MKL_INT* ldb,
+                            const MKL_INT* stride_b, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetrsnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetrsnp_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const float* a,
+                            const MKL_INT* lda, const MKL_INT* stride_a, float* b, const MKL_INT* ldb,
+                            const MKL_INT* stride_b, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetrsnp_batch_strided)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetrsnp_batch_strided(const char* trans, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex16* a,
+                            const MKL_INT* lda, const MKL_INT* stride_a, MKL_Complex16* b, const MKL_INT* ldb,
+                            const MKL_INT* stride_b, const MKL_INT* batch_size, MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cpotrf)) match(construct={target variant dispatch}, device={arch(gen)})
+void cpotrf(const char* uplo, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dpotrf)) match(construct={target variant dispatch}, device={arch(gen)})
+void dpotrf(const char* uplo, const MKL_INT* n, double* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(spotrf)) match(construct={target variant dispatch}, device={arch(gen)})
+void spotrf(const char* uplo, const MKL_INT* n, float* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zpotrf)) match(construct={target variant dispatch}, device={arch(gen)})
+void zpotrf(const char* uplo, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cpotri)) match(construct={target variant dispatch}, device={arch(gen)})
+void cpotri(const char* uplo, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dpotri)) match(construct={target variant dispatch}, device={arch(gen)})
+void dpotri(const char* uplo, const MKL_INT* n, double* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(spotri)) match(construct={target variant dispatch}, device={arch(gen)})
+void spotri(const char* uplo, const MKL_INT* n, float* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zpotri)) match(construct={target variant dispatch}, device={arch(gen)})
+void zpotri(const char* uplo, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* lda, MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cpotrs)) match(construct={target variant dispatch}, device={arch(gen)})
+void cpotrs(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex8* a, const MKL_INT* lda, MKL_Complex8* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dpotrs)) match(construct={target variant dispatch}, device={arch(gen)})
+void dpotrs(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const double* a, const MKL_INT* lda, double* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(spotrs)) match(construct={target variant dispatch}, device={arch(gen)})
+void spotrs(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const float* a, const MKL_INT* lda, float* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zpotrs)) match(construct={target variant dispatch}, device={arch(gen)})
+void zpotrs(const char* uplo, const MKL_INT* n, const MKL_INT* nrhs, const MKL_Complex16* a, const MKL_INT* lda, MKL_Complex16* b, const MKL_INT* ldb, MKL_INT* info) NOTHROW;
+
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(cgetrf_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void cgetrf_batch(const MKL_INT* m, const MKL_INT* n, MKL_Complex8** a, const MKL_INT* lda, MKL_INT** ipiv,
+                  const MKL_INT* group_count, const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(dgetrf_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void dgetrf_batch(const MKL_INT* m, const MKL_INT* n, double** a, const MKL_INT* lda, MKL_INT** ipiv,
+                  const MKL_INT* group_count, const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(sgetrf_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void sgetrf_batch(const MKL_INT* m, const MKL_INT* n, float** a, const MKL_INT* lda, MKL_INT** ipiv,
+                  const MKL_INT* group_count, const MKL_INT* group_size, MKL_INT* info) NOTHROW;
+#pragma omp declare variant (MKL_LAPACK_OPENMP_OFFLOAD(zgetrf_batch)) match(construct={target variant dispatch}, device={arch(gen)})
+void zgetrf_batch(const MKL_INT* m, const MKL_INT* n, MKL_Complex16** a, const MKL_INT* lda, MKL_INT** ipiv,
+                  const MKL_INT* group_count, const MKL_INT* group_size, MKL_INT* info) NOTHROW;
 
 #ifdef __cplusplus
 }
