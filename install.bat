@@ -175,9 +175,6 @@ copy .\icu\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 rem libffi
 copy .\libffi\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
-rem libflac
-copy .\libflac\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
-
 rem libgit2
 copy .\libgit2\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
@@ -187,23 +184,14 @@ copy .\libiconv\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 rem liblzma
 copy .\liblzma\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
-rem libogg
-copy .\libogg\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
-
 rem libsndfile
 copy .\libsndfile\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
-
-rem libvorbis
-copy .\libvorbis\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem libxml2
 copy .\libxml2\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem matio
 copy .\matio\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
-
-rem opus
-copy .\opus\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
 rem pcre
 copy .\pcre\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
