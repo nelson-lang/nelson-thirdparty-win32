@@ -124,9 +124,6 @@ rem vc runtime
 copy .\vc14.3-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 copy .\vc14.3-runtime\*.exe  ..\NelSon\bin\%PLATFORM_NELSON%\*.exe
 
-rem clang-format
-copy .\clang-format\*.exe ..\NelSon\tools\clang_format\*.exe
-
 rem intel runtime
 copy .\intel-runtime\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.dll
 
