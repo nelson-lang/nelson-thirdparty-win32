@@ -155,7 +155,6 @@ mkdir ..\NelSon\bin\%PLATFORM_NELSON%\openblas
 copy .\openblas\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\openblas\*.dll
 
 rem mpi library
-copy .\mpi\bin\*.dll ..\NelSon\bin\%PLATFORM_NELSON%\*.*
 copy .\mpi\License\license_sdk.rtf ..\NelSon\bin\%PLATFORM_NELSON%\license_sdk.rtf
 copy .\mpi\MSMpiSetup.exe ..\NelSon\bin\%PLATFORM_NELSON%\MSMpiSetup.exe
 

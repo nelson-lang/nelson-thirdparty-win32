@@ -1,4 +1,6 @@
 ! -*- Mode: F90; -*-
+! Copyright(c) Microsoft Corporation.All rights reserved.
+! Licensed under the MIT License.
 !
 !      (C) 2004 by Argonne National Laboratory.
 !      (C) 2015 by Microsoft Corporation
@@ -408,8 +410,6 @@
        PARAMETER (MPI_SHORT_INT=z'8c000003')
        INTEGER MPI_LONG_DOUBLE_INT
        PARAMETER (MPI_LONG_DOUBLE_INT=z'8c000004')
-       INTEGER MPI_ADDRESS_KIND
-       PARAMETER (MPI_ADDRESS_KIND=INT_PTR_KIND())
        INTEGER MPI_INTEGER_KIND
        PARAMETER (MPI_INTEGER_KIND=4)
        INTEGER MPI_OFFSET_KIND
@@ -1283,6 +1283,11 @@
        INTEGER v0, v1
        INTEGER ierror
        END SUBROUTINE MPI_WIN_FLUSH
+
+       SUBROUTINE MPI_WIN_FLUSH_LOCAL(v0,v1,ierror)
+       INTEGER v0, v1
+       INTEGER ierror
+       END SUBROUTINE MPI_WIN_FLUSH_LOCAL
 
        SUBROUTINE MPI_ERRHANDLER_FREE(v0,ierror)
        INTEGER v0

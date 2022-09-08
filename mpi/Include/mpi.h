@@ -1,4 +1,7 @@
 /*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ *
  *  (C) 2001 by Argonne National Laboratory.
  *  (C) 2015 by Microsoft Corporation.
  *
@@ -46,8 +49,16 @@
 #ifndef MPI_INCLUDED
 #define MPI_INCLUDED
 
+#include <stdint.h>
 #ifndef MSMPI_NO_SAL
 #include <sal.h>
+#endif
+
+#if defined(_MSC_VER) && _MSC_VER < 1600 
+typedef signed __int64 _MSMPI_int64_t;
+#else 
+#include <stdint.h> 
+typedef int64_t _MSMPI_int64_t;
 #endif
 
 #if defined(__cplusplus)
@@ -113,6 +124,9 @@ extern "C" {
 #endif
 #ifndef _Out_opt_
 #define _Out_opt_
+#endif
+#ifndef _Out_writes_
+#define _Out_writes_( x )
 #endif
 #ifndef _Out_writes_z_
 #define _Out_writes_z_( x )
@@ -242,7 +256,7 @@ extern "C" {
 
 /* Address size integer */
 #ifdef _WIN64
-typedef __int64 MPI_Aint;
+typedef _MSMPI_int64_t MPI_Aint;
 #else
 typedef int MPI_Aint;
 #endif
@@ -251,13 +265,13 @@ typedef int MPI_Aint;
 typedef int MPI_Fint;
 
 /* File offset */
-typedef __int64 MPI_Offset;
+typedef _MSMPI_int64_t MPI_Offset;
 
 //
 // MPI-3 standard defines this type that can be used to address locations
 // within either memory or files as well as express count values.
 //
-typedef __int64 MPI_Count;
+typedef _MSMPI_int64_t MPI_Count;
 
 
 /*---------------------------------------------------------------------------*/
@@ -878,14 +892,14 @@ MPI_METHOD
 MPI_Waitall(
     _In_range_(>=, 0) int count,
     _mpi_updates_(count) MPI_Request array_of_requests[],
-    _mpi_writes_(count) MPI_Status array_of_statuses[]
+    _Out_writes_opt_(count) MPI_Status array_of_statuses[]
     );
 
 MPI_METHOD
 PMPI_Waitall(
     _In_range_(>=, 0) int count,
     _mpi_updates_(count) MPI_Request array_of_requests[],
-    _mpi_writes_(count) MPI_Status array_of_statuses[]
+    _Out_writes_opt_(count) MPI_Status array_of_statuses[]
     );
 
 _Success_(return == MPI_SUCCESS && *flag != 0)
@@ -895,7 +909,7 @@ MPI_Testall(
     _In_range_(>=, 0) int count,
     _mpi_updates_(count) MPI_Request array_of_requests[],
     _mpi_out_flag_ int* flag,
-    _mpi_writes_(count) MPI_Status array_of_statuses[]
+    _Out_writes_opt_(count) MPI_Status array_of_statuses[]
     );
 
 _Success_(return == MPI_SUCCESS && *flag != 0)
@@ -905,8 +919,8 @@ PMPI_Testall(
     _In_range_(>=, 0) int count,
     _mpi_updates_(count) MPI_Request array_of_requests[],
     _mpi_out_flag_ int* flag,
-    _mpi_writes_(count) MPI_Status array_of_statuses[]
-    );
+    _Out_writes_opt_(count) MPI_Status array_of_statuses[]
+);
 
 MPI_METHOD
 MPI_Waitsome(
@@ -914,7 +928,7 @@ MPI_Waitsome(
     _mpi_updates_(incount) MPI_Request array_of_requests[],
     _mpi_out_range_(outcount, MPI_UNDEFINED, incount) int* outcount,
     _mpi_writes_to_(incount,*outcount) int array_of_indices[],
-    _mpi_writes_to_(incount,*outcount) MPI_Status array_of_statuses[]
+    _Out_writes_to_opt_(incount, *outcount) MPI_Status array_of_statuses[]
     );
 
 MPI_METHOD
@@ -923,7 +937,7 @@ PMPI_Waitsome(
     _mpi_updates_(incount) MPI_Request array_of_requests[],
     _mpi_out_range_(outcount, MPI_UNDEFINED, incount) int* outcount,
     _mpi_writes_to_(incount,*outcount) int array_of_indices[],
-    _mpi_writes_to_(incount,*outcount) MPI_Status array_of_statuses[]
+    _Out_writes_to_opt_(incount, *outcount) MPI_Status array_of_statuses[]
     );
 
 _Success_(return == MPI_SUCCESS && *outcount > 0)
@@ -934,7 +948,7 @@ MPI_Testsome(
     _mpi_updates_(incount) MPI_Request array_of_requests[],
     _mpi_out_range_(outcount, MPI_UNDEFINED, incount) int* outcount,
     _mpi_writes_to_(incount,*outcount) int array_of_indices[],
-    _mpi_writes_to_(incount,*outcount) MPI_Status array_of_statuses[]
+    _Out_writes_to_opt_(incount, *outcount) MPI_Status array_of_statuses[]
     );
 
 _Success_(return == MPI_SUCCESS && *outcount > 0)
@@ -945,7 +959,7 @@ PMPI_Testsome(
     _mpi_updates_(incount) MPI_Request array_of_requests[],
     _mpi_out_range_(outcount, MPI_UNDEFINED, incount) int* outcount,
     _mpi_writes_to_(incount,*outcount) int array_of_indices[],
-    _mpi_writes_to_(incount,*outcount) MPI_Status array_of_statuses[]
+    _Out_writes_to_opt_(incount, *outcount) MPI_Status array_of_statuses[]
     );
 
 
@@ -1552,6 +1566,30 @@ MPI_METHOD
 PMPI_Get_address(
     _In_ const void* location,
     _Out_ MPI_Aint* address
+    );
+
+MPI_Aint
+MPI_Aint_add(
+    _In_ MPI_Aint base,
+    _In_ MPI_Aint disp
+    );
+
+MPI_Aint
+PMPI_Aint_add(
+    _In_ MPI_Aint base,
+    _In_ MPI_Aint disp
+    );
+
+MPI_Aint
+MPI_Aint_diff(
+    _In_ MPI_Aint base,
+    _In_ MPI_Aint disp
+    );
+
+MPI_Aint
+PMPI_Aint_diff(
+    _In_ MPI_Aint base,
+    _In_ MPI_Aint disp
     );
 
 MPI_METHOD
@@ -3728,7 +3766,7 @@ MPI_Graph_create(
     _In_ MPI_Comm comm_old,
     _In_range_(>=, 0) int nnodes,
     _In_reads_opt_(nnodes) const int index[],
-    _In_opt_ const int edges[],
+    _In_reads_opt_(nnodes) const int edges[],
     _In_ int reorder,
     _Out_ MPI_Comm* comm_graph
     );
@@ -4412,7 +4450,7 @@ PMPI_Wtick(
 
 MPI_METHOD
 MPI_Init(
-    _In_opt_ int* argc,
+    _In_opt_ const int* argc,
     _Notref_ _In_reads_opt_(*argc) char*** argv
     );
 
@@ -4613,7 +4651,7 @@ MPI_Comm_spawn(
     _In_range_(>=, 0) int root,
     _In_ MPI_Comm comm,
     _Out_ MPI_Comm* intercomm,
-    _Out_writes_opt_(maxprocs) int array_of_errcodes[]
+    _Out_writes_(maxprocs) int array_of_errcodes[]
     );
 
 MPI_METHOD
@@ -4625,7 +4663,7 @@ PMPI_Comm_spawn(
     _In_range_(>=, 0) int root,
     _In_ MPI_Comm comm,
     _Out_ MPI_Comm* intercomm,
-    _Out_writes_opt_(maxprocs) int array_of_errcodes[]
+    _Out_writes_(maxprocs) int array_of_errcodes[]
     );
 
 MPI_METHOD
@@ -4648,7 +4686,7 @@ MPI_Comm_spawn_multiple(
     _In_range_(>=, 0) int root,
     _In_ MPI_Comm comm,
     _Out_ MPI_Comm* intercomm,
-    _Out_opt_ int array_of_errcodes[]
+    _Out_ int array_of_errcodes[]
     );
 
 MPI_METHOD
@@ -4661,7 +4699,7 @@ PMPI_Comm_spawn_multiple(
     _In_range_(>=, 0) int root,
     _In_ MPI_Comm comm,
     _Out_ MPI_Comm* intercomm,
-    _Out_opt_ int array_of_errcodes[]
+    _Out_ int array_of_errcodes[]
     );
 
 
@@ -5000,7 +5038,7 @@ PMPI_Rput(
 
 MPI_METHOD
 MPI_Get(
-    _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
+    _In_opt_ void* origin_addr,
     _In_range_(>=, 0) int origin_count,
     _In_ MPI_Datatype origin_datatype,
     _In_range_(>=, MPI_PROC_NULL) int target_rank,
@@ -5012,7 +5050,7 @@ MPI_Get(
 
 MPI_METHOD
 PMPI_Get(
-    _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
+    _In_opt_ void* origin_addr,
     _In_range_(>=, 0) int origin_count,
     _In_ MPI_Datatype origin_datatype,
     _In_range_(>=, MPI_PROC_NULL) int target_rank,
@@ -5024,7 +5062,7 @@ PMPI_Get(
 
 MPI_METHOD
 MPI_Rget(
-    _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
+    _In_opt_ void* origin_addr,
     _In_range_(>= , 0) int origin_count,
     _In_ MPI_Datatype origin_datatype,
     _In_range_(>= , MPI_PROC_NULL) int target_rank,
@@ -5037,7 +5075,7 @@ MPI_Rget(
 
 MPI_METHOD
 PMPI_Rget(
-    _When_(target_rank != MPI_PROC_NULL, _Out_opt_) void* origin_addr,
+    _In_opt_ void* origin_addr,
     _In_range_(>= , 0) int origin_count,
     _In_ MPI_Datatype origin_datatype,
     _In_range_(>= , MPI_PROC_NULL) int target_rank,
@@ -5101,6 +5139,132 @@ PMPI_Raccumulate(
     _In_ MPI_Win win,
     _Out_ MPI_Request *request
     );
+
+MPI_METHOD
+MPI_Get_accumulate(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>= , 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_opt_ void* result_addr,
+    _In_range_(>= , 0) int result_count,
+    _In_ MPI_Datatype result_datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_range_(>= , 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win
+);
+
+MPI_METHOD
+PMPI_Get_accumulate(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>= , 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_opt_ void* result_addr,
+    _In_range_(>= , 0) int result_count,
+    _In_ MPI_Datatype result_datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_range_(>= , 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win
+);
+
+MPI_METHOD
+MPI_Rget_accumulate(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>= , 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_opt_ void* result_addr,
+    _In_range_(>= , 0) int result_count,
+    _In_ MPI_Datatype result_datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_range_(>= , 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
+);
+
+MPI_METHOD
+PMPI_Rget_accumulate(
+    _In_opt_ const void* origin_addr,
+    _In_range_(>= , 0) int origin_count,
+    _In_ MPI_Datatype origin_datatype,
+    _In_opt_ void* result_addr,
+    _In_range_(>= , 0) int result_count,
+    _In_ MPI_Datatype result_datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_range_(>= , 0) int target_count,
+    _In_ MPI_Datatype target_datatype,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win,
+    _Out_ MPI_Request *request
+);
+
+MPI_METHOD
+MPI_Fetch_and_op(
+    _In_opt_ const void* origin_addr,
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        void* result_addr,
+    _In_ MPI_Datatype datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win
+);
+
+MPI_METHOD
+PMPI_Fetch_and_op(
+    _In_opt_ const void* origin_addr,
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        void* result_addr,
+    _In_ MPI_Datatype datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_ MPI_Op op,
+    _In_ MPI_Win win
+);
+
+MPI_METHOD
+MPI_Compare_and_swap(
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        const void* origin_addr,
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        const void* compare_addr,
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        void* result_addr,
+    _In_ MPI_Datatype datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_ MPI_Win win
+);
+
+MPI_METHOD
+PMPI_Compare_and_swap(
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        const void* origin_addr,
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        const void* compare_addr,
+    _When_(target_rank != MPI_PROC_NULL, _In_)
+    _When_(target_rank == MPI_PROC_NULL, _In_opt_)
+        void* result_addr,
+    _In_ MPI_Datatype datatype,
+    _In_range_(>= , MPI_PROC_NULL) int target_rank,
+    _In_range_(>= , 0) MPI_Aint target_disp,
+    _In_ MPI_Win win
+);
 
 /* Asserts for one-sided communication */
 #define MPI_MODE_NOCHECK    1024
@@ -5201,6 +5365,18 @@ PMPI_Win_lock(
     );
 
 MPI_METHOD
+MPI_Win_lock_all(
+    _In_ int assert,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_lock_all(
+    _In_ int assert,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
 MPI_Win_unlock(
     _In_range_(>=, MPI_PROC_NULL) int rank,
     _In_ MPI_Win win
@@ -5209,6 +5385,16 @@ MPI_Win_unlock(
 MPI_METHOD
 PMPI_Win_unlock(
     _In_range_(>=, MPI_PROC_NULL) int rank,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Win_unlock_all(
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_unlock_all(
     _In_ MPI_Win win
     );
 
@@ -5224,6 +5410,47 @@ PMPI_Win_flush(
     _In_ MPI_Win win
     );
 
+MPI_METHOD
+MPI_Win_flush_all(
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_flush_all(
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Win_flush_local(
+    _In_range_(>= , MPI_PROC_NULL) int rank,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_flush_local(
+    _In_range_(>= , MPI_PROC_NULL) int rank,
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Win_flush_local_all(
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_flush_local_all(
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+MPI_Win_sync(
+    _In_ MPI_Win win
+    );
+
+MPI_METHOD
+PMPI_Win_sync(
+    _In_ MPI_Win win
+    );
 
 /*---------------------------------------------------------------------------*/
 /* Chapter 12: External Interfaces                                           */
@@ -5338,7 +5565,7 @@ PMPI_Status_set_cancelled(
 
 MPI_METHOD
 MPI_Init_thread(
-    _In_opt_ int* argc,
+    _In_opt_ const int* argc,
     _Notref_ _In_reads_opt_(*argc) char*** argv,
     _In_ int required,
     _Out_ int* provided

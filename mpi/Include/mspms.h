@@ -1,6 +1,7 @@
 /*++
 
-Copyright (c) Microsoft Corporation
+ Copyright (c) Microsoft Corporation. All rights reserved.
+ Licensed under the MIT License.
 
 Module:
 
@@ -96,15 +97,15 @@ enum PmiLaunchType
 
 typedef HRESULT (WINAPI FN_PmiLaunch)(
     _In_z_ const char* App,              //smpd.exe
-    _In_z_ char*       Args,             //args to smpd.exe
+    _In_z_ const char* Args,             //args to smpd.exe
     _In_z_ const char* Context           //job context string
 );
 
 typedef HRESULT (WINAPI FN_PmiLaunchUserSid)(
-    _In_   PSID        Sid,
-    _In_z_ const char* App,              //smpd.exe
-    _In_z_ char*       Args,             //args to smpd.exe
-    _In_z_ const char* Context           //job context string
+    _In_opt_   PSID        Sid,
+    _In_z_     const char* App,              //smpd.exe
+    _In_z_     const char* Args,             //args to smpd.exe
+    _In_z_     const char* Context           //job context string
 );
 
 typedef struct _PmiManagerInterface
@@ -188,10 +189,10 @@ typedef HRESULT(WINAPI FN_PmiStartLaunchCtx)(_In_ const void* launchCtx);
 typedef HRESULT(WINAPI FN_PmiEndLaunchCtx)(_In_ const void* launchCtx);
 typedef HRESULT(WINAPI FN_PmiCleanupLaunchCtx)(_In_ const void* launchCtx);
 typedef void (WINAPI FN_PmiGetLaunchInfo)(
-    _In_     const void*  launchCtx,
-    _Outptr_ const char** ppJobObjName,
-    _Outptr_ const char** ppPwd,
-    _Out_    BOOL*        pSaveCreds
+    _In_         const void*  launchCtx,
+    _Outptr_opt_ const char** ppJobObjName,
+    _Outptr_opt_ const char** ppPwd,
+    _Out_opt_    BOOL*        pSaveCreds
     );
 
 typedef struct _PmiServiceLaunchInterface
