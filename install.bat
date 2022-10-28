@@ -134,11 +134,13 @@ copy .\mkl\mkl_license.txt %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl\mkl_license.tx
 copy .\mkl\mkl_license.txt %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl_license.txt
 
 copy .\mkl\blas-lapack-wrapper\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl\*.*
+copy .\mkl\blas-lapack-wrapper\lib\*.lib %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl\*.*
 copy .\mkl\fftw-wrapper\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl\*.*
 copy .\mkl\omp\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl\*.*
 copy .\mkl\vml\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\mkl\*.*
 
 copy .\mkl\blas-lapack-wrapper\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
+copy .\mkl\blas-lapack-wrapper\lib\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.lib
 copy .\mkl\fftw-wrapper\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
 copy .\mkl\omp\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
 copy .\mkl\vml\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
