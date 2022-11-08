@@ -1,3 +1,5 @@
+rem .\boost\boost\config\user.hpp
+rem BOOST_ALL_DYN_LINK and BOOST_ALL_NO_LIB must be enabled
 set VC_VERSION=vc143
 set BOOST_VERSION=x32-1_80
 set SRC=E:\boost_1_80_0-32\lib32-msvc-14.3
