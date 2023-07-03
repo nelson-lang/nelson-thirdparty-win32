@@ -1,9 +1,9 @@
 rem .\boost\boost\config\user.hpp
 rem BOOST_ALL_DYN_LINK and BOOST_ALL_NO_LIB must be enabled
 set VC_VERSION=vc143
-set BOOST_VERSION=x32-1_80
-set SRC=E:\boost_1_80_0-32\lib32-msvc-14.3
-set DST=E:\Developpements\GitHub\nelson-thirdparty-win32\boost\lib
+set BOOST_VERSION=x32-1_82
+set SRC=D:\boost_1_82_0\lib32-msvc-14.3
+set DST=D:\Developpements\GitHub\nelson-thirdparty-win32\boost\lib
 mkdir %DST%
 copy %SRC%\boost_chrono-%VC_VERSION%-mt-%BOOST_VERSION%.dll %DST%
 copy %SRC%\boost_chrono-%VC_VERSION%-mt-%BOOST_VERSION%.lib %DST%
