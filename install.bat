@@ -51,8 +51,6 @@ copy %QTDIR%\bin\icudt5?.dll    %NELSON_DIR%\bin\%PLATFORM_NELSON%\icudt5?.dll
 copy %QTDIR%\bin\icuin5?.dll    %NELSON_DIR%\bin\%PLATFORM_NELSON%\icuin5?.dll
 copy %QTDIR%\bin\icuuc5?.dll    %NELSON_DIR%\bin\%PLATFORM_NELSON%\icuuc5?.dll
 xcopy /E /Y %QTDIR%\plugins %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\
-del %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\*.pdb /s
-del %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\*d.dll /s
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\bearer /s /Q
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\designer /s /Q
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\qmltooling /s /Q
@@ -63,8 +61,6 @@ rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\geoservices /s /Q
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\audio /s /Q
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\plugins\generic /s /Q
 xcopy /E /Y %QTDIR%\qml %NELSON_DIR%\bin\%PLATFORM_NELSON%\qml\
-del %NELSON_DIR%\bin\%PLATFORM_NELSON%\qml\*.pdb /s
-del %NELSON_DIR%\bin\%PLATFORM_NELSON%\qml\*d.dll /s
 copy %QTDIR%\qml\QtCanvas3D\qtcanvas3d.dll  %NELSON_DIR%\bin\%PLATFORM_NELSON%\qml\QtCanvas3D\
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\qml\QtBluetooth /s /Q
 rmdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\qml\QtLocation /s /Q
@@ -75,56 +71,58 @@ copy %QTDIR%\bin\d3dcompiler_*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\libEGL.dll  %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\libGLESv2.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\opengl32sw.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DCore.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DExtras.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DInput.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DLogic.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DQuick.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DQuickExtras.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DQuickInput.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DQuickRender.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?3DRender.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?CLucene.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Concurrent.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Core.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?DBus.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Gui.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Help.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Multimedia.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?MultimediaQuick_p.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?MultimediaWidgets.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Network.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?OpenGL.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?PrintSupport.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Qml.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Quick.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QuickControls2.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QuickParticles.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QuickTemplates2.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QuickWidgets.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Sensors.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Sql.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Svg.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WebChannel.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WebEngine.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WebEngineCore.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WebEngineWidgets.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WebSockets.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WebView.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?Widgets.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?WinExtras.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QmlWorkerScript.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QmlModels.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
-copy %QTDIR%\bin\Qt?QuickControls2Impls.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DCore?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DExtras?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DInput?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DLogic?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DQuick?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DQuickExtras?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DQuickInput?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DQuickRender?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?3DRender?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?CLucene?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Concurrent?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Core?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?DBus?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Gui?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Help?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Multimedia?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?MultimediaQuick_p?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?MultimediaWidgets?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Network?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?OpenGL?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?PrintSupport?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Qml?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Quick?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickControls2?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickParticles?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickTemplates2?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickWidgets?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Sensors?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Sql?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Svg?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WebChannel?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WebEngine?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WebEngineCore?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WebEngineWidgets?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WebSockets?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WebView?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?Widgets?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?WinExtras?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QmlWorkerScript?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QmlModels?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickControls2Impls?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt?QuickControls2Impl.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickControls2Impld.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 
 rem QT 6 required
-copy %QTDIR%\bin\Qt?QuickLayouts.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickLayouts?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 
 rem QT 6.7 required
-copy %QTDIR%\bin\Qt?QuickControls2Basic.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickControls2Basic?.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt?QuickControls2Fusion.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 copy %QTDIR%\bin\Qt?QuickControls2FusionStyleImpl.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
+copy %QTDIR%\bin\Qt?QuickControls2FusionStyleImpld.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\
 
 rem vc runtime
 copy .\vc14.3-runtime\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
