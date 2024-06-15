@@ -1,4 +1,4 @@
-Step 10: Adding Generator Expressions
+Step 4: Adding Generator Expressions
 =====================================
 
 :manual:`Generator expressions <cmake-generator-expressions(7)>` are evaluated
@@ -24,61 +24,145 @@ Logical, Informational, and Output expressions.
 
 Logical expressions are used to create conditional output. The basic
 expressions are the ``0`` and ``1`` expressions. A ``$<0:...>`` results in the
-empty string, and ``<1:...>`` results in the content of ``...``.  They can also
+empty string, and ``$<1:...>`` results in the content of ``...``.  They can also
 be nested.
+
+Exercise 1 - Adding Compiler Warning Flags with Generator Expressions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A common usage of
 :manual:`generator expressions <cmake-generator-expressions(7)>` is to
 conditionally add compiler flags, such as those for language levels or
 warnings. A nice pattern is to associate this information to an ``INTERFACE``
-target allowing this information to propagate. Let's start by constructing an
-``INTERFACE`` target and specifying the required C++ standard level of ``11``
-instead of using :variable:`CMAKE_CXX_STANDARD`.
+target allowing this information to propagate.
 
-So the following code:
+Goal
+----
 
-.. literalinclude:: Step10/CMakeLists.txt
-  :caption: CMakeLists.txt
-  :name: CMakeLists.txt-CXX_STANDARD-variable-remove
+Add compiler warning flags when building but not for installed versions.
+
+Helpful Resources
+-----------------
+
+* :manual:`cmake-generator-expressions(7)`
+* :command:`cmake_minimum_required`
+* :command:`set`
+* :command:`target_compile_options`
+
+Files to Edit
+-------------
+
+* ``CMakeLists.txt``
+
+Getting Started
+---------------
+
+Open the file ``Step4/CMakeLists.txt`` and complete ``TODO 1`` through
+``TODO 4``.
+
+First, in the top level ``CMakeLists.txt`` file, we need to set the
+:command:`cmake_minimum_required` to ``3.15``. In this exercise we are going
+to use a generator expression which was introduced in CMake 3.15.
+
+Next we add the desired compiler warning flags that we want for our project.
+As warning flags vary based on the compiler, we use the
+``COMPILE_LANG_AND_ID`` generator expression to control which flags to apply
+given a language and a set of compiler ids.
+
+Build and Run
+-------------
+
+Make a new directory called ``Step4_build``, run the :manual:`cmake <cmake(1)>`
+executable or the :manual:`cmake-gui <cmake-gui(1)>` to configure the project
+and then build it with your chosen build tool or by using ``cmake --build .``
+from the build directory.
+
+.. code-block:: console
+
+  mkdir Step4_build
+  cd Step4_build
+  cmake ../Step4
+  cmake --build .
+
+Solution
+--------
+
+Update the :command:`cmake_minimum_required` to require at least CMake
+version ``3.15``:
+
+.. raw:: html
+
+  <details><summary>TODO 1: Click to show/hide answer</summary>
+
+.. literalinclude:: Step5/CMakeLists.txt
+  :caption: TODO 1: CMakeLists.txt
+  :name: MathFunctions-CMakeLists.txt-minimum-required-step4
   :language: cmake
-  :start-after: project(Tutorial VERSION 1.0)
-  :end-before: # control where the static and shared libraries are built so that on windows
+  :end-before: # set the project name and version
 
-Would be replaced with:
+.. raw:: html
 
-.. literalinclude:: Step11/CMakeLists.txt
-  :caption: CMakeLists.txt
-  :name: CMakeLists.txt-cxx_std-feature
-  :language: cmake
-  :start-after: project(Tutorial VERSION 1.0)
-  :end-before: # add compiler warning flags just when building this project via
+  </details>
 
-**Note**:  This upcoming section will require a change to the
-:command:`cmake_minimum_required` usage in the code.  The Generator Expression
-that is about to be used was introduced in `3.15`.  Update the call to require
-that more recent version:
+Next we determine which compiler our system is currently using to build
+since warning flags vary based on the compiler we use. This is done with
+the ``COMPILE_LANG_AND_ID`` generator expression. We set the result in the
+variables ``gcc_like_cxx`` and ``msvc_cxx`` as follows:
 
-.. code-block:: cmake
-  :caption: CMakeLists.txt
-  :name: CMakeLists.txt-version-update
+.. raw:: html
 
-  cmake_minimum_required(VERSION 3.15)
+  <details><summary>TODO 2: Click to show/hide answer</summary>
 
-Next we add the desired compiler warning flags that we want for our project. As
-warning flags vary based on the compiler we use the ``COMPILE_LANG_AND_ID``
-generator expression to control which flags to apply given a language and a set
-of compiler ids as seen below:
-
-.. literalinclude:: Step11/CMakeLists.txt
-  :caption: CMakeLists.txt
-  :name: CMakeLists.txt-target_compile_options-genex
+.. literalinclude:: Step5/CMakeLists.txt
+  :caption: TODO 2: CMakeLists.txt
+  :name: CMakeLists.txt-compile_lang_and_id
   :language: cmake
   :start-after: # the BUILD_INTERFACE genex
-  :end-before: # control where the static and shared libraries are built so that on windows
+  :end-before: target_compile_options(tutorial_compiler_flags INTERFACE
 
-Looking at this we see that the warning flags are encapsulated inside a
-``BUILD_INTERFACE`` condition. This is done so that consumers of our installed
-project will not inherit our warning flags.
+.. raw:: html
 
-**Exercise**: Modify ``MathFunctions/CMakeLists.txt`` so that all targets have
-a :command:`target_link_libraries` call to ``tutorial_compiler_flags``.
+  </details>
+
+Next we add the desired compiler warning flags that we want for our project.
+Using our variables ``gcc_like_cxx`` and ``msvc_cxx``, we can use another
+generator expression to apply the respective flags only when the variables are
+true. We use :command:`target_compile_options` to apply these flags to our
+interface library.
+
+.. raw:: html
+
+  <details><summary>TODO 3: Click to show/hide answer</summary>
+
+.. code-block:: cmake
+  :caption: TODO 3: CMakeLists.txt
+  :name: CMakeLists.txt-compile_flags
+
+  target_compile_options(tutorial_compiler_flags INTERFACE
+    "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused>"
+    "$<${msvc_cxx}:-W3>"
+  )
+
+.. raw:: html
+
+  </details>
+
+Lastly, we only want these warning flags to be used during builds. Consumers
+of our installed project should not inherit our warning flags. To specify
+this, we wrap our flags from TODO 3 in a generator expression using the
+``BUILD_INTERFACE`` condition. The resulting full code looks like the following:
+
+.. raw:: html
+
+  <details><summary>TODO 4: Click to show/hide answer</summary>
+
+.. literalinclude:: Step5/CMakeLists.txt
+  :caption: TODO 4: CMakeLists.txt
+  :name: CMakeLists.txt-target_compile_options-genex
+  :language: cmake
+  :start-after: set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
+  :end-before: # configure a header file to pass some of the CMake settings
+
+.. raw:: html
+
+  </details>

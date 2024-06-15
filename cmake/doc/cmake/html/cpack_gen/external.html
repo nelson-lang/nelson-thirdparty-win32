@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>CPack External Generator &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>CPack External Generator &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CPack FreeBSD Generator" href="freebsd.html" />
     <link rel="prev" title="CPack DragNDrop Generator" href="dmg.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack External Generator</a></li> 
       </ul>
     </div>  
 
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="cpack-external-generator">
-<span id="cpack_gen:CPack External Generator"></span><h1>CPack External Generator<a class="headerlink" href="#cpack-external-generator" title="Permalink to this headline">¶</a></h1>
+  <section id="cpack-external-generator">
+<span id="cpack_gen:CPack External Generator"></span><h1>CPack External Generator<a class="headerlink" href="#cpack-external-generator" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.13.</span></p>
 </div>
@@ -69,8 +69,8 @@ to either technical limitations or policies that require the use of certain
 tools. For this reason, CPack provides the &quot;External&quot; generator, which allows
 external packaging software to take advantage of some of the functionality
 provided by CPack, such as component installation and the dependency graph.</p>
-<div class="section" id="integration-with-external-packaging-tools">
-<h2>Integration with External Packaging Tools<a class="headerlink" href="#integration-with-external-packaging-tools" title="Permalink to this headline">¶</a></h2>
+<section id="integration-with-external-packaging-tools">
+<h2>Integration with External Packaging Tools<a class="headerlink" href="#integration-with-external-packaging-tools" title="Link to this heading">¶</a></h2>
 <p>The CPack External generator generates a <code class="docutils literal notranslate"><span class="pre">.json</span></code> file containing the
 CPack internal metadata, which gives external software information
 on how to package the software. External packaging software may itself
@@ -82,9 +82,9 @@ through an optional custom CMake script in
 <p>Staging of installation files may also optionally be
 taken care of by the generator when enabled through the
 <span class="target" id="index-0-variable:CPACK_EXTERNAL_ENABLE_STAGING"></span><a class="reference internal" href="#variable:CPACK_EXTERNAL_ENABLE_STAGING" title="CPACK_EXTERNAL_ENABLE_STAGING"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_EXTERNAL_ENABLE_STAGING</span></code></a> variable.</p>
-</div>
-<div class="section" id="json-format">
-<h2>JSON Format<a class="headerlink" href="#json-format" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="json-format">
+<h2>JSON Format<a class="headerlink" href="#json-format" title="Link to this heading">¶</a></h2>
 <p>The JSON metadata file contains a list of CPack components and component groups,
 the various options passed to <span class="target" id="index-0-command:cpack_add_component"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component" title="cpack_add_component"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component()</span></code></a> and
 <span class="target" id="index-0-command:cpack_add_component_group"></span><a class="reference internal" href="../module/CPackComponent.html#command:cpack_add_component_group" title="cpack_add_component_group"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cpack_add_component_group()</span></code></a>, the dependencies between the components
@@ -105,8 +105,8 @@ minor version that is greater than or equal to the requested minor version. If
 no version is requested with <span class="target" id="index-1-variable:CPACK_EXTERNAL_REQUESTED_VERSIONS"></span><a class="reference internal" href="#variable:CPACK_EXTERNAL_REQUESTED_VERSIONS" title="CPACK_EXTERNAL_REQUESTED_VERSIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_EXTERNAL_REQUESTED_VERSIONS</span></code></a>, the
 latest known major version is used by default. Currently, the only supported
 format is 1.0, which is described below.</p>
-<div class="section" id="version-1-0">
-<h3>Version 1.0<a class="headerlink" href="#version-1-0" title="Permalink to this headline">¶</a></h3>
+<section id="version-1-0">
+<h3>Version 1.0<a class="headerlink" href="#version-1-0" title="Link to this heading">¶</a></h3>
 <p>In addition to the standard format fields, format version 1.0 provides the
 following fields in the root:</p>
 <dl>
@@ -229,8 +229,8 @@ set.</p>
 <span class="target" id="index-0-variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY" title="CPACK_PACKAGE_DESCRIPTION_SUMMARY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_SUMMARY</span></code></a>. Only present if this option is
 set.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">buildConfig</span></code></dt><dd><p>The build configuration given to CPack with the <code class="docutils literal notranslate"><span class="pre">-C</span></code> option. Only present
-if this option is set.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">buildConfig</span></code></dt><dd><p>The build configuration given to CPack with the <a class="reference internal" href="../manual/cpack.1.html#cmdoption-cpack-C"><code class="xref std std-option docutils literal notranslate"><span class="pre">cpack</span> <span class="pre">-C</span></code></a> option.
+Only present if this option is set.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">defaultDirectoryPermissions</span></code></dt><dd><p>The default directory permissions given in
 <span class="target" id="index-0-variable:CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS"></span><a class="reference internal" href="../variable/CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS.html#variable:CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS" title="CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_INSTALL_DEFAULT_DIRECTORY_PERMISSIONS</span></code></a>. Only present if this
@@ -250,13 +250,13 @@ if it is not.</p>
 false if it is not.</p>
 </dd>
 </dl>
-</div>
-</div>
-<div class="section" id="variables-specific-to-cpack-external-generator">
-<h2>Variables specific to CPack External generator<a class="headerlink" href="#variables-specific-to-cpack-external-generator" title="Permalink to this headline">¶</a></h2>
-<dl class="variable">
-<dt id="variable:CPACK_EXTERNAL_REQUESTED_VERSIONS">
-<code class="sig-name descname">CPACK_EXTERNAL_REQUESTED_VERSIONS</code><a class="headerlink" href="#variable:CPACK_EXTERNAL_REQUESTED_VERSIONS" title="Permalink to this definition">¶</a></dt>
+</section>
+</section>
+<section id="variables-specific-to-cpack-external-generator">
+<h2>Variables specific to CPack External generator<a class="headerlink" href="#variables-specific-to-cpack-external-generator" title="Link to this heading">¶</a></h2>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_EXTERNAL_REQUESTED_VERSIONS">
+<span class="sig-name descname"><span class="pre">CPACK_EXTERNAL_REQUESTED_VERSIONS</span></span><a class="headerlink" href="#variable:CPACK_EXTERNAL_REQUESTED_VERSIONS" title="Link to this definition">¶</a></dt>
 <dd><p>This variable is used to request a specific version of the CPack External
 generator. It is a list of <code class="docutils literal notranslate"><span class="pre">major.minor</span></code> values, separated by semicolons.</p>
 <p>If this variable is set to a non-empty value, the CPack External generator
@@ -279,9 +279,9 @@ that doesn't match <code class="docutils literal notranslate"><span class="pre">
 integers), it is ignored.</p>
 </dd></dl>
 
-<dl class="variable">
-<dt id="variable:CPACK_EXTERNAL_ENABLE_STAGING">
-<code class="sig-name descname">CPACK_EXTERNAL_ENABLE_STAGING</code><a class="headerlink" href="#variable:CPACK_EXTERNAL_ENABLE_STAGING" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_EXTERNAL_ENABLE_STAGING">
+<span class="sig-name descname"><span class="pre">CPACK_EXTERNAL_ENABLE_STAGING</span></span><a class="headerlink" href="#variable:CPACK_EXTERNAL_ENABLE_STAGING" title="Link to this definition">¶</a></dt>
 <dd><p>This variable can be set to true to enable optional installation
 into a temporary staging area which can then be picked up
 and packaged by an external packaging tool.
@@ -294,9 +294,9 @@ It also contains the staging area <code class="docutils literal notranslate"><sp
 into which CPack performs the installation when staging is enabled.</p>
 </dd></dl>
 
-<dl class="variable">
-<dt id="variable:CPACK_EXTERNAL_PACKAGE_SCRIPT">
-<code class="sig-name descname">CPACK_EXTERNAL_PACKAGE_SCRIPT</code><a class="headerlink" href="#variable:CPACK_EXTERNAL_PACKAGE_SCRIPT" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_EXTERNAL_PACKAGE_SCRIPT">
+<span class="sig-name descname"><span class="pre">CPACK_EXTERNAL_PACKAGE_SCRIPT</span></span><a class="headerlink" href="#variable:CPACK_EXTERNAL_PACKAGE_SCRIPT" title="Link to this definition">¶</a></dt>
 <dd><p>This variable can optionally specify the full path to
 a CMake script file to be run as part of the CPack invocation.
 It is invoked after (optional) staging took place and may
@@ -304,9 +304,9 @@ run an external packaging tool. The script has access to
 the variables defined by the CPack config file.</p>
 </dd></dl>
 
-<dl class="variable">
-<dt id="variable:CPACK_EXTERNAL_BUILT_PACKAGES">
-<code class="sig-name descname">CPACK_EXTERNAL_BUILT_PACKAGES</code><a class="headerlink" href="#variable:CPACK_EXTERNAL_BUILT_PACKAGES" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_EXTERNAL_BUILT_PACKAGES">
+<span class="sig-name descname"><span class="pre">CPACK_EXTERNAL_BUILT_PACKAGES</span></span><a class="headerlink" href="#variable:CPACK_EXTERNAL_BUILT_PACKAGES" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.19.</span></p>
 </div>
@@ -316,17 +316,19 @@ staging directory back to the top build directory and possibly produce
 checksum files if the <span class="target" id="index-0-variable:CPACK_PACKAGE_CHECKSUM"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_CHECKSUM" title="CPACK_PACKAGE_CHECKSUM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_CHECKSUM</span></code></a> is set.</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">CPack External Generator</a><ul>
 <li><a class="reference internal" href="#integration-with-external-packaging-tools">Integration with External Packaging Tools</a></li>
 <li><a class="reference internal" href="#json-format">JSON Format</a><ul>
@@ -338,12 +340,17 @@ checksum files if the <span class="target" id="index-0-variable:CPACK_PACKAGE_CH
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="dmg.html"
-                        title="previous chapter">CPack DragNDrop Generator</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="freebsd.html"
-                        title="next chapter">CPack FreeBSD Generator</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="dmg.html"
+                          title="previous chapter">CPack DragNDrop Generator</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="freebsd.html"
+                          title="next chapter">CPack FreeBSD Generator</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -355,12 +362,12 @@ checksum files if the <span class="target" id="index-0-variable:CPACK_PACKAGE_CH
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -385,15 +392,17 @@ checksum files if the <span class="target" id="index-0-variable:CPACK_PACKAGE_CH
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack External Generator</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

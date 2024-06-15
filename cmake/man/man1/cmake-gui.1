@@ -1,8 +1,5 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-GUI" "1" "Dec 07, 2021" "3.22.1" "CMake"
-.SH NAME
-cmake-gui \- CMake GUI Command-Line Reference
 .
 .nr rst2man-indent-level 0
 .
@@ -30,6 +27,9 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
+.TH "CMAKE-GUI" "1" "Jun 14, 2024" "3.30.0" "CMake"
+.SH NAME
+cmake-gui \- CMake GUI Command-Line Reference
 .SH SYNOPSIS
 .INDENT 0.0
 .INDENT 3.5
@@ -37,9 +37,9 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .nf
 .ft C
 cmake\-gui [<options>]
-cmake\-gui [<options>] {<path\-to\-source> | <path\-to\-existing\-build>}
-cmake\-gui [<options>] \-S <path\-to\-source> \-B <path\-to\-build>
-cmake\-gui [<options>] \-\-browse\-manual
+cmake\-gui [<options>] \-B <path\-to\-build> [\-S <path\-to\-source>]
+cmake\-gui [<options>] <path\-to\-source | path\-to\-existing\-build>
+cmake\-gui [<options>] \-\-browse\-manual [<filename>]
 .ft P
 .fi
 .UNINDENT
@@ -58,157 +58,216 @@ native tool on their platform.
 .SH OPTIONS
 .INDENT 0.0
 .TP
-.B \fB\-S <path\-to\-source>\fP
+.B \-S <path\-to\-source>
 Path to root directory of the CMake project to build.
-.TP
-.B \fB\-B <path\-to\-build>\fP
-Path to directory which CMake will use as the root of build directory.
-.sp
-If the directory doesn\(aqt already exist CMake will make it.
-.TP
-.B \fB\-\-preset=<preset\-name>\fP
-Name of the preset to use from the project\(aqs
-\fBpresets\fP files, if it has them.
-.TP
-.B \fB\-\-browse\-manual\fP
-Open the CMake reference manual in a browser and immediately exit.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B \fB\-\-help,\-help,\-usage,\-h,\-H,/?\fP
+.B \-B <path\-to\-build>
+Path to directory which CMake will use as the root of build directory.
+.sp
+If the directory doesn\(aqt already exist CMake will make it.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-preset=<preset\-name>
+Name of the preset to use from the project\(aqs
+\fI\%presets\fP files, if it has them.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-browse\-manual [<filename>]
+Open the CMake reference manual in a browser and immediately exit. If
+\fB<filename>\fP is specified, open that file within the reference manual
+instead of \fBindex.html\fP\&.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-version [<file>], \-\-version [<file>], /V [<file>]
+Show program name/version banner and exit.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-h, \-H, \-\-help, \-help, \-usage, /?
 Print usage information and exit.
 .sp
 Usage describes the basic command line interface and its options.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-version,\-version,/V [<f>]\fP
-Show program name/version banner and exit.
+.B \-\-help <keyword> [<file>]
+Print help for one CMake keyword.
 .sp
-If a file is specified, the version is written into it.
-The help is printed to a named <f>ile if given.
+\fB<keyword>\fP can be a property, variable, command, policy, generator
+or module.
+.sp
+The relevant manual entry for \fB<keyword>\fP is
+printed in a human\-readable text format.
+The output is printed to a named \fB<file>\fP if given.
+.sp
+Changed in version 3.28: Prior to CMake 3.28, this option supported command names only.
+
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-full [<f>]\fP
+.B \-\-help\-full [<file>]
 Print all help manuals and exit.
 .sp
 All manuals are printed in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-manual <man> [<f>]\fP
+.B \-\-help\-manual <man> [<file>]
 Print one help manual and exit.
 .sp
 The specified manual is printed in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-manual\-list [<f>]\fP
+.B \-\-help\-manual\-list [<file>]
 List help manuals available and exit.
 .sp
 The list contains all manuals for which help may be obtained by
 using the \fB\-\-help\-manual\fP option followed by a manual name.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-command <cmd> [<f>]\fP
+.B \-\-help\-command <cmd> [<file>]
 Print help for one command and exit.
 .sp
-The \fBcmake\-commands(7)\fP manual entry for \fB<cmd>\fP is
+The \fI\%cmake\-commands(7)\fP manual entry for \fB<cmd>\fP is
 printed in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-command\-list [<f>]\fP
+.B \-\-help\-command\-list [<file>]
 List commands with help available and exit.
 .sp
 The list contains all commands for which help may be obtained by
 using the \fB\-\-help\-command\fP option followed by a command name.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-commands [<f>]\fP
+.B \-\-help\-commands [<file>]
 Print cmake\-commands manual and exit.
 .sp
-The \fBcmake\-commands(7)\fP manual is printed in a
+The \fI\%cmake\-commands(7)\fP manual is printed in a
 human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-module <mod> [<f>]\fP
+.B \-\-help\-module <mod> [<file>]
 Print help for one module and exit.
 .sp
-The \fBcmake\-modules(7)\fP manual entry for \fB<mod>\fP is printed
+The \fI\%cmake\-modules(7)\fP manual entry for \fB<mod>\fP is printed
 in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-module\-list [<f>]\fP
+.B \-\-help\-module\-list [<file>]
 List modules with help available and exit.
 .sp
 The list contains all modules for which help may be obtained by
 using the \fB\-\-help\-module\fP option followed by a module name.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-modules [<f>]\fP
+.B \-\-help\-modules [<file>]
 Print cmake\-modules manual and exit.
 .sp
-The \fBcmake\-modules(7)\fP manual is printed in a human\-readable
+The \fI\%cmake\-modules(7)\fP manual is printed in a human\-readable
 text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-policy <cmp> [<f>]\fP
+.B \-\-help\-policy <cmp> [<file>]
 Print help for one policy and exit.
 .sp
-The \fBcmake\-policies(7)\fP manual entry for \fB<cmp>\fP is
+The \fI\%cmake\-policies(7)\fP manual entry for \fB<cmp>\fP is
 printed in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-policy\-list [<f>]\fP
+.B \-\-help\-policy\-list [<file>]
 List policies with help available and exit.
 .sp
 The list contains all policies for which help may be obtained by
 using the \fB\-\-help\-policy\fP option followed by a policy name.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-policies [<f>]\fP
+.B \-\-help\-policies [<file>]
 Print cmake\-policies manual and exit.
 .sp
-The \fBcmake\-policies(7)\fP manual is printed in a
+The \fI\%cmake\-policies(7)\fP manual is printed in a
 human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-property <prop> [<f>]\fP
+.B \-\-help\-property <prop> [<file>]
 Print help for one property and exit.
 .sp
-The \fBcmake\-properties(7)\fP manual entries for \fB<prop>\fP are
+The \fI\%cmake\-properties(7)\fP manual entries for \fB<prop>\fP are
 printed in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-property\-list [<f>]\fP
+.B \-\-help\-property\-list [<file>]
 List properties with help available and exit.
 .sp
 The list contains all properties for which help may be obtained by
 using the \fB\-\-help\-property\fP option followed by a property name.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-properties [<f>]\fP
+.B \-\-help\-properties [<file>]
 Print cmake\-properties manual and exit.
 .sp
-The \fBcmake\-properties(7)\fP manual is printed in a
+The \fI\%cmake\-properties(7)\fP manual is printed in a
 human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-variable <var> [<f>]\fP
+.B \-\-help\-variable <var> [<file>]
 Print help for one variable and exit.
 .sp
-The \fBcmake\-variables(7)\fP manual entry for \fB<var>\fP is
+The \fI\%cmake\-variables(7)\fP manual entry for \fB<var>\fP is
 printed in a human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-variable\-list [<f>]\fP
+.B \-\-help\-variable\-list [<file>]
 List variables with help available and exit.
 .sp
 The list contains all variables for which help may be obtained by
 using the \fB\-\-help\-variable\fP option followed by a variable name.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
+.UNINDENT
+.INDENT 0.0
 .TP
-.B \fB\-\-help\-variables [<f>]\fP
+.B \-\-help\-variables [<file>]
 Print cmake\-variables manual and exit.
 .sp
-The \fBcmake\-variables(7)\fP manual is printed in a
+The \fI\%cmake\-variables(7)\fP manual is printed in a
 human\-readable text format.
-The help is printed to a named <f>ile if given.
+The output is printed to a named \fB<file>\fP if given.
 .UNINDENT
 .SH SEE ALSO
 .sp
@@ -232,6 +291,6 @@ found on this web page.
 The Discourse Forum hosts discussion and questions about CMake.
 .UNINDENT
 .SH COPYRIGHT
-2000-2021 Kitware, Inc. and Contributors
+2000-2024 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

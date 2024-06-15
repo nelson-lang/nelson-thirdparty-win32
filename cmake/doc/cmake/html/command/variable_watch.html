@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>variable_watch &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>variable_watch &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="while" href="while.html" />
     <link rel="prev" title="unset" href="unset.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">variable_watch</a></li> 
       </ul>
     </div>  
 
@@ -56,10 +56,10 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="variable-watch">
-<span id="command:variable_watch"></span><h1>variable_watch<a class="headerlink" href="#variable-watch" title="Permalink to this headline">¶</a></h1>
+  <section id="variable-watch">
+<span id="command:variable_watch"></span><h1>variable_watch<a class="headerlink" href="#variable-watch" title="Link to this heading">¶</a></h1>
 <p>Watch the CMake variable for change.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">variable_watch(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;command&gt;</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">variable_watch(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;command&gt;</span><span class="p">]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>If the specified <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> changes and no <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> is given,
@@ -86,29 +86,34 @@ inclusion, with the bottom-most file first and the currently
 processed file (that is, <code class="docutils literal notranslate"><span class="pre">current_list_file</span></code>) last.</p>
 </dd>
 </dl>
-<p>Note that for some accesses such as <span class="target" id="index-0-command:list"></span><a class="reference internal" href="list.html#command:list" title="list"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">list(APPEND)</span></code></a>, the watcher
+<p>Note that for some accesses such as <span class="target" id="index-0-command:list"></span><a class="reference internal" href="list.html#append" title="list(append)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">list(APPEND)</span></code></a>, the watcher
 is executed twice, first with a read access and then with a write one.
-Also note that an <span class="target" id="index-0-command:if"></span><a class="reference internal" href="if.html#command:if" title="if"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(DEFINED)</span></code></a> query on the variable does not
+Also note that an <span class="target" id="index-0-command:if"></span><a class="reference internal" href="if.html#defined" title="if(defined)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(DEFINED)</span></code></a> query on the variable does not
 register as an access and the watcher is not executed.</p>
 <p>Only non-cache variables can be watched using this command.  Access to
 cache variables is never watched.  However, the existence of a cache
 variable <code class="docutils literal notranslate"><span class="pre">var</span></code> causes accesses to the non-cache variable <code class="docutils literal notranslate"><span class="pre">var</span></code> to
 not use the <code class="docutils literal notranslate"><span class="pre">UNKNOWN_</span></code> prefix, even if a non-cache variable <code class="docutils literal notranslate"><span class="pre">var</span></code>
 has never existed.</p>
-</div>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="unset.html"
-                        title="previous chapter">unset</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="while.html"
-                        title="next chapter">while</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="unset.html"
+                          title="previous chapter">unset</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="while.html"
+                          title="next chapter">while</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -120,12 +125,12 @@ has never existed.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -150,15 +155,17 @@ has never existed.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">variable_watch</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>CMAKE_MSVC_RUNTIME_LIBRARY &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>CMAKE_MSVC_RUNTIME_LIBRARY &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CMAKE_NINJA_OUTPUT_PATH_PREFIX" href="CMAKE_NINJA_OUTPUT_PATH_PREFIX.html" />
-    <link rel="prev" title="CMAKE_MSVCIDE_RUN_PATH" href="CMAKE_MSVCIDE_RUN_PATH.html" />
-  
+    <link rel="next" title="CMAKE_MSVCIDE_RUN_PATH" href="CMAKE_MSVCIDE_RUN_PATH.html" />
+    <link rel="prev" title="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT" href="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT.html" />
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -31,10 +30,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="CMAKE_NINJA_OUTPUT_PATH_PREFIX.html" title="CMAKE_NINJA_OUTPUT_PATH_PREFIX"
+          <a href="CMAKE_MSVCIDE_RUN_PATH.html" title="CMAKE_MSVCIDE_RUN_PATH"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="CMAKE_MSVCIDE_RUN_PATH.html" title="CMAKE_MSVCIDE_RUN_PATH"
+          <a href="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT.html" title="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_MSVC_RUNTIME_LIBRARY</a></li> 
       </ul>
     </div>  
 
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="cmake-msvc-runtime-library">
-<span id="variable:CMAKE_MSVC_RUNTIME_LIBRARY"></span><h1>CMAKE_MSVC_RUNTIME_LIBRARY<a class="headerlink" href="#cmake-msvc-runtime-library" title="Permalink to this headline">¶</a></h1>
+  <section id="cmake-msvc-runtime-library">
+<span id="variable:CMAKE_MSVC_RUNTIME_LIBRARY"></span><h1>CMAKE_MSVC_RUNTIME_LIBRARY<a class="headerlink" href="#cmake-msvc-runtime-library" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.15.</span></p>
 </div>
@@ -80,15 +80,16 @@ statically-linked runtime library.</p>
 dynamically-linked runtime library.</p>
 </dd>
 </dl>
-<p>The value is ignored on non-MSVC compilers but an unsupported value will
-be rejected as an error when using a compiler targeting the MSVC ABI.</p>
+<p>The value is ignored on compilers not targeting the MSVC ABI, but an
+unsupported value will be rejected as an error when using a compiler
+targeting the MSVC ABI.</p>
 <p>The value may also be the empty string (<code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>) in which case no runtime
 library selection flag will be added explicitly by CMake.  Note that with
 <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> the native build system may choose to
 add its own default runtime library selection flag.</p>
 <p>Use <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a> to
 support per-configuration specification.  For example, the code:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CMAKE_MSVC_RUNTIME_LIBRARY</span><span class="w"> </span><span class="s">&quot;MultiThreaded$&lt;$&lt;CONFIG:Debug&gt;:Debug&gt;&quot;</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CMAKE_MSVC_RUNTIME_LIBRARY</span><span class="w"> </span><span class="s">&quot;MultiThreaded$&lt;$&lt;CONFIG:Debug&gt;:Debug&gt;&quot;</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>selects for all following targets a multi-threaded statically-linked runtime
@@ -103,20 +104,25 @@ to select a MSVC runtime library.</p>
 prior to the first <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> or <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a> command
 that enables a language using a compiler targeting the MSVC ABI.</p>
 </div>
-</div>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="CMAKE_MSVCIDE_RUN_PATH.html"
-                        title="previous chapter">CMAKE_MSVCIDE_RUN_PATH</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="CMAKE_NINJA_OUTPUT_PATH_PREFIX.html"
-                        title="next chapter">CMAKE_NINJA_OUTPUT_PATH_PREFIX</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT.html"
+                          title="previous chapter">CMAKE_MSVC_DEBUG_INFORMATION_FORMAT</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_MSVCIDE_RUN_PATH.html"
+                          title="next chapter">CMAKE_MSVCIDE_RUN_PATH</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -128,12 +134,12 @@ that enables a language using a compiler targeting the MSVC ABI.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -145,10 +151,10 @@ that enables a language using a compiler targeting the MSVC ABI.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="CMAKE_NINJA_OUTPUT_PATH_PREFIX.html" title="CMAKE_NINJA_OUTPUT_PATH_PREFIX"
+          <a href="CMAKE_MSVCIDE_RUN_PATH.html" title="CMAKE_MSVCIDE_RUN_PATH"
              >next</a> |</li>
         <li class="right" >
-          <a href="CMAKE_MSVCIDE_RUN_PATH.html" title="CMAKE_MSVCIDE_RUN_PATH"
+          <a href="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT.html" title="CMAKE_MSVC_DEBUG_INFORMATION_FORMAT"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -158,15 +164,17 @@ that enables a language using a compiler targeting the MSVC ABI.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_MSVC_RUNTIME_LIBRARY</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

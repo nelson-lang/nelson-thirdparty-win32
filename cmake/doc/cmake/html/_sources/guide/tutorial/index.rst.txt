@@ -11,8 +11,9 @@ work together in an example project can be very helpful.
 Steps
 =====
 
-The tutorial documentation and source code for examples can be found in
-the ``Help/guide/tutorial`` directory of the CMake source code tree.
+.. include:: source.txt
+
+|tutorial_source|
 Each step has its own subdirectory containing code that may be used as a
 starting point. The tutorial examples are progressive so that each step
 provides the complete solution for the previous step.
@@ -23,13 +24,13 @@ provides the complete solution for the previous step.
   A Basic Starting Point
   Adding a Library
   Adding Usage Requirements for a Library
+  Adding Generator Expressions
   Installing and Testing
+  Adding Support for a Testing Dashboard
   Adding System Introspection
   Adding a Custom Command and Generated File
   Packaging an Installer
-  Adding Support for a Testing Dashboard
   Selecting Static or Shared Libraries
-  Adding Generator Expressions
   Adding Export Configuration
   Packaging Debug and Release
 

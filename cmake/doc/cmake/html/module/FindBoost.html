@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>FindBoost &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>FindBoost &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FindBullet" href="FindBullet.html" />
     <link rel="prev" title="FindBLAS" href="FindBLAS.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindBoost</a></li> 
       </ul>
     </div>  
 
@@ -56,16 +56,21 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="findboost">
-<span id="module:FindBoost"></span><h1>FindBoost<a class="headerlink" href="#findboost" title="Permalink to this headline">¶</a></h1>
+  <section id="findboost">
+<span id="module:FindBoost"></span><h1>FindBoost<a class="headerlink" href="#findboost" title="Link to this heading">¶</a></h1>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.30: </span>This module is available only if policy <span class="target" id="index-0-policy:CMP0167"></span><a class="reference internal" href="../policy/CMP0167.html#policy:CMP0167" title="CMP0167"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0167</span></code></a> is not set to
+<code class="docutils literal notranslate"><span class="pre">NEW</span></code>.  Port projects to upstream Boost's <code class="docutils literal notranslate"><span class="pre">BoostConfig.cmake</span></code> package
+configuration file, for which <code class="docutils literal notranslate"><span class="pre">find_package(Boost)</span></code> now searches.</p>
+</div>
 <p>Find Boost include dirs and libraries</p>
 <p>Use this module by invoking <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> with the form:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span>
 <span class="w">  </span><span class="p">[</span><span class="nb">version</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXACT</span><span class="p">]</span><span class="w">      </span><span class="c"># Minimum or EXACT version e.g. 1.67.0</span>
 <span class="w">  </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span><span class="w">             </span><span class="c"># Fail with error if Boost is not found</span>
 <span class="w">  </span><span class="p">[</span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nv">&lt;libs&gt;...</span><span class="p">]</span><span class="w"> </span><span class="c"># Boost libraries by their canonical name</span>
 <span class="w">                         </span><span class="c"># e.g. &quot;date_time&quot; for &quot;libboost_date_time&quot;</span>
-<span class="w">  </span><span class="p">[</span><span class="no">OPTIONAL_COMPONENTS</span><span class="w"> </span><span class="nv">&lt;libs&gt;...</span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">[</span><span class="no">OPTIONAL_COMPONENTS</span><span class="w"> </span><span class="nv">&lt;libs&gt;...</span><span class="p">]</span>
 <span class="w">                         </span><span class="c"># Optional Boost libraries by their canonical name)</span>
 <span class="w">  </span><span class="nf">)</span><span class="w">                      </span><span class="c"># e.g. &quot;date_time&quot; for &quot;libboost_date_time&quot;</span>
 </pre></div>
@@ -85,8 +90,8 @@ latter case skip to the <a class="reference internal" href="#boost-cmake"><span 
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.19: </span><code class="docutils literal notranslate"><span class="pre">bzip2</span></code> and <code class="docutils literal notranslate"><span class="pre">zlib</span></code> components on all platforms.</p>
 </div>
-<div class="section" id="result-variables">
-<h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h2>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
 <p>This module defines the following variables:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">Boost_FOUND</span></code></dt><dd><p>True if headers and requested libraries were found.</p>
@@ -131,9 +136,9 @@ displayed during compilation</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.15: </span>The <code class="docutils literal notranslate"><span class="pre">Boost_VERSION_&lt;PART&gt;</span></code> variables.</p>
 </div>
-</div>
-<div class="section" id="cache-variables">
-<h2>Cache variables<a class="headerlink" href="#cache-variables" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="cache-variables">
+<h2>Cache variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
 <p>Search results are saved persistently in CMake cache entries:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">Boost_INCLUDE_DIR</span></code></dt><dd><p>Directory containing Boost headers.</p>
@@ -151,9 +156,9 @@ displayed during compilation</p>
 <p><span class="versionmodified added">New in version 3.3: </span>Per-configuration variables <code class="docutils literal notranslate"><span class="pre">Boost_LIBRARY_DIR_RELEASE</span></code> and
 <code class="docutils literal notranslate"><span class="pre">Boost_LIBRARY_DIR_DEBUG</span></code>.</p>
 </div>
-</div>
-<div class="section" id="hints">
-<h2>Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="hints">
+<h2>Hints<a class="headerlink" href="#hints" title="Link to this heading">¶</a></h2>
 <p>This module reads hints about search locations from variables:</p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">BOOST_ROOT</span></code>, <code class="docutils literal notranslate"><span class="pre">BOOSTROOT</span></code></dt><dd><p>Preferred installation prefix.</p>
@@ -186,9 +191,9 @@ locations in <code class="docutils literal notranslate"><span class="pre">Boost_
 When one changes settings used by previous searches in the same build
 tree (excluding environment variables) this module discards previous
 search results affected by the changes and searches again.</p>
-</div>
-<div class="section" id="imported-targets">
-<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="imported-targets">
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.5.</span></p>
 </div>
@@ -220,12 +225,12 @@ if system is not specified when using <span class="target" id="index-1-command:f
 <code class="docutils literal notranslate"><span class="pre">Boost::thread</span></code>, then <code class="docutils literal notranslate"><span class="pre">Threads::Threads</span></code> will also be added automatically.</p>
 <p>It is important to note that the imported targets behave differently
 than variables created by this module: multiple calls to
-<span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(Boost)</span></code></a> in the same directory or sub-directories with
+<span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package(boost)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(Boost)</span></code></a> in the same directory or sub-directories with
 different options (e.g. static or shared) will not override the
 values of the targets created by the first call.</p>
-</div>
-<div class="section" id="other-variables">
-<h2>Other Variables<a class="headerlink" href="#other-variables" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="other-variables">
+<h2>Other Variables<a class="headerlink" href="#other-variables" title="Link to this heading">¶</a></h2>
 <p>Boost libraries come in many variants encoded in their file name.
 Users or projects may tell this module which variant to find by
 setting variables:</p>
@@ -316,53 +321,53 @@ to be linked explicitly or available in the link library search path.
 In this case setting <code class="docutils literal notranslate"><span class="pre">Boost_USE_STATIC_LIBS</span></code> to <code class="docutils literal notranslate"><span class="pre">OFF</span></code> may not achieve
 dynamic linking.  Boost automatic linking typically requests static
 libraries with a few exceptions (such as <code class="docutils literal notranslate"><span class="pre">Boost.Python</span></code>).  Use:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_definitions(</span><span class="o">${</span><span class="nt">Boost_LIB_DIAGNOSTIC_DEFINITIONS</span><span class="o">}</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_definitions(</span><span class="o">${</span><span class="nt">Boost_LIB_DIAGNOSTIC_DEFINITIONS</span><span class="o">}</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>to ask Boost to report information about automatic linking requests.</p>
-</div>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <p>Find Boost headers only:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.36.0</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">if(</span><span class="nb">Boost_FOUND</span><span class="nf">)</span><span class="w"></span>
-<span class="w">  </span><span class="nf">include_directories(</span><span class="o">${</span><span class="nt">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="nf">)</span><span class="w"></span>
-<span class="w">  </span><span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">endif()</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.36.0</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="nb">Boost_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">include_directories(</span><span class="o">${</span><span class="nt">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span>
+<span class="nf">endif()</span>
 </pre></div>
 </div>
 <p>Find Boost libraries and use imported targets:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.56</span><span class="w"> </span><span class="no">REQUIRED</span><span class="w"> </span><span class="no">COMPONENTS</span><span class="w"></span>
-<span class="w">             </span><span class="nb">date_time</span><span class="w"> </span><span class="nb">filesystem</span><span class="w"> </span><span class="nb">iostreams</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">target_link_libraries(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">date_time</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">filesystem</span><span class="w"></span>
-<span class="w">                          </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">iostreams</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.56</span><span class="w"> </span><span class="no">REQUIRED</span><span class="w"> </span><span class="no">COMPONENTS</span>
+<span class="w">             </span><span class="nb">date_time</span><span class="w"> </span><span class="nb">filesystem</span><span class="w"> </span><span class="nb">iostreams</span><span class="nf">)</span>
+<span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">date_time</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">filesystem</span>
+<span class="w">                          </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">iostreams</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Find Boost Python 3.6 libraries and use imported targets:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.67</span><span class="w"> </span><span class="no">REQUIRED</span><span class="w"> </span><span class="no">COMPONENTS</span><span class="w"></span>
-<span class="w">             </span><span class="nb">python36</span><span class="w"> </span><span class="nb">numpy36</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">target_link_libraries(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">python36</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">numpy36</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.67</span><span class="w"> </span><span class="no">REQUIRED</span><span class="w"> </span><span class="no">COMPONENTS</span>
+<span class="w">             </span><span class="nb">python36</span><span class="w"> </span><span class="nb">numpy36</span><span class="nf">)</span>
+<span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">python36</span><span class="w"> </span><span class="nb">Boost</span><span class="o">::</span><span class="nb">numpy36</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Find Boost headers and some <em>static</em> (release only) libraries:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">Boost_USE_STATIC_LIBS</span><span class="w">        </span><span class="no">ON</span><span class="nf">)</span><span class="w">  </span><span class="c"># only find static libs</span>
 <span class="nf">set(</span><span class="nb">Boost_USE_DEBUG_LIBS</span><span class="w">        </span><span class="no">OFF</span><span class="nf">)</span><span class="w">  </span><span class="c"># ignore debug libs and</span>
 <span class="nf">set(</span><span class="nb">Boost_USE_RELEASE_LIBS</span><span class="w">       </span><span class="no">ON</span><span class="nf">)</span><span class="w">  </span><span class="c"># only find release libs</span>
-<span class="nf">set(</span><span class="nb">Boost_USE_MULTITHREADED</span><span class="w">      </span><span class="no">ON</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">set(</span><span class="nb">Boost_USE_STATIC_RUNTIME</span><span class="w">    </span><span class="no">OFF</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.66.0</span><span class="w"> </span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nb">date_time</span><span class="w"> </span><span class="nb">filesystem</span><span class="w"> </span><span class="nb">system</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">if(</span><span class="nb">Boost_FOUND</span><span class="nf">)</span><span class="w"></span>
-<span class="w">  </span><span class="nf">include_directories(</span><span class="o">${</span><span class="nt">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="nf">)</span><span class="w"></span>
-<span class="w">  </span><span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span><span class="w"></span>
-<span class="w">  </span><span class="nf">target_link_libraries(</span><span class="nb">foo</span><span class="w"> </span><span class="o">${</span><span class="nt">Boost_LIBRARIES</span><span class="o">}</span><span class="nf">)</span><span class="w"></span>
-<span class="nf">endif()</span><span class="w"></span>
+<span class="nf">set(</span><span class="nb">Boost_USE_MULTITHREADED</span><span class="w">      </span><span class="no">ON</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">Boost_USE_STATIC_RUNTIME</span><span class="w">    </span><span class="no">OFF</span><span class="nf">)</span>
+<span class="nf">find_package(</span><span class="nb">Boost</span><span class="w"> </span><span class="m">1.66.0</span><span class="w"> </span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nb">date_time</span><span class="w"> </span><span class="nb">filesystem</span><span class="w"> </span><span class="nb">system</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="nb">Boost_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">include_directories(</span><span class="o">${</span><span class="nt">Boost_INCLUDE_DIRS</span><span class="o">}</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.cc</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">target_link_libraries(</span><span class="nb">foo</span><span class="w"> </span><span class="o">${</span><span class="nt">Boost_LIBRARIES</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">endif()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="boost-cmake">
-<span id="id1"></span><h2>Boost CMake<a class="headerlink" href="#boost-cmake" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="boost-cmake">
+<span id="id1"></span><h2>Boost CMake<a class="headerlink" href="#boost-cmake" title="Link to this heading">¶</a></h2>
 <p>If Boost was built using the boost-cmake project or from Boost 1.70.0 on
 it provides a package configuration file for use with find_package's config mode.
 This module looks for the package configuration file called
@@ -371,17 +376,19 @@ This module looks for the package configuration file called
 and this module returns with no further action.  See documentation of
 the Boost CMake package configuration for details on what it provides.</p>
 <p>Set <code class="docutils literal notranslate"><span class="pre">Boost_NO_BOOST_CMAKE</span></code> to <code class="docutils literal notranslate"><span class="pre">ON</span></code>, to disable the search for boost-cmake.</p>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">FindBoost</a><ul>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
 <li><a class="reference internal" href="#cache-variables">Cache variables</a></li>
@@ -394,12 +401,17 @@ the Boost CMake package configuration for details on what it provides.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="FindBLAS.html"
-                        title="previous chapter">FindBLAS</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="FindBullet.html"
-                        title="next chapter">FindBullet</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="FindBLAS.html"
+                          title="previous chapter">FindBLAS</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindBullet.html"
+                          title="next chapter">FindBullet</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -411,12 +423,12 @@ the Boost CMake package configuration for details on what it provides.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -441,15 +453,17 @@ the Boost CMake package configuration for details on what it provides.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindBoost</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

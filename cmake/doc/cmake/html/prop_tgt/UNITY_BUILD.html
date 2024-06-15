@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>UNITY_BUILD &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>UNITY_BUILD &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="UNITY_BUILD_BATCH_SIZE" href="UNITY_BUILD_BATCH_SIZE.html" />
     <link rel="prev" title="TYPE" href="TYPE.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">UNITY_BUILD</a></li> 
       </ul>
     </div>  
 
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="unity-build">
-<span id="prop_tgt:UNITY_BUILD"></span><h1>UNITY_BUILD<a class="headerlink" href="#unity-build" title="Permalink to this headline">¶</a></h1>
+  <section id="unity-build">
+<span id="prop_tgt:UNITY_BUILD"></span><h1>UNITY_BUILD<a class="headerlink" href="#unity-build" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.16.</span></p>
 </div>
@@ -85,11 +85,28 @@ this mode.</p></li>
 </ul>
 <p>If no explicit <span class="target" id="index-1-prop_tgt:UNITY_BUILD_MODE"></span><a class="reference internal" href="UNITY_BUILD_MODE.html#prop_tgt:UNITY_BUILD_MODE" title="UNITY_BUILD_MODE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_MODE</span></code></a> has been specified, CMake will
 default to <code class="docutils literal notranslate"><span class="pre">BATCH</span></code>.</p>
-<p>Unity builds are not currently supported for all languages.  CMake version
-3.22.1 supports combining <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">CXX</span></code> source files.  For targets that
-mix source files from more than one language, CMake will separate the languages
-such that each generated unity source file only contains sources for a single
-language.</p>
+<p>Unity builds are supported for the following languages:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">C</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CXX</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OBJC</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OBJCXX</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+</dd>
+</dl>
+<p>For targets that mix source files from more than one language, CMake
+separates the languages such that each generated unity source file only
+contains sources for a single language.</p>
 <p>This property is initialized by the value of the <span class="target" id="index-0-variable:CMAKE_UNITY_BUILD"></span><a class="reference internal" href="../variable/CMAKE_UNITY_BUILD.html#variable:CMAKE_UNITY_BUILD" title="CMAKE_UNITY_BUILD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_UNITY_BUILD</span></code></a>
 variable when a target is created.</p>
 <div class="admonition note">
@@ -105,8 +122,8 @@ method.  However, it IS recommended to set the <code class="docutils literal not
 property to false if it is known that enabling unity builds for the
 target can lead to problems.</p>
 </div>
-<div class="section" id="odr-one-definition-rule-errors">
-<h2>ODR (One definition rule) errors<a class="headerlink" href="#odr-one-definition-rule-errors" title="Permalink to this headline">¶</a></h2>
+<section id="odr-one-definition-rule-errors">
+<h2>ODR (One definition rule) errors<a class="headerlink" href="#odr-one-definition-rule-errors" title="Link to this heading">¶</a></h2>
 <p>When multiple source files are included into one source file, as is done
 for unity builds, it can potentially lead to ODR errors.  CMake provides
 a number of measures to help address such problems:</p>
@@ -115,6 +132,10 @@ a number of measures to help address such problems:</p>
 <span class="target" id="index-0-prop_sf:COMPILE_DEFINITIONS"></span><a class="reference internal" href="../prop_sf/COMPILE_DEFINITIONS.html#prop_sf:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code></a>, <span class="target" id="index-0-prop_sf:COMPILE_FLAGS"></span><a class="reference internal" href="../prop_sf/COMPILE_FLAGS.html#prop_sf:COMPILE_FLAGS" title="COMPILE_FLAGS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_FLAGS</span></code></a>, or
 <span class="target" id="index-0-prop_sf:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_sf/INCLUDE_DIRECTORIES.html#prop_sf:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> source property will not be combined
 into a unity source.</p></li>
+<li><p>Any source file which is scanned for C++ module sources via
+<span class="target" id="index-0-prop_tgt:CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="CXX_SCAN_FOR_MODULES.html#prop_tgt:CXX_SCAN_FOR_MODULES" title="CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_SCAN_FOR_MODULES</span></code></a>, <span class="target" id="index-0-prop_sf:CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="../prop_sf/CXX_SCAN_FOR_MODULES.html#prop_sf:CXX_SCAN_FOR_MODULES" title="CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">CXX_SCAN_FOR_MODULES</span></code></a>, or
+membership of a <code class="docutils literal notranslate"><span class="pre">CXX_MODULES</span></code> file set will not be combined into a unity
+source.  See <span class="target" id="index-0-manual:cmake-cxxmodules(7)"></span><a class="reference internal" href="../manual/cmake-cxxmodules.7.html#manual:cmake-cxxmodules(7)" title="cmake-cxxmodules(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-cxxmodules(7)</span></code></a> for details.</p></li>
 <li><p>Projects can prevent an individual source file from being combined into
 a unity source by setting its <span class="target" id="index-0-prop_sf:SKIP_UNITY_BUILD_INCLUSION"></span><a class="reference internal" href="../prop_sf/SKIP_UNITY_BUILD_INCLUSION.html#prop_sf:SKIP_UNITY_BUILD_INCLUSION" title="SKIP_UNITY_BUILD_INCLUSION"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_UNITY_BUILD_INCLUSION</span></code></a>
 source property to true.  This can be a more effective way to prevent
@@ -134,29 +155,36 @@ to inject code into the unity source files before and after every
 files.  This can be used to manually enforce a specific grouping based on
 the <span class="target" id="index-2-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a class="reference internal" href="UNITY_BUILD_BATCH_SIZE.html#prop_tgt:UNITY_BUILD_BATCH_SIZE" title="UNITY_BUILD_BATCH_SIZE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD_BATCH_SIZE</span></code></a> target property.</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">UNITY_BUILD</a><ul>
 <li><a class="reference internal" href="#odr-one-definition-rule-errors">ODR (One definition rule) errors</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="TYPE.html"
-                        title="previous chapter">TYPE</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="UNITY_BUILD_BATCH_SIZE.html"
-                        title="next chapter">UNITY_BUILD_BATCH_SIZE</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="TYPE.html"
+                          title="previous chapter">TYPE</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="UNITY_BUILD_BATCH_SIZE.html"
+                          title="next chapter">UNITY_BUILD_BATCH_SIZE</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -168,12 +196,12 @@ the <span class="target" id="index-2-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a 
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -198,15 +226,17 @@ the <span class="target" id="index-2-prop_tgt:UNITY_BUILD_BATCH_SIZE"></span><a 
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">UNITY_BUILD</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

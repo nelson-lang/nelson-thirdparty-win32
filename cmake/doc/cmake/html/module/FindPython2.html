@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>FindPython2 &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>FindPython2 &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FindPython3" href="FindPython3.html" />
     <link rel="prev" title="FindPython" href="FindPython.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindPython2</a></li> 
       </ul>
     </div>  
 
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="findpython2">
-<span id="module:FindPython2"></span><h1>FindPython2<a class="headerlink" href="#findpython2" title="Permalink to this headline">¶</a></h1>
+  <section id="findpython2">
+<span id="module:FindPython2"></span><h1>FindPython2<a class="headerlink" href="#findpython2" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.12.</span></p>
 </div>
@@ -107,21 +107,37 @@ for you.</p>
 <p class="admonition-title">Note</p>
 <p>If components <code class="docutils literal notranslate"><span class="pre">Interpreter</span></code> and <code class="docutils literal notranslate"><span class="pre">Development</span></code> (or one of its
 sub-components) are both specified, this module search only for interpreter
-with same platform architecture as the one defined by <code class="docutils literal notranslate"><span class="pre">CMake</span></code>
+with same platform architecture as the one defined by CMake
 configuration. This constraint does not apply if only <code class="docutils literal notranslate"><span class="pre">Interpreter</span></code>
 component is specified.</p>
 </div>
-<div class="section" id="imported-targets">
-<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Permalink to this headline">¶</a></h2>
+<section id="imported-targets">
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
 <p>This module defines the following <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a>:</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 3.14: </span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> are only created when
 <span class="target" id="index-0-prop_gbl:CMAKE_ROLE"></span><a class="reference internal" href="../prop_gbl/CMAKE_ROLE.html#prop_gbl:CMAKE_ROLE" title="CMAKE_ROLE"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_ROLE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">PROJECT</span></code>.</p>
 </div>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">Python2::Interpreter</span></code></dt><dd><p>Python 2 interpreter. Target defined if component <code class="docutils literal notranslate"><span class="pre">Interpreter</span></code> is found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2::Interpreter</span></code></dt><dd><p>Python 2 interpreter. This target is defined only if the <code class="docutils literal notranslate"><span class="pre">Interpreter</span></code>
+component is found.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Python2::Compiler</span></code></dt><dd><p>Python 2 compiler. Target defined if component <code class="docutils literal notranslate"><span class="pre">Compiler</span></code> is found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2::InterpreterDebug</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.30.</span></p>
+</div>
+<p>Python 2 debug interpreter. This target is defined only if the
+<code class="docutils literal notranslate"><span class="pre">Interpreter</span></code> component is found and the <code class="docutils literal notranslate"><span class="pre">Python2_EXECUTABLE_DEBUG</span></code>
+variable is defined. The target is only defined on the <code class="docutils literal notranslate"><span class="pre">Windows</span></code> platform.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2::InterpreterMultiConfig</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.30.</span></p>
+</div>
+<p>Python 2 interpreter. The release or debug version of the interpreter will be
+used, based on the context (platform, configuration).
+This target is defined only if the <code class="docutils literal notranslate"><span class="pre">Interpreter</span></code> component is found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2::Compiler</span></code></dt><dd><p>Python 2 compiler. This target is defined only if the <code class="docutils literal notranslate"><span class="pre">Compiler</span></code> component
+is found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2::Module</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.15.</span></p>
@@ -138,9 +154,9 @@ component is specified.</p>
 <p>NumPy library for Python 2. Target defined if component <code class="docutils literal notranslate"><span class="pre">NumPy</span></code> is found.</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="result-variables">
-<h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
 <p>This module will set the following variables in your project
 (see <a class="reference internal" href="../manual/cmake-developer.7.html#cmake-developer-standard-variable-names"><span class="std std-ref">Standard Variable Names</span></a>):</p>
 <dl>
@@ -149,6 +165,20 @@ component is specified.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_Interpreter_FOUND</span></code></dt><dd><p>System has the Python 2 interpreter.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_EXECUTABLE</span></code></dt><dd><p>Path to the Python 2 interpreter.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2_EXECUTABLE_DEBUG</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.30.</span></p>
+</div>
+<p>Path to the debug Python 2 interpreter. It is only defined on the <code class="docutils literal notranslate"><span class="pre">Windows</span></code>
+platform.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2_INTERPRETER</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.30.</span></p>
+</div>
+<p>Path to the Python 2 interpreter, defined as a
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expression</span></code></a> selecting
+the <code class="docutils literal notranslate"><span class="pre">Python2_EXECUTABLE</span></code> or <code class="docutils literal notranslate"><span class="pre">Python2_EXECUTABLE_DEBUG</span></code> variable based on
+the context (platform, configuration).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_INTERPRETER_ID</span></code></dt><dd><dl class="simple">
 <dt>A short string unique to the interpreter. Possible values include:</dt><dd><ul class="simple">
@@ -163,24 +193,20 @@ component is specified.</p>
 </dl>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_STDLIB</span></code></dt><dd><p>Standard platform independent installation directory.</p>
-<p>Information returned by
-<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=True)</span></code>
-or else <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('stdlib')</span></code>.</p>
+<p>Information returned by <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('stdlib')</span></code> or else
+<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=True)</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_STDARCH</span></code></dt><dd><p>Standard platform dependent installation directory.</p>
-<p>Information returned by
-<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=True)</span></code>
-or else <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('platstdlib')</span></code>.</p>
+<p>Information returned by <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('platstdlib')</span></code> or else
+<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=True)</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_SITELIB</span></code></dt><dd><p>Third-party platform independent installation directory.</p>
-<p>Information returned by
-<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=False)</span></code>
-or else <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('purelib')</span></code>.</p>
+<p>Information returned by <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('purelib')</span></code> or else
+<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=False,standard_lib=False)</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_SITEARCH</span></code></dt><dd><p>Third-party platform dependent installation directory.</p>
-<p>Information returned by
-<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=False)</span></code>
-or else <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('platlib')</span></code>.</p>
+<p>Information returned by <code class="docutils literal notranslate"><span class="pre">sysconfig.get_path('platlib')</span></code> or else
+<code class="docutils literal notranslate"><span class="pre">distutils.sysconfig.get_python_lib(plat_specific=True,standard_lib=False)</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_Compiler_FOUND</span></code></dt><dd><p>System has the Python 2 compiler.</p>
 </dd>
@@ -211,6 +237,9 @@ or else <code class="docutils literal notranslate"><span class="pre">sysconfig.g
 <p>System has the Python 2 development artifacts for Python embedding.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_INCLUDE_DIRS</span></code></dt><dd><p>The Python 2 include directories.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Python2_DEBUG_POSTFIX</span></code></dt><dd><p>Postfix of debug python module. This variable can be used to define the
+<span class="target" id="index-0-prop_tgt:DEBUG_POSTFIX"></span><a class="reference internal" href="../prop_tgt/DEBUG_POSTFIX.html#prop_tgt:DEBUG_POSTFIX" title="DEBUG_POSTFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">DEBUG_POSTFIX</span></code></a> target property.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_LINK_OPTIONS</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.19.</span></p>
@@ -253,9 +282,9 @@ for a correct build and execution.</p>
 <p>The NumPy version.</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="hints">
-<h2>Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="hints">
+<h2>Hints<a class="headerlink" href="#hints" title="Link to this heading">¶</a></h2>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_ROOT_DIR</span></code></dt><dd><p>Define the root directory of a Python 2 installation.</p>
 </dd>
@@ -285,6 +314,7 @@ This is the default if policy <span class="target" id="index-0-policy:CMP0094"><
 constraints is founded.
 This is the default if policy <span class="target" id="index-1-policy:CMP0094"></span><a class="reference internal" href="../policy/CMP0094.html#policy:CMP0094" title="CMP0094"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0094</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.</p></li>
 </ul>
+<p>See also <code class="docutils literal notranslate"><span class="pre">Python2_FIND_UNVERSIONED_NAMES</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Python2_FIND_REGISTRY</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.13.</span></p>
@@ -355,7 +385,7 @@ hold the following values:</p>
 <code class="docutils literal notranslate"><span class="pre">Anaconda</span></code> or <code class="docutils literal notranslate"><span class="pre">ActivePython</span></code>, rely on this implementation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">IronPython</span></code>: This implementation use the <code class="docutils literal notranslate"><span class="pre">CSharp</span></code> language for
 <code class="docutils literal notranslate"><span class="pre">.NET</span> <span class="pre">Framework</span></code> on top of the <cite>Dynamic Language Runtime</cite> (<code class="docutils literal notranslate"><span class="pre">DLR</span></code>).
-See <a class="reference external" href="http://ironpython.net">IronPython</a>.</p></li>
+See <a class="reference external" href="https://ironpython.net">IronPython</a>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">PyPy</span></code>: This implementation use <code class="docutils literal notranslate"><span class="pre">RPython</span></code> language and
 <code class="docutils literal notranslate"><span class="pre">RPython</span> <span class="pre">translation</span> <span class="pre">toolchain</span></code> to produce the python interpreter.
 See <a class="reference external" href="https://www.pypy.org">PyPy</a>.</p></li>
@@ -395,11 +425,12 @@ following values:</p>
 This is the default.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">NEVER</span></code>: The generic name are not searched at all.</p></li>
 </ul>
+<p>See also <code class="docutils literal notranslate"><span class="pre">Python2_FIND_STRATEGY</span></code>.</p>
 </dd>
 </dl>
-</div>
-<div class="section" id="artifacts-specification">
-<h2>Artifacts Specification<a class="headerlink" href="#artifacts-specification" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="artifacts-specification">
+<h2>Artifacts Specification<a class="headerlink" href="#artifacts-specification" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.16.</span></p>
 </div>
@@ -440,7 +471,7 @@ ensure the consistency of the various artifacts.</p>
 </div>
 <p>By default, this module supports multiple calls in different directories of a
 project with different version/component requirements while providing correct
-and consistent results for each call. To support this behavior, <code class="docutils literal notranslate"><span class="pre">CMake</span></code> cache
+and consistent results for each call. To support this behavior, CMake cache
 is not used in the traditional way which can be problematic for interactive
 specification. So, to enable also interactive specification, module behavior
 can be controlled with the following variable:</p>
@@ -458,9 +489,9 @@ requirements.</p></li>
 </ul>
 </dd>
 </dl>
-</div>
-<div class="section" id="commands">
-<h2>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">¶</a></h2>
 <p>This module defines the command <code class="docutils literal notranslate"><span class="pre">Python2_add_library</span></code> (when
 <span class="target" id="index-1-prop_gbl:CMAKE_ROLE"></span><a class="reference internal" href="../prop_gbl/CMAKE_ROLE.html#prop_gbl:CMAKE_ROLE" title="CMAKE_ROLE"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_ROLE</span></code></a> is <code class="docutils literal notranslate"><span class="pre">PROJECT</span></code>), which has the same semantics as
 <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> and adds a dependency to target <code class="docutils literal notranslate"><span class="pre">Python2::Python</span></code> or,
@@ -471,17 +502,23 @@ of Python module naming rules:</p>
 </pre></div>
 </div>
 <p>If library type is not specified, <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> is assumed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.30: </span>For <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> type, the <span class="target" id="index-1-prop_tgt:DEBUG_POSTFIX"></span><a class="reference internal" href="../prop_tgt/DEBUG_POSTFIX.html#prop_tgt:DEBUG_POSTFIX" title="DEBUG_POSTFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">DEBUG_POSTFIX</span></code></a> target property is
+initialized with the value of <code class="docutils literal notranslate"><span class="pre">Python2_DEBUG_POSTFIX</span></code> variable if defined.</p>
 </div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">FindPython2</a><ul>
 <li><a class="reference internal" href="#imported-targets">Imported Targets</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
@@ -492,12 +529,17 @@ of Python module naming rules:</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="FindPython.html"
-                        title="previous chapter">FindPython</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="FindPython3.html"
-                        title="next chapter">FindPython3</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="FindPython.html"
+                          title="previous chapter">FindPython</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindPython3.html"
+                          title="next chapter">FindPython3</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -509,12 +551,12 @@ of Python module naming rules:</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -539,15 +581,17 @@ of Python module naming rules:</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindPython2</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>include_directories &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>include_directories &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="include_external_msproject" href="include_external_msproject.html" />
     <link rel="prev" title="get_test_property" href="get_test_property.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">include_directories</a></li> 
       </ul>
     </div>  
 
@@ -56,10 +56,10 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="include-directories">
-<span id="command:include_directories"></span><h1>include_directories<a class="headerlink" href="#include-directories" title="Permalink to this headline">¶</a></h1>
+  <section id="include-directories">
+<span id="command:include_directories"></span><h1>include_directories<a class="headerlink" href="#include-directories" title="Link to this heading">¶</a></h1>
 <p>Add include directories to the build.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include_directories(</span><span class="p">[</span><span class="no">AFTER</span><span class="p">|</span><span class="no">BEFORE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">SYSTEM</span><span class="p">]</span><span class="w"> </span><span class="nb">dir1</span><span class="w"> </span><span class="p">[</span><span class="nb">dir2</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include_directories(</span><span class="p">[</span><span class="no">AFTER</span><span class="p">|</span><span class="no">BEFORE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">SYSTEM</span><span class="p">]</span><span class="w"> </span><span class="nb">dir1</span><span class="w"> </span><span class="p">[</span><span class="nb">dir2</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Add the given directories to those the compiler uses to search for
@@ -77,33 +77,54 @@ directories.  This default behavior can be changed by setting
 prepending, independent of the default.</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> option is given, the compiler will be told the
 directories are meant as system include directories on some platforms.
-Signalling this setting might achieve effects such as the compiler
+Signaling this setting might achieve effects such as the compiler
 skipping warnings, or these fixed-install system files not being
 considered in dependency calculations - see compiler docs.</p>
-<p>Arguments to <code class="docutils literal notranslate"><span class="pre">include_directories</span></code> may use &quot;generator expressions&quot; with
-the syntax &quot;$&lt;...&gt;&quot;.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
-manual for available expressions.  See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a>
-manual for more on defining buildsystem properties.</p>
+<p>Arguments to <code class="docutils literal notranslate"><span class="pre">include_directories</span></code> may use generator expressions
+with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>. See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
+manual for available expressions.  See the <span class="target" id="index-1-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a> manual
+for more on defining buildsystem properties.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Prefer the <span class="target" id="index-0-command:target_include_directories"></span><a class="reference internal" href="target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> command to add include
 directories to individual targets and optionally propagate/export them
 to dependents.</p>
 </div>
-</div>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-1-command:target_include_directories"></span><a class="reference internal" href="target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a></p></li>
+</ul>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="get_test_property.html"
-                        title="previous chapter">get_test_property</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="include_external_msproject.html"
-                        title="next chapter">include_external_msproject</a></p>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">include_directories</a><ul>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="get_test_property.html"
+                          title="previous chapter">get_test_property</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="include_external_msproject.html"
+                          title="next chapter">include_external_msproject</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -115,12 +136,12 @@ to dependents.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -145,15 +166,17 @@ to dependents.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">include_directories</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

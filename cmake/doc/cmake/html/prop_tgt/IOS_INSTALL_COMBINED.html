@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>IOS_INSTALL_COMBINED &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>IOS_INSTALL_COMBINED &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ISPC_HEADER_DIRECTORY" href="ISPC_HEADER_DIRECTORY.html" />
-    <link rel="prev" title="INTERPROCEDURAL_OPTIMIZATION_&lt;CONFIG&gt;" href="INTERPROCEDURAL_OPTIMIZATION_CONFIG.html" />
-  
+    <link rel="next" title="POST_INSTALL_SCRIPT" href="POST_INSTALL_SCRIPT.html" />
+    <link rel="prev" title="IMPORTED_NO_SYSTEM" href="IMPORTED_NO_SYSTEM.html" />
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -31,10 +30,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="ISPC_HEADER_DIRECTORY.html" title="ISPC_HEADER_DIRECTORY"
+          <a href="POST_INSTALL_SCRIPT.html" title="POST_INSTALL_SCRIPT"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="INTERPROCEDURAL_OPTIMIZATION_CONFIG.html" title="INTERPROCEDURAL_OPTIMIZATION_&lt;CONFIG&gt;"
+          <a href="IMPORTED_NO_SYSTEM.html" title="IMPORTED_NO_SYSTEM"
              accesskey="P">previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">IOS_INSTALL_COMBINED</a></li> 
       </ul>
     </div>  
 
@@ -56,37 +56,51 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="ios-install-combined">
-<span id="prop_tgt:IOS_INSTALL_COMBINED"></span><h1>IOS_INSTALL_COMBINED<a class="headerlink" href="#ios-install-combined" title="Permalink to this headline">¶</a></h1>
+  <section id="ios-install-combined">
+<span id="prop_tgt:IOS_INSTALL_COMBINED"></span><h1>IOS_INSTALL_COMBINED<a class="headerlink" href="#ios-install-combined" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.5.</span></p>
 </div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.28: </span><span class="target" id="index-0-prop_tgt:IOS_INSTALL_COMBINED"></span><a class="reference internal" href="#prop_tgt:IOS_INSTALL_COMBINED" title="IOS_INSTALL_COMBINED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IOS_INSTALL_COMBINED</span></code></a> was designed to make universal binaries
+containing iOS/arm* device code paired with iOS Simulator/x86_64 code
+(or similar for other Apple embedded platforms). Universal binaries can only
+differentiate code based on CPU type, so this only made sense before the
+days of arm64 macOS machines (i.e. iOS Simulator/arm64). Apple now
+recommends xcframeworks, which contain multiple binaries for different
+platforms, for this use case.</p>
+</div>
 <p>Build a combined (device and simulator) target when installing.</p>
-<p>When this property is set to set to false (which is the default) then it will
+<p>When this property is set to false, which is the default, then it will
 either be built with the device SDK or the simulator SDK depending on the SDK
 set. But if this property is set to true then the target will at install time
-also be built for the corresponding SDK and combined into one library.</p>
+also be built for the other SDK and combined into one library.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If a selected architecture is available for both: device SDK and simulator
+<p>If a selected architecture is available for both device SDK and simulator
 SDK it will be built for the SDK selected by <span class="target" id="index-0-variable:CMAKE_OSX_SYSROOT"></span><a class="reference internal" href="../variable/CMAKE_OSX_SYSROOT.html#variable:CMAKE_OSX_SYSROOT" title="CMAKE_OSX_SYSROOT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_SYSROOT</span></code></a>
-and removed from the corresponding SDK.</p>
+and removed from the other SDK.</p>
 </div>
 <p>This feature requires at least Xcode version 6.</p>
-</div>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="INTERPROCEDURAL_OPTIMIZATION_CONFIG.html"
-                        title="previous chapter">INTERPROCEDURAL_OPTIMIZATION_&lt;CONFIG&gt;</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="ISPC_HEADER_DIRECTORY.html"
-                        title="next chapter">ISPC_HEADER_DIRECTORY</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="IMPORTED_NO_SYSTEM.html"
+                          title="previous chapter">IMPORTED_NO_SYSTEM</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="POST_INSTALL_SCRIPT.html"
+                          title="next chapter">POST_INSTALL_SCRIPT</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -98,12 +112,12 @@ and removed from the corresponding SDK.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -115,10 +129,10 @@ and removed from the corresponding SDK.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="ISPC_HEADER_DIRECTORY.html" title="ISPC_HEADER_DIRECTORY"
+          <a href="POST_INSTALL_SCRIPT.html" title="POST_INSTALL_SCRIPT"
              >next</a> |</li>
         <li class="right" >
-          <a href="INTERPROCEDURAL_OPTIMIZATION_CONFIG.html" title="INTERPROCEDURAL_OPTIMIZATION_&lt;CONFIG&gt;"
+          <a href="IMPORTED_NO_SYSTEM.html" title="IMPORTED_NO_SYSTEM"
              >previous</a> |</li>
   <li>
     <img src="../_static/cmake-logo-16.png" alt=""
@@ -128,15 +142,17 @@ and removed from the corresponding SDK.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">IOS_INSTALL_COMBINED</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

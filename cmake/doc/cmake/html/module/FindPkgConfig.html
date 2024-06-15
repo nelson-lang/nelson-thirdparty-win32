@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>FindPkgConfig &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>FindPkgConfig &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FindPNG" href="FindPNG.html" />
     <link rel="prev" title="FindPike" href="FindPike.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindPkgConfig</a></li> 
       </ul>
     </div>  
 
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="findpkgconfig">
-<span id="module:FindPkgConfig"></span><h1>FindPkgConfig<a class="headerlink" href="#findpkgconfig" title="Permalink to this headline">¶</a></h1>
+  <section id="findpkgconfig">
+<span id="module:FindPkgConfig"></span><h1>FindPkgConfig<a class="headerlink" href="#findpkgconfig" title="Link to this heading">¶</a></h1>
 <p>A <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> module for CMake.</p>
 <p>Finds the <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> executable and adds the <span class="target" id="index-0-command:pkg_get_variable"></span><a class="reference internal" href="#command:pkg_get_variable" title="pkg_get_variable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">pkg_get_variable()</span></code></a>,
 <span class="target" id="index-0-command:pkg_check_modules"></span><a class="reference internal" href="#command:pkg_check_modules" title="pkg_check_modules"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">pkg_check_modules()</span></code></a> and <span class="target" id="index-0-command:pkg_search_module"></span><a class="reference internal" href="#command:pkg_search_module" title="pkg_search_module"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">pkg_search_module()</span></code></a> commands. The
@@ -81,17 +81,17 @@ following variables will also be set:</p>
 <p>Both <code class="docutils literal notranslate"><span class="pre">PKG_CONFIG_EXECUTABLE</span></code> and <code class="docutils literal notranslate"><span class="pre">PKG_CONFIG_ARGN</span></code> are initialized by the
 module, but may be overridden by the user.  See <a class="reference internal" href="#variables-affecting-behavior">Variables Affecting Behavior</a>
 for how these variables are initialized.</p>
-<dl class="command">
-<dt id="command:pkg_check_modules">
-<code class="sig-name descname">pkg_check_modules</code><a class="headerlink" href="#command:pkg_check_modules" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:pkg_check_modules">
+<span class="sig-name descname"><span class="pre">pkg_check_modules</span></span><a class="headerlink" href="#command:pkg_check_modules" title="Link to this definition">¶</a></dt>
 <dd><p>Checks for all the given modules, setting a variety of result variables in
 the calling scope.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules(</span><span class="nv">&lt;prefix&gt;</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_PATH</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_ENVIRONMENT_PATH</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">IMPORTED_TARGET</span><span class="w"> </span><span class="p">[</span><span class="no">GLOBAL</span><span class="p">]]</span><span class="w"></span>
-<span class="w">                  </span><span class="nv">&lt;moduleSpec&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;moduleSpec&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules(</span><span class="nv">&lt;prefix&gt;</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_PATH</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_ENVIRONMENT_PATH</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">IMPORTED_TARGET</span><span class="w"> </span><span class="p">[</span><span class="no">GLOBAL</span><span class="p">]]</span>
+<span class="w">                  </span><span class="nv">&lt;moduleSpec&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;moduleSpec&gt;...</span><span class="p">]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>When the <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> argument is given, the command will fail with an error
@@ -192,24 +192,24 @@ visible to the linker, pass it through as <code class="docutils literal notransl
 of CMake failed in this case.</p>
 </div>
 <p>Examples:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">GLIB2</span><span class="w"> </span><span class="nb">glib-2.0</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">GLIB2</span><span class="w"> </span><span class="nb">glib-2.0</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Looks for any version of glib2.  If found, the output variable
 <code class="docutils literal notranslate"><span class="pre">GLIB2_VERSION</span></code> will hold the actual version found.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">GLIB2</span><span class="w"> </span><span class="nb">glib-2.0</span><span class="p">&gt;=</span><span class="m">2.10</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">GLIB2</span><span class="w"> </span><span class="nb">glib-2.0</span><span class="p">&gt;=</span><span class="m">2.10</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Looks for at least version 2.10 of glib2.  If found, the output variable
 <code class="docutils literal notranslate"><span class="pre">GLIB2_VERSION</span></code> will hold the actual version found.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">FOO</span><span class="w"> </span><span class="nb">glib-2.0</span><span class="p">&gt;=</span><span class="m">2.10</span><span class="w"> </span><span class="nb">gtk+-2.0</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">FOO</span><span class="w"> </span><span class="nb">glib-2.0</span><span class="p">&gt;=</span><span class="m">2.10</span><span class="w"> </span><span class="nb">gtk+-2.0</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Looks for both glib2-2.0 (at least version 2.10) and any version of
 gtk2+-2.0.  Only if both are found will <code class="docutils literal notranslate"><span class="pre">FOO</span></code> be considered found.
 The <code class="docutils literal notranslate"><span class="pre">FOO_glib-2.0_VERSION</span></code> and <code class="docutils literal notranslate"><span class="pre">FOO_gtk+-2.0_VERSION</span></code> variables will be
 set to their respective found module versions.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">XRENDER</span><span class="w"> </span><span class="no">REQUIRED</span><span class="w"> </span><span class="nb">xrender</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_check_modules</span> <span class="nf">(</span><span class="no">XRENDER</span><span class="w"> </span><span class="no">REQUIRED</span><span class="w"> </span><span class="nb">xrender</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Requires any version of <code class="docutils literal notranslate"><span class="pre">xrender</span></code>.  Example output variables set by a
@@ -220,18 +220,18 @@ XRENDER_STATIC_LIBRARIES=Xrender;X11;pthread;Xau;Xdmcp
 </div>
 </dd></dl>
 
-<dl class="command">
-<dt id="command:pkg_search_module">
-<code class="sig-name descname">pkg_search_module</code><a class="headerlink" href="#command:pkg_search_module" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:pkg_search_module">
+<span class="sig-name descname"><span class="pre">pkg_search_module</span></span><a class="headerlink" href="#command:pkg_search_module" title="Link to this definition">¶</a></dt>
 <dd><p>The behavior of this command is the same as <span class="target" id="index-1-command:pkg_check_modules"></span><a class="reference internal" href="#command:pkg_check_modules" title="pkg_check_modules"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">pkg_check_modules()</span></code></a>,
 except that rather than checking for all the specified modules, it searches
 for just the first successful match.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_search_module(</span><span class="nv">&lt;prefix&gt;</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_PATH</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_ENVIRONMENT_PATH</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">IMPORTED_TARGET</span><span class="w"> </span><span class="p">[</span><span class="no">GLOBAL</span><span class="p">]]</span><span class="w"></span>
-<span class="w">                  </span><span class="nv">&lt;moduleSpec&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;moduleSpec&gt;...</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_search_module(</span><span class="nv">&lt;prefix&gt;</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_PATH</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">NO_CMAKE_ENVIRONMENT_PATH</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">IMPORTED_TARGET</span><span class="w"> </span><span class="p">[</span><span class="no">GLOBAL</span><span class="p">]]</span>
+<span class="w">                  </span><span class="nv">&lt;moduleSpec&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;moduleSpec&gt;...</span><span class="p">]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <div class="versionadded">
@@ -240,35 +240,45 @@ name of the matching module. This variable can be used if you need to run
 <span class="target" id="index-1-command:pkg_get_variable"></span><a class="reference internal" href="#command:pkg_get_variable" title="pkg_get_variable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">pkg_get_variable()</span></code></a>.</p>
 </div>
 <p>Example:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_search_module</span> <span class="nf">(</span><span class="no">BAR</span><span class="w"> </span><span class="nb">libxml-2.0</span><span class="w"> </span><span class="nb">libxml2</span><span class="w"> </span><span class="nb">libxml</span><span class="p">&gt;=</span><span class="m">2</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_search_module</span> <span class="nf">(</span><span class="no">BAR</span><span class="w"> </span><span class="nb">libxml-2.0</span><span class="w"> </span><span class="nb">libxml2</span><span class="w"> </span><span class="nb">libxml</span><span class="p">&gt;=</span><span class="m">2</span><span class="nf">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
-<dl class="command">
-<dt id="command:pkg_get_variable">
-<code class="sig-name descname">pkg_get_variable</code><a class="headerlink" href="#command:pkg_get_variable" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:pkg_get_variable">
+<span class="sig-name descname"><span class="pre">pkg_get_variable</span></span><a class="headerlink" href="#command:pkg_get_variable" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.4.</span></p>
 </div>
 <p>Retrieves the value of a pkg-config variable <code class="docutils literal notranslate"><span class="pre">varName</span></code> and stores it in the
 result variable <code class="docutils literal notranslate"><span class="pre">resultVar</span></code> in the calling scope.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_get_variable(</span><span class="nv">&lt;resultVar&gt;</span><span class="w"> </span><span class="nv">&lt;moduleName&gt;</span><span class="w"> </span><span class="nv">&lt;varName&gt;</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_get_variable(</span><span class="nv">&lt;resultVar&gt;</span><span class="w"> </span><span class="nv">&lt;moduleName&gt;</span><span class="w"> </span><span class="nv">&lt;varName&gt;</span>
+<span class="w">                 </span><span class="p">[</span><span class="no">DEFINE_VARIABLES</span><span class="w"> </span><span class="nv">&lt;key&gt;</span><span class="p">=</span><span class="nv">&lt;value&gt;...</span><span class="p">]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>If <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> returns multiple values for the specified variable,
 <code class="docutils literal notranslate"><span class="pre">resultVar</span></code> will contain a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a>.</p>
+<p>Options:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">DEFINE_VARIABLES</span> <span class="pre">&lt;key&gt;=&lt;value&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28.</span></p>
+</div>
+<p>Specify key-value pairs to redefine variables affecting the variable
+retrieved with <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code>.</p>
+</dd>
+</dl>
 <p>For example:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_get_variable(</span><span class="no">GI_GIRDIR</span><span class="w"> </span><span class="nb">gobject-introspection-1.0</span><span class="w"> </span><span class="nb">girdir</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">pkg_get_variable(</span><span class="no">GI_GIRDIR</span><span class="w"> </span><span class="nb">gobject-introspection-1.0</span><span class="w"> </span><span class="nb">girdir</span><span class="nf">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
-<div class="section" id="variables-affecting-behavior">
-<h2>Variables Affecting Behavior<a class="headerlink" href="#variables-affecting-behavior" title="Permalink to this headline">¶</a></h2>
-<dl class="variable">
-<dt id="variable:PKG_CONFIG_EXECUTABLE">
-<code class="sig-name descname">PKG_CONFIG_EXECUTABLE</code><a class="headerlink" href="#variable:PKG_CONFIG_EXECUTABLE" title="Permalink to this definition">¶</a></dt>
+<section id="variables-affecting-behavior">
+<h2>Variables Affecting Behavior<a class="headerlink" href="#variables-affecting-behavior" title="Link to this heading">¶</a></h2>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:PKG_CONFIG_EXECUTABLE">
+<span class="sig-name descname"><span class="pre">PKG_CONFIG_EXECUTABLE</span></span><a class="headerlink" href="#variable:PKG_CONFIG_EXECUTABLE" title="Link to this definition">¶</a></dt>
 <dd><p>This cache variable can be set to the path of the pkg-config executable.
 <span class="target" id="index-0-command:find_program"></span><a class="reference internal" href="../command/find_program.html#command:find_program" title="find_program"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_program()</span></code></a> is called internally by the module with this
 variable.</p>
@@ -282,9 +292,9 @@ argument is taken from it when using it as a hint.</p>
 </div>
 </dd></dl>
 
-<dl class="variable">
-<dt id="variable:PKG_CONFIG_ARGN">
-<code class="sig-name descname">PKG_CONFIG_ARGN</code><a class="headerlink" href="#variable:PKG_CONFIG_ARGN" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:PKG_CONFIG_ARGN">
+<span class="sig-name descname"><span class="pre">PKG_CONFIG_ARGN</span></span><a class="headerlink" href="#variable:PKG_CONFIG_ARGN" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.22.</span></p>
 </div>
@@ -298,9 +308,9 @@ initialized to an empty string. The module does not update the variable once
 it has been set in the cache.</p>
 </dd></dl>
 
-<dl class="variable">
-<dt id="variable:PKG_CONFIG_USE_CMAKE_PREFIX_PATH">
-<code class="sig-name descname">PKG_CONFIG_USE_CMAKE_PREFIX_PATH</code><a class="headerlink" href="#variable:PKG_CONFIG_USE_CMAKE_PREFIX_PATH" title="Permalink to this definition">¶</a></dt>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:PKG_CONFIG_USE_CMAKE_PREFIX_PATH">
+<span class="sig-name descname"><span class="pre">PKG_CONFIG_USE_CMAKE_PREFIX_PATH</span></span><a class="headerlink" href="#variable:PKG_CONFIG_USE_CMAKE_PREFIX_PATH" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.1.</span></p>
 </div>
@@ -314,29 +324,36 @@ it has been set in the cache.</p>
 otherwise.</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">FindPkgConfig</a><ul>
 <li><a class="reference internal" href="#variables-affecting-behavior">Variables Affecting Behavior</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="FindPike.html"
-                        title="previous chapter">FindPike</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="FindPNG.html"
-                        title="next chapter">FindPNG</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="FindPike.html"
+                          title="previous chapter">FindPike</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindPNG.html"
+                          title="next chapter">FindPNG</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -348,12 +365,12 @@ otherwise.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -378,15 +395,17 @@ otherwise.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindPkgConfig</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

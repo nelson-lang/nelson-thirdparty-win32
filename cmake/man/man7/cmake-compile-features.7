@@ -1,8 +1,5 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-COMPILE-FEATURES" "7" "Dec 07, 2021" "3.22.1" "CMake"
-.SH NAME
-cmake-compile-features \- CMake Compile Features Reference
 .
 .nr rst2man-indent-level 0
 .
@@ -30,6 +27,9 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
+.TH "CMAKE-COMPILE-FEATURES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.SH NAME
+cmake-compile-features \- CMake Compile Features Reference
 .SH INTRODUCTION
 .sp
 Project source code may depend on, or be conditional on, the availability
@@ -41,11 +41,11 @@ While features are typically specified in programming language standards,
 CMake provides a primary user interface based on granular handling of
 the features, not the language standard that introduced the feature.
 .sp
-The \fBCMAKE_C_KNOWN_FEATURES\fP, \fBCMAKE_CUDA_KNOWN_FEATURES\fP,
-and \fBCMAKE_CXX_KNOWN_FEATURES\fP global properties contain all the
+The \fI\%CMAKE_C_KNOWN_FEATURES\fP, \fI\%CMAKE_CUDA_KNOWN_FEATURES\fP,
+and \fI\%CMAKE_CXX_KNOWN_FEATURES\fP global properties contain all the
 features known to CMake, regardless of compiler support for the feature.
-The \fBCMAKE_C_COMPILE_FEATURES\fP, \fBCMAKE_CUDA_COMPILE_FEATURES\fP
-, and \fBCMAKE_CXX_COMPILE_FEATURES\fP variables contain all features
+The \fI\%CMAKE_C_COMPILE_FEATURES\fP, \fI\%CMAKE_CUDA_COMPILE_FEATURES\fP
+, and \fI\%CMAKE_CXX_COMPILE_FEATURES\fP variables contain all features
 CMake knows are known to the compiler, regardless of language standard
 or compile flags needed to use them.
 .sp
@@ -61,9 +61,9 @@ language should be used instead.
 .SH COMPILE FEATURE REQUIREMENTS
 .sp
 Compile feature requirements may be specified with the
-\fBtarget_compile_features()\fP command.  For example, if a target must
+\fI\%target_compile_features()\fP command.  For example, if a target must
 be compiled with compiler support for the
-\fBcxx_constexpr\fP feature:
+\fI\%cxx_constexpr\fP feature:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -77,7 +77,7 @@ target_compile_features(mylib PRIVATE cxx_constexpr)
 .UNINDENT
 .sp
 In processing the requirement for the \fBcxx_constexpr\fP feature,
-\fBcmake(1)\fP will ensure that the in\-use C++ compiler is capable
+\fI\%cmake(1)\fP will ensure that the in\-use C++ compiler is capable
 of the feature, and will add any necessary flags such as \fB\-std=gnu++11\fP
 to the compile lines of C++ files in the \fBmylib\fP target.  A
 \fBFATAL_ERROR\fP is issued if the compiler is not capable of the
@@ -99,7 +99,7 @@ is built itself, but consumers of \fBmylib\fP are not required to use a
 compiler which supports \fBcxx_constexpr\fP\&.  If the interface of
 \fBmylib\fP does require the \fBcxx_constexpr\fP feature (or any other
 known feature), that may be specified with the \fBPUBLIC\fP or
-\fBINTERFACE\fP signatures of \fBtarget_compile_features()\fP:
+\fBINTERFACE\fP signatures of \fI\%target_compile_features()\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -118,7 +118,7 @@ target_link_libraries(myexe mylib)
 .UNINDENT
 .sp
 Feature requirements are evaluated transitively by consuming the link
-implementation.  See \fBcmake\-buildsystem(7)\fP for more on
+implementation.  See \fI\%cmake\-buildsystem(7)\fP for more on
 transitive behavior of build properties and usage requirements.
 .SS Requiring Language Standards
 .sp
@@ -148,32 +148,43 @@ In this example, CMake will ensure the compiler is invoked in a mode
 of at\-least C++ 11 (or C++ 14, C++ 17, ...), adding flags such as
 \fB\-std=gnu++11\fP if necessary.  This applies to sources within \fBmylib\fP
 as well as any dependents (that may include headers from \fBmylib\fP).
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+If the compiler\(aqs default standard level is at least that
+of the requested feature, CMake may omit the \fB\-std=\fP flag.
+The flag may still be added if the compiler\(aqs default extensions mode
+does not match the \fI\%<LANG>_EXTENSIONS\fP target property,
+or if the \fI\%<LANG>_STANDARD\fP target property is set.
+.UNINDENT
+.UNINDENT
 .SS Availability of Compiler Extensions
 .sp
-The \fB<LANG>_EXTENSIONS\fP target property defaults to the compiler\(aqs
-default (see \fBCMAKE_<LANG>_EXTENSIONS_DEFAULT\fP). Note that because
+The \fI\%<LANG>_EXTENSIONS\fP target property defaults to the compiler\(aqs
+default (see \fI\%CMAKE_<LANG>_EXTENSIONS_DEFAULT\fP). Note that because
 most compilers enable extensions by default, this may expose portability bugs
 in user code or in the headers of third\-party dependencies.
 .sp
-\fB<LANG>_EXTENSIONS\fP used to default to \fBON\fP\&. See \fBCMP0128\fP\&.
+\fI\%<LANG>_EXTENSIONS\fP used to default to \fBON\fP\&. See \fI\%CMP0128\fP\&.
 .SH OPTIONAL COMPILE FEATURES
 .sp
 Compile features may be preferred if available, without creating a hard
 requirement.   This can be achieved by \fInot\fP specifying features with
-\fBtarget_compile_features()\fP and instead checking the compiler
+\fI\%target_compile_features()\fP and instead checking the compiler
 capabilities with preprocessor conditions in project code.
 .sp
 In this use\-case, the project may wish to establish a particular language
 standard if available from the compiler, and use preprocessor conditions
 to detect the features actually available.  A language standard may be
 established by \fI\%Requiring Language Standards\fP using
-\fBtarget_compile_features()\fP with meta\-features like \fBcxx_std_11\fP,
-or by setting the \fBCXX_STANDARD\fP target property or
-\fBCMAKE_CXX_STANDARD\fP variable.
+\fI\%target_compile_features()\fP with meta\-features like \fBcxx_std_11\fP,
+or by setting the \fI\%CXX_STANDARD\fP target property or
+\fI\%CMAKE_CXX_STANDARD\fP variable.
 .sp
-See also policy \fBCMP0120\fP and legacy documentation on
-Example Usage of the deprecated
-\fBWriteCompilerDetectionHeader\fP module.
+See also policy \fI\%CMP0120\fP and legacy documentation on
+\fI\%Example Usage\fP of the deprecated
+\fI\%WriteCompilerDetectionHeader\fP module.
 .SH CONDITIONAL COMPILATION OPTIONS
 .sp
 Libraries may provide entirely different header files depending on
@@ -234,9 +245,9 @@ containing something like:
 .nf
 .ft C
 #ifdef HAVE_CXX_VARIADIC_TEMPLATES
-#include "with_variadics/interface.h"
+#include \(dqwith_variadics/interface.h\(dq
 #else
-#include "no_variadics/interface.h"
+#include \(dqno_variadics/interface.h\(dq
 #endif
 .ft P
 .fi
@@ -248,10 +259,10 @@ abstract. What is needed is to use alternative include directories
 depending on the compiler capabilities.
 .sp
 CMake provides a \fBCOMPILE_FEATURES\fP
-\fBgenerator expression\fP to implement
+\fI\%generator expression\fP to implement
 such conditions.  This may be used with the build\-property commands such as
-\fBtarget_include_directories()\fP and \fBtarget_link_libraries()\fP
-to set the appropriate \fBbuildsystem\fP
+\fI\%target_include_directories()\fP and \fI\%target_link_libraries()\fP
+to set the appropriate \fI\%buildsystem\fP
 properties:
 .INDENT 0.0
 .INDENT 3.5
@@ -263,8 +274,8 @@ set(with_variadics ${CMAKE_CURRENT_SOURCE_DIR}/with_variadics)
 set(no_variadics ${CMAKE_CURRENT_SOURCE_DIR}/no_variadics)
 target_include_directories(foo
   INTERFACE
-    "$<$<COMPILE_FEATURES:cxx_variadic_templates>:${with_variadics}>"
-    "$<$<NOT:$<COMPILE_FEATURES:cxx_variadic_templates>>:${no_variadics}>"
+    \(dq$<$<COMPILE_FEATURES:cxx_variadic_templates>:${with_variadics}>\(dq
+    \(dq$<$<NOT:$<COMPILE_FEATURES:cxx_variadic_templates>>:${no_variadics}>\(dq
   )
 .ft P
 .fi
@@ -290,9 +301,9 @@ target_link_libraries(consumer_no foo)
 .UNINDENT
 .SH SUPPORTED COMPILERS
 .sp
-CMake is currently aware of the \fBC++ standards\fP
-and \fBcompile features\fP available from
-the following \fBcompiler ids\fP as of the
+CMake is currently aware of the \fI\%C++ standards\fP
+and \fI\%compile features\fP available from
+the following \fI\%compiler ids\fP as of the
 versions specified for each:
 .INDENT 0.0
 .IP \(bu 2
@@ -309,9 +320,9 @@ versions specified for each:
 \fBIntel\fP: Intel compiler versions 12.1+.
 .UNINDENT
 .sp
-CMake is currently aware of the \fBC standards\fP
-and \fBcompile features\fP available from
-the following \fBcompiler ids\fP as of the
+CMake is currently aware of the \fI\%C standards\fP
+and \fI\%compile features\fP available from
+the following \fI\%compiler ids\fP as of the
 versions specified for each:
 .INDENT 0.0
 .IP \(bu 2
@@ -320,9 +331,9 @@ all compilers and versions listed above for C++.
 \fBGNU\fP: GNU compiler versions 3.4+
 .UNINDENT
 .sp
-CMake is currently aware of the \fBC++ standards\fP and
+CMake is currently aware of the \fI\%C++ standards\fP and
 their associated meta\-features (e.g. \fBcxx_std_11\fP) available from the
-following \fBcompiler ids\fP as of the
+following \fI\%compiler ids\fP as of the
 versions specified for each:
 .INDENT 0.0
 .IP \(bu 2
@@ -336,21 +347,23 @@ versions specified for each:
 .IP \(bu 2
 \fBTI\fP: Texas Instruments compiler.
 .IP \(bu 2
+\fBTIClang\fP: Texas Instruments Clang\-based compilers.
+.IP \(bu 2
 \fBXL\fP: IBM XL version 10.1+.
 .UNINDENT
 .sp
-CMake is currently aware of the \fBC standards\fP and
+CMake is currently aware of the \fI\%C standards\fP and
 their associated meta\-features (e.g. \fBc_std_99\fP) available from the
-following \fBcompiler ids\fP as of the
+following \fI\%compiler ids\fP as of the
 versions specified for each:
 .INDENT 0.0
 .IP \(bu 2
 all compilers and versions listed above with only meta\-features for C++.
 .UNINDENT
 .sp
-CMake is currently aware of the \fBCUDA standards\fP and
+CMake is currently aware of the \fI\%CUDA standards\fP and
 their associated meta\-features (e.g. \fBcuda_std_11\fP) available from the
-following \fBcompiler ids\fP as of the
+following \fI\%compiler ids\fP as of the
 versions specified for each:
 .INDENT 0.0
 .IP \(bu 2
@@ -358,7 +371,25 @@ versions specified for each:
 .IP \(bu 2
 \fBNVIDIA\fP: NVIDIA nvcc compiler 7.5+.
 .UNINDENT
+.SH LANGUAGE STANDARD FLAGS
+.sp
+In order to satisfy requirements specified by the
+\fI\%target_compile_features()\fP command or the
+\fI\%CMAKE_<LANG>_STANDARD\fP variable, CMake may pass a
+language standard flag to the compiler, such as \fB\-std=c++11\fP\&.
+.sp
+For \fI\%Visual Studio Generators\fP, CMake cannot precisely control
+the placement of the language standard flag on the compiler command line.
+For \fI\%Ninja Generators\fP, \fI\%Makefile Generators\fP, and
+\fI\%Xcode\fP, CMake places the language standard flag just after
+the language\-wide flags from \fI\%CMAKE_<LANG>_FLAGS\fP
+and \fI\%CMAKE_<LANG>_FLAGS_<CONFIG>\fP\&.
+.sp
+Changed in version 3.26: The language standard flag is placed before flags specified by other
+abstractions such as the \fI\%target_compile_options()\fP command.
+Prior to CMake 3.26, the language standard flag was placed after them.
+
 .SH COPYRIGHT
-2000-2021 Kitware, Inc. and Contributors
+2000-2024 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

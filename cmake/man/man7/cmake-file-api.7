@@ -1,8 +1,5 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "CMAKE-FILE-API" "7" "Dec 07, 2021" "3.22.1" "CMake"
-.SH NAME
-cmake-file-api \- CMake File-Based API
 .
 .nr rst2man-indent-level 0
 .
@@ -30,6 +27,9 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
+.TH "CMAKE-FILE-API" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.SH NAME
+cmake-file-api \- CMake File-Based API
 .SH INTRODUCTION
 .sp
 CMake provides a file\-based API that clients may use to get semantic
@@ -44,6 +44,10 @@ of a build tree.  The API is versioned to support changes to the layout
 of files within the API directory.  API file layout versioning is
 orthogonal to the versioning of \fI\%Object Kinds\fP used in replies.
 This version of CMake supports only one API version, \fI\%API v1\fP\&.
+.sp
+New in version 3.27: Projects may also submit queries for the current run using the
+\fI\%cmake_file_api()\fP command.
+
 .SH API V1
 .sp
 API v1 is housed in the \fB<build>/.cmake/api/v1/\fP directory.
@@ -154,15 +158,15 @@ A \fBquery.json\fP file must contain a JSON object:
 .nf
 .ft C
 {
-  "requests": [
-    { "kind": "<kind>" , "version": 1 },
-    { "kind": "<kind>" , "version": { "major": 1, "minor": 2 } },
-    { "kind": "<kind>" , "version": [2, 1] },
-    { "kind": "<kind>" , "version": [2, { "major": 1, "minor": 2 }] },
-    { "kind": "<kind>" , "version": 1, "client": {} },
-    { "kind": "..." }
+  \(dqrequests\(dq: [
+    { \(dqkind\(dq: \(dq<kind>\(dq , \(dqversion\(dq: 1 },
+    { \(dqkind\(dq: \(dq<kind>\(dq , \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 2 } },
+    { \(dqkind\(dq: \(dq<kind>\(dq , \(dqversion\(dq: [2, 1] },
+    { \(dqkind\(dq: \(dq<kind>\(dq , \(dqversion\(dq: [2, { \(dqmajor\(dq: 1, \(dqminor\(dq: 2 }] },
+    { \(dqkind\(dq: \(dq<kind>\(dq , \(dqversion\(dq: 1, \(dqclient\(dq: {} },
+    { \(dqkind\(dq: \(dq...\(dq }
   ],
-  "client": {}
+  \(dqclient\(dq: {}
 }
 .ft P
 .fi
@@ -249,50 +253,50 @@ The reply index file contains a JSON object:
 .nf
 .ft C
 {
-  "cmake": {
-    "version": {
-      "major": 3, "minor": 14, "patch": 0, "suffix": "",
-      "string": "3.14.0", "isDirty": false
+  \(dqcmake\(dq: {
+    \(dqversion\(dq: {
+      \(dqmajor\(dq: 3, \(dqminor\(dq: 14, \(dqpatch\(dq: 0, \(dqsuffix\(dq: \(dq\(dq,
+      \(dqstring\(dq: \(dq3.14.0\(dq, \(dqisDirty\(dq: false
     },
-    "paths": {
-      "cmake": "/prefix/bin/cmake",
-      "ctest": "/prefix/bin/ctest",
-      "cpack": "/prefix/bin/cpack",
-      "root": "/prefix/share/cmake\-3.14"
+    \(dqpaths\(dq: {
+      \(dqcmake\(dq: \(dq/prefix/bin/cmake\(dq,
+      \(dqctest\(dq: \(dq/prefix/bin/ctest\(dq,
+      \(dqcpack\(dq: \(dq/prefix/bin/cpack\(dq,
+      \(dqroot\(dq: \(dq/prefix/share/cmake\-3.14\(dq
     },
-    "generator": {
-      "multiConfig": false,
-      "name": "Unix Makefiles"
+    \(dqgenerator\(dq: {
+      \(dqmultiConfig\(dq: false,
+      \(dqname\(dq: \(dqUnix Makefiles\(dq
     }
   },
-  "objects": [
-    { "kind": "<kind>",
-      "version": { "major": 1, "minor": 0 },
-      "jsonFile": "<file>" },
-    { "...": "..." }
+  \(dqobjects\(dq: [
+    { \(dqkind\(dq: \(dq<kind>\(dq,
+      \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+      \(dqjsonFile\(dq: \(dq<file>\(dq },
+    { \(dq...\(dq: \(dq...\(dq }
   ],
-  "reply": {
-    "<kind>\-v<major>": { "kind": "<kind>",
-                         "version": { "major": 1, "minor": 0 },
-                         "jsonFile": "<file>" },
-    "<unknown>": { "error": "unknown query file" },
-    "...": {},
-    "client\-<client>": {
-      "<kind>\-v<major>": { "kind": "<kind>",
-                           "version": { "major": 1, "minor": 0 },
-                           "jsonFile": "<file>" },
-      "<unknown>": { "error": "unknown query file" },
-      "...": {},
-      "query.json": {
-        "requests": [ {}, {}, {} ],
-        "responses": [
-          { "kind": "<kind>",
-            "version": { "major": 1, "minor": 0 },
-            "jsonFile": "<file>" },
-          { "error": "unknown query file" },
-          { "...": {} }
+  \(dqreply\(dq: {
+    \(dq<kind>\-v<major>\(dq: { \(dqkind\(dq: \(dq<kind>\(dq,
+                         \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+                         \(dqjsonFile\(dq: \(dq<file>\(dq },
+    \(dq<unknown>\(dq: { \(dqerror\(dq: \(dqunknown query file\(dq },
+    \(dq...\(dq: {},
+    \(dqclient\-<client>\(dq: {
+      \(dq<kind>\-v<major>\(dq: { \(dqkind\(dq: \(dq<kind>\(dq,
+                           \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+                           \(dqjsonFile\(dq: \(dq<file>\(dq },
+      \(dq<unknown>\(dq: { \(dqerror\(dq: \(dqunknown query file\(dq },
+      \(dq...\(dq: {},
+      \(dqquery.json\(dq: {
+        \(dqrequests\(dq: [ {}, {}, {} ],
+        \(dqresponses\(dq: [
+          { \(dqkind\(dq: \(dq<kind>\(dq,
+            \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+            \(dqjsonFile\(dq: \(dq<file>\(dq },
+          { \(dqerror\(dq: \(dqunknown query file\(dq },
+          { \(dq...\(dq: {} }
         ],
-        "client": {}
+        \(dqclient\(dq: {}
       }
     }
   }
@@ -331,11 +335,11 @@ controlled source tree with local modifications.
 .TP
 .B \fBpaths\fP
 A JSON object specifying paths to things that come with CMake.
-It has members for \fBcmake\fP, \fBctest\fP, and \fBcpack\fP whose values
-are JSON strings specifying the absolute path to each tool,
+It has members for \fBcmake\fP, \fBctest\fP, and \fBcpack\fP
+whose values are JSON strings specifying the absolute path to each tool,
 represented with forward slashes.  It also has a \fBroot\fP member for
 the absolute path to the directory containing CMake resources like the
-\fBModules/\fP directory (see \fBCMAKE_ROOT\fP).
+\fBModules/\fP directory (see \fI\%CMAKE_ROOT\fP).
 .TP
 .B \fBgenerator\fP
 A JSON object describing the CMake generator used for the build.
@@ -350,7 +354,7 @@ configurations.
 A string specifying the name of the generator.
 .TP
 .B \fBplatform\fP
-If the generator supports \fBCMAKE_GENERATOR_PLATFORM\fP,
+If the generator supports \fI\%CMAKE_GENERATOR_PLATFORM\fP,
 this is a string specifying the generator platform name.
 .UNINDENT
 .UNINDENT
@@ -459,7 +463,7 @@ to another JSON file containing the object.
 Reply files containing specific \fI\%Object Kinds\fP are written by CMake.
 The names of these files are unspecified and must not be interpreted
 by clients.  Clients must first read the \fI\%v1 Reply Index File\fP and
-and follow references to the names of the desired response objects.
+follow references to the names of the desired response objects.
 .sp
 Reply files (including the index file) will never be replaced by
 files of the same name but different content.  This allows a client
@@ -482,9 +486,9 @@ minor components.  Every kind of object has the form:
 .nf
 .ft C
 {
-  "kind": "<kind>",
-  "version": { "major": 1, "minor": 0 },
-  "...": {}
+  \(dqkind\(dq: \(dq<kind>\(dq,
+  \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+  \(dq...\(dq: {}
 }
 .ft P
 .fi
@@ -495,15 +499,15 @@ The \fBkind\fP member is a string specifying the object kind name.
 The \fBversion\fP member is a JSON object with \fBmajor\fP and \fBminor\fP
 members specifying integer components of the object kind\(aqs version.
 Additional top\-level members are specific to each object kind.
-.SS Object Kind "codemodel"
+.SS Object Kind \(dqcodemodel\(dq
 .sp
 The \fBcodemodel\fP object kind describes the build system structure as
 modeled by CMake.
 .sp
 There is only one \fBcodemodel\fP object major version, version 2.
 Version 1 does not exist to avoid confusion with that from
-\fBcmake\-server(7)\fP mode.
-.SS "codemodel" version 2
+\fI\%cmake\-server(7)\fP mode.
+.SS \(dqcodemodel\(dq version 2
 .sp
 \fBcodemodel\fP object version 2 is a JSON object:
 .INDENT 0.0
@@ -512,59 +516,59 @@ Version 1 does not exist to avoid confusion with that from
 .nf
 .ft C
 {
-  "kind": "codemodel",
-  "version": { "major": 2, "minor": 2 },
-  "paths": {
-    "source": "/path/to/top\-level\-source\-dir",
-    "build": "/path/to/top\-level\-build\-dir"
+  \(dqkind\(dq: \(dqcodemodel\(dq,
+  \(dqversion\(dq: { \(dqmajor\(dq: 2, \(dqminor\(dq: 7 },
+  \(dqpaths\(dq: {
+    \(dqsource\(dq: \(dq/path/to/top\-level\-source\-dir\(dq,
+    \(dqbuild\(dq: \(dq/path/to/top\-level\-build\-dir\(dq
   },
-  "configurations": [
+  \(dqconfigurations\(dq: [
     {
-      "name": "Debug",
-      "directories": [
+      \(dqname\(dq: \(dqDebug\(dq,
+      \(dqdirectories\(dq: [
         {
-          "source": ".",
-          "build": ".",
-          "childIndexes": [ 1 ],
-          "projectIndex": 0,
-          "targetIndexes": [ 0 ],
-          "hasInstallRule": true,
-          "minimumCMakeVersion": {
-            "string": "3.14"
+          \(dqsource\(dq: \(dq.\(dq,
+          \(dqbuild\(dq: \(dq.\(dq,
+          \(dqchildIndexes\(dq: [ 1 ],
+          \(dqprojectIndex\(dq: 0,
+          \(dqtargetIndexes\(dq: [ 0 ],
+          \(dqhasInstallRule\(dq: true,
+          \(dqminimumCMakeVersion\(dq: {
+            \(dqstring\(dq: \(dq3.14\(dq
           },
-          "jsonFile": "<file>"
+          \(dqjsonFile\(dq: \(dq<file>\(dq
         },
         {
-          "source": "sub",
-          "build": "sub",
-          "parentIndex": 0,
-          "projectIndex": 0,
-          "targetIndexes": [ 1 ],
-          "minimumCMakeVersion": {
-            "string": "3.14"
+          \(dqsource\(dq: \(dqsub\(dq,
+          \(dqbuild\(dq: \(dqsub\(dq,
+          \(dqparentIndex\(dq: 0,
+          \(dqprojectIndex\(dq: 0,
+          \(dqtargetIndexes\(dq: [ 1 ],
+          \(dqminimumCMakeVersion\(dq: {
+            \(dqstring\(dq: \(dq3.14\(dq
           },
-          "jsonFile": "<file>"
+          \(dqjsonFile\(dq: \(dq<file>\(dq
         }
       ],
-      "projects": [
+      \(dqprojects\(dq: [
         {
-          "name": "MyProject",
-          "directoryIndexes": [ 0, 1 ],
-          "targetIndexes": [ 0, 1 ]
+          \(dqname\(dq: \(dqMyProject\(dq,
+          \(dqdirectoryIndexes\(dq: [ 0, 1 ],
+          \(dqtargetIndexes\(dq: [ 0, 1 ]
         }
       ],
-      "targets": [
+      \(dqtargets\(dq: [
         {
-          "name": "MyExecutable",
-          "directoryIndex": 0,
-          "projectIndex": 0,
-          "jsonFile": "<file>"
+          \(dqname\(dq: \(dqMyExecutable\(dq,
+          \(dqdirectoryIndex\(dq: 0,
+          \(dqprojectIndex\(dq: 0,
+          \(dqjsonFile\(dq: \(dq<file>\(dq
         },
         {
-          "name": "MyLibrary",
-          "directoryIndex": 1,
-          "projectIndex": 0,
-          "jsonFile": "<file>"
+          \(dqname\(dq: \(dqMyLibrary\(dq,
+          \(dqdirectoryIndex\(dq: 1,
+          \(dqprojectIndex\(dq: 0,
+          \(dqjsonFile\(dq: \(dq<file>\(dq
         }
       ]
     }
@@ -594,9 +598,9 @@ represented with forward slashes.
 .B \fBconfigurations\fP
 A JSON array of entries corresponding to available build configurations.
 On single\-configuration generators there is one entry for the value
-of the \fBCMAKE_BUILD_TYPE\fP variable.  For multi\-configuration
+of the \fI\%CMAKE_BUILD_TYPE\fP variable.  For multi\-configuration
 generators there is an entry for each configuration listed in the
-\fBCMAKE_CONFIGURATION_TYPES\fP variable.
+\fI\%CMAKE_CONFIGURATION_TYPES\fP variable.
 Each entry is a JSON object containing members:
 .INDENT 7.0
 .TP
@@ -633,7 +637,7 @@ directory that added this directory as a subdirectory.
 .B \fBchildIndexes\fP
 Optional member that is present when the directory has subdirectories.
 The value is a JSON array of entries corresponding to child directories
-created by the \fBadd_subdirectory()\fP or \fBsubdirs()\fP
+created by the \fI\%add_subdirectory()\fP or \fI\%subdirs()\fP
 command.  Each entry is an unsigned integer 0\-based index of another
 entry in the main \fBdirectories\fP array.
 .TP
@@ -650,7 +654,7 @@ unsigned integer 0\-based index into the main \fBtargets\fP array.
 .B \fBminimumCMakeVersion\fP
 Optional member present when a minimum required version of CMake is
 known for the directory.  This is the \fB<min>\fP version given to the
-most local call to the \fBcmake_minimum_required(VERSION)\fP
+most local call to the \fI\%cmake_minimum_required(VERSION)\fP
 command in the directory itself or one of its ancestors.
 The value is a JSON object with one member:
 .INDENT 7.0
@@ -675,13 +679,13 @@ arbitrary string.
 .B \fBhasInstallRule\fP
 Optional member that is present with boolean value \fBtrue\fP when
 the directory or one of its subdirectories contains any
-\fBinstall()\fP rules, i.e. whether a \fBmake install\fP
+\fI\%install()\fP rules, i.e. whether a \fBmake install\fP
 or equivalent rule is available.
 .TP
 .B \fBjsonFile\fP
 A JSON string specifying a path relative to the codemodel file
 to another JSON file containing a
-\fI\%"codemodel" version 2 "directory" object\fP\&.
+\fI\%\(dqcodemodel\(dq version 2 \(dqdirectory\(dq object\fP\&.
 .sp
 This field was added in codemodel version 2.3.
 .UNINDENT
@@ -690,7 +694,7 @@ This field was added in codemodel version 2.3.
 A JSON array of entries corresponding to the top\-level project
 and sub\-projects defined in the build system.  Each (sub\-)project
 corresponds to a source directory whose \fBCMakeLists.txt\fP file
-calls the \fBproject()\fP command with a project name different
+calls the \fI\%project()\fP command with a project name different
 from its parent directory.  The first entry corresponds to the
 top\-level project.
 .sp
@@ -698,7 +702,7 @@ Each entry is a JSON object containing members:
 .INDENT 7.0
 .TP
 .B \fBname\fP
-A string specifying the name given to the \fBproject()\fP command.
+A string specifying the name given to the \fI\%project()\fP command.
 .TP
 .B \fBparentIndex\fP
 Optional member that is present when the project is not top\-level.
@@ -727,8 +731,8 @@ unsigned integer 0\-based index into the main \fBtargets\fP array.
 .TP
 .B \fBtargets\fP
 A JSON array of entries corresponding to the build system targets.
-Such targets are created by calls to \fBadd_executable()\fP,
-\fBadd_library()\fP, and \fBadd_custom_target()\fP, excluding
+Such targets are created by calls to \fI\%add_executable()\fP,
+\fI\%add_library()\fP, and \fI\%add_custom_target()\fP, excluding
 imported targets and interface libraries (which do not generate any
 build rules).  Each entry is a JSON object containing members:
 .INDENT 7.0
@@ -751,14 +755,14 @@ indicating the build system project in which the target is defined.
 .B \fBjsonFile\fP
 A JSON string specifying a path relative to the codemodel file
 to another JSON file containing a
-\fI\%"codemodel" version 2 "target" object\fP\&.
+\fI\%\(dqcodemodel\(dq version 2 \(dqtarget\(dq object\fP\&.
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SS "codemodel" version 2 "directory" object
+.SS \(dqcodemodel\(dq version 2 \(dqdirectory\(dq object
 .sp
-A codemodel "directory" object is referenced by a \fI\%"codemodel" version 2\fP
-object\(aqs \fBdirectories\fP array.  Each "directory" object is a JSON object
+A codemodel \(dqdirectory\(dq object is referenced by a \fI\%\(dqcodemodel\(dq version 2\fP
+object\(aqs \fBdirectories\fP array.  Each \(dqdirectory\(dq object is a JSON object
 with members:
 .INDENT 0.0
 .TP
@@ -782,13 +786,13 @@ Otherwise the path is absolute.
 .UNINDENT
 .TP
 .B \fBinstallers\fP
-A JSON array of entries corresponding to \fBinstall()\fP rules.
+A JSON array of entries corresponding to \fI\%install()\fP rules.
 Each entry is a JSON object containing members:
 .INDENT 7.0
 .TP
 .B \fBcomponent\fP
 A string specifying the component selected by the corresponding
-\fBinstall()\fP command invocation.
+\fI\%install()\fP command invocation.
 .TP
 .B \fBdestination\fP
 Optional member that is present for specific \fBtype\fP values below.
@@ -820,7 +824,7 @@ is to be installed under the destination.
 .UNINDENT
 .sp
 In both cases the paths are represented with forward slashes.  If
-the "from" path is inside the top\-level directory documented by the
+the \(dqfrom\(dq path is inside the top\-level directory documented by the
 corresponding \fBtype\fP value, then the path is specified relative
 to that directory.  Otherwise the path is absolute.
 .TP
@@ -830,21 +834,21 @@ of the following, with some variants providing additional members:
 .INDENT 7.0
 .TP
 .B \fBfile\fP
-An \fBinstall(FILES)\fP or \fBinstall(PROGRAMS)\fP call.
+An \fI\%install(FILES)\fP or \fI\%install(PROGRAMS)\fP call.
 The \fBdestination\fP and \fBpaths\fP members are populated, with paths
 under the top\-level \fIsource\fP directory expressed relative to it.
 The \fBisOptional\fP member may exist.
 This type has no additional members.
 .TP
 .B \fBdirectory\fP
-An \fBinstall(DIRECTORY)\fP call.
+An \fI\%install(DIRECTORY)\fP call.
 The \fBdestination\fP and \fBpaths\fP members are populated, with paths
 under the top\-level \fIsource\fP directory expressed relative to it.
 The \fBisOptional\fP member may exist.
 This type has no additional members.
 .TP
 .B \fBtarget\fP
-An \fBinstall(TARGETS)\fP call.
+An \fI\%install(TARGETS)\fP call.
 The \fBdestination\fP and \fBpaths\fP members are populated, with paths
 under the top\-level \fIbuild\fP directory expressed relative to it.
 The \fBisOptional\fP member may exist.
@@ -852,7 +856,7 @@ This type has additional members \fBtargetId\fP, \fBtargetIndex\fP,
 \fBtargetIsImportLibrary\fP, and \fBtargetInstallNamelink\fP\&.
 .TP
 .B \fBexport\fP
-An \fBinstall(EXPORT)\fP call.
+An \fI\%install(EXPORT)\fP call.
 The \fBdestination\fP and \fBpaths\fP members are populated, with paths
 under the top\-level \fIbuild\fP directory expressed relative to it.
 The \fBpaths\fP entries refer to files generated automatically by
@@ -861,48 +865,57 @@ private implementation details.
 This type has additional members \fBexportName\fP and \fBexportTargets\fP\&.
 .TP
 .B \fBscript\fP
-An \fBinstall(SCRIPT)\fP call.
+An \fI\%install(SCRIPT)\fP call.
 This type has additional member \fBscriptFile\fP\&.
 .TP
 .B \fBcode\fP
-An \fBinstall(CODE)\fP call.
+An \fI\%install(CODE)\fP call.
 This type has no additional members.
 .TP
 .B \fBimportedRuntimeArtifacts\fP
-An \fBinstall(IMPORTED_RUNTIME_ARTIFACTS)\fP call.
+An \fI\%install(IMPORTED_RUNTIME_ARTIFACTS)\fP call.
 The \fBdestination\fP member is populated. The \fBisOptional\fP member may
 exist. This type has no additional members.
 .TP
 .B \fBruntimeDependencySet\fP
-An \fBinstall(RUNTIME_DEPENDENCY_SET)\fP call or an
-\fBinstall(TARGETS)\fP call with \fBRUNTIME_DEPENDENCIES\fP\&. The
+An \fI\%install(RUNTIME_DEPENDENCY_SET)\fP call or an
+\fI\%install(TARGETS)\fP call with \fBRUNTIME_DEPENDENCIES\fP\&. The
 \fBdestination\fP member is populated. This type has additional members
 \fBruntimeDependencySetName\fP and \fBruntimeDependencySetType\fP\&.
+.TP
+.B \fBfileSet\fP
+An \fI\%install(TARGETS)\fP call with \fBFILE_SET\fP\&.
+The \fBdestination\fP and \fBpaths\fP members are populated.
+The \fBisOptional\fP member may exist.
+This type has additional members \fBfileSetName\fP, \fBfileSetType\fP,
+\fBfileSetDirectories\fP, and \fBfileSetTarget\fP\&.
+.sp
+This type was added in codemodel version 2.4.
 .UNINDENT
 .TP
 .B \fBisExcludeFromAll\fP
 Optional member that is present with boolean value \fBtrue\fP when
-\fBinstall()\fP is called with the \fBEXCLUDE_FROM_ALL\fP option.
+\fI\%install()\fP is called with the \fBEXCLUDE_FROM_ALL\fP option.
 .TP
 .B \fBisForAllComponents\fP
 Optional member that is present with boolean value \fBtrue\fP when
-\fBinstall(SCRIPT|CODE)\fP is called with the
+\fI\%install(SCRIPT|CODE)\fP is called with the
 \fBALL_COMPONENTS\fP option.
 .TP
 .B \fBisOptional\fP
 Optional member that is present with boolean value \fBtrue\fP when
-\fBinstall()\fP is called with the \fBOPTIONAL\fP option.
+\fI\%install()\fP is called with the \fBOPTIONAL\fP option.
 This is allowed when \fBtype\fP is \fBfile\fP, \fBdirectory\fP, or \fBtarget\fP\&.
 .TP
 .B \fBtargetId\fP
 Optional member that is present when \fBtype\fP is \fBtarget\fP\&.
 The value is a string uniquely identifying the target to be installed.
 This matches the \fBid\fP member of the target in the main
-"codemodel" object\(aqs \fBtargets\fP array.
+\(dqcodemodel\(dq object\(aqs \fBtargets\fP array.
 .TP
 .B \fBtargetIndex\fP
 Optional member that is present when \fBtype\fP is \fBtarget\fP\&.
-The value is an unsigned integer 0\-based index into the main "codemodel"
+The value is an unsigned integer 0\-based index into the main \(dqcodemodel\(dq
 object\(aqs \fBtargets\fP array for the target to be installed.
 .TP
 .B \fBtargetIsImportLibrary\fP
@@ -913,7 +926,7 @@ AIX linker import file.  If present, it has boolean value \fBtrue\fP\&.
 .B \fBtargetInstallNamelink\fP
 Optional member that is present when \fBtype\fP is \fBtarget\fP and
 the installer corresponds to a target that may use symbolic links
-to implement the \fBVERSION\fP and \fBSOVERSION\fP
+to implement the \fI\%VERSION\fP and \fI\%SOVERSION\fP
 target properties.
 The value is a string indicating how the installer is supposed to
 handle the symlinks: \fBskip\fP means the installer should skip the
@@ -933,18 +946,18 @@ included in the export.  Each entry is a JSON object with members:
 .TP
 .B \fBid\fP
 A string uniquely identifying the target.  This matches
-the \fBid\fP member of the target in the main "codemodel"
+the \fBid\fP member of the target in the main \(dqcodemodel\(dq
 object\(aqs \fBtargets\fP array.
 .TP
 .B \fBindex\fP
-An unsigned integer 0\-based index into the main "codemodel"
+An unsigned integer 0\-based index into the main \(dqcodemodel\(dq
 object\(aqs \fBtargets\fP array for the target.
 .UNINDENT
 .TP
 .B \fBruntimeDependencySetName\fP
 Optional member that is present when \fBtype\fP is \fBruntimeDependencySet\fP
 and the installer was created by an
-\fBinstall(RUNTIME_DEPENDENCY_SET)\fP call. The value is a string
+\fI\%install(RUNTIME_DEPENDENCY_SET)\fP call. The value is a string
 specifying the name of the runtime dependency set that was installed.
 .TP
 .B \fBruntimeDependencySetType\fP
@@ -961,6 +974,43 @@ Indicates that this installer installs dependencies that are macOS
 frameworks.
 .UNINDENT
 .TP
+.B \fBfileSetName\fP
+Optional member that is present when \fBtype\fP is \fBfileSet\fP\&. The value is
+a string with the name of the file set.
+.sp
+This field was added in codemodel version 2.4.
+.TP
+.B \fBfileSetType\fP
+Optional member that is present when \fBtype\fP is \fBfileSet\fP\&. The value is
+a string with the type of the file set.
+.sp
+This field was added in codemodel version 2.4.
+.TP
+.B \fBfileSetDirectories\fP
+Optional member that is present when \fBtype\fP is \fBfileSet\fP\&. The value
+is a list of strings with the file set\(aqs base directories (determined by
+genex\-evaluation of \fI\%HEADER_DIRS\fP or
+\fI\%HEADER_DIRS_<NAME>\fP).
+.sp
+This field was added in codemodel version 2.4.
+.TP
+.B \fBfileSetTarget\fP
+Optional member that is present when \fBtype\fP is \fBfileSet\fP\&. The value
+is a JSON object with members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target.  This matches
+the \fBid\fP member of the target in the main \(dqcodemodel\(dq
+object\(aqs \fBtargets\fP array.
+.TP
+.B \fBindex\fP
+An unsigned integer 0\-based index into the main \(dqcodemodel\(dq
+object\(aqs \fBtargets\fP array for the target.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.4.
+.TP
 .B \fBscriptFile\fP
 Optional member that is present when \fBtype\fP is \fBscript\fP\&.
 The value is a string specifying the path to the script file on disk,
@@ -970,19 +1020,19 @@ Otherwise the path is absolute.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBinstall()\fP or other command invocation that added this
+the \fI\%install()\fP or other command invocation that added this
 installer is available.  The value is an unsigned integer 0\-based
 index into the \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .UNINDENT
 .TP
 .B \fBbacktraceGraph\fP
-A \fI\%"codemodel" version 2 "backtrace graph"\fP whose nodes are referenced
-from \fBbacktrace\fP members elsewhere in this "directory" object.
+A \fI\%\(dqcodemodel\(dq version 2 \(dqbacktrace graph\(dq\fP whose nodes are referenced
+from \fBbacktrace\fP members elsewhere in this \(dqdirectory\(dq object.
 .UNINDENT
-.SS "codemodel" version 2 "target" object
+.SS \(dqcodemodel\(dq version 2 \(dqtarget\(dq object
 .sp
-A codemodel "target" object is referenced by a \fI\%"codemodel" version 2\fP
-object\(aqs \fBtargets\fP array.  Each "target" object is a JSON object
+A codemodel \(dqtarget\(dq object is referenced by a \fI\%\(dqcodemodel\(dq version 2\fP
+object\(aqs \fBtargets\fP array.  Each \(dqtarget\(dq object is a JSON object
 with members:
 .INDENT 0.0
 .TP
@@ -1006,7 +1056,7 @@ The value is an unsigned integer 0\-based index into the
 \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .TP
 .B \fBfolder\fP
-Optional member that is present when the \fBFOLDER\fP target
+Optional member that is present when the \fI\%FOLDER\fP target
 property is set.  The value is a JSON object with one member:
 .INDENT 7.0
 .TP
@@ -1058,7 +1108,7 @@ target is provided by CMake\(aqs build system generator rather than by
 a command in the source code.
 .TP
 .B \fBinstall\fP
-Optional member that is present when the target has an \fBinstall()\fP
+Optional member that is present when the target has an \fI\%install()\fP
 rule.  The value is a JSON object with members:
 .INDENT 7.0
 .TP
@@ -1067,7 +1117,7 @@ A JSON object specifying the installation prefix.  It has one member:
 .INDENT 7.0
 .TP
 .B \fBpath\fP
-A string specifying the value of \fBCMAKE_INSTALL_PREFIX\fP\&.
+A string specifying the value of \fI\%CMAKE_INSTALL_PREFIX\fP\&.
 .UNINDENT
 .TP
 .B \fBdestinations\fP
@@ -1081,11 +1131,45 @@ be absolute or relative to the install prefix.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBinstall()\fP command invocation that specified this
+the \fI\%install()\fP command invocation that specified this
 destination is available.  The value is an unsigned integer 0\-based
 index into the \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .UNINDENT
 .UNINDENT
+.TP
+.B \fBlaunchers\fP
+Optional member that is present on executable targets that have
+at least one launcher specified by the project.  The value is a
+JSON array of entries corresponding to the specified launchers.
+Each entry is a JSON object with members:
+.INDENT 7.0
+.TP
+.B \fBcommand\fP
+A string specifying the path to the launcher on disk, represented
+with forward slashes. If the file is inside the top\-level source
+directory then the path is specified relative to that directory.
+.TP
+.B \fBarguments\fP
+Optional member that is present when the launcher command has
+arguments preceding the executable to be launched.  The value
+is a JSON array of strings representing the arguments.
+.TP
+.B \fBtype\fP
+A string specifying the type of launcher.  The value is one of
+the following:
+.INDENT 7.0
+.TP
+.B \fBemulator\fP
+An emulator for the target platform when cross\-compiling.
+See the \fI\%CROSSCOMPILING_EMULATOR\fP target property.
+.TP
+.B \fBtest\fP
+A start program for the execution of tests.
+See the \fI\%TEST_LAUNCHER\fP target property.
+.UNINDENT
+.UNINDENT
+.sp
+This field was added in codemodel version 2.7.
 .TP
 .B \fBlink\fP
 Optional member that is present for executables and shared library
@@ -1127,8 +1211,8 @@ when link\-time optimization (a.k.a. interprocedural optimization
 or link\-time code generation) is enabled.
 .TP
 .B \fBsysroot\fP
-Optional member that is present when the \fBCMAKE_SYSROOT_LINK\fP
-or \fBCMAKE_SYSROOT\fP variable is defined.  The value is a
+Optional member that is present when the \fI\%CMAKE_SYSROOT_LINK\fP
+or \fI\%CMAKE_SYSROOT\fP variable is defined.  The value is a
 JSON object with one member:
 .INDENT 7.0
 .TP
@@ -1179,11 +1263,36 @@ This matches the main \fBid\fP member of the other target.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBadd_dependencies()\fP, \fBtarget_link_libraries()\fP,
+the \fI\%add_dependencies()\fP, \fI\%target_link_libraries()\fP,
 or other command invocation that created this dependency is
 available.  The value is an unsigned integer 0\-based index into
 the \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .UNINDENT
+.TP
+.B \fBfileSets\fP
+A JSON array of entries corresponding to the target\(aqs file sets. Each entry
+is a JSON object with members:
+.INDENT 7.0
+.TP
+.B \fBname\fP
+A string specifying the name of the file set.
+.TP
+.B \fBtype\fP
+A string specifying the type of the file set.  See
+\fI\%target_sources()\fP supported file set types.
+.TP
+.B \fBvisibility\fP
+A string specifying the visibility of the file set; one of \fBPUBLIC\fP,
+\fBPRIVATE\fP, or \fBINTERFACE\fP\&.
+.TP
+.B \fBbaseDirectories\fP
+A JSON array of strings, each specifying a base directory containing
+sources in the file set.  If the directory is inside the top\-level source
+directory then the path is specified relative to that directory.
+Otherwise the path is absolute.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.5.
 .TP
 .B \fBsources\fP
 A JSON array of entries corresponding to the target\(aqs source files.
@@ -1203,18 +1312,25 @@ The value is an unsigned integer 0\-based index into the
 .TP
 .B \fBsourceGroupIndex\fP
 Optional member that is present when the source is part of a source
-group either via the \fBsource_group()\fP command or by default.
+group either via the \fI\%source_group()\fP command or by default.
 The value is an unsigned integer 0\-based index into the
 \fBsourceGroups\fP array.
 .TP
 .B \fBisGenerated\fP
 Optional member that is present with boolean value \fBtrue\fP if
-the source is \fBGENERATED\fP\&.
+the source is \fI\%GENERATED\fP\&.
+.TP
+.B \fBfileSetIndex\fP
+Optional member that is present when the source is part of a file set.
+The value is an unsigned integer 0\-based index into the \fBfileSets\fP
+array.
+.sp
+This field was added in codemodel version 2.5.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBtarget_sources()\fP, \fBadd_executable()\fP,
-\fBadd_library()\fP, \fBadd_custom_target()\fP, or other
+the \fI\%target_sources()\fP, \fI\%add_executable()\fP,
+\fI\%add_library()\fP, \fI\%add_custom_target()\fP, or other
 command invocation that added this source to the target is
 available.  The value is an unsigned integer 0\-based index into
 the \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
@@ -1222,7 +1338,7 @@ the \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .TP
 .B \fBsourceGroups\fP
 Optional member that is present when sources are grouped together by
-the \fBsource_group()\fP command or by default.  The value is a
+the \fI\%source_group()\fP command or by default.  The value is a
 JSON array of entries corresponding to the groups.  Each entry is
 a JSON object with members:
 .INDENT 7.0
@@ -1254,7 +1370,7 @@ of the toolchain is used to compile the source file.
 .TP
 .B \fBlanguageStandard\fP
 Optional member that is present when the language standard is set
-explicitly (e.g. via \fBCXX_STANDARD\fP) or implicitly by
+explicitly (e.g. via \fI\%CXX_STANDARD\fP) or implicitly by
 compile features.  Each entry is a JSON object with two members:
 .INDENT 7.0
 .TP
@@ -1302,15 +1418,39 @@ the include directory is marked as a system include directory.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBtarget_include_directories()\fP or other command invocation
+the \fI\%target_include_directories()\fP or other command invocation
 that added this include directory is available.  The value is
 an unsigned integer 0\-based index into the \fBbacktraceGraph\fP
 member\(aqs \fBnodes\fP array.
 .UNINDENT
 .TP
+.B \fBframeworks\fP
+Optional member that is present when, on Apple platforms, there are
+frameworks. The value is a JSON array with an entry for each directory.
+Each entry is a JSON object with members:
+.INDENT 7.0
+.TP
+.B \fBpath\fP
+A string specifying the path to the framework directory,
+represented with forward slashes.
+.TP
+.B \fBisSystem\fP
+Optional member that is present with boolean value \fBtrue\fP if
+the framework is marked as a system one.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the \fI\%target_link_libraries()\fP or other command invocation
+that added this framework is available.  The value is
+an unsigned integer 0\-based index into the \fBbacktraceGraph\fP
+member\(aqs \fBnodes\fP array.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.6.
+.TP
 .B \fBprecompileHeaders\fP
-Optional member that is present when \fBtarget_precompile_headers()\fP
-or other command invocations set \fBPRECOMPILE_HEADERS\fP on the
+Optional member that is present when \fI\%target_precompile_headers()\fP
+or other command invocations set \fI\%PRECOMPILE_HEADERS\fP on the
 target.  The value is a JSON array with an entry for each header.  Each
 entry is a JSON object with members:
 .INDENT 7.0
@@ -1320,7 +1460,7 @@ Full path to the precompile header file.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBtarget_precompile_headers()\fP or other command invocation
+the \fI\%target_precompile_headers()\fP or other command invocation
 that added this precompiled header is available.  The value is an
 unsigned integer 0\-based index into the \fBbacktraceGraph\fP member\(aqs
 \fBnodes\fP array.
@@ -1340,7 +1480,7 @@ A string specifying the preprocessor definition in the format
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
-the \fBtarget_compile_definitions()\fP or other command invocation
+the \fI\%target_compile_definitions()\fP or other command invocation
 that added this preprocessor definition is available.  The value is
 an unsigned integer 0\-based index into the \fBbacktraceGraph\fP
 member\(aqs \fBnodes\fP array.
@@ -1348,7 +1488,7 @@ member\(aqs \fBnodes\fP array.
 .TP
 .B \fBsysroot\fP
 Optional member that is present when the
-\fBCMAKE_SYSROOT_COMPILE\fP or \fBCMAKE_SYSROOT\fP
+\fI\%CMAKE_SYSROOT_COMPILE\fP or \fI\%CMAKE_SYSROOT\fP
 variable is defined.  The value is a JSON object with one member:
 .INDENT 7.0
 .TP
@@ -1359,13 +1499,13 @@ with forward slashes.
 .UNINDENT
 .TP
 .B \fBbacktraceGraph\fP
-A \fI\%"codemodel" version 2 "backtrace graph"\fP whose nodes are referenced
-from \fBbacktrace\fP members elsewhere in this "target" object.
+A \fI\%\(dqcodemodel\(dq version 2 \(dqbacktrace graph\(dq\fP whose nodes are referenced
+from \fBbacktrace\fP members elsewhere in this \(dqtarget\(dq object.
 .UNINDENT
-.SS "codemodel" version 2 "backtrace graph"
+.SS \(dqcodemodel\(dq version 2 \(dqbacktrace graph\(dq
 .sp
-The \fBbacktraceGraph\fP member of a \fI\%"codemodel" version 2 "directory" object\fP,
-or \fI\%"codemodel" version 2 "target" object\fP is a JSON object describing a
+The \fBbacktraceGraph\fP member of a \fI\%\(dqcodemodel\(dq version 2 \(dqdirectory\(dq object\fP,
+or \fI\%\(dqcodemodel\(dq version 2 \(dqtarget\(dq object\fP is a JSON object describing a
 graph of backtraces.  Its nodes are referenced from \fBbacktrace\fP members
 elsewhere in the containing object.  The backtrace graph object members are:
 .INDENT 0.0
@@ -1404,16 +1544,57 @@ with forward slashes.  If the file is inside the top\-level source
 directory then the path is specified relative to that directory.
 Otherwise the path is absolute.
 .UNINDENT
-.SS Object Kind "cache"
+.SS Object Kind \(dqconfigureLog\(dq
+.sp
+The \fBconfigureLog\fP object kind describes the location and contents of
+a \fI\%cmake\-configure\-log(7)\fP file.
+.sp
+There is only one \fBconfigureLog\fP object major version, version 1.
+.SS \(dqconfigureLog\(dq version 1
+.sp
+\fBconfigureLog\fP object version 1 is a JSON object:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+{
+  \(dqkind\(dq: \(dqconfigureLog\(dq,
+  \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+  \(dqpath\(dq: \(dq/path/to/top\-level\-build\-dir/CMakeFiles/CMakeConfigureLog.yaml\(dq,
+  \(dqeventKindNames\(dq: [ \(dqtry_compile\-v1\(dq, \(dqtry_run\-v1\(dq ]
+}
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The members specific to \fBconfigureLog\fP objects are:
+.INDENT 0.0
+.TP
+.B \fBpath\fP
+A string specifying the path to the configure log file.
+Clients must read the log file from this path, which may be
+different than the path documented by \fI\%cmake\-configure\-log(7)\fP\&.
+The log file may not exist if no events are logged.
+.TP
+.B \fBeventKindNames\fP
+A JSON array whose entries are each a JSON string naming one
+of the \fI\%cmake\-configure\-log(7)\fP versioned event kinds.
+At most one version of each configure log event kind will be listed.
+Although the configure log may contain other (versioned) event kinds,
+clients must ignore those that are not listed in this field.
+.UNINDENT
+.SS Object Kind \(dqcache\(dq
 .sp
 The \fBcache\fP object kind lists cache entries.  These are the
-CMake Language Variables stored in the persistent cache
+\fI\%Variables\fP stored in the persistent cache
 (\fBCMakeCache.txt\fP) for the build tree.
 .sp
 There is only one \fBcache\fP object major version, version 2.
 Version 1 does not exist to avoid confusion with that from
-\fBcmake\-server(7)\fP mode.
-.SS "cache" version 2
+\fI\%cmake\-server(7)\fP mode.
+.SS \(dqcache\(dq version 2
 .sp
 \fBcache\fP object version 2 is a JSON object:
 .INDENT 0.0
@@ -1422,28 +1603,28 @@ Version 1 does not exist to avoid confusion with that from
 .nf
 .ft C
 {
-  "kind": "cache",
-  "version": { "major": 2, "minor": 0 },
-  "entries": [
+  \(dqkind\(dq: \(dqcache\(dq,
+  \(dqversion\(dq: { \(dqmajor\(dq: 2, \(dqminor\(dq: 0 },
+  \(dqentries\(dq: [
     {
-      "name": "BUILD_SHARED_LIBS",
-      "value": "ON",
-      "type": "BOOL",
-      "properties": [
+      \(dqname\(dq: \(dqBUILD_SHARED_LIBS\(dq,
+      \(dqvalue\(dq: \(dqON\(dq,
+      \(dqtype\(dq: \(dqBOOL\(dq,
+      \(dqproperties\(dq: [
         {
-          "name": "HELPSTRING",
-          "value": "Build shared libraries"
+          \(dqname\(dq: \(dqHELPSTRING\(dq,
+          \(dqvalue\(dq: \(dqBuild shared libraries\(dq
         }
       ]
     },
     {
-      "name": "CMAKE_GENERATOR",
-      "value": "Unix Makefiles",
-      "type": "INTERNAL",
-      "properties": [
+      \(dqname\(dq: \(dqCMAKE_GENERATOR\(dq,
+      \(dqvalue\(dq: \(dqUnix Makefiles\(dq,
+      \(dqtype\(dq: \(dqINTERNAL\(dq,
+      \(dqproperties\(dq: [
         {
-          "name": "HELPSTRING",
-          "value": "Name of generator."
+          \(dqname\(dq: \(dqHELPSTRING\(dq,
+          \(dqvalue\(dq: \(dqName of generator.\(dq
         }
       ]
     }
@@ -1470,11 +1651,11 @@ A string specifying the value of the entry.
 .TP
 .B \fBtype\fP
 A string specifying the type of the entry used by
-\fBcmake\-gui(1)\fP to choose a widget for editing.
+\fI\%cmake\-gui(1)\fP to choose a widget for editing.
 .TP
 .B \fBproperties\fP
 A JSON array of entries specifying associated
-cache entry properties\&.
+\fI\%cache entry properties\fP\&.
 Each entry is a JSON object containing members:
 .INDENT 7.0
 .TP
@@ -1486,14 +1667,14 @@ A string specifying the value of the cache entry property.
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SS Object Kind "cmakeFiles"
+.SS Object Kind \(dqcmakeFiles\(dq
 .sp
 The \fBcmakeFiles\fP object kind lists files used by CMake while
 configuring and generating the build system.  These include the
 \fBCMakeLists.txt\fP files as well as included \fB\&.cmake\fP files.
 .sp
 There is only one \fBcmakeFiles\fP object major version, version 1.
-.SS "cmakeFiles" version 1
+.SS \(dqcmakeFiles\(dq version 1
 .sp
 \fBcmakeFiles\fP object version 1 is a JSON object:
 .INDENT 0.0
@@ -1502,28 +1683,38 @@ There is only one \fBcmakeFiles\fP object major version, version 1.
 .nf
 .ft C
 {
-  "kind": "cmakeFiles",
-  "version": { "major": 1, "minor": 0 },
-  "paths": {
-    "build": "/path/to/top\-level\-build\-dir",
-    "source": "/path/to/top\-level\-source\-dir"
+  \(dqkind\(dq: \(dqcmakeFiles\(dq,
+  \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 1 },
+  \(dqpaths\(dq: {
+    \(dqbuild\(dq: \(dq/path/to/top\-level\-build\-dir\(dq,
+    \(dqsource\(dq: \(dq/path/to/top\-level\-source\-dir\(dq
   },
-  "inputs": [
+  \(dqinputs\(dq: [
     {
-      "path": "CMakeLists.txt"
+      \(dqpath\(dq: \(dqCMakeLists.txt\(dq
     },
     {
-      "isGenerated": true,
-      "path": "/path/to/top\-level\-build\-dir/.../CMakeSystem.cmake"
+      \(dqisGenerated\(dq: true,
+      \(dqpath\(dq: \(dq/path/to/top\-level\-build\-dir/.../CMakeSystem.cmake\(dq
     },
     {
-      "isExternal": true,
-      "path": "/path/to/external/third\-party/module.cmake"
+      \(dqisExternal\(dq: true,
+      \(dqpath\(dq: \(dq/path/to/external/third\-party/module.cmake\(dq
     },
     {
-      "isCMake": true,
-      "isExternal": true,
-      "path": "/path/to/cmake/Modules/CMakeGenericSystem.cmake"
+      \(dqisCMake\(dq: true,
+      \(dqisExternal\(dq: true,
+      \(dqpath\(dq: \(dq/path/to/cmake/Modules/CMakeGenericSystem.cmake\(dq
+    }
+  ],
+  \(dqglobsDependent\(dq: [
+    {
+      \(dqexpression\(dq: \(dqsrc/*.cxx\(dq,
+      \(dqrecurse\(dq: true,
+      \(dqfiles\(dq: [
+        \(dqsrc/foo.cxx\(dq,
+        \(dqsrc/bar.cxx\(dq
+      ]
     }
   ]
 }
@@ -1575,14 +1766,54 @@ source or build directories.
 Optional member that is present with boolean value \fBtrue\fP
 if the path specifies a file in the CMake installation.
 .UNINDENT
+.TP
+.B \fBglobsDependent\fP
+Optional member that is present when the project calls \fI\%file(GLOB)\fP
+or \fI\%file(GLOB_RECURSE)\fP with the \fBCONFIGURE_DEPENDS\fP option.
+The value is a JSON array of JSON objects, each specifying a globbing
+expression and the list of paths it matched.  If the globbing expression
+no longer matches the same list of paths, CMake considers the build system
+to be out of date.
+.sp
+This field was added in \fBcmakeFiles\fP version 1.1.
+.sp
+The members of each entry are:
+.INDENT 7.0
+.TP
+.B \fBexpression\fP
+A string specifying the globbing expression.
+.TP
+.B \fBrecurse\fP
+Optional member that is present with boolean value \fBtrue\fP
+if the entry corresponds to a \fI\%file(GLOB_RECURSE)\fP call.
+Otherwise the entry corresponds to a \fI\%file(GLOB)\fP call.
+.TP
+.B \fBlistDirectories\fP
+Optional member that is present with boolean value \fBtrue\fP if
+\fI\%file(GLOB)\fP was called without \fBLIST_DIRECTORIES false\fP or
+\fI\%file(GLOB_RECURSE)\fP was called with \fBLIST_DIRECTORIES true\fP\&.
+.TP
+.B \fBfollowSymlinks\fP
+Optional member that is present with boolean value \fBtrue\fP if
+\fI\%file(GLOB)\fP was called with the \fBFOLLOW_SYMLINKS\fP option.
+.TP
+.B \fBrelative\fP
+Optional member that is present if \fI\%file(GLOB)\fP was called
+with the \fBRELATIVE <path>\fP option.  The value is a string containing
+the \fB<path>\fP given.
+.TP
+.B \fBpaths\fP
+A JSON array of strings specifying the paths matched by the call
+to \fI\%file(GLOB)\fP or \fI\%file(GLOB_RECURSE)\fP\&.
 .UNINDENT
-.SS Object Kind "toolchains"
+.UNINDENT
+.SS Object Kind \(dqtoolchains\(dq
 .sp
 The \fBtoolchains\fP object kind lists properties of the toolchains used during
 the build.  These include the language, compiler path, ID, and version.
 .sp
 There is only one \fBtoolchains\fP object major version, version 1.
-.SS "toolchains" version 1
+.SS \(dqtoolchains\(dq version 1
 .sp
 \fBtoolchains\fP object version 1 is a JSON object:
 .INDENT 0.0
@@ -1591,66 +1822,66 @@ There is only one \fBtoolchains\fP object major version, version 1.
 .nf
 .ft C
 {
-  "kind": "toolchains",
-  "version": { "major": 1, "minor": 0 },
-  "toolchains": [
+  \(dqkind\(dq: \(dqtoolchains\(dq,
+  \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
+  \(dqtoolchains\(dq: [
     {
-      "language": "C",
-      "compiler": {
-        "path": "/usr/bin/cc",
-        "id": "GNU",
-        "version": "9.3.0",
-        "implicit": {
-          "includeDirectories": [
-            "/usr/lib/gcc/x86_64\-linux\-gnu/9/include",
-            "/usr/local/include",
-            "/usr/include/x86_64\-linux\-gnu",
-            "/usr/include"
+      \(dqlanguage\(dq: \(dqC\(dq,
+      \(dqcompiler\(dq: {
+        \(dqpath\(dq: \(dq/usr/bin/cc\(dq,
+        \(dqid\(dq: \(dqGNU\(dq,
+        \(dqversion\(dq: \(dq9.3.0\(dq,
+        \(dqimplicit\(dq: {
+          \(dqincludeDirectories\(dq: [
+            \(dq/usr/lib/gcc/x86_64\-linux\-gnu/9/include\(dq,
+            \(dq/usr/local/include\(dq,
+            \(dq/usr/include/x86_64\-linux\-gnu\(dq,
+            \(dq/usr/include\(dq
           ],
-          "linkDirectories": [
-            "/usr/lib/gcc/x86_64\-linux\-gnu/9",
-            "/usr/lib/x86_64\-linux\-gnu",
-            "/usr/lib",
-            "/lib/x86_64\-linux\-gnu",
-            "/lib"
+          \(dqlinkDirectories\(dq: [
+            \(dq/usr/lib/gcc/x86_64\-linux\-gnu/9\(dq,
+            \(dq/usr/lib/x86_64\-linux\-gnu\(dq,
+            \(dq/usr/lib\(dq,
+            \(dq/lib/x86_64\-linux\-gnu\(dq,
+            \(dq/lib\(dq
           ],
-          "linkFrameworkDirectories": [],
-          "linkLibraries": [ "gcc", "gcc_s", "c", "gcc", "gcc_s" ]
+          \(dqlinkFrameworkDirectories\(dq: [],
+          \(dqlinkLibraries\(dq: [ \(dqgcc\(dq, \(dqgcc_s\(dq, \(dqc\(dq, \(dqgcc\(dq, \(dqgcc_s\(dq ]
         }
       },
-      "sourceFileExtensions": [ "c", "m" ]
+      \(dqsourceFileExtensions\(dq: [ \(dqc\(dq, \(dqm\(dq ]
     },
     {
-      "language": "CXX",
-      "compiler": {
-        "path": "/usr/bin/c++",
-        "id": "GNU",
-        "version": "9.3.0",
-        "implicit": {
-          "includeDirectories": [
-            "/usr/include/c++/9",
-            "/usr/include/x86_64\-linux\-gnu/c++/9",
-            "/usr/include/c++/9/backward",
-            "/usr/lib/gcc/x86_64\-linux\-gnu/9/include",
-            "/usr/local/include",
-            "/usr/include/x86_64\-linux\-gnu",
-            "/usr/include"
+      \(dqlanguage\(dq: \(dqCXX\(dq,
+      \(dqcompiler\(dq: {
+        \(dqpath\(dq: \(dq/usr/bin/c++\(dq,
+        \(dqid\(dq: \(dqGNU\(dq,
+        \(dqversion\(dq: \(dq9.3.0\(dq,
+        \(dqimplicit\(dq: {
+          \(dqincludeDirectories\(dq: [
+            \(dq/usr/include/c++/9\(dq,
+            \(dq/usr/include/x86_64\-linux\-gnu/c++/9\(dq,
+            \(dq/usr/include/c++/9/backward\(dq,
+            \(dq/usr/lib/gcc/x86_64\-linux\-gnu/9/include\(dq,
+            \(dq/usr/local/include\(dq,
+            \(dq/usr/include/x86_64\-linux\-gnu\(dq,
+            \(dq/usr/include\(dq
           ],
-          "linkDirectories": [
-            "/usr/lib/gcc/x86_64\-linux\-gnu/9",
-            "/usr/lib/x86_64\-linux\-gnu",
-            "/usr/lib",
-            "/lib/x86_64\-linux\-gnu",
-            "/lib"
+          \(dqlinkDirectories\(dq: [
+            \(dq/usr/lib/gcc/x86_64\-linux\-gnu/9\(dq,
+            \(dq/usr/lib/x86_64\-linux\-gnu\(dq,
+            \(dq/usr/lib\(dq,
+            \(dq/lib/x86_64\-linux\-gnu\(dq,
+            \(dq/lib\(dq
           ],
-          "linkFrameworkDirectories": [],
-          "linkLibraries": [
-            "stdc++", "m", "gcc_s", "gcc", "c", "gcc_s", "gcc"
+          \(dqlinkFrameworkDirectories\(dq: [],
+          \(dqlinkLibraries\(dq: [
+            \(dqstdc++\(dq, \(dqm\(dq, \(dqgcc_s\(dq, \(dqgcc\(dq, \(dqc\(dq, \(dqgcc_s\(dq, \(dqgcc\(dq
           ]
         }
       },
-      "sourceFileExtensions": [
-        "C", "M", "c++", "cc", "cpp", "cxx", "mm", "CPP"
+      \(dqsourceFileExtensions\(dq: [
+        \(dqC\(dq, \(dqM\(dq, \(dqc++\(dq, \(dqcc\(dq, \(dqcpp\(dq, \(dqcxx\(dq, \(dqmm\(dq, \(dqCPP\(dq
       ]
     }
   ]
@@ -1671,7 +1902,7 @@ associated with a particular language. The members of each entry are:
 .B \fBlanguage\fP
 A JSON string specifying the toolchain language, like C or CXX. Language
 names are the same as language names that can be passed to the
-\fBproject()\fP command. Because CMake only supports a single toolchain
+\fI\%project()\fP command. Because CMake only supports a single toolchain
 per language, this field can be used as a key.
 .TP
 .B \fBcompiler\fP
@@ -1680,24 +1911,24 @@ A JSON object containing members:
 .TP
 .B \fBpath\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_COMPILER\fP variable is defined for the current
+\fI\%CMAKE_<LANG>_COMPILER\fP variable is defined for the current
 language. Its value is a JSON string holding the path to the compiler.
 .TP
 .B \fBid\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_COMPILER_ID\fP variable is defined for the current
+\fI\%CMAKE_<LANG>_COMPILER_ID\fP variable is defined for the current
 language. Its value is a JSON string holding the ID (GNU, MSVC, etc.) of
 the compiler.
 .TP
 .B \fBversion\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_COMPILER_VERSION\fP variable is defined for the
+\fI\%CMAKE_<LANG>_COMPILER_VERSION\fP variable is defined for the
 current language. Its value is a JSON string holding the version of the
 compiler.
 .TP
 .B \fBtarget\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_COMPILER_TARGET\fP variable is defined for the
+\fI\%CMAKE_<LANG>_COMPILER_TARGET\fP variable is defined for the
 current language. Its value is a JSON string holding the cross\-compiling
 target of the compiler.
 .TP
@@ -1707,28 +1938,28 @@ A JSON object containing members:
 .TP
 .B \fBincludeDirectories\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_IMPLICIT_INCLUDE_DIRECTORIES\fP variable is
+\fI\%CMAKE_<LANG>_IMPLICIT_INCLUDE_DIRECTORIES\fP variable is
 defined for the current language. Its value is a JSON array of JSON
 strings where each string holds a path to an implicit include
 directory for the compiler.
 .TP
 .B \fBlinkDirectories\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_IMPLICIT_LINK_DIRECTORIES\fP variable is
+\fI\%CMAKE_<LANG>_IMPLICIT_LINK_DIRECTORIES\fP variable is
 defined for the current language. Its value is a JSON array of JSON
 strings where each string holds a path to an implicit link directory
 for the compiler.
 .TP
 .B \fBlinkFrameworkDirectories\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES\fP variable
+\fI\%CMAKE_<LANG>_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES\fP variable
 is defined for the current language. Its value is a JSON array of JSON
 strings where each string holds a path to an implicit link framework
 directory for the compiler.
 .TP
 .B \fBlinkLibraries\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES\fP variable is defined
+\fI\%CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES\fP variable is defined
 for the current language. Its value is a JSON array of JSON strings
 where each string holds a path to an implicit link library for the
 compiler.
@@ -1737,13 +1968,13 @@ compiler.
 .TP
 .B \fBsourceFileExtensions\fP
 Optional member that is present when the
-\fBCMAKE_<LANG>_SOURCE_FILE_EXTENSIONS\fP variable is defined for
+\fI\%CMAKE_<LANG>_SOURCE_FILE_EXTENSIONS\fP variable is defined for
 the current language. Its value is a JSON array of JSON strings where each
 each string holds a file extension (without the leading dot) for the
 language.
 .UNINDENT
 .UNINDENT
 .SH COPYRIGHT
-2000-2021 Kitware, Inc. and Contributors
+2000-2024 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

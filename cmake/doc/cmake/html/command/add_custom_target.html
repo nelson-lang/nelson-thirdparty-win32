@@ -1,29 +1,28 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
-  <title>add_custom_target &mdash; CMake 3.22.1 Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="../_static/cmake.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <title>add_custom_target &mdash; CMake 3.30.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
-    <link rel="shortcut icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="add_definitions" href="add_definitions.html" />
     <link rel="prev" title="add_custom_command" href="add_custom_command.html" />
-  
  
 
   </head><body>
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -44,10 +43,11 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">add_custom_target</a></li> 
       </ul>
     </div>  
 
@@ -56,19 +56,20 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="add-custom-target">
-<span id="command:add_custom_target"></span><h1>add_custom_target<a class="headerlink" href="#add-custom-target" title="Permalink to this headline">¶</a></h1>
+  <section id="add-custom-target">
+<span id="command:add_custom_target"></span><h1>add_custom_target<a class="headerlink" href="#add-custom-target" title="Link to this heading">¶</a></h1>
 <p>Add a target with no output so it will always be built.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_custom_target(</span><span class="nb">Name</span><span class="w"> </span><span class="p">[</span><span class="no">ALL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="nb">command1</span><span class="w"> </span><span class="p">[</span><span class="nb">args1...</span><span class="p">]]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">command2</span><span class="w"> </span><span class="p">[</span><span class="nb">args2...</span><span class="p">]</span><span class="w"> </span><span class="p">...]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">DEPENDS</span><span class="w"> </span><span class="nb">depend</span><span class="w"> </span><span class="nb">depend</span><span class="w"> </span><span class="nb">depend</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">BYPRODUCTS</span><span class="w"> </span><span class="p">[</span><span class="nb">files...</span><span class="p">]]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">WORKING_DIRECTORY</span><span class="w"> </span><span class="nb">dir</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">COMMENT</span><span class="w"> </span><span class="nb">comment</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">JOB_POOL</span><span class="w"> </span><span class="nb">job_pool</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">VERBATIM</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">USES_TERMINAL</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">COMMAND_EXPAND_LISTS</span><span class="p">]</span><span class="w"></span>
-<span class="w">                  </span><span class="p">[</span><span class="no">SOURCES</span><span class="w"> </span><span class="nb">src1</span><span class="w"> </span><span class="p">[</span><span class="nb">src2...</span><span class="p">]]</span><span class="nf">)</span><span class="w"></span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_custom_target(</span><span class="nb">Name</span><span class="w"> </span><span class="p">[</span><span class="no">ALL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="nb">command1</span><span class="w"> </span><span class="p">[</span><span class="nb">args1...</span><span class="p">]]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">command2</span><span class="w"> </span><span class="p">[</span><span class="nb">args2...</span><span class="p">]</span><span class="w"> </span><span class="p">...]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">DEPENDS</span><span class="w"> </span><span class="nb">depend</span><span class="w"> </span><span class="nb">depend</span><span class="w"> </span><span class="nb">depend</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">BYPRODUCTS</span><span class="w"> </span><span class="p">[</span><span class="nb">files...</span><span class="p">]]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">WORKING_DIRECTORY</span><span class="w"> </span><span class="nb">dir</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">COMMENT</span><span class="w"> </span><span class="nb">comment</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">JOB_POOL</span><span class="w"> </span><span class="nb">job_pool</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">JOB_SERVER_AWARE</span><span class="w"> </span><span class="nv">&lt;bool&gt;</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">VERBATIM</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">USES_TERMINAL</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">COMMAND_EXPAND_LISTS</span><span class="p">]</span>
+<span class="w">                  </span><span class="p">[</span><span class="no">SOURCES</span><span class="w"> </span><span class="nb">src1</span><span class="w"> </span><span class="p">[</span><span class="nb">src2...</span><span class="p">]]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Adds a target with the given name that executes the given commands.
@@ -94,6 +95,7 @@ relative to the build tree directory corresponding to the
 current source directory.
 Each byproduct file will be marked with the <span class="target" id="index-0-prop_sf:GENERATED"></span><a class="reference internal" href="../prop_sf/GENERATED.html#prop_sf:GENERATED" title="GENERATED"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">GENERATED</span></code></a>
 source file property automatically.</p>
+<p><em>See policy</em> <span class="target" id="index-0-policy:CMP0058"></span><a class="reference internal" href="../policy/CMP0058.html#policy:CMP0058" title="CMP0058"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0058</span></code></a> <em>for the motivation behind this feature.</em></p>
 <p>Explicit specification of byproducts is supported by the
 <span class="target" id="index-0-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator to tell the <code class="docutils literal notranslate"><span class="pre">ninja</span></code> build tool
 how to regenerate byproducts when they are missing.  It is
@@ -107,15 +109,20 @@ available before their dependents build.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.20: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> may use a restricted set of
 <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.
-<a class="reference internal" href="../manual/cmake-generator-expressions.7.html#target-dependent-queries"><span class="std std-ref">Target-dependent expressions</span></a> are not
-permitted.</p>
+<a class="reference internal" href="../manual/cmake-generator-expressions.7.html#target-dependent-expressions"><span class="std std-ref">Target-dependent expressions</span></a>
+are not permitted.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.28: </span>In custom targets using <a class="reference internal" href="target_sources.html#file-sets"><span class="std std-ref">File Sets</span></a>, byproducts are now
+considered private unless they are listed in a non-private file set.
+See policy <span class="target" id="index-0-policy:CMP0154"></span><a class="reference internal" href="../policy/CMP0154.html#policy:CMP0154" title="CMP0154"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0154</span></code></a>.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></dt><dd><p>Specify the command-line(s) to execute at build time.
 If more than one <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> is specified they will be executed in order,
 but <em>not</em> necessarily composed into a stateful shell or batch script.
 (To run a full script, use the <span class="target" id="index-0-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> command or the
-<span class="target" id="index-0-command:file"></span><a class="reference internal" href="file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(GENERATE)</span></code></a> command to create it, and then specify
+<span class="target" id="index-0-command:file"></span><a class="reference internal" href="file.html#generate" title="file(generate)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(GENERATE)</span></code></a> command to create it, and then specify
 a <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> to launch it.)</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> specifies an executable target name (created by the
 <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> command), it will automatically be replaced
@@ -156,6 +163,10 @@ target will be created.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">COMMENT</span></code></dt><dd><p>Display the given message before the commands are executed at
 build time.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.26: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">COMMENT</span></code> may use
+<span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code></dt><dd><p>Reference files and outputs of custom commands created with
 <span class="target" id="index-1-command:add_custom_command"></span><a class="reference internal" href="add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> command calls in the same directory
@@ -174,7 +185,7 @@ on other targets.</p>
 </div>
 <p>Lists in <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments will be expanded, including those
 created with
-<span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>,
+<span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>,
 allowing <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> arguments such as
 <code class="docutils literal notranslate"><span class="pre">${CC}</span> <span class="pre">&quot;-I$&lt;JOIN:$&lt;TARGET_PROPERTY:foo,INCLUDE_DIRECTORIES&gt;,;-I&gt;&quot;</span> <span class="pre">foo.cc</span></code>
 to be properly expanded.</p>
@@ -188,6 +199,17 @@ the <code class="docutils literal notranslate"><span class="pre">console</span><
 Using a pool that is not defined by <span class="target" id="index-1-prop_gbl:JOB_POOLS"></span><a class="reference internal" href="../prop_gbl/JOB_POOLS.html#prop_gbl:JOB_POOLS" title="JOB_POOLS"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">JOB_POOLS</span></code></a> causes
 an error by ninja at build time.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">JOB_SERVER_AWARE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28.</span></p>
+</div>
+<p>Specify that the command is GNU Make job server aware.</p>
+<p>For the <span class="target" id="index-0-generator:Unix Makefiles"></span><a class="reference internal" href="../generator/Unix%20Makefiles.html#generator:Unix Makefiles" title="Unix Makefiles"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Unix</span> <span class="pre">Makefiles</span></code></a>, <span class="target" id="index-0-generator:MSYS Makefiles"></span><a class="reference internal" href="../generator/MSYS%20Makefiles.html#generator:MSYS Makefiles" title="MSYS Makefiles"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">MSYS</span> <span class="pre">Makefiles</span></code></a>, and
+<span class="target" id="index-0-generator:MinGW Makefiles"></span><a class="reference internal" href="../generator/MinGW%20Makefiles.html#generator:MinGW Makefiles" title="MinGW Makefiles"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">MinGW</span> <span class="pre">Makefiles</span></code></a> generators this will add the <code class="docutils literal notranslate"><span class="pre">+</span></code> prefix to the
+recipe line. See the <a class="reference external" href="https://www.gnu.org/software/make/manual/html_node/MAKE-Variable.html">GNU Make Documentation</a> for more information.</p>
+<p>This option is silently ignored by other generators.</p>
+</dd>
+</dl>
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">SOURCES</span></code></dt><dd><p>Specify additional source files to be included in the custom target.
 Specified source files will be added to IDE project files for
 convenience in editing even if they have no build rules.</p>
@@ -213,40 +235,54 @@ If it is a relative path it will be interpreted relative to the
 build tree directory corresponding to the current source directory.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.13: </span>Arguments to <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> may use
-<span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
 </div>
 </dd>
 </dl>
-<div class="section" id="ninja-multi-config">
-<h2>Ninja Multi-Config<a class="headerlink" href="#ninja-multi-config" title="Permalink to this headline">¶</a></h2>
+<section id="ninja-multi-config">
+<h2>Ninja Multi-Config<a class="headerlink" href="#ninja-multi-config" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">add_custom_target</span></code> supports the <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a>
+<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">add_custom_target</span></code> supports the <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja%20Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a>
 generator's cross-config capabilities. See the generator documentation
 for more information.</p>
 </div>
-</div>
-</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-2-command:add_custom_command"></span><a class="reference internal" href="add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a></p></li>
+</ul>
+</section>
+</section>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">add_custom_target</a><ul>
 <li><a class="reference internal" href="#ninja-multi-config">Ninja Multi-Config</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="add_custom_command.html"
-                        title="previous chapter">add_custom_command</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="add_definitions.html"
-                        title="next chapter">add_definitions</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="add_custom_command.html"
+                          title="previous chapter">add_custom_command</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="add_definitions.html"
+                          title="next chapter">add_definitions</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -258,12 +294,12 @@ for more information.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -288,15 +324,17 @@ for more information.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.22.1 Documentation</a> &#187;
+    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
   </li>
 
-          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">add_custom_target</a></li> 
       </ul>
     </div>
+
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2000-2021 Kitware, Inc. and Contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>
