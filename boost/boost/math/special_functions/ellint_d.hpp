@@ -76,7 +76,7 @@ T ellint_d_imp(T phi, T k, const Policy& pol)
        T rphi = boost::math::tools::fmod_workaround(phi, T(constants::half_pi<T>()));
        T m = boost::math::round((phi - rphi) / constants::half_pi<T>());
        int s = 1;
-       if(boost::math::tools::fmod_workaround(m, T(2)) > 0.5)
+       if(boost::math::tools::fmod_workaround(m, T(2)) > T(0.5))
        {
           m += 1;
           s = -1;
@@ -120,8 +120,7 @@ T ellint_d_imp(T k, const Policy& pol)
 
     if (abs(k) >= 1)
     {
-       return policies::raise_domain_error<T>("boost::math::ellint_d<%1%>(%1%)",
-            "Got k = %1%, function requires |k| <= 1", k, pol);
+       return policies::raise_domain_error<T>("boost::math::ellint_d<%1%>(%1%)", "Got k = %1%, function requires |k| <= 1", k, pol);
     }
     if(fabs(k) <= tools::root_epsilon<T>())
        return constants::pi<T>() / 4;

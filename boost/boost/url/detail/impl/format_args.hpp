@@ -58,7 +58,7 @@ get_uvalue( A&& a )
 
 BOOST_URL_DECL
 std::size_t
-get_uvalue( string_view a );
+get_uvalue( core::string_view a );
 
 BOOST_URL_DECL
 std::size_t
@@ -86,7 +86,7 @@ format_arg( named_arg<A>&& a )
 
 template<class A>
 format_arg::
-format_arg( string_view name, A&& a )
+format_arg( core::string_view name, A&& a )
     : arg_( &a )
     , measure_( &measure_impl<A> )
     , fmt_( &format_impl<A> )
@@ -106,7 +106,8 @@ measure_impl(
     grammar::lut_chars const& cs,
     void const* a )
 {
-    using ref_t = typename std::remove_reference<A>::type;
+    using ref_t = typename std::remove_cv<
+        typename std::remove_reference<A>::type>::type;
     A const& ref = *static_cast<ref_t*>(
         const_cast<void*>( a ) );
     formatter<ref_t> f;
@@ -123,7 +124,8 @@ format_impl(
     grammar::lut_chars const& cs,
     void const* a )
 {
-    using ref_t = typename std::remove_reference<A>::type;
+    using ref_t = typename std::remove_cv<
+        typename std::remove_reference<A>::type>::type;
     A const& ref = *static_cast<ref_t*>(
             const_cast<void*>( a ) );
     formatter<ref_t> f;
@@ -219,20 +221,20 @@ BOOST_URL_DECL
 void
 get_width_from_args(
     std::size_t arg_idx,
-    string_view arg_name,
+    core::string_view arg_name,
     format_args args,
     std::size_t& w);
 
 // formatter for string view
 template <>
-struct formatter<string_view>
+struct formatter<core::string_view>
 {
 private:
     char fill = ' ';
     char align = '\0';
     std::size_t width = 0;
     std::size_t width_idx = std::size_t(-1);
-    string_view width_name;
+    core::string_view width_name;
 
 public:
     BOOST_URL_DECL
@@ -242,14 +244,14 @@ public:
     BOOST_URL_DECL
     std::size_t
     measure(
-        string_view str,
+        core::string_view str,
         measure_context& ctx,
         grammar::lut_chars const& cs) const;
 
     BOOST_URL_DECL
     char*
     format(
-        string_view str,
+        core::string_view str,
         format_context& ctx,
         grammar::lut_chars const& cs) const;
 };
@@ -260,9 +262,9 @@ template <class T>
 struct formatter<
     T, typename std::enable_if<
         std::is_convertible<
-            T, string_view>::value>::type>
+            T, core::string_view>::value>::type>
 {
-    formatter<string_view> impl_;
+    formatter<core::string_view> impl_;
 
 public:
     char const*
@@ -273,7 +275,7 @@ public:
 
     std::size_t
     measure(
-        string_view str,
+        core::string_view str,
         measure_context& ctx,
         grammar::lut_chars const& cs) const
     {
@@ -281,7 +283,7 @@ public:
     }
 
     char*
-    format(string_view str, format_context& ctx, grammar::lut_chars const& cs) const
+    format(core::string_view str, format_context& ctx, grammar::lut_chars const& cs) const
     {
         return impl_.format(str, ctx, cs);
     }
@@ -290,7 +292,7 @@ public:
 template <>
 struct formatter<char>
 {
-    formatter<string_view> impl_;
+    formatter<core::string_view> impl_;
 
 public:
     char const*
@@ -327,7 +329,7 @@ class integer_formatter_impl
     bool zeros = false;
     std::size_t width = 0;
     std::size_t width_idx = std::size_t(-1);
-    string_view width_name;
+    core::string_view width_name;
 
 public:
     BOOST_URL_DECL

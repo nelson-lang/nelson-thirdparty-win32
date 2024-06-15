@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2019-2023 Ruben Perez Hidalgo (rubenperez038 at gmail dot com)
+// Copyright (c) 2019-2024 Ruben Perez Hidalgo (rubenperez038 at gmail dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,13 +15,13 @@
 #include <boost/mysql/string_view.hpp>
 #include <boost/mysql/time.hpp>
 
-#include <boost/mysql/detail/auxiliar/access_fwd.hpp>
-#include <boost/mysql/detail/auxiliar/field_impl.hpp>
-#include <boost/mysql/detail/auxiliar/string_view_offset.hpp>
+#include <boost/mysql/detail/access.hpp>
+#include <boost/mysql/detail/config.hpp>
+#include <boost/mysql/detail/field_impl.hpp>
+#include <boost/mysql/detail/string_view_offset.hpp>
 
 #include <boost/config.hpp>
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <iosfwd>
@@ -73,7 +73,7 @@ public:
     BOOST_CXX14_CONSTEXPR field_view() = default;
 
     /**
-     * \brief (EXPERIMENTAL) Constructs a `field_view` holding NULL.
+     * \brief Constructs a `field_view` holding NULL.
      * \details
      * Caution: `field_view(NULL)` will <b>not</b> match this overload. It will try to construct
      * a `string_view` from a NULL C string, causing undefined behavior.
@@ -87,51 +87,71 @@ public:
     BOOST_CXX14_CONSTEXPR explicit field_view(std::nullptr_t) noexcept {}
 
     /**
-     * \brief (EXPERIMENTAL) Constructs a `field_view` holding an `int64`.
+     * \brief Constructs a `field_view` holding an `int64`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(signed char v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(signed char v) noexcept : impl_{std::int64_t(v)} {}
 
     /// \copydoc field_view(signed char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(short v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(short v) noexcept : impl_{std::int64_t(v)} {}
 
     /// \copydoc field_view(signed char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(int v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(int v) noexcept : impl_{std::int64_t(v)} {}
 
     /// \copydoc field_view(signed char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(long v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(long v) noexcept : impl_{std::int64_t(v)} {}
 
     /// \copydoc field_view(signed char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(long long v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(long long v) noexcept : impl_{std::int64_t(v)} {}
 
     /**
-     * \brief (EXPERIMENTAL) Constructs a `field_view` holding a `uint64`.
+     * \brief Constructs a `field_view` holding a `uint64`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(unsigned char v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(unsigned char v) noexcept : impl_{std::uint64_t(v)} {}
 
     /// \copydoc field_view(unsigned char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(unsigned short v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(unsigned short v) noexcept : impl_{std::uint64_t(v)} {}
 
     /// \copydoc field_view(unsigned char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(unsigned int v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(unsigned int v) noexcept : impl_{std::uint64_t(v)} {}
 
     /// \copydoc field_view(unsigned char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(unsigned long v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(unsigned long v) noexcept : impl_{std::uint64_t(v)} {}
 
     /// \copydoc field_view(unsigned char)
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(unsigned long long v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(unsigned long long v) noexcept : impl_{std::uint64_t(v)} {}
 
     /**
-     * \brief (EXPERIMENTAL) Constructs a `field_view` holding a string.
+     * \brief Constructors from character types would incorrectly construct a `field_view` holding an integer,
+     * so they are not allowed.
+     */
+    explicit field_view(char) = delete;
+
+    /// \copydoc field_view(char)
+    explicit field_view(wchar_t) = delete;
+
+    /// \copydoc field_view(char)
+    explicit field_view(char16_t) = delete;
+
+    /// \copydoc field_view(char)
+    explicit field_view(char32_t) = delete;
+
+#ifdef __cpp_char8_t
+    /// \copydoc field_view(char)
+    explicit field_view(char8_t) = delete;
+#endif
+
+    /**
+     * \brief Constructs a `field_view` holding a string.
      * \par Exception safety
      * No-throw guarantee.
      *
@@ -139,10 +159,10 @@ public:
      * Results in a `field_view` with reference semantics. It will
      * be valid as long as the character buffer the `string_view` points to is valid.
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(string_view v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(string_view v) noexcept : impl_{v} {}
 
     /**
-     * \brief (EXPERIMENTAL) Constructs a `field_view` holding a blob.
+     * \brief Constructs a `field_view` holding a blob.
      * \par Exception safety
      * No-throw guarantee.
      *
@@ -150,57 +170,57 @@ public:
      * Results in a `field_view` with reference semantics. It will
      * be valid as long as the character buffer the `blob_view` points to is valid.
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(blob_view v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(blob_view v) noexcept : impl_{v} {}
 
     /**
-     * \brief  (EXPERIMENTAL) Constructs a `field_view` holding a `float`.
+     * \brief Constructs a `field_view` holding a `float`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(float v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(float v) noexcept : impl_{v} {}
 
     /**
-     * \brief  (EXPERIMENTAL) Constructs a `field_view` holding a `double`.
+     * \brief Constructs a `field_view` holding a `double`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(double v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(double v) noexcept : impl_{v} {}
 
     /**
-     * \brief  (EXPERIMENTAL) Constructs a `field_view` holding a `date`.
+     * \brief Constructs a `field_view` holding a `date`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(const date& v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(const date& v) noexcept : impl_{v} {}
 
     /**
-     * \brief  (EXPERIMENTAL) Constructs a `field_view` holding a `datetime`.
+     * \brief Constructs a `field_view` holding a `datetime`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(const datetime& v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(const datetime& v) noexcept : impl_{v} {}
 
     /**
-     * \brief  (EXPERIMENTAL) Constructs a `field_view` holding a `time`.
+     * \brief Constructs a `field_view` holding a `time`.
      * \par Exception safety
      * No-throw guarantee.
      *
      * \par Object lifetimes
      * Results in a `field_view` with value semantics (always valid).
      */
-    BOOST_CXX14_CONSTEXPR explicit inline field_view(const time& v) noexcept;
+    BOOST_CXX14_CONSTEXPR explicit field_view(const time& v) noexcept : impl_{v} {}
 
     /**
      * \brief Returns the type of the value this `field_view` is pointing to.
@@ -363,7 +383,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline std::int64_t get_int64() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline std::int64_t get_int64() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<std::int64_t>() : impl_.repr.int64;
+    }
 
     /**
      * \brief Retrieves the underlying value as an `uint64` (unchecked access).
@@ -373,7 +396,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline std::uint64_t get_uint64() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline std::uint64_t get_uint64() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<std::uint64_t>() : impl_.repr.uint64;
+    }
 
     /**
      * \brief Retrieves the underlying value as a string (unchecked access).
@@ -386,7 +412,10 @@ public:
      * \par Object lifetimes
      * The returned view has the same lifetime rules as `*this` (it's valid as long as `*this` is valid).
      */
-    BOOST_CXX14_CONSTEXPR inline string_view get_string() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline string_view get_string() const noexcept
+    {
+        return is_field_ptr() ? string_view(impl_.repr.field_ptr->get<std::string>()) : impl_.repr.string;
+    }
 
     /**
      * \brief Retrieves the underlying value as a blob (unchecked access).
@@ -399,7 +428,10 @@ public:
      * \par Object lifetimes
      * The returned view has the same lifetime rules as `*this` (it's valid as long as `*this` is valid).
      */
-    BOOST_CXX14_CONSTEXPR inline blob_view get_blob() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline blob_view get_blob() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<blob>() : impl_.repr.blob;
+    }
 
     /**
      * \brief Retrieves the underlying value as a `float` (unchecked access).
@@ -409,7 +441,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline float get_float() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline float get_float() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<float>() : impl_.repr.float_;
+    }
 
     /**
      * \brief Retrieves the underlying value as a `double` (unchecked access).
@@ -419,7 +454,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline double get_double() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline double get_double() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<double>() : impl_.repr.double_;
+    }
 
     /**
      * \brief Retrieves the underlying value as a `date` (unchecked access).
@@ -429,7 +467,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline date get_date() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline date get_date() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<date>() : impl_.repr.date_;
+    }
 
     /**
      * \brief Retrieves the underlying value as a `datetime` (unchecked access).
@@ -439,7 +480,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline datetime get_datetime() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline datetime get_datetime() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<datetime>() : impl_.repr.datetime_;
+    }
 
     /**
      * \brief Retrieves the underlying value as a `time` (unchecked access).
@@ -449,7 +493,10 @@ public:
      * \par Exception safety
      * No-throw guarantee.
      */
-    BOOST_CXX14_CONSTEXPR inline time get_time() const noexcept;
+    BOOST_CXX14_CONSTEXPR inline time get_time() const noexcept
+    {
+        return is_field_ptr() ? impl_.repr.field_ptr->get<time>() : impl_.repr.time_;
+    }
 
     /**
      * \brief Tests for equality.
@@ -473,14 +520,11 @@ public:
 
 private:
     BOOST_CXX14_CONSTEXPR explicit field_view(detail::string_view_offset v, bool is_blob) noexcept
-        : ikind_(is_blob ? internal_kind::sv_offset_blob : internal_kind::sv_offset_string), repr_(v)
+        : impl_{v, is_blob}
     {
     }
 
-    BOOST_CXX14_CONSTEXPR explicit field_view(const detail::field_impl* v) noexcept
-        : ikind_(internal_kind::field_ptr), repr_(v)
-    {
-    }
+    BOOST_CXX14_CONSTEXPR explicit field_view(const detail::field_impl* v) noexcept : impl_{v} {}
 
     enum class internal_kind
     {
@@ -522,20 +566,50 @@ private:
         BOOST_CXX14_CONSTEXPR repr_t(double v) noexcept : double_(v) {}
         BOOST_CXX14_CONSTEXPR repr_t(date v) noexcept : date_(v) {}
         BOOST_CXX14_CONSTEXPR repr_t(datetime v) noexcept : datetime_(v) {}
-        BOOST_CXX14_CONSTEXPR repr_t(time v) noexcept : time_(v.count()) {}
-        BOOST_CXX14_CONSTEXPR repr_t(detail::string_view_offset v) noexcept : sv_offset_{v} {}
+        BOOST_CXX14_CONSTEXPR repr_t(time v) noexcept : time_(v) {}
+        BOOST_CXX14_CONSTEXPR repr_t(detail::string_view_offset v) noexcept : sv_offset_(v) {}
         BOOST_CXX14_CONSTEXPR repr_t(const detail::field_impl* v) noexcept : field_ptr(v) {}
     };
 
-    internal_kind ikind_{internal_kind::null};
-    repr_t repr_;
+    struct impl_t
+    {
+        internal_kind ikind{internal_kind::null};
+        repr_t repr{};
 
-    BOOST_CXX14_CONSTEXPR bool is_field_ptr() const noexcept { return ikind_ == internal_kind::field_ptr; }
+        // Required by lib internal functions
+        bool is_string_offset() const noexcept { return ikind == internal_kind::sv_offset_string; }
+        bool is_blob_offset() const noexcept { return ikind == internal_kind::sv_offset_blob; }
+
+        BOOST_CXX14_CONSTEXPR impl_t() = default;
+        BOOST_CXX14_CONSTEXPR impl_t(std::int64_t v) noexcept : ikind(internal_kind::int64), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(std::uint64_t v) noexcept : ikind(internal_kind::uint64), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(string_view v) noexcept : ikind(internal_kind::string), repr{v} {}
+        BOOST_CXX14_CONSTEXPR impl_t(blob_view v) noexcept : ikind(internal_kind::blob), repr{v} {}
+        BOOST_CXX14_CONSTEXPR impl_t(float v) noexcept : ikind(internal_kind::float_), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(double v) noexcept : ikind(internal_kind::double_), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(date v) noexcept : ikind(internal_kind::date), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(datetime v) noexcept : ikind(internal_kind::datetime), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(time v) noexcept : ikind(internal_kind::time), repr(v) {}
+        BOOST_CXX14_CONSTEXPR impl_t(detail::string_view_offset v, bool is_blob) noexcept
+            : ikind(is_blob ? internal_kind::sv_offset_blob : internal_kind::sv_offset_string), repr{v}
+        {
+        }
+        BOOST_CXX14_CONSTEXPR impl_t(const detail::field_impl* v) noexcept
+            : ikind(internal_kind::field_ptr), repr(v)
+        {
+        }
+    } impl_;
+
+    BOOST_CXX14_CONSTEXPR bool is_field_ptr() const noexcept
+    {
+        return impl_.ikind == internal_kind::field_ptr;
+    }
     BOOST_CXX14_CONSTEXPR inline void check_kind(internal_kind expected) const;
 
 #ifndef BOOST_MYSQL_DOXYGEN
     friend class field;
-    friend struct detail::field_view_access;
+    friend struct detail::access;
+    BOOST_MYSQL_DECL
     friend std::ostream& operator<<(std::ostream& os, const field_view& v);
 #endif
 };
@@ -544,11 +618,15 @@ private:
  * \relates field_view
  * \brief Streams a `field_view`.
  */
-inline std::ostream& operator<<(std::ostream& os, const field_view& v);
+BOOST_MYSQL_DECL
+std::ostream& operator<<(std::ostream& os, const field_view& v);
 
 }  // namespace mysql
 }  // namespace boost
 
 #include <boost/mysql/impl/field_view.hpp>
+#ifdef BOOST_MYSQL_HEADER_ONLY
+#include <boost/mysql/impl/field_view.ipp>
+#endif
 
 #endif

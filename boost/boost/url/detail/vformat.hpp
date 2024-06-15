@@ -11,29 +11,24 @@
 #define BOOST_URL_DETAIL_FORMAT_HPP
 
 #include <boost/url/detail/format_args.hpp>
-#include <boost/url/detail/pattern.hpp>
-#include <boost/url/string_view.hpp>
+#include <boost/core/detail/string_view.hpp>
 #include <boost/url/url.hpp>
 
 namespace boost {
 namespace urls {
 namespace detail {
 
-inline
+BOOST_URL_DECL
 void
 vformat_to(
     url_base& u,
-    string_view fmt,
-    detail::format_args args)
-{
-    parse_pattern(fmt)
-        .value().apply(u, args);
-}
+    core::string_view fmt,
+    detail::format_args args);
 
 inline
 url
 vformat(
-    string_view fmt,
+    core::string_view fmt,
     detail::format_args args)
 {
     url u;

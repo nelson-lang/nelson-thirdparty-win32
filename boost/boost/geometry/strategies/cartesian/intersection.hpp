@@ -1,7 +1,7 @@
 // Boost.Geometry (aka GGL, Generic Geometry Library)
 
 // Copyright (c) 2007-2014 Barend Gehrels, Amsterdam, the Netherlands.
-// Copyright (c) 2013-2017 Adam Wulkiewicz, Lodz, Poland.
+// Copyright (c) 2013-2023 Adam Wulkiewicz, Lodz, Poland.
 
 // This file was modified by Oracle on 2014-2021.
 // Modifications copyright (c) 2014-2021, Oracle and/or its affiliates.
@@ -31,6 +31,7 @@
 #include <boost/geometry/algorithms/detail/recalculate.hpp>
 
 #include <boost/geometry/util/math.hpp>
+#include <boost/geometry/util/numeric_cast.hpp>
 #include <boost/geometry/util/promote_integral.hpp>
 #include <boost/geometry/util/select_calculation_type.hpp>
 
@@ -177,17 +178,17 @@ struct cartesian_segments
             typedef typename promote_integral<CoordinateType>::type calc_type;
 
             calc_type const numerator
-                = boost::numeric_cast<calc_type>(ratio.numerator());
+                = util::numeric_cast<calc_type>(ratio.numerator());
             calc_type const denominator
-                = boost::numeric_cast<calc_type>(ratio.denominator());
-            calc_type const dx_calc = boost::numeric_cast<calc_type>(dx);
-            calc_type const dy_calc = boost::numeric_cast<calc_type>(dy);
+                = util::numeric_cast<calc_type>(ratio.denominator());
+            calc_type const dx_calc = util::numeric_cast<calc_type>(dx);
+            calc_type const dy_calc = util::numeric_cast<calc_type>(dy);
 
             set<0>(point, get<0, 0>(segment)
-                   + boost::numeric_cast<CoordinateType>(
+                   + util::numeric_cast<CoordinateType>(
                          math::divide<calc_type>(numerator * dx_calc, denominator)));
             set<1>(point, get<0, 1>(segment)
-                   + boost::numeric_cast<CoordinateType>(
+                   + util::numeric_cast<CoordinateType>(
                          math::divide<calc_type>(numerator * dy_calc, denominator)));
         }
 
@@ -249,10 +250,7 @@ struct cartesian_segments
                 assign_b(point, a, b);
             }
 
-#if defined(BOOST_GEOMETRY_USE_RESCALING)
-            return;
-#endif
-
+#ifndef BOOST_GEOMETRY_USE_RESCALING
             // Verify nearly collinear cases (the threshold is arbitrary
             // but influences performance). If the intersection is located
             // outside the segments, then it should be moved.
@@ -267,6 +265,7 @@ struct cartesian_segments
                 assign_if_exceeds(point, a);
                 assign_if_exceeds(point, b);
             }
+#endif
         }
 
         CoordinateType dx_a, dy_a;
@@ -452,7 +451,7 @@ struct cartesian_segments
 
         sides.set<1>(side_strategy_type::apply(p1, p2, q1),
                      side_strategy_type::apply(p1, p2, q2));
-        
+
         if (sides.same<1>())
         {
             // Both points are at same side of other segment, we can leave
@@ -461,6 +460,7 @@ struct cartesian_segments
 
         bool collinear = sides.collinear();
 
+        //TODO: remove this when rescaling is removed
         // Calculate the differences again
         // (for rescaled version, this is different from dx_p etc)
         coordinate_type const dx_p = get<0>(p2) - get<0>(p1);
@@ -533,6 +533,16 @@ struct cartesian_segments
                             p_is_point, q_is_point);
                 }
             }
+        }
+
+        if (equals_point_point(p1, q1) || equals_point_point(p1, q2))
+        {
+            return Policy::segments_share_common_point(sides, sinfo, p1);
+        }
+
+        if (equals_point_point(p2, q1) || equals_point_point(p2, q2))
+        {
+            return Policy::segments_share_common_point(sides, sinfo, p2);
         }
 
         return Policy::segments_crosses(sides, sinfo, p, q);
@@ -670,7 +680,7 @@ private:
         int const a2_wrt_b = position_value(oa_2, ob_1, ob_2);
         int const b1_wrt_a = position_value(ob_1, oa_1, oa_2);
         int const b2_wrt_a = position_value(ob_2, oa_1, oa_2);
-        
+
         // fix the ratios if necessary
         // CONSIDER: fixing ratios also in other cases, if they're inconsistent
         // e.g. if ratio == 1 or 0 (so IP at the endpoint)
@@ -687,7 +697,7 @@ private:
         {
             ra_from.assign(1, 1);
             rb_to.assign(0, 1);
-        } 
+        }
 
         if (a2_wrt_b == 1)
         {

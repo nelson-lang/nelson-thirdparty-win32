@@ -19,17 +19,7 @@
 #include <boost/json/detail/stack.hpp>
 #include <boost/json/detail/stream.hpp>
 #include <boost/json/detail/utf8.hpp>
-
-/*  VFALCO NOTE
-
-    This file is in the detail namespace because it
-    is not allowed to be included directly by users,
-    who should be including <boost/json/basic_parser.hpp>
-    instead, which provides the member function definitions.
-
-    The source code is arranged this way to keep compile
-    times down.
-*/
+#include <boost/json/detail/sbo_buffer.hpp>
 
 namespace boost {
 namespace json {
@@ -275,11 +265,9 @@ class basic_parser
 {
     enum class state : char
     {
-        doc1,  doc2,  doc3, doc4,
+        doc1,  doc3,
         com1,  com2,  com3, com4,
-        nul1,  nul2,  nul3,
-        tru1,  tru2,  tru3,
-        fal1,  fal2,  fal3,  fal4,
+        lit1,
         str1,  str2,  str3,  str4,
         str5,  str6,  str7,  str8,
         sur1,  sur2,  sur3,
@@ -292,7 +280,7 @@ class basic_parser
         num1,  num2,  num3,  num4,
         num5,  num6,  num7,  num8,
         exp1,  exp2,  exp3,
-        val1,  val2
+        val1,  val2, val3
     };
 
     struct number
@@ -304,11 +292,14 @@ class basic_parser
         bool neg;
     };
 
+    template< bool StackEmpty_, char First_ >
+    struct parse_number_helper;
+
     // optimization: must come first
     Handler h_;
 
     number num_;
-    error_code ec_;
+    system::error_code ec_;
     detail::stack st_;
     detail::utf8_sequence seq_;
     unsigned u1_;
@@ -317,9 +308,12 @@ class basic_parser
     bool done_ = false; // true on complete parse
     bool clean_ = true; // write_some exited cleanly
     const char* end_;
+    detail::sbo_buffer<16 + 16 + 1 + 1> num_buf_;
     parse_options opt_;
     // how many levels deeper the parser can go
     std::size_t depth_ = opt_.max_depth;
+    unsigned char cur_lit_ = 0;
+    unsigned char lit_offset_ = 0;
 
     inline void reserve();
     inline const char* sentinel();
@@ -415,10 +409,9 @@ class basic_parser
         /*std::integral_constant<bool, AllowTrailing_>*/ bool allow_trailing,
         /*std::integral_constant<bool, AllowBadUTF8_>*/ bool allow_bad_utf8);
 
-    template<bool StackEmpty_, bool AllowComments_/*,
+    template<bool AllowComments_/*,
         bool AllowTrailing_, bool AllowBadUTF8_*/>
     const char* resume_value(const char* p,
-        std::integral_constant<bool, StackEmpty_> stack_empty,
         std::integral_constant<bool, AllowComments_> allow_comments,
         /*std::integral_constant<bool, AllowTrailing_>*/ bool allow_trailing,
         /*std::integral_constant<bool, AllowBadUTF8_>*/ bool allow_bad_utf8);
@@ -439,17 +432,9 @@ class basic_parser
         /*std::integral_constant<bool, AllowTrailing_>*/ bool allow_trailing,
         /*std::integral_constant<bool, AllowBadUTF8_>*/ bool allow_bad_utf8);
 
-    template<bool StackEmpty_>
-    const char* parse_null(const char* p,
-        std::integral_constant<bool, StackEmpty_> stack_empty);
-
-    template<bool StackEmpty_>
-    const char* parse_true(const char* p,
-        std::integral_constant<bool, StackEmpty_> stack_empty);
-
-    template<bool StackEmpty_>
-    const char* parse_false(const char* p,
-        std::integral_constant<bool, StackEmpty_> stack_empty);
+    template<int Literal>
+    const char* parse_literal(const char* p,
+        std::integral_constant<int, Literal> literal);
 
     template<bool StackEmpty_, bool IsKey_/*,
         bool AllowBadUTF8_*/>
@@ -458,10 +443,11 @@ class basic_parser
         std::integral_constant<bool, IsKey_> is_key,
         /*std::integral_constant<bool, AllowBadUTF8_>*/ bool allow_bad_utf8);
 
-    template<bool StackEmpty_, char First_>
+    template<bool StackEmpty_, char First_, number_precision Numbers_>
     const char* parse_number(const char* p,
         std::integral_constant<bool, StackEmpty_> stack_empty,
-        std::integral_constant<char, First_> first);
+        std::integral_constant<char, First_> first,
+        std::integral_constant<number_precision, Numbers_> numbers);
 
     template<bool StackEmpty_, bool IsKey_/*,
         bool AllowBadUTF8_*/>
@@ -585,7 +571,7 @@ public:
         @par Exception Safety
         No-throw guarantee.
     */
-    error_code
+    system::error_code
     last_error() const noexcept
     {
         return ec_;
@@ -654,7 +640,7 @@ public:
         instead.
     */
     void
-    fail(error_code ec) noexcept;
+    fail(system::error_code ec) noexcept;
 
     /** Parse some of an input string as JSON, incrementally.
 
@@ -712,7 +698,7 @@ public:
         bool more,
         char const* data,
         std::size_t size,
-        error_code& ec);
+        system::error_code& ec);
 
     std::size_t
     write_some(

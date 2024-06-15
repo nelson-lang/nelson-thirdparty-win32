@@ -147,6 +147,7 @@ inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
    T p = log(x / 2);
    T scale = 1;
    bool need_logs = (v >= max_factorial<T>::value) || (tools::log_max_value<T>() / v < fabs(p));
+
    if(!need_logs)
    {
       gam = boost::math::tgamma(v, pol);
@@ -155,10 +156,13 @@ inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
       {
          scale /= gam;
          gam = 1;
+         /*
+         * We can never get here, it would require p < 1/max_value.
          if(tools::max_value<T>() * p < gam)
          {
             return -policies::raise_overflow_error<T>(function, nullptr, pol);
          }
+         */
       }
       prefix = -gam / (constants::pi<T>() * p);
    }
@@ -193,7 +197,7 @@ inline T bessel_y_small_z_series(T v, T x, T* pscale, const Policy& pol)
    }
    else
    {
-      int sgn;
+      int sgn {};
       prefix = boost::math::lgamma(-v, &sgn, pol) + p;
       prefix = exp(prefix) * sgn / constants::pi<T>();
    }
@@ -236,16 +240,22 @@ T bessel_yn_small_z(int n, T z, T* scale, const Policy& pol)
    }
    else
    {
+      #if (defined(__GNUC__) && __GNUC__ == 13)
+      auto p = static_cast<T>(pow(z / 2, T(n)));
+      #else
       auto p = static_cast<T>(pow(z / 2, n));
+      #endif
+      
       T result = -((boost::math::factorial<T>(n - 1, pol) / constants::pi<T>()));
-      if(p * tools::max_value<T>() < result)
+      if(p * tools::max_value<T>() < fabs(result))
       {
          T div = tools::max_value<T>() / 8;
          result /= div;
          *scale /= div;
          if(p * tools::max_value<T>() < result)
          {
-            return -policies::raise_overflow_error<T>("bessel_yn_small_z<%1%>(%1%,%1%)", nullptr, pol);
+            // Impossible to get here??
+            return -policies::raise_overflow_error<T>("bessel_yn_small_z<%1%>(%1%,%1%)", nullptr, pol); // LCOV_EXCL_LINE
          }
       }
       return result / p;
