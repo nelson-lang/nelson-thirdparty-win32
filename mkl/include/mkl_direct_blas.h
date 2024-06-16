@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2014-2021 Intel Corporation.
+* Copyright 2014-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -208,9 +208,12 @@ static __inline void mkl_dc_gemm(const char * TRANSA, const char * TRANSB,
             const mkl_dc_type * BETA,
             mkl_dc_type * C, const MKL_INT * LDC)
 {
-	int AisN, AisT, AisC;
-	int BisN, BisT, BisC;
-	mkl_dc_type temp, alpha = *ALPHA, beta = *BETA;
+	int AisN, BisN;
+#ifndef MKL_REAL_DATA_TYPE
+	int AisT, AisC;
+	int BisT, BisC;
+#endif
+	mkl_dc_type alpha = *ALPHA, beta = *BETA;
 	MKL_INT m = *M, n = *N, k = *K;
 	MKL_INT lda = *LDA, ldb = *LDB, ldc = *LDC;
 
@@ -368,16 +371,16 @@ do { \
 	for (j = 0; j < n; j++) { \
         mkl_dc_type temp; \
         for(i = 0; i < m; i++) { \
+            mkl_dc_type a; \
             MKL_DC_MUL(temp, alpha, B[i+j*ldb]); \
             MKL_DC_PRAGMA_VECTOR \
 	        for (k = 0; k <= i-1; k++) { \
-                mkl_dc_type a, temp1; \
-                a = A[k + i * lda]; \
-                MKL_DC_CONJ(a, a); \
-                MKL_DC_MUL(temp1, B[k + j * ldb], a); \
+                mkl_dc_type a1, temp1; \
+                a1 = A[k + i * lda]; \
+                MKL_DC_CONJ(a1, a1); \
+                MKL_DC_MUL(temp1, B[k + j * ldb], a1); \
                 MKL_DC_SUB(temp, temp, temp1); \
             } \
-            mkl_dc_type a; \
             a = A[i + i * lda]; \
             MKL_DC_CONJ(a, a); \
             diag_op( temp, a ); \
@@ -388,16 +391,16 @@ do { \
 	for (j = 0; j < n; j++) { \
         mkl_dc_type temp; \
         for(i = m-1; i >= 0; i--) { \
+            mkl_dc_type a; \
             MKL_DC_MUL(temp, alpha, B[i+j*ldb]); \
             MKL_DC_PRAGMA_VECTOR \
 	        for (k = i+1; k < m; k++) { \
-                mkl_dc_type a, temp1; \
-                a = A[k + i * lda]; \
-                MKL_DC_CONJ(a, a); \
-                MKL_DC_MUL(temp1, B[k + j * ldb], a); \
+                mkl_dc_type a1, temp1; \
+                a1 = A[k + i * lda]; \
+                MKL_DC_CONJ(a1, a1); \
+                MKL_DC_MUL(temp1, B[k + j * ldb], a1); \
                 MKL_DC_SUB(temp, temp, temp1); \
             } \
-            mkl_dc_type a; \
             a = A[i + i * lda]; \
             MKL_DC_CONJ(a, a); \
             diag_op( temp, a ); \
@@ -412,6 +415,7 @@ do { \
 	MKL_INT i, j, k; \
     if ( MKL_DC_MisU(uplo) ) { \
 	for (j = 0; j < n; j++) { \
+        mkl_dc_type temp, one; \
         if ( !(MKL_DC_IS_ONE(alpha)) ) { \
             for(i = 0; i < m; i++) { \
                 MKL_DC_MUL_C( B[i+j*ldb], alpha ); \
@@ -426,7 +430,6 @@ do { \
                 MKL_DC_SUB(B[i + j * ldb], B[i + j * ldb], temp1); \
 	        } \
 	    } \
-        mkl_dc_type temp, one; \
         MKL_DC_SET_ONE(one); \
         MKL_DC_DIV(temp, one, A[j + j * lda]); \
         for ( i = 0; i < m; i++ ) { \
@@ -435,6 +438,7 @@ do { \
 	} \
     } else { \
 	for (j = n-1; j >= 0; j--) { \
+        mkl_dc_type temp, one; \
         if ( !(MKL_DC_IS_ONE(alpha)) ) { \
             for(i = 0; i < m; i++) { \
                 MKL_DC_MUL_C( B[i+j*ldb], alpha ); \
@@ -449,7 +453,6 @@ do { \
                 MKL_DC_SUB(B[i + j * ldb], B[i + j * ldb], temp1); \
 	        } \
 	    } \
-        mkl_dc_type temp, one; \
         MKL_DC_SET_ONE(one); \
         MKL_DC_DIV(temp, one, A[j + j * lda]); \
         for ( i = 0; i < m; i++ ) { \
@@ -711,8 +714,11 @@ static __inline void mkl_dc_trsm(const char * SIDE, const char * UPLO,
             mkl_dc_type * B, const MKL_INT * LDB)
 {
 	int AisN;
-	int lside, noconj, unit, upper;
-	mkl_dc_type temp, alpha = *ALPHA;
+	int lside, unit;
+#ifndef MKL_REAL_DATA_TYPE
+    int noconj;
+#endif
+	mkl_dc_type alpha = *ALPHA;
 	MKL_INT m = *M, n = *N;
 	MKL_INT lda = *LDA, ldb = *LDB;
     char uplo = *UPLO;
@@ -722,9 +728,10 @@ static __inline void mkl_dc_trsm(const char * SIDE, const char * UPLO,
 
 	AisN = MKL_DC_MisN(*TRANSA);
 	lside = MKL_DC_MisL(*SIDE);
-    noconj = MKL_DC_MisT(*TRANSA);
     unit = MKL_DC_MisU(*DIAG);
-    upper = MKL_DC_MisU(*UPLO);
+#ifndef MKL_REAL_DATA_TYPE
+    noconj = MKL_DC_MisT(*TRANSA);
+#endif
 
 	if (MKL_DC_IS_ZERO(alpha)) {
 		MKL_INT i, j;
@@ -837,7 +844,7 @@ static __inline void mkl_dc_syrk(const char * UPLO, const char * TRANS,
             mkl_dc_type * C, const MKL_INT * LDC)
 {
 	int AisN, CisU;
-	mkl_dc_type temp, alpha = *ALPHA, beta = *BETA;
+	mkl_dc_type alpha = *ALPHA, beta = *BETA;
 	MKL_INT n = *N, k = *K;
 	MKL_INT lda = *LDA, ldc = *LDC;
     char uplo = *UPLO;

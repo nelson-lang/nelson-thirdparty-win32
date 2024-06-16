@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2004-2021 Intel Corporation.
+* Copyright 2004-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -13,7 +13,8 @@
 *******************************************************************************/
 
 /*
-*   Content : oneMKL DSS C header file
+*   Content:
+*           Intel(R) oneAPI Math Kernel Library (oneMKL) DSS C header file
 *
 *           Contains main datatypes, prototypes and constants definition
 *
@@ -26,22 +27,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
-
-#if !defined(MKL_CALL_CONV)
-#   if defined(__MIC__) || defined(__TARGET_ARCH_MIC)
-#       define MKL_CALL_CONV
-#   else
-#       if defined(MKL_STDCALL)
-#           define MKL_CALL_CONV __stdcall
-#       else
-#           define MKL_CALL_CONV __cdecl
-#       endif
-#   endif
-#endif
-
-#if  !defined(_Mkl_Api)
-#define _Mkl_Api(rtype,name,arg)   extern rtype MKL_CALL_CONV   name    arg;
-#endif
 
 #include "mkl_types.h"
 /*
@@ -199,27 +184,27 @@ typedef _DoubleComplexType _DOUBLE_COMPLEX_t;
 ** Function prototypes for DSS routines
 */
 
-_Mkl_Api(MKL_INT,dss_create_,(_MKL_DSS_HANDLE_t *,
-	 MKL_INT const *))
-_Mkl_Api(MKL_INT,dss_define_structure_,(_MKL_DSS_HANDLE_t *,
+extern MKL_INT dss_create_(_MKL_DSS_HANDLE_t *,
+	 MKL_INT const *);
+extern MKL_INT dss_define_structure_(_MKL_DSS_HANDLE_t *,
 	 MKL_INT const *, MKL_INT const *, MKL_INT const *,
-	 MKL_INT const *, MKL_INT const *, MKL_INT const *))
-_Mkl_Api( MKL_INT,dss_reorder_,(_MKL_DSS_HANDLE_t *, MKL_INT const *,
-	 MKL_INT const *))
-_Mkl_Api(MKL_INT,dss_factor_real_,(_MKL_DSS_HANDLE_t *,
-	 MKL_INT const *, void const *))
-_Mkl_Api(MKL_INT,dss_factor_complex_,(_MKL_DSS_HANDLE_t *,
-	 MKL_INT const *, void const *))
-_Mkl_Api(MKL_INT,dss_solve_real_,(_MKL_DSS_HANDLE_t *,
+	 MKL_INT const *, MKL_INT const *, MKL_INT const *);
+extern MKL_INT dss_reorder_(_MKL_DSS_HANDLE_t *, MKL_INT const *,
+	 MKL_INT const *);
+extern MKL_INT dss_factor_real_(_MKL_DSS_HANDLE_t *,
+	 MKL_INT const *, void const *);
+extern MKL_INT dss_factor_complex_(_MKL_DSS_HANDLE_t *,
+	 MKL_INT const *, void const *);
+extern MKL_INT dss_solve_real_(_MKL_DSS_HANDLE_t *,
 	 MKL_INT const *, void const *, MKL_INT const *,
-	 void *))
-_Mkl_Api(MKL_INT,dss_solve_complex_,(_MKL_DSS_HANDLE_t *,
+	 void *);
+extern MKL_INT dss_solve_complex_(_MKL_DSS_HANDLE_t *,
 	 MKL_INT const *, void const *, MKL_INT const *,
-	 void *))
-_Mkl_Api( MKL_INT,dss_statistics_,( _MKL_DSS_HANDLE_t *, MKL_INT const *,
-	 _CHARACTER_STR_t const *, _DOUBLE_PRECISION_t *))
-_Mkl_Api(MKL_INT,dss_delete_,(_MKL_DSS_HANDLE_t const *,
-	 MKL_INT const *))
+	 void *);
+extern MKL_INT dss_statistics_( _MKL_DSS_HANDLE_t *, MKL_INT const *,
+	 _CHARACTER_STR_t const *, _DOUBLE_PRECISION_t *);
+extern MKL_INT dss_delete_(_MKL_DSS_HANDLE_t const *,
+	 MKL_INT const *);
 
 /*
 ** In order to promote portability and to avoid having most users deal with these issues, the C header

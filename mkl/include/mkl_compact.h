@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2017-2021 Intel Corporation.
+* Copyright 2017-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -186,6 +186,19 @@ void mkl_zgeqrf_compact( MKL_LAYOUT layout, MKL_INT m, MKL_INT n, double* ap,
                          MKL_INT ldap, double* taup, double* work,
                          MKL_INT lwork, MKL_INT* info, MKL_COMPACT_PACK format,
                          MKL_INT nm );
+
+
+MKL_INT64 mkl_sget_size_compact_64( MKL_INT64 ld, MKL_INT64 sd,
+                                    MKL_COMPACT_PACK format, MKL_INT64 nm );
+
+MKL_INT64 mkl_dget_size_compact_64( MKL_INT64 ld, MKL_INT64 sd,
+                                    MKL_COMPACT_PACK format, MKL_INT64 nm );
+
+MKL_INT64 mkl_cget_size_compact_64( MKL_INT64 ld, MKL_INT64 sd,
+                                    MKL_COMPACT_PACK format, MKL_INT64 nm );
+
+MKL_INT64 mkl_zget_size_compact_64( MKL_INT64 ld, MKL_INT64 sd,
+                                    MKL_COMPACT_PACK format, MKL_INT64 nm );
 
 #ifdef __cplusplus
 }

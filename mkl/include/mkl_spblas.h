@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2005-2021 Intel Corporation.
+* Copyright 2005-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -29,7 +29,7 @@
 #elif defined(_MSC_VER)
 #define MKL_DEPRECATED __declspec(deprecated)
 #else
-#pragma message("WARNING: MKL SpBLAS was declared deprecated. Use MKL IE SpBLAS instead")
+#pragma message("WARNING: Intel oneMKL SpBLAS was declared deprecated. Use Intel oneMKL IE SpBLAS instead")
 #define MKL_DEPRECATED
 #endif
 
@@ -703,6 +703,15 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
         SPARSE_STAGE_FINALIZE_MULT_NO_VAL = 94
     } sparse_request_t;
 
+    /* applies to SOR interface; define type of (S)SOR operation to perform */
+    typedef enum
+    {
+        SPARSE_SOR_FORWARD   = 110, /* (omega∗L + D)∗x^1 = (D - omega*D - omega*U)∗alpha*x^0 + omega*b */
+        SPARSE_SOR_BACKWARD  = 111, /* (omega∗U + D)∗x^1 = (D - omega*D - omega*L)∗alpha*x^0 + omega*b */
+        SPARSE_SOR_SYMMETRIC = 112  /* SSOR, for e.g. with omega == 1 && alpha == 1, equal to solving a system:
+                                       (L + D)∗x^1 = b - U*x; (U + D)∗x = b - L*x^1 */
+    } sparse_sor_type_t;
+
 /*************************************************************************************************/
 /*** Opaque structure for sparse matrix in internal format, further D - means double precision ***/
 /*************************************************************************************************/
@@ -732,7 +741,7 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
     SPARSE_MATRIX_TYPE_GENERAL by default, pointers to input arrays are stored in the handle
 
     *** User data is not marked const since the mkl_sparse_order() or mkl_sparse_?_set_values()
-    functionality could change user data.  However, this is only done by a user call. 
+    functionality could change user data.  However, this is only done by a user call.
     Internally const-ness of user data is maintained other than through explicit
     use of these interfaces.
 
@@ -773,13 +782,49 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                    MKL_INT             *col_indx,
                                                    MKL_Complex16       *values );
 
+    sparse_status_t mkl_sparse_s_create_coo_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           nnz,
+                                                      MKL_INT64           *row_indx,
+                                                      MKL_INT64           *col_indx,
+                                                      float               *values );
+
+    sparse_status_t mkl_sparse_d_create_coo_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           nnz,
+                                                      MKL_INT64           *row_indx,
+                                                      MKL_INT64           *col_indx,
+                                                      double              *values );
+
+    sparse_status_t mkl_sparse_c_create_coo_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           nnz,
+                                                      MKL_INT64           *row_indx,
+                                                      MKL_INT64           *col_indx,
+                                                      MKL_Complex8        *values );
+
+    sparse_status_t mkl_sparse_z_create_coo_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           nnz,
+                                                      MKL_INT64           *row_indx,
+                                                      MKL_INT64           *col_indx,
+                                                      MKL_Complex16       *values );
+
 
 /*
     compressed sparse row format (4-arrays version),
     SPARSE_MATRIX_TYPE_GENERAL by default, pointers to input arrays are stored in the handle
 
     *** User data is not marked const since the mkl_sparse_order() or mkl_sparse_?_set_values()
-    functionality could change user data.  However, this is only done by a user call. 
+    functionality could change user data.  However, this is only done by a user call.
     Internally const-ness of user data is maintained other than through explicit
     use of these interfaces.
 
@@ -820,12 +865,48 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                    MKL_INT             *col_indx,
                                                    MKL_Complex16       *values );
 
+    sparse_status_t mkl_sparse_s_create_csr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      float               *values );
+
+    sparse_status_t mkl_sparse_d_create_csr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      double              *values );
+
+    sparse_status_t mkl_sparse_c_create_csr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      MKL_Complex8        *values );
+
+    sparse_status_t mkl_sparse_z_create_csr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      MKL_Complex16       *values );
+
 /*
     compressed sparse column format (4-arrays version),
     SPARSE_MATRIX_TYPE_GENERAL by default, pointers to input arrays are stored in the handle
 
     *** User data is not marked const since the mkl_sparse_order() or mkl_sparse_?_set_values()
-    functionality could change user data.  However, this is only done by a user call. 
+    functionality could change user data.  However, this is only done by a user call.
     Internally const-ness of user data is maintained other than through explicit
     use of these interfaces.
 
@@ -866,12 +947,48 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                    MKL_INT             *row_indx,
                                                    MKL_Complex16       *values );
 
+    sparse_status_t mkl_sparse_s_create_csc_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *cols_start,
+                                                      MKL_INT64           *cols_end,
+                                                      MKL_INT64           *row_indx,
+                                                      float               *values );
+
+    sparse_status_t mkl_sparse_d_create_csc_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *cols_start,
+                                                      MKL_INT64           *cols_end,
+                                                      MKL_INT64           *row_indx,
+                                                      double              *values );
+
+    sparse_status_t mkl_sparse_c_create_csc_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *cols_start,
+                                                      MKL_INT64           *cols_end,
+                                                      MKL_INT64           *row_indx,
+                                                      MKL_Complex8        *values );
+
+    sparse_status_t mkl_sparse_z_create_csc_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing, /* indexing: C-style or Fortran-style */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                      MKL_INT64           *cols_start,
+                                                      MKL_INT64           *cols_end,
+                                                      MKL_INT64           *row_indx,
+                                                      MKL_Complex16       *values );
+
 /*
     compressed block sparse row format (4-arrays version, square blocks),
     SPARSE_MATRIX_TYPE_GENERAL by default, pointers to input arrays are stored in the handle
 
     *** User data is not marked const since the mkl_sparse_order() or mkl_sparse_?_set_values()
-    functionality could change user data.  However, this is only done by a user call. 
+    functionality could change user data.  However, this is only done by a user call.
     Internally const-ness of user data is maintained other than through explicit
     use of these interfaces.
 
@@ -920,6 +1037,51 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                    MKL_INT             *col_indx,
                                                    MKL_Complex16       *values );
 
+    sparse_status_t mkl_sparse_s_create_bsr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing,       /* indexing: C-style or Fortran-style */
+                                                const sparse_layout_t     block_layout,   /* block storage: row-major or column-major */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           block_size,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      float               *values );
+
+    sparse_status_t mkl_sparse_d_create_bsr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing,       /* indexing: C-style or Fortran-style */
+                                                const sparse_layout_t     block_layout,   /* block storage: row-major or column-major */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           block_size,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      double              *values );
+
+    sparse_status_t mkl_sparse_c_create_bsr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing,       /* indexing: C-style or Fortran-style */
+                                                const sparse_layout_t     block_layout,   /* block storage: row-major or column-major */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           block_size,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      MKL_Complex8        *values );
+
+    sparse_status_t mkl_sparse_z_create_bsr_64(       sparse_matrix_t     *A,
+                                                const sparse_index_base_t indexing,       /* indexing: C-style or Fortran-style */
+                                                const sparse_layout_t     block_layout,   /* block storage: row-major or column-major */
+                                                const MKL_INT64           rows,
+                                                const MKL_INT64           cols,
+                                                const MKL_INT64           block_size,
+                                                      MKL_INT64           *rows_start,
+                                                      MKL_INT64           *rows_end,
+                                                      MKL_INT64           *col_indx,
+                                                      MKL_Complex16       *values );
+
+
 /*
     Create copy of the existing handle; matrix properties could be changed.
     For example it could be used for extracting triangular or diagonal parts from existing matrix.
@@ -928,17 +1090,25 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                      const struct matrix_descr descr,        /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
                                      sparse_matrix_t           *dest );
 
+    sparse_status_t mkl_sparse_copy_64( const sparse_matrix_t     source,
+                                        const struct matrix_descr descr,        /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                        sparse_matrix_t           *dest );
+
+
 /*
     destroy matrix handle; if sparse matrix was stored inside the handle it also deallocates the matrix
     It is user's responsibility not to delete the handle with the matrix, if this matrix is shared with other handles
 */
     sparse_status_t mkl_sparse_destroy( sparse_matrix_t  A );
+
+    sparse_status_t mkl_sparse_destroy_64( sparse_matrix_t  A );
 /*
     return extended error information from last operation;
     e.g. info about wrong input parameter, memory sizes that couldn't be allocated
 */
     sparse_status_t mkl_sparse_get_error_info( sparse_matrix_t  A, MKL_INT *info ); /* unsupported currently */
 
+    sparse_status_t mkl_sparse_get_error_info_64( sparse_matrix_t  A, MKL_INT64 *info ); /* unsupported currently */
 
 /*****************************************************************************************/
 /************************ Converters of internal representation  *************************/
@@ -954,6 +1124,17 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                              const sparse_layout_t    block_layout,   /* block storage: row-major or column-major */
                                              const sparse_operation_t operation,      /* as is, transposed or conjugate transposed */
                                              sparse_matrix_t          *dest );
+
+    sparse_status_t mkl_sparse_convert_csr_64 ( const sparse_matrix_t    source,         /* convert original matrix to CSR representation */
+                                                const sparse_operation_t operation,      /* as is, transposed or conjugate transposed */
+                                                sparse_matrix_t          *dest );
+
+    sparse_status_t mkl_sparse_convert_bsr_64 ( const sparse_matrix_t    source,         /* convert original matrix to BSR representation */
+                                                const MKL_INT64          block_size,
+                                                const sparse_layout_t    block_layout,   /* block storage: row-major or column-major */
+                                                const sparse_operation_t operation,      /* as is, transposed or conjugate transposed */
+                                                sparse_matrix_t          *dest );
+
 
     sparse_status_t mkl_sparse_s_export_bsr( const sparse_matrix_t  source,
                                              sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
@@ -999,6 +1180,51 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                              MKL_INT                **col_indx,
                                              MKL_Complex16          **values );
 
+    sparse_status_t mkl_sparse_s_export_bsr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                sparse_layout_t        *block_layout,  /* block storage: row-major or column-major */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              *block_size,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                float                  **values );
+
+    sparse_status_t mkl_sparse_d_export_bsr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                sparse_layout_t        *block_layout,  /* block storage: row-major or column-major */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              *block_size,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                double                 **values );
+
+    sparse_status_t mkl_sparse_c_export_bsr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                sparse_layout_t        *block_layout,  /* block storage: row-major or column-major */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              *block_size,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                MKL_Complex8           **values );
+
+    sparse_status_t mkl_sparse_z_export_bsr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                sparse_layout_t        *block_layout,  /* block storage: row-major or column-major */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              *block_size,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                MKL_Complex16          **values );
+
+
     sparse_status_t mkl_sparse_s_export_csr( const sparse_matrix_t  source,
                                              sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
                                              MKL_INT                *rows,
@@ -1034,6 +1260,43 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                              MKL_INT                **rows_end,
                                              MKL_INT                **col_indx,
                                              MKL_Complex16          **values );
+
+    sparse_status_t mkl_sparse_s_export_csr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                float                  **values );
+
+    sparse_status_t mkl_sparse_d_export_csr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                double                 **values );
+
+    sparse_status_t mkl_sparse_c_export_csr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                MKL_Complex8           **values );
+
+    sparse_status_t mkl_sparse_z_export_csr_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **rows_start,
+                                                MKL_INT64              **rows_end,
+                                                MKL_INT64              **col_indx,
+                                                MKL_Complex16          **values );
+
 
     sparse_status_t mkl_sparse_s_export_csc( const sparse_matrix_t  source,
                                              sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
@@ -1071,6 +1334,42 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                              MKL_INT                **row_indx,
                                              MKL_Complex16          **values );
 
+    sparse_status_t mkl_sparse_s_export_csc_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **cols_start,
+                                                MKL_INT64              **cols_end,
+                                                MKL_INT64              **row_indx,
+                                                float                  **values );
+
+    sparse_status_t mkl_sparse_d_export_csc_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **cols_start,
+                                                MKL_INT64              **cols_end,
+                                                MKL_INT64              **row_indx,
+                                                double                 **values );
+
+    sparse_status_t mkl_sparse_c_export_csc_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **cols_start,
+                                                MKL_INT64              **cols_end,
+                                                MKL_INT64              **row_indx,
+                                                MKL_Complex8           **values );
+
+    sparse_status_t mkl_sparse_z_export_csc_64( const sparse_matrix_t  source,
+                                                sparse_index_base_t    *indexing,      /* indexing: C-style or Fortran-style */
+                                                MKL_INT64              *rows,
+                                                MKL_INT64              *cols,
+                                                MKL_INT64              **cols_start,
+                                                MKL_INT64              **cols_end,
+                                                MKL_INT64              **row_indx,
+                                                MKL_Complex16          **values );
+
 
 /*****************************************************************************************/
 /************************** Step-by-step modification routines ***************************/
@@ -1078,27 +1377,48 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
 
 
     /* update existing value in the matrix ( for internal storage only, should not work with user-allocated matrices) */
-    sparse_status_t mkl_sparse_s_set_value( const sparse_matrix_t  A,
+    sparse_status_t mkl_sparse_s_set_value( const sparse_matrix_t A,
                                             const MKL_INT         row,
                                             const MKL_INT         col,
                                             const float           value );
 
-    sparse_status_t mkl_sparse_d_set_value( const sparse_matrix_t  A,
+    sparse_status_t mkl_sparse_d_set_value( const sparse_matrix_t A,
                                             const MKL_INT         row,
                                             const MKL_INT         col,
                                             const double          value );
 
-    sparse_status_t mkl_sparse_c_set_value( const sparse_matrix_t  A,
+    sparse_status_t mkl_sparse_c_set_value( const sparse_matrix_t A,
                                             const MKL_INT         row,
                                             const MKL_INT         col,
                                             const MKL_Complex8    value );
 
-    sparse_status_t mkl_sparse_z_set_value( const sparse_matrix_t  A,
+    sparse_status_t mkl_sparse_z_set_value( const sparse_matrix_t A,
                                             const MKL_INT         row,
                                             const MKL_INT         col,
                                             const MKL_Complex16   value );
 
-    /* update existing values in the matrix for internal storage only 
+    sparse_status_t mkl_sparse_s_set_value_64( const sparse_matrix_t A,
+                                               const MKL_INT64       row,
+                                               const MKL_INT64       col,
+                                               const float           value );
+
+    sparse_status_t mkl_sparse_d_set_value_64( const sparse_matrix_t A,
+                                               const MKL_INT64       row,
+                                               const MKL_INT64       col,
+                                               const double          value );
+
+    sparse_status_t mkl_sparse_c_set_value_64( const sparse_matrix_t A,
+                                               const MKL_INT64       row,
+                                               const MKL_INT64       col,
+                                               const MKL_Complex8    value );
+
+    sparse_status_t mkl_sparse_z_set_value_64( const sparse_matrix_t A,
+                                               const MKL_INT64       row,
+                                               const MKL_INT64       col,
+                                               const MKL_Complex16   value );
+
+
+    /* update existing values in the matrix for internal storage only
        can be used to either update all or selected values */
     sparse_status_t mkl_sparse_s_update_values( const sparse_matrix_t A,
                                                 const MKL_INT         nvalues,
@@ -1124,12 +1444,39 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                 const MKL_INT        *indy,
                                                       MKL_Complex16  *values );
 
+    sparse_status_t mkl_sparse_s_update_values_64( const sparse_matrix_t A,
+                                                   const MKL_INT64       nvalues,
+                                                   const MKL_INT64      *indx,
+                                                   const MKL_INT64      *indy,
+                                                         float          *values );
+
+    sparse_status_t mkl_sparse_d_update_values_64( const sparse_matrix_t A,
+                                                   const MKL_INT64       nvalues,
+                                                   const MKL_INT64      *indx,
+                                                   const MKL_INT64      *indy,
+                                                         double         *values );
+
+    sparse_status_t mkl_sparse_c_update_values_64( const sparse_matrix_t A,
+                                                   const MKL_INT64       nvalues,
+                                                   const MKL_INT64      *indx,
+                                                   const MKL_INT64      *indy,
+                                                         MKL_Complex8   *values );
+
+    sparse_status_t mkl_sparse_z_update_values_64( const sparse_matrix_t A,
+                                                   const MKL_INT64       nvalues,
+                                                   const MKL_INT64      *indx,
+                                                   const MKL_INT64      *indy,
+                                                         MKL_Complex16  *values );
+
+
 /*****************************************************************************************/
 /****************************** Verbose mode routine *************************************/
 /*****************************************************************************************/
 
     /* allow to switch on/off verbose mode */
     sparse_status_t mkl_sparse_set_verbose_mode ( verbose_mode_t verbose ); /* unsupported currently */
+
+    sparse_status_t mkl_sparse_set_verbose_mode_64 ( verbose_mode_t verbose ); /* unsupported currently */
 
 /*****************************************************************************************/
 /****************************** Optimization routines ************************************/
@@ -1141,10 +1488,24 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                 const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
                                                 const MKL_INT             expected_calls );
 
-    sparse_status_t mkl_sparse_set_dotmv_hint ( const sparse_matrix_t     A,
-                                                const sparse_operation_t  operation, /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
-                                                const struct matrix_descr descr,     /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
-                                                const MKL_INT             expectedCalls );
+    sparse_status_t mkl_sparse_set_mv_hint_64 ( const sparse_matrix_t     A,
+                                                const sparse_operation_t  operation,  /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+                                                const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                const MKL_INT64           expected_calls );
+
+
+
+    sparse_status_t mkl_sparse_set_dotmv_hint    ( const sparse_matrix_t     A,
+                                                   const sparse_operation_t  operation, /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+                                                   const struct matrix_descr descr,     /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                   const MKL_INT             expectedCalls );
+
+    sparse_status_t mkl_sparse_set_dotmv_hint_64 ( const sparse_matrix_t     A,
+                                                   const sparse_operation_t  operation, /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+                                                   const struct matrix_descr descr,     /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                   const MKL_INT64           expectedCalls );
+
+
 
     sparse_status_t mkl_sparse_set_mm_hint    ( const sparse_matrix_t     A,
                                                 const sparse_operation_t  operation,
@@ -1153,10 +1514,26 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                 const MKL_INT             dense_matrix_size, /* amount of columns in dense matrix */
                                                 const MKL_INT             expected_calls );
 
+    sparse_status_t mkl_sparse_set_mm_hint_64 ( const sparse_matrix_t     A,
+                                                const sparse_operation_t  operation,
+                                                const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                const sparse_layout_t     layout,     /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                                const MKL_INT64           dense_matrix_size, /* amount of columns in dense matrix */
+                                                const MKL_INT64           expected_calls );
+
+
+
     sparse_status_t mkl_sparse_set_sv_hint    ( const sparse_matrix_t     A,
                                                 const sparse_operation_t  operation,  /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
                                                 const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
                                                 const MKL_INT             expected_calls );
+
+    sparse_status_t mkl_sparse_set_sv_hint_64 ( const sparse_matrix_t     A,
+                                                const sparse_operation_t  operation,  /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+                                                const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                const MKL_INT64           expected_calls );
+
+
 
     sparse_status_t mkl_sparse_set_sm_hint    ( const sparse_matrix_t     A,
                                                 const sparse_operation_t  operation,
@@ -1165,19 +1542,60 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                 const MKL_INT             dense_matrix_size, /* amount of columns in dense matrix */
                                                 const MKL_INT             expected_calls );
 
-    sparse_status_t mkl_sparse_set_symgs_hint ( const sparse_matrix_t     A,
-                                                const sparse_operation_t  operation,  /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+    sparse_status_t mkl_sparse_set_sm_hint_64 ( const sparse_matrix_t     A,
+                                                const sparse_operation_t  operation,
                                                 const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
-                                                const MKL_INT             expected_calls );
+                                                const sparse_layout_t     layout,     /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                                const MKL_INT64           dense_matrix_size, /* amount of columns in dense matrix */
+                                                const MKL_INT64           expected_calls );
 
-    sparse_status_t mkl_sparse_set_lu_smoother_hint ( const sparse_matrix_t     A,
-                                                      const sparse_operation_t  operation,
-                                                      const struct matrix_descr descr,
-                                                      const MKL_INT             expectedCalls );
+
+
+    sparse_status_t mkl_sparse_set_symgs_hint    ( const sparse_matrix_t     A,
+                                                   const sparse_operation_t  operation,  /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+                                                   const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                   const MKL_INT             expected_calls );
+
+    sparse_status_t mkl_sparse_set_symgs_hint_64 ( const sparse_matrix_t     A,
+                                                   const sparse_operation_t  operation,  /* SPARSE_OPERATION_NON_TRANSPOSE is default value for infinite amount of calls */
+                                                   const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                   const MKL_INT64           expected_calls );
+
+
+
+    sparse_status_t mkl_sparse_set_lu_smoother_hint( const sparse_matrix_t     A,
+                                                     const sparse_operation_t  operation,
+                                                     const struct matrix_descr descr, /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                     const MKL_INT             expectedCalls );
+
+    sparse_status_t mkl_sparse_set_lu_smoother_hint_64( const sparse_matrix_t     A,
+                                                        const sparse_operation_t  operation,
+                                                        const struct matrix_descr descr, /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                        const MKL_INT64           expectedCalls );
+
+
+
+    sparse_status_t mkl_sparse_set_sorv_hint   ( const sparse_sor_type_t   type,  /* choice of forward, backward sweep or SSOR operation */
+                                                 const sparse_matrix_t     A,
+                                                 const struct matrix_descr descr, /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                 const MKL_INT             expectedCalls );
+ 
+    sparse_status_t mkl_sparse_set_sorv_hint_64( const sparse_sor_type_t   type,  /* choice of forward, backward sweep or SSOR operation */
+                                                 const sparse_matrix_t     A,
+                                                 const struct matrix_descr descr, /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                                 const MKL_INT64           expectedCalls );
+
+
 
     /* Describe memory usage model */
     sparse_status_t mkl_sparse_set_memory_hint ( const sparse_matrix_t       A,
                                                  const sparse_memory_usage_t policy );    /* SPARSE_MEMORY_AGGRESSIVE is default value */
+
+    sparse_status_t mkl_sparse_set_memory_hint_64 ( const sparse_matrix_t       A,
+                                                    const sparse_memory_usage_t policy );    /* SPARSE_MEMORY_AGGRESSIVE is default value */
+
+
+
 
 /*
     Optimize matrix described by the handle. It uses hints (optimization and memory) that should be set up before this call.
@@ -1185,12 +1603,16 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
     SPARSE_OPERATION_NON_TRANSPOSE for matrix-vector multiply with infinite number of expected iterations.
 */
     sparse_status_t mkl_sparse_optimize ( sparse_matrix_t  A );
+    
+    sparse_status_t mkl_sparse_optimize_64 ( sparse_matrix_t  A );
 
 /*****************************************************************************************/
 /****************************** Computational routines ***********************************/
 /*****************************************************************************************/
 
     sparse_status_t mkl_sparse_order( const sparse_matrix_t A );
+    
+    sparse_status_t mkl_sparse_order_64( const sparse_matrix_t A );
 
 /*
     Perform computations based on created matrix handle
@@ -1230,7 +1652,41 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                       const MKL_Complex16       beta,
                                       MKL_Complex16             *y );
 
-    /*    Computes y = alpha * A * x + beta * y  and d = <x, y> , the l2 inner product */ 
+    sparse_status_t mkl_sparse_s_mv_64 ( const sparse_operation_t  operation,
+                                         const float               alpha,
+                                         const sparse_matrix_t     A,
+                                         const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                         const float               *x,
+                                         const float               beta,
+                                         float                     *y );
+
+    sparse_status_t mkl_sparse_d_mv_64 ( const sparse_operation_t  operation,
+                                         const double              alpha,
+                                         const sparse_matrix_t     A,
+                                         const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                         const double              *x,
+                                         const double              beta,
+                                         double                    *y );
+
+    sparse_status_t mkl_sparse_c_mv_64 ( const sparse_operation_t  operation,
+                                         const MKL_Complex8        alpha,
+                                         const sparse_matrix_t     A,
+                                         const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                         const MKL_Complex8        *x,
+                                         const MKL_Complex8        beta,
+                                         MKL_Complex8              *y );
+
+    sparse_status_t mkl_sparse_z_mv_64 ( const sparse_operation_t  operation,
+                                         const MKL_Complex16       alpha,
+                                         const sparse_matrix_t     A,
+                                         const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                         const MKL_Complex16       *x,
+                                         const MKL_Complex16       beta,
+                                         MKL_Complex16             *y );
+
+
+
+    /*    Computes y = alpha * A * x + beta * y  and d = <x, y> , the l2 inner product */
     sparse_status_t mkl_sparse_s_dotmv( const sparse_operation_t  transA,
                                         const float               alpha,
                                         const sparse_matrix_t     A,
@@ -1267,6 +1723,42 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                         MKL_Complex16             *y,
                                         MKL_Complex16             *d);
 
+    sparse_status_t mkl_sparse_s_dotmv_64( const sparse_operation_t  transA,
+                                           const float               alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const float               *x,
+                                           const float               beta,
+                                           float                     *y,
+                                           float                     *d);
+
+    sparse_status_t mkl_sparse_d_dotmv_64( const sparse_operation_t  transA,
+                                           const double              alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const double              *x,
+                                           const double              beta,
+                                           double                    *y,
+                                           double                    *d);
+
+    sparse_status_t mkl_sparse_c_dotmv_64( const sparse_operation_t  transA,
+                                           const MKL_Complex8        alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const MKL_Complex8        *x,
+                                           const MKL_Complex8        beta,
+                                           MKL_Complex8              *y,
+                                           MKL_Complex8              *d);
+
+    sparse_status_t mkl_sparse_z_dotmv_64( const sparse_operation_t  transA,
+                                           const MKL_Complex16       alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const MKL_Complex16       *x,
+                                           const MKL_Complex16       beta,
+                                           MKL_Complex16             *y,
+                                           MKL_Complex16             *d);
+
 
     /*   Solves triangular system y = alpha * A^{-1} * x   */
     sparse_status_t mkl_sparse_s_trsv ( const sparse_operation_t  operation,
@@ -1297,6 +1789,36 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                         const MKL_Complex16       *x,
                                         MKL_Complex16             *y );
 
+    sparse_status_t mkl_sparse_s_trsv_64 ( const sparse_operation_t  operation,
+                                           const float               alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const float               *x,
+                                           float                     *y );
+
+    sparse_status_t mkl_sparse_d_trsv_64 ( const sparse_operation_t  operation,
+                                           const double              alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const double              *x,
+                                           double                    *y );
+
+    sparse_status_t mkl_sparse_c_trsv_64 ( const sparse_operation_t  operation,
+                                           const MKL_Complex8        alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const MKL_Complex8        *x,
+                                           MKL_Complex8              *y );
+
+    sparse_status_t mkl_sparse_z_trsv_64 ( const sparse_operation_t  operation,
+                                           const MKL_Complex16       alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const MKL_Complex16       *x,
+                                           MKL_Complex16             *y );
+
+
+
     /*   Applies symmetric Gauss-Seidel preconditioner to symmetric system A * x = b, */
     /*   that is, it solves:                                                          */
     /*      x0       = alpha*x                                                        */
@@ -1324,14 +1846,43 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                          const MKL_Complex8        alpha,
                                          const MKL_Complex8        *b,
                                          MKL_Complex8              *x);
-   
+
     sparse_status_t mkl_sparse_z_symgs ( const sparse_operation_t  op,
                                          const sparse_matrix_t     A,
                                          const struct matrix_descr descr,
                                          const MKL_Complex16       alpha,
                                          const MKL_Complex16       *b,
                                          MKL_Complex16             *x);
-    
+
+    sparse_status_t mkl_sparse_s_symgs_64 ( const sparse_operation_t  op,
+                                            const sparse_matrix_t     A,
+                                            const struct matrix_descr descr,
+                                            const float               alpha,
+                                            const float               *b,
+                                            float                     *x);
+
+    sparse_status_t mkl_sparse_d_symgs_64 ( const sparse_operation_t  op,
+                                            const sparse_matrix_t     A,
+                                            const struct matrix_descr descr,
+                                            const double              alpha,
+                                            const double              *b,
+                                            double                    *x);
+
+    sparse_status_t mkl_sparse_c_symgs_64 ( const sparse_operation_t  op,
+                                            const sparse_matrix_t     A,
+                                            const struct matrix_descr descr,
+                                            const MKL_Complex8        alpha,
+                                            const MKL_Complex8        *b,
+                                            MKL_Complex8              *x);
+
+    sparse_status_t mkl_sparse_z_symgs_64 ( const sparse_operation_t  op,
+                                            const sparse_matrix_t     A,
+                                            const struct matrix_descr descr,
+                                            const MKL_Complex16       alpha,
+                                            const MKL_Complex16       *b,
+                                            MKL_Complex16             *x);
+
+
     sparse_status_t mkl_sparse_s_symgs_mv ( const sparse_operation_t  op,
                                             const sparse_matrix_t     A,
                                             const struct matrix_descr descr,
@@ -1339,7 +1890,7 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                             const float               *b,
                                             float                     *x,
                                             float                     *y);
- 
+
     sparse_status_t mkl_sparse_d_symgs_mv ( const sparse_operation_t  op,
                                             const sparse_matrix_t     A,
                                             const struct matrix_descr descr,
@@ -1355,7 +1906,7 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                             const MKL_Complex8        *b,
                                             MKL_Complex8              *x,
                                             MKL_Complex8              *y);
-    
+
     sparse_status_t mkl_sparse_z_symgs_mv ( const sparse_operation_t  op,
                                             const sparse_matrix_t     A,
                                             const struct matrix_descr descr,
@@ -1364,18 +1915,51 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                             MKL_Complex16             *x,
                                             MKL_Complex16             *y);
 
+    sparse_status_t mkl_sparse_s_symgs_mv_64 ( const sparse_operation_t  op,
+                                               const sparse_matrix_t     A,
+                                               const struct matrix_descr descr,
+                                               const float               alpha,
+                                               const float               *b,
+                                               float                     *x,
+                                               float                     *y);
+
+    sparse_status_t mkl_sparse_d_symgs_mv_64 ( const sparse_operation_t  op,
+                                               const sparse_matrix_t     A,
+                                               const struct matrix_descr descr,
+                                               const double              alpha,
+                                               const double              *b,
+                                               double                    *x,
+                                               double                    *y);
+
+    sparse_status_t mkl_sparse_c_symgs_mv_64 ( const sparse_operation_t  op,
+                                               const sparse_matrix_t     A,
+                                               const struct matrix_descr descr,
+                                               const MKL_Complex8        alpha,
+                                               const MKL_Complex8        *b,
+                                               MKL_Complex8              *x,
+                                               MKL_Complex8              *y);
+
+    sparse_status_t mkl_sparse_z_symgs_mv_64 ( const sparse_operation_t  op,
+                                               const sparse_matrix_t     A,
+                                               const struct matrix_descr descr,
+                                               const MKL_Complex16       alpha,
+                                               const MKL_Complex16       *b,
+                                               MKL_Complex16             *x,
+                                               MKL_Complex16             *y);
+
+
     /*   Computes an action of a preconditioner
          which corresponds to the approximate matrix decomposition A ≈ (L+D)*E*(U+D)
          for the system Ax = b.
 
          L is lower triangular part of A
          U is upper triangular part of A
-         D is diagonal values of A 
-         E is approximate diagonal inverse            
-                                                                
-         That is, it solves:                                      
-             r = rhs - A*x0                                       
-             (L + D)*E*(U + D)*dx = r                             
+         D is diagonal values of A
+         E is approximate diagonal inverse
+
+         That is, it solves:
+             r = rhs - A*x0
+             (L + D)*E*(U + D)*dx = r
              x1 = x0 + dx                                        */
 
     sparse_status_t mkl_sparse_s_lu_smoother ( const sparse_operation_t  op,
@@ -1409,6 +1993,39 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                                const MKL_Complex16       *approx_diag_inverse,
                                                MKL_Complex16             *x,
                                                const MKL_Complex16       *rhs);
+
+    sparse_status_t mkl_sparse_s_lu_smoother_64 ( const sparse_operation_t  op,
+                                                  const sparse_matrix_t     A,
+                                                  const struct matrix_descr descr,
+                                                  const float               *diag,
+                                                  const float               *approx_diag_inverse,
+                                                  float                     *x,
+                                                  const float               *rhs);
+
+    sparse_status_t mkl_sparse_d_lu_smoother_64 ( const sparse_operation_t  op,
+                                                  const sparse_matrix_t     A,
+                                                  const struct matrix_descr descr,
+                                                  const double              *diag,
+                                                  const double              *approx_diag_inverse,
+                                                  double                    *x,
+                                                  const double              *rhs);
+
+    sparse_status_t mkl_sparse_c_lu_smoother_64 ( const sparse_operation_t  op,
+                                                  const sparse_matrix_t     A,
+                                                  const struct matrix_descr descr,
+                                                  const MKL_Complex8        *diag,
+                                                  const MKL_Complex8        *approx_diag_inverse,
+                                                  MKL_Complex8              *x,
+                                                  const MKL_Complex8        *rhs);
+
+    sparse_status_t mkl_sparse_z_lu_smoother_64 ( const sparse_operation_t  op,
+                                                  const sparse_matrix_t     A,
+                                                  const struct matrix_descr descr,
+                                                  const MKL_Complex16       *diag,
+                                                  const MKL_Complex16       *approx_diag_inverse,
+                                                  MKL_Complex16             *x,
+                                                  const MKL_Complex16       *rhs);
+
 
     /* Level 3 */
 
@@ -1461,6 +2078,55 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                      MKL_Complex16             *y,
                                      const MKL_INT             ldy );
 
+    sparse_status_t mkl_sparse_s_mm_64( const sparse_operation_t  operation,
+                                        const float               alpha,
+                                        const sparse_matrix_t     A,
+                                        const struct matrix_descr descr,          /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                        const sparse_layout_t     layout,         /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                        const float               *x,
+                                        const MKL_INT64           columns,
+                                        const MKL_INT64           ldx,
+                                        const float               beta,
+                                        float                     *y,
+                                        const MKL_INT64           ldy );
+
+    sparse_status_t mkl_sparse_d_mm_64( const sparse_operation_t  operation,
+                                        const double              alpha,
+                                        const sparse_matrix_t     A,
+                                        const struct matrix_descr descr,          /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                        const sparse_layout_t     layout,         /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                        const double              *x,
+                                        const MKL_INT64           columns,
+                                        const MKL_INT64           ldx,
+                                        const double              beta,
+                                        double                    *y,
+                                        const MKL_INT64           ldy );
+
+    sparse_status_t mkl_sparse_c_mm_64( const sparse_operation_t  operation,
+                                        const MKL_Complex8        alpha,
+                                        const sparse_matrix_t     A,
+                                        const struct matrix_descr descr,          /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                        const sparse_layout_t     layout,         /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                        const MKL_Complex8        *x,
+                                        const MKL_INT64           columns,
+                                        const MKL_INT64           ldx,
+                                        const MKL_Complex8        beta,
+                                        MKL_Complex8              *y,
+                                        const MKL_INT64           ldy );
+
+    sparse_status_t mkl_sparse_z_mm_64( const sparse_operation_t  operation,
+                                        const MKL_Complex16       alpha,
+                                        const sparse_matrix_t     A,
+                                        const struct matrix_descr descr,          /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                        const sparse_layout_t     layout,         /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                        const MKL_Complex16       *x,
+                                        const MKL_INT64           columns,
+                                        const MKL_INT64           ldx,
+                                        const MKL_Complex16       beta,
+                                        MKL_Complex16             *y,
+                                        const MKL_INT64           ldy );
+
+
     /*   Solves triangular system y = alpha * A^{-1} * x   */
     sparse_status_t mkl_sparse_s_trsm ( const sparse_operation_t  operation,
                                         const float               alpha,
@@ -1506,6 +2172,51 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                         MKL_Complex16             *y,
                                         const MKL_INT             ldy );
 
+    sparse_status_t mkl_sparse_s_trsm_64 ( const sparse_operation_t  operation,
+                                           const float               alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const sparse_layout_t     layout,     /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                           const float               *x,
+                                           const MKL_INT64           columns,
+                                           const MKL_INT64           ldx,
+                                           float                     *y,
+                                           const MKL_INT64           ldy );
+
+    sparse_status_t mkl_sparse_d_trsm_64 ( const sparse_operation_t  operation,
+                                           const double              alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const sparse_layout_t     layout,     /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                           const double              *x,
+                                           const MKL_INT64           columns,
+                                           const MKL_INT64           ldx,
+                                           double                    *y,
+                                           const MKL_INT64           ldy );
+
+    sparse_status_t mkl_sparse_c_trsm_64 ( const sparse_operation_t  operation,
+                                           const MKL_Complex8        alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const sparse_layout_t     layout,     /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                           const MKL_Complex8        *x,
+                                           const MKL_INT64           columns,
+                                           const MKL_INT64           ldx,
+                                           MKL_Complex8              *y,
+                                           const MKL_INT64           ldy );
+
+    sparse_status_t mkl_sparse_z_trsm_64 ( const sparse_operation_t  operation,
+                                           const MKL_Complex16       alpha,
+                                           const sparse_matrix_t     A,
+                                           const struct matrix_descr descr,      /* sparse_matrix_type_t + sparse_fill_mode_t + sparse_diag_type_t */
+                                           const sparse_layout_t     layout,     /* storage scheme for the dense matrix: C-style or Fortran-style */
+                                           const MKL_Complex16       *x,
+                                           const MKL_INT64           columns,
+                                           const MKL_INT64           ldx,
+                                           MKL_Complex16             *y,
+                                           const MKL_INT64           ldy );
+
+
     /* Sparse-sparse functionality */
 
 
@@ -1534,28 +2245,72 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                       const sparse_matrix_t    B,
                                       sparse_matrix_t          *C );
 
+    sparse_status_t mkl_sparse_s_add_64( const sparse_operation_t operation,
+                                         const sparse_matrix_t    A,
+                                         const float              alpha,
+                                         const sparse_matrix_t    B,
+                                         sparse_matrix_t          *C );
+
+    sparse_status_t mkl_sparse_d_add_64( const sparse_operation_t operation,
+                                         const sparse_matrix_t    A,
+                                         const double             alpha,
+                                         const sparse_matrix_t    B,
+                                         sparse_matrix_t          *C );
+
+    sparse_status_t mkl_sparse_c_add_64( const sparse_operation_t operation,
+                                         const sparse_matrix_t    A,
+                                         const MKL_Complex8       alpha,
+                                         const sparse_matrix_t    B,
+                                         sparse_matrix_t          *C );
+
+    sparse_status_t mkl_sparse_z_add_64( const sparse_operation_t operation,
+                                         const sparse_matrix_t    A,
+                                         const MKL_Complex16      alpha,
+                                         const sparse_matrix_t    B,
+                                         sparse_matrix_t          *C );
+
+
+
     /*   Computes product of sparse matrices: C = op(A) * B, result is sparse   */
     sparse_status_t mkl_sparse_spmm ( const sparse_operation_t operation,
                                       const sparse_matrix_t    A,
                                       const sparse_matrix_t    B,
                                       sparse_matrix_t          *C );
 
+    sparse_status_t mkl_sparse_spmm_64 ( const sparse_operation_t operation,
+                                         const sparse_matrix_t    A,
+                                         const sparse_matrix_t    B,
+                                         sparse_matrix_t          *C );
+
     /*   Computes product of sparse matrices: C = opA(A) * opB(B), result is sparse   */
-    sparse_status_t mkl_sparse_sp2m ( const sparse_operation_t  transA, 
-                                      const struct matrix_descr descrA, 
+    sparse_status_t mkl_sparse_sp2m ( const sparse_operation_t  transA,
+                                      const struct matrix_descr descrA,
                                       const sparse_matrix_t     A,
-                                      const sparse_operation_t  transB, 
-                                      const struct matrix_descr descrB, 
+                                      const sparse_operation_t  transB,
+                                      const struct matrix_descr descrB,
                                       const sparse_matrix_t     B,
-                                      const sparse_request_t    request, 
+                                      const sparse_request_t    request,
                                       sparse_matrix_t           *C );
+
+    sparse_status_t mkl_sparse_sp2m_64 ( const sparse_operation_t  transA,
+                                         const struct matrix_descr descrA,
+                                         const sparse_matrix_t     A,
+                                         const sparse_operation_t  transB,
+                                         const struct matrix_descr descrB,
+                                         const sparse_matrix_t     B,
+                                         const sparse_request_t    request,
+                                         sparse_matrix_t           *C );
+
 
     /*   Computes product of sparse matrices: C = op(A) * (op(A))^{T for real or H for complex}, result is sparse   */
     sparse_status_t mkl_sparse_syrk ( const sparse_operation_t operation,
                                       const sparse_matrix_t    A,
                                       sparse_matrix_t          *C );
 
-    
+    sparse_status_t mkl_sparse_syrk_64 ( const sparse_operation_t operation,
+                                         const sparse_matrix_t    A,
+                                         sparse_matrix_t          *C );
+
     /*   Computes product of sparse matrices: C = op(A) * B * (op(A))^{T for real or H for complex}, result is sparse   */
     sparse_status_t mkl_sparse_sypr ( const sparse_operation_t  transA,
                                       const sparse_matrix_t     A,
@@ -1563,6 +2318,14 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                       const struct matrix_descr descrB,
                                       sparse_matrix_t           *C,
                                       const sparse_request_t    request );
+
+    sparse_status_t mkl_sparse_sypr_64 ( const sparse_operation_t  transA,
+                                         const sparse_matrix_t     A,
+                                         const sparse_matrix_t     B,
+                                         const struct matrix_descr descrB,
+                                         sparse_matrix_t           *C,
+                                         const sparse_request_t    request );
+
 
     /*   Computes product of sparse matrices: C = op(A) * B * (op(A))^{T for real or H for complex}, result is dense */
     sparse_status_t mkl_sparse_s_syprd ( const sparse_operation_t op,
@@ -1609,6 +2372,50 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                          const sparse_layout_t    layoutC,
                                          const MKL_INT            ldc );
 
+    sparse_status_t mkl_sparse_s_syprd_64 ( const sparse_operation_t op,
+                                            const sparse_matrix_t    A,
+                                            const float              *B,
+                                            const sparse_layout_t    layoutB,
+                                            const MKL_INT64          ldb,
+                                            const float              alpha,
+                                            const float              beta,
+                                            float                    *C,
+                                            const sparse_layout_t    layoutC,
+                                            const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_d_syprd_64 ( const sparse_operation_t op,
+                                            const sparse_matrix_t    A,
+                                            const double             *B,
+                                            const sparse_layout_t    layoutB,
+                                            const MKL_INT64          ldb,
+                                            const double             alpha,
+                                            const double             beta,
+                                            double                   *C,
+                                            const sparse_layout_t    layoutC,
+                                            const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_c_syprd_64 ( const sparse_operation_t op,
+                                            const sparse_matrix_t    A,
+                                            const MKL_Complex8       *B,
+                                            const sparse_layout_t    layoutB,
+                                            const MKL_INT64          ldb,
+                                            const MKL_Complex8       alpha,
+                                            const MKL_Complex8       beta,
+                                            MKL_Complex8             *C,
+                                            const sparse_layout_t    layoutC,
+                                            const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_z_syprd_64 ( const sparse_operation_t op,
+                                            const sparse_matrix_t    A,
+                                            const MKL_Complex16      *B,
+                                            const sparse_layout_t    layoutB,
+                                            const MKL_INT64          ldb,
+                                            const MKL_Complex16      alpha,
+                                            const MKL_Complex16      beta,
+                                            MKL_Complex16            *C,
+                                            const sparse_layout_t    layoutC,
+                                            const MKL_INT64          ldc );
+
 
     /*   Computes product of sparse matrices: C = op(A) * B, result is dense   */
     sparse_status_t mkl_sparse_s_spmmd( const sparse_operation_t operation,
@@ -1638,6 +2445,36 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                         const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
                                         MKL_Complex16            *C,
                                         const MKL_INT            ldc );
+
+    sparse_status_t mkl_sparse_s_spmmd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const sparse_matrix_t    B,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           float                    *C,
+                                           const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_d_spmmd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const sparse_matrix_t    B,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           double                   *C,
+                                           const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_c_spmmd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const sparse_matrix_t    B,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           MKL_Complex8             *C,
+                                           const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_z_spmmd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const sparse_matrix_t    B,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           MKL_Complex16            *C,
+                                           const MKL_INT64          ldc );
+
+
 
     /*   Computes product of sparse matrices: C = opA(A) * opB(B), result is dense*/
     sparse_status_t mkl_sparse_s_sp2md ( const sparse_operation_t  transA,
@@ -1688,6 +2525,55 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                          const sparse_layout_t     layout,
                                          const MKL_INT             ldc );
 
+    sparse_status_t mkl_sparse_s_sp2md_64 ( const sparse_operation_t  transA,
+                                            const struct matrix_descr descrA,
+                                            const sparse_matrix_t     A,
+                                            const sparse_operation_t  transB,
+                                            const struct matrix_descr descrB,
+                                            const sparse_matrix_t     B,
+                                            const float               alpha,
+                                            const float               beta,
+                                            float                     *C,
+                                            const sparse_layout_t     layout,
+                                            const MKL_INT64           ldc );
+
+    sparse_status_t mkl_sparse_d_sp2md_64 ( const sparse_operation_t  transA,
+                                            const struct matrix_descr descrA,
+                                            const sparse_matrix_t     A,
+                                            const sparse_operation_t  transB,
+                                            const struct matrix_descr descrB,
+                                            const sparse_matrix_t     B,
+                                            const double              alpha,
+                                            const double              beta,
+                                            double                    *C,
+                                            const sparse_layout_t     layout,
+                                            const MKL_INT64           ldc );
+
+    sparse_status_t mkl_sparse_c_sp2md_64 ( const sparse_operation_t  transA,
+                                            const struct matrix_descr descrA,
+                                            const sparse_matrix_t     A,
+                                            const sparse_operation_t  transB,
+                                            const struct matrix_descr descrB,
+                                            const sparse_matrix_t     B,
+                                            const MKL_Complex8        alpha,
+                                            const MKL_Complex8        beta,
+                                            MKL_Complex8              *C,
+                                            const sparse_layout_t     layout,
+                                            const MKL_INT64           ldc );
+
+    sparse_status_t mkl_sparse_z_sp2md_64 ( const sparse_operation_t  transA,
+                                            const struct matrix_descr descrA,
+                                            const sparse_matrix_t     A,
+                                            const sparse_operation_t  transB,
+                                            const struct matrix_descr descrB,
+                                            const sparse_matrix_t     B,
+                                            const MKL_Complex16       alpha,
+                                            const MKL_Complex16       beta,
+                                            MKL_Complex16             *C,
+                                            const sparse_layout_t     layout,
+                                            const MKL_INT64           ldc );
+
+
     /*   Computes product of sparse matrices: C = op(A) * (op(A))^{T for real or H for complex}, result is dense */
     sparse_status_t mkl_sparse_s_syrkd( const sparse_operation_t operation,
                                         const sparse_matrix_t    A,
@@ -1721,6 +2607,72 @@ MKL_DEPRECATED void MKL_ZCSRADD(const char *transa,  const MKL_INT *job,  const 
                                         const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
                                         const MKL_INT            ldc );
 
+    sparse_status_t mkl_sparse_s_syrkd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const float              alpha,
+                                           const float              beta,
+                                           float                    *C,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_d_syrkd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const double             alpha,
+                                           const double             beta,
+                                           double                   *C,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_c_syrkd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const MKL_Complex8       alpha,
+                                           const MKL_Complex8       beta,
+                                           MKL_Complex8             *C,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           const MKL_INT64          ldc );
+
+    sparse_status_t mkl_sparse_z_syrkd_64( const sparse_operation_t operation,
+                                           const sparse_matrix_t    A,
+                                           const MKL_Complex16      alpha,
+                                           const MKL_Complex16      beta,
+                                           MKL_Complex16            *C,
+                                           const sparse_layout_t    layout,       /* storage scheme for the output dense matrix: C-style or Fortran-style */
+                                           const MKL_INT64          ldc );
+
+
+    /* Computes forward or backward sweep of successive over-relaxation (SOR),
+       or Symmetric successive over-relaxation (SSOR) */
+    sparse_status_t mkl_sparse_s_sorv ( const sparse_sor_type_t   type,   /* choice of forward, backward sweep or SSOR operation */
+                                        const struct matrix_descr descrA,
+                                        const sparse_matrix_t     A,
+                                              float               omega,
+                                              float               alpha,  /* alpha equals to 0 mean zero initial guess */
+                                              float*              x,      /* solution vector and alpha * x is initial guess */
+                                        const float*              b );    /* right-hand side */
+
+    sparse_status_t mkl_sparse_d_sorv ( const sparse_sor_type_t   type,   /* choice of forward, backward sweep or SSOR operation */
+                                        const struct matrix_descr descrA,
+                                        const sparse_matrix_t     A,
+                                              double              omega,
+                                              double              alpha,  /* alpha equals to 0 mean zero initial guess */
+                                              double*             x,      /* solution vector and alpha * x is initial guess */
+                                        const double*             b );    /* right-hand side */
+
+    sparse_status_t mkl_sparse_s_sorv_64 ( const sparse_sor_type_t   type,   /* choice of forward, backward sweep or SSOR operation */
+                                           const struct matrix_descr descrA,
+                                           const sparse_matrix_t     A,
+                                                 float               omega,
+                                                 float               alpha,  /* alpha equals to 0 mean zero initial guess */
+                                                 float*              x,      /* solution vector and alpha * x is initial guess */
+                                           const float*              b );    /* right-hand side */
+
+    sparse_status_t mkl_sparse_d_sorv_64 ( const sparse_sor_type_t   type,   /* choice of forward, backward sweep or SSOR operation */
+                                           const struct matrix_descr descrA,
+                                           const sparse_matrix_t     A,
+                                                 double              omega,
+                                                 double              alpha,  /* alpha equals to 0 mean zero initial guess */
+                                                 double*             x,      /* solution vector and alpha * x is initial guess */
+                                           const double*             b );    /* right-hand side */
 
 
 #ifdef __cplusplus

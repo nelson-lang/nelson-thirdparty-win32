@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2021 Intel Corporation.
+* Copyright 2021-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -41,6 +41,10 @@
 #define mkl_domatcopy_batch_strided MKL_Domatcopy_batch_strided
 #define mkl_comatcopy_batch_strided MKL_Comatcopy_batch_strided
 #define mkl_zomatcopy_batch_strided MKL_Zomatcopy_batch_strided
+#define mkl_somatadd_batch_strided MKL_Somatadd_batch_strided
+#define mkl_domatadd_batch_strided MKL_Domatadd_batch_strided
+#define mkl_comatadd_batch_strided MKL_Comatadd_batch_strided
+#define mkl_zomatadd_batch_strided MKL_Zomatadd_batch_strided
 #define mkl_simatcopy_batch MKL_Simatcopy_batch
 #define mkl_dimatcopy_batch MKL_Dimatcopy_batch
 #define mkl_cimatcopy_batch MKL_Cimatcopy_batch

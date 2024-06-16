@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2020-2021 Intel Corporation.
+* Copyright 2020-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -25,10 +25,19 @@
 #include "mkl_spblas.h"
 #include "mkl_spblas_omp_variant.h"
 
+#if (_OPENMP >= 202011)
+#include <omp.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_create_csr)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:rows_start, rows_end, col_indx, values)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_create_csr)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_s_create_csr( sparse_matrix_t           *A,
                                              const sparse_index_base_t indexing,
@@ -39,6 +48,11 @@ extern "C" {
                                                    MKL_INT             *col_indx,
                                                    float               *values );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_create_csr)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:rows_start, rows_end, col_indx, values)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_create_csr)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_d_create_csr( sparse_matrix_t           *A,
                                              const sparse_index_base_t indexing,
@@ -49,6 +63,11 @@ extern "C" {
                                                    MKL_INT             *col_indx,
                                                    double              *values );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_export_csr)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) 
+        //adjust_args(nothing)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_export_csr)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_s_export_csr( const sparse_matrix_t  source,
                                              sparse_index_base_t    *indexing,
@@ -59,6 +78,11 @@ extern "C" {
                                              MKL_INT                **col_indx,
                                              float                  **values );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_export_csr)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) 
+        //adjust_args(nothing)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_export_csr)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_d_export_csr( const sparse_matrix_t  source,
                                              sparse_index_base_t    *indexing,
@@ -69,21 +93,60 @@ extern "C" {
                                              MKL_INT                **col_indx,
                                              double                 **values );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(destroy)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) 
+        //adjust_args(nothing)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(destroy)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_destroy( sparse_matrix_t  A );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(set_mv_hint)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync))
+        //adjust_args(nothing)
+#endif
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(set_mv_hint)) match(construct={target variant dispatch}, device={arch(gen)})
+    sparse_status_t mkl_sparse_set_mv_hint    ( const sparse_matrix_t     A,
+                                                const sparse_operation_t  operation,
+                                                const struct matrix_descr descr,
+                                                const MKL_INT             expected_calls );
+
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(set_sv_hint)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) 
+        //adjust_args(nothing)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(set_sv_hint)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_set_sv_hint    ( const sparse_matrix_t     A,
                                                 const sparse_operation_t  operation,
                                                 const struct matrix_descr descr,
                                                 const MKL_INT             expected_calls );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(optimize)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) 
+        //adjust_args(nothing)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(optimize)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_optimize( sparse_matrix_t  A );
+
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(order)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync))
+        //adjust_args(nothing)
+#endif
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(order)) match(construct={target variant dispatch}, device={arch(gen)})
+    sparse_status_t mkl_sparse_order( const sparse_matrix_t  A );
 
     /* Level 2 */
 
     /*   Computes y = alpha * A * x + beta * y   */
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_mv)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:x,y)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_mv)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_s_mv ( const sparse_operation_t  operation,
                                       const float               alpha,
@@ -93,6 +156,11 @@ extern "C" {
                                       const float               beta,
                                       float                     *y );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_mv)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:x,y)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_mv)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_d_mv ( const sparse_operation_t  operation,
                                       const double              alpha,
@@ -103,6 +171,11 @@ extern "C" {
                                       double                    *y );
 
     /*   Solves triangular system y = alpha * A^{-1} * x   */
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_trsv)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:x, y)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_trsv)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_s_trsv ( const sparse_operation_t  operation,
                                         const float               alpha,
@@ -111,6 +184,11 @@ extern "C" {
                                         const float               *x,
                                         float                     *y );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_trsv)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:x, y)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_trsv)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_d_trsv ( const sparse_operation_t  operation,
                                         const double              alpha,
@@ -122,6 +200,11 @@ extern "C" {
     /* Level 3 */
 
     /*   Computes y = alpha * A * x + beta * y   */
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_mm)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:x, y)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(s_mm)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_s_mm( const sparse_operation_t  operation,
                                      const float               alpha,
@@ -135,6 +218,11 @@ extern "C" {
                                      float                     *y,
                                      const MKL_INT             ldy );
 
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_mm)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) \
+        adjust_args(need_device_ptr:x, y)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(d_mm)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_d_mm( const sparse_operation_t  operation,
                                      const double              alpha,
@@ -149,6 +237,11 @@ extern "C" {
                                      const MKL_INT             ldy );
 
     /*   Computes product of sparse matrices: C = opA(A) * opB(B), result is sparse   */
+#if (_OPENMP >= 202011)
+    #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(sp2m)) match(construct={dispatch}, device={arch(gen)}) \
+        append_args(interop(prefer_type("sycl","level_zero"),targetsync)) 
+        //adjust_args(nothing)
+#endif
     #pragma omp declare variant (MKL_SPBLAS_VARIANT_NAME(sp2m)) match(construct={target variant dispatch}, device={arch(gen)})
     sparse_status_t mkl_sparse_sp2m ( const sparse_operation_t  transA, 
                                       const struct matrix_descr descrA, 

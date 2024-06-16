@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2021 Intel Corporation.
+* Copyright 1999-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -3566,15 +3566,32 @@ MKL_INT NUMROC(const MKL_INT* n, const MKL_INT* nb, const MKL_INT* iproc,
 MKL_INT NUMROC_(const MKL_INT* n, const MKL_INT* nb, const MKL_INT* iproc,
                 const MKL_INT* isrcproc, const MKL_INT* nprocs);
 
-void	pcgebal(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
-void	PCGEBAL(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
-void	PCGEBAL_(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
-void	pcgebal_(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
+void infog2l(const MKL_INT* grindx, const MKL_INT* gcindx, const MKL_INT* desc,
+             const MKL_INT* nprow, const MKL_INT* npcol,
+             const MKL_INT* myrow, const MKL_INT* mycol,
+             MKL_INT* lrindx, MKL_INT* lcindx, MKL_INT* rsrc, MKL_INT* csrc);
+void infog2l_(const MKL_INT* grindx, const MKL_INT* gcindx, const MKL_INT* desc,
+             const MKL_INT* nprow, const MKL_INT* npcol,
+             const MKL_INT* myrow, const MKL_INT* mycol,
+             MKL_INT* lrindx, MKL_INT* lcindx, MKL_INT* rsrc, MKL_INT* csrc);
+void INFOG2L(const MKL_INT* grindx, const MKL_INT* gcindx, const MKL_INT* desc,
+             const MKL_INT* nprow, const MKL_INT* npcol,
+             const MKL_INT* myrow, const MKL_INT* mycol,
+             MKL_INT* lrindx, MKL_INT* lcindx, MKL_INT* rsrc, MKL_INT* csrc);
+void INFOG2L_(const MKL_INT* grindx, const MKL_INT* gcindx, const MKL_INT* desc,
+             const MKL_INT* nprow, const MKL_INT* npcol,
+             const MKL_INT* myrow, const MKL_INT* mycol,
+             MKL_INT* lrindx, MKL_INT* lcindx, MKL_INT* rsrc, MKL_INT* csrc);
 
-void	pzgebal(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
-void	PZGEBAL(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
-void	PZGEBAL_(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
-void	pzgebal_(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
+void pcgebal(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
+void PCGEBAL(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
+void PCGEBAL_(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
+void pcgebal_(const char* job, const MKL_INT* n, MKL_Complex8* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, float* scale, MKL_INT* info);
+
+void pzgebal(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
+void PZGEBAL(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
+void PZGEBAL_(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
+void pzgebal_(const char* job, const MKL_INT* n, MKL_Complex16* a, const MKL_INT* desca, MKL_INT* ilo, MKL_INT* ihi, double* scale, MKL_INT* info);
 
 
 void	pcgebak(const char* job, const char* side, const MKL_INT* n, MKL_INT* ilo, MKL_INT* ihi, float* scale, const MKL_INT* m, MKL_Complex8* v, const MKL_INT* descv,  MKL_INT* info);

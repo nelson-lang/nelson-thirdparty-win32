@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2021 Intel Corporation.
+* Copyright 1999-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -20,19 +20,15 @@
 #ifndef _MKL_H_
 #define _MKL_H_
 
-#if defined(__MIC__) || defined(__TARGET_ARCH_MIC)
-#   define MKL_CALL_CONV
-#else
-#   if defined(MKL_STDCALL)
-#       define MKL_CALL_CONV __stdcall
-#   else
-#       define MKL_CALL_CONV __cdecl
-#   endif
-#endif
+#define _Mkl_Api(rtype,name,arg) extern rtype name    arg
 
-#define _Mkl_Api(rtype,name,arg)   extern rtype MKL_CALL_CONV   name    arg;
-#define _mkl_api(rtype,name,arg)   extern rtype MKL_CALL_CONV   name    arg;
-#define _MKL_API(rtype,name,arg)   extern rtype MKL_CALL_CONV   name    arg;
+#if defined( _WIN32 ) || defined( _WIN64 )
+#define _mkl_api(rtype,name,arg)   extern rtype   name    arg
+#define _MKL_API(rtype,name,arg)   extern rtype   name    arg
+#else
+#define _mkl_api(rtype,name,arg) extern rtype name##_ arg
+#define _MKL_API(rtype,name,arg) extern rtype name##_ arg
+#endif
 
 #include "mkl_version.h"
 #include "mkl_types.h"
@@ -56,7 +52,6 @@
 #include "mkl_solvers_ee.h"
 #include "mkl_direct_call.h"
 #include "mkl_compact.h"
-#include "mkl_graph.h"
 #include "mkl_sparse_qr.h"
 
 #endif /* _MKL_H_ */

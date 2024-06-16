@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2007-2021 Intel Corporation.
+* Copyright 2007-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -281,6 +281,34 @@ void mkl_zomatcopy_batch(
     const MKL_Complex16 ** A_array, const size_t * lda_array,
     MKL_Complex16 ** B, const size_t * ldb_array, size_t group_count,
     const size_t * group_size) NOTHROW;
+
+void mkl_somatadd_batch_strided(
+    char ordering, char transa, char transb,
+    size_t rows, size_t cols,
+    const float alpha, const float * A, size_t lda, size_t stridea,
+    const float beta, const float * B, size_t ldb, size_t strideb,
+    float * C, size_t ldc, size_t stridec, size_t batch_size) NOTHROW;
+
+void mkl_domatadd_batch_strided(
+    char ordering, char transa, char transb,
+    size_t rows, size_t cols,
+    const double alpha, const double * A, size_t lda, size_t stridea,
+    const double beta, const double * B, size_t ldb, size_t strideb,
+    double * C, size_t ldc, size_t stridec, size_t batch_size) NOTHROW;
+
+void mkl_comatadd_batch_strided(
+    char ordering, char transa, char transb,
+    size_t rows, size_t cols,
+    const MKL_Complex8 alpha, const MKL_Complex8 * A, size_t lda, size_t stridea,
+    const MKL_Complex8 beta, const MKL_Complex8 * B, size_t ldb, size_t strideb,
+    MKL_Complex8 * C, size_t ldc, size_t stridec, size_t batch_size) NOTHROW;
+
+void mkl_zomatadd_batch_strided(
+    char ordering, char transa, char transb,
+    size_t rows, size_t cols,
+    const MKL_Complex16 alpha, const MKL_Complex16 * A, size_t lda, size_t stridea,
+    const MKL_Complex16 beta, const MKL_Complex16 * B, size_t ldb, size_t strideb,
+    MKL_Complex16 * C, size_t ldc, size_t stridec, size_t batch_size) NOTHROW;
 
 #ifdef __cplusplus
 }

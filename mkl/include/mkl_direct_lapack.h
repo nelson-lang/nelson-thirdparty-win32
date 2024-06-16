@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2016-2021 Intel Corporation.
+* Copyright 2016-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -895,7 +895,6 @@ static __inline void mkl_dc_getrf(MKL_INT m, MKL_INT n, mkl_dc_type* a, MKL_INT 
 }
 
 #ifndef MKL_DIRECT_CALL_LAPACKE_DISABLE
-#ifndef MKL_STDCALL
 static __inline lapack_int mkl_dc_lapacke_getrf_convert(int matrix_layout, lapack_int m, lapack_int n, mkl_dc_type* a, lapack_int lda, lapack_int* ipiv)
 {
     lapack_int info = 0;
@@ -910,7 +909,6 @@ static __inline lapack_int mkl_dc_lapacke_getrf_convert(int matrix_layout, lapac
     return MKL_DC_CONCAT3(LAPACKE_, MKL_DC_PREC_LETTER, getrf)(matrix_layout, m, n, a, lda, ipiv);
 }
 #endif
-#endif
 
 
 /* ?GETRFNP */
@@ -918,7 +916,6 @@ static __inline lapack_int mkl_dc_lapacke_getrf_convert(int matrix_layout, lapac
 do { \
     MKL_INT i; \
     MKL_INT j; \
-    MKL_INT k; \
     MKL_INT ii; \
     MKL_INT jj; \
     MKL_INT is_zero; \
@@ -1233,7 +1230,6 @@ static __inline void mkl_dc_getrfnp(MKL_INT m, MKL_INT n, mkl_dc_type* a, MKL_IN
 }
 
 #ifndef MKL_DIRECT_CALL_LAPACKE_DISABLE
-#ifndef MKL_STDCALL
 static __inline lapack_int mkl_dc_lapacke_getrfnp_convert(int matrix_layout, lapack_int m, lapack_int n, mkl_dc_type* a, lapack_int lda)
 {
     lapack_int info = 0;
@@ -1247,7 +1243,6 @@ static __inline lapack_int mkl_dc_lapacke_getrfnp_convert(int matrix_layout, lap
     }
     return MKL_DC_CONCAT3(LAPACKE_mkl_, MKL_DC_PREC_LETTER, getrfnp)(matrix_layout, m, n, a, lda);
 }
-#endif
 #endif
 
 
@@ -1372,7 +1367,6 @@ static __inline void mkl_dc_getrs(char trans, MKL_INT n, MKL_INT nrhs, const mkl
 }
 
 #ifndef MKL_DIRECT_CALL_LAPACKE_DISABLE
-#ifndef MKL_STDCALL
 static __inline lapack_int mkl_dc_lapacke_getrs_convert(int matrix_layout, char trans, lapack_int n, lapack_int nrhs,
                                                         const mkl_dc_type* a, lapack_int lda, const lapack_int* ipiv,
                                                         mkl_dc_type* b, lapack_int ldb)
@@ -1388,7 +1382,6 @@ static __inline lapack_int mkl_dc_lapacke_getrs_convert(int matrix_layout, char 
     }
     return MKL_DC_CONCAT3(LAPACKE_, MKL_DC_PREC_LETTER, getrs)(matrix_layout, trans, n, nrhs, a, lda, ipiv, b, ldb);
 }
-#endif
 #endif
 
 /* ?GETRI */
@@ -2397,7 +2390,6 @@ static __inline void mkl_dc_getri(MKL_INT n, mkl_dc_type* a, MKL_INT lda, const 
 }
 
 #ifndef MKL_DIRECT_CALL_LAPACKE_DISABLE
-#ifndef MKL_STDCALL
 static __inline lapack_int mkl_dc_lapacke_getri_convert(int matrix_layout, lapack_int n, mkl_dc_type* a,
                                                         lapack_int lda, const lapack_int* ipiv,
                                                         mkl_dc_type* work, lapack_int lwork)
@@ -2423,30 +2415,30 @@ static __inline lapack_int mkl_dc_lapacke_getri_convert(int matrix_layout, lapac
     return MKL_DC_CONCAT3(LAPACKE_, MKL_DC_PREC_LETTER, getri)(matrix_layout, n, a, lda, ipiv);
 }
 #endif
-#endif
 
 /* ?GEQRF */
 #if defined(MKL_SINGLE) || defined(MKL_DOUBLE)
 #define mkl_dc_geqrf_hh(n, alpha, x, ldx, tau, dc_access) \
 do { \
     MKL_INT ii; \
+    MKL_INT n1 = n - 1; \
     mkl_dc_real_type xnorm; \
     mkl_dc_real_type ax; \
     if (n <= 1) { \
         MKL_DC_SET_ZERO(tau); \
         break; \
     } \
-    MKL_INT n1 = n - 1; \
     MKL_DC_NRM2_VEC(xnorm, n1, x, ldx, dc_access); \
     if (MKL_DC_IS_R_ZERO(xnorm)) { \
         MKL_DC_SET_ZERO(tau); \
     } else { \
         MKL_INT knt = 0; \
-        MKL_DC_R_PY2(ax, alpha, xnorm); \
         mkl_dc_type beta; \
+        mkl_dc_real_type safmin; \
+        mkl_dc_real_type ab; \
+        MKL_DC_R_PY2(ax, alpha, xnorm); \
         MKL_DC_R_SIGN(beta, ax, alpha); \
         MKL_DC_NEG(beta, beta); \
-        mkl_dc_real_type safmin; \
         if (!MKL_DC_UNSAFE) { \
             safmin = MKL_DC_XLAMCH("s") / MKL_DC_XLAMCH("e"); \
             if (MKL_DC_ABS(beta) < safmin) { \
@@ -2468,7 +2460,6 @@ do { \
         } \
         MKL_DC_SUB(tau, beta, alpha); \
         MKL_DC_DIV(tau, tau, beta); \
-        mkl_dc_real_type ab; \
         MKL_DC_SUB(ab, alpha, beta); \
         for (ii = 0; ii < n - 1; ++ii) { \
             MKL_DC_DIV(dc_access(x, ldx, ii, 0), dc_access(x, ldx, ii, 0), ab); \
@@ -2487,6 +2478,7 @@ do { \
 #define mkl_dc_geqrf_hh(n, alpha, x, ldx, tau, dc_access) \
 do { \
     MKL_INT ii; \
+    MKL_INT n1 = n - 1; \
     mkl_dc_real_type xnorm; \
     mkl_dc_real_type ax; \
     mkl_dc_real_type alphr; \
@@ -2501,17 +2493,16 @@ do { \
         MKL_DC_SET_ZERO(tau); \
         break; \
     } \
-    MKL_INT n1 = n - 1; \
     MKL_DC_NRM2_VEC(xnorm, n1, x, ldx, dc_access); \
     MKL_DC_REIM(alphr, alphi, alpha); \
     if (MKL_DC_IS_R_ZERO(xnorm) && MKL_DC_IS_R_ZERO(alphi)) { \
         MKL_DC_SET_ZERO(tau); \
     } else { \
         MKL_INT knt = 0; \
+        mkl_dc_real_type safmin; \
         MKL_DC_R_PY3(ax, alphr, alphi, xnorm); \
         MKL_DC_R_SIGN(beta, ax, alphr); \
         MKL_DC_R_NEG(beta, beta); \
-        mkl_dc_real_type safmin; \
         if (!MKL_DC_UNSAFE) { \
             safmin = MKL_DC_XLAMCH("s") / MKL_DC_XLAMCH("e"); \
             if (MKL_DC_ABS(beta) < safmin) { \
@@ -2644,7 +2635,6 @@ static __inline void mkl_dc_geqrf(MKL_INT m, MKL_INT n, mkl_dc_type* a, MKL_INT 
 }
 
 #ifndef MKL_DIRECT_CALL_LAPACKE_DISABLE
-#ifndef MKL_STDCALL
 static __inline lapack_int mkl_dc_lapacke_geqrf_convert(int matrix_layout, lapack_int m, lapack_int n,
                                                         mkl_dc_type* a, lapack_int lda,
                                                         mkl_dc_type* tau, mkl_dc_type* work, lapack_int lwork)
@@ -2670,12 +2660,11 @@ static __inline lapack_int mkl_dc_lapacke_geqrf_convert(int matrix_layout, lapac
     return MKL_DC_CONCAT3(LAPACKE_, MKL_DC_PREC_LETTER, geqrf)(matrix_layout, m, n, a, lda, tau);
 }
 #endif
-#endif
 
 /* ?POTRF */
 #define mkl_dc_potrf_n(uplo, n, a, lda, info, dc_access) \
 do { \
-    MKL_INT i, j, k, ii, jj; \
+    MKL_INT i, j, ii, jj; \
     if (MKL_DC_MisU(uplo)) { \
         for (j = 0; j < n; ++j) { \
             mkl_dc_type ajj = dc_access(a, lda, j, j); \
@@ -2751,8 +2740,8 @@ do { \
 #define mkl_dc_potrf_2(uplo, n, a, lda, info, dc_access) \
 do { \
     mkl_dc_type a00 = dc_access(a, lda, 0, 0); \
-    MKL_DC_ZERO_IMAG(a00); \
     mkl_dc_type a11 = dc_access(a, lda, 1, 1); \
+    MKL_DC_ZERO_IMAG(a00); \
     MKL_DC_ZERO_IMAG(a11); \
     if (MKL_DC_MisU(uplo)) { \
         mkl_dc_type a01 = dc_access(a, lda, 0, 1); \
@@ -2800,10 +2789,10 @@ do { \
 #define mkl_dc_potrf_3(uplo, n, a, lda, info, dc_access) \
 do { \
     mkl_dc_type a00 = dc_access(a, lda, 0, 0); \
-    MKL_DC_ZERO_IMAG(a00); \
     mkl_dc_type a11 = dc_access(a, lda, 1, 1); \
-    MKL_DC_ZERO_IMAG(a11); \
     mkl_dc_type a22 = dc_access(a, lda, 2, 2); \
+    MKL_DC_ZERO_IMAG(a00); \
+    MKL_DC_ZERO_IMAG(a11); \
     MKL_DC_ZERO_IMAG(a22); \
     if (MKL_DC_MisU(uplo)) { \
         mkl_dc_type a01 = dc_access(a, lda, 0, 1); \
@@ -2885,12 +2874,12 @@ do { \
 #define mkl_dc_potrf_4(uplo, n, a, lda, info, dc_access) \
 do { \
     mkl_dc_type a00 = dc_access(a, lda, 0, 0); \
-    MKL_DC_ZERO_IMAG(a00); \
     mkl_dc_type a11 = dc_access(a, lda, 1, 1); \
-    MKL_DC_ZERO_IMAG(a11); \
     mkl_dc_type a22 = dc_access(a, lda, 2, 2); \
-    MKL_DC_ZERO_IMAG(a22); \
     mkl_dc_type a33 = dc_access(a, lda, 3, 3); \
+    MKL_DC_ZERO_IMAG(a00); \
+    MKL_DC_ZERO_IMAG(a11); \
+    MKL_DC_ZERO_IMAG(a22); \
     MKL_DC_ZERO_IMAG(a33); \
     if (MKL_DC_MisU(uplo)) { \
         mkl_dc_type a01 = dc_access(a, lda, 0, 1); \
@@ -3018,14 +3007,14 @@ do { \
 #define mkl_dc_potrf_5(uplo, n, a, lda, info, dc_access) \
 { \
     mkl_dc_type a00 = dc_access(a, lda, 0, 0); \
-    MKL_DC_ZERO_IMAG(a00); \
     mkl_dc_type a11 = dc_access(a, lda, 1, 1); \
-    MKL_DC_ZERO_IMAG(a11); \
     mkl_dc_type a22 = dc_access(a, lda, 2, 2); \
-    MKL_DC_ZERO_IMAG(a22); \
     mkl_dc_type a33 = dc_access(a, lda, 3, 3); \
-    MKL_DC_ZERO_IMAG(a33); \
     mkl_dc_type a44 = dc_access(a, lda, 4, 4); \
+    MKL_DC_ZERO_IMAG(a00); \
+    MKL_DC_ZERO_IMAG(a11); \
+    MKL_DC_ZERO_IMAG(a22); \
+    MKL_DC_ZERO_IMAG(a33); \
     MKL_DC_ZERO_IMAG(a44); \
     if (MKL_DC_MisU(uplo)) { \
         mkl_dc_type a01 = dc_access(a, lda, 0, 1); \
@@ -3256,7 +3245,6 @@ static __inline void mkl_dc_potrf(char uplo, MKL_INT n, mkl_dc_type* a, MKL_INT 
 }
 
 #ifndef MKL_DIRECT_CALL_LAPACKE_DISABLE
-#ifndef MKL_STDCALL
 static __inline lapack_int mkl_dc_lapacke_potrf_convert(int matrix_layout, char uplo, lapack_int n, mkl_dc_type* a, lapack_int lda)
 {
     lapack_int info = 0;
@@ -3270,5 +3258,4 @@ static __inline lapack_int mkl_dc_lapacke_potrf_convert(int matrix_layout, char 
     }
     return MKL_DC_CONCAT3(LAPACKE_, MKL_DC_PREC_LETTER, potrf)(matrix_layout, uplo, n, a, lda);
 }
-#endif
 #endif

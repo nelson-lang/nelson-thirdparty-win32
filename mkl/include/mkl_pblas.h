@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2021 Intel Corporation.
+* Copyright 1999-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -538,6 +538,7 @@ void PSSYR2K( const char *uplo, const char *trans, const MKL_INT *n, const MKL_I
 void PDSYR2K( const char *uplo, const char *trans, const MKL_INT *n, const MKL_INT *k, const double *alpha, const double *a, const MKL_INT *ia, const MKL_INT *ja, const MKL_INT *desca, const double *b, const MKL_INT *ib, const MKL_INT *jb, const MKL_INT *descb, double *beta, double *c, const MKL_INT *ic, const MKL_INT *jc, const MKL_INT *descc );
 void PSSYR2K_( const char *uplo, const char *trans, const MKL_INT *n, const MKL_INT *k, const float *alpha, const float *a, const MKL_INT *ia, const MKL_INT *ja, const MKL_INT *desca, const float *b, const MKL_INT *ib, const MKL_INT *jb, const MKL_INT *descb, const float *beta, float *c, const MKL_INT *ic, const MKL_INT *jc, const MKL_INT *descc );
 void PDSYR2K_( const char *uplo, const char *trans, const MKL_INT *n, const MKL_INT *k, const double *alpha, const double *a, const MKL_INT *ia, const MKL_INT *ja, const MKL_INT *desca, const double *b, const MKL_INT *ib, const MKL_INT *jb, const MKL_INT *descb, double *beta, double *c, const MKL_INT *ic, const MKL_INT *jc, const MKL_INT *descc );
+void pdsyr2k_( const char *uplo, const char *trans, const MKL_INT *n, const MKL_INT *k, const double *alpha, const double *a, const MKL_INT *ia, const MKL_INT *ja, const MKL_INT *desca, const double *b, const MKL_INT *ib, const MKL_INT *jb, const MKL_INT *descb, double *beta, double *c, const MKL_INT *ic, const MKL_INT *jc, const MKL_INT *descc );
 void pcsyr2k_( const char *uplo, const char *trans, const MKL_INT *n, const MKL_INT *k, const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT *ia, const MKL_INT *ja, const MKL_INT *desca, const MKL_Complex8 *b, const MKL_INT *ib, const MKL_INT *jb, const MKL_INT *descb, const MKL_Complex8 *beta, MKL_Complex8 *c, const MKL_INT *ic, const MKL_INT *jc, const MKL_INT *descc );
 void pzsyr2k_( const char *uplo, const char *trans, const MKL_INT *n, const MKL_INT *k, const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT *ia, const MKL_INT *ja, const MKL_INT *desca, const MKL_Complex16 *b, const MKL_INT *ib, const MKL_INT *jb, const MKL_INT *descb, const MKL_Complex16 *beta, MKL_Complex16 *c, const MKL_INT *ic, const MKL_INT *jc, const MKL_INT *descc );
 
@@ -1137,6 +1138,7 @@ void    PSSYR2K( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, float *alpha, 
 void    PDSYR2K( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, double *alpha, double *a, MKL_INT *ia, MKL_INT *ja, MKL_INT *desca, double *b, MKL_INT *ib, MKL_INT *jb, MKL_INT *descb, double *beta, double *c, MKL_INT *ic, MKL_INT *jc, MKL_INT *descc );
 void    PSSYR2K_( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, float *alpha, float *a, MKL_INT *ia, MKL_INT *ja, MKL_INT *desca, float *b, MKL_INT *ib, MKL_INT *jb, MKL_INT *descb, float *beta, float *c, MKL_INT *ic, MKL_INT *jc, MKL_INT *descc );
 void    PDSYR2K_( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, double *alpha, double *a, MKL_INT *ia, MKL_INT *ja, MKL_INT *desca, double *b, MKL_INT *ib, MKL_INT *jb, MKL_INT *descb, double *beta, double *c, MKL_INT *ic, MKL_INT *jc, MKL_INT *descc );
+void    pdsyr2k_( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, double *alpha, double *a, MKL_INT *ia, MKL_INT *ja, MKL_INT *desca, double *b, MKL_INT *ib, MKL_INT *jb, MKL_INT *descb, double *beta, double *c, MKL_INT *ic, MKL_INT *jc, MKL_INT *descc );
 void    pcsyr2k_( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, float *alpha, float *a, MKL_INT *ia, MKL_INT *ja, MKL_INT *desca, float *b, MKL_INT *ib, MKL_INT *jb, MKL_INT *descb, float *beta, float *c, MKL_INT *ic, MKL_INT *jc, MKL_INT *descc );
 void    pzsyr2k_( char *uplo, char *trans, MKL_INT *n, MKL_INT *k, double *alpha, double *a, MKL_INT *ia, MKL_INT *ja, MKL_INT *desca, double *b, MKL_INT *ib, MKL_INT *jb, MKL_INT *descb, double *beta, double *c, MKL_INT *ic, MKL_INT *jc, MKL_INT *descc );
 

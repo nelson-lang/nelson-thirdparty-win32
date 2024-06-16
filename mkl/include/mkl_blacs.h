@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 1999-2021 Intel Corporation.
+* Copyright 1999-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -79,6 +79,7 @@ void    zgamn2d_(const MKL_INT *ConTxt, const char *scope, const char *top, cons
 void    ZGAMN2D(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, MKL_INT *rA, MKL_INT *cA, const MKL_INT *ldia, const MKL_INT *rdest, const MKL_INT *cdest);
 void    ZGAMN2D_(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, MKL_INT *rA, MKL_INT *cA, const MKL_INT *ldia, const MKL_INT *rdest, const MKL_INT *cdest);
 
+
 void    igsum2d(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    igsum2d_(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    IGSUM2D(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
@@ -130,6 +131,7 @@ void    zgesd2d_(const MKL_INT *ConTxt, const MKL_INT *m, const MKL_INT *n, doub
 void    ZGESD2D(const MKL_INT *ConTxt, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    ZGESD2D_(const MKL_INT *ConTxt, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 
+
 void    itrsd2d(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, const MKL_INT *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    itrsd2d_(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, const MKL_INT *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    ITRSD2D(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, const MKL_INT *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
@@ -154,6 +156,7 @@ void    ztrsd2d(const MKL_INT *ConTxt, const char *uplo, const char *diag, const
 void    ztrsd2d_(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, const double *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    ZTRSD2D(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, const double *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
 void    ZTRSD2D_(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, const double *A, const MKL_INT *lda, const MKL_INT *rdest, const MKL_INT *cdest);
+
 
 void    igerv2d(const MKL_INT *ConTxt, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 void    igerv2d_(const MKL_INT *ConTxt, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
@@ -205,6 +208,7 @@ void    ztrrv2d(const MKL_INT *ConTxt, const char *uplo, const char *diag, const
 void    ztrrv2d_(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 void    ZTRRV2D(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 void    ZTRRV2D_(const MKL_INT *ConTxt, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
+
 
 void    igebs2d(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, const MKL_INT *A, const MKL_INT *lda);
 void    igebs2d_(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, const MKL_INT *A, const MKL_INT *lda);
@@ -283,6 +287,7 @@ void    zgebr2d_(const MKL_INT *ConTxt, const char *scope, const char *top, cons
 void    ZGEBR2D(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 void    ZGEBR2D_(const MKL_INT *ConTxt, const char *scope, const char *top, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 
+
 void    itrbr2d(const MKL_INT *ConTxt, const char *scope, const char *top, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 void    itrbr2d_(const MKL_INT *ConTxt, const char *scope, const char *top, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 void    ITRBR2D(const MKL_INT *ConTxt, const char *scope, const char *top, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, MKL_INT *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
@@ -309,10 +314,10 @@ void    ZTRBR2D(const MKL_INT *ConTxt, const char *scope, const char *top, const
 void    ZTRBR2D_(const MKL_INT *ConTxt, const char *scope, const char *top, const char *uplo, const char *diag, const MKL_INT *m, const MKL_INT *n, double *A, const MKL_INT *lda, const MKL_INT *rsrc, const MKL_INT *csrc);
 
 
-void    blacs_pinfo(MKL_INT *mypnum, MKL_INT *nprocs);
-void    blacs_pinfo_(MKL_INT *mypnum, MKL_INT *nprocs);
-void    BLACS_PINFO(MKL_INT *mypnum, MKL_INT *nprocs);
-void    BLACS_PINFO_(MKL_INT *mypnum, MKL_INT *nprocs);
+void	blacs_pinfo(MKL_INT *mypnum, MKL_INT *nprocs);
+void	blacs_pinfo_(MKL_INT *mypnum, MKL_INT *nprocs);
+void	BLACS_PINFO(MKL_INT *mypnum, MKL_INT *nprocs);
+void	BLACS_PINFO_(MKL_INT *mypnum, MKL_INT *nprocs);
 
 void    blacs_setup(MKL_INT *mypnum, MKL_INT *nprocs);
 void    blacs_setup_(MKL_INT *mypnum, MKL_INT *nprocs);

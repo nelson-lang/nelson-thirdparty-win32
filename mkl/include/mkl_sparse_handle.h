@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2004-2021 Intel Corporation.
+* Copyright 2004-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -28,18 +28,6 @@
 extern "C" {
 #endif
 
-#ifndef MKL_CALL_CONV
-#   if defined(_WIN32) & !defined(_WIN64)
-#       if defined(MKL_STDCALL)
-#           define MKL_CALL_CONV __stdcall
-#       else
-#           define MKL_CALL_CONV __cdecl
-#       endif
-#   else
-#       define MKL_CALL_CONV
-#   endif
-#endif
-
 typedef enum { MKL_ZERO_BASED, MKL_ONE_BASED } sparse_matrix_indexing;
 typedef enum { MKL_C_STYLE, MKL_FORTRAN_STYLE } sparse_matrix_print_styles;
 typedef enum { MKL_CSR } sparse_matrix_formats;
@@ -56,8 +44,8 @@ typedef struct _sparse_struct {
     sparse_matrix_print_styles   print_style;
 } sparse_struct;
 
-extern void    MKL_CALL_CONV sparse_matrix_checker_init    (sparse_struct*);
-extern sparse_checker_error_values MKL_CALL_CONV sparse_matrix_checker (sparse_struct*);
+extern void sparse_matrix_checker_init    (sparse_struct*);
+extern sparse_checker_error_values sparse_matrix_checker (sparse_struct*);
 
 #ifdef __cplusplus
 }

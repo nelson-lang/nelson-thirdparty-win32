@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2018-2021 Intel Corporation.
+* Copyright 2018-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -33,8 +33,6 @@
 #include "mkl_types.h"
 #include "mkl_spblas.h"
 
-#ifndef MKL_STDCALL
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
@@ -64,5 +62,4 @@ sparse_status_t mkl_sparse_s_qr_rsolve    ( sparse_operation_t operation, sparse
 }
 #endif /* __cplusplus */
 
-#endif
 #endif

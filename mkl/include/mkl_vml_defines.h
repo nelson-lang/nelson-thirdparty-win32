@@ -1,6 +1,6 @@
 /* file: mkl_vml_defines.h */
 /*******************************************************************************
-* Copyright 2006-2021 Intel Corporation.
+* Copyright 2006-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -33,8 +33,10 @@ extern "C" {
 //
 //  VML mode controls VML function accuracy, floating-point settings (rounding
 //  mode and precision) and VML error handling options. Default VML mode is
-//  VML_HA | VML_ERRMODE_DEFAULT, i.e. VML high accuracy functions are
-//  called, and current floating-point precision and the rounding mode is used.
+//  VML_HA | VML_ERRMODE_DEFAULT | VML_FTZDAZ_CURRENT,
+//  i.e. VML high accuracy functions are called,
+//  current floating-point precision and the rounding mode is used,
+//  current MXCSR settings are left unchanged.
 //
 //  Error status macros are used for error classification.
 //--
@@ -52,6 +54,9 @@ extern "C" {
 #define VML_HA 0x00000002
 #define VML_EP 0x00000003
 
+#define VML_LA_64 0x0000000000000001
+#define VML_HA_64 0x0000000000000002
+#define VML_EP_64 0x0000000000000003
 
 /*
 //  SETTING OPTIMAL FLOATING-POINT PRECISION AND ROUNDING MODE
@@ -78,6 +83,11 @@ extern "C" {
 #define VML_FLOAT_CONSISTENT  0x00000010
 #define VML_DOUBLE_CONSISTENT 0x00000020
 #define VML_RESTORE           0x00000030
+
+#define VML_DEFAULT_PRECISION_64 0x0000000000000000
+#define VML_FLOAT_CONSISTENT_64  0x0000000000000010
+#define VML_DOUBLE_CONSISTENT_64 0x0000000000000020
+#define VML_RESTORE_64           0x0000000000000030
 
 /*
 //  VML ERROR HANDLING CONTROL
@@ -106,6 +116,15 @@ extern "C" {
 #define VML_ERRMODE_DEFAULT  \
 VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 
+#define VML_ERRMODE_IGNORE_64   0x0000000000000100
+#define VML_ERRMODE_ERRNO_64    0x0000000000000200
+#define VML_ERRMODE_STDERR_64   0x0000000000000400
+#define VML_ERRMODE_EXCEPT_64   0x0000000000000800
+#define VML_ERRMODE_CALLBACK_64 0x0000000000001000
+#define VML_ERRMODE_NOERR_64    0x0000000000002000
+#define VML_ERRMODE_DEFAULT_64  \
+VML_ERRMODE_ERRNO_64 | VML_ERRMODE_CALLBACK_64 | VML_ERRMODE_EXCEPT_64
+
 /*
 //  OpenMP(R) number of threads mode macros
 //  VML_NUM_THREADS_OMP_AUTO   - Maximum number of threads is determined by
@@ -117,6 +136,9 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 */
 #define VML_NUM_THREADS_OMP_AUTO   0x00000000
 #define VML_NUM_THREADS_OMP_FIXED  0x00010000
+
+#define VML_NUM_THREADS_OMP_AUTO_64   0x0000000000000000
+#define VML_NUM_THREADS_OMP_FIXED_64  0x0000000000010000
 
 /*
 //  TBB partitioner control macros
@@ -133,16 +155,27 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 #define VML_TBB_PARTITIONER_STATIC 0x00010000
 #define VML_TBB_PARTITIONER_SIMPLE 0x00020000
 
+#define VML_TBB_PARTITIONER_AUTO_64   0x0000000000000000
+#define VML_TBB_PARTITIONER_STATIC_64 0x0000000000010000
+#define VML_TBB_PARTITIONER_SIMPLE_64 0x0000000000020000
 
 /*
 //  FTZ & DAZ mode macros
-//  VML_FTZDAZ_ON   - FTZ & DAZ MXCSR mode enabled
-//                    for faster (sub)denormal values processing
-//  VML_FTZDAZ_OFF  - FTZ & DAZ MXCSR mode disabled
-//                    for accurate (sub)denormal values processing
+//  VML_FTZDAZ_ON      - FTZ & DAZ MXCSR mode enabled
+//                       for faster (sub)denormal values processing
+//  VML_FTZDAZ_OFF     - FTZ & DAZ MXCSR mode disabled
+//                       for accurate (sub)denormal values processing
+//  VML_FTZDAZ_CURRENT - FTZ & DAZ MXCSR mode is kept as currently on CPU
+//                       (no slow MXCSR access during entry/exit)
+//                       for increased performance
 */
-#define VML_FTZDAZ_ON   0x00280000
-#define VML_FTZDAZ_OFF  0x00140000
+#define VML_FTZDAZ_ON      0x00280000
+#define VML_FTZDAZ_OFF     0x00140000
+#define VML_FTZDAZ_CURRENT 0x00000000
+
+#define VML_FTZDAZ_ON_64      0x0000000000280000
+#define VML_FTZDAZ_OFF_64     0x0000000000140000
+#define VML_FTZDAZ_CURRENT_64 0x0000000000000000
 
 /*
 //  Exception trap macros
@@ -151,11 +184,15 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 //  VML_TRAP_OVERFLOW            Trap numeric overflow exception
 //  VML_TRAP_UNDERFLOW           Trap numeric underflow exception
 */
-
 #define VML_TRAP_INVALID    0x01000000
 #define VML_TRAP_DIVBYZERO  0x02000000
 #define VML_TRAP_OVERFLOW   0x04000000
 #define VML_TRAP_UNDERFLOW  0x08000000
+
+#define VML_TRAP_INVALID_64    0x0000000001000000
+#define VML_TRAP_DIVBYZERO_64  0x0000000002000000
+#define VML_TRAP_OVERFLOW_64   0x0000000004000000
+#define VML_TRAP_UNDERFLOW_64  0x0000000008000000
 
 /*
 //  ACCURACY, FLOATING-POINT CONTROL, FTZDAZ AND ERROR HANDLING MASKS
@@ -185,6 +222,16 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 #define VML_FTZDAZ_MASK             0x003C0000
 #define VML_TRAP_EXCEPTIONS_MASK    0x0F000000
 
+#define VML_ACCURACY_MASK_64           0x000000000000000F
+#define VML_FPUMODE_MASK_64            0x00000000000000F0
+#define VML_ERRMODE_MASK_64            0x000000000000FF00
+#define VML_ERRMODE_STDHANDLER_MASK_64 0x0000000000002F00
+#define VML_ERRMODE_CALLBACK_MASK_64   0x0000000000001000
+#define VML_NUM_THREADS_OMP_MASK_64    0x0000000000030000
+#define VML_TBB_PARTITIONER_MASK_64    0x0000000000030000
+#define VML_FTZDAZ_MASK_64             0x00000000003C0000
+#define VML_TRAP_EXCEPTIONS_MASK_64    0x000000000F000000
+
 /*
 //  ERROR STATUS MACROS
 //  VML_STATUS_OK        - no errors
@@ -205,6 +252,15 @@ VML_ERRMODE_ERRNO | VML_ERRMODE_CALLBACK | VML_ERRMODE_EXCEPT
 #define VML_STATUS_OVERFLOW              3
 #define VML_STATUS_UNDERFLOW             4
 #define VML_STATUS_ACCURACYWARNING       1000
+
+#define VML_STATUS_OK_64                 0
+#define VML_STATUS_BADSIZE_64           -1
+#define VML_STATUS_BADMEM_64            -2
+#define VML_STATUS_ERRDOM_64             1
+#define VML_STATUS_SING_64               2
+#define VML_STATUS_OVERFLOW_64           3
+#define VML_STATUS_UNDERFLOW_64          4
+#define VML_STATUS_ACCURACYWARNING_64    1000
 
 #ifdef __cplusplus
 }

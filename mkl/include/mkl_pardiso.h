@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2004-2021 Intel Corporation.
+* Copyright 2004-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -13,7 +13,8 @@
 *******************************************************************************/
 
 /*
-*   Content : oneMKL PARDISO C header file
+*   Content: 
+*           Intel(R) oneAPI Math Kernel Library (oneMKL) PARDISO C header file
 *
 *           Contains interface to PARDISO.
 *
@@ -25,77 +26,73 @@
 
 #include "mkl_dss.h"
 
-#ifdef __GNUC__
-#define MKL_DEPRECATED __attribute__((deprecated))
-#elif defined(_MSC_VER)
-#define MKL_DEPRECATED __declspec(deprecated)
-#else
-#define MKL_DEPRECATED
-#endif
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
+void pardiso( _MKL_DSS_HANDLE_t pt, const MKL_INT *maxfct, const MKL_INT *mnum,
+              const MKL_INT *mtype, const MKL_INT *phase, const MKL_INT *n,
+              const void *a, const MKL_INT *ia, const MKL_INT *ja,
+              MKL_INT *perm, const MKL_INT *nrhs, MKL_INT *iparm,
+              const MKL_INT *msglvl, void *b, void *x, MKL_INT *error );
 
-#if !defined(MKL_CALL_CONV)
-#   if defined(__MIC__) || defined(__TARGET_ARCH_MIC)
-#       define MKL_CALL_CONV
-#   else
-#       if defined(MKL_STDCALL)
-#           define MKL_CALL_CONV __stdcall
-#       else
-#           define MKL_CALL_CONV __cdecl
-#       endif
-#   endif
-#endif
+void PARDISO( _MKL_DSS_HANDLE_t pt, const MKL_INT *maxfct, const MKL_INT *mnum,
+              const MKL_INT *mtype, const MKL_INT *phase, const MKL_INT *n,
+              const void *a, const MKL_INT *ia, const MKL_INT *ja,
+              MKL_INT *perm, const MKL_INT *nrhs, MKL_INT *iparm,
+              const MKL_INT *msglvl, void *b, void *x, MKL_INT *error );
 
-#if  !defined(_Mkl_Api)
-#define _Mkl_Api(rtype,name,arg)   extern rtype MKL_CALL_CONV   name    arg;
-#endif
+void pardisoinit( _MKL_DSS_HANDLE_t pt, const MKL_INT *mtype, MKL_INT *iparm );
+void PARDISOINIT( _MKL_DSS_HANDLE_t pt, const MKL_INT *mtype, MKL_INT *iparm );
 
-#if  !defined(_Mkl_Deprecated_Api)
-#define _Mkl_Deprecated_Api(rtype,name,arg)   extern MKL_DEPRECATED rtype MKL_CALL_CONV   name    arg;
-#endif
+void pardiso_handle_store( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                           MKL_INT *error );
+void PARDISO_HANDLE_STORE( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                           MKL_INT *error );
 
-_Mkl_Api(void,pardiso,(
-    _MKL_DSS_HANDLE_t, const MKL_INT *, const MKL_INT *, const MKL_INT *,
-    const MKL_INT *,   const MKL_INT *, const void *,    const MKL_INT *,
-    const MKL_INT *,   MKL_INT *, const MKL_INT *, MKL_INT *,
-    const MKL_INT *,   void *,          void *,          MKL_INT *))
+void pardiso_handle_restore( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                             MKL_INT *error );
+void PARDISO_HANDLE_RESTORE( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                             MKL_INT *error );
 
-_Mkl_Api(void,PARDISO,(
-    _MKL_DSS_HANDLE_t, const MKL_INT *, const MKL_INT *, const MKL_INT *,
-    const MKL_INT *,   const MKL_INT *, const void *,    const MKL_INT *,
-    const MKL_INT *,   MKL_INT *, const MKL_INT *, MKL_INT *,
-    const MKL_INT *,   void *,          void *,          MKL_INT *))
+void pardiso_handle_delete( const char *dirname, MKL_INT *error );
+void PARDISO_HANDLE_DELETE( const char *dirname, MKL_INT *error );
 
-_Mkl_Api(void,pardisoinit,(
-    _MKL_DSS_HANDLE_t,   const MKL_INT *,  MKL_INT *))
+/*
+*  Note: The pardiso_64 interface is not supported on IA-32 architecture.
+*        If called on IA-32, error = -12 is returned.
+*/
 
-_Mkl_Api(void,PARDISOINIT,(
-    _MKL_DSS_HANDLE_t,   const MKL_INT *,   MKL_INT *))
+void pardiso_64( _MKL_DSS_HANDLE_t pt, const long long int *maxfct,
+                 const long long int *mnum, const long long int *mtype,
+                 const long long int *phase, const long long int *n,
+                 const void *a, const long long int *ia,
+                 const long long int *ja, long long int *perm,
+                 const long long int *nrhs, long long int *iparm,
+                 const long long int *msglvl, void *b, void *x,
+                 long long int *error );
 
-_Mkl_Api(void,pardiso_64,(
-    _MKL_DSS_HANDLE_t,     const long long int *, const long long int *, const long long int *,
-    const long long int *, const long long int *, const void *,          const long long int *,
-    const long long int *, long long int *, const long long int *, long long int *,
-    const long long int *, void *,                void *,                long long int *))
-_Mkl_Api(void,PARDISO_64,(
-    _MKL_DSS_HANDLE_t,     const long long int *, const long long int *, const long long int *,
-    const long long int *, const long long int *, const void *,          const long long int *,
-    const long long int *, long long int *, const long long int *, long long int *,
-    const long long int *, void *,                void *,                long long int *))
+void PARDISO_64( _MKL_DSS_HANDLE_t pt, const long long int *maxfct,
+                 const long long int *mnum, const long long int *mtype,
+                 const long long int *phase, const long long int *n,
+                 const void *a, const long long int *ia,
+                 const long long int *ja, long long int *perm,
+                 const long long int *nrhs, long long int *iparm,
+                 const long long int *msglvl, void *b, void *x,
+                 long long int *error );
 
-_Mkl_Api(void,pardiso_handle_store_64,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
-_Mkl_Api(void,PARDISO_HANDLE_STORE_64,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
+void pardiso_handle_store_64( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                              MKL_INT *error );
+void PARDISO_HANDLE_STORE_64( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                              MKL_INT *error );
 
-_Mkl_Api(void,pardiso_handle_restore_64,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
-_Mkl_Api(void,PARDISO_HANDLE_RESTORE_64,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
+void pardiso_handle_restore_64( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                                MKL_INT *error );
+void PARDISO_HANDLE_RESTORE_64( _MKL_DSS_HANDLE_t pt, const char *dirname,
+                                MKL_INT *error );
 
-_Mkl_Api(void,pardiso_handle_delete_64,( const char*, MKL_INT *));
-_Mkl_Api(void,PARDISO_HANDLE_DELETE_64,( const char*, MKL_INT *));
+void pardiso_handle_delete_64( const char *dirname, MKL_INT *error );
+void PARDISO_HANDLE_DELETE_64( const char *dirname, MKL_INT *error );
 
 /* Error classes */
 #define PARDISO_NO_ERROR                 0
@@ -103,25 +100,24 @@ _Mkl_Api(void,PARDISO_HANDLE_DELETE_64,( const char*, MKL_INT *));
 #define PARDISO_NULL_HANDLE           -102
 #define PARDISO_MEMORY_ERROR          -103
 
-_Mkl_Api(void,pardiso_handle_store,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
-_Mkl_Api(void,PARDISO_HANDLE_STORE,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
-
-_Mkl_Api(void,pardiso_handle_restore,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
-_Mkl_Api(void,PARDISO_HANDLE_RESTORE,( _MKL_DSS_HANDLE_t, const char*, MKL_INT *));
-
-_Mkl_Api(void,pardiso_handle_delete,( const char*, MKL_INT *));
-_Mkl_Api(void,PARDISO_HANDLE_DELETE,( const char*, MKL_INT *));
-
 /* oneMKL Progress routine */
 #ifndef _MKL_PARDISO_PIVOT_H_
 #define _MKL_PARDISO_PIVOT_H_
-_Mkl_Api(int,MKL_PARDISO_PIVOT, ( const double* aii, double* bii, const double* eps ))
-_Mkl_Api(int,MKL_PARDISO_PIVOT_,( const double* aii, double* bii, const double* eps ))
-_Mkl_Api(int,mkl_pardiso_pivot, ( const double* aii, double* bii, const double* eps ))
-_Mkl_Api(int,mkl_pardiso_pivot_,( const double* aii, double* bii, const double* eps ))
+int MKL_PARDISO_PIVOT ( const double* aii, double* bii, const double* eps );
+int MKL_PARDISO_PIVOT_( const double* aii, double* bii, const double* eps );
+int mkl_pardiso_pivot ( const double* aii, double* bii, const double* eps );
+int mkl_pardiso_pivot_( const double* aii, double* bii, const double* eps );
 #endif /* _MKL_PARDISO_PIVOT_H_ */
-_Mkl_Api(void,pardiso_getdiag,( const _MKL_DSS_HANDLE_t, void *,       void *, const MKL_INT *, MKL_INT *  ))
-_Mkl_Api(void,pardiso_export,( void *, void *, MKL_INT *, MKL_INT *, const MKL_INT *, const MKL_INT *, MKL_INT * ))
+
+void pardiso_getdiag( const _MKL_DSS_HANDLE_t pt, void *df, void *da,
+                      const MKL_INT *mnum, MKL_INT *error  );
+void PARDISO_GETDIAG( const _MKL_DSS_HANDLE_t pt, void *df, void *da,
+                      const MKL_INT *mnum, MKL_INT *error  );
+
+void pardiso_export( void *pt, void* values, MKL_INT* ia, MKL_INT *ja,
+                     const MKL_INT *step, const MKL_INT *iparm, MKL_INT *error );
+void PARDISO_EXPORT( void *pt, void* values, MKL_INT* ia, MKL_INT *ja,
+                     const MKL_INT *step, const MKL_INT *iparm, MKL_INT *error );
 
 #ifdef __cplusplus
 }

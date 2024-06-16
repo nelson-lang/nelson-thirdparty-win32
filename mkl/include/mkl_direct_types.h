@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2016-2021 Intel Corporation.
+* Copyright 2016-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -263,20 +263,12 @@
 
 #if defined(MKL_DOUBLE) || defined(MKL_COMPLEX16)
     #define MKL_DC_R_SQRT(r, x) ((r) = sqrt(x))
-#ifdef MKL_STDCALL
-    #define MKL_DC_XLAMCH(cmach) dlamch(cmach, 1)
-#else
     #define MKL_DC_XLAMCH(cmach) dlamch(cmach)
-#endif
 #endif
 
 #if defined(MKL_SINGLE) || defined(MKL_COMPLEX)
     #define MKL_DC_R_SQRT(r, x) ((r) = sqrtf(x))
-#ifdef MKL_STDCALL
-    #define MKL_DC_XLAMCH(cmach) slamch(cmach, 1)
-#else
     #define MKL_DC_XLAMCH(cmach) slamch(cmach)
-#endif
 #endif
 
 #ifdef __GNUC__

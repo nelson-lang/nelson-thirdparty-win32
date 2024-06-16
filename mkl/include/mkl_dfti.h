@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2002-2021 Intel Corporation.
+* Copyright 2002-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -56,6 +56,8 @@ struct DFTI_DESCRIPTOR{};
 #define DFTI_NUMBER_OF_THREADS_ERROR     8
 #define DFTI_1D_LENGTH_EXCEEDS_INT32     9
 #define DFTI_1D_MEMORY_EXCEEDS_INT32     9
+#define DFTI_NO_WORKSPACE                11
+
 
 #define DFTI_MAX_MESSAGE_LENGTH 80 /* Maximum length of error string */
 #define DFTI_MAX_NAME_LENGTH 10 /* DEPRECATED */

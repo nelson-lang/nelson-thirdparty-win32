@@ -1,5 +1,5 @@
 /*******************************************************************************
-* Copyright 2021 Intel Corporation.
+* Copyright 2021-2022 Intel Corporation.
 *
 * This software and the related documents are Intel copyrighted  materials,  and
 * your use of  them is  governed by the  express license  under which  they were
@@ -15,6 +15,7 @@
 /*
 !  Content:
 !      Intel(R) oneAPI Math Kernel Library (oneMKL) interface for ILP64 BLAS routines
+!      Note: ILP64 interfaces are not supported on IA-32 architecture
 !******************************************************************************/
 
 #ifndef _MKL_BLAS_64_H_
@@ -76,6 +77,7 @@ void CDOTU_64(MKL_Complex8 *pres, const MKL_INT64 *n, const MKL_Complex8 *x, con
 void CDOTUI_64(MKL_Complex8 *pres, const MKL_INT64 *nz, const MKL_Complex8 *x, const MKL_INT64 *indx, const MKL_Complex8 *y);
 void CGTHR_64(const MKL_INT64 *nz, const MKL_Complex8 *y, MKL_Complex8 *x, const MKL_INT64 *indx);
 void CGTHRZ_64(const MKL_INT64 *nz, MKL_Complex8 *y, MKL_Complex8 *x, const MKL_INT64 *indx);
+void CROT_64(const MKL_INT64 *n, MKL_Complex8 *x, const MKL_INT64 *incx, MKL_Complex8 *y, const MKL_INT64 *incy, const float *c, const MKL_Complex8 *s) NOTHROW;    
 void CROTG_64(MKL_Complex8 *a, const MKL_Complex8 *b, float *c, MKL_Complex8 *s) NOTHROW;
 void CSCAL_64(const MKL_INT64 *n, const MKL_Complex8 *a, MKL_Complex8 *x, const MKL_INT64 *incx) NOTHROW;
 void CSCTR_64(const MKL_INT64 *nz, const MKL_Complex8 *x, const MKL_INT64 *indx, MKL_Complex8 *y);
@@ -122,6 +124,7 @@ void ZDROT_64(const MKL_INT64 *n, MKL_Complex16 *x, const MKL_INT64 *incx, MKL_C
 void ZDSCAL_64(const MKL_INT64 *n, const double *a, MKL_Complex16 *x, const MKL_INT64 *incx) NOTHROW;
 void ZGTHR_64(const MKL_INT64 *nz, const MKL_Complex16 *y, MKL_Complex16 *x, const MKL_INT64 *indx);
 void ZGTHRZ_64(const MKL_INT64 *nz, MKL_Complex16 *y, MKL_Complex16 *x, const MKL_INT64 *indx);
+void ZROT_64(const MKL_INT64 *n, MKL_Complex16 *x, const MKL_INT64 *incx, MKL_Complex16 *y, const MKL_INT64 *incy, const double *c, const MKL_Complex16 *s) NOTHROW;    
 void ZROTG_64(MKL_Complex16 *a, const MKL_Complex16 *b, double *c, MKL_Complex16 *s) NOTHROW;
 void ZSCAL_64(const MKL_INT64 *n, const MKL_Complex16 *a, MKL_Complex16 *x, const MKL_INT64 *incx) NOTHROW;
 void ZSCTR_64(const MKL_INT64 *nz, const MKL_Complex16 *x, const MKL_INT64 *indx, MKL_Complex16 *y);
@@ -383,10 +386,15 @@ void SCGEMM_64(const char *transa, const char *transb, const MKL_INT64 *m, const
 void CGEMM3M_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
              const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT64 *lda,
              const MKL_Complex8 *b, const MKL_INT64 *ldb, const MKL_Complex8 *beta,
-             MKL_Complex8 *c, const MKL_INT64 *ldc);
+             MKL_Complex8 *c, const MKL_INT64 *ldc) NOTHROW;
 void CGEMM3M_BATCH_64(const char *transa_array, const char *transb_array, const MKL_INT64 *m_array, const MKL_INT64 *n_array, const MKL_INT64 *k_array,
                    const MKL_Complex8 *alpha_array, const MKL_Complex8 **a_array, const MKL_INT64 *lda_array, const MKL_Complex8 **b_array, const MKL_INT64 *ldb_array,
-                   const MKL_Complex8 *beta_array, MKL_Complex8 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size);
+                   const MKL_Complex8 *beta_array, MKL_Complex8 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size) NOTHROW;
+void CGEMM3M_BATCH_STRIDED_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                 const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT64 *lda, const MKL_INT64 *stridea,
+                 const MKL_Complex8 *b, const MKL_INT64 *ldb, const MKL_INT64 *strideb,
+                 const MKL_Complex8 *beta, MKL_Complex8 *c, const MKL_INT64 *ldc, const MKL_INT64 *stridec,
+                 const MKL_INT64 *batch_size) NOTHROW;    
 void CGEMMT_64(const char *uplo, const char *transa, const char *transb, const MKL_INT64 *n, const MKL_INT64 *k,
             const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT64 *lda,
             const MKL_Complex8 *b, const MKL_INT64 *ldb,
@@ -507,10 +515,15 @@ void DZGEMM_64(const char *transa, const char *transb, const MKL_INT64 *m, const
 void ZGEMM3M_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
              const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT64 *lda,
              const MKL_Complex16 *b, const MKL_INT64 *ldb, const MKL_Complex16 *beta,
-             MKL_Complex16 *c, const MKL_INT64 *ldc);
+             MKL_Complex16 *c, const MKL_INT64 *ldc) NOTHROW;
 void ZGEMM3M_BATCH_64(const char *transa_array, const char *transb_array, const MKL_INT64 *m_array, const MKL_INT64 *n_array, const MKL_INT64 *k_array,
                    const MKL_Complex16 *alpha_array, const MKL_Complex16 **a_array, const MKL_INT64 *lda_array, const MKL_Complex16 **b_array, const MKL_INT64 *ldb_array,
-                   const MKL_Complex16 *beta_array, MKL_Complex16 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size);
+                   const MKL_Complex16 *beta_array, MKL_Complex16 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size) NOTHROW;
+void ZGEMM3M_BATCH_STRIDED_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                 const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT64 *lda, const MKL_INT64 *stridea,
+                 const MKL_Complex16 *b, const MKL_INT64 *ldb, const MKL_INT64 *strideb,
+                 const MKL_Complex16 *beta, MKL_Complex16 *c, const MKL_INT64 *ldc, const MKL_INT64 *stridec,
+                 const MKL_INT64 *batch_size) NOTHROW;    
 void ZGEMMT_64(const char *uplo, const char *transa, const char *transb, const MKL_INT64 *n, const MKL_INT64 *k,
             const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT64 *lda,
             const MKL_Complex16 *b, const MKL_INT64 *ldb, const MKL_Complex16 *beta,
@@ -568,14 +581,31 @@ void GEMM_S16S16S32_64(const char *transa, const char *transb, const char *offse
                     const float *alpha, const MKL_INT16 *a, const MKL_INT64 *lda, const MKL_INT16 *ao,
                     const MKL_INT16 *b, const MKL_INT64 *ldb, const MKL_INT16 *bo,
                     const float *beta, MKL_INT32 *c, const MKL_INT64 *ldc, const MKL_INT32 *co);
+void GEMM_BF16BF16F32_64(const char *transa, const char *transb,
+                         const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                         const float *alpha, const MKL_BF16 *a, const MKL_INT64 *lda,
+                         const MKL_BF16 *b, const MKL_INT64 *ldb,
+                         const float *beta, float *c, const MKL_INT64 *ldc);
+void GEMM_F16F16F32_64(const char *transa, const char *transb,
+                       const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                       const float *alpha, const MKL_F16 *a, const MKL_INT64 *lda,
+                       const MKL_F16 *b, const MKL_INT64 *ldb,
+                       const float *beta, float *c, const MKL_INT64 *ldc);
 
 size_t GEMM_S8U8S32_PACK_GET_SIZE_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
 size_t GEMM_S16S16S32_PACK_GET_SIZE_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
+size_t GEMM_BF16BF16F32_PACK_GET_SIZE_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
+size_t GEMM_F16F16F32_PACK_GET_SIZE_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
 
 void GEMM_S8U8S32_PACK_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
                         const void *src, const MKL_INT64 *ld, void *dest);
 void GEMM_S16S16S32_PACK_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
                           const MKL_INT16 *src, const MKL_INT64 *ld, MKL_INT16 *dest);
+void GEMM_BF16BF16F32_PACK_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                               const MKL_BF16 *src, const MKL_INT64 *ld, MKL_BF16 *dest);
+void GEMM_F16F16F32_PACK_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                             const MKL_F16 *src, const MKL_INT64 *ld, MKL_F16 *dest);
+
 void GEMM_S8U8S32_COMPUTE_64 (const char *transa, const char *transb, const char *offsetc,
                            const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
                            const float *alpha,
@@ -588,6 +618,18 @@ void GEMM_S16S16S32_COMPUTE_64(const char *transa, const char *transb, const cha
                             const MKL_INT16 *a, const MKL_INT64 *lda, const MKL_INT16 *ao,
                             const MKL_INT16 *b, const MKL_INT64 *ldb, const MKL_INT16 *bo,
                             const float *beta, MKL_INT32 *c, const MKL_INT64 *ldc, const MKL_INT32 *co);
+void GEMM_BF16BF16F32_COMPUTE_64(const char *transa, const char *transb,
+                                 const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                                 const float *alpha,
+                                 const MKL_BF16 *a, const MKL_INT64 *lda,
+                                 const MKL_BF16 *b, const MKL_INT64 *ldb,
+                                 const float *beta, float *c, const MKL_INT64 *ldc);
+void GEMM_F16F16F32_COMPUTE_64(const char *transa, const char *transb,
+                               const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                               const float *alpha,
+                               const MKL_F16 *a, const MKL_INT64 *lda,
+                               const MKL_F16 *b, const MKL_INT64 *ldb,
+                               const float *beta, float *c, const MKL_INT64 *ldc);
 
 void HGEMM_64(const char *transa, const char *transb,
            const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
@@ -641,6 +683,7 @@ void cdotu_64(MKL_Complex8 *pres, const MKL_INT64 *n, const MKL_Complex8 *x, con
 void cdotui_64(MKL_Complex8 *pres, const MKL_INT64 *nz, const MKL_Complex8 *x, const MKL_INT64 *indx, const MKL_Complex8 *y);
 void cgthr_64(const MKL_INT64 *nz, const MKL_Complex8 *y, MKL_Complex8 *x, const MKL_INT64 *indx);
 void cgthrz_64(const MKL_INT64 *nz, MKL_Complex8 *y, MKL_Complex8 *x, const MKL_INT64 *indx);
+void crot_64(const MKL_INT64 *n, MKL_Complex8 *x, const MKL_INT64 *incx, MKL_Complex8 *y, const MKL_INT64 *incy, const float *c, const MKL_Complex8 *s) NOTHROW;    
 void crotg_64(MKL_Complex8 *a, const MKL_Complex8 *b, float *c, MKL_Complex8 *s) NOTHROW;
 void cscal_64(const MKL_INT64 *n, const MKL_Complex8 *a, MKL_Complex8 *x, const MKL_INT64 *incx) NOTHROW;
 void csctr_64(const MKL_INT64 *nz, const MKL_Complex8 *x, const MKL_INT64 *indx, MKL_Complex8 *y);
@@ -687,6 +730,7 @@ void zdrot_64(const MKL_INT64 *n, MKL_Complex16 *x, const MKL_INT64 *incx, MKL_C
 void zdscal_64(const MKL_INT64 *n, const double *a, MKL_Complex16 *x, const MKL_INT64 *incx) NOTHROW;
 void zgthr_64(const MKL_INT64 *nz, const MKL_Complex16 *y, MKL_Complex16 *x, const MKL_INT64 *indx);
 void zgthrz_64(const MKL_INT64 *nz, MKL_Complex16 *y, MKL_Complex16 *x, const MKL_INT64 *indx);
+void zrot_64(const MKL_INT64 *n, MKL_Complex16 *x, const MKL_INT64 *incx, MKL_Complex16 *y, const MKL_INT64 *incy, const double *c, const MKL_Complex16 *s) NOTHROW;    
 void zrotg_64(MKL_Complex16 *a, const MKL_Complex16 *b, double *c, MKL_Complex16 *s) NOTHROW;
 void zscal_64(const MKL_INT64 *n, const MKL_Complex16 *a, MKL_Complex16 *x, const MKL_INT64 *incx) NOTHROW;
 void zsctr_64(const MKL_INT64 *nz, const MKL_Complex16 *x, const MKL_INT64 *indx, MKL_Complex16 *y);
@@ -948,10 +992,15 @@ void scgemm_64(const char *transa, const char *transb, const MKL_INT64 *m, const
 void cgemm3m_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
              const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT64 *lda,
              const MKL_Complex8 *b, const MKL_INT64 *ldb, const MKL_Complex8 *beta,
-             MKL_Complex8 *c, const MKL_INT64 *ldc);
+             MKL_Complex8 *c, const MKL_INT64 *ldc) NOTHROW;
 void cgemm3m_batch_64(const char *transa_array, const char *transb_array, const MKL_INT64 *m_array, const MKL_INT64 *n_array, const MKL_INT64 *k_array,
                    const MKL_Complex8 *alpha_array, const MKL_Complex8 **a_array, const MKL_INT64 *lda_array, const MKL_Complex8 **b_array, const MKL_INT64 *ldb_array,
-                   const MKL_Complex8 *beta_array, MKL_Complex8 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size);
+                   const MKL_Complex8 *beta_array, MKL_Complex8 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size) NOTHROW;
+void cgemm3m_batch_strided_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                 const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT64 *lda, const MKL_INT64 *stridea,
+                 const MKL_Complex8 *b, const MKL_INT64 *ldb, const MKL_INT64 *strideb,
+                 const MKL_Complex8 *beta, MKL_Complex8 *c, const MKL_INT64 *ldc, const MKL_INT64 *stridec,
+                 const MKL_INT64 *batch_size) NOTHROW;    
 void cgemmt_64(const char *uplo, const char *transa, const char *transb, const MKL_INT64 *n, const MKL_INT64 *k,
             const MKL_Complex8 *alpha, const MKL_Complex8 *a, const MKL_INT64 *lda,
             const MKL_Complex8 *b, const MKL_INT64 *ldb, const MKL_Complex8 *beta,
@@ -1067,10 +1116,15 @@ void dzgemm_64(const char *transa, const char *transb, const MKL_INT64 *m, const
 void zgemm3m_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
              const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT64 *lda,
              const MKL_Complex16 *b, const MKL_INT64 *ldb, const MKL_Complex16 *beta,
-             MKL_Complex16 *c, const MKL_INT64 *ldc);
+             MKL_Complex16 *c, const MKL_INT64 *ldc) NOTHROW;
 void zgemm3m_batch_64(const char *transa_array, const char *transb_array, const MKL_INT64 *m_array, const MKL_INT64 *n_array, const MKL_INT64 *k_array,
                    const MKL_Complex16 *alpha_array, const MKL_Complex16 **a_array, const MKL_INT64 *lda_array, const MKL_Complex16 **b_array, const MKL_INT64 *ldb_array,
-                   const MKL_Complex16 *beta_array, MKL_Complex16 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size);
+                   const MKL_Complex16 *beta_array, MKL_Complex16 **c_array, const MKL_INT64 *ldc_array, const MKL_INT64 *group_count, const MKL_INT64 *group_size) NOTHROW;
+void zgemm3m_batch_strided_64(const char *transa, const char *transb, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                 const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT64 *lda, const MKL_INT64 *stridea,
+                 const MKL_Complex16 *b, const MKL_INT64 *ldb, const MKL_INT64 *strideb,
+                 const MKL_Complex16 *beta, MKL_Complex16 *c, const MKL_INT64 *ldc, const MKL_INT64 *stridec,
+                 const MKL_INT64 *batch_size) NOTHROW;    
 void zgemmt_64(const char *uplo, const char *transa, const char *transb, const MKL_INT64 *n, const MKL_INT64 *k,
             const MKL_Complex16 *alpha, const MKL_Complex16 *a, const MKL_INT64 *lda,
             const MKL_Complex16 *b, const MKL_INT64 *ldb, const MKL_Complex16 *beta,
@@ -1128,13 +1182,31 @@ void gemm_s8u8s32_64(const char *transa, const char *transb, const char *offsetc
                   const float *alpha, const MKL_INT8 *a, const MKL_INT64 *lda, const MKL_INT8 *ao,
                   const MKL_UINT8 *b, const MKL_INT64 *ldb, const MKL_INT8 *bo,
                   const float *beta, MKL_INT32 *c, const MKL_INT64 *ldc, const MKL_INT32 *co);
+void gemm_bf16bf16f32_64(const char *transa, const char *transb,
+                         const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                         const float *alpha, const MKL_BF16 *a, const MKL_INT64 *lda,
+                         const MKL_BF16 *b, const MKL_INT64 *ldb,
+                         const float *beta, float *c, const MKL_INT64 *ldc);
+void gemm_f16f16f32_64(const char *transa, const char *transb,
+                       const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                       const float *alpha, const MKL_F16 *a, const MKL_INT64 *lda,
+                       const MKL_F16 *b, const MKL_INT64 *ldb,
+                       const float *beta, float *c, const MKL_INT64 *ldc);
 
 size_t gemm_s8u8s32_pack_get_size_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
 size_t gemm_s16s16s32_pack_get_size_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
+size_t gemm_bf16bf16f32_pack_get_size_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
+size_t gemm_f16f16f32_pack_get_size_64 (const char *identifier, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k);
+
 void gemm_s8u8s32_pack_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
                         const void *src, const MKL_INT64 *ld, void *dest);
 void gemm_s16s16s32_pack_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
                           const MKL_INT16 *src, const MKL_INT64 *ld, MKL_INT16 *dest);
+void gemm_bf16bf16f32_pack_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                               const MKL_BF16 *src, const MKL_INT64 *ld, MKL_BF16 *dest);
+void gemm_f16f16f32_pack_64 (const char *identifier, const char *trans, const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                             const MKL_F16 *src, const MKL_INT64 *ld, MKL_F16 *dest);
+
 void gemm_s8u8s32_compute_64 (const char *transa, const char *transb, const char *offsetc,
                            const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
                            const float *alpha,
@@ -1147,6 +1219,18 @@ void gemm_s16s16s32_compute_64(const char *transa, const char *transb, const cha
                             const MKL_INT16 *a, const MKL_INT64 *lda, const MKL_INT16 *ao,
                             const MKL_INT16 *b, const MKL_INT64 *ldb, const MKL_INT16 *bo,
                             const float *beta, MKL_INT32 *c, const MKL_INT64 *ldc, const MKL_INT32 *co);
+void gemm_bf16bf16f32_compute_64(const char *transa, const char *transb,
+                                 const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                                 const float *alpha,
+                                 const MKL_BF16 *a, const MKL_INT64 *lda,
+                                 const MKL_BF16 *b, const MKL_INT64 *ldb,
+                                 const float *beta, float *c, const MKL_INT64 *ldc);
+void gemm_f16f16f32_compute_64(const char *transa, const char *transb,
+                               const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
+                               const float *alpha,
+                               const MKL_F16 *a, const MKL_INT64 *lda,
+                               const MKL_F16 *b, const MKL_INT64 *ldb,
+                               const float *beta, float *c, const MKL_INT64 *ldc);
 
 void hgemm_64(const char *transa, const char *transb,
            const MKL_INT64 *m, const MKL_INT64 *n, const MKL_INT64 *k,
