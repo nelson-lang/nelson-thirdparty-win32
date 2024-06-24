@@ -1,18 +1,22 @@
-Package: sndfile
-Version: 0
-Port-Version: 1
-Depends: libsndfile
+Package: libsndfile
+Version: 1.2.2
+Depends: vcpkg-cmake:x64-windows, vcpkg-cmake-config:x64-windows
 Architecture: x86-windows
 Multi-Arch: same
-Abi: 3450dd920d929fdde30db2cab0a43894aadc356cc81fc2ce15711a54c195241f
-Description: x Library to read, write and manipulate many soundfile types.
-Type: Port
-Default-Features: external-libs
+Abi: f311aa10d9facd352cdb345d6ba3f864828a38c814ef1efd090d3a9e82f6eb1b
+Description: A library for reading and writing audio files
+Default-Features: external-libs, mpeg
 
-Package: sndfile
+Package: libsndfile
 Feature: external-libs
-Depends: libsndfile
+Depends: libflac, libvorbis, opus
 Architecture: x86-windows
 Multi-Arch: same
-Description: Support Ogg Vorbis and FLAC audio files
-Type: Port
+Description: Enable FLAC, Vorbis, and Opus codecs
+
+Package: libsndfile
+Feature: mpeg
+Depends: mp3lame, mpg123
+Architecture: x86-windows
+Multi-Arch: same
+Description: Enable MPEG codecs
