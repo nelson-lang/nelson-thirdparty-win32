@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>project &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>project &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -85,9 +85,28 @@ variable <span class="target" id="index-0-variable:CMAKE_PROJECT_NAME"></span><a
 <p>Boolean value indicating whether the project is top-level.</p>
 </dd>
 </dl>
-<p>Further variables are set by the optional arguments described in the following.
-If any of these arguments is not used, then the corresponding variables are
+<p>Further variables are set by the optional arguments described in <a class="reference internal" href="#options">Options</a>
+further below. Where an option is not given, its corresponding variable is
 set to the empty string.</p>
+<p>Note that variables of the form <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_SOURCE_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_BINARY_DIR</span></code>
+may also be set by other commands before <code class="docutils literal notranslate"><span class="pre">project()</span></code> is called (see the
+<span class="target" id="index-0-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> command for one example).
+Projects should not rely on <code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_SOURCE_DIR</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_BINARY_DIR</span></code> holding a particular value outside of the scope
+of the call to <code class="docutils literal notranslate"><span class="pre">project()</span></code> or one of its child scopes.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.30: </span><code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_SOURCE_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_BINARY_DIR</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_IS_TOP_LEVEL</span></code>, if already set as normal variables when
+<code class="docutils literal notranslate"><span class="pre">project(&lt;PROJECT-NAME&gt;</span> <span class="pre">...)</span></code> is called, are updated by the call.
+Cache entries by the same names are always set as before.
+See release notes for 3.30.3, 3.30.4, and 3.30.5 for details.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span><code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_SOURCE_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_BINARY_DIR</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">&lt;PROJECT-NAME&gt;_IS_TOP_LEVEL</span></code> are always set as normal variables by
+<code class="docutils literal notranslate"><span class="pre">project(&lt;PROJECT-NAME&gt;</span> <span class="pre">...)</span></code>.  See policy <span class="target" id="index-0-policy:CMP0180"></span><a class="reference internal" href="../policy/CMP0180.html#policy:CMP0180" title="CMP0180"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0180</span></code></a>.
+Cache entries by the same names are always set as before.</p>
+</div>
 </section>
 <section id="options">
 <h2>Options<a class="headerlink" href="#options" title="Link to this heading">¶</a></h2>
@@ -323,7 +342,7 @@ See also policy <span class="target" id="index-0-policy:CMP0000"></span><a class
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>

@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-ENV-VARIABLES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-ENV-VARIABLES" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-env-variables \- CMake Environment Variables Reference
 .sp
@@ -251,6 +251,36 @@ the calling process environment.
 .sp
 Specifies a default value for the \fI\%CMAKE_COLOR_DIAGNOSTICS\fP variable
 when there is no explicit value given on the first run.
+.SS CMAKE_CONFIG_DIR
+.sp
+New in version 3.31.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+Specify a CMake user\-wide configuration directory for
+\fI\%cmake\-file\-api(7)\fP queries.
+.sp
+If this environment variable is not set, the default user\-wide
+configuration directory is platform\-specific:
+.INDENT 0.0
+.IP \(bu 2
+Windows: \fB%LOCALAPPDATA%\eCMake\fP
+.IP \(bu 2
+macOS: \fB$XDG_CONFIG_HOME/CMake\fP if set, otherwise
+\fB$HOME/Library/Application Support/CMake\fP
+.IP \(bu 2
+Linux/Other: \fB$XDG_CONFIG_HOME/cmake\fP if set, otherwise
+\fB$HOME/.config/cmake\fP
+.UNINDENT
+.SS CMAKE_CONFIG_TYPE
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+The default build configuration for \fI\%Build a Project\fP and
+\fBctest\fP build handler when there is no explicit configuration given.
 .SS CMAKE_CONFIGURATION_TYPES
 .sp
 New in version 3.22.
@@ -263,13 +293,6 @@ The \fBCMAKE_CONFIGURATION_TYPES\fP environment variable specifies a
 default value for the \fI\%CMAKE_CONFIGURATION_TYPES\fP variable
 when there is no explicit configuration given on the first run while
 creating a new build tree.
-.SS CMAKE_CONFIG_TYPE
-.sp
-This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
-the calling process environment.
-.sp
-The default build configuration for \fI\%Build a Project\fP and
-\fBctest\fP build handler when there is no explicit configuration given.
 .SS CMAKE_CROSSCOMPILING_EMULATOR
 .sp
 New in version 3.28.
@@ -282,6 +305,27 @@ The default value for \fI\%CMAKE_CROSSCOMPILING_EMULATOR\fP when there
 is no explicit configuration given on the first run while creating a new
 build tree.  On later runs in an existing build tree the value persists in
 the cache as \fI\%CMAKE_CROSSCOMPILING_EMULATOR\fP\&.
+.SS CMAKE_EXPORT_BUILD_DATABASE
+.sp
+New in version 3.31.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+The default value for \fI\%CMAKE_EXPORT_BUILD_DATABASE\fP when there is no
+explicit configuration given on the first run while creating a new build tree.
+On later runs in an existing build tree the value persists in the cache as
+\fI\%CMAKE_EXPORT_BUILD_DATABASE\fP\&.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This variable is meaningful only when experimental support for build
+databases has been enabled by the
+\fBCMAKE_EXPERIMENTAL_EXPORT_BUILD_DATABASE\fP gate.
+.UNINDENT
+.UNINDENT
 .SS CMAKE_EXPORT_COMPILE_COMMANDS
 .sp
 New in version 3.17.
@@ -474,6 +518,18 @@ not true.  Once a symlink exists at the destination, even if you switch to a
 non\-symlink mode, the symlink will continue to exist at the destination and
 will not be replaced by an actual file.
 .UNINDENT
+.SS CMAKE_INSTALL_PARALLEL_LEVEL
+.sp
+New in version 3.31.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+Specifies the default maximum number of concurrent processes to use when
+installing using \fBcmake \-\-install\fP\&.
+.sp
+This has no impact unless \fI\%INSTALL_PARALLEL\fP is enabled.
 .SS CMAKE_INSTALL_PREFIX
 .sp
 New in version 3.29.
@@ -533,7 +589,7 @@ This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
 the calling process environment.
 .sp
 Extra PATH locations for custom commands when using
-\fI\%Visual Studio 12 2013\fP (or above) generators.
+\fI\%Visual Studio Generators\fP\&.
 .sp
 The \fBCMAKE_MSVCIDE_RUN_PATH\fP environment variable sets the default value for
 the \fI\%CMAKE_MSVCIDE_RUN_PATH\fP variable if not already explicitly set.

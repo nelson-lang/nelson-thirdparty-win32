@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CPACK-GENERATORS" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CPACK-GENERATORS" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cpack-generators \- CPack Generator Reference
 .SH GENERATORS
@@ -157,15 +157,11 @@ New in version 3.18.
 .INDENT 7.0
 .TP
 .B Default
-\fB1\fP
+value of \fI\%CPACK_THREADS\fP
 .UNINDENT
 .sp
 If set to \fB0\fP, the number of available cores on the machine will be used instead.
-The default is \fB1\fP which limits compression to a single thread. Note that
-not all compression modes support threading in all environments. Currently,
-only the XZ compression may support it.
-.sp
-See also the \fI\%CPACK_THREADS\fP variable.
+Note that not all compression modes support threading in all environments.
 .sp
 New in version 3.21: Official CMake binaries available on \fBcmake.org\fP now ship
 with a \fBliblzma\fP that supports parallel compression.
@@ -549,6 +545,15 @@ component.
 .UNINDENT
 .UNINDENT
 .sp
+Changed in version 3.31: The variable is always expanded as a list. Before it was expanded only
+if used in cooperation with \fI\%CPACK_DEB_COMPONENT_INSTALL\fP,
+\fI\%CPACK_DEBIAN_PACKAGE_SHLIBDEPS\fP or
+\fI\%CPACK_DEBIAN_<COMPONENT>_PACKAGE_SHLIBDEPS\fP\&.
+This meant that if a component had no shared libraries discovered
+(e.g. a package composed only of scripts) you had to join the list
+by yourself to obtain a valid Depends field.
+
+.sp
 Example:
 .INDENT 7.0
 .INDENT 3.5
@@ -556,6 +561,7 @@ Example:
 .nf
 .ft C
 set(CPACK_DEBIAN_PACKAGE_DEPENDS \(dqlibc6 (>= 2.3.1\-6), libc6 (< 2.4)\(dq)
+list(APPEND CPACK_DEBIAN_PACKAGE_DEPENDS cmake)
 .ft P
 .fi
 .UNINDENT
@@ -1258,6 +1264,43 @@ See \fI\%https://www.debian.org/doc/debian\-policy/ch\-controlfields.html#s\-f\-
 .INDENT 3.5
 This value is not interpreted. It is possible to pass an optional
 revision number of the referenced source package as well.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_DEBIAN_PACKAGE_MULTIARCH
+.TP
+.B CPACK_DEBIAN_<COMPONENT>_PACKAGE_MULTIARCH
+Sets the \fIMulti\-Arch\fP field of the Debian package.
+Packages can declare in their control file how they should handle
+situations, where packages for different architectures are being installed
+on the same machine.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+.INDENT 7.0
+.IP \(bu 2
+An empty string for non\-component based installations
+.IP \(bu 2
+\fI\%CPACK_DEBIAN_PACKAGE_MULTIARCH\fP for component\-based
+installations.
+.UNINDENT
+.UNINDENT
+.sp
+New in version 3.31: Per\-component \fBCPACK_DEBIAN_<COMPONENT>_PACKAGE_MULTIARCH\fP variables.
+
+.sp
+See \fI\%https://wiki.debian.org/MultiArch/Hints\fP
+.sp
+\fBNOTE:\fP
+.INDENT 7.0
+.INDENT 3.5
+This value is validated. It must be one of the following values:
+\fBsame\fP, \fBforeign\fP, \fBallowed\fP\&.
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -2960,6 +3003,18 @@ This feature is available for QtIFW 4.0.0 and later.
 .UNINDENT
 .INDENT 0.0
 .TP
+.B CPACK_IFW_PACKAGE_PRODUCT_IMAGE_URLS
+New in version 3.31.
+
+.sp
+A list of URLs associated with the ProductImages.
+Only used if  \fBCPACK_IFW_PACKAGE_PRODUCT_IMAGES\fP is defined
+and it has the same size.
+.sp
+This feature is available for QtIFW 4.0.0 and later.
+.UNINDENT
+.INDENT 0.0
+.TP
 .B CPACK_IFW_PACKAGE_RUN_PROGRAM
 New in version 3.23.
 
@@ -3608,6 +3663,20 @@ No
 .UNINDENT
 .INDENT 0.0
 .TP
+.B CPACK_NUGET_PACKAGE_DEBUG
+Enable debug messages while executing CPack NuGet generator.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+\fBOFF\fP
+.UNINDENT
+.UNINDENT
+.SS Required metadata variables
+.INDENT 0.0
+.TP
 .B CPACK_NUGET_PACKAGE_NAME
 .TP
 .B CPACK_NUGET_<compName>_PACKAGE_NAME
@@ -3677,33 +3746,15 @@ Yes
 \fI\%CPACK_PACKAGE_VENDOR\fP
 .UNINDENT
 .UNINDENT
-.INDENT 0.0
-.TP
-.B CPACK_NUGET_PACKAGE_TITLE
-.TP
-.B CPACK_NUGET_<compName>_PACKAGE_TITLE
-A human\-friendly title of the package, typically used in UI displays
-as on \fI\%nuget.org\fP and the Package Manager in Visual Studio. If not
-specified, the package ID is used.
-.INDENT 7.0
-.TP
-.B Mandatory
-No
-.TP
-.B Default
-.INDENT 7.0
-.IP \(bu 2
-\fI\%CPACK_COMPONENT_<compName>_DISPLAY_NAME\fP,
-.IP \(bu 2
-\fBCPACK_COMPONENT_GROUP_<groupName>_DISPLAY_NAME\fP
-.UNINDENT
-.UNINDENT
-.UNINDENT
+.SS Optional metadata variables
 .INDENT 0.0
 .TP
 .B CPACK_NUGET_PACKAGE_OWNERS
 .TP
 .B CPACK_NUGET_<compName>_PACKAGE_OWNERS
+Deprecated since version 3.30: Use authors (\fI\%CPACK_NUGET_PACKAGE_AUTHORS\fP) instead.
+
+.sp
 A comma\-separated list of the package creators using profile names
 on \fI\%nuget.org\fP\&. This is often the same list as in authors,
 and is ignored when uploading the package to \fI\%nuget.org\fP\&.
@@ -3752,6 +3803,33 @@ No
 .TP
 .B Default
 None
+.TP
+.B Supported
+NuGet 4.9.0 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_LICENSE_FILE_NAME
+.TP
+.B CPACK_NUGET_<compName>_PACKAGE_LICENSE_FILE_NAME
+New in version 3.20.
+
+.sp
+The package\(aqs license file in \fB\&.txt\fP or \fB\&.md\fP format.
+.sp
+If \fBCPACK_NUGET_PACKAGE_LICENSE_FILE_NAME\fP is specified,
+\fBCPACK_NUGET_PACKAGE_LICENSE_EXPRESSION\fP is ignored.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+None
+.TP
+.B Supported
+NuGet 4.9.0 and above
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
@@ -3782,27 +3860,6 @@ None
 .UNINDENT
 .INDENT 0.0
 .TP
-.B CPACK_NUGET_PACKAGE_LICENSE_FILE_NAME
-.TP
-.B CPACK_NUGET_<compName>_PACKAGE_LICENSE_FILE_NAME
-The package\(aqs license file in \fB\&.txt\fP or \fB\&.md\fP format.
-.sp
-If \fBCPACK_NUGET_PACKAGE_LICENSE_FILE_NAME\fP is specified,
-\fBCPACK_NUGET_PACKAGE_LICENSE_EXPRESSION\fP is ignored.
-.sp
-New in version 3.20.
-
-.INDENT 7.0
-.TP
-.B Mandatory
-No
-.TP
-.B Default
-None
-.UNINDENT
-.UNINDENT
-.INDENT 0.0
-.TP
 .B CPACK_NUGET_PACKAGE_ICONURL
 .TP
 .B CPACK_NUGET_<compName>_PACKAGE_ICONURL
@@ -3811,20 +3868,6 @@ Deprecated since version 3.20: Use a local icon file (\fI\%CPACK_NUGET_PACKAGE_I
 .sp
 An URL for a 64x64 image with transparency background to use as the
 icon for the package in UI display.
-.INDENT 7.0
-.TP
-.B Mandatory
-No
-.TP
-.B Default
-None
-.UNINDENT
-.UNINDENT
-.INDENT 0.0
-.TP
-.B CPACK_NUGET_PACKAGE_REQUIRE_LICENSE_ACCEPTANCE
-When set to a true value, the user will be prompted to accept the license
-before installing the package.
 .INDENT 7.0
 .TP
 .B Mandatory
@@ -3851,6 +3894,45 @@ No
 .TP
 .B Default
 None
+.TP
+.B Supported
+NuGet 5.3.0 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_README
+.TP
+.B CPACK_NUGET_<compName>_PACKAGE_README
+New in version 3.30.
+
+.sp
+The package path relative to the root of the package to a readme file.
+Supported file formats include only Markdown (\fB*.md\fP).
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+None
+.TP
+.B Supported
+NuGet 5.10.0 preview 2 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_REQUIRE_LICENSE_ACCEPTANCE
+When set to a true value, the user will be prompted to accept the license
+before installing the package.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+None
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
@@ -3858,6 +3940,10 @@ None
 .B CPACK_NUGET_PACKAGE_DESCRIPTION_SUMMARY
 .TP
 .B CPACK_NUGET_<compName>_PACKAGE_DESCRIPTION_SUMMARY
+Deprecated since version 3.30: Summary is being deprecated. Use description
+(\fI\%CPACK_NUGET_PACKAGE_DESCRIPTION\fP) instead.
+
+.sp
 A short description of the package for UI display. If omitted, a
 truncated version of description is used.
 .INDENT 7.0
@@ -3936,6 +4022,133 @@ No
 None
 .UNINDENT
 .UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_REPOSITORY_URL
+.TP
+.B CPACK_NUGET_<compName>_REPOSITORY_URL
+.INDENT 7.0
+.INDENT 3.5
+New in version 3.30.
+
+.UNINDENT
+.UNINDENT
+.sp
+Repository metadata allows you to map the \fB*.nupkg\fP to the repository
+that built it. This should be a publicly available URL that can be invoked
+directly by a version control software. It should not be an HTML page as
+this is meant for the computer.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+None
+.TP
+.B Supported
+NuGet 4.0 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_REPOSITORY_TYPE
+.TP
+.B CPACK_NUGET_<compName>_REPOSITORY_TYPE
+.INDENT 7.0
+.INDENT 3.5
+New in version 3.30.
+
+.UNINDENT
+.UNINDENT
+.sp
+A type of the VCS repository.  When uploading a package to \fI\%nuget.org\fP, the
+type is limited to 100 characters.
+.INDENT 7.0
+.TP
+.B Mandatory
+Yes, if repository URL has been specified
+.TP
+.B Default
+None
+.TP
+.B Supported
+NuGet 4.0 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_REPOSITORY_BRANCH
+.TP
+.B CPACK_NUGET_<compName>_REPOSITORY_BRANCH
+.INDENT 7.0
+.INDENT 3.5
+New in version 3.30.
+
+.UNINDENT
+.UNINDENT
+.sp
+A VSC branch name to build the package.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+None
+.TP
+.B Supported
+NuGet 4.6 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_REPOSITORY_COMMIT
+.TP
+.B CPACK_NUGET_<compName>_REPOSITORY_COMMIT
+.INDENT 7.0
+.INDENT 3.5
+New in version 3.30.
+
+.UNINDENT
+.UNINDENT
+.sp
+A SHA\-1 hash of the commit to build the package.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+None
+.TP
+.B Supported
+NuGet 4.6 and above
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.TP
+.B CPACK_NUGET_PACKAGE_TITLE
+.TP
+.B CPACK_NUGET_<compName>_PACKAGE_TITLE
+A human\-friendly title of the package, typically used in UI displays
+as on \fI\%nuget.org\fP and the Package Manager in Visual Studio. If not
+specified, the package ID is used.
+.INDENT 7.0
+.TP
+.B Mandatory
+No
+.TP
+.B Default
+.INDENT 7.0
+.IP \(bu 2
+\fI\%CPACK_COMPONENT_<compName>_DISPLAY_NAME\fP,
+.IP \(bu 2
+\fBCPACK_COMPONENT_GROUP_<groupName>_DISPLAY_NAME\fP
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Dependencies specification
 .INDENT 0.0
 .TP
 .B CPACK_NUGET_PACKAGE_DEPENDENCIES
@@ -4028,19 +4241,6 @@ No
 None
 .UNINDENT
 .UNINDENT
-.INDENT 0.0
-.TP
-.B CPACK_NUGET_PACKAGE_DEBUG
-Enable debug messages while executing CPack NuGet generator.
-.INDENT 7.0
-.TP
-.B Mandatory
-No
-.TP
-.B Default
-\fBOFF\fP
-.UNINDENT
-.UNINDENT
 .SS Example usage
 .INDENT 0.0
 .INDENT 3.5
@@ -4052,9 +4252,8 @@ set(CPACK_GENERATOR NuGet)
 set(CPACK_PACKAGE_NAME SamplePackage)
 set(CPACK_PACKAGE_VERSION \(dq1.0.0\(dq)
 set(CPACK_PACKAGE_VENDOR \(dqExample Inc\(dq)
-set(CPACK_NUGET_PACKAGE_OWNERS \(dqExample Inc\(dq)
+set(CPACK_NUGET_PACKAGE_AUTHORS \(dqExampleInc\(dq)
 set(CPACK_PACKAGE_DESCRIPTION \(dqA .NET wrapper around the foobar library for frobbling bratchens\(dq)
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY \(dqA .NET wrapper around the foobar library for frobbling bratchens\(dq)
 set(CPACK_PACKAGE_HOMEPAGE_URL \(dqhttps://www.example.com\(dq)
 set(CPACK_NUGET_PACKAGE_REPOSITORY_URL \(dqhttps://github.com/example/libfoobar.git\(dq)
 set(CPACK_NUGET_PACKAGE_REPOSITORY_TYPE git)
@@ -4734,9 +4933,8 @@ No
 .UNINDENT
 .sp
 May be used to override RPM compression type to be used to build the
-RPM. For example some Linux distribution now default to \fBlzma\fP or \fBxz\fP
-compression whereas older cannot use such RPM. Using this one can enforce
-compression type to be used.
+RPM. For example some Linux distributions default to \fBxz\fP or \fBzstd\fP\&.
+Using this, one can specify a specific compression type to be used.
 .sp
 Possible values are:
 .INDENT 7.0
@@ -4754,6 +4952,12 @@ bzip2 Burrows–Wheeler algorithm
 .TP
 .B \fBgzip\fP
 GNU Gzip compression
+.TP
+.B \fBzstd\fP
+New in version 3.31.
+
+.sp
+Zstandard compression
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -6693,8 +6897,7 @@ Create an installer that installs for all users and requires
 administrative privileges.  Start menu entries created by the
 installer are visible to all users.
 .sp
-This is the default if \fI\%CPACK_WIX_VERSION\fP is set to any
-value other than \fB3\fP\&.
+This is the default.  See policy \fI\%CMP0172\fP\&.
 .TP
 .B \fBperUser\fP
 Not yet supported. This is reserved for future use.
@@ -6702,9 +6905,8 @@ Not yet supported. This is reserved for future use.
 .B \fBNONE\fP
 Create an installer without any \fBInstallScope\fP attribute.
 .sp
-If \fI\%CPACK_WIX_VERSION\fP is not set, or is set to \fB3\fP, this
-value is the default to preserve compatibility with 3.28 and lower.
-Otherwise, this value is not supported.
+This is supported only if \fI\%CPACK_WIX_VERSION\fP is not set,
+or is set to \fB3\fP\&.
 .sp
 Deprecated since version 3.29: This value is only for compatibility with the inconsistent behavior used
 by CPack 3.28 and older.  The resulting installer requires administrative

@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>cmake-presets(7) &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>cmake-presets(7) &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake-presets(7)</a></li> 
@@ -106,18 +106,24 @@ project is using Git, <code class="docutils literal notranslate"><span class="pr
 <h2><a class="toc-backref" href="#id4" role="doc-backlink">Format</a><a class="headerlink" href="#format" title="Link to this heading">¶</a></h2>
 <p>The files are a JSON document with an object as the root:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;cmakeMinimumRequired&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;major&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;minor&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;patch&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;$comment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;An example CMakePresets.json file&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;include&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="s2">&quot;otherThings.json&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="s2">&quot;moreThings.json&quot;</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;configurePresets&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;$comment&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;This is a comment row.&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;This is another comment,&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;just because we can do it&quot;</span>
+<span class="w">      </span><span class="p">],</span>
 <span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;displayName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default Config&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default build using Ninja generator&quot;</span><span class="p">,</span>
@@ -213,6 +219,8 @@ project is using Git, <code class="docutils literal notranslate"><span class="pr
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>Preset files specifying version <code class="docutils literal notranslate"><span class="pre">10</span></code> or above may include comments using the
+key <code class="docutils literal notranslate"><span class="pre">$comment</span></code> at any level within the JSON object to provide documentation.</p>
 <p>The root object recognizes the following fields:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">$schema</span></code></dt><dd><p>An optional string that provides a URI to the JSON schema that describes the
@@ -260,6 +268,10 @@ The supported versions are:</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">9</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.30.</span></p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">10</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
 </div>
 </dd>
 </dl>
@@ -415,6 +427,14 @@ relative to the source directory. This field takes precedence over any
 <span class="target" id="index-0-variable:CMAKE_TOOLCHAIN_FILE"></span><a class="reference internal" href="../variable/CMAKE_TOOLCHAIN_FILE.html#variable:CMAKE_TOOLCHAIN_FILE" title="CMAKE_TOOLCHAIN_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code></a> value. It is allowed in preset files
 specifying version <code class="docutils literal notranslate"><span class="pre">3</span></code> or above.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">graphviz</span></code></dt><dd><p>An optional string representing the path to the graphviz input file,
+that will contain all the library and executable dependencies
+in the project. See the documentation for <span class="target" id="index-0-module:CMakeGraphVizOptions"></span><a class="reference internal" href="../module/CMakeGraphVizOptions.html#module:CMakeGraphVizOptions" title="CMakeGraphVizOptions"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CMakeGraphVizOptions</span></code></a>
+for more details.</p>
+<p>This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>. If a relative path is specified,
+it is calculated relative to the current working directory. It is allowed
+in preset files specifying version <code class="docutils literal notranslate"><span class="pre">10</span></code> or above.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">binaryDir</span></code></dt><dd><p>An optional string representing the path to the output binary directory.
 This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>. If a relative path is specified,
 it is calculated relative to the source directory. If <code class="docutils literal notranslate"><span class="pre">binaryDir</span></code> is not
@@ -455,10 +475,13 @@ a value was inherited from another preset.</p>
 (which may not be an empty string), and the value is either <code class="docutils literal notranslate"><span class="pre">null</span></code> or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process's
-environment. This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example,
-if <code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is <code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>.)</p>
+environment.</p>
+<p>This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if <code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is
+<code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>).  <code class="docutils literal notranslate"><span class="pre">$penv{NAME}</span></code>
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.</p>
 <p>Environment variables are inherited through the <code class="docutils literal notranslate"><span class="pre">inherits</span></code> field, and
 the preset's environment will be the union of its own <code class="docutils literal notranslate"><span class="pre">environment</span></code> and
 the <code class="docutils literal notranslate"><span class="pre">environment</span></code> from all its parents. If multiple presets in this
@@ -619,10 +642,13 @@ when appropriate.</p>
 (which may not be an empty string), and the value is either <code class="docutils literal notranslate"><span class="pre">null</span></code> or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process's
-environment. This field supports macro expansion, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example, if
-<code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is <code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>.)</p>
+environment.</p>
+<p>This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if <code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is
+<code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>).  <code class="docutils literal notranslate"><span class="pre">$penv{NAME}</span></code>
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.</p>
 <p>Environment variables are inherited through the <code class="docutils literal notranslate"><span class="pre">inherits</span></code> field, and
 the preset's environment will be the union of its own <code class="docutils literal notranslate"><span class="pre">environment</span></code>
 and the <code class="docutils literal notranslate"><span class="pre">environment</span></code> from all its parents. If multiple presets in
@@ -758,10 +784,13 @@ when appropriate.</p>
 (which may not be an empty string), and the value is either <code class="docutils literal notranslate"><span class="pre">null</span></code> or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process's
-environment. This field supports macro expansion, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example, if
-<code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is <code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>.)</p>
+environment.</p>
+<p>This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if <code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is
+<code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>).  <code class="docutils literal notranslate"><span class="pre">$penv{NAME}</span></code>
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.</p>
 <p>Environment variables are inherited through the <code class="docutils literal notranslate"><span class="pre">inherits</span></code> field, and
 the preset's environment will be the union of its own <code class="docutils literal notranslate"><span class="pre">environment</span></code>
 and the <code class="docutils literal notranslate"><span class="pre">environment</span></code> from all its parents. If multiple presets in
@@ -1049,10 +1078,13 @@ when appropriate.</p>
 (which may not be an empty string), and the value is either <code class="docutils literal notranslate"><span class="pre">null</span></code> or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process's
-environment. This field supports macro expansion, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example, if
-<code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is <code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>.)</p>
+environment.</p>
+<p>This field supports <a class="reference internal" href="#macro-expansion">macro expansion</a>, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if <code class="docutils literal notranslate"><span class="pre">ENV_1</span></code> is
+<code class="docutils literal notranslate"><span class="pre">$env{ENV_2}</span></code>, <code class="docutils literal notranslate"><span class="pre">ENV_2</span></code> may not be <code class="docutils literal notranslate"><span class="pre">$env{ENV_1}</span></code>).  <code class="docutils literal notranslate"><span class="pre">$penv{NAME}</span></code>
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.</p>
 <p>Environment variables are inherited through the <code class="docutils literal notranslate"><span class="pre">inherits</span></code> field, and
 the preset's environment will be the union of its own <code class="docutils literal notranslate"><span class="pre">environment</span></code>
 and the <code class="docutils literal notranslate"><span class="pre">environment</span></code> from all its parents. If multiple presets in
@@ -1288,7 +1320,7 @@ the casing of environment variable names consistent.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">$penv{&lt;variable-name&gt;}</span></code></dt><dd><p>Similar to <code class="docutils literal notranslate"><span class="pre">$env{&lt;variable-name&gt;}</span></code>, except that the value only comes from
 the parent environment, and never from the <code class="docutils literal notranslate"><span class="pre">environment</span></code> field. This
-allows you to prepend or append values to existing environment variables.
+allows one to prepend or append values to existing environment variables.
 For example, setting <code class="docutils literal notranslate"><span class="pre">PATH</span></code> to <code class="docutils literal notranslate"><span class="pre">/path/to/ninja/bin:$penv{PATH}</span></code> will
 prepend <code class="docutils literal notranslate"><span class="pre">/path/to/ninja/bin</span></code> to the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment variable. This
 is needed because <code class="docutils literal notranslate"><span class="pre">$env{&lt;variable-name&gt;}</span></code> does not allow circular
@@ -1394,7 +1426,7 @@ JSON schema for the <code class="docutils literal notranslate"><span class="pre"
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake-presets(7)</a></li> 

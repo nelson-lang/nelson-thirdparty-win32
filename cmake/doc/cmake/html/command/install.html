@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>install &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>install &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -87,6 +87,7 @@ install(<a class="reference internal" href="#directory">DIRECTORY</a> &lt;dir&gt
 install(<a class="reference internal" href="#script">SCRIPT</a> &lt;file&gt; [...])
 install(<a class="reference internal" href="#code">CODE</a> &lt;code&gt; [...])
 install(<a class="reference internal" href="#export">EXPORT</a> &lt;export-name&gt; [...])
+install(<a class="reference internal" href="#package-info">PACKAGE_INFO</a> &lt;package-name&gt; [...])
 install(<a class="reference internal" href="#runtime-dependency-set">RUNTIME_DEPENDENCY_SET</a> &lt;set-name&gt; [...])</pre>
 </section>
 <section id="introduction">
@@ -104,6 +105,13 @@ policy <span class="target" id="index-0-policy:CMP0082"></span><a class="referen
 <p><span class="versionmodified changed">Changed in version 3.22: </span>The environment variable <span class="target" id="index-0-envvar:CMAKE_INSTALL_MODE"></span><a class="reference internal" href="../envvar/CMAKE_INSTALL_MODE.html#envvar:CMAKE_INSTALL_MODE" title="CMAKE_INSTALL_MODE"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_MODE</span></code></a> can override the
 default copying behavior of <code class="docutils literal notranslate"><span class="pre">install()</span></code>.</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Projects can enable <span class="target" id="index-0-prop_gbl:INSTALL_PARALLEL"></span><a class="reference internal" href="../prop_gbl/INSTALL_PARALLEL.html#prop_gbl:INSTALL_PARALLEL" title="INSTALL_PARALLEL"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">INSTALL_PARALLEL</span></code></a> to enable a parallel
+installation. When using the parallel install, subdirectories added by calls
+to the <span class="target" id="index-1-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command are installed independently
+and the order that install rules added in different subdirectories will run is
+not guaranteed.</p>
+</div>
 <p id="common-options">There are multiple signatures for this command.  Some of them define
 installation options for files and targets.  Options common to
 multiple signatures are covered here but they are valid only for
@@ -112,7 +120,7 @@ signatures that specify them.  The common options are:</p>
 <dt><code class="docutils literal notranslate"><span class="pre">DESTINATION</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><p>Specify the directory on disk to which a file will be installed.
 <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> should be a relative path.  An absolute path is allowed,
 but not recommended.</p>
-<p>When a relative path is given it is interpreted relative to the value
+<p>When a relative path is given, it is interpreted relative to the value
 of the <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable.
 The prefix can be relocated at install time using the <code class="docutils literal notranslate"><span class="pre">DESTDIR</span></code>
 mechanism explained in the <span class="target" id="index-1-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable
@@ -126,6 +134,11 @@ In particular, there is no need to make paths absolute by prepending
 the DESTINATION is a relative path.</p>
 <p>If an absolute path (with a leading slash or drive letter) is given
 it is used verbatim.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span><code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> will be normalized according to the same
+<a class="reference internal" href="cmake_path.html#normalization"><span class="std std-ref">normalization rules</span></a> as the
+<span class="target" id="index-0-command:cmake_path"></span><a class="reference internal" href="cmake_path.html#command:cmake_path" title="cmake_path"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_path()</span></code></a> command.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">PERMISSIONS</span> <span class="pre">&lt;permission&gt;...</span></code></dt><dd><p>Specify permissions for installed files.  Valid permissions are
 <code class="docutils literal notranslate"><span class="pre">OWNER_READ</span></code>, <code class="docutils literal notranslate"><span class="pre">OWNER_WRITE</span></code>, <code class="docutils literal notranslate"><span class="pre">OWNER_EXECUTE</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP_READ</span></code>,
@@ -158,10 +171,6 @@ created.  The default component name may be controlled with the
 </div>
 <p>Specify that the file is excluded from a full installation and only
 installed as part of a component-specific installation</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">RENAME</span> <span class="pre">&lt;name&gt;</span></code></dt><dd><p>Specify a name for an installed file that may be different from the
-original file.  Renaming is allowed only when a single file is
-installed by the command.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code></dt><dd><p>Specify that it is not an error if the file to be installed does
 not exist.</p>
@@ -445,6 +454,11 @@ in the export.</p>
 <code class="docutils literal notranslate"><span class="pre">&lt;targets&gt;</span></code> when exported by the <span class="target" id="index-4-command:install"></span><a class="reference internal" href="#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> command.
 If a relative path is specified, it is treated as relative to the
 <span class="target" id="index-0-genex:INSTALL_PREFIX"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:INSTALL_PREFIX" title="INSTALL_PREFIX"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;INSTALL_PREFIX&gt;</span></code></a>.</p>
+<p>Unlike other <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> arguments for the various <code class="docutils literal notranslate"><span class="pre">install()</span></code>
+subcommands, paths given after <code class="docutils literal notranslate"><span class="pre">INCLUDES</span> <span class="pre">DESTINATION</span></code> are used as
+given.  They are not normalized, nor assumed to be normalized, although
+it is recommended that they are given in normalized form (see
+<a class="reference internal" href="cmake_path.html#normalization"><span class="std std-ref">Normalization</span></a>).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">RUNTIME_DEPENDENCY_SET</span> <span class="pre">&lt;set-name&gt;</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.21.</span></p>
@@ -581,6 +595,9 @@ form to install targets built within the project.</p>
 <span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.
 However, if any item begins in a generator expression it must evaluate
 to a full path.</p>
+<p>The optional <code class="docutils literal notranslate"><span class="pre">RENAME</span> <span class="pre">&lt;name&gt;</span></code> argument is used to specify a name for the
+installed file that is different from the original file name.  Renaming
+is allowed only when a single file is installed by the command.</p>
 <p>Either a <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> or a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> must be provided, but not both.
 A <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> argument specifies the generic file type of the files being
 installed.  A destination will then be set automatically by taking the
@@ -649,6 +666,10 @@ file type if they wish to explicitly define the install destination.</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_DOCDIR}</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;DATAROOT</span> <span class="pre">dir&gt;/doc</span></code></p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LIBEXEC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_LIBEXECDIR}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">libexec</span></code></p></td>
+</tr>
 </tbody>
 </table>
 <p>Projects wishing to follow the common practice of installing headers into a
@@ -682,6 +703,9 @@ use &quot;generator expressions&quot; with the syntax <code class="docutils lite
 <p><span class="versionmodified added">New in version 3.20: </span>An install rename given as a <code class="docutils literal notranslate"><span class="pre">RENAME</span></code> argument may
 use &quot;generator expressions&quot; with the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the
 <span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual for available expressions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31: </span>The <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> argument now supports type <code class="docutils literal notranslate"><span class="pre">LIBEXEC</span></code>.</p>
 </div>
 </dd></dl>
 
@@ -833,6 +857,10 @@ define the install destination.</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_DOCDIR}</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">&lt;DATAROOT</span> <span class="pre">dir&gt;/doc</span></code></p></td>
 </tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">LIBEXEC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_LIBEXECDIR}</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">libexec</span></code></p></td>
+</tr>
 </tbody>
 </table>
 <p>Note that some of the types' built-in defaults use the <code class="docutils literal notranslate"><span class="pre">DATAROOT</span></code> directory as
@@ -853,6 +881,9 @@ use &quot;generator expressions&quot; with the syntax <code class="docutils lite
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.5: </span>The list of <code class="docutils literal notranslate"><span class="pre">dirs...</span></code> given to <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> may use
 &quot;generator expressions&quot; too.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31: </span>The <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> argument now supports type <code class="docutils literal notranslate"><span class="pre">LIBEXEC</span></code>.</p>
 </div>
 </dd></dl>
 
@@ -915,8 +946,8 @@ documented above.  The <code class="docutils literal notranslate"><span class="p
 the target names as they are written to the import file.  By default
 the generated file will be called <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;.cmake</span></code> but the <code class="docutils literal notranslate"><span class="pre">FILE</span></code>
 option may be used to specify a different name.  The value given to
-the <code class="docutils literal notranslate"><span class="pre">FILE</span></code> option must be a file name with the <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> extension.
-If a <code class="docutils literal notranslate"><span class="pre">CONFIGURATIONS</span></code> option is given then the file will only be installed
+the <code class="docutils literal notranslate"><span class="pre">FILE</span></code> option must be a file name with the <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> extension.</p>
+<p>If a <code class="docutils literal notranslate"><span class="pre">CONFIGURATIONS</span></code> option is given then the file will only be installed
 when one of the named configurations is installed.  Additionally, the
 generated import file will reference only the matching target
 configurations.  See the <span class="target" id="index-0-variable:CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;"></span><a class="reference internal" href="../variable/CMAKE_MAP_IMPORTED_CONFIG_CONFIG.html#variable:CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;" title="CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;</span></code></a>
@@ -1014,6 +1045,59 @@ executable from the installation tree using the imported target name
 </dd></dl>
 
 <dl class="cmake signature">
+<dt class="sig sig-object cmake" id="package-info">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">install(</span></span><span class="no"><span class="pre">PACKAGE_INFO</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;package-name&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[...]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#package-info" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Experimental. Gated by <code class="docutils literal notranslate"><span class="pre">CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO</span></code>.</p>
+</div>
+<p>Installs a <a class="reference external" href="https://cps-org.github.io/cps/">Common Package Specification</a> file exporting targets for dependent projects:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">PACKAGE_INFO</span><span class="w"> </span><span class="nv">&lt;package-name&gt;</span><span class="w"> </span><span class="no">EXPORT</span><span class="w"> </span><span class="nv">&lt;export-name&gt;</span>
+<span class="w">        </span><span class="p">[</span><span class="no">APPENDIX</span><span class="w"> </span><span class="nv">&lt;appendix-name&gt;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">DESTINATION</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">LOWER_CASE_FILE</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span>
+<span class="w">         </span><span class="p">[</span><span class="no">COMPAT_VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span><span class="p">]</span>
+<span class="w">         </span><span class="p">[</span><span class="no">VERSION_SCHEMA</span><span class="w"> </span><span class="nv">&lt;string&gt;</span><span class="p">]]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">DEFAULT_TARGETS</span><span class="w"> </span><span class="nv">&lt;target&gt;...</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">DEFAULT_CONFIGURATIONS</span><span class="w"> </span><span class="nv">&lt;config&gt;...</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">PERMISSIONS</span><span class="w"> </span><span class="nv">&lt;permission&gt;...</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">CONFIGURATIONS</span><span class="w"> </span><span class="nv">&lt;config&gt;...</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">COMPONENT</span><span class="w"> </span><span class="nv">&lt;component&gt;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">PACKAGE_INFO</span></code> form generates and installs a Common Package Specification file which describes
+installed targets such that they can be consumed by another project.
+Target installations are associated with the export <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;</span></code>
+using the <code class="docutils literal notranslate"><span class="pre">EXPORT</span></code> option of the <span class="target" id="index-10-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> signature
+documented above.  Unlike <span class="target" id="index-11-command:install"></span><a class="reference internal" href="#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>, this information is not
+expressed in CMake code, and can be consumed by tools other than CMake.  When
+imported into another CMake project, the imported targets will be prefixed
+with <code class="docutils literal notranslate"><span class="pre">&lt;package-name&gt;::</span></code>.  By default, the generated file will be called
+<code class="docutils literal notranslate"><span class="pre">&lt;package-name&gt;[-&lt;appendix-name&gt;].cps</span></code>.  If <code class="docutils literal notranslate"><span class="pre">LOWER_CASE_FILE</span></code> is given,
+the package name as it appears on disk (in both the file name and install
+destination) will be first converted to lower case.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> is not specified, a platform-specific default is used.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">APPENDIX</span></code> is specified, rather than generating a top level package
+specification, the specified targets will be exported as an appendix to the
+named package.  Appendices may be used to separate less commonly used targets
+(along with their external dependencies) from the rest of a package.  This
+enables consumers to ignore transitive dependencies for targets that they
+don't use, and also allows a single logical &quot;package&quot; to be composed of
+artifacts produced by multiple build trees.</p>
+<p>Appendices are not permitted to change basic package metadata; therefore,
+none of <code class="docutils literal notranslate"><span class="pre">VERSION</span></code>, <code class="docutils literal notranslate"><span class="pre">COMPAT_VERSION</span></code>, <code class="docutils literal notranslate"><span class="pre">VERSION_SCHEMA</span></code>,
+<code class="docutils literal notranslate"><span class="pre">DEFAULT_TARGETS</span></code> or <code class="docutils literal notranslate"><span class="pre">DEFAULT_CONFIGURATIONS</span></code> may be specified in
+combination with <code class="docutils literal notranslate"><span class="pre">APPENDIX</span></code>.  Additionally, it is strongly recommended that
+use of <code class="docutils literal notranslate"><span class="pre">LOWER_CASE_FILE</span></code> should be consistent between the main package and
+any appendices.</p>
+</dd></dl>
+
+<dl class="cmake signature">
 <dt class="sig sig-object cmake" id="runtime-dependency-set">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">install(</span></span><span class="no"><span class="pre">RUNTIME_DEPENDENCY_SET</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;set-name&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[...]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#runtime-dependency-set" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
@@ -1040,14 +1124,14 @@ executable from the installation tree using the imported target name
 </pre></div>
 </div>
 <p>Installs a runtime dependency set previously created by one or more
-<span class="target" id="index-10-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> or <span class="target" id="index-11-command:install"></span><a class="reference internal" href="#imported-runtime-artifacts" title="install(imported_runtime_artifacts)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(IMPORTED_RUNTIME_ARTIFACTS)</span></code></a>
+<span class="target" id="index-12-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> or <span class="target" id="index-13-command:install"></span><a class="reference internal" href="#imported-runtime-artifacts" title="install(imported_runtime_artifacts)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(IMPORTED_RUNTIME_ARTIFACTS)</span></code></a>
 commands.  The dependencies of targets belonging to a runtime dependency set
 are installed in the <code class="docutils literal notranslate"><span class="pre">RUNTIME</span></code> destination and component on DLL platforms,
 and in the <code class="docutils literal notranslate"><span class="pre">LIBRARY</span></code> destination and component on non-DLL platforms.
 macOS frameworks are installed in the <code class="docutils literal notranslate"><span class="pre">FRAMEWORK</span></code> destination and component.
 Targets built within the build tree will never be installed as runtime
 dependencies, nor will their own dependencies, unless the targets themselves
-are installed with <span class="target" id="index-12-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a>.</p>
+are installed with <span class="target" id="index-14-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a>.</p>
 <p>The generated install script calls <span class="target" id="index-0-command:file"></span><a class="reference internal" href="file.html#get-runtime-dependencies" title="file(get_runtime_dependencies)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(GET_RUNTIME_DEPENDENCIES)</span></code></a>
 on the build-tree files to calculate the runtime dependencies. The build-tree
 executable files are passed as the <code class="docutils literal notranslate"><span class="pre">EXECUTABLES</span></code> argument, the build-tree
@@ -1100,7 +1184,7 @@ is not defined.</p>
 <span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">mySharedLib</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SOVERSION</span><span class="w"> </span><span class="m">1</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>We may call <span class="target" id="index-13-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> with <a class="reference internal" href="#artifact-kind">&lt;artifact-kind&gt;</a> arguments
+<p>We may call <span class="target" id="index-15-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> with <a class="reference internal" href="#artifact-kind">&lt;artifact-kind&gt;</a> arguments
 to specify different options for each kind of artifact:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">TARGETS</span>
 <span class="w">          </span><span class="nb">myExe</span>
@@ -1149,7 +1233,7 @@ the default destination for a file set of type HEADERS, as part of the
 </section>
 <section id="example-install-targets-to-per-config-destinations">
 <h3><a class="toc-backref" href="#id7" role="doc-backlink">Example: Install Targets to Per-Config Destinations</a><a class="headerlink" href="#example-install-targets-to-per-config-destinations" title="Link to this heading">¶</a></h3>
-<p>Each <span class="target" id="index-14-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> call installs a given target
+<p>Each <span class="target" id="index-16-command:install"></span><a class="reference internal" href="#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> call installs a given target
 <a class="reference internal" href="../manual/cmake-buildsystem.7.html#output-artifacts"><span class="std std-ref">output artifact</span></a> to at most one <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code>,
 but the install rule itself may be filtered by the <code class="docutils literal notranslate"><span class="pre">CONFIGURATIONS</span></code> option.
 In order to install to a different destination for each configuration, one
@@ -1274,7 +1358,7 @@ details.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>

@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>cmake(1) &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>cmake(1) &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake(1)</a></li> 
@@ -82,7 +82,7 @@
  cmake --find-package [&lt;options&gt;]
 
 <a class="reference internal" href="#run-a-workflow-preset">Run a Workflow Preset</a>
- cmake --workflow [&lt;options&gt;]
+ cmake --workflow &lt;options&gt;
 
 <a class="reference internal" href="#view-help">View Help</a>
  cmake --help[-&lt;topic&gt;]</pre>
@@ -478,6 +478,19 @@ display help for each variable.</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-cmake-LR-A-H">
+<span class="sig-name descname"><span class="pre">-LR[A][H]</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;regex&gt;</span></span><a class="headerlink" href="#cmdoption-cmake-LR-A-H" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<p>Show specific non-advanced cached variables</p>
+<p>Show non-<code class="docutils literal notranslate"><span class="pre">INTERNAL</span></code> nor <span class="target" id="index-1-prop_cache:ADVANCED"></span><a class="reference internal" href="../prop_cache/ADVANCED.html#prop_cache:ADVANCED" title="ADVANCED"><code class="xref cmake cmake-prop_cache docutils literal notranslate"><span class="pre">ADVANCED</span></code></a> variables from the CMake
+<code class="docutils literal notranslate"><span class="pre">CACHE</span></code> that match the given regex. If <code class="docutils literal notranslate"><span class="pre">A</span></code> is specified, then it
+will also show advanced variables.  If <code class="docutils literal notranslate"><span class="pre">H</span></code> is specified, it will also
+display help for each variable.</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-cmake-N">
 <span class="sig-name descname"><span class="pre">-N</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-cmake-N" title="Link to this definition">¶</a></dt>
 <dd><p>View mode only.</p>
@@ -504,9 +517,22 @@ additional information such as the cache, log files etc.</p>
 </dd></dl>
 
 <dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-cmake-print-config-dir">
+<span class="sig-name descname"><span class="pre">--print-config-dir</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-cmake-print-config-dir" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<p>Print CMake config directory for user-wide FileAPI queries.</p>
+<p>See <span class="target" id="index-0-envvar:CMAKE_CONFIG_DIR"></span><a class="reference internal" href="../envvar/CMAKE_CONFIG_DIR.html#envvar:CMAKE_CONFIG_DIR" title="CMAKE_CONFIG_DIR"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_CONFIG_DIR</span></code></a> for more details.</p>
+</dd></dl>
+
+<dl class="std option">
 <dt class="sig sig-object std" id="cmdoption-cmake-log-level">
 <span class="sig-name descname"><span class="pre">--log-level</span></span><span class="sig-prename descclassname"><span class="pre">=&lt;level&gt;</span></span><a class="headerlink" href="#cmdoption-cmake-log-level" title="Link to this definition">¶</a></dt>
-<dd><p>Set the log <code class="docutils literal notranslate"><span class="pre">&lt;level&gt;</span></code>.</p>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>Set the log <code class="docutils literal notranslate"><span class="pre">&lt;level&gt;</span></code>.</p>
 <p>The <span class="target" id="index-0-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message()</span></code></a> command will only output messages of the specified
 log level or higher.  The valid log levels are <code class="docutils literal notranslate"><span class="pre">ERROR</span></code>, <code class="docutils literal notranslate"><span class="pre">WARNING</span></code>,
 <code class="docutils literal notranslate"><span class="pre">NOTICE</span></code>, <code class="docutils literal notranslate"><span class="pre">STATUS</span></code> (default), <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code>, <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>, or <code class="docutils literal notranslate"><span class="pre">TRACE</span></code>.</p>
@@ -1027,6 +1053,18 @@ The options are:</p>
 <span id="cmdoption-cmake-install-verbose"></span><span class="sig-name descname"><span class="pre">-v</span></span><span class="sig-prename descclassname"></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--verbose</span></span><span class="sig-prename descclassname"></span><a class="headerlink" href="#cmdoption-cmake-install-v" title="Link to this definition">¶</a></dt>
 <dd><p>Enable verbose output.</p>
 <p>This option can be omitted if <span class="target" id="index-1-envvar:VERBOSE"></span><a class="reference internal" href="../envvar/VERBOSE.html#envvar:VERBOSE" title="VERBOSE"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">VERBOSE</span></code></a> environment variable is set.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-cmake-install-j">
+<span id="cmdoption-cmake-install-parallel"></span><span class="sig-name descname"><span class="pre">-j</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;jobs&gt;</span></span><span class="sig-prename descclassname"><span class="pre">,</span> </span><span class="sig-name descname"><span class="pre">--parallel</span></span><span class="sig-prename descclassname"> <span class="pre">&lt;jobs&gt;</span></span><a class="headerlink" href="#cmdoption-cmake-install-j" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<p>Install in parallel using the given number of jobs. Only available if
+<span class="target" id="index-0-prop_gbl:INSTALL_PARALLEL"></span><a class="reference internal" href="../prop_gbl/INSTALL_PARALLEL.html#prop_gbl:INSTALL_PARALLEL" title="INSTALL_PARALLEL"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">INSTALL_PARALLEL</span></code></a> is enabled. The
+<span class="target" id="index-0-envvar:CMAKE_INSTALL_PARALLEL_LEVEL"></span><a class="reference internal" href="../envvar/CMAKE_INSTALL_PARALLEL_LEVEL.html#envvar:CMAKE_INSTALL_PARALLEL_LEVEL" title="CMAKE_INSTALL_PARALLEL_LEVEL"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PARALLEL_LEVEL</span></code></a> environment variable specifies a
+default parallel level when this option is not provided.</p>
 </dd></dl>
 
 <p>Run <a class="reference internal" href="#cmdoption-cmake-install"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span></code></a> with no options for quick help.</p>
@@ -1743,7 +1781,7 @@ It is kept for compatibility but should not be used in new projects.</p>
 </div>
 <p><span class="target" id="index-3-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">Presets</span></code></a> provides a way to execute multiple
 build steps in order:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--workflow<span class="w"> </span><span class="o">[</span>&lt;options&gt;<span class="o">]</span>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--workflow<span class="w"> </span>&lt;options&gt;
 </pre></div>
 </div>
 <p>The options are:</p>
@@ -1760,6 +1798,14 @@ build steps in order:</p>
 is inferred from the initial configure preset. The current working directory
 must contain CMake preset files.
 See <span class="target" id="index-4-manual:cmake-presets(7)"></span><a class="reference internal" href="cmake-presets.7.html#manual:cmake-presets(7)" title="cmake-presets(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">preset</span></code></a> for more details.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>When following immediately after the <code class="docutils literal notranslate"><span class="pre">--workflow</span></code> option,
+the <code class="docutils literal notranslate"><span class="pre">--preset</span></code> argument can be omitted and just the <code class="docutils literal notranslate"><span class="pre">&lt;preset&gt;</span></code>
+name can be given.  This means the following syntax is valid:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cmake<span class="w"> </span>--workflow<span class="w"> </span>my-preset
+</pre></div>
+</div>
+</div>
 </dd></dl>
 
 <dl class="std option">
@@ -2088,7 +2134,7 @@ found on this web page.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake(1)</a></li> 

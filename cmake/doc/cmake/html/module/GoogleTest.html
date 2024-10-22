@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>GoogleTest &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>GoogleTest &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -91,7 +91,7 @@ same as the Google Test name (i.e. <code class="docutils literal notranslate"><s
 macros:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gtest_add_tests(TARGET target
                 [SOURCES src1...]
-                [EXTRA_ARGS arg1...]
+                [EXTRA_ARGS args...]
                 [WORKING_DIRECTORY dir]
                 [TEST_PREFIX prefix]
                 [TEST_SUFFIX suffix]
@@ -110,7 +110,7 @@ this means that CMake is re-run when any test source file is changed, but see
 CMake time, which somewhat simplifies setting additional properties on tests,
 and always works in a cross-compiling environment.</p>
 <p>The options are:</p>
-<dl class="simple">
+<dl>
 <dt><code class="docutils literal notranslate"><span class="pre">TARGET</span> <span class="pre">target</span></code></dt><dd><p>Specifies the Google Test executable, which must be a known CMake
 executable target.  CMake will substitute the location of the built
 executable when running the test.</p>
@@ -119,7 +119,10 @@ executable when running the test.</p>
 this option is not given, the <span class="target" id="index-0-prop_tgt:SOURCES"></span><a class="reference internal" href="../prop_tgt/SOURCES.html#prop_tgt:SOURCES" title="SOURCES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SOURCES</span></code></a> property of the
 specified <code class="docutils literal notranslate"><span class="pre">target</span></code> will be used to obtain the list of sources.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">EXTRA_ARGS</span> <span class="pre">arg1...</span></code></dt><dd><p>Any extra arguments to pass on the command line to each test case.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">EXTRA_ARGS</span> <span class="pre">args...</span></code></dt><dd><p>Any extra arguments to pass on the command line to each test case.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Empty values in <code class="docutils literal notranslate"><span class="pre">args...</span></code> are preserved, see <span class="target" id="index-0-policy:CMP0178"></span><a class="reference internal" href="../policy/CMP0178.html#policy:CMP0178" title="CMP0178"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0178</span></code></a>.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span> <span class="pre">dir</span></code></dt><dd><p>Specifies the directory in which to run the discovered test cases.  If this
 option is not provided, the current binary directory is used.</p>
@@ -143,6 +146,11 @@ with the list of discovered test cases.  This allows the caller to do
 things like manipulate test properties of the discovered tests.</p>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Empty values in the <span class="target" id="index-0-prop_tgt:TEST_LAUNCHER"></span><a class="reference internal" href="../prop_tgt/TEST_LAUNCHER.html#prop_tgt:TEST_LAUNCHER" title="TEST_LAUNCHER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">TEST_LAUNCHER</span></code></a> and
+<span class="target" id="index-0-prop_tgt:CROSSCOMPILING_EMULATOR"></span><a class="reference internal" href="../prop_tgt/CROSSCOMPILING_EMULATOR.html#prop_tgt:CROSSCOMPILING_EMULATOR" title="CROSSCOMPILING_EMULATOR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CROSSCOMPILING_EMULATOR</span></code></a> target properties are preserved,
+see policy <span class="target" id="index-1-policy:CMP0178"></span><a class="reference internal" href="../policy/CMP0178.html#policy:CMP0178" title="CMP0178"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0178</span></code></a>.</p>
+</div>
 <p>Usage example:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">GoogleTest</span><span class="nf">)</span>
 <span class="nf">add_executable(</span><span class="nb">FooTest</span><span class="w"> </span><span class="nb">FooUnitTest.cxx</span><span class="nf">)</span>
@@ -189,7 +197,7 @@ of a CMake executable target whose sources should be scanned.</p>
 <dd><p>Automatically add tests with CTest by querying the compiled test executable
 for available tests:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gtest_discover_tests(target
-                     [EXTRA_ARGS arg1...]
+                     [EXTRA_ARGS args...]
                      [WORKING_DIRECTORY dir]
                      [TEST_PREFIX prefix]
                      [TEST_SUFFIX suffix]
@@ -200,35 +208,40 @@ for available tests:</p>
                      [DISCOVERY_TIMEOUT seconds]
                      [XML_OUTPUT_DIR dir]
                      [DISCOVERY_MODE &lt;POST_BUILD|PRE_TEST&gt;]
+                     [DISCOVERY_EXTRA_ARGS args...]
 )
 </pre></div>
 </div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.10.</span></p>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> sets up a post-build command on the test executable
-that generates the list of tests by parsing the output from running the test
-with the <code class="docutils literal notranslate"><span class="pre">--gtest_list_tests</span></code> argument.  Compared to the source parsing
-approach of <span class="target" id="index-2-command:gtest_add_tests"></span><a class="reference internal" href="#command:gtest_add_tests" title="gtest_add_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_add_tests()</span></code></a>, this ensures that the full list of
-tests, including instantiations of parameterized tests, is obtained.  Since
-test discovery occurs at build time, it is not necessary to re-run CMake when
-the list of tests changes.
-However, it requires that <span class="target" id="index-0-prop_tgt:CROSSCOMPILING_EMULATOR"></span><a class="reference internal" href="../prop_tgt/CROSSCOMPILING_EMULATOR.html#prop_tgt:CROSSCOMPILING_EMULATOR" title="CROSSCOMPILING_EMULATOR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CROSSCOMPILING_EMULATOR</span></code></a> is properly set
-in order to function in a cross-compiling environment.</p>
+<p><code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> sets up a post-build or pre-test command on the
+test executable that generates the list of tests by parsing the output from
+running the test executable with the <code class="docutils literal notranslate"><span class="pre">--gtest_list_tests</span></code> argument.
+Compared to the source parsing approach of <span class="target" id="index-2-command:gtest_add_tests"></span><a class="reference internal" href="#command:gtest_add_tests" title="gtest_add_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_add_tests()</span></code></a>,
+this ensures that the full list of tests, including instantiations of
+parameterized tests, is obtained.  Since test discovery occurs at build
+or test time, it is not necessary to re-run CMake when the list of tests
+changes.  However, it requires that <span class="target" id="index-1-prop_tgt:CROSSCOMPILING_EMULATOR"></span><a class="reference internal" href="../prop_tgt/CROSSCOMPILING_EMULATOR.html#prop_tgt:CROSSCOMPILING_EMULATOR" title="CROSSCOMPILING_EMULATOR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CROSSCOMPILING_EMULATOR</span></code></a>
+is properly set in order to function in a cross-compiling environment.</p>
 <p>Additionally, setting properties on tests is somewhat less convenient, since
 the tests are not available at CMake time.  Additional test properties may be
 assigned to the set of tests as a whole using the <code class="docutils literal notranslate"><span class="pre">PROPERTIES</span></code> option.  If
 more fine-grained test control is needed, custom content may be provided
 through an external CTest script using the <span class="target" id="index-0-prop_dir:TEST_INCLUDE_FILES"></span><a class="reference internal" href="../prop_dir/TEST_INCLUDE_FILES.html#prop_dir:TEST_INCLUDE_FILES" title="TEST_INCLUDE_FILES"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">TEST_INCLUDE_FILES</span></code></a>
 directory property.  The set of discovered tests is made accessible to such a
-script via the <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;_TESTS</span></code> variable.</p>
+script via the <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;_TESTS</span></code> variable (see the <code class="docutils literal notranslate"><span class="pre">TEST_LIST</span></code> option
+below for further discussion and limitations).</p>
 <p>The options are:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">target</span></code></dt><dd><p>Specifies the Google Test executable, which must be a known CMake
 executable target.  CMake will substitute the location of the built
 executable when running the test.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">EXTRA_ARGS</span> <span class="pre">arg1...</span></code></dt><dd><p>Any extra arguments to pass on the command line to each test case.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">EXTRA_ARGS</span> <span class="pre">args...</span></code></dt><dd><p>Any extra arguments to pass on the command line to each test case.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Empty values in <code class="docutils literal notranslate"><span class="pre">args...</span></code> are preserved, see <span class="target" id="index-2-policy:CMP0178"></span><a class="reference internal" href="../policy/CMP0178.html#policy:CMP0178" title="CMP0178"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0178</span></code></a>.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span> <span class="pre">dir</span></code></dt><dd><p>Specifies the directory in which to run the discovered test cases.  If this
 option is not provided, the current binary directory is used.</p>
@@ -268,6 +281,10 @@ invocation of <code class="docutils literal notranslate"><span class="pre">gtest
 default <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;_TESTS</span></code>.  This can be useful when the same test
 executable is being used in multiple calls to <code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code>.
 Note that this variable is only available in CTest.</p>
+<p>Due to a limitation of CMake's parsing rules, any test with a square
+bracket in its name will be omitted from the list of tests stored in
+this variable.  Such tests will still be defined and executed by
+<code class="docutils literal notranslate"><span class="pre">ctest</span></code> as normal though.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_TIMEOUT</span> <span class="pre">num</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.10.3.</span></p>
@@ -315,7 +332,21 @@ passed when calling <code class="docutils literal notranslate"><span class="pre"
 for globally selecting a preferred test discovery behavior without having
 to modify each call site.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_EXTRA_ARGS</span> <span class="pre">args...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<p>Any extra arguments to pass on the command line for the discovery command.</p>
+</dd>
 </dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29: </span>The <span class="target" id="index-1-prop_tgt:TEST_LAUNCHER"></span><a class="reference internal" href="../prop_tgt/TEST_LAUNCHER.html#prop_tgt:TEST_LAUNCHER" title="TEST_LAUNCHER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">TEST_LAUNCHER</span></code></a> target property is honored during test
+discovery and test execution.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Empty values in the <span class="target" id="index-2-prop_tgt:TEST_LAUNCHER"></span><a class="reference internal" href="../prop_tgt/TEST_LAUNCHER.html#prop_tgt:TEST_LAUNCHER" title="TEST_LAUNCHER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">TEST_LAUNCHER</span></code></a> and
+<span class="target" id="index-2-prop_tgt:CROSSCOMPILING_EMULATOR"></span><a class="reference internal" href="../prop_tgt/CROSSCOMPILING_EMULATOR.html#prop_tgt:CROSSCOMPILING_EMULATOR" title="CROSSCOMPILING_EMULATOR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CROSSCOMPILING_EMULATOR</span></code></a> target properties are preserved,
+see policy <span class="target" id="index-3-policy:CMP0178"></span><a class="reference internal" href="../policy/CMP0178.html#policy:CMP0178" title="CMP0178"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0178</span></code></a>.</p>
+</div>
 </dd></dl>
 
 </section>
@@ -378,7 +409,7 @@ to modify each call site.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>

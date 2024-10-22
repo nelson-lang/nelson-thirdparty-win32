@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CTEST" "1" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CTEST" "1" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 ctest \- CTest Command-Line Reference
 .SS Contents
@@ -2147,6 +2147,10 @@ via \fBhttps://\fP URLs.
 .IP \(bu 2
 \fI\%CTest\fP module variable: \fBCTEST_TLS_VERSION\fP
 .UNINDENT
+.sp
+Changed in version 3.31: The default is TLS 1.2.
+Previously, no minimum version was enforced by default.
+
 .TP
 .B \fBTLSVerify\fP
 New in version 3.30.
@@ -2160,6 +2164,11 @@ certificate when submitting to a dashboard via \fBhttps://\fP URLs.
 .IP \(bu 2
 \fI\%CTest\fP module variable: \fBCTEST_TLS_VERIFY\fP
 .UNINDENT
+.sp
+Changed in version 3.31: The default is on.  Previously, the default was off.
+Users may set the \fI\%CMAKE_TLS_VERIFY\fP environment
+variable to \fB0\fP to restore the old default.
+
 .TP
 .B \fBTriggerSite\fP
 Legacy option.  Not used.

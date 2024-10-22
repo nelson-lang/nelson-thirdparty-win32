@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE" "1" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE" "1" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake \- CMake Command-Line Reference
 .SH SYNOPSIS
@@ -59,7 +59,7 @@ cmake \- CMake Command-Line Reference
  cmake \-\-find\-package [<options>]
 
 \fI\%Run a Workflow Preset\fP
- cmake \-\-workflow [<options>]
+ cmake \-\-workflow <options>
 
 \fI\%View Help\fP
  cmake \-\-help[\-<topic>]
@@ -555,6 +555,19 @@ display help for each variable.
 .UNINDENT
 .INDENT 0.0
 .TP
+.B \-LR[A][H] <regex>
+New in version 3.31.
+
+.sp
+Show specific non\-advanced cached variables
+.sp
+Show non\-\fBINTERNAL\fP nor \fI\%ADVANCED\fP variables from the CMake
+\fBCACHE\fP that match the given regex. If \fBA\fP is specified, then it
+will also show advanced variables.  If \fBH\fP is specified, it will also
+display help for each variable.
+.UNINDENT
+.INDENT 0.0
+.TP
 .B \-N
 View mode only.
 .sp
@@ -581,7 +594,20 @@ additional information such as the cache, log files etc.
 .UNINDENT
 .INDENT 0.0
 .TP
+.B \-\-print\-config\-dir
+New in version 3.31.
+
+.sp
+Print CMake config directory for user\-wide FileAPI queries.
+.sp
+See \fI\%CMAKE_CONFIG_DIR\fP for more details.
+.UNINDENT
+.INDENT 0.0
+.TP
 .B \-\-log\-level=<level>
+New in version 3.16.
+
+.sp
 Set the log \fB<level>\fP\&.
 .sp
 The \fI\%message()\fP command will only output messages of the specified
@@ -1145,6 +1171,17 @@ Strip before installing.
 Enable verbose output.
 .sp
 This option can be omitted if \fI\%VERBOSE\fP environment variable is set.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-j <jobs>, \-\-parallel <jobs>
+New in version 3.31.
+
+.sp
+Install in parallel using the given number of jobs. Only available if
+\fI\%INSTALL_PARALLEL\fP is enabled. The
+\fI\%CMAKE_INSTALL_PARALLEL_LEVEL\fP environment variable specifies a
+default parallel level when this option is not provided.
 .UNINDENT
 .sp
 Run \fI\%cmake \-\-install\fP with no options for quick help.
@@ -1913,7 +1950,7 @@ build steps in order:
 .sp
 .nf
 .ft C
-cmake \-\-workflow [<options>]
+cmake \-\-workflow <options>
 .ft P
 .fi
 .UNINDENT
@@ -1932,6 +1969,21 @@ Use a workflow preset to specify a workflow. The project binary directory
 is inferred from the initial configure preset. The current working directory
 must contain CMake preset files.
 See \fI\%preset\fP for more details.
+.sp
+Changed in version 3.31: When following immediately after the \fB\-\-workflow\fP option,
+the \fB\-\-preset\fP argument can be omitted and just the \fB<preset>\fP
+name can be given.  This means the following syntax is valid:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+$ cmake \-\-workflow my\-preset
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+
 .UNINDENT
 .INDENT 0.0
 .TP

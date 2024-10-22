@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>file &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>file &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -341,7 +341,9 @@ of a project's <code class="docutils literal notranslate"><span class="pre">CMak
 variable values referenced as <code class="docutils literal notranslate"><span class="pre">&#64;VAR&#64;</span></code> or <code class="docutils literal notranslate"><span class="pre">${VAR}</span></code> contained therein. The
 substitution rules behave the same as the <span class="target" id="index-1-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> command.
 In order to match <span class="target" id="index-2-command:configure_file"></span><a class="reference internal" href="configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a>'s behavior, generator expressions
-are not supported for both <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and <code class="docutils literal notranslate"><span class="pre">CONTENT</span></code>.</p>
+are not supported for both <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and <code class="docutils literal notranslate"><span class="pre">CONTENT</span></code>, and the output file
+is only modified and its timestamp updated if the content is changed or the
+file previously didn't exist.</p>
 <p>The arguments are:</p>
 <blockquote>
 <div><dl class="simple">
@@ -442,8 +444,20 @@ If <code class="docutils literal notranslate"><span class="pre">FOLLOW_SYMLINKS<
 
 <dl class="cmake signature">
 <dt class="sig sig-object cmake" id="make-directory">
-<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">file(</span></span><span class="no"><span class="pre">MAKE_DIRECTORY</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;directories&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#make-directory" title="Link to this definition">¶</a></dt>
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">file(</span></span><span class="no"><span class="pre">MAKE_DIRECTORY</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;directories&gt;...</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">RESULT</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;result&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#make-directory" title="Link to this definition">¶</a></dt>
 <dd><p>Create the given directories and their parents as needed.</p>
+<p>The options are:</p>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">RESULT</span> <span class="pre">&lt;result&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<p>Set <code class="docutils literal notranslate"><span class="pre">&lt;result&gt;</span></code> variable to <code class="docutils literal notranslate"><span class="pre">0</span></code> on success or an error message
+otherwise. If <code class="docutils literal notranslate"><span class="pre">RESULT</span></code> is not specified and the operation fails,
+an error is emitted.</p>
+</dd>
+</dl>
+</div></blockquote>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 3.30: </span><code class="docutils literal notranslate"><span class="pre">&lt;directories&gt;</span></code> can be an empty list. CMake 3.29 and earlier required
 at least one directory to be given.</p>
@@ -840,10 +854,21 @@ If this option is not specified, the value of the
 <span class="target" id="index-0-variable:CMAKE_TLS_VERSION"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERSION.html#variable:CMAKE_TLS_VERSION" title="CMAKE_TLS_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERSION</span></code></a> variable or <span class="target" id="index-0-envvar:CMAKE_TLS_VERSION"></span><a class="reference internal" href="../envvar/CMAKE_TLS_VERSION.html#envvar:CMAKE_TLS_VERSION" title="CMAKE_TLS_VERSION"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_TLS_VERSION</span></code></a>
 environment variable will be used instead.
 See <span class="target" id="index-1-variable:CMAKE_TLS_VERSION"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERSION.html#variable:CMAKE_TLS_VERSION" title="CMAKE_TLS_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERSION</span></code></a> for allowed values.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>The default is TLS 1.2.
+Previously, no minimum version was enforced by default.</p>
+</div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span> <span class="pre">&lt;ON|OFF&gt;</span></code></dt><dd><p>Specify whether to verify the server certificate for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.
-The default is to <em>not</em> verify. If this option is not specified, the
-value of the <span class="target" id="index-0-variable:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERIFY.html#variable:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a> variable will be used instead.</p>
+If this option is not specified, the value of the
+<span class="target" id="index-0-variable:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERIFY.html#variable:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a> variable or <span class="target" id="index-0-envvar:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../envvar/CMAKE_TLS_VERIFY.html#envvar:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a>
+environment variable will be used instead.
+If neither is set, the default is <em>on</em>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>The default is on.  Previously, the default was off.
+Users may set the <span class="target" id="index-1-envvar:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../envvar/CMAKE_TLS_VERIFY.html#envvar:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a> environment
+variable to <code class="docutils literal notranslate"><span class="pre">0</span></code> to restore the old default.</p>
+</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.18: </span>Added support to <code class="docutils literal notranslate"><span class="pre">file(UPLOAD)</span></code>.</p>
 </div>
@@ -857,9 +882,7 @@ If this option is not specified, the value of the
 </dd>
 </dl>
 </div></blockquote>
-<p>For <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs CMake must be built with OpenSSL support.  <code class="docutils literal notranslate"><span class="pre">TLS/SSL</span></code>
-certificates are not checked by default.  Set <code class="docutils literal notranslate"><span class="pre">TLS_VERIFY</span></code> to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to
-check certificates.</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs CMake must be built with SSL/TLS support.</p>
 <p>Additional options to <code class="docutils literal notranslate"><span class="pre">DOWNLOAD</span></code> are:</p>
 <blockquote>
 <div><dl>
@@ -927,57 +950,86 @@ directories and the file itself will be created if they not exist.  The
 <h2>Archiving<a class="headerlink" href="#archiving" title="Link to this heading">¶</a></h2>
 <dl class="cmake signature">
 <dt class="sig sig-object cmake" id="archive-create">
-<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">file(</span></span><span class="no"><span class="pre">ARCHIVE_CREATE</span></span><span class="nbsp"> </span><span class="no"><span class="pre">OUTPUT</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;archive&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">PATHS</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;paths&gt;...</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">FORMAT</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;format&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">COMPRESSION</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;compression&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">COMPRESSION_LEVEL</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;compression-level&gt;</span></span><span class="p"><span class="pre">]]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">MTIME</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;mtime&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">VERBOSE</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#archive-create" title="Link to this definition">¶</a></dt>
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">file(</span></span><span class="no"><span class="pre">ARCHIVE_CREATE</span></span><span class="nbsp"> </span><span class="no"><span class="pre">OUTPUT</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;archive&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">PATHS</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;paths&gt;...</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">FORMAT</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;format&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">COMPRESSION</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;compression&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">COMPRESSION_LEVEL</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;compression-level&gt;</span></span><span class="p"><span class="pre">]]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">MTIME</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;mtime&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">WORKING_DIRECTORY</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;dir&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">VERBOSE</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#archive-create" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.18.</span></p>
 </div>
 <p>Creates the specified <code class="docutils literal notranslate"><span class="pre">&lt;archive&gt;</span></code> file with the files and directories
 listed in <code class="docutils literal notranslate"><span class="pre">&lt;paths&gt;</span></code>.  Note that <code class="docutils literal notranslate"><span class="pre">&lt;paths&gt;</span></code> must list actual files or
 directories; wildcards are not supported.</p>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> option to specify the archive format.  Supported values
-for <code class="docutils literal notranslate"><span class="pre">&lt;format&gt;</span></code> are <code class="docutils literal notranslate"><span class="pre">7zip</span></code>, <code class="docutils literal notranslate"><span class="pre">gnutar</span></code>, <code class="docutils literal notranslate"><span class="pre">pax</span></code>, <code class="docutils literal notranslate"><span class="pre">paxr</span></code>, <code class="docutils literal notranslate"><span class="pre">raw</span></code> and
-<code class="docutils literal notranslate"><span class="pre">zip</span></code>.  If <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> is not given, the default format is <code class="docutils literal notranslate"><span class="pre">paxr</span></code>.</p>
-<p>Some archive formats allow the type of compression to be specified.
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">FORMAT</span> <span class="pre">&lt;format&gt;</span></code></dt><dd><p>Specify the archive format.  Supported values for <code class="docutils literal notranslate"><span class="pre">&lt;format&gt;</span></code> are
+<code class="docutils literal notranslate"><span class="pre">7zip</span></code>, <code class="docutils literal notranslate"><span class="pre">gnutar</span></code>, <code class="docutils literal notranslate"><span class="pre">pax</span></code>, <code class="docutils literal notranslate"><span class="pre">paxr</span></code>, <code class="docutils literal notranslate"><span class="pre">raw</span></code> and <code class="docutils literal notranslate"><span class="pre">zip</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> is not given, the default format is <code class="docutils literal notranslate"><span class="pre">paxr</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">COMPRESSION</span> <span class="pre">&lt;compression&gt;</span></code></dt><dd><p>Some archive formats allow the type of compression to be specified.
 The <code class="docutils literal notranslate"><span class="pre">7zip</span></code> and <code class="docutils literal notranslate"><span class="pre">zip</span></code> archive formats already imply a specific type of
 compression.  The other formats use no compression by default, but can be
 directed to do so with the <code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code> option.  Valid values for
 <code class="docutils literal notranslate"><span class="pre">&lt;compression&gt;</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">BZip2</span></code>, <code class="docutils literal notranslate"><span class="pre">GZip</span></code>, <code class="docutils literal notranslate"><span class="pre">XZ</span></code>, and <code class="docutils literal notranslate"><span class="pre">Zstd</span></code>.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19: </span>The compression level can be specified with the <code class="docutils literal notranslate"><span class="pre">COMPRESSION_LEVEL</span></code>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> set to <code class="docutils literal notranslate"><span class="pre">raw</span></code>, only one file will be compressed
+with the compression type specified by <code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">COMPRESSION_LEVEL</span> <span class="pre">&lt;compression-level&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>The compression level can be specified with the <code class="docutils literal notranslate"><span class="pre">COMPRESSION_LEVEL</span></code>
 option.  The <code class="docutils literal notranslate"><span class="pre">&lt;compression-level&gt;</span></code> should be between 0-9, with the
 default being 0.  The <code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code> option must be present when
 <code class="docutils literal notranslate"><span class="pre">COMPRESSION_LEVEL</span></code> is given.</p>
-</div>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.26: </span>The <code class="docutils literal notranslate"><span class="pre">&lt;compression-level&gt;</span></code> of the <code class="docutils literal notranslate"><span class="pre">Zstd</span></code> algorithm can be set
 between 0-19.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>With <code class="docutils literal notranslate"><span class="pre">FORMAT</span></code> set to <code class="docutils literal notranslate"><span class="pre">raw</span></code>, only one file will be compressed with the
-compression type specified by <code class="docutils literal notranslate"><span class="pre">COMPRESSION</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MTIME</span> <span class="pre">&lt;mtime&gt;</span></code></dt><dd><p>Specify the modification time recorded in tarball entries.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code> option enables verbose output for the archive operation.</p>
-<p>To specify the modification time recorded in tarball entries, use
-the <code class="docutils literal notranslate"><span class="pre">MTIME</span></code> option.</p>
+<p>Specify the directory in which the archive creation operation will
+be executed.  Paths in the <code class="docutils literal notranslate"><span class="pre">&lt;paths&gt;</span></code> argument can be relative to
+this directory.  If this option is not provided, the current working
+directory will be used by default.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code></dt><dd><p>Enable verbose output from the archive operation.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="cmake signature">
 <dt class="sig sig-object cmake" id="archive-extract">
-<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">file(</span></span><span class="no"><span class="pre">ARCHIVE_EXTRACT</span></span><span class="w"> </span><span class="no"><span class="pre">INPUT</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;archive&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">DESTINATION</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;dir&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">PATTERNS</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;patterns&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">LIST_ONLY</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">VERBOSE</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">TOUCH</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#archive-extract" title="Link to this definition">¶</a></dt>
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">file(</span></span><span class="no"><span class="pre">ARCHIVE_EXTRACT</span></span><span class="w"> </span><span class="no"><span class="pre">INPUT</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;archive&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">DESTINATION</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;dir&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">PATTERNS</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;pattern&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">LIST_ONLY</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">VERBOSE</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">TOUCH</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#archive-extract" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.18.</span></p>
 </div>
 <p>Extracts or lists the content of the specified <code class="docutils literal notranslate"><span class="pre">&lt;archive&gt;</span></code>.</p>
-<p>The directory where the content of the archive will be extracted to can
-be specified using the <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> option.  If the directory does not
-exist, it will be created.  If <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> is not given, the current
-binary directory will be used.</p>
-<p>If required, you may select which files and directories to list or extract
-from the archive using the specified <code class="docutils literal notranslate"><span class="pre">&lt;patterns&gt;</span></code>.  Wildcards are
-supported.  If the <code class="docutils literal notranslate"><span class="pre">PATTERNS</span></code> option is not given, the entire archive will
-be listed or extracted.</p>
-<p><code class="docutils literal notranslate"><span class="pre">LIST_ONLY</span></code> will list the files in the archive rather than extract them.</p>
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">DESTINATION</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><p>Specify the directory under which the content of the archive will be
+extracted.  If the directory does not exist, it will be created.
+If <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> is not given, the current binary directory will
+be used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">PATTERNS</span> <span class="pre">&lt;pattern&gt;...</span></code></dt><dd><p>Extract/list only files and directories that match one of the given
+patterns.  Wildcards are supported.  If the <code class="docutils literal notranslate"><span class="pre">PATTERNS</span></code> option is
+not given, the entire archive will be listed or extracted.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LIST_ONLY</span></code></dt><dd><p>List the files in the archive rather than extract them.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TOUCH</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Give extracted files a current local timestamp instead of extracting
+file timestamps from the archive.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code></dt><dd><p>Enable verbose output from the extraction operation.</p>
+</dd>
+</dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The working directory for this subcommand is the <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> directory
@@ -986,11 +1038,6 @@ outside of script mode, it may be best to provide absolute paths to
 <code class="docutils literal notranslate"><span class="pre">INPUT</span></code> archives as they are unlikely to be extracted where a relative
 path works.</p>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24: </span>The <code class="docutils literal notranslate"><span class="pre">TOUCH</span></code> option gives extracted files a current local
-timestamp instead of extracting file timestamps from the archive.</p>
-</div>
-<p>With <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code>, the command will produce verbose output.</p>
 </dd></dl>
 
 </section>
@@ -1166,6 +1213,13 @@ the depending file is not complete (it does not list all the directories
 from which it pulls dependencies).</p></li>
 <li><p>Otherwise, the dependency is unresolved.</p></li>
 </ol>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Resolution of each encountered library file name occurs at most once
+while processing a given root ELF file (executable or shared object).
+If a library file name is encountered again in the dependency tree,
+the original resolution is assumed.  This behavior more closely matches
+the dynamic loader's behavior on Linux.</p>
+</div>
 <p>On Windows platforms, library resolution works as follows:</p>
 <ol class="arabic">
 <li><p>DLL dependency names are converted to lowercase for matching filters.
@@ -1375,7 +1429,7 @@ the actual path to <code class="docutils literal notranslate"><span class="pre">
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>

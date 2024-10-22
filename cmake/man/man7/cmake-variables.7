@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-VARIABLES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-VARIABLES" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-variables \- CMake Variables Reference
 .sp
@@ -137,7 +137,7 @@ Example values:
 .sp
 .nf
 .ft C
-$(Configuration)     = Visual Studio 12 and above
+$(Configuration)     = Visual Studio
 $(CONFIGURATION)     = Xcode
 \&.                    = Make\-based tools
 \&.                    = Ninja
@@ -513,13 +513,16 @@ This is the full path to the CMake executable that can graphically
 edit the cache.  For example, \fI\%cmake\-gui(1)\fP or \fI\%ccmake(1)\fP\&.
 .SS CMAKE_EXECUTABLE_SUFFIX
 .sp
-The suffix for executables on this platform.
+The suffix for executables on the target platform.
 .sp
 The suffix to use for the end of an executable filename if any, \fB\&.exe\fP
 on Windows.
 .sp
 \fI\%CMAKE_EXECUTABLE_SUFFIX_<LANG>\fP overrides this for
 language \fB<LANG>\fP\&.
+.sp
+See the \fI\%CMAKE_HOST_EXECUTABLE_SUFFIX\fP variable for the
+executable suffix on the host platform.
 .SS CMAKE_EXECUTABLE_SUFFIX_<LANG>
 .sp
 The suffix to use for the end of an executable filename of \fB<LANG>\fP
@@ -1279,8 +1282,7 @@ a user or project explicitly adds \fBCMAKE_MAKE_PROGRAM\fP to
 the CMake cache then CMake will use the specified value.
 .IP \(bu 2
 The \fI\%Visual Studio Generators\fP set this to the full path to
-\fBMSBuild.exe\fP (VS >= 10), \fBdevenv.com\fP (VS 7,8,9), or
-\fBVCExpress.exe\fP (VS Express 8,9).
+\fBMSBuild.exe\fP or \fBdevenv.com\fP\&.
 (See also variables
 \fI\%CMAKE_VS_MSBUILD_COMMAND\fP and
 \fI\%CMAKE_VS_DEVENV_COMMAND\fP\&.
@@ -1288,9 +1290,9 @@ The \fI\%Visual Studio Generators\fP set this to the full path to
 These generators prefer to lookup the build tool at build time
 rather than to store \fBCMAKE_MAKE_PROGRAM\fP in the CMake cache
 ahead of time.  This is because the tools are version\-specific
-and can be located using the Windows Registry.  It is also
+and can be located using the Visual Studio Installer.  It is also
 necessary because the proper build tool may depend on the
-project content (e.g. the Intel Fortran plugin to VS 10 and 11
+project content (e.g. the Intel Fortran plugin to Visual Studio
 requires \fBdevenv.com\fP to build its \fB\&.vfproj\fP project files
 even though \fBMSBuild.exe\fP is normally preferred to support
 the \fI\%CMAKE_GENERATOR_TOOLSET\fP).
@@ -1694,6 +1696,15 @@ The suffix to use for the end of a shared library filename, \fB\&.dll\fP on
 Windows.
 .sp
 \fBCMAKE_SHARED_LIBRARY_SUFFIX_<LANG>\fP overrides this for language \fB<LANG>\fP\&.
+.SS CMAKE_SHARED_LIBRARY_ARCHIVE_SUFFIX
+.sp
+New in version 3.31.
+
+.sp
+The suffix for archived shared libraries that you link to.
+.sp
+The suffix to use for the end of a archive containing a
+shared library, \fB\&.a\fP on AIX.
 .SS CMAKE_SHARED_MODULE_PREFIX
 .sp
 The prefix for loadable modules that you link to.
@@ -1973,29 +1984,24 @@ Earlier versions defined only the individual component variables.
 .UNINDENT
 .SS CMAKE_VS_DEVENV_COMMAND
 .sp
-The generators for \fI\%Visual Studio 12 2013\fP and above set this
-variable to the \fBdevenv.com\fP command installed with the corresponding
-Visual Studio version.  Note that this variable may be empty on
-Visual Studio Express editions because they do not provide this tool.
+The \fI\%Visual Studio Generators\fP set this variable to the \fBdevenv.com\fP
+command installed with the corresponding Visual Studio version.
 .sp
 This variable is not defined by other generators even if \fBdevenv.com\fP
 is installed on the computer.
 .sp
-The \fI\%CMAKE_VS_MSBUILD_COMMAND\fP is also provided for
-\fI\%Visual Studio 12 2013\fP and above.
-See also the \fI\%CMAKE_MAKE_PROGRAM\fP variable.
+See also the \fI\%CMAKE_VS_MSBUILD_COMMAND\fP and
+\fI\%CMAKE_MAKE_PROGRAM\fP variables.
 .SS CMAKE_VS_MSBUILD_COMMAND
 .sp
-The generators for \fI\%Visual Studio 12 2013\fP and above set this
-variable to the \fBMSBuild.exe\fP command installed with the corresponding
-Visual Studio version.
+The \fI\%Visual Studio Generators\fP set this variable to the \fBMSBuild.exe\fP
+command installed with the corresponding Visual Studio version.
 .sp
 This variable is not defined by other generators even if \fBMSBuild.exe\fP
 is installed on the computer.
 .sp
-The \fI\%CMAKE_VS_DEVENV_COMMAND\fP is also provided for the
-non\-Express editions of Visual Studio.
-See also the \fI\%CMAKE_MAKE_PROGRAM\fP variable.
+See also the \fI\%CMAKE_VS_DEVENV_COMMAND\fP and
+\fI\%CMAKE_MAKE_PROGRAM\fP variables.
 .SS CMAKE_VS_NsightTegra_VERSION
 .sp
 New in version 3.1.
@@ -2016,9 +2022,10 @@ prior to a build. NuGet packages can be defined using the
 \fI\%VS_PACKAGE_REFERENCES\fP property on a target. If no
 package references are defined, this setting will do nothing.
 .sp
-The command line option \fB\-\-resolve\-package\-references\fP can be used
-alternatively to control the resolve behavior globally. This option
-will take precedence over the cache variable.
+The command line option
+\fI\%\-\-resolve\-package\-references\fP
+can be used alternatively to control the resolve behavior globally.
+This option will take precedence over the cache variable.
 .sp
 Targets that use the \fI\%DOTNET_SDK\fP are required to run a
 restore before building. Disabling this option may cause the build
@@ -2349,6 +2356,17 @@ on which version of Visual Studio is targeted by the current generator.
 .sp
 This can be used to exclude Windows SDK versions from consideration for
 \fI\%CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION\fP\&.
+.SS CMAKE_WINDOWS_KMDF_VERSION
+.sp
+New in version 3.31.
+
+.sp
+Specify the \fI\%Kernel\-Mode Drive Framework\fP target version.
+.sp
+A \fI\%toolchain file\fP that sets
+\fI\%CMAKE_SYSTEM_NAME\fP to \fBWindowsKernelModeDriver\fP
+must also set \fBCMAKE_WINDOWS_KMDF_VERSION\fP to specify the
+KMDF target version.
 .SS CMAKE_XCODE_BUILD_SYSTEM
 .sp
 New in version 3.19.
@@ -2934,6 +2952,107 @@ New in version 3.15.
 If this variable is set to \fBSTDERR\fP, \fBSTDOUT\fP or \fBNONE\fP then commands
 in \fI\%execute_process()\fP calls will be printed to either stderr or
 stdout or not at all.
+.SS CMAKE_EXPORT_BUILD_DATABASE
+.sp
+New in version 3.31.
+
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This variable is meaningful only when experimental support for build
+databases has been enabled by the
+\fBCMAKE_EXPERIMENTAL_EXPORT_BUILD_DATABASE\fP gate.
+.UNINDENT
+.UNINDENT
+.sp
+Enable/Disable output of module compile commands during the build.
+.sp
+If enabled, generates a \fBbuild_database.json\fP file containing the
+information necessary to compile a target\(aqs C++ module sources with any
+tooling. The format of the JSON file looks like:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+{
+  \(dqversion\(dq: 1,
+  \(dqrevision\(dq: 0,
+  \(dqsets\(dq: [
+    {
+      \(dqfamily\-name\(dq : \(dqexport_build_database\(dq,
+      \(dqname\(dq : \(dqexport_build_database@Debug\(dq,
+      \(dqtranslation\-units\(dq : [
+        {
+          \(dqarguments\(dq: [
+            \(dq/path/to/compiler\(dq,
+            \(dq...\(dq,
+          ],
+          \(dqbaseline\-arguments\(dq :
+          [
+            \(dq...\(dq,
+          ],
+          \(dqlocal\-arguments\(dq :
+          [
+            \(dq...\(dq,
+          ],
+          \(dqobject\(dq: \(dqCMakeFiles/target.dir/source.cxx.o\(dq,
+          \(dqprivate\(dq: true,
+          \(dqprovides\(dq: {
+            \(dqimportable\(dq: \(dqpath/to/bmi\(dq
+          },
+          \(dqrequires\(dq : [],
+          \(dqsource\(dq: \(dqpath/to/source.cxx\(dq,
+          \(dqwork\-directory\(dq: \(dq/path/to/working/directory\(dq
+        }
+      ],
+      \(dqvisible\-sets\(dq : []
+    }
+  ]
+}
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This is initialized by the \fI\%CMAKE_EXPORT_BUILD_DATABASE\fP environment
+variable, and initializes the \fI\%EXPORT_BUILD_DATABASE\fP target
+property for all targets.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This option is implemented only by the \fI\%Ninja Generators\fP\&.  It is
+ignored on other generators.
+.UNINDENT
+.UNINDENT
+.sp
+When supported and enabled, numerous targets are created in order to make it
+possible to build a file containing just the commands that are needed for the
+tool in question.
+.INDENT 0.0
+.TP
+.B \fBcmake_build_database\-<CONFIG>\fP
+Writes \fBbuild_database_<CONFIG>.json\fP\&. Writes a build database for the
+entire build for the given configuration and all languages. Not available if
+the configuration name is the empty string.
+.TP
+.B \fBcmake_build_database\-<LANG>\-<CONFIG>\fP
+Writes \fBbuild_database_<LANG>_<CONFIG>.json\fP\&. Writes build database for
+the entire build for the given configuration and language. Not available if
+the configuration name is the empty string.
+.TP
+.B \fBcmake_build_database\-<LANG>\fP
+Writes \fBbuild_database_<LANG>.json\fP\&. Writes build database for the entire
+build for the given language and all configurations. In a multi\-config
+generator, other build configuration database may be assumed to exist.
+.TP
+.B \fBcmake_build_database\fP
+Writes to \fBbuild_database.json\fP\&. Writes build database for all languages
+and configurations. In a multi\-config generator, other build configuration
+database may be assumed to exist.
+.UNINDENT
 .SS CMAKE_EXPORT_COMPILE_COMMANDS
 .sp
 New in version 3.5.
@@ -4270,6 +4389,9 @@ policy \fI\%CMP0129\fP\&.
 .IP \(bu 2
 \fBCMAKE_POLICY_WARNING_CMP0133\fP controls the warning for
 policy \fI\%CMP0133\fP\&.
+.IP \(bu 2
+\fBCMAKE_POLICY_WARNING_CMP0172\fP controls the warning for
+policy \fI\%CMP0172\fP\&.
 .UNINDENT
 .sp
 This variable should not be set by a project in CMake code.  Project
@@ -4844,7 +4966,12 @@ Specify the default value for the \fI\%file(DOWNLOAD)\fP and
 \fI\%file(UPLOAD)\fP commands\(aq \fBTLS_VERIFY\fP options.
 If this variable is not set, the commands check the
 \fI\%CMAKE_TLS_VERIFY\fP environment variable.
-If neither is set, the default is \fIoff\fP\&.
+If neither is set, the default is \fIon\fP\&.
+.sp
+Changed in version 3.31: The default is on.  Previously, the default was off.
+Users may set the \fI\%CMAKE_TLS_VERIFY\fP environment
+variable to \fB0\fP to restore the old default.
+
 .sp
 This variable is also used by the \fI\%ExternalProject\fP and
 \fI\%FetchContent\fP modules for internal calls to \fI\%file(DOWNLOAD)\fP\&.
@@ -4871,6 +4998,11 @@ Specify the default value for the \fI\%file(DOWNLOAD)\fP and
 \fI\%file(UPLOAD)\fP commands\(aq \fBTLS_VERSION\fP option.
 If this variable is not set, the commands check the
 \fI\%CMAKE_TLS_VERSION\fP environment variable.
+If neither is set, the default is TLS 1.2.
+.sp
+Changed in version 3.31: The default is TLS 1.2.
+Previously, no minimum version was enforced by default.
+
 .sp
 The value may be one of:
 .INDENT 0.0
@@ -5382,6 +5514,18 @@ New in version 3.25.
 .sp
 Set to a string value when the host system is BSD. This value can be one of
 the following: DragonFlyBSD, FreeBSD, OpenBSD, or NetBSD.
+.SS CMAKE_HOST_EXECUTABLE_SUFFIX
+.sp
+New in version 3.31.
+
+.sp
+The suffix for executables on the host platform.  This may differ from
+the suffix for the target platform, \fI\%CMAKE_EXECUTABLE_SUFFIX\fP\&.
+.sp
+The suffix to use for the end of an executable filename if any, \fB\&.exe\fP
+on Windows.
+.sp
+See also \fI\%CMAKE_EXECUTABLE_SUFFIX\fP\&.
 .SS CMAKE_HOST_LINUX
 .sp
 New in version 3.25.
@@ -5868,6 +6012,12 @@ Apple mixed reality operating system
 T}
 _
 T{
+\fBWASI\fP
+T}	T{
+WebAssembly System Interface
+T}
+_
+T{
 \fBwatchOS\fP
 T}	T{
 Apple watch operating system
@@ -6087,6 +6237,13 @@ Set to \fBTrue\fP when the target system is UNIX or UNIX\-like
 (e.g. \fI\%APPLE\fP and \fI\%CYGWIN\fP).  The
 \fI\%CMAKE_SYSTEM_NAME\fP variable should be queried if
 a more specific understanding of the target system is required.
+.SS WASI
+.sp
+New in version 3.31.
+
+.sp
+Set to \fB1\fP when the target system is WebAssembly System Interface
+(\fI\%CMAKE_SYSTEM_NAME\fP is \fBWASI\fP).
 .SS WIN32
 .sp
 Set to \fBTrue\fP when the target system is Windows, including Win64.
@@ -6135,6 +6292,16 @@ The directory is expected to contain the \fBcc21k.exe\fP and \fBccblkfn.exe\fP c
 This will be set automatically if a default install of CCES or VDSP++ can be found.
 .sp
 See also the \fI\%ADSP_ROOT\fP environment variable.
+.SS CMAKE_AIX_SHARED_LIBRARY_ARCHIVE
+.sp
+New in version 3.31.
+
+.sp
+On AIX, enable creation of shared library archives.
+.sp
+This variable initializes the \fI\%AIX_SHARED_LIBRARY_ARCHIVE\fP
+target property on \fBSHARED\fP library targets as they are created
+by \fI\%add_library()\fP\&.  See that target property for details.
 .SS CMAKE_AIX_EXPORT_ALL_SYMBOLS
 .sp
 New in version 3.17.
@@ -7538,120 +7705,16 @@ more generic \fI\%CMAKE_LINK_GROUP_USING_<FEATURE>_SUPPORTED\fP and
 If \fBCMAKE_<LANG>_LINK_GROUP_USING_<FEATURE>_SUPPORTED\fP is false or is not
 set, then the \fI\%CMAKE_LINK_GROUP_USING_<FEATURE>_SUPPORTED\fP variable
 will determine whether \fB<FEATURE>\fP is deemed to be supported.
-.SS CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_PROPERTIES
+.SS CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_ATTRIBUTES
 .sp
 New in version 3.30.
 
 .sp
-This variable defines the semantics of the specified \fB<FEATURE>\fP for the
-language \fB<LANG>\fP (as described by the
-\fI\%CMAKE_<LANG>_LINK_LIBRARY_USING_<FEATURE>\fP or
-\fI\%CMAKE_LINK_LIBRARY_USING_<FEATURE>\fP variables) used for the link
-command generation.
-.SS Feature Properties Definition
-.sp
-A feature properties definition is a
-\fI\%semicolon\-separated list\fP of \fBproperty=value(s)\fP
-items. In the case of multiple values can be specified, they are separated by
-a comma.
-.sp
-The following properties are supported:
-.INDENT 0.0
-.TP
-.B \fBLIBRARY_TYPE=<library_type\-list>\fP
-Specify which library types are supported by this feature. The possible
-values are: \fBSTATIC\fP, \fBSHARED\fP, \fBMODULE\fP or \fBEXECUTABLE\fP\&.
-.sp
-If this property is not specified, the default is
-\fBLIBRARY_TYPE=STATIC,SHARED,MODULE,EXECUTABLE\fP\&.
-.sp
-If the feature is used with an unsupported library type, CMake will emit a
-developer warning and the feature will be ignored.
-.TP
-.B \fBOVERRIDE=<feature\-list>\fP
-Specify which features will be replaced by this one in the event of a
-conflict. This override mechanism is superseded by any
-\fI\%LINK_LIBRARY_OVERRIDE\fP or
-\fI\%LINK_LIBRARY_OVERRIDE_<LIBRARY>\fP target properties definitions.
-.sp
-If this property is not specified, the default is an empty list.
-.TP
-.B \fBUNICITY=YES|NO|DEFAULT\fP
-Manage the strategy of de\-duplication for the libraries using this feature.
-.INDENT 7.0
-.TP
-.B \fBYES\fP
-Libraries are de\-duplicated regardless the default strategy applied by
-CMake.
-.TP
-.B \fBNO\fP
-Libraries are not de\-duplicated regardless the default strategy applied
-by CMake.
-.TP
-.B \fBDEFAULT\fP
-Apply the default CMake strategy.
-.UNINDENT
-.sp
-If this property is not specified, \fBDEFAULT\fP will be used.
-.UNINDENT
-.SS Example
-.sp
-A common need is the loading of a full archive as part of the creation of a
-shared library or an executable. For that purpose, the \fBWHOLE_ARCHIVE\fP
-feature can be used.
-.sp
-Currently, the associated properties with this feature are defined as follows:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(CMAKE_LINK_LIBRARY_WHOLE_ARCHIVE_PROPERTIES LIBRARY_TYPE=STATIC
-                                                OVERRIDE=DEFAULT
-                                                UNICITY=YES)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.INDENT 0.0
-.TP
-.B \fBLIBRARY_TYPE=STATIC\fP
-Obviously, this feature is only meaningful for static libraries.
-.TP
-.B \fBOVERRIDE=DEFAULT\fP
-The \fBDEFAULT\fP feature will be overridden by the \fBWHOLE_ARCHIVE\fP feature
-because they are compatible and enhance the user\(aqs experience: standard
-library specification and \fB$<LINK_LIBRARY:WHOLE_ARCHIVE>\fP can be used
-freely.
-.TP
-.B \fBUNICITY=YES\fP
-When this feature is used, all symbols from the static library are loaded
-by the linker, so there is no need to duplicate the library on the link
-command.
-.UNINDENT
-.sp
-A typical usage of the \fBWHOLE_ARCHIVE\fP can be:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_library(A STATIC ...)
-add_library(B STATIC ...)
-
-target_link_libraries(B PUBLIC A)
-target_link_libraries(A PUBLIC B)
-
-add_library(global SHARED ...)
-target_link_libraries(global PRIVATE $<LINK_LIBRARY:WHOLE_ARCHIVE,A>)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-The resulting link command will only have one iteration of the \fBA\fP library
-specified with the needed linker flags to ensure the load of all the symbols
-of the library.
+This variable defines the semantics of the specified link library \fB<FEATURE>\fP
+when linking with the link language \fB<LANG>\fP\&. It takes precedence over
+\fI\%CMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP if that variable is also
+defined for the same \fB<FEATURE>\fP, but otherwise has similar effects.
+See \fI\%CMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP for further details.
 .SS CMAKE_<LANG>_LINK_LIBRARY_FILE_FLAG
 .sp
 New in version 3.16.
@@ -7690,9 +7753,9 @@ Feature names are case\-sensitive and may only contain letters, numbers
 and underscores.  Feature names defined in all uppercase are reserved for
 CMake\(aqs own built\-in features (see \fI\%Predefined Features\fP further below).
 .sp
-The feature behavior can be described using the
-\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_PROPERTIES\fP or
-\fI\%CMAKE_LINK_LIBRARY_<FEATURE>_PROPERTIES\fP variables.
+Some aspects of feature behavior can be defined by the
+\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP and
+\fI\%CMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP variables.
 .SS Feature Definitions
 .sp
 A library feature definition is a list that contains one or three elements:
@@ -8191,7 +8254,7 @@ target property is true.
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
-CMake version 3.30.0\-rc3 defaults this variable to \fBFALSE\fP because
+CMake version 3.31.0\-rc2 defaults this variable to \fBFALSE\fP because
 GNU binutils linkers (\fBld\fP, \fBld.bfd\fP, \fBld.gold\fP) generate spurious
 dependencies on temporary files when LTO is enabled.  See \fI\%GNU bug 30568\fP\&.
 .UNINDENT
@@ -8367,81 +8430,174 @@ Default value for \fI\%LINK_INTERFACE_LIBRARIES\fP of targets.
 This variable is used to initialize the \fI\%LINK_INTERFACE_LIBRARIES\fP
 property on all the targets.  See that target property for additional
 information.
-.SS CMAKE_LINK_LIBRARY_<FEATURE>_PROPERTIES
+.SS CMAKE_LINK_LIBRARIES_STRATEGY
+.sp
+New in version 3.31.
+
+.sp
+Specify a strategy for ordering targets\(aq direct link dependencies
+on linker command lines.
+.sp
+The value of this variable initializes the \fI\%LINK_LIBRARIES_STRATEGY\fP
+target property of targets as they are created.  Set that property directly
+to specify a strategy for a single target.
+.sp
+CMake generates a target\(aqs link line using its \fI\%Target Link Properties\fP\&.
+In particular, the \fI\%LINK_LIBRARIES\fP target property records the
+target\(aqs direct link dependencies, typically populated by calls to
+\fI\%target_link_libraries()\fP\&.  Indirect link dependencies are
+propagated from those entries of \fI\%LINK_LIBRARIES\fP that name
+library targets by following the transitive closure of their
+\fI\%INTERFACE_LINK_LIBRARIES\fP properties.  CMake supports multiple
+strategies for passing direct and indirect link dependencies to the linker.
+.sp
+Consider this example for the strategies below:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_library(A STATIC ...)
+add_library(B STATIC ...)
+add_library(C STATIC ...)
+add_executable(main ...)
+target_link_libraries(B PRIVATE A)
+target_link_libraries(C PRIVATE A)
+target_link_libraries(main PRIVATE A B C)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+The supported strategies are:
+.INDENT 0.0
+.TP
+.B \fBPRESERVE_ORDER\fP
+Entries of \fI\%LINK_LIBRARIES\fP always appear first and in their
+original order.  Indirect link dependencies not satisfied by the
+original entries may be reordered and de\-duplicated with respect to
+one another, but are always appended after the original entries.
+This may result in less efficient link lines, but gives projects
+control of ordering among independent entries.  Such control may be
+important when intermixing link flags with libraries, or when multiple
+libraries provide a given symbol.
+.sp
+This is the default.
+.sp
+In the above example, this strategy computes a link line for \fBmain\fP
+by starting with its original entries \fBA B C\fP, and then appends
+another \fBA\fP to satisfy the dependencies of \fBB\fP and \fBC\fP on \fBA\fP\&.
+The final order is \fBA B C A\fP\&.
+.TP
+.B \fBREORDER\fP
+Entries of \fI\%LINK_LIBRARIES\fP may be reordered, de\-duplicated,
+and intermixed with indirect link dependencies.  This may result in
+more efficient link lines, but does not give projects any control of
+ordering among independent entries.
+.sp
+In the above example, this strategy computes a link line for \fBmain\fP
+by re\-ordering its original entries \fBA B C\fP to satisfy the
+dependencies of \fBB\fP and \fBC\fP on \fBA\fP\&.
+The final order is \fBB C A\fP\&.
+.UNINDENT
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Regardless of the strategy used, the actual linker invocation for
+some platforms may de\-duplicate entries based on linker capabilities.
+See policies \fI\%CMP0156\fP and \fI\%CMP0179\fP\&.
+.UNINDENT
+.UNINDENT
+.SS CMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES
 .sp
 New in version 3.30.
 
 .sp
-This variable defines the semantics of the specified \fB<FEATURE>\fP (as
-described by the \fI\%CMAKE_<LANG>_LINK_LIBRARY_USING_<FEATURE>\fP or
-\fI\%CMAKE_LINK_LIBRARY_USING_<FEATURE>\fP variables) used for the link
-command generation.
+This variable defines the behavior of the specified link library
+\fB<FEATURE>\fP\&. It specifies how the \fB<FEATURE>\fP interacts with other
+features, when the \fB<FEATURE>\fP should be applied, and aspects of how the
+\fB<FEATURE>\fP should be handled when CMake assembles the final linker
+command line (e.g. de\-duplication).
+.sp
+The syntax of the linker flags for the \fB<FEATURE>\fP are controlled by the
+\fI\%CMAKE_<LANG>_LINK_LIBRARY_USING_<FEATURE>\fP and
+\fI\%CMAKE_LINK_LIBRARY_USING_<FEATURE>\fP variables.
+The \fI\%CMAKE_<LANG>_LINK_LIBRARY_USING_<FEATURE>_SUPPORTED\fP and
+\fI\%CMAKE_LINK_LIBRARY_USING_<FEATURE>_SUPPORTED\fP variables
+control whether the \fB<FEATURE>\fP is available at all.
+.sp
+When linking for a particular language \fB<LANG>\fP,
+\fBCMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP is ignored if the
+\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP variable is also
+defined for the same \fB<FEATURE>\fP\&.
+.sp
+The value of \fBCMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP and
+\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP at the end of the
+directory scope in which a target is defined is what matters.
+.SS Feature Attributes Definition
+.sp
+A feature attributes definition is a
+\fI\%semicolon\-separated list\fP of
+\fBattribute=value(s)\fP items. If an attribute has multiple values, those values
+must be comma\-separated.
+.sp
+The following attributes are supported:
 .INDENT 0.0
 .TP
-.B This variable will be considered only if the
-\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_PROPERTIES\fP is not defined.
-.UNINDENT
-.SS Feature Properties Definition
+.B \fBLIBRARY_TYPE=<library\-type\-list>\fP
+Specify the library types supported by the feature. Supported values are:
+\fBSTATIC\fP, \fBSHARED\fP, \fBMODULE\fP, and \fBEXECUTABLE\fP\&.
 .sp
-A feature properties definition is a
-\fI\%semicolon\-separated list\fP of \fBproperty=value(s)\fP
-items. In the case of multiple values can be specified, they are separated by
-a comma.
-.sp
-The following properties are supported:
-.INDENT 0.0
-.TP
-.B \fBLIBRARY_TYPE=<library_type\-list>\fP
-Specify which library types are supported by this feature. The possible
-values are: \fBSTATIC\fP, \fBSHARED\fP, \fBMODULE\fP or \fBEXECUTABLE\fP\&.
-.sp
-If this property is not specified, the default is
+If this attribute is not specified, the default is
 \fBLIBRARY_TYPE=STATIC,SHARED,MODULE,EXECUTABLE\fP\&.
 .sp
 If the feature is used with an unsupported library type, CMake will emit a
 developer warning and the feature will be ignored.
 .TP
 .B \fBOVERRIDE=<feature\-list>\fP
-Specify which features will be replaced by this one in the event of a
-conflict. This override mechanism is superseded by any
+Specify which features this one replaces in the event of a conflict.
+This override mechanism is superseded by
 \fI\%LINK_LIBRARY_OVERRIDE\fP or
-\fI\%LINK_LIBRARY_OVERRIDE_<LIBRARY>\fP target properties definitions.
+\fI\%LINK_LIBRARY_OVERRIDE_<LIBRARY>\fP target property definitions,
+if defined.
 .sp
-If this property is not specified, the default is an empty list.
+If this attribute is not specified, the default is an empty list.
 .TP
-.B \fBUNICITY=YES|NO|DEFAULT\fP
-Manage the strategy of de\-duplication for the libraries using this feature.
+.B \fBDEDUPLICATION=YES|NO|DEFAULT\fP
+Specify the de\-duplication strategy for a library using this feature.
 .INDENT 7.0
 .TP
 .B \fBYES\fP
-Libraries are de\-duplicated regardless the default strategy applied by
-CMake.
+The library is always de\-duplicated. The default strategy CMake would
+normally apply is ignored.
 .TP
 .B \fBNO\fP
-Libraries are not de\-duplicated regardless the default strategy applied
-by CMake.
+The library is never de\-duplicated. The default strategy CMake would
+normally apply is ignored.
 .TP
 .B \fBDEFAULT\fP
-Apply the default CMake strategy.
+Let CMake determine a de\-duplication strategy automatically.
 .UNINDENT
 .sp
-If this property is not specified, \fBDEFAULT\fP will be used.
+If this attribute is not specified, \fBDEFAULT\fP will be used.
 .UNINDENT
 .SS Example
 .sp
 A common need is the loading of a full archive as part of the creation of a
-shared library or an executable. For that purpose, the \fBWHOLE_ARCHIVE\fP
-feature can be used.
-.sp
-Currently, the associated properties with this feature are defined as follows:
+shared library. The built\-in \fBWHOLE_ARCHIVE\fP feature can be used for that
+purpose. The implementation of that built\-in feature sets the following
+link library feature attributes:
 .INDENT 0.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-set(CMAKE_LINK_LIBRARY_WHOLE_ARCHIVE_PROPERTIES LIBRARY_TYPE=STATIC
-                                                OVERRIDE=DEFAULT
-                                                UNICITY=YES)
+set(CMAKE_LINK_LIBRARY_WHOLE_ARCHIVE_ATTRIBUTES
+  LIBRARY_TYPE=STATIC
+  OVERRIDE=DEFAULT
+  DEDUPLICATION=YES
+)
 .ft P
 .fi
 .UNINDENT
@@ -8449,7 +8605,7 @@ set(CMAKE_LINK_LIBRARY_WHOLE_ARCHIVE_PROPERTIES LIBRARY_TYPE=STATIC
 .INDENT 0.0
 .TP
 .B \fBLIBRARY_TYPE=STATIC\fP
-Obviously, this feature is only meaningful for static libraries.
+This feature is only meaningful for static libraries.
 .TP
 .B \fBOVERRIDE=DEFAULT\fP
 The \fBDEFAULT\fP feature will be overridden by the \fBWHOLE_ARCHIVE\fP feature
@@ -8457,13 +8613,13 @@ because they are compatible and enhance the user\(aqs experience: standard
 library specification and \fB$<LINK_LIBRARY:WHOLE_ARCHIVE>\fP can be used
 freely.
 .TP
-.B \fBUNICITY=YES\fP
-When this feature is used, all symbols from the static library are loaded
-by the linker, so there is no need to duplicate the library on the link
-command.
+.B \fBDEDUPLICATION=YES\fP
+When this feature is used, the linker loads all symbols from the static
+library, so there is no need to repeat the library on the linker
+command line.
 .UNINDENT
 .sp
-A typical usage of the \fBWHOLE_ARCHIVE\fP can be:
+The \fBWHOLE_ARCHIVE\fP feature can be used like so:
 .INDENT 0.0
 .INDENT 3.5
 .sp
@@ -8482,9 +8638,9 @@ target_link_libraries(global PRIVATE $<LINK_LIBRARY:WHOLE_ARCHIVE,A>)
 .UNINDENT
 .UNINDENT
 .sp
-The resulting link command will only have one iteration of the \fBA\fP library
-specified with the needed linker flags to ensure the load of all the symbols
-of the library.
+The resulting link command will only have one instance of the \fBA\fP library
+specified, and the linker flags will ensure that all symbols are loaded from
+the \fBA\fP library.
 .SS CMAKE_LINK_LIBRARY_FILE_FLAG
 .sp
 Flag to be used to link a library specified by a path to its file.
@@ -8521,9 +8677,9 @@ Feature names are case\-sensitive and may only contain letters, numbers
 and underscores.  Feature names defined in all uppercase are reserved for
 CMake\(aqs own built\-in features (see \fI\%Predefined Features\fP further below).
 .sp
-The feature behavior can be described using the
-\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_PROPERTIES\fP or
-\fI\%CMAKE_LINK_LIBRARY_<FEATURE>_PROPERTIES\fP variables.
+Some aspects of feature behavior can be defined by the
+\fI\%CMAKE_<LANG>_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP and
+\fI\%CMAKE_LINK_LIBRARY_<FEATURE>_ATTRIBUTES\fP variables.
 .SS Feature Definitions
 .sp
 A library feature definition is a list that contains one or three elements:
@@ -9166,8 +9322,8 @@ New in version 3.10.
 
 .sp
 Extra PATH locations that should be used when executing
-\fI\%add_custom_command()\fP or \fI\%add_custom_target()\fP when using the
-\fI\%Visual Studio 12 2013\fP (or above) generator. This allows
+\fI\%add_custom_command()\fP or \fI\%add_custom_target()\fP when using
+\fI\%Visual Studio Generators\fP\&.  This allows
 for running commands and using dll\(aqs that the IDE environment is not aware of.
 .sp
 If not set explicitly the value is initialized by the \fBCMAKE_MSVCIDE_RUN_PATH\fP
@@ -10697,6 +10853,12 @@ MCST Elbrus C/C++/Fortran Compiler
 T}
 _
 T{
+\fBLFortran\fP
+T}	T{
+LFortran Fortran Compiler
+T}
+_
+T{
 \fBMSVC\fP
 T}	T{
 \fI\%Microsoft Visual Studio\fP
@@ -10747,7 +10909,7 @@ _
 T{
 \fBSunPro\fP
 T}	T{
-Oracle Solaris Studio
+Oracle Developer Studio
 T}
 _
 T{
@@ -10840,6 +11002,16 @@ Rule variable to create a shared library.
 This is a rule variable that tells CMake how to create a shared
 library for the language \fB<LANG>\fP\&.  This rule variable is a \fB;\fP delimited
 list of commands to run to perform the linking step.
+.SS CMAKE_<LANG>_CREATE_SHARED_LIBRARY_ARCHIVE
+.sp
+New in version 3.31.
+
+.sp
+Rule variable to create a shared library with archive.
+.sp
+This is a rule variable that tells CMake how to create a shared
+library with an archive for the language <LANG>.  This rule variable
+is a ; delimited list of commands to run to perform the linking step.
 .SS CMAKE_<LANG>_CREATE_SHARED_MODULE
 .sp
 Rule variable to create a shared module.
@@ -11079,6 +11251,31 @@ NVCC targets the same ABI as the C++ compiler.
 Ignored when using \fI\%Visual Studio Generators\fP\&.
 .UNINDENT
 .UNINDENT
+.sp
+See the \fI\%CMAKE_<LANG>_HOST_COMPILER_ID\fP and
+\fI\%CMAKE_<LANG>_HOST_COMPILER_VERSION\fP variables for
+information about the host compiler used by \fBnvcc\fP, whether
+by default or specified by \fBCMAKE_<LANG>_HOST_COMPILER\fP\&.
+.SS CMAKE_<LANG>_HOST_COMPILER_ID
+.sp
+New in version 3.31.
+
+.sp
+This variable is available when \fB<LANG>\fP is \fBCUDA\fP or \fBHIP\fP
+and \fI\%CMAKE_<LANG>_COMPILER_ID\fP is \fBNVIDIA\fP\&.
+It contains the identity of the host compiler invoked by \fBnvcc\fP,
+either by default or as specified by \fI\%CMAKE_<LANG>_HOST_COMPILER\fP,
+among possibilities documented by \fI\%CMAKE_<LANG>_COMPILER_ID\fP\&.
+.SS CMAKE_<LANG>_HOST_COMPILER_VERSION
+.sp
+New in version 3.31.
+
+.sp
+This variable is available when \fB<LANG>\fP is \fBCUDA\fP or \fBHIP\fP
+and \fI\%CMAKE_<LANG>_COMPILER_ID\fP is \fBNVIDIA\fP\&.
+It contains the version of the host compiler invoked by \fBnvcc\fP,
+either by default or as specified by \fI\%CMAKE_<LANG>_HOST_COMPILER\fP,
+in the same format as \fI\%CMAKE_<LANG>_COMPILER_VERSION\fP\&.
 .SS CMAKE_<LANG>_IGNORE_EXTENSIONS
 .sp
 File extensions that should be ignored by the build.
@@ -11422,6 +11619,20 @@ CMake\(aqs platform information modules for the current toolchain, or by a
 toolchain file when used with \fI\%CMAKE_TOOLCHAIN_FILE\fP\&.
 .sp
 See also \fI\%CMAKE_<LANG>_STANDARD_INCLUDE_DIRECTORIES\fP\&.
+.SS CMAKE_<LANG>_STANDARD_LINK_DIRECTORIES
+.sp
+New in version 3.31.
+
+.sp
+Link directories specified for every executable and library linked
+for language \fB<LANG>\fP\&.  This is meant for specification of system
+link directories needed by the language for the current platform.
+.sp
+This variable should not be set by project code.  It is meant to be set by
+CMake\(aqs platform information modules for the current toolchain, or by a
+toolchain file when used with \fI\%CMAKE_TOOLCHAIN_FILE\fP\&.
+.sp
+See also \fI\%CMAKE_<LANG>_STANDARD_LIBRARIES\fP\&.
 .SS CMAKE_<LANG>_STANDARD_REQUIRED
 .sp
 The variations are:
@@ -11678,16 +11889,6 @@ New in version 3.1.
 
 .sp
 Specify the CTest \fBCoverageExtraFlags\fP setting
-in a \fI\%ctest(1)\fP dashboard client script.
-.SS CTEST_CURL_OPTIONS
-.sp
-Deprecated since version 3.30: Use the \fI\%CTEST_TLS_VERIFY\fP variable instead.
-
-.sp
-New in version 3.1.
-
-.sp
-Specify the CTest \fBCurlOptions\fP setting
 in a \fI\%ctest(1)\fP dashboard client script.
 .SS CTEST_CUSTOM_COVERAGE_EXCLUDE
 .sp
@@ -12134,6 +12335,12 @@ to a dashboard via \fBhttps://\fP URLs.
 .sp
 If \fBCTEST_TLS_VERIFY\fP is not set, the \fI\%CMAKE_TLS_VERIFY\fP variable
 or \fI\%CMAKE_TLS_VERIFY\fP environment variable is used instead.
+If neither is set, the default is \fIon\fP\&.
+.sp
+Changed in version 3.31: The default is on.  Previously, the default was off.
+Users may set the \fI\%CMAKE_TLS_VERIFY\fP environment
+variable to \fB0\fP to restore the old default.
+
 .SS CTEST_TLS_VERSION
 .sp
 New in version 3.30.
@@ -12502,7 +12709,7 @@ This is an internal flag used by the generators in CMake to tell CMake
 to skip the \fB_BUILD_TYPE\fP flags.
 .SS CMAKE_VS_INTEL_Fortran_PROJECT_VERSION
 .sp
-When generating for \fI\%Visual Studio 12 2013\fP or greater with the Intel
+When generating for \fI\%Visual Studio 14 2015\fP or greater with the Intel
 Fortran plugin installed, this specifies the \fB\&.vfproj\fP project file format
 version.  This is intended for internal use by CMake and should not be
 used by project code.
@@ -12689,6 +12896,16 @@ True if the \fBFortran\fP compiler is GNU.
 This variable is deprecated.  Use
 \fI\%CMAKE_Fortran_COMPILER_ID\fP instead.
 .SH DEPRECATED VARIABLES FOR CTEST
+.SS CTEST_CURL_OPTIONS
+.sp
+Deprecated since version 3.30: Use the \fI\%CTEST_TLS_VERIFY\fP variable instead.
+
+.sp
+New in version 3.1.
+
+.sp
+Specify the CTest \fBCurlOptions\fP setting
+in a \fI\%ctest(1)\fP dashboard client script.
 .SS CTEST_CVS_CHECKOUT
 .sp
 New in version 3.1.

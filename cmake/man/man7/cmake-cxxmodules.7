@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-CXXMODULES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-CXXMODULES" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-cxxmodules \- CMake C++ Modules Support Reference
 .sp
@@ -68,6 +68,20 @@ satisfy \fBimport\fP statements. The collator also has tasks to use the
 build\-time information to fill out information including \fBinstall\fP rules for
 the module interface units, their BMIs, and properties for any exported
 targets with C++ modules.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+CMake is focusing on correct builds before looking at performance
+improvements. There are known tactics within the chosen strategy which may
+offer build performance improvements. However, they are being deferred
+until we have a working model against which to compare them. It is also
+important to note that a tactic useful in one situation (e.g., clean
+builds) may not be performant in a different situation (e.g., incremental
+builds). Finding a balance and offering controls to select the tactics is
+future work.
+.UNINDENT
+.UNINDENT
 .SH SCANNING CONTROL
 .sp
 Whether or not sources get scanned for C++ module usage is dependent on the

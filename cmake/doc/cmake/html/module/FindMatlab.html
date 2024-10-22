@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindMatlab &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>FindMatlab &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -118,8 +118,9 @@ specific:</p>
 Windows registry. The <code class="docutils literal notranslate"><span class="pre">REGISTRY_VIEW</span></code> argument may optionally be specified
 to manually control whether 32bit or 64bit versions shall be searched for.</p></li>
 <li><p>macOS: The installed versions of Matlab/MCR are given by the MATLAB
-default installation paths in <code class="docutils literal notranslate"><span class="pre">/Application</span></code>. If no such application is
-found, it falls back to the one that might be accessible from the <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p></li>
+default installation paths under <code class="docutils literal notranslate"><span class="pre">$HOME/Applications</span></code> and <code class="docutils literal notranslate"><span class="pre">/Applications</span></code>.
+If no such application is found, it falls back to the one that might be
+accessible from the <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p></li>
 <li><p>Unix: The desired Matlab should be accessible from the <code class="docutils literal notranslate"><span class="pre">PATH</span></code>. This does
 not work for MCR installation and <span class="target" id="index-1-variable:Matlab_ROOT_DIR"></span><a class="reference internal" href="#variable:Matlab_ROOT_DIR" title="Matlab_ROOT_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">Matlab_ROOT_DIR</span></code></a> should be
 specified on this platform.</p></li>
@@ -163,9 +164,11 @@ versions.</p>
 </div>
 <p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab::mex</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">mex</span></code> library, always available.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab::mex</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">mex</span></code> library, always available for MATLAB installations. Available for
+MCR installations if provided by MCR.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab::mx</span></code></dt><dd><p>The mx library of Matlab (arrays), always available.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab::mx</span></code></dt><dd><p>The mx library of Matlab (arrays), always available for MATLAB installations.
+Available for MCR installations if provided by MCR.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab::eng</span></code></dt><dd><p>Matlab engine library. Available only if the <code class="docutils literal notranslate"><span class="pre">ENG_LIBRARY</span></code> component
 is requested.</p>
@@ -173,9 +176,11 @@ is requested.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab::mat</span></code></dt><dd><p>Matlab matrix library. Available only if the <code class="docutils literal notranslate"><span class="pre">MAT_LIBRARY</span></code> component
 is requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab::MatlabEngine</span></code></dt><dd><p>Matlab C++ engine library, always available for R2018a and newer.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab::MatlabEngine</span></code></dt><dd><p>Matlab C++ engine library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab::MatlabDataArray</span></code></dt><dd><p>Matlab C++ data array library, always available for R2018a and newer.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab::MatlabDataArray</span></code></dt><dd><p>Matlab C++ data array library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.</p>
 </dd>
 </dl>
 </section>
@@ -202,9 +207,11 @@ is given in the <span class="target" id="index-4-command:find_package"></span><a
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_INCLUDE_DIRS</span></code></dt><dd><p>the path of the Matlab libraries headers</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab_MEX_LIBRARY</span></code></dt><dd><p>library for mex, always available.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab_MEX_LIBRARY</span></code></dt><dd><p>library for mex, always available for MATLAB installations. Available for MCR
+installations if provided by MCR.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Matlab_MX_LIBRARY</span></code></dt><dd><p>mx library of Matlab (arrays), always available.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Matlab_MX_LIBRARY</span></code></dt><dd><p>mx library of Matlab (arrays), always available for MATLAB installations.
+Available for MCR installations if provided by MCR.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_ENG_LIBRARY</span></code></dt><dd><p>Matlab engine library. Available only if the component <code class="docutils literal notranslate"><span class="pre">ENG_LIBRARY</span></code>
 is requested.</p>
@@ -215,12 +222,14 @@ is requested.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_ENGINE_LIBRARY</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.13.</span></p>
 </div>
-<p>Matlab C++ engine library, always available for R2018a and newer.</p>
+<p>Matlab C++ engine library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_DATAARRAY_LIBRARY</span></code></dt><dd><div class="versionadded">
 <p><span class="versionmodified added">New in version 3.13.</span></p>
 </div>
-<p>Matlab C++ data array library, always available for R2018a and newer.</p>
+<p>Matlab C++ data array library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Matlab_LIBRARIES</span></code></dt><dd><p>the whole set of libraries of Matlab</p>
 </dd>
@@ -705,7 +714,7 @@ function ret = mex_target_output_name(input1)
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>

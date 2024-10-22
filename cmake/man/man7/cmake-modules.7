@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-MODULES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-MODULES" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-modules \- CMake Modules Reference
 .sp
@@ -457,7 +457,7 @@ that are already also in the bundle...  Anything that points to an
 external file causes this function to fail the verification.
 .SS CheckCCompilerFlag
 .sp
-Check whether the C compiler supports a given flag.
+Check once whether the C compiler supports a given flag.
 .INDENT 0.0
 .TP
 .B check_c_compiler_flag
@@ -471,24 +471,27 @@ check_c_compiler_flag(<flag> <resultVar>)
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-Check that the \fB<flag>\fP is accepted by the compiler without
-a diagnostic.  Stores the result in an internal cache entry
-named \fB<resultVar>\fP\&.
 .UNINDENT
 .sp
-A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.
+Check once that the \fB<flag>\fP is accepted by the compiler without a diagnostic.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP, with boolean \fBtrue\fP for success and boolean \fBfalse\fP for
+failure.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+\fBtrue\fP indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.
+.sp
+Internally, \fI\%try_compile()\fP is used to perform the check. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the check compiles and links an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the check is compiled but not linked.
+.sp
+See also \fI\%check_compiler_flag()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
-following variables prior to calling \fBcheck_c_compiler_flag()\fP
+following variables prior to calling \fBcheck_c_compiler_flag()\fP\&. Unknown flags
+in these variables can case a false negative result.
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -546,6 +549,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -567,7 +583,7 @@ associated with the check will be suppressed.
 New in version 3.19.
 
 .sp
-Check whether the compiler supports a given flag.
+Check once whether the \fB<lang>\fP compiler supports a given flag.
 .INDENT 0.0
 .TP
 .B check_compiler_flag
@@ -583,21 +599,23 @@ check_compiler_flag(<lang> <flag> <resultVar>)
 .UNINDENT
 .UNINDENT
 .sp
-Check that the \fB<flag>\fP is accepted by the compiler without a diagnostic.
-Stores the result in an internal cache entry named \fB<resultVar>\fP\&.
+Check once that the \fB<flag>\fP is accepted by the \fB<lang>\fP compiler without
+a diagnostic. The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP, with boolean \fBtrue\fP for success and boolean \fBfalse\fP for
+failure.
 .sp
-A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.
+\fBtrue\fP indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+Internally, \fI\%try_compile()\fP is used to perform the check. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the check compiles and links an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the check is compiled but not linked.
 .sp
 The compile and link commands can be influenced by setting any of the
-following variables prior to calling \fBcheck_compiler_flag()\fP
+following variables prior to calling \fBcheck_compiler_flag()\fP\&. Unknown flags
+in these variables can case a false negative result.
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -662,6 +680,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -673,7 +704,7 @@ associated with the check will be suppressed.
 .UNINDENT
 .SS CheckCSourceCompiles
 .sp
-Check if given C source compiles and links into an executable.
+Check once if C source code can be built.
 .INDENT 0.0
 .TP
 .B check_c_source_compiles
@@ -689,19 +720,23 @@ check_c_source_compiles(<code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a C source
-file and linked as an executable (so it must contain at least a \fBmain()\fP
-function). The result will be stored in the internal cache variable specified
-by \fB<resultVar>\fP, with a boolean true value for success and boolean false
-for failure. If \fBFAIL_REGEX\fP is provided, then failure is determined by
-checking if anything in the output matches any of the specified regular
+Check once that the source supplied in \fB<code>\fP can be built. The result is
+stored in the internal cache variable specified by \fB<resultVar>\fP, with
+boolean \fBtrue\fP for success and boolean \fBfalse\fP for failure.
+.sp
+If \fBFAIL_REGEX\fP is provided, then failure is determined by checking
+if anything in the compiler output matches any of the specified regular
 expressions.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+Internally, \fI\%try_compile()\fP is used to compile the source. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the source is compiled and linked as an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the source is compiled but not linked. In any case, all
+functions must be declared as usual.
+.sp
+See also \fI\%check_source_compiles()\fP for a more general command syntax.
+.sp
+See also \fI\%check_source_runs()\fP to run compiled source.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_c_source_compiles()\fP:
@@ -770,6 +805,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -781,7 +829,7 @@ associated with the check will be suppressed.
 .UNINDENT
 .SS CheckCSourceRuns
 .sp
-Check if given C source compiles and links into an executable and can
+Check once if given C source compiles and links into an executable and can
 subsequently be run.
 .INDENT 0.0
 .TP
@@ -797,18 +845,16 @@ check_c_source_runs(<code> <resultVar>)
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a C source
-file, linked as an executable and then run. The \fB<code>\fP must contain at
-least a \fBmain()\fP function. If the \fB<code>\fP could be built and run
-successfully, the internal cache variable specified by \fB<resultVar>\fP will
-be set to 1, otherwise it will be set to an value that evaluates to boolean
-false (e.g. an empty string or an error message).
+Check once that the source supplied in \fB<code>\fP can be built, linked as an
+executable, and then run. The \fB<code>\fP must contain at least a \fBmain()\fP
+function.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP\&. Success of build and run is indicated by boolean \fBtrue\fP\&.
+Failure to build or run is indicated by boolean \fBfalse\fP such as an empty
+string or an error message.
+.sp
+See also \fI\%check_source_runs()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_c_source_runs()\fP:
@@ -877,6 +923,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -888,7 +947,7 @@ associated with the check will be suppressed.
 .UNINDENT
 .SS CheckCXXCompilerFlag
 .sp
-Check whether the CXX compiler supports a given flag.
+Check once whether the CXX compiler supports a given flag.
 .INDENT 0.0
 .TP
 .B check_cxx_compiler_flag
@@ -902,27 +961,116 @@ check_cxx_compiler_flag(<flag> <var>)
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-Check that the \fB<flag>\fP is accepted by the compiler without
-a diagnostic.  Stores the result in an internal cache entry
-named \fB<var>\fP\&.
 .UNINDENT
 .sp
-A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.
+Check once that the \fB<flag>\fP is accepted by the compiler without a diagnostic.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP, with boolean \fBtrue\fP for success and boolean \fBfalse\fP for
+failure.
 .sp
-\fBNOTE:\fP
+\fBtrue\fP indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.
+.sp
+Internally, \fI\%try_compile()\fP is used to perform the check. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the check compiles and links an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the check is compiled but not linked.
+.sp
+See also \fI\%check_compiler_flag()\fP for a more general command syntax.
+.sp
+The compile and link commands can be influenced by setting any of the
+following variables prior to calling \fBcheck_cxx_compiler_flag()\fP\&. Unknown flags
+in these variables can case a false negative result.
 .INDENT 0.0
 .INDENT 3.5
-Since the \fI\%try_compile()\fP command forwards flags from variables
-like \fI\%CMAKE_CXX_FLAGS\fP, unknown flags
-in such variables may cause a false negative for this check.
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_FLAGS\fP
+String of additional flags to pass to the compiler. The string must be
+space\-delimited\-\-a \fI\%;\-list\fP will not work.
+The contents of \fI\%CMAKE_<LANG>_FLAGS\fP and
+its associated configuration\-specific variable are automatically added
+to the compiler command before the contents of \fBCMAKE_REQUIRED_FLAGS\fP\&.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_DEFINITIONS\fP
+A \fI\%;\-list\fP of compiler definitions of the form
+\fB\-DFOO\fP or \fB\-DFOO=bar\fP\&. A definition for the name specified by
+\fB<resultVar>\fP will also be added automatically.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_INCLUDES\fP
+A \fI\%;\-list\fP of header search paths to pass to
+the compiler. These will be the only header search paths used\-\-the contents
+of the \fI\%INCLUDE_DIRECTORIES\fP directory property will be ignored.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_OPTIONS\fP
+New in version 3.14.
+
+.sp
+A \fI\%;\-list\fP of options to add to the link
+command (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LIBRARIES\fP
+A \fI\%;\-list\fP of libraries to add to the link
+command. These can be the name of system libraries or they can be
+\fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
+further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_QUIET\fP
+New in version 3.1.
+
+.sp
+If this variable evaluates to a boolean true value, all status messages
+associated with the check will be suppressed.
+.UNINDENT
 .UNINDENT
 .UNINDENT
 .SS CheckCXXSourceCompiles
 .sp
-Check if given C++ source compiles and links into an executable.
+Check once if C++ source code can be built.
 .INDENT 0.0
 .TP
 .B check_cxx_source_compiles
@@ -938,19 +1086,23 @@ check_cxx_source_compiles(<code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a C++ source
-file and linked as an executable (so it must contain at least a \fBmain()\fP
-function). The result will be stored in the internal cache variable specified
-by \fB<resultVar>\fP, with a boolean true value for success and boolean false
-for failure. If \fBFAIL_REGEX\fP is provided, then failure is determined by
-checking if anything in the output matches any of the specified regular
+Check once that the source supplied in \fB<code>\fP can be built. The result is
+stored in the internal cache variable specified by \fB<resultVar>\fP, with
+boolean \fBtrue\fP for success and boolean \fBfalse\fP for failure.
+.sp
+If \fBFAIL_REGEX\fP is provided, then failure is determined by checking
+if anything in the compiler output matches any of the specified regular
 expressions.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+Internally, \fI\%try_compile()\fP is used to compile the source. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the source is compiled and linked as an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the source is compiled but not linked. In any case, all
+functions must be declared as usual.
+.sp
+See also \fI\%check_source_compiles()\fP for a more general command syntax.
+.sp
+See also \fI\%check_source_runs()\fP to run compiled source.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_cxx_source_compiles()\fP:
@@ -1019,6 +1171,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -1030,7 +1195,7 @@ associated with the check will be suppressed.
 .UNINDENT
 .SS CheckCXXSourceRuns
 .sp
-Check if given C++ source compiles and links into an executable and can
+Check once if given C++ source compiles and links into an executable and can
 subsequently be run.
 .INDENT 0.0
 .TP
@@ -1046,18 +1211,16 @@ check_cxx_source_runs(<code> <resultVar>)
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a C++ source
-file, linked as an executable and then run. The \fB<code>\fP must contain at
-least a \fBmain()\fP function. If the \fB<code>\fP could be built and run
-successfully, the internal cache variable specified by \fB<resultVar>\fP will
-be set to 1, otherwise it will be set to an value that evaluates to boolean
-false (e.g. an empty string or an error message).
+Check once that the source supplied in \fB<code>\fP can be built, linked as an
+executable, and then run. The \fB<code>\fP must contain at least a \fBmain()\fP
+function.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP\&. Success of build and run is indicated by boolean \fBtrue\fP\&.
+Failure to build or run is indicated by boolean \fBfalse\fP such as an empty
+string or an error message.
+.sp
+See also \fI\%check_source_runs()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_cxx_source_runs()\fP:
@@ -1119,6 +1282,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -1247,6 +1423,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -1278,7 +1467,7 @@ check_cxx_symbol_exists(std::fopen \(dqcstdio\(dq HAVE_STD_FOPEN)
 New in version 3.3.
 
 .sp
-Check whether the Fortran compiler supports a given flag.
+Check once whether the Fortran compiler supports a given flag.
 .INDENT 0.0
 .TP
 .B check_fortran_compiler_flag
@@ -1292,24 +1481,27 @@ check_fortran_compiler_flag(<flag> <resultVar>)
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-Check that the \fB<flag>\fP is accepted by the compiler without
-a diagnostic.  Stores the result in an internal cache entry
-named \fB<resultVar>\fP\&.
 .UNINDENT
 .sp
-A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.
+Check once that the \fB<flag>\fP is accepted by the compiler without a diagnostic.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP, with boolean \fBtrue\fP for success and boolean \fBfalse\fP for
+failure.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+\fBtrue\fP indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.
+.sp
+Internally, \fI\%try_compile()\fP is used to perform the check. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the check compiles and links an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the check is compiled but not linked.
+.sp
+See also \fI\%check_compiler_flag()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
-following variables prior to calling \fBcheck_fortran_compiler_flag()\fP
+following variables prior to calling \fBcheck_fortran_compiler_flag()\fP\&. Unknown
+flags in these variables can case a false negative result.
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -1374,6 +1566,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -1423,11 +1628,21 @@ Fortran function or subroutine is available.
 The following variables may be set before calling this macro to modify
 the way the check is run:
 .INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
 .TP
 .B \fBCMAKE_REQUIRED_LINK_OPTIONS\fP
-New in version 3.14: A \fI\%;\-list\fP of options to add to the link
-command (see \fI\%try_compile()\fP for further details).
+New in version 3.14.
 
+.sp
+A \fI\%;\-list\fP of options to add to the link
+command (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
 .TP
 .B \fBCMAKE_REQUIRED_LIBRARIES\fP
 A \fI\%;\-list\fP of libraries to add to the link
@@ -1435,12 +1650,27 @@ command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
 .UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .SS CheckFortranSourceCompiles
 .sp
 New in version 3.1.
 
 .sp
-Check if given Fortran source compiles and links into an executable.
+Check once if Fortran source code can be built.
 .INDENT 0.0
 .TP
 .B check_fortran_source_compiles
@@ -1458,46 +1688,27 @@ check_fortran_source_compiles(<code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Checks that the source supplied in \fB<code>\fP can be compiled as a Fortran
-source file and linked as an executable. The \fB<code>\fP must be a Fortran
-\fBprogram\fP\&.
-.INDENT 7.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-check_fortran_source_compiles(\(dqprogram test
-error stop
-end program\(dq
-HAVE_ERROR_STOP
-SRC_EXT .F90)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-This command can help avoid costly build processes when a compiler lacks support
-for a necessary feature, or a particular vendor library is not compatible with
-the Fortran compiler version being used. This generate\-time check may advise the
-user of such before the main build process. See also the
-\fI\%check_fortran_source_runs()\fP command to run the compiled code.
-.sp
-The result will be stored in the internal cache
-variable \fB<resultVar>\fP, with a boolean true value for success and boolean
-false for failure.
+Check once that the source supplied in \fB<code>\fP can be built. The result is
+stored in the internal cache variable specified by \fB<resultVar>\fP, with
+boolean \fBtrue\fP for success and boolean \fBfalse\fP for failure.
 .sp
 If \fBFAIL_REGEX\fP is provided, then failure is determined by checking
-if anything in the output matches any of the specified regular expressions.
+if anything in the compiler output matches any of the specified regular
+expressions.
 .sp
 By default, the test source file will be given a \fB\&.F\fP file extension. The
 \fBSRC_EXT\fP option can be used to override this with \fB\&.<extension>\fP instead\-\-
 \fB\&.F90\fP is a typical choice.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+See also \fI\%check_source_compiles()\fP for a more general command syntax.
+.sp
+See also \fI\%check_source_runs()\fP to run compiled source.
+.sp
+Internally, \fI\%try_compile()\fP is used to compile the source. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the source is compiled and linked as an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the source is compiled but not linked. In any case, all
+functions must be declared as usual.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_fortran_source_compiles()\fP:
@@ -1566,6 +1777,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -1580,7 +1804,7 @@ associated with the check will be suppressed.
 New in version 3.14.
 
 .sp
-Check if given Fortran source compiles and links into an executable and can
+Check once if given Fortran source compiles and links into an executable and can
 subsequently be run.
 .INDENT 0.0
 .TP
@@ -1597,9 +1821,13 @@ check_fortran_source_runs(<code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a Fortran source
-file, linked as an executable and then run. The \fB<code>\fP must be a Fortran
-\fBprogram\fP\&.
+Check once that the source supplied in \fB<code>\fP can be built, linked as an
+executable, and then run. The \fB<code>\fP must contain a Fortran \fBprogram\fP\&.
+.sp
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP\&. Success of build and run is indicated by boolean \fBtrue\fP\&.
+Failure to build or run is indicated by boolean \fBfalse\fP such as an empty
+string or an error message.
 .INDENT 7.0
 .INDENT 3.5
 .sp
@@ -1615,25 +1843,10 @@ HAVE_COARRAY)
 .UNINDENT
 .UNINDENT
 .sp
-This command can help avoid costly build processes when a compiler lacks support
-for a necessary feature, or a particular vendor library is not compatible with
-the Fortran compiler version being used. Some of these failures only occur at runtime
-instead of linktime, and a trivial runtime example can catch the issue before the
-main build process.
-.sp
-If the \fB<code>\fP could be built and run
-successfully, the internal cache variable specified by \fB<resultVar>\fP will
-be set to 1, otherwise it will be set to an value that evaluates to boolean
-false (e.g. an empty string or an error message).
-.sp
 By default, the test source file will be given a \fB\&.F90\fP file extension. The
 \fBSRC_EXT\fP option can be used to override this with \fB\&.<extension>\fP instead.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+See also \fI\%check_source_runs()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_fortran_source_runs()\fP:
@@ -1702,6 +1915,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -1713,7 +1939,7 @@ associated with the check will be suppressed.
 .UNINDENT
 .SS CheckFunctionExists
 .sp
-Check if a C function can be linked
+Check once if a C function can be linked from system libraries.
 .INDENT 0.0
 .TP
 .B check_function_exists
@@ -1729,8 +1955,7 @@ check_function_exists(<function> <variable>)
 .UNINDENT
 .sp
 Checks that the \fB<function>\fP is provided by libraries on the system and store
-the result in a \fB<variable>\fP, which will be created as an internal
-cache variable.
+the result in internal cache variable \fB<variable>\fP\&.
 .UNINDENT
 .sp
 The following variables may be set before calling this macro to modify the
@@ -1799,6 +2024,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -1812,8 +2050,8 @@ associated with the check will be suppressed.
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
-Prefer using \fI\%CheckSymbolExists\fP instead of this module,
-for the following reasons:
+Prefer using \fI\%CheckSymbolExists\fP or \fI\%CheckSourceCompiles\fP
+instead of this module, for the following reasons:
 .INDENT 0.0
 .IP \(bu 2
 \fBcheck_function_exists()\fP can\(aqt detect functions that are inlined
@@ -1909,6 +2147,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -2017,6 +2268,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -2118,6 +2382,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -2287,7 +2564,7 @@ endif()
 .UNINDENT
 .SS CheckLibraryExists
 .sp
-Check if the function exists.
+Check once if the function exists in system or specified library.
 .INDENT 0.0
 .TP
 .B CHECK_LIBRARY_EXISTS
@@ -2309,13 +2586,16 @@ CHECK_LIBRARY_EXISTS(LIBRARY FUNCTION LOCATION VARIABLE)
 LIBRARY  \- the name of the library you are looking for
 FUNCTION \- the name of the function
 LOCATION \- location where the library should be found
-VARIABLE \- variable to store the result
-           Will be created as an internal cache variable.
+VARIABLE \- internal cache variable to store the result
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .UNINDENT
+.sp
+Prefer using \fI\%CheckSymbolExists\fP or \fI\%CheckSourceCompiles\fP
+instead of this module for more robust detection if a function is available in
+a library.
 .sp
 The following variables may be set before calling this macro to modify
 the way the check is run:
@@ -2365,6 +2645,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -2431,7 +2724,7 @@ cause a false negative for this check.
 New in version 3.16.
 
 .sp
-Check whether the Objective\-C compiler supports a given flag.
+Check once whether the Objective\-C compiler supports a given flag.
 .INDENT 0.0
 .TP
 .B check_objc_compiler_flag
@@ -2445,24 +2738,27 @@ check_objc_compiler_flag(<flag> <resultVar>)
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-Check that the \fB<flag>\fP is accepted by the compiler without
-a diagnostic.  Stores the result in an internal cache entry
-named \fB<resultVar>\fP\&.
 .UNINDENT
 .sp
-A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.
+Check once that the \fB<flag>\fP is accepted by the compiler without a diagnostic.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP, with boolean \fBtrue\fP for success and boolean \fBfalse\fP for
+failure.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+\fBtrue\fP indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.
+.sp
+Internally, \fI\%try_compile()\fP is used to perform the check. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the check compiles and links an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the check is compiled but not linked.
+.sp
+See also \fI\%check_compiler_flag()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
-following variables prior to calling \fBcheck_objc_compiler_flag()\fP
+following variables prior to calling \fBcheck_objc_compiler_flag()\fP\&. Unknown
+flags in these variables can case a false negative result.
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -2527,6 +2823,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -2541,7 +2850,7 @@ associated with the check will be suppressed.
 New in version 3.16.
 
 .sp
-Check if given Objective\-C source compiles and links into an executable.
+Check once if Objective\-C source can be built.
 .INDENT 0.0
 .TP
 .B check_objc_source_compiles
@@ -2557,19 +2866,23 @@ check_objc_source_compiles(<code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a Objectie\-C source
-file and linked as an executable (so it must contain at least a \fBmain()\fP
-function). The result will be stored in the internal cache variable specified
-by \fB<resultVar>\fP, with a boolean true value for success and boolean false
-for failure. If \fBFAIL_REGEX\fP is provided, then failure is determined by
-checking if anything in the output matches any of the specified regular
+Check once that the source supplied in \fB<code>\fP can be built. The result is
+stored in the internal cache variable specified by \fB<resultVar>\fP, with
+boolean \fBtrue\fP for success and boolean \fBfalse\fP for failure.
+.sp
+If \fBFAIL_REGEX\fP is provided, then failure is determined by checking
+if anything in the compiler output matches any of the specified regular
 expressions.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+Internally, \fI\%try_compile()\fP is used to compile the source. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the source is compiled and linked as an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the source is compiled but not linked. In any case, all
+functions must be declared as usual.
+.sp
+See also \fI\%check_source_compiles()\fP for a more general command syntax.
+.sp
+See also \fI\%check_source_runs()\fP to run compiled source.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_objc_source_compiles()\fP
@@ -2638,6 +2951,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -2652,8 +2978,8 @@ associated with the check will be suppressed.
 New in version 3.16.
 
 .sp
-Check if given Objective\-C source compiles and links into an executable and can
-subsequently be run.
+Check once if given Objective\-C source compiles and links into an executable and
+can subsequently be run.
 .INDENT 0.0
 .TP
 .B check_objc_source_runs
@@ -2668,18 +2994,16 @@ check_objc_source_runs(<code> <resultVar>)
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a Objective\-C source
-file, linked as an executable and then run. The \fB<code>\fP must contain at
-least a \fBmain()\fP function. If the \fB<code>\fP could be built and run
-successfully, the internal cache variable specified by \fB<resultVar>\fP will
-be set to 1, otherwise it will be set to an value that evaluates to boolean
-false (e.g. an empty string or an error message).
+Check once that the source supplied in \fB<code>\fP can be built, linked as an
+executable, and then run. The \fB<code>\fP must contain at least a \fBmain()\fP
+function.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP\&. Success of build and run is indicated by boolean \fBtrue\fP\&.
+Failure to build or run is indicated by boolean \fBfalse\fP such as an empty
+string or an error message.
+.sp
+See also \fI\%check_source_runs()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_objc_source_runs()\fP
@@ -2748,6 +3072,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -2762,7 +3099,7 @@ associated with the check will be suppressed.
 New in version 3.16.
 
 .sp
-Check whether the Objective\-C++ compiler supports a given flag.
+Check once whether the Objective\-C++ compiler supports a given flag.
 .INDENT 0.0
 .TP
 .B check_objcxx_compiler_flag
@@ -2776,24 +3113,27 @@ check_objcxx_compiler_flag(<flag> <resultVar>)
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-Check that the \fB<flag>\fP is accepted by the compiler without
-a diagnostic.  Stores the result in an internal cache entry
-named \fB<resultVar>\fP\&.
 .UNINDENT
 .sp
-A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.
+Check once that the \fB<flag>\fP is accepted by the compiler without a diagnostic.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP, with boolean \fBtrue\fP for success and boolean \fBfalse\fP for
+failure.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+\fBtrue\fP indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.
+.sp
+Internally, \fI\%try_compile()\fP is used to perform the check. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the check compiles and links an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the check is compiled but not linked.
+.sp
+See also \fI\%check_compiler_flag()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
-following variables prior to calling \fBcheck_objcxx_compiler_flag()\fP
+following variables prior to calling \fBcheck_objcxx_compiler_flag()\fP\&. Unknown
+flags in these variables can case a false negative result.
 .INDENT 0.0
 .INDENT 3.5
 .INDENT 0.0
@@ -2858,6 +3198,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -2872,7 +3225,7 @@ associated with the check will be suppressed.
 New in version 3.16.
 
 .sp
-Check if given Objective\-C++ source compiles and links into an executable.
+Check once if Objective\-C++ source can be built.
 .INDENT 0.0
 .TP
 .B check_objcxx_source_compiles
@@ -2888,19 +3241,23 @@ check_objcxx_source_compiles(<code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a Objective\-C++ source
-file and linked as an executable (so it must contain at least a \fBmain()\fP
-function). The result will be stored in the internal cache variable specified
-by \fB<resultVar>\fP, with a boolean true value for success and boolean false
-for failure. If \fBFAIL_REGEX\fP is provided, then failure is determined by
-checking if anything in the output matches any of the specified regular
+Check once that the source supplied in \fB<code>\fP can be built. The result is
+stored in the internal cache variable specified by \fB<resultVar>\fP, with
+boolean \fBtrue\fP for success and boolean \fBfalse\fP for failure.
+.sp
+If \fBFAIL_REGEX\fP is provided, then failure is determined by checking
+if anything in the compiler output matches any of the specified regular
 expressions.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+Internally, \fI\%try_compile()\fP is used to compile the source. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the source is compiled and linked as an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the source is compiled but not linked. In any case, all
+functions must be declared as usual.
+.sp
+See also \fI\%check_source_compiles()\fP for a more general command syntax.
+.sp
+See also \fI\%check_source_runs()\fP to run compiled source.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_objcxx_source_compiles()\fP
@@ -2969,6 +3326,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -2983,8 +3353,8 @@ associated with the check will be suppressed.
 New in version 3.16.
 
 .sp
-Check if given Objective\-C++ source compiles and links into an executable and can
-subsequently be run.
+Check once if given Objective\-C++ source compiles and links into an executable
+and can subsequently be run.
 .INDENT 0.0
 .TP
 .B check_objcxx_source_runs
@@ -2999,18 +3369,16 @@ check_objcxx_source_runs(<code> <resultVar>)
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a Objective\-C++ source
-file, linked as an executable and then run. The \fB<code>\fP must contain at
-least a \fBmain()\fP function. If the \fB<code>\fP could be built and run
-successfully, the internal cache variable specified by \fB<resultVar>\fP will
-be set to 1, otherwise it will be set to an value that evaluates to boolean
-false (e.g. an empty string or an error message).
+Check once that the source supplied in \fB<code>\fP can be built, linked as an
+executable, and then run. The \fB<code>\fP must contain at least a \fBmain()\fP
+function.
 .sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP\&. Success of build and run is indicated by boolean \fBtrue\fP\&.
+Failure to build or run is indicated by boolean \fBfalse\fP such as an empty
+string or an error message.
+.sp
+See also \fI\%check_source_runs()\fP for a more general command syntax.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_objcxx_source_runs()\fP
@@ -3072,6 +3440,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -3292,6 +3673,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -3306,7 +3700,7 @@ associated with the check will be suppressed.
 New in version 3.19.
 
 .sp
-Check if given source compiles and links into an executable.
+Check once if source code can be built for a given language.
 .INDENT 0.0
 .TP
 .B check_source_compiles
@@ -3323,46 +3717,62 @@ check_source_compiles(<lang> <code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a source
-file for the requested language and linked as an executable. The result
-will be stored in the internal cache variable specified by \fB<resultVar>\fP,
-with a boolean true value for success and boolean false for failure. If
-\fBFAIL_REGEX\fP is provided, then failure is determined by checking if
-anything in the compiler output matches any of the specified regular
+Check once that the source supplied in \fB<code>\fP can be built for code
+language \fB<lang>\fP\&. The result is stored in the internal cache variable
+specified by \fB<resultVar>\fP, with boolean \fBtrue\fP for success and
+boolean \fBfalse\fP for failure.
+.sp
+If \fBFAIL_REGEX\fP is provided, then failure is determined by checking
+if anything in the compiler output matches any of the specified regular
 expressions.
 .sp
 By default, the test source file will be given a file extension that matches
 the requested language. The \fBSRC_EXT\fP option can be used to override this
 with \fB\&.<extension>\fP instead.
 .sp
-The \fB<code>\fP must contain a valid main program. For example:
+The C example checks if the compiler supports the \fBnoreturn\fP attribute:
 .INDENT 7.0
 .INDENT 3.5
 .sp
 .nf
 .ft C
-check_source_compiles(C
-\(dq#include <stdlib.h>
-#include <stdnoreturn.h>
-noreturn void f(){ exit(0); }
-int main(void) { f(); return 1; }\(dq
-HAVE_NORETURN)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE \(dqSTATIC_LIBRARY\(dq)
 
-check_source_compiles(Fortran
-\(dqprogram test
-error stop
-end program\(dq
-HAVE_ERROR_STOP)
+check_source_compiles(C
+\(dq#if !__has_c_attribute(noreturn)
+#error \e\(dqNo noreturn attribute\e\(dq
+#endif\(dq
+HAVE_NORETURN)
 .ft P
 .fi
 .UNINDENT
 .UNINDENT
 .sp
-The check is only performed once, with the result cached in the variable
-named by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached
-value rather than performing the check again, even if the \fB<code>\fP changes.
-In order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
+The Fortran example checks if the compiler supports the \fBpure\fP procedure
+attribute:
+.INDENT 7.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(CMAKE_TRY_COMPILE_TARGET_TYPE \(dqSTATIC_LIBRARY\(dq)
+
+check_source_compiles(Fortran
+\(dqpure subroutine foo()
+end subroutine\(dq
+HAVE_PURE)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Internally, \fI\%try_compile()\fP is used to compile the source. If
+\fI\%CMAKE_TRY_COMPILE_TARGET_TYPE\fP is set to \fBEXECUTABLE\fP (default),
+the source is compiled and linked as an executable program. If set to
+\fBSTATIC_LIBRARY\fP, the source is compiled but not linked. In any case, all
+functions must be declared as usual.
+.sp
+See also \fI\%check_source_runs()\fP to run compiled source.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_source_compiles()\fP:
@@ -3431,6 +3841,19 @@ further details).
 .INDENT 3.5
 .INDENT 0.0
 .TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
 .B \fBCMAKE_REQUIRED_QUIET\fP
 New in version 3.1.
 
@@ -3462,12 +3885,14 @@ check_source_runs(<lang> <code> <resultVar>
 .UNINDENT
 .UNINDENT
 .sp
-Check that the source supplied in \fB<code>\fP can be compiled as a source
-file for the requested language, linked as an executable and then run.
-If the \fB<code>\fP could be built and run successfully, the internal cache variable
-specified by \fB<resultVar>\fP will be set to 1, otherwise it will be set to
-a value that evaluates to boolean false (e.g. an empty string or an error
-message).
+Check once that the \fB<lang>\fP source supplied in \fB<code>\fP can be built,
+linked as an executable, and then run. The \fB<code>\fP must contain at least
+a \fBmain()\fP function, or in Fortran a \fBprogram\fP\&.
+.sp
+The result is stored in the internal cache variable specified by
+\fB<resultVar>\fP\&. Success of build and run is indicated by boolean \fBtrue\fP\&.
+Failure to build or run is indicated by boolean \fBfalse\fP such as an empty
+string or an error message.
 .sp
 By default, the test source file will be given a file extension that matches
 the requested language. The \fBSRC_EXT\fP option can be used to override this
@@ -3496,12 +3921,6 @@ HAVE_COARRAY)
 .fi
 .UNINDENT
 .UNINDENT
-.sp
-The check is only performed once, with the result cached in the variable named
-by \fB<resultVar>\fP\&. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the \fB<code>\fP changes. In
-order to force the check to be re\-evaluated, the variable named by
-\fB<resultVar>\fP must be manually removed from the cache.
 .sp
 The compile and link commands can be influenced by setting any of the
 following variables prior to calling \fBcheck_source_runs()\fP
@@ -3563,6 +3982,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -3671,6 +4103,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -3792,6 +4237,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -3967,6 +4425,19 @@ A \fI\%;\-list\fP of libraries to add to the link
 command. These can be the name of system libraries or they can be
 \fI\%Imported Targets\fP (see \fI\%try_compile()\fP for
 further details).
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.TP
+.B \fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP
+New in version 3.31.
+
+.sp
+A \fI\%;\-list\fP of libraries search paths to pass to
+the linker (see \fI\%try_compile()\fP for further details).
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -4258,21 +4729,6 @@ call arguments request different components.
 Changed in version 3.26: The pre\-3.15 optimization was restored, but with the above\-described
 heuristic to account for varying \fBfind_dependency\fP call arguments.
 
-.SS CMakeFindFrameworks
-.sp
-helper module to find OSX frameworks
-.sp
-This module reads hints about search locations from variables:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-CMAKE_FIND_FRAMEWORK_EXTRA_LOCATIONS \- Extra directories
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
 .SS CMakeFindPackageMode
 .sp
 This file is executed by cmake when invoked with
@@ -4768,6 +5224,7 @@ generate_apple_platform_selection_file(<filename>
   [MACOS_INCLUDE_FILE <file>]
   [IOS_INCLUDE_FILE <file>]
   [IOS_SIMULATOR_INCLUDE_FILE <file>]
+  [IOS_CATALYST_INCLUDE_FILE <file>]
   [TVOS_INCLUDE_FILE <file>]
   [TVOS_SIMULATOR_INCLUDE_FILE <file>]
   [WATCHOS_INCLUDE_FILE <file>]
@@ -4807,6 +5264,12 @@ File to include if the platform is iOS.
 .TP
 .B \fBIOS_SIMULATOR_INCLUDE_FILE <file>\fP
 File to include if the platform is iOS Simulator.
+.TP
+.B \fBIOS_CATALYST_INCLUDE_FILE <file>\fP
+New in version 3.31.
+
+.sp
+File to include if the platform is iOS Catalyst.
 .TP
 .B \fBTVOS_INCLUDE_FILE <file>\fP
 File to include if the platform is tvOS.
@@ -5049,6 +5512,7 @@ This module defines three macros: \fBCMAKE_PUSH_CHECK_STATE()\fP
 be used to save, restore and reset (i.e., clear contents) the state of
 the variables \fBCMAKE_REQUIRED_FLAGS\fP, \fBCMAKE_REQUIRED_DEFINITIONS\fP,
 \fBCMAKE_REQUIRED_LINK_OPTIONS\fP, \fBCMAKE_REQUIRED_LIBRARIES\fP,
+\fBCMAKE_REQUIRED_LINK_DIRECTORIES\fP,
 \fBCMAKE_REQUIRED_INCLUDES\fP and \fBCMAKE_EXTRA_INCLUDE_FILES\fP used by the
 various Check\-files coming with CMake, like e.g. \fBcheck_function_exists()\fP
 etc.
@@ -7230,6 +7694,12 @@ ExternalData_Add_Test(
 .sp
 It passes its arguments through \fBExternalData_Expand_Arguments\fP and then
 invokes the \fI\%add_test()\fP command using the results.
+.sp
+Changed in version 3.31: If the arguments after \fB<target>\fP define a test with an executable
+that is a CMake target, empty values in the \fI\%TEST_LAUNCHER\fP
+and \fI\%CROSSCOMPILING_EMULATOR\fP properties of that target are
+preserved.  See policy \fI\%CMP0178\fP\&.
+
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -11802,7 +12272,7 @@ macros:
 .ft C
 gtest_add_tests(TARGET target
                 [SOURCES src1...]
-                [EXTRA_ARGS arg1...]
+                [EXTRA_ARGS args...]
                 [WORKING_DIRECTORY dir]
                 [TEST_PREFIX prefix]
                 [TEST_SUFFIX suffix]
@@ -11837,8 +12307,11 @@ When provided, only the listed files will be scanned for test cases.  If
 this option is not given, the \fI\%SOURCES\fP property of the
 specified \fBtarget\fP will be used to obtain the list of sources.
 .TP
-.B \fBEXTRA_ARGS arg1...\fP
+.B \fBEXTRA_ARGS args...\fP
 Any extra arguments to pass on the command line to each test case.
+.sp
+Changed in version 3.31: Empty values in \fBargs...\fP are preserved, see \fI\%CMP0178\fP\&.
+
 .TP
 .B \fBWORKING_DIRECTORY dir\fP
 Specifies the directory in which to run the discovered test cases.  If this
@@ -11866,6 +12339,11 @@ The variable named by \fBoutVar\fP will be populated in the calling scope
 with the list of discovered test cases.  This allows the caller to do
 things like manipulate test properties of the discovered tests.
 .UNINDENT
+.sp
+Changed in version 3.31: Empty values in the \fI\%TEST_LAUNCHER\fP and
+\fI\%CROSSCOMPILING_EMULATOR\fP target properties are preserved,
+see policy \fI\%CMP0178\fP\&.
+
 .sp
 Usage example:
 .INDENT 7.0
@@ -11942,7 +12420,7 @@ for available tests:
 .nf
 .ft C
 gtest_discover_tests(target
-                     [EXTRA_ARGS arg1...]
+                     [EXTRA_ARGS args...]
                      [WORKING_DIRECTORY dir]
                      [TEST_PREFIX prefix]
                      [TEST_SUFFIX suffix]
@@ -11953,6 +12431,7 @@ gtest_discover_tests(target
                      [DISCOVERY_TIMEOUT seconds]
                      [XML_OUTPUT_DIR dir]
                      [DISCOVERY_MODE <POST_BUILD|PRE_TEST>]
+                     [DISCOVERY_EXTRA_ARGS args...]
 )
 .ft P
 .fi
@@ -11962,15 +12441,15 @@ gtest_discover_tests(target
 New in version 3.10.
 
 .sp
-\fBgtest_discover_tests()\fP sets up a post\-build command on the test executable
-that generates the list of tests by parsing the output from running the test
-with the \fB\-\-gtest_list_tests\fP argument.  Compared to the source parsing
-approach of \fI\%gtest_add_tests()\fP, this ensures that the full list of
-tests, including instantiations of parameterized tests, is obtained.  Since
-test discovery occurs at build time, it is not necessary to re\-run CMake when
-the list of tests changes.
-However, it requires that \fI\%CROSSCOMPILING_EMULATOR\fP is properly set
-in order to function in a cross\-compiling environment.
+\fBgtest_discover_tests()\fP sets up a post\-build or pre\-test command on the
+test executable that generates the list of tests by parsing the output from
+running the test executable with the \fB\-\-gtest_list_tests\fP argument.
+Compared to the source parsing approach of \fI\%gtest_add_tests()\fP,
+this ensures that the full list of tests, including instantiations of
+parameterized tests, is obtained.  Since test discovery occurs at build
+or test time, it is not necessary to re\-run CMake when the list of tests
+changes.  However, it requires that \fI\%CROSSCOMPILING_EMULATOR\fP
+is properly set in order to function in a cross\-compiling environment.
 .sp
 Additionally, setting properties on tests is somewhat less convenient, since
 the tests are not available at CMake time.  Additional test properties may be
@@ -11978,7 +12457,8 @@ assigned to the set of tests as a whole using the \fBPROPERTIES\fP option.  If
 more fine\-grained test control is needed, custom content may be provided
 through an external CTest script using the \fI\%TEST_INCLUDE_FILES\fP
 directory property.  The set of discovered tests is made accessible to such a
-script via the \fB<target>_TESTS\fP variable.
+script via the \fB<target>_TESTS\fP variable (see the \fBTEST_LIST\fP option
+below for further discussion and limitations).
 .sp
 The options are:
 .INDENT 7.0
@@ -11988,8 +12468,11 @@ Specifies the Google Test executable, which must be a known CMake
 executable target.  CMake will substitute the location of the built
 executable when running the test.
 .TP
-.B \fBEXTRA_ARGS arg1...\fP
+.B \fBEXTRA_ARGS args...\fP
 Any extra arguments to pass on the command line to each test case.
+.sp
+Changed in version 3.31: Empty values in \fBargs...\fP are preserved, see \fI\%CMP0178\fP\&.
+
 .TP
 .B \fBWORKING_DIRECTORY dir\fP
 Specifies the directory in which to run the discovered test cases.  If this
@@ -12037,6 +12520,11 @@ Make the list of tests available in the variable \fBvar\fP, rather than the
 default \fB<target>_TESTS\fP\&.  This can be useful when the same test
 executable is being used in multiple calls to \fBgtest_discover_tests()\fP\&.
 Note that this variable is only available in CTest.
+.sp
+Due to a limitation of CMake\(aqs parsing rules, any test with a square
+bracket in its name will be omitted from the list of tests stored in
+this variable.  Such tests will still be defined and executed by
+\fBctest\fP as normal though.
 .TP
 .B \fBDISCOVERY_TIMEOUT num\fP
 New in version 3.10.3.
@@ -12090,7 +12578,22 @@ dependencies.
 passed when calling \fBgtest_discover_tests()\fP\&. This provides a mechanism
 for globally selecting a preferred test discovery behavior without having
 to modify each call site.
+.TP
+.B \fBDISCOVERY_EXTRA_ARGS args...\fP
+New in version 3.31.
+
+.sp
+Any extra arguments to pass on the command line for the discovery command.
 .UNINDENT
+.sp
+New in version 3.29: The \fI\%TEST_LAUNCHER\fP target property is honored during test
+discovery and test execution.
+
+.sp
+Changed in version 3.31: Empty values in the \fI\%TEST_LAUNCHER\fP and
+\fI\%CROSSCOMPILING_EMULATOR\fP target properties are preserved,
+see policy \fI\%CMP0178\fP\&.
+
 .UNINDENT
 .SS InstallRequiredSystemLibraries
 .sp
@@ -13282,9 +13785,8 @@ If set to \fBTRUE\fP, implicit dependencies are generated by the \fBswig\fP tool
 itself. This property is only meaningful for
 \fI\%Makefile\fP,
 \fI\%Ninja\fP, \fI\%Xcode\fP, and
-\fI\%Visual Studio\fP
-(\fI\%Visual Studio 12 2013\fP and above) generators. Default value is
-\fBFALSE\fP\&.
+\fI\%Visual Studio\fP generators.
+Default value is \fBFALSE\fP\&.
 .sp
 New in version 3.21: Added the support of \fI\%Xcode\fP generator.
 
@@ -13491,9 +13993,8 @@ If set to \fBTRUE\fP, implicit dependencies are generated by the \fBswig\fP tool
 itself. This variable is only meaningful for
 \fI\%Makefile\fP,
 \fI\%Ninja\fP, \fI\%Xcode\fP, and
-\fI\%Visual Studio\fP
-(\fI\%Visual Studio 12 2013\fP and above) generators. Default value is
-\fBFALSE\fP\&.
+\fI\%Visual Studio\fP generators.
+Default value is \fBFALSE\fP\&.
 .sp
 Source file property \fBUSE_SWIG_DEPENDENCIES\fP, if not defined, will be
 initialized with the value of this variable.
@@ -13693,9 +14194,10 @@ ASPELL_DEFINITIONS \- Compiler switches required for using ASPELL
 .UNINDENT
 .SS FindAVIFile
 .sp
-Locate AVIFILE library and include paths
+Locate \fI\%AVIFILE\fP
+library and include paths.
 .sp
-AVIFILE (\fI\%https://avifile.sourceforge.net/\fP) is a set of libraries for
+AVIFILE is a set of libraries for
 i386 machines to use various AVI codecs.  Support is limited beyond
 Linux.  Windows provides native AVI support, and so doesn\(aqt need this
 library.  This module defines
@@ -14189,423 +14691,6 @@ the compiler component environment:
 .UNINDENT
 .UNINDENT
 .UNINDENT
-.SS FindBoost
-.sp
-Changed in version 3.30: This module is available only if policy \fI\%CMP0167\fP is not set to
-\fBNEW\fP\&.  Port projects to upstream Boost\(aqs \fBBoostConfig.cmake\fP package
-configuration file, for which \fBfind_package(Boost)\fP now searches.
-
-.sp
-Find Boost include dirs and libraries
-.sp
-Use this module by invoking \fI\%find_package()\fP with the form:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-find_package(Boost
-  [version] [EXACT]      # Minimum or EXACT version e.g. 1.67.0
-  [REQUIRED]             # Fail with error if Boost is not found
-  [COMPONENTS <libs>...] # Boost libraries by their canonical name
-                         # e.g. \(dqdate_time\(dq for \(dqlibboost_date_time\(dq
-  [OPTIONAL_COMPONENTS <libs>...]
-                         # Optional Boost libraries by their canonical name)
-  )                      # e.g. \(dqdate_time\(dq for \(dqlibboost_date_time\(dq
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-This module finds headers and requested component libraries OR a CMake
-package configuration file provided by a \(dqBoost CMake\(dq build.  For the
-latter case skip to the \fI\%Boost CMake\fP section below.
-.sp
-New in version 3.7: \fBbzip2\fP and \fBzlib\fP components (Windows only).
-
-.sp
-New in version 3.11: The \fBOPTIONAL_COMPONENTS\fP option.
-
-.sp
-New in version 3.13: \fBstacktrace_*\fP components.
-
-.sp
-New in version 3.19: \fBbzip2\fP and \fBzlib\fP components on all platforms.
-
-.SS Result Variables
-.sp
-This module defines the following variables:
-.INDENT 0.0
-.TP
-.B \fBBoost_FOUND\fP
-True if headers and requested libraries were found.
-.TP
-.B \fBBoost_INCLUDE_DIRS\fP
-Boost include directories.
-.TP
-.B \fBBoost_LIBRARY_DIRS\fP
-Link directories for Boost libraries.
-.TP
-.B \fBBoost_LIBRARIES\fP
-Boost component libraries to be linked.
-.TP
-.B \fBBoost_<COMPONENT>_FOUND\fP
-True if component \fB<COMPONENT>\fP was found (\fB<COMPONENT>\fP name is upper\-case).
-.TP
-.B \fBBoost_<COMPONENT>_LIBRARY\fP
-Libraries to link for component \fB<COMPONENT>\fP (may include
-\fI\%target_link_libraries()\fP debug/optimized keywords).
-.TP
-.B \fBBoost_VERSION_MACRO\fP
-\fBBOOST_VERSION\fP value from \fBboost/version.hpp\fP\&.
-.TP
-.B \fBBoost_VERSION_STRING\fP
-Boost version number in \fBX.Y.Z\fP format.
-.TP
-.B \fBBoost_VERSION\fP
-Boost version number in \fBX.Y.Z\fP format (same as \fBBoost_VERSION_STRING\fP).
-.sp
-Changed in version 3.15: In previous CMake versions, this variable used the raw version string
-from the Boost header (same as \fBBoost_VERSION_MACRO\fP).
-See policy \fI\%CMP0093\fP\&.
-
-.TP
-.B \fBBoost_LIB_VERSION\fP
-Version string appended to library filenames.
-.TP
-.B \fBBoost_VERSION_MAJOR\fP, \fBBoost_MAJOR_VERSION\fP
-Boost major version number (\fBX\fP in \fBX.Y.Z\fP).
-.TP
-.B \fBBoost_VERSION_MINOR\fP, \fBBoost_MINOR_VERSION\fP
-Boost minor version number (\fBY\fP in \fBX.Y.Z\fP).
-.TP
-.B \fBBoost_VERSION_PATCH\fP, \fBBoost_SUBMINOR_VERSION\fP
-Boost subminor version number (\fBZ\fP in \fBX.Y.Z\fP).
-.TP
-.B \fBBoost_VERSION_COUNT\fP
-Amount of version components (3).
-.TP
-.B \fBBoost_LIB_DIAGNOSTIC_DEFINITIONS\fP (Windows\-specific)
-Pass to \fI\%add_definitions()\fP to have diagnostic
-information about Boost\(aqs automatic linking
-displayed during compilation
-.UNINDENT
-.sp
-New in version 3.15: The \fBBoost_VERSION_<PART>\fP variables.
-
-.SS Cache variables
-.sp
-Search results are saved persistently in CMake cache entries:
-.INDENT 0.0
-.TP
-.B \fBBoost_INCLUDE_DIR\fP
-Directory containing Boost headers.
-.TP
-.B \fBBoost_LIBRARY_DIR_RELEASE\fP
-Directory containing release Boost libraries.
-.TP
-.B \fBBoost_LIBRARY_DIR_DEBUG\fP
-Directory containing debug Boost libraries.
-.TP
-.B \fBBoost_<COMPONENT>_LIBRARY_DEBUG\fP
-Component \fB<COMPONENT>\fP library debug variant.
-.TP
-.B \fBBoost_<COMPONENT>_LIBRARY_RELEASE\fP
-Component \fB<COMPONENT>\fP library release variant.
-.UNINDENT
-.sp
-New in version 3.3: Per\-configuration variables \fBBoost_LIBRARY_DIR_RELEASE\fP and
-\fBBoost_LIBRARY_DIR_DEBUG\fP\&.
-
-.SS Hints
-.sp
-This module reads hints about search locations from variables:
-.INDENT 0.0
-.TP
-.B \fBBOOST_ROOT\fP, \fBBOOSTROOT\fP
-Preferred installation prefix.
-.TP
-.B \fBBOOST_INCLUDEDIR\fP
-Preferred include directory e.g. \fB<prefix>/include\fP\&.
-.TP
-.B \fBBOOST_LIBRARYDIR\fP
-Preferred library directory e.g. \fB<prefix>/lib\fP\&.
-.TP
-.B \fBBoost_NO_SYSTEM_PATHS\fP
-Set to \fBON\fP to disable searching in locations not
-specified by these hint variables. Default is \fBOFF\fP\&.
-.TP
-.B \fBBoost_ADDITIONAL_VERSIONS\fP
-List of Boost versions not known to this module.
-(Boost install locations may contain the version).
-.UNINDENT
-.sp
-Users may set these hints or results as \fBCACHE\fP entries.  Projects
-should not read these entries directly but instead use the above
-result variables.  Note that some hint names start in upper\-case
-\fBBOOST\fP\&.  One may specify these as environment variables if they are
-not specified as CMake variables or cache entries.
-.sp
-This module first searches for the Boost header files using the above
-hint variables (excluding \fBBOOST_LIBRARYDIR\fP) and saves the result in
-\fBBoost_INCLUDE_DIR\fP\&.  Then it searches for requested component libraries
-using the above hints (excluding \fBBOOST_INCLUDEDIR\fP and
-\fBBoost_ADDITIONAL_VERSIONS\fP), \(dqlib\(dq directories near \fBBoost_INCLUDE_DIR\fP,
-and the library name configuration settings below.  It saves the
-library directories in \fBBoost_LIBRARY_DIR_DEBUG\fP and
-\fBBoost_LIBRARY_DIR_RELEASE\fP and individual library
-locations in \fBBoost_<COMPONENT>_LIBRARY_DEBUG\fP and \fBBoost_<COMPONENT>_LIBRARY_RELEASE\fP\&.
-When one changes settings used by previous searches in the same build
-tree (excluding environment variables) this module discards previous
-search results affected by the changes and searches again.
-.SS Imported Targets
-.sp
-New in version 3.5.
-
-.sp
-This module defines the following \fI\%IMPORTED\fP targets:
-.INDENT 0.0
-.TP
-.B \fBBoost::boost\fP
-Target for header\-only dependencies. (Boost include directory).
-.TP
-.B \fBBoost::headers\fP
-New in version 3.15: Alias for \fBBoost::boost\fP\&.
-
-.TP
-.B \fBBoost::<component>\fP
-Target for specific component dependency (shared or static library);
-\fB<component>\fP name is lower\-case.
-.TP
-.B \fBBoost::diagnostic_definitions\fP
-Interface target to enable diagnostic information about Boost\(aqs automatic
-linking during compilation (adds \fB\-DBOOST_LIB_DIAGNOSTIC\fP).
-.TP
-.B \fBBoost::disable_autolinking\fP
-Interface target to disable automatic linking with MSVC
-(adds \fB\-DBOOST_ALL_NO_LIB\fP).
-.TP
-.B \fBBoost::dynamic_linking\fP
-Interface target to enable dynamic linking with MSVC
-(adds \fB\-DBOOST_ALL_DYN_LINK\fP).
-.UNINDENT
-.sp
-Implicit dependencies such as \fBBoost::filesystem\fP requiring
-\fBBoost::system\fP will be automatically detected and satisfied, even
-if system is not specified when using \fI\%find_package()\fP and if
-\fBBoost::system\fP is not added to \fI\%target_link_libraries()\fP\&.  If using
-\fBBoost::thread\fP, then \fBThreads::Threads\fP will also be added automatically.
-.sp
-It is important to note that the imported targets behave differently
-than variables created by this module: multiple calls to
-\fI\%find_package(Boost)\fP in the same directory or sub\-directories with
-different options (e.g. static or shared) will not override the
-values of the targets created by the first call.
-.SS Other Variables
-.sp
-Boost libraries come in many variants encoded in their file name.
-Users or projects may tell this module which variant to find by
-setting variables:
-.INDENT 0.0
-.TP
-.B \fBBoost_USE_DEBUG_LIBS\fP
-New in version 3.10.
-
-.sp
-Set to \fBON\fP or \fBOFF\fP to specify whether to search and use the debug
-libraries.  Default is \fBON\fP\&.
-.TP
-.B \fBBoost_USE_RELEASE_LIBS\fP
-New in version 3.10.
-
-.sp
-Set to \fBON\fP or \fBOFF\fP to specify whether to search and use the release
-libraries.  Default is \fBON\fP\&.
-.TP
-.B \fBBoost_USE_MULTITHREADED\fP
-Set to OFF to use the non\-multithreaded libraries (\(dqmt\(dq tag). Default is
-\fBON\fP\&.
-.TP
-.B \fBBoost_USE_STATIC_LIBS\fP
-Set to ON to force the use of the static libraries.  Default is \fBOFF\fP\&.
-.TP
-.B \fBBoost_USE_STATIC_RUNTIME\fP
-Set to \fBON\fP or \fBOFF\fP to specify whether to use libraries linked
-statically to the C++ runtime (\(dqs\(dq tag).  Default is platform dependent.
-.TP
-.B \fBBoost_USE_DEBUG_RUNTIME\fP
-Set to \fBON\fP or \fBOFF\fP to specify whether to use libraries linked to the
-MS debug C++ runtime (\(dqg\(dq tag).  Default is \fBON\fP\&.
-.TP
-.B \fBBoost_USE_DEBUG_PYTHON\fP
-Set to \fBON\fP to use libraries compiled with a debug Python build (\(dqy\(dq
-tag).  Default is \fBOFF\fP\&.
-.TP
-.B \fBBoost_USE_STLPORT\fP
-Set to \fBON\fP to use libraries compiled with STLPort (\(dqp\(dq tag). Default is
-\fBOFF\fP\&.
-.TP
-.B \fBBoost_USE_STLPORT_DEPRECATED_NATIVE_IOSTREAMS\fP
-Set to ON to use libraries compiled with STLPort deprecated \(dqnative
-iostreams\(dq (\(dqn\(dq tag).  Default is \fBOFF\fP\&.
-.TP
-.B \fBBoost_COMPILER\fP
-Set to the compiler\-specific library suffix (e.g. \fB\-gcc43\fP).  Default is
-auto\-computed for the C++ compiler in use.
-.sp
-Changed in version 3.9: A list may be used if multiple compatible suffixes should be tested for,
-in decreasing order of preference.
-
-.TP
-.B \fBBoost_LIB_PREFIX\fP
-New in version 3.18.
-
-.sp
-Set to the platform\-specific library name prefix (e.g. \fBlib\fP) used by
-Boost static libs.  This is needed only on platforms where CMake does not
-know the prefix by default.
-.TP
-.B \fBBoost_ARCHITECTURE\fP
-New in version 3.13.
-
-.sp
-Set to the architecture\-specific library suffix (e.g. \fB\-x64\fP).
-Default is auto\-computed for the C++ compiler in use.
-.TP
-.B \fBBoost_THREADAPI\fP
-Suffix for \fBthread\fP component library name, such as \fBpthread\fP or
-\fBwin32\fP\&.  Names with and without this suffix will both be tried.
-.TP
-.B \fBBoost_NAMESPACE\fP
-Alternate namespace used to build boost with e.g. if set to \fBmyboost\fP,
-will search for \fBmyboost_thread\fP instead of \fBboost_thread\fP\&.
-.UNINDENT
-.sp
-Other variables one may set to control this module are:
-.INDENT 0.0
-.TP
-.B \fBBoost_DEBUG\fP
-Set to \fBON\fP to enable debug output from \fBFindBoost\fP\&.
-Please enable this before filing any bug report.
-.TP
-.B \fBBoost_REALPATH\fP
-Set to \fBON\fP to resolve symlinks for discovered libraries to assist with
-packaging.  For example, the \(dqsystem\(dq component library may be resolved to
-\fB/usr/lib/libboost_system.so.1.67.0\fP instead of
-\fB/usr/lib/libboost_system.so\fP\&.  This does not affect linking and should
-not be enabled unless the user needs this information.
-.TP
-.B \fBBoost_LIBRARY_DIR\fP
-Default value for \fBBoost_LIBRARY_DIR_RELEASE\fP and
-\fBBoost_LIBRARY_DIR_DEBUG\fP\&.
-.TP
-.B \fBBoost_NO_WARN_NEW_VERSIONS\fP
-New in version 3.20.
-
-.sp
-Set to \fBON\fP to suppress the warning about unknown dependencies for new
-Boost versions.
-.UNINDENT
-.sp
-On Visual Studio and Borland compilers Boost headers request automatic
-linking to corresponding libraries.  This requires matching libraries
-to be linked explicitly or available in the link library search path.
-In this case setting \fBBoost_USE_STATIC_LIBS\fP to \fBOFF\fP may not achieve
-dynamic linking.  Boost automatic linking typically requests static
-libraries with a few exceptions (such as \fBBoost.Python\fP).  Use:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-to ask Boost to report information about automatic linking requests.
-.SS Examples
-.sp
-Find Boost headers only:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-find_package(Boost 1.36.0)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-  add_executable(foo foo.cc)
-endif()
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-Find Boost libraries and use imported targets:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-find_package(Boost 1.56 REQUIRED COMPONENTS
-             date_time filesystem iostreams)
-add_executable(foo foo.cc)
-target_link_libraries(foo Boost::date_time Boost::filesystem
-                          Boost::iostreams)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-Find Boost Python 3.6 libraries and use imported targets:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-find_package(Boost 1.67 REQUIRED COMPONENTS
-             python36 numpy36)
-add_executable(foo foo.cc)
-target_link_libraries(foo Boost::python36 Boost::numpy36)
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.sp
-Find Boost headers and some \fIstatic\fP (release only) libraries:
-.INDENT 0.0
-.INDENT 3.5
-.sp
-.nf
-.ft C
-set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
-set(Boost_USE_DEBUG_LIBS        OFF)  # ignore debug libs and
-set(Boost_USE_RELEASE_LIBS       ON)  # only find release libs
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME    OFF)
-find_package(Boost 1.66.0 COMPONENTS date_time filesystem system ...)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-  add_executable(foo foo.cc)
-  target_link_libraries(foo ${Boost_LIBRARIES})
-endif()
-.ft P
-.fi
-.UNINDENT
-.UNINDENT
-.SS Boost CMake
-.sp
-If Boost was built using the boost\-cmake project or from Boost 1.70.0 on
-it provides a package configuration file for use with find_package\(aqs config mode.
-This module looks for the package configuration file called
-\fBBoostConfig.cmake\fP or \fBboost\-config.cmake\fP and stores the result in
-\fBCACHE\fP entry \fBBoost_DIR\fP\&.  If found, the package configuration file is loaded
-and this module returns with no further action.  See documentation of
-the Boost CMake package configuration for details on what it provides.
-.sp
-Set \fBBoost_NO_BOOST_CMAKE\fP to \fBON\fP, to disable the search for boost\-cmake.
 .SS FindBullet
 .sp
 Try to find the Bullet physics engine
@@ -14693,7 +14778,13 @@ The following cache variables may also be set:
 .INDENT 0.0
 .TP
 .B \fBBZIP2_INCLUDE_DIR\fP
-the BZip2 include directory
+the directory containing the BZip2 headers
+.TP
+.B \fBBZIP2_LIBRARY_RELEASE\fP
+the path to the BZip2 library for release configurations
+.TP
+.B \fBBZIP2_LIBRARY_DEBUG\fP
+the path to the BZip2 library for debug configurations
 .UNINDENT
 .SS Legacy Variables
 .sp
@@ -15266,13 +15357,17 @@ Targets Created:
 .SS nvidia\-ML
 .sp
 The \fI\%NVIDIA Management Library\fP\&.
-This is a shared library only.
 .sp
 Targets Created:
 .INDENT 0.0
 .IP \(bu 2
 \fBCUDA::nvml\fP
+.IP \(bu 2
+\fBCUDA::nvml_static\fP starting in CUDA 12.4
 .UNINDENT
+.sp
+New in version 3.31: Added \fBCUDA::nvml_static\fP\&.
+
 .SS nvToolsExt
 .sp
 Deprecated since version 3.25: With CUDA 10.0+, use \fI\%nvtx3\fP\&.
@@ -15870,8 +15965,8 @@ Remove DCMTK entry from the CMake cache per \fI\%find_package()\fP
 documentation.
 .SS FindDevIL
 .sp
-This module locates the developer\(aqs image library.
-\fI\%https://openil.sourceforge.net/\fP
+This module locates the Developer\(aqs Image Library,
+\fI\%DevIL\fP\&.
 .SS IMPORTED Targets
 .sp
 New in version 3.21.
@@ -16614,6 +16709,9 @@ New in version 3.28.
 
 .sp
 Set to \fBTRUE\fP to use static libraries.
+.sp
+New in version 3.31: Implemented on non\-Windows platforms.
+
 .UNINDENT
 .UNINDENT
 .SS FindFLEX
@@ -18556,6 +18654,9 @@ New in version 3.26.
 Compile options of <component>.
 .TP
 .B \fBImageMagick_<component>_LIBRARIES\fP
+New in version 3.31.
+
+.sp
 Full path to <component> libraries.
 .UNINDENT
 .SS Example Usage
@@ -18966,7 +19067,7 @@ New in version 3.12: the version of the JPEG library found
 The following cache variables may also be set:
 .INDENT 0.0
 .TP
-.B \fBJPEG_INCLUDE_DIRS\fP
+.B \fBJPEG_INCLUDE_DIR\fP
 where to find jpeglib.h, etc.
 .TP
 .B \fBJPEG_LIBRARY_RELEASE\fP
@@ -18980,9 +19081,6 @@ New in version 3.12: Debug and Release variand are found separately.
 
 .SS Obsolete variables
 .INDENT 0.0
-.TP
-.B \fBJPEG_INCLUDE_DIR\fP
-where to find jpeglib.h, etc. (same as JPEG_INCLUDE_DIRS)
 .TP
 .B \fBJPEG_LIBRARY\fP
 where to find the JPEG library.
@@ -19872,8 +19970,9 @@ Windows registry. The \fBREGISTRY_VIEW\fP argument may optionally be specified
 to manually control whether 32bit or 64bit versions shall be searched for.
 .IP \(bu 2
 macOS: The installed versions of Matlab/MCR are given by the MATLAB
-default installation paths in \fB/Application\fP\&. If no such application is
-found, it falls back to the one that might be accessible from the \fBPATH\fP\&.
+default installation paths under \fB$HOME/Applications\fP and \fB/Applications\fP\&.
+If no such application is found, it falls back to the one that might be
+accessible from the \fBPATH\fP\&.
 .IP \(bu 2
 Unix: The desired Matlab should be accessible from the \fBPATH\fP\&. This does
 not work for MCR installation and \fI\%Matlab_ROOT_DIR\fP should be
@@ -19926,10 +20025,12 @@ This module defines the following \fI\%IMPORTED\fP targets:
 .INDENT 0.0
 .TP
 .B \fBMatlab::mex\fP
-The \fBmex\fP library, always available.
+The \fBmex\fP library, always available for MATLAB installations. Available for
+MCR installations if provided by MCR.
 .TP
 .B \fBMatlab::mx\fP
-The mx library of Matlab (arrays), always available.
+The mx library of Matlab (arrays), always available for MATLAB installations.
+Available for MCR installations if provided by MCR.
 .TP
 .B \fBMatlab::eng\fP
 Matlab engine library. Available only if the \fBENG_LIBRARY\fP component
@@ -19940,10 +20041,12 @@ Matlab matrix library. Available only if the \fBMAT_LIBRARY\fP component
 is requested.
 .TP
 .B \fBMatlab::MatlabEngine\fP
-Matlab C++ engine library, always available for R2018a and newer.
+Matlab C++ engine library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.
 .TP
 .B \fBMatlab::MatlabDataArray\fP
-Matlab C++ data array library, always available for R2018a and newer.
+Matlab C++ data array library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.
 .UNINDENT
 .SS Variables defined by the module
 .SS Result variables
@@ -19973,10 +20076,12 @@ is given in the \fI\%find_package()\fP directive.
 the path of the Matlab libraries headers
 .TP
 .B \fBMatlab_MEX_LIBRARY\fP
-library for mex, always available.
+library for mex, always available for MATLAB installations. Available for MCR
+installations if provided by MCR.
 .TP
 .B \fBMatlab_MX_LIBRARY\fP
-mx library of Matlab (arrays), always available.
+mx library of Matlab (arrays), always available for MATLAB installations.
+Available for MCR installations if provided by MCR.
 .TP
 .B \fBMatlab_ENG_LIBRARY\fP
 Matlab engine library. Available only if the component \fBENG_LIBRARY\fP
@@ -19990,13 +20095,15 @@ is requested.
 New in version 3.13.
 
 .sp
-Matlab C++ engine library, always available for R2018a and newer.
+Matlab C++ engine library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.
 .TP
 .B \fBMatlab_DATAARRAY_LIBRARY\fP
 New in version 3.13.
 
 .sp
-Matlab C++ data array library, always available for R2018a and newer.
+Matlab C++ data array library, always available for MATLAB R2018a and newer.
+Available for MCR installations if provided by MCR.
 .TP
 .B \fBMatlab_LIBRARIES\fP
 the whole set of libraries of Matlab
@@ -21475,6 +21582,10 @@ New in version 3.10: The module exposes the components \fBC\fP, \fBCXX\fP, and \
 Each of these controls the various languages to search OpenMP support for.
 
 .sp
+New in version 3.31: The \fBCUDA\fP language component is supported when using a CUDA compiler
+that supports OpenMP on the host.
+
+.sp
 Depending on the enabled components the following variables will be set:
 .INDENT 0.0
 .TP
@@ -21489,7 +21600,7 @@ or all enabled languages if no components were specified.
 .UNINDENT
 .sp
 This module will set the following variables per language in your
-project, where \fB<lang>\fP is one of C, CXX, or Fortran:
+project, where \fB<lang>\fP is one of C, CXX, CUDA, or Fortran:
 .INDENT 0.0
 .TP
 .B \fBOpenMP_<lang>_FOUND\fP
@@ -24104,6 +24215,12 @@ The Python include directories.
 .UNINDENT
 .INDENT 0.0
 .TP
+.B \fBPython_DEFINITIONS\fP
+New in version 3.30.3.
+
+.sp
+The Python preprocessor definitions.
+.TP
 .B \fBPython_DEBUG_POSTFIX\fP
 Postfix of debug python module. This variable can be used to define the
 \fI\%DEBUG_POSTFIX\fP target property.
@@ -24239,7 +24356,8 @@ Each element can be set to one of the following:
 \fBNOTE:\fP
 .INDENT 7.0
 .INDENT 3.5
-If \fBPython_FIND_ABI\fP is not defined, any ABI will be searched.
+If \fBPython3_FIND_ABI\fP is not defined, any ABI, excluding the
+\fBgil_disabled\fP flag, will be searched.
 .UNINDENT
 .UNINDENT
 .sp
@@ -25465,6 +25583,12 @@ The Python 3 include directories.
 .UNINDENT
 .INDENT 0.0
 .TP
+.B \fBPython3_DEFINITIONS\fP
+New in version 3.30.3.
+
+.sp
+The Python 3 preprocessor definitions.
+.TP
 .B \fBPython3_DEBUG_POSTFIX\fP
 Postfix of debug python module. This variable can be used to define the
 \fI\%DEBUG_POSTFIX\fP target property.
@@ -25593,7 +25717,8 @@ Each element can be set to one of the following:
 \fBNOTE:\fP
 .INDENT 7.0
 .INDENT 3.5
-If \fBPython3_FIND_ABI\fP is not defined, any ABI will be searched.
+If \fBPython3_FIND_ABI\fP is not defined, any ABI, excluding the
+\fBgil_disabled\fP flag, will be searched.
 .UNINDENT
 .UNINDENT
 .sp
@@ -28473,6 +28598,24 @@ cmake_expand_imported_targets(expandedLibs
 .fi
 .UNINDENT
 .UNINDENT
+.SS CMakeFindFrameworks
+.sp
+Deprecated since version 3.31: This module does nothing, unless policy \fI\%CMP0173\fP is set to \fBOLD\fP\&.
+
+.sp
+helper module to find OSX frameworks
+.sp
+This module reads hints about search locations from variables:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+CMAKE_FIND_FRAMEWORK_EXTRA_LOCATIONS \- Extra directories
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
 .SS CMakeForceCompiler
 .sp
 Deprecated since version 3.6: Do not use.
@@ -29098,7 +29241,7 @@ to the version of CMake that introduced the given API and less
 than the version of CMake that introduced its succeeding API.
 The value of the \fI\%CMAKE_MINIMUM_REQUIRED_VERSION\fP
 variable is used if no explicit version is specified.
-(As of CMake version 3.30.0\-rc3 there is only one API version.)
+(As of CMake version 3.31.0\-rc2 there is only one API version.)
 .sp
 \fBPROLOG\fP may be specified as text content to write at the start of the
 header. \fBEPILOG\fP may be specified as text content to write at the end
@@ -29597,6 +29740,423 @@ code for other features which have standard equivalents.  For example, the
 via the \fB<PREFIX>_STATIC_ASSERT\fP and \fB<PREFIX>_STATIC_ASSERT_MSG\fP
 function\-macros.
 .SS Deprecated Find Modules
+.SS FindBoost
+.sp
+Changed in version 3.30: This module is available only if policy \fI\%CMP0167\fP is not set to
+\fBNEW\fP\&.  Port projects to upstream Boost\(aqs \fBBoostConfig.cmake\fP package
+configuration file, for which \fBfind_package(Boost)\fP now searches.
+
+.sp
+Find Boost include dirs and libraries
+.sp
+Use this module by invoking \fI\%find_package()\fP with the form:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+find_package(Boost
+  [version] [EXACT]      # Minimum or EXACT version e.g. 1.67.0
+  [REQUIRED]             # Fail with error if Boost is not found
+  [COMPONENTS <libs>...] # Boost libraries by their canonical name
+                         # e.g. \(dqdate_time\(dq for \(dqlibboost_date_time\(dq
+  [OPTIONAL_COMPONENTS <libs>...]
+                         # Optional Boost libraries by their canonical name)
+  )                      # e.g. \(dqdate_time\(dq for \(dqlibboost_date_time\(dq
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+This module finds headers and requested component libraries OR a CMake
+package configuration file provided by a \(dqBoost CMake\(dq build.  For the
+latter case skip to the \fI\%Boost CMake\fP section below.
+.sp
+New in version 3.7: \fBbzip2\fP and \fBzlib\fP components (Windows only).
+
+.sp
+New in version 3.11: The \fBOPTIONAL_COMPONENTS\fP option.
+
+.sp
+New in version 3.13: \fBstacktrace_*\fP components.
+
+.sp
+New in version 3.19: \fBbzip2\fP and \fBzlib\fP components on all platforms.
+
+.SS Result Variables
+.sp
+This module defines the following variables:
+.INDENT 0.0
+.TP
+.B \fBBoost_FOUND\fP
+True if headers and requested libraries were found.
+.TP
+.B \fBBoost_INCLUDE_DIRS\fP
+Boost include directories.
+.TP
+.B \fBBoost_LIBRARY_DIRS\fP
+Link directories for Boost libraries.
+.TP
+.B \fBBoost_LIBRARIES\fP
+Boost component libraries to be linked.
+.TP
+.B \fBBoost_<COMPONENT>_FOUND\fP
+True if component \fB<COMPONENT>\fP was found (\fB<COMPONENT>\fP name is upper\-case).
+.TP
+.B \fBBoost_<COMPONENT>_LIBRARY\fP
+Libraries to link for component \fB<COMPONENT>\fP (may include
+\fI\%target_link_libraries()\fP debug/optimized keywords).
+.TP
+.B \fBBoost_VERSION_MACRO\fP
+\fBBOOST_VERSION\fP value from \fBboost/version.hpp\fP\&.
+.TP
+.B \fBBoost_VERSION_STRING\fP
+Boost version number in \fBX.Y.Z\fP format.
+.TP
+.B \fBBoost_VERSION\fP
+Boost version number in \fBX.Y.Z\fP format (same as \fBBoost_VERSION_STRING\fP).
+.sp
+Changed in version 3.15: In previous CMake versions, this variable used the raw version string
+from the Boost header (same as \fBBoost_VERSION_MACRO\fP).
+See policy \fI\%CMP0093\fP\&.
+
+.TP
+.B \fBBoost_LIB_VERSION\fP
+Version string appended to library filenames.
+.TP
+.B \fBBoost_VERSION_MAJOR\fP, \fBBoost_MAJOR_VERSION\fP
+Boost major version number (\fBX\fP in \fBX.Y.Z\fP).
+.TP
+.B \fBBoost_VERSION_MINOR\fP, \fBBoost_MINOR_VERSION\fP
+Boost minor version number (\fBY\fP in \fBX.Y.Z\fP).
+.TP
+.B \fBBoost_VERSION_PATCH\fP, \fBBoost_SUBMINOR_VERSION\fP
+Boost subminor version number (\fBZ\fP in \fBX.Y.Z\fP).
+.TP
+.B \fBBoost_VERSION_COUNT\fP
+Amount of version components (3).
+.TP
+.B \fBBoost_LIB_DIAGNOSTIC_DEFINITIONS\fP (Windows\-specific)
+Pass to \fI\%add_definitions()\fP to have diagnostic
+information about Boost\(aqs automatic linking
+displayed during compilation
+.UNINDENT
+.sp
+New in version 3.15: The \fBBoost_VERSION_<PART>\fP variables.
+
+.SS Cache variables
+.sp
+Search results are saved persistently in CMake cache entries:
+.INDENT 0.0
+.TP
+.B \fBBoost_INCLUDE_DIR\fP
+Directory containing Boost headers.
+.TP
+.B \fBBoost_LIBRARY_DIR_RELEASE\fP
+Directory containing release Boost libraries.
+.TP
+.B \fBBoost_LIBRARY_DIR_DEBUG\fP
+Directory containing debug Boost libraries.
+.TP
+.B \fBBoost_<COMPONENT>_LIBRARY_DEBUG\fP
+Component \fB<COMPONENT>\fP library debug variant.
+.TP
+.B \fBBoost_<COMPONENT>_LIBRARY_RELEASE\fP
+Component \fB<COMPONENT>\fP library release variant.
+.UNINDENT
+.sp
+New in version 3.3: Per\-configuration variables \fBBoost_LIBRARY_DIR_RELEASE\fP and
+\fBBoost_LIBRARY_DIR_DEBUG\fP\&.
+
+.SS Hints
+.sp
+This module reads hints about search locations from variables:
+.INDENT 0.0
+.TP
+.B \fBBOOST_ROOT\fP, \fBBOOSTROOT\fP
+Preferred installation prefix.
+.TP
+.B \fBBOOST_INCLUDEDIR\fP
+Preferred include directory e.g. \fB<prefix>/include\fP\&.
+.TP
+.B \fBBOOST_LIBRARYDIR\fP
+Preferred library directory e.g. \fB<prefix>/lib\fP\&.
+.TP
+.B \fBBoost_NO_SYSTEM_PATHS\fP
+Set to \fBON\fP to disable searching in locations not
+specified by these hint variables. Default is \fBOFF\fP\&.
+.TP
+.B \fBBoost_ADDITIONAL_VERSIONS\fP
+List of Boost versions not known to this module.
+(Boost install locations may contain the version).
+.UNINDENT
+.sp
+Users may set these hints or results as \fBCACHE\fP entries.  Projects
+should not read these entries directly but instead use the above
+result variables.  Note that some hint names start in upper\-case
+\fBBOOST\fP\&.  One may specify these as environment variables if they are
+not specified as CMake variables or cache entries.
+.sp
+This module first searches for the Boost header files using the above
+hint variables (excluding \fBBOOST_LIBRARYDIR\fP) and saves the result in
+\fBBoost_INCLUDE_DIR\fP\&.  Then it searches for requested component libraries
+using the above hints (excluding \fBBOOST_INCLUDEDIR\fP and
+\fBBoost_ADDITIONAL_VERSIONS\fP), \(dqlib\(dq directories near \fBBoost_INCLUDE_DIR\fP,
+and the library name configuration settings below.  It saves the
+library directories in \fBBoost_LIBRARY_DIR_DEBUG\fP and
+\fBBoost_LIBRARY_DIR_RELEASE\fP and individual library
+locations in \fBBoost_<COMPONENT>_LIBRARY_DEBUG\fP and \fBBoost_<COMPONENT>_LIBRARY_RELEASE\fP\&.
+When one changes settings used by previous searches in the same build
+tree (excluding environment variables) this module discards previous
+search results affected by the changes and searches again.
+.SS Imported Targets
+.sp
+New in version 3.5.
+
+.sp
+This module defines the following \fI\%IMPORTED\fP targets:
+.INDENT 0.0
+.TP
+.B \fBBoost::boost\fP
+Target for header\-only dependencies. (Boost include directory).
+.TP
+.B \fBBoost::headers\fP
+New in version 3.15: Alias for \fBBoost::boost\fP\&.
+
+.TP
+.B \fBBoost::<component>\fP
+Target for specific component dependency (shared or static library);
+\fB<component>\fP name is lower\-case.
+.TP
+.B \fBBoost::diagnostic_definitions\fP
+Interface target to enable diagnostic information about Boost\(aqs automatic
+linking during compilation (adds \fB\-DBOOST_LIB_DIAGNOSTIC\fP).
+.TP
+.B \fBBoost::disable_autolinking\fP
+Interface target to disable automatic linking with MSVC
+(adds \fB\-DBOOST_ALL_NO_LIB\fP).
+.TP
+.B \fBBoost::dynamic_linking\fP
+Interface target to enable dynamic linking with MSVC
+(adds \fB\-DBOOST_ALL_DYN_LINK\fP).
+.UNINDENT
+.sp
+Implicit dependencies such as \fBBoost::filesystem\fP requiring
+\fBBoost::system\fP will be automatically detected and satisfied, even
+if system is not specified when using \fI\%find_package()\fP and if
+\fBBoost::system\fP is not added to \fI\%target_link_libraries()\fP\&.  If using
+\fBBoost::thread\fP, then \fBThreads::Threads\fP will also be added automatically.
+.sp
+It is important to note that the imported targets behave differently
+than variables created by this module: multiple calls to
+\fI\%find_package(Boost)\fP in the same directory or sub\-directories with
+different options (e.g. static or shared) will not override the
+values of the targets created by the first call.
+.SS Other Variables
+.sp
+Boost libraries come in many variants encoded in their file name.
+Users or projects may tell this module which variant to find by
+setting variables:
+.INDENT 0.0
+.TP
+.B \fBBoost_USE_DEBUG_LIBS\fP
+New in version 3.10.
+
+.sp
+Set to \fBON\fP or \fBOFF\fP to specify whether to search and use the debug
+libraries.  Default is \fBON\fP\&.
+.TP
+.B \fBBoost_USE_RELEASE_LIBS\fP
+New in version 3.10.
+
+.sp
+Set to \fBON\fP or \fBOFF\fP to specify whether to search and use the release
+libraries.  Default is \fBON\fP\&.
+.TP
+.B \fBBoost_USE_MULTITHREADED\fP
+Set to OFF to use the non\-multithreaded libraries (\(dqmt\(dq tag). Default is
+\fBON\fP\&.
+.TP
+.B \fBBoost_USE_STATIC_LIBS\fP
+Set to ON to force the use of the static libraries.  Default is \fBOFF\fP\&.
+.TP
+.B \fBBoost_USE_STATIC_RUNTIME\fP
+Set to \fBON\fP or \fBOFF\fP to specify whether to use libraries linked
+statically to the C++ runtime (\(dqs\(dq tag).  Default is platform dependent.
+.TP
+.B \fBBoost_USE_DEBUG_RUNTIME\fP
+Set to \fBON\fP or \fBOFF\fP to specify whether to use libraries linked to the
+MS debug C++ runtime (\(dqg\(dq tag).  Default is \fBON\fP\&.
+.TP
+.B \fBBoost_USE_DEBUG_PYTHON\fP
+Set to \fBON\fP to use libraries compiled with a debug Python build (\(dqy\(dq
+tag).  Default is \fBOFF\fP\&.
+.TP
+.B \fBBoost_USE_STLPORT\fP
+Set to \fBON\fP to use libraries compiled with STLPort (\(dqp\(dq tag). Default is
+\fBOFF\fP\&.
+.TP
+.B \fBBoost_USE_STLPORT_DEPRECATED_NATIVE_IOSTREAMS\fP
+Set to ON to use libraries compiled with STLPort deprecated \(dqnative
+iostreams\(dq (\(dqn\(dq tag).  Default is \fBOFF\fP\&.
+.TP
+.B \fBBoost_COMPILER\fP
+Set to the compiler\-specific library suffix (e.g. \fB\-gcc43\fP).  Default is
+auto\-computed for the C++ compiler in use.
+.sp
+Changed in version 3.9: A list may be used if multiple compatible suffixes should be tested for,
+in decreasing order of preference.
+
+.TP
+.B \fBBoost_LIB_PREFIX\fP
+New in version 3.18.
+
+.sp
+Set to the platform\-specific library name prefix (e.g. \fBlib\fP) used by
+Boost static libs.  This is needed only on platforms where CMake does not
+know the prefix by default.
+.TP
+.B \fBBoost_ARCHITECTURE\fP
+New in version 3.13.
+
+.sp
+Set to the architecture\-specific library suffix (e.g. \fB\-x64\fP).
+Default is auto\-computed for the C++ compiler in use.
+.TP
+.B \fBBoost_THREADAPI\fP
+Suffix for \fBthread\fP component library name, such as \fBpthread\fP or
+\fBwin32\fP\&.  Names with and without this suffix will both be tried.
+.TP
+.B \fBBoost_NAMESPACE\fP
+Alternate namespace used to build boost with e.g. if set to \fBmyboost\fP,
+will search for \fBmyboost_thread\fP instead of \fBboost_thread\fP\&.
+.UNINDENT
+.sp
+Other variables one may set to control this module are:
+.INDENT 0.0
+.TP
+.B \fBBoost_DEBUG\fP
+Set to \fBON\fP to enable debug output from \fBFindBoost\fP\&.
+Please enable this before filing any bug report.
+.TP
+.B \fBBoost_REALPATH\fP
+Set to \fBON\fP to resolve symlinks for discovered libraries to assist with
+packaging.  For example, the \(dqsystem\(dq component library may be resolved to
+\fB/usr/lib/libboost_system.so.1.67.0\fP instead of
+\fB/usr/lib/libboost_system.so\fP\&.  This does not affect linking and should
+not be enabled unless the user needs this information.
+.TP
+.B \fBBoost_LIBRARY_DIR\fP
+Default value for \fBBoost_LIBRARY_DIR_RELEASE\fP and
+\fBBoost_LIBRARY_DIR_DEBUG\fP\&.
+.TP
+.B \fBBoost_NO_WARN_NEW_VERSIONS\fP
+New in version 3.20.
+
+.sp
+Set to \fBON\fP to suppress the warning about unknown dependencies for new
+Boost versions.
+.UNINDENT
+.sp
+On Visual Studio and Borland compilers Boost headers request automatic
+linking to corresponding libraries.  This requires matching libraries
+to be linked explicitly or available in the link library search path.
+In this case setting \fBBoost_USE_STATIC_LIBS\fP to \fBOFF\fP may not achieve
+dynamic linking.  Boost automatic linking typically requests static
+libraries with a few exceptions (such as \fBBoost.Python\fP).  Use:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+to ask Boost to report information about automatic linking requests.
+.SS Examples
+.sp
+Find Boost headers only:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+find_package(Boost 1.36.0)
+if(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+  add_executable(foo foo.cc)
+endif()
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Find Boost libraries and use imported targets:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+find_package(Boost 1.56 REQUIRED COMPONENTS
+             date_time filesystem iostreams)
+add_executable(foo foo.cc)
+target_link_libraries(foo Boost::date_time Boost::filesystem
+                          Boost::iostreams)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Find Boost Python 3.6 libraries and use imported targets:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+find_package(Boost 1.67 REQUIRED COMPONENTS
+             python36 numpy36)
+add_executable(foo foo.cc)
+target_link_libraries(foo Boost::python36 Boost::numpy36)
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.sp
+Find Boost headers and some \fIstatic\fP (release only) libraries:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
+set(Boost_USE_DEBUG_LIBS        OFF)  # ignore debug libs and
+set(Boost_USE_RELEASE_LIBS       ON)  # only find release libs
+set(Boost_USE_MULTITHREADED      ON)
+set(Boost_USE_STATIC_RUNTIME    OFF)
+find_package(Boost 1.66.0 COMPONENTS date_time filesystem system ...)
+if(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+  add_executable(foo foo.cc)
+  target_link_libraries(foo ${Boost_LIBRARIES})
+endif()
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Boost CMake
+.sp
+If Boost was built using the boost\-cmake project or from Boost 1.70.0 on
+it provides a package configuration file for use with find_package\(aqs config mode.
+This module looks for the package configuration file called
+\fBBoostConfig.cmake\fP or \fBboost\-config.cmake\fP and stores the result in
+\fBCACHE\fP entry \fBBoost_DIR\fP\&.  If found, the package configuration file is loaded
+and this module returns with no further action.  See documentation of
+the Boost CMake package configuration for details on what it provides.
+.sp
+Set \fBBoost_NO_BOOST_CMAKE\fP to \fBON\fP, to disable the search for boost\-cmake.
 .SS FindCUDA
 .sp
 Changed in version 3.27: This module is available only if policy \fI\%CMP0146\fP is not set to \fBNEW\fP\&.

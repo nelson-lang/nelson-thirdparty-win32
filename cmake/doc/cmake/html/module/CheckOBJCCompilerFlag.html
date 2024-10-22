@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CheckOBJCCompilerFlag &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>CheckOBJCCompilerFlag &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -61,28 +61,30 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 3.16.</span></p>
 </div>
-<p>Check whether the Objective-C compiler supports a given flag.</p>
+<p>Check once whether the Objective-C compiler supports a given flag.</p>
 <dl class="cmake command">
 <dt class="sig sig-object cmake" id="command:check_objc_compiler_flag">
 <span class="sig-name descname"><span class="pre">check_objc_compiler_flag</span></span><a class="headerlink" href="#command:check_objc_compiler_flag" title="Link to this definition">¶</a></dt>
 <dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">check_objc_compiler_flag(</span><span class="nv">&lt;flag&gt;</span><span class="w"> </span><span class="nv">&lt;resultVar&gt;</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>Check that the <code class="docutils literal notranslate"><span class="pre">&lt;flag&gt;</span></code> is accepted by the compiler without
-a diagnostic.  Stores the result in an internal cache entry
-named <code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code>.</p>
 </dd></dl>
 
-<p>A positive result from this check indicates only that the compiler did not
-issue a diagnostic message when given the flag.  Whether the flag has any
-effect or even a specific one is beyond the scope of this module.</p>
-<p>The check is only performed once, with the result cached in the variable named
-by <code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code>. Every subsequent CMake run will reuse this cached value
-rather than performing the check again, even if the <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> changes. In
-order to force the check to be re-evaluated, the variable named by
-<code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code> must be manually removed from the cache.</p>
+<p>Check once that the <code class="docutils literal notranslate"><span class="pre">&lt;flag&gt;</span></code> is accepted by the compiler without a diagnostic.
+The result is stored in the internal cache variable specified by
+<code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code>, with boolean <code class="docutils literal notranslate"><span class="pre">true</span></code> for success and boolean <code class="docutils literal notranslate"><span class="pre">false</span></code> for
+failure.</p>
+<p><code class="docutils literal notranslate"><span class="pre">true</span></code> indicates only that the compiler did not issue a diagnostic message
+when given the flag. Whether the flag has any effect is beyond the scope of
+this module.</p>
+<p>Internally, <span class="target" id="index-0-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> is used to perform the check. If
+<span class="target" id="index-0-variable:CMAKE_TRY_COMPILE_TARGET_TYPE"></span><a class="reference internal" href="../variable/CMAKE_TRY_COMPILE_TARGET_TYPE.html#variable:CMAKE_TRY_COMPILE_TARGET_TYPE" title="CMAKE_TRY_COMPILE_TARGET_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TRY_COMPILE_TARGET_TYPE</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">EXECUTABLE</span></code> (default),
+the check compiles and links an executable program. If set to
+<code class="docutils literal notranslate"><span class="pre">STATIC_LIBRARY</span></code>, the check is compiled but not linked.</p>
+<p>See also <span class="target" id="index-0-command:check_compiler_flag"></span><a class="reference internal" href="CheckCompilerFlag.html#command:check_compiler_flag" title="check_compiler_flag"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">check_compiler_flag()</span></code></a> for a more general command syntax.</p>
 <p>The compile and link commands can be influenced by setting any of the
-following variables prior to calling <code class="docutils literal notranslate"><span class="pre">check_objc_compiler_flag()</span></code></p>
+following variables prior to calling <code class="docutils literal notranslate"><span class="pre">check_objc_compiler_flag()</span></code>. Unknown
+flags in these variables can case a false negative result.</p>
 <blockquote>
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_FLAGS</span></code></dt><dd><p>String of additional flags to pass to the compiler. The string must be
@@ -115,7 +117,7 @@ of the <span class="target" id="index-0-prop_dir:INCLUDE_DIRECTORIES"></span><a 
 <p><span class="versionmodified added">New in version 3.14.</span></p>
 </div>
 <p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of options to add to the link
-command (see <span class="target" id="index-0-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for further details).</p>
+command (see <span class="target" id="index-1-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for further details).</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -123,8 +125,18 @@ command (see <span class="target" id="index-0-command:try_compile"></span><a cla
 <div><dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_LIBRARIES</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of libraries to add to the link
 command. These can be the name of system libraries or they can be
-<a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> (see <span class="target" id="index-1-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> (see <span class="target" id="index-2-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for
 further details).</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_LINK_DIRECTORIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.31.</span></p>
+</div>
+<p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of libraries search paths to pass to
+the linker (see <span class="target" id="index-3-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for further details).</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -198,7 +210,7 @@ associated with the check will be suppressed.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>

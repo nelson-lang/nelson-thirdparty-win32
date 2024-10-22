@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>if &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>if &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -89,12 +89,14 @@ the <code class="docutils literal notranslate"><span class="pre">if</span></code
 <p>Compound conditions are evaluated in the following order of precedence:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#parentheses">Parentheses</a>.</p></li>
-<li><p>Unary tests such as <a class="reference internal" href="#exists">EXISTS</a>, <a class="reference internal" href="#command">COMMAND</a>, and <a class="reference internal" href="#defined">DEFINED</a>.</p></li>
+<li><p>Unary tests such as <a class="reference internal" href="#command">COMMAND</a>, <a class="reference internal" href="#policy">POLICY</a>, <a class="reference internal" href="#target">TARGET</a>, <a class="reference internal" href="#test">TEST</a>,
+<a class="reference internal" href="#exists">EXISTS</a>, <a class="reference internal" href="#is-readable">IS_READABLE</a>, <a class="reference internal" href="#is-writable">IS_WRITABLE</a>, <a class="reference internal" href="#is-executable">IS_EXECUTABLE</a>,
+<a class="reference internal" href="#is-directory">IS_DIRECTORY</a>, <a class="reference internal" href="#is-symlink">IS_SYMLINK</a>, <a class="reference internal" href="#is-absolute">IS_ABSOLUTE</a>, and <a class="reference internal" href="#defined">DEFINED</a>.</p></li>
 <li><p>Binary tests such as <a class="reference internal" href="#equal">EQUAL</a>, <a class="reference internal" href="#less">LESS</a>, <a class="reference internal" href="#less-equal">LESS_EQUAL</a>, <a class="reference internal" href="#greater">GREATER</a>,
 <a class="reference internal" href="#greater-equal">GREATER_EQUAL</a>, <a class="reference internal" href="#strequal">STREQUAL</a>, <a class="reference internal" href="#strless">STRLESS</a>, <a class="reference internal" href="#strless-equal">STRLESS_EQUAL</a>,
 <a class="reference internal" href="#strgreater">STRGREATER</a>, <a class="reference internal" href="#strgreater-equal">STRGREATER_EQUAL</a>, <a class="reference internal" href="#version-equal">VERSION_EQUAL</a>, <a class="reference internal" href="#version-less">VERSION_LESS</a>,
 <a class="reference internal" href="#version-less-equal">VERSION_LESS_EQUAL</a>, <a class="reference internal" href="#version-greater">VERSION_GREATER</a>, <a class="reference internal" href="#version-greater-equal">VERSION_GREATER_EQUAL</a>,
-<a class="reference internal" href="#path-equal">PATH_EQUAL</a>, and <a class="reference internal" href="#matches">MATCHES</a>.</p></li>
+<a class="reference internal" href="#path-equal">PATH_EQUAL</a>, <a class="reference internal" href="#in-list">IN_LIST</a>, <a class="reference internal" href="#is-newer-than">IS_NEWER_THAN</a>, and <a class="reference internal" href="#matches">MATCHES</a>.</p></li>
 <li><p>Unary logical operator <a class="reference internal" href="#not">NOT</a>.</p></li>
 <li><p>Binary logical operators <a class="reference internal" href="#and">AND</a> and <a class="reference internal" href="#or">OR</a>, from left to right,
 without any short-circuit.</p></li>
@@ -565,6 +567,9 @@ used otherwise the original value is used.</p></li>
 <a class="reference internal" href="#version-greater-equal">VERSION_GREATER_EQUAL</a> are independently tested to see if they are defined
 variables.  If so, their defined values are used otherwise the original value
 is used.</p></li>
+<li><p>The left hand argument to <a class="reference internal" href="#in-list">IN_LIST</a> is tested to see if it is a defined
+variable.  If so, the variable's value is used, otherwise the original
+value is used.</p></li>
 <li><p>The right hand argument to <a class="reference internal" href="#not">NOT</a> is tested to see if it is a boolean
 constant.  If so, the value is used, otherwise it is assumed to be a
 variable and it is dereferenced.</p></li>
@@ -674,7 +679,7 @@ condition syntax accepts <code class="docutils literal notranslate"><span class=
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>

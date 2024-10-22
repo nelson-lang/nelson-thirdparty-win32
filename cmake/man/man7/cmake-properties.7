@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-PROPERTIES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-PROPERTIES" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-properties \- CMake Properties Reference
 .SH PROPERTIES OF GLOBAL SCOPE
@@ -723,18 +723,26 @@ all cycles completely, even among static libraries.
 New in version 3.30.
 
 .sp
-Enables parallel installation option for the Ninja generator.
+Enables parallel installation option for a project. The install code for each
+subdirectory added with \fBadd_subdirectory\fP can run independently.
 .sp
-When this property is \fBON\fP, \fBinstall/local\fP targets have the
-console pool disabled, allowing them to run concurrently.
+When using the Ninja generator, setting this property to \fBON\fP, causes
+\fBinstall/local\fP targets have the console pool disabled, allowing them to run
+concurrently.
 .sp
 This property also provides the target \fBinstall/parallel\fP, which has an
-explicit dependency on the \fBinstall/local\fP target for each subdirectory,
-recursing down the project.
+explicit dependency on the \fBinstall/local\fP target for each subdirectory.
+.INDENT 0.0
+.INDENT 3.5
+New in version 3.31.
+
 .sp
-Setting this property has no affect on the behavior of \fBcmake \-\-install\fP\&.
-The install must be invoked by building the \fBinstall/parallel\fP target
-directly.
+When this property is \fBON\fP, \fBcmake \-\-install\fP can be given the \fB\-j <jobs>\fP
+or \fB\-\-parallel <jobs>\fP option to specify a maximum number of jobs.
+The \fI\%CMAKE_INSTALL_PARALLEL_LEVEL\fP environment variable specifies a
+default parallel level if this option is not provided.
+.UNINDENT
+.UNINDENT
 .sp
 Calls to \fI\%install(CODE)\fP or \fI\%install(SCRIPT)\fP might depend
 on actions performed by an earlier \fI\%install()\fP command in a different
@@ -1464,7 +1472,7 @@ pairs.  Each such pair will be transformed into an entry in the
 solution global section.  Whitespace around key and value is ignored.
 List elements which do not contain an equal sign are skipped.
 .sp
-This property only works for Visual Studio 12 and above; it is ignored
+This property only works for \fI\%Visual Studio Generators\fP; it is ignored
 on other generators.  The property only applies when set on a
 directory whose \fBCMakeLists.txt\fP contains a \fI\%project()\fP command.
 .sp
@@ -1500,7 +1508,7 @@ pairs.  Each such pair will be transformed into an entry in the
 solution global section.  Whitespace around key and value is ignored.
 List elements which do not contain an equal sign are skipped.
 .sp
-This property only works for Visual Studio 12 and above; it is ignored
+This property only works for \fI\%Visual Studio Generators\fP; it is ignored
 on other generators.  The property only applies when set on a
 directory whose \fBCMakeLists.txt\fP contains a \fI\%project()\fP command.
 .SS VS_STARTUP_PROJECT
@@ -1563,6 +1571,26 @@ will use other means to export some symbols.
 This property is initialized by the value of
 the \fI\%CMAKE_AIX_EXPORT_ALL_SYMBOLS\fP variable if it is set
 when a target is created.
+.SS AIX_SHARED_LIBRARY_ARCHIVE
+.sp
+New in version 3.31.
+
+.sp
+On AIX, enable creation of a shared library archive.  This places
+the shared object \fB\&.so\fP file inside an archive \fB\&.a\fP file.
+.sp
+By default, CMake creates shared libraries on AIX as plain
+shared object \fB\&.so\fP files for consistency with other UNIX platforms.
+Alternatively, set this property to a true value to create a shared
+library archive instead, as is AIX convention.
+.sp
+When a shared library is archived the shared object in the archive
+does not record any version information from \fI\%VERSION\fP or
+:prop_tgt\(gaSOVERSION\(ga target properties.
+.sp
+This property defaults to \fI\%CMAKE_AIX_SHARED_LIBRARY_ARCHIVE\fP
+if that variable is set when a \fBSHARED\fP library target is created
+by \fI\%add_library()\fP\&.
 .SS ALIAS_GLOBAL
 .sp
 New in version 3.18.
@@ -3462,8 +3490,14 @@ The \fBCOMPILE_FLAGS\fP property sets additional compiler flags used to
 build sources within the target.  Use \fI\%COMPILE_DEFINITIONS\fP
 to pass additional preprocessor definitions.
 .sp
-This property is deprecated.  Use the \fI\%COMPILE_OPTIONS\fP
-property or the \fI\%target_compile_options()\fP command instead.
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This property has been superseded by the \fI\%COMPILE_OPTIONS\fP property.
+Alternatively, you can also use the \fI\%target_compile_options()\fP command
+instead.
+.UNINDENT
+.UNINDENT
 .SS COMPILE_OPTIONS
 .sp
 List of options to pass to the compiler.
@@ -4625,6 +4659,24 @@ This is the configuration\-specific version of
 \fI\%EXCLUDE_FROM_DEFAULT_BUILD\fP is also set on a target,
 \fBEXCLUDE_FROM_DEFAULT_BUILD_<CONFIG>\fP takes
 precedence in configurations for which it has a value.
+.SS EXPORT_BUILD_DATABASE
+.sp
+New in version 3.31.
+
+.sp
+Enable/Disable output of a build database for a target.
+.sp
+This property is initialized by the value of the variable
+\fI\%CMAKE_EXPORT_BUILD_DATABASE\fP if it is set when a target is created.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This property is meaningful only when experimental support for build
+databases has been enabled by the
+\fBCMAKE_EXPERIMENTAL_EXPORT_BUILD_DATABASE\fP gate.
+.UNINDENT
+.UNINDENT
 .SS EXPORT_COMPILE_COMMANDS
 .sp
 New in version 3.20.
@@ -7380,6 +7432,11 @@ In advanced use cases, the list of direct link dependencies specified
 by this property may be updated by usage requirements from dependencies.
 See the \fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP and
 \fI\%INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE\fP target properties.
+.sp
+See the \fI\%CMAKE_LINK_LIBRARIES_STRATEGY\fP variable and
+corresponding \fI\%LINK_LIBRARIES_STRATEGY\fP target property
+for details on how CMake orders direct link dependencies on linker
+command lines.
 .SS LINK_LIBRARIES_ONLY_TARGETS
 .sp
 New in version 3.23.
@@ -7455,6 +7512,17 @@ A future version of CMake with improved heuristics may start triggering
 errors on projects accepted by previous versions of CMake.
 .UNINDENT
 .UNINDENT
+.SS LINK_LIBRARIES_STRATEGY
+.sp
+New in version 3.31.
+
+.sp
+Specify a strategy for ordering a target\(aqs direct link dependencies
+on linker command lines.
+.sp
+See the \fI\%CMAKE_LINK_LIBRARIES_STRATEGY\fP variable for details
+and supported values.  This property is initialized by the value of that
+variable when a target is created.
 .SS LINK_LIBRARY_OVERRIDE
 .sp
 New in version 3.24.
@@ -8054,6 +8122,12 @@ file name which may be a full path.
 The following target properties may be set to specify content to be
 configured into the file:
 .INDENT 0.0
+.TP
+.B \fBMACOSX_FRAMEWORK_BUNDLE_NAME\fP
+New in version 3.31.
+
+.sp
+Sets \fBCFBundleName\fP\&.
 .TP
 .B \fBMACOSX_FRAMEWORK_BUNDLE_VERSION\fP
 Sets \fBCFBundleVersion\fP\&.
@@ -9518,6 +9592,10 @@ New in version 3.16.
 New in version 3.16.
 
 .TP
+.B \fBCUDA\fP
+New in version 3.31.
+
+.TP
 .B \fBOBJC\fP
 New in version 3.29.
 
@@ -9938,7 +10016,7 @@ project file.  This property is initialized by the value of the variable
 \fI\%CMAKE_VS_DEBUGGER_COMMAND\fP if it is set when a target is
 created.
 .sp
-This property only works for Visual Studio 12 2013 and above;
+This property only works for \fI\%Visual Studio Generators\fP;
 it is ignored on other generators.
 .SS VS_DEBUGGER_COMMAND_ARGUMENTS
 .sp
@@ -9953,7 +10031,7 @@ project file.  This property is initialized by the value of the variable
 \fI\%CMAKE_VS_DEBUGGER_COMMAND_ARGUMENTS\fP if it is set when a target is
 created.
 .sp
-This property only works for Visual Studio 12 2013 and above;
+This property only works for \fI\%Visual Studio Generators\fP;
 it is ignored on other generators.
 .SS VS_DEBUGGER_ENVIRONMENT
 .sp
@@ -9968,7 +10046,7 @@ project file.  This property is initialized by the value of the variable
 \fI\%CMAKE_VS_DEBUGGER_ENVIRONMENT\fP if it is set when a target is
 created.
 .sp
-This property only works for Visual Studio 12 2013 and above;
+This property only works for \fI\%Visual Studio Generators\fP;
 it is ignored on other generators.
 .SS VS_DEBUGGER_WORKING_DIRECTORY
 .sp
@@ -9983,7 +10061,7 @@ project file.  This property is initialized by the value of the variable
 \fI\%CMAKE_VS_DEBUGGER_WORKING_DIRECTORY\fP if it is set when a target is
 created.
 .sp
-This property only works for Visual Studio 12 2013 and above;
+This property only works for \fI\%Visual Studio Generators\fP;
 it is ignored on other generators.
 .SS VS_DESKTOP_EXTENSIONS_VERSION
 .sp
@@ -10064,7 +10142,7 @@ If the property is unset, Visual Studio uses the first matching
 than one \fBMain()\fP method is available in the current project, the property
 becomes mandatory for building the project.
 .sp
-This property only works for Visual Studio 12 2013 and above;
+This property only works for \fI\%Visual Studio Generators\fP;
 it is ignored on other generators.
 .INDENT 0.0
 .INDENT 3.5
@@ -10108,6 +10186,22 @@ set_property(TARGET myproject PROPERTY VS_DPI_AWARE \(dqPerMonitor\(dq)
 .ft P
 .fi
 .UNINDENT
+.UNINDENT
+.SS VS_FRAMEWORK_REFERENCES
+.sp
+New in version 3.31.
+
+.sp
+Visual Studio framework references.
+Specify a \fI\%semicolon\-separated list\fP of framework references
+to be added to a generated Visual Studio project. For example:
+.INDENT 0.0
+.IP \(bu 2
+\(dqMicrosoft.WindowsDesktop.App.WPF\(dq for WPF applications
+.IP \(bu 2
+\(dqMicrosoft.WindowsDesktop.App.WindowsForms\(dq for WinForms applications
+.IP \(bu 2
+\(dqMicrosoft.WindowsDesktop.App\(dq for applications using both frameworks
 .UNINDENT
 .SS VS_GLOBAL_KEYWORD
 .sp
@@ -10191,7 +10285,7 @@ for the \fI\%Visual Studio 9 2008\fP generator, and older,
 but all of those generators have been removed.
 .sp
 Use the \fI\%VS_GLOBAL_KEYWORD\fP target property to set the
-keyword for Visual Studio 12 (2013) and newer.
+keyword for remaining \fI\%Visual Studio Generators\fP\&.
 .SS VS_MOBILE_EXTENSIONS_VERSION
 .sp
 New in version 3.4.

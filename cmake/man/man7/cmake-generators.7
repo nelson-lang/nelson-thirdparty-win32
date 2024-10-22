@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-GENERATORS" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-GENERATORS" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-generators \- CMake Generators Reference
 .SH INTRODUCTION
@@ -483,71 +483,11 @@ to build with VS 11 2012 tools using the \fI\%Visual Studio 14 2015\fP
 or by using the \fI\%NMake Makefiles\fP generator.
 .SS Visual Studio 12 2013
 .sp
-Deprecated.  Generates Visual Studio 12 (VS 2013) project files.
-.sp
-\fBNOTE:\fP
-.INDENT 0.0
-.INDENT 3.5
-This generator is deprecated and will be removed in a future version
-of CMake.  It will still be possible to build with VS 12 2013 tools
-using the \fI\%Visual Studio 14 2015\fP (or above) generator
-with \fI\%CMAKE_GENERATOR_TOOLSET\fP set to \fBv120\fP, or by
-using the \fI\%NMake Makefiles\fP generator.
-.UNINDENT
-.UNINDENT
-.sp
-For compatibility with CMake versions prior to 3.0, one may specify this
-generator using the name \(dqVisual Studio 12\(dq without the year component.
-.SS Project Types
-.sp
-Only Visual C++ and C# projects may be generated (and Fortran with
-Intel compiler integration).  Other types of projects (JavaScript,
-Powershell, Python, etc.) are not supported.
-.SS Platform Selection
-.sp
-The default target platform name (architecture) is \fBWin32\fP\&.
-.sp
-New in version 3.1: The \fI\%CMAKE_GENERATOR_PLATFORM\fP variable may be set, perhaps
-via the \fI\%cmake \-A\fP option, to specify a target platform
-name (architecture).  For example:
-.INDENT 0.0
-.IP \(bu 2
-\fBcmake \-G \(dqVisual Studio 12 2013\(dq \-A Win32\fP
-.IP \(bu 2
-\fBcmake \-G \(dqVisual Studio 12 2013\(dq \-A x64\fP
-.IP \(bu 2
-\fBcmake \-G \(dqVisual Studio 12 2013\(dq \-A ARM\fP
-.UNINDENT
-
-.sp
-For compatibility with CMake versions prior to 3.1, one may specify
-a target platform name optionally at the end of the generator name.
-This is supported only for:
-.INDENT 0.0
-.TP
-.B \fBVisual Studio 12 2013 Win64\fP
-Specify target platform \fBx64\fP\&.
-.TP
-.B \fBVisual Studio 12 2013 ARM\fP
-Specify target platform \fBARM\fP\&.
-.UNINDENT
-.SS Toolset Selection
-.sp
-The \fBv120\fP toolset that comes with Visual Studio 12 2013 is selected by
-default.  The \fI\%CMAKE_GENERATOR_TOOLSET\fP option may be set, perhaps
-via the \fI\%cmake \-T\fP option, to specify another toolset.
-.sp
-New in version 3.8: For each toolset that comes with this version of Visual Studio, there are
-variants that are themselves compiled for 32\-bit (\fBx86\fP) and
-64\-bit (\fBx64\fP) hosts (independent of the architecture they target).
-By default this generator uses the 32\-bit variant even on a 64\-bit host.
-One may explicitly request use of either the 32\-bit or 64\-bit host tools
-by adding either \fBhost=x86\fP or \fBhost=x64\fP to the toolset specification.
-See the \fI\%CMAKE_GENERATOR_TOOLSET\fP variable for details.
-
-.sp
-New in version 3.14: Added support for \fBhost=x86\fP option.
-
+Removed.  This once generated Visual Studio 12 2013 project files, but
+the generator has been removed since CMake 3.31.  It is still possible
+to build with VS 12 2013 tools using the \fI\%Visual Studio 14 2015\fP
+(or above) generator with \fI\%CMAKE_GENERATOR_TOOLSET\fP set to \fBv120\fP,
+or by using the \fI\%NMake Makefiles\fP generator.
 .SS Visual Studio 14 2015
 .sp
 New in version 3.1.
@@ -988,7 +928,7 @@ variables:
 \fBNOTE:\fP
 .INDENT 0.0
 .INDENT 3.5
-This generator is deemed experimental as of CMake 3.30.0\-rc3
+This generator is deemed experimental as of CMake 3.31.0\-rc2
 and is still a work in progress.  Future versions of CMake
 may make breaking changes as the generator matures.
 .UNINDENT

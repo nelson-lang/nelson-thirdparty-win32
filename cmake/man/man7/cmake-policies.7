@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-POLICIES" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-POLICIES" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-policies \- CMake Policies Reference
 .SH INTRODUCTION
@@ -78,6 +78,415 @@ an optional \fBNO_POLICY_SCOPE\fP keyword to control this behavior.
 The \fI\%CMAKE_MINIMUM_REQUIRED_VERSION\fP variable may also be used
 to determine whether to report an error on use of deprecated macros or
 functions.
+.SH POLICIES INTRODUCED BY CMAKE 3.31
+.SS CMP0180
+.sp
+New in version 3.31.
+
+.sp
+\fI\%project()\fP always sets \fB<PROJECT\-NAME>_*\fP as normal variables.
+.sp
+In CMake 3.29 and below, the \fI\%project()\fP command set
+\fI\%<PROJECT\-NAME>_SOURCE_DIR\fP, \fI\%<PROJECT\-NAME>_BINARY_DIR\fP,
+and \fI\%<PROJECT\-NAME>_IS_TOP_LEVEL\fP as cache entries, but not as
+normal variables.  CMake 3.30 started setting them as normal variables,
+but only if they are already set as normal variables.  This was needed to
+preserve support for some \fI\%FetchContent\fP use cases under policy
+\fI\%CMP0169\fP\(aqs NEW behavior, while also preserving behavior of nested
+directories that call \fI\%project()\fP with the same project name.
+See release notes for 3.30.3, 3.30.4, and 3.30.5 for details.
+.sp
+CMake 3.31 and later prefer to always set \fB<PROJECT\-NAME>_SOURCE_DIR\fP,
+\fB<PROJECT\-NAME>_BINARY_DIR\fP, and \fB<PROJECT\-NAME>_IS_TOP_LEVEL\fP, as both
+cache entries and normal variables, regardless of what cache or normal
+variables already exist.  This policy provides compatibility for projects
+that have not been updated to expect this behavior.
+.sp
+The \fBOLD\fP behavior for this policy will only set normal variables for
+\fB<PROJECT\-NAME>_SOURCE_DIR\fP, \fB<PROJECT\-NAME>_BINARY_DIR\fP, and
+\fB<PROJECT\-NAME>_IS_TOP_LEVEL\fP if there is already a normal variable by that
+name when \fI\%project()\fP is called.
+The \fBNEW\fP behavior for this policy will always set normal variables for
+\fB<PROJECT\-NAME>_SOURCE_DIR\fP, \fB<PROJECT\-NAME>_BINARY_DIR\fP, and
+\fB<PROJECT\-NAME>_IS_TOP_LEVEL\fP when \fI\%project()\fP is called.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake does \fInot\fP warn, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0179
+.sp
+New in version 3.31.
+
+.sp
+De\-duplication of static libraries on link lines keeps first occurrence.
+This policy is only relevant when policy \fI\%CMP0156\fP is set to \fBNEW\fP\&.
+.sp
+Based on the linker capabilities, the static libraries can
+be de\-duplicated. See policy \fI\%CMP0156\fP for more information.
+.sp
+CMake 3.30 and below may choose to keep, on some platforms, the last occurrence
+of the static libraries rather than the fist occurrence when they are
+de\-duplicated.
+.sp
+CMake 3.31 and above prefer to keep, on all platforms, the first occurrence of
+the static libraries when they are de\-duplicated.
+.sp
+The \fBOLD\fP behavior for this policy is to keep, on some platforms, the last
+occurrence of the static libraries when they are de\-duplicated.  The \fBNEW\fP
+behavior for this policy is to keep the first occurrence of the static
+libraries when they are de\-duplicated, regardless of the platform.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake does \fInot\fP warn, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0178
+.sp
+New in version 3.31.
+
+.sp
+Test command lines preserve empty arguments.
+.sp
+Empty values in the \fI\%TEST_LAUNCHER\fP and
+\fI\%CROSSCOMPILING_EMULATOR\fP target properties are now preserved
+for tests added by the following:
+.INDENT 0.0
+.IP \(bu 2
+The \fI\%add_test()\fP command.
+.IP \(bu 2
+The \fI\%ExternalData_Add_Test()\fP command from the \fI\%ExternalData\fP
+module.
+.IP \(bu 2
+The \fI\%gtest_add_tests()\fP or \fI\%gtest_discover_tests()\fP commands
+from the \fI\%GoogleTest\fP module.
+.UNINDENT
+.sp
+For the \fI\%gtest_add_tests()\fP and \fI\%gtest_discover_tests()\fP
+commands, empty elements in the values passed after the \fBEXTRA_ARGS\fP
+keyword are also now preserved.
+.sp
+The \fBOLD\fP behavior of this policy silently discards empty list items
+from the \fI\%TEST_LAUNCHER\fP and \fI\%CROSSCOMPILING_EMULATOR\fP
+target properties in the above\-mentioned cases.  It also silently discards
+empty items from the values given after \fBEXTRA_ARGS\fP for the
+\fI\%gtest_add_tests()\fP and \fI\%gtest_discover_tests()\fP commands.
+.sp
+The \fBNEW\fP behavior of this policy preserves empty list items in the
+\fI\%TEST_LAUNCHER\fP and \fI\%CROSSCOMPILING_EMULATOR\fP target
+properties, and in values given after \fBEXTRA_ARGS\fP for
+\fI\%gtest_add_tests()\fP and \fI\%gtest_discover_tests()\fP\&.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake warns, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0177
+.sp
+New in version 3.31.
+
+.sp
+\fI\%install()\fP \fBDESTINATION\fP paths are normalized.
+.sp
+The \fI\%install()\fP command has a number of different forms, and most of
+them take a \fBDESTINATION\fP keyword, some in more than one place.
+CMake 3.30 and earlier used the value given after the \fBDESTINATION\fP keyword
+as provided with no transformations.  The \fI\%install(EXPORT)\fP form
+assumes the path contains no \fB\&..\fP or \fB\&.\fP path components when computing
+a path relative to the \fBDESTINATION\fP, and if the project provided a path
+that violated that assumption, the computed path would be incorrect.
+.sp
+CMake 3.31 normalizes all \fBDESTINATION\fP values given in any form of the
+\fI\%install()\fP command, except for the \fBINCLUDES DESTINATION\fP of the
+\fI\%install(TARGETS)\fP form.  The normalization performed is the same
+as for the \fI\%cmake_path()\fP command (see \fI\%Normalization\fP).
+.sp
+The \fBOLD\fP behavior of this policy performs no translation on the
+\fBDESTINATION\fP values of any \fI\%install()\fP command.  They are used
+exactly as provided.  If a destination path contains \fB\&..\fP or \fB\&.\fP path
+components, \fI\%install(EXPORT)\fP will use the same wrong paths as
+CMake 3.30 and earlier.
+.sp
+The \fBNEW\fP behavior will normalize all \fBDESTINATION\fP values except for
+\fBINCLUDES DESTINATION\fP\&.  If a destination path contains a generator
+expression, it will be wrapped in a \fB$<PATH:CMAKE_PATH,NORMALIZE,...>\fP
+generator expression.
+.sp
+This policy was introduced in CMake version 3.31.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake will warn if it detects a path that would be different
+if normalized, and uses \fBOLD\fP behavior.  If a destination path contains a
+generator expression, no such warning will be issued regardless of the value.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0176
+.sp
+New in version 3.31.
+
+.sp
+\fI\%execute_process()\fP \fBENCODING\fP is \fBUTF\-8\fP by default.
+.sp
+The \fBENCODING\fP option is meaningful only on Windows.  It specifies the
+character encoding expected in the process\(aqs output on stdout and stderr.
+In CMake 3.14 and below the default encoding was \fBNONE\fP, which corresponds
+to CMake\(aqs internal UTF\-8 encoding.  In CMake 3.15 through CMake 3.30 the
+default encoding was accidentally changed to \fBAUTO\fP, but the change went
+unnoticed and was not documented.
+.sp
+CMake 3.31 and above prefer the \fBENCODING\fP default to be \fBUTF\-8\fP\&.
+This policy provides compatibility with projects that may have been
+relying on the default being \fBAUTO\fP\&.
+.sp
+The \fBOLD\fP behavior of this policy is for \fI\%execute_process()\fP
+to use \fBAUTO\fP by default if no \fBENCODING\fP is specified.  The \fBNEW\fP
+behavior for this policy is to use \fBUTF\-8\fP as the default \fBENCODING\fP\&.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake does \fInot\fP warn, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0175
+.sp
+New in version 3.31.
+
+.sp
+\fI\%add_custom_command()\fP rejects invalid arguments.
+.sp
+CMake 3.30 and earlier silently ignored unsupported keywords and missing or
+invalid arguments for the different forms of the \fI\%add_custom_command()\fP
+command. CMake 3.31 implements more rigorous argument checking and will flag
+invalid or missing arguments as errors.
+.sp
+The \fBOLD\fP behavior of this policy will accept the same invalid keywords or
+arguments as CMake 3.30 and earlier. The \fBNEW\fP behavior will flag the
+following as errors that previously went unreported:
+.INDENT 0.0
+.IP \(bu 2
+The \fBOUTPUT\fP form does not accept \fBPRE_BUILD\fP, \fBPRE_LINK\fP, or
+\fBPOST_BUILD\fP keywords.
+.IP \(bu 2
+When the \fBAPPEND\fP keyword is given, the \fBOUTPUT\fP form also does not
+accept \fBBYPRODUCTS\fP, \fBCOMMAND_EXPAND_LISTS\fP, \fBDEPENDS_EXPLICIT_ONLY\fP,
+\fBDEPFILE\fP, \fBJOB_POOL\fP, \fBJOB_SERVER_AWARE\fP, \fBUSES_TERMINAL\fP, or
+\fBVERBATIM\fP keywords.
+.IP \(bu 2
+The \fBTARGET\fP form requires exactly one of \fBPRE_BUILD\fP, \fBPRE_LINK\fP, or
+\fBPOST_BUILD\fP to be given.  Previously, if none were given, \fBPOST_BUILD\fP
+was assumed, or if multiple keywords were given, the last one was used.
+.IP \(bu 2
+The \fBTARGET\fP form does not accept \fBDEPENDS\fP, \fBDEPENDS_EXPLICIT_ONLY\fP,
+\fBDEPFILE\fP, \fBIMPLICIT_DEPENDS\fP, \fBMAIN_DEPENDENCY\fP, \fBJOB_POOL\fP,
+\fBJOB_SERVER_AWARE\fP, or \fBUSES_TERMINAL\fP keywords.
+.IP \(bu 2
+The \fBTARGET\fP form now requires at least one \fBCOMMAND\fP to be given.
+.IP \(bu 2
+If a keyword expects a value to be given after it, but no value is provided,
+that was previously treated as though the keyword was not given at all.
+.IP \(bu 2
+The \fBCOMMENT\fP keyword expects exactly one value after it.  If multiple
+values are given, or if the \fBCOMMENT\fP keyword is given more than once,
+this is an error.
+.UNINDENT
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake warns, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0174
+.sp
+New in version 3.31.
+
+.sp
+\fI\%cmake_parse_arguments(PARSE_ARGV)\fP defines a variable for an empty
+string after a single\-value keyword.
+.sp
+One of the main reasons for using the \fBPARSE_ARGV\fP form of the
+\fI\%cmake_parse_arguments()\fP command is to more robustly handle corner
+cases related to empty values.  The non\-\fBPARSE_ARGV\fP form doesn\(aqt preserve
+empty arguments, but the \fBPARSE_ARGV\fP form does.  For each single\-value
+keyword given, a variable should be defined if the keyword is followed by a
+value.  Prior to CMake 3.31, no variable would be defined if the value given
+was an empty string.  This meant the code could not detect the difference
+between the keyword not being given, and it being given but with an empty
+value, except by iterating over all the arguments and checking if the keyword
+is present.
+.sp
+For the \fBOLD\fP behavior of this policy,
+\fI\%cmake_parse_arguments(PARSE_ARGV)\fP does not define a variable for a
+single\-value keyword followed by an empty string.
+For the \fBNEW\fP behavior, \fI\%cmake_parse_arguments(PARSE_ARGV)\fP always
+defines a variable for each keyword given in the arguments, even a single\-value
+keyword with an empty string as its value.  With the \fBNEW\fP behavior, the
+code can robustly check if a single\-value keyword was given with any value
+using just \fBif(DEFINED <prefix>_<keyword>)\fP\&.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake warns, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0173
+.sp
+New in version 3.31.
+
+.sp
+The \fI\%CMakeFindFrameworks\fP module is removed.
+.sp
+CMake\(aqs framework handling has evolved well beyond what the
+\fBCMakeFindFrameworks\fP module supports. The module lacks any handling of
+XCFrameworks, it never documented the one command it provides, and
+\fI\%find_library()\fP provides superior capabilities in all respects.
+.sp
+The \fBOLD\fP behavior of this policy is for \fI\%CMakeFindFrameworks\fP to
+continue to provide the undocumented \fBcmake_find_frameworks()\fP command.
+The \fBNEW\fP behavior halts with a fatal error if anything tries to include
+the module.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake warns, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0172
+.sp
+New in version 3.31.
+
+.sp
+The \fI\%CPack\fP module enables per\-machine installation by default
+in the \fI\%CPack WIX Generator\fP\&.
+.sp
+The \fI\%CPack WIX Generator\fP\(aqs \fI\%CPACK_WIX_INSTALL_SCOPE\fP
+option controls the scope of the generated Windows Installer package.
+When \fI\%CPACK_WIX_VERSION\fP is set to 4 or higher, the default scope
+is \fBperMachine\fP\&.  However, when using WIX 3 the default scope is \fBNONE\fP,
+and CPack does not set any \fBInstallScope\fP in the package specification.
+The resulting installer requires administrative privileges and installs
+into the system\-wide \fBProgramFiles\fP directory, but the start menu entry
+and uninstaller registration are created only for the current user.
+.sp
+The \fI\%CPack\fP module in CMake 3.30 and older does not specify any
+\fI\%CPACK_WIX_INSTALL_SCOPE\fP value by default, so CPack uses no
+installation scope by default with WIX 3.  CMake 3.31 and newer instead
+prefer to set \fI\%CPACK_WIX_INSTALL_SCOPE\fP to \fBperMachine\fP by
+default to make the behavior consistent across all WIX versions.  This
+policy provides compatibility for projects that have not been updated
+to expect \fBperMachine\fP behavior.
+.sp
+The \fBOLD\fP behavior for this policy is to not set
+\fI\%CPACK_WIX_INSTALL_SCOPE\fP by default.  The \fBNEW\fP behavior for
+this policy is to set \fI\%CPACK_WIX_INSTALL_SCOPE\fP to \fBperMachine\fP
+by default.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake does \fInot\fP warn by default, and uses \fBOLD\fP behavior.
+.sp
+See documentation of the
+\fI\%CMAKE_POLICY_WARNING_CMP0172\fP
+variable to control the warning.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
+.SS CMP0171
+.sp
+New in version 3.31.
+
+.sp
+\fBcodegen\fP is a reserved target name.
+.sp
+CMake 3.30 and earlier did not reserve \fBcodegen\fP as a builtin target name,
+leaving projects free to create their own target with that name.
+CMake 3.31 and later prefer to reserve \fBcodegen\fP as a builtin target name
+to drive custom commands created with the \fBCODEGEN\fP option to
+\fI\%add_custom_command()\fP\&.  In order to support building the \fBcodegen\fP
+target in scripted environments, e.g., \fBcmake \-\-build . \-\-target codegen\fP,
+the \fBcodegen\fP target needs to be generated even if no custom commands
+use the \fBCODEGEN\fP option.  This policy provides compatibility for projects
+that have not been updated to avoid creating a target named \fBcodegen\fP\&.
+.sp
+The \fBOLD\fP behavior of this policy allows projects to create a target
+with the name \fBcodegen\fP\&.  The \fBNEW\fP behavior halts with a fatal error
+if a target with the name \fBcodegen\fP is created.
+.sp
+This policy was introduced in CMake version 3.31\&.
+It may be set by \fI\%cmake_policy()\fP or \fI\%cmake_minimum_required()\fP\&.
+If it is not set, CMake warns, and uses \fBOLD\fP behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+The \fBOLD\fP behavior of a policy is
+\fI\%deprecated by definition\fP
+and may be removed in a future version of CMake.
+.UNINDENT
+.UNINDENT
 .SH POLICIES INTRODUCED BY CMAKE 3.30
 .SS CMP0170
 .sp
@@ -789,6 +1198,14 @@ libraries are de\-duplicated.  Moreover, on Windows platforms, libraries
 are de\-duplicated by keeping their first occurrence, thus respecting the
 project\-specified order.  This policy provides compatibility with projects
 that have not been updated to expect the latter behavior.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+When this policy is set to \fBNEW\fP, the policy \fI\%CMP0179\fP controls
+which occurrence of the static libraries is kept when they are de\-duplicated.
+.UNINDENT
+.UNINDENT
 .sp
 The \fBOLD\fP behavior for this policy is to always repeat static libraries
 as if using a traditional linker, and always de\-duplicate shared libraries

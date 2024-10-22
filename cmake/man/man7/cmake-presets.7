@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-PRESETS" "7" "Jun 14, 2024" "3.30.0" "CMake"
+.TH "CMAKE-PRESETS" "7" "Oct 17, 2024" "3.31.0" "CMake"
 .SH NAME
 cmake-presets \- CMakePresets.json
 .SH INTRODUCTION
@@ -62,18 +62,24 @@ The files are a JSON document with an object as the root:
 .nf
 .ft C
 {
-  \(dqversion\(dq: 6,
+  \(dqversion\(dq: 10,
   \(dqcmakeMinimumRequired\(dq: {
     \(dqmajor\(dq: 3,
     \(dqminor\(dq: 23,
     \(dqpatch\(dq: 0
   },
+  \(dq$comment\(dq: \(dqAn example CMakePresets.json file\(dq,
   \(dqinclude\(dq: [
     \(dqotherThings.json\(dq,
     \(dqmoreThings.json\(dq
   ],
   \(dqconfigurePresets\(dq: [
     {
+      \(dq$comment\(dq: [
+        \(dqThis is a comment row.\(dq,
+        \(dqThis is another comment,\(dq,
+        \(dqjust because we can do it\(dq
+      ],
       \(dqname\(dq: \(dqdefault\(dq,
       \(dqdisplayName\(dq: \(dqDefault Config\(dq,
       \(dqdescription\(dq: \(dqDefault build using Ninja generator\(dq,
@@ -173,6 +179,9 @@ The files are a JSON document with an object as the root:
 .UNINDENT
 .UNINDENT
 .sp
+Preset files specifying version \fB10\fP or above may include comments using the
+key \fB$comment\fP at any level within the JSON object to provide documentation.
+.sp
 The root object recognizes the following fields:
 .INDENT 0.0
 .TP
@@ -224,6 +233,10 @@ New in version 3.28.
 .TP
 .B \fB9\fP
 New in version 3.30.
+
+.TP
+.B \fB10\fP
+New in version 3.31.
 
 .UNINDENT
 .TP
@@ -411,6 +424,16 @@ relative to the source directory. This field takes precedence over any
 \fI\%CMAKE_TOOLCHAIN_FILE\fP value. It is allowed in preset files
 specifying version \fB3\fP or above.
 .TP
+.B \fBgraphviz\fP
+An optional string representing the path to the graphviz input file,
+that will contain all the library and executable dependencies
+in the project. See the documentation for \fI\%CMakeGraphVizOptions\fP
+for more details.
+.sp
+This field supports \fI\%macro expansion\fP\&. If a relative path is specified,
+it is calculated relative to the current working directory. It is allowed
+in preset files specifying version \fB10\fP or above.
+.TP
 .B \fBbinaryDir\fP
 An optional string representing the path to the output binary directory.
 This field supports \fI\%macro expansion\fP\&. If a relative path is specified,
@@ -459,10 +482,14 @@ An optional map of environment variables. The key is the variable name
 (which may not be an empty string), and the value is either \fBnull\fP or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process\(aqs
-environment. This field supports \fI\%macro expansion\fP, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example,
-if \fBENV_1\fP is \fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP\&.)
+environment.
+.sp
+This field supports \fI\%macro expansion\fP, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if \fBENV_1\fP is
+\fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP).  \fB$penv{NAME}\fP
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.
 .sp
 Environment variables are inherited through the \fBinherits\fP field, and
 the preset\(aqs environment will be the union of its own \fBenvironment\fP and
@@ -656,10 +683,14 @@ An optional map of environment variables. The key is the variable name
 (which may not be an empty string), and the value is either \fBnull\fP or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process\(aqs
-environment. This field supports macro expansion, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example, if
-\fBENV_1\fP is \fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP\&.)
+environment.
+.sp
+This field supports \fI\%macro expansion\fP, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if \fBENV_1\fP is
+\fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP).  \fB$penv{NAME}\fP
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.
 .sp
 Environment variables are inherited through the \fBinherits\fP field, and
 the preset\(aqs environment will be the union of its own \fBenvironment\fP
@@ -825,10 +856,14 @@ An optional map of environment variables. The key is the variable name
 (which may not be an empty string), and the value is either \fBnull\fP or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process\(aqs
-environment. This field supports macro expansion, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example, if
-\fBENV_1\fP is \fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP\&.)
+environment.
+.sp
+This field supports \fI\%macro expansion\fP, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if \fBENV_1\fP is
+\fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP).  \fB$penv{NAME}\fP
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.
 .sp
 Environment variables are inherited through the \fBinherits\fP field, and
 the preset\(aqs environment will be the union of its own \fBenvironment\fP
@@ -1186,10 +1221,14 @@ An optional map of environment variables. The key is the variable name
 (which may not be an empty string), and the value is either \fBnull\fP or
 a string representing the value of the variable. Each variable is set
 regardless of whether or not a value was given to it by the process\(aqs
-environment. This field supports macro expansion, and environment
-variables in this map may reference each other, and may be listed in any
-order, as long as such references do not cause a cycle (for example, if
-\fBENV_1\fP is \fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP\&.)
+environment.
+.sp
+This field supports \fI\%macro expansion\fP, and environment variables in this map
+may reference each other, and may be listed in any order, as long as such
+references do not cause a cycle (for example, if \fBENV_1\fP is
+\fB$env{ENV_2}\fP, \fBENV_2\fP may not be \fB$env{ENV_1}\fP).  \fB$penv{NAME}\fP
+allows one to prepend or append values to existing environment variables by
+accessing only values from the parent environment.
 .sp
 Environment variables are inherited through the \fBinherits\fP field, and
 the preset\(aqs environment will be the union of its own \fBenvironment\fP
@@ -1483,7 +1522,7 @@ the casing of environment variable names consistent.
 .B \fB$penv{<variable\-name>}\fP
 Similar to \fB$env{<variable\-name>}\fP, except that the value only comes from
 the parent environment, and never from the \fBenvironment\fP field. This
-allows you to prepend or append values to existing environment variables.
+allows one to prepend or append values to existing environment variables.
 For example, setting \fBPATH\fP to \fB/path/to/ninja/bin:$penv{PATH}\fP will
 prepend \fB/path/to/ninja/bin\fP to the \fBPATH\fP environment variable. This
 is needed because \fB$env{<variable\-name>}\fP does not allow circular

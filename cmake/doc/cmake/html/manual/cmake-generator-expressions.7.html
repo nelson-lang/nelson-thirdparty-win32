@@ -5,12 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>cmake-generator-expressions(7) &mdash; CMake 3.30.0-rc3 Documentation</title>
+  <title>cmake-generator-expressions(7) &mdash; CMake 3.31.0-rc2 Documentation</title>
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
     <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
     
-    <script src="../_static/documentation_options.js?v=42997c5a"></script>
+    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -43,7 +43,7 @@
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake-generator-expressions(7)</a></li> 
@@ -2277,6 +2277,14 @@ name occurs in the directory of the target specifying the requirement,
 rather than the directory of the consuming target for which the
 expression is being evaluated.</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.31: </span>Generator expressions for transitive interface properties, such as
+<code class="docutils literal notranslate"><span class="pre">$&lt;TARGET_PROPERTY:target,INTERFACE_*&gt;</span></code>, now correctly handle
+repeated evaluations within nested generator expressions.
+Previously, these repeated evaluations returned empty values due
+to an optimization for transitive closures.
+This change ensures consistent evaluation for non-union operations.</p>
+</div>
 </dd></dl>
 
 <dl class="cmake genex">
@@ -3259,7 +3267,7 @@ special meaning.</p>
     <a href="https://cmake.org/">CMake</a> &#187;
   </li>
   <li>
-    <a href="../index.html">3.30.0-rc3 Documentation</a> &#187;
+    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake-generator-expressions(7)</a></li> 
