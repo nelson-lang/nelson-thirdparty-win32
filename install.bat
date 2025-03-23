@@ -222,3 +222,6 @@ copy .\zlib\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
 
 rem libgif
 copy .\libgif\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
+
+rem libtiff
+copy .\tiff\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
