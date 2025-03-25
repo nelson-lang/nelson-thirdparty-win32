@@ -208,9 +208,6 @@ copy .\pcre\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
 rem portaudio
 copy .\portaudio\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
 
-rem slicot
-copy .\slicot\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
-
 rem szip
 copy .\szip\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
 
