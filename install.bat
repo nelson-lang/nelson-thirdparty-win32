@@ -18,6 +18,7 @@ copy boost\lib\boost_random-%VC_VERSION%-mt-%BOOST_NELSON%.dll %NELSON_DIR%\bin\
 copy boost\lib\boost_bzip2-%VC_VERSION%-mt-%BOOST_NELSON%.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\boost_bzip2-%VC_VERSION%-mt-%BOOST_NELSON%.dll
 copy boost\lib\boost_zlib-%VC_VERSION%-mt-%BOOST_NELSON%.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\boost_zlib-%VC_VERSION%-mt-%BOOST_NELSON%.dll
 copy boost\lib\boost_serialization-%VC_VERSION%-mt-%BOOST_NELSON%.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\boost_serialization-%VC_VERSION%-mt-%BOOST_NELSON%.dll
+copy boost\lib\boost_process-%VC_VERSION%-mt-%BOOST_NELSON%.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\boost_process-%VC_VERSION%-mt-%BOOST_NELSON%.dll
 
 rem debug mode
 copy boost\lib\boost_filesystem-%VC_VERSION%-mt-gd-%BOOST_NELSON%.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\boost_filesystem-%VC_VERSION%-mt-gd-%BOOST_NELSON%.dll
