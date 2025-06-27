@@ -10,27 +10,41 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*-------------------------------------------------------------------------
- *
- * Created:             H5MMpublic.h
- *
- * Purpose:             Public declarations for the H5MM (memory management)
- *                      package.
- *
- *-------------------------------------------------------------------------
+/*
+ * This file contains public declarations for the H5TS (threadsafety) developer
+ *      support routines.
  */
-#ifndef H5MMpublic_H
-#define H5MMpublic_H
 
-#include "H5public.h" /* Generic Functions                        */
+#ifndef H5TSdevelop_H
+#define H5TSdevelop_H
 
-/* These typedefs are currently used for VL datatype allocation/freeing */
-//! <!-- [H5MM_allocate_t_snip] -->
-typedef void *(*H5MM_allocate_t)(size_t size, void *alloc_info);
-//! <!-- [H5MM_allocate_t_snip] -->
+/*****************/
+/* Public Macros */
+/*****************/
 
-//! <!-- [H5MM_free_t_snip] -->
-typedef void (*H5MM_free_t)(void *mem, void *free_info);
-//! <!-- [H5MM_free_t_snip] -->
+/*******************/
+/* Public Typedefs */
+/*******************/
 
-#endif /* H5MMpublic_H */
+/********************/
+/* Public Variables */
+/********************/
+
+/*********************/
+/* Public Prototypes */
+/*********************/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/* HDF5 global library lock routines */
+H5_DLL herr_t H5TSmutex_acquire(unsigned int lock_count, bool *acquired);
+H5_DLL herr_t H5TSmutex_release(unsigned int *lock_count);
+H5_DLL herr_t H5TSmutex_get_attempt_count(unsigned int *count);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* H5TSdevelop_H */

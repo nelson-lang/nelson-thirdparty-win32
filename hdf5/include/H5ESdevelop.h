@@ -10,27 +10,43 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/*-------------------------------------------------------------------------
- *
- * Created:             H5MMpublic.h
- *
- * Purpose:             Public declarations for the H5MM (memory management)
- *                      package.
- *
- *-------------------------------------------------------------------------
+/*
+ * This file contains public declarations for the H5ES (event set) developer
+ *      support routines.
  */
-#ifndef H5MMpublic_H
-#define H5MMpublic_H
 
-#include "H5public.h" /* Generic Functions                        */
+#ifndef H5ESdevelop_H
+#define H5ESdevelop_H
 
-/* These typedefs are currently used for VL datatype allocation/freeing */
-//! <!-- [H5MM_allocate_t_snip] -->
-typedef void *(*H5MM_allocate_t)(size_t size, void *alloc_info);
-//! <!-- [H5MM_allocate_t_snip] -->
+/* Include package's public header */
+#include "H5ESpublic.h"
 
-//! <!-- [H5MM_free_t_snip] -->
-typedef void (*H5MM_free_t)(void *mem, void *free_info);
-//! <!-- [H5MM_free_t_snip] -->
+/*****************/
+/* Public Macros */
+/*****************/
 
-#endif /* H5MMpublic_H */
+/*******************/
+/* Public Typedefs */
+/*******************/
+
+/********************/
+/* Public Variables */
+/********************/
+
+/*********************/
+/* Public Prototypes */
+/*********************/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+H5_DLL herr_t H5ESinsert_request(hid_t es_id, hid_t connector_id, void *request);
+H5_DLL herr_t H5ESget_requests(hid_t es_id, H5_iter_order_t order, hid_t *connector_ids, void **requests,
+                               size_t array_len, size_t *count);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* H5ESdevelop_H */
