@@ -162,6 +162,9 @@ copy .\zlib\bin\zlib.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\zlib.dll
 copy .\libxml2\bin\libxml2.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\libxml2.dll
 copy .\libxml2\bin\libiconv.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\libiconv.dll
 
+rem libxslt
+copy .\libxslt\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\*.dll
+
 rem openblas
 mkdir %NELSON_DIR%\bin\%PLATFORM_NELSON%\openblas
 copy .\openblas\bin\*.dll %NELSON_DIR%\bin\%PLATFORM_NELSON%\openblas\*.dll
