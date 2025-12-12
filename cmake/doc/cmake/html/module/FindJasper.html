@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindJasper &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindJasper &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindIntl.html" title="FindIntl"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,11 +63,20 @@
             
   <section id="findjasper">
 <span id="module:FindJasper"></span><h1>FindJasper<a class="headerlink" href="#findjasper" title="Link to this heading">¶</a></h1>
-<p>Find the Jasper JPEG2000 library.</p>
+<p>Finds the JasPer Image Coding Toolkit for handling image data in a variety of
+formats, such as the JPEG-2000:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Jasper</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
+</div>
 <section id="imported-targets">
-<h2>IMPORTED Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">Jasper::Jasper</span></code></dt><dd><p>The jasper library, if found.</p>
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
+<p>This module provides the following <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a>:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Jasper::Jasper</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.22.</span></p>
+</div>
+<p>Target encapsulating the JasPer library usage requirements, available only if
+the library is found.</p>
 </dd>
 </dl>
 </section>
@@ -70,30 +84,61 @@
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
 <p>This module defines the following variables:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">JASPER_FOUND</span></code></dt><dd><p>system has Jasper</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Jasper_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
+</div>
+<p>Boolean indicating whether (the requested version of) JasPer was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Jasper_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>The version of JasPer found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">JASPER_INCLUDE_DIRS</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.22.</span></p>
+<p><span class="versionmodified added">Added in version 3.22.</span></p>
 </div>
-<p>the Jasper include directory</p>
+<p>The include directories needed to use the JasPer library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">JASPER_LIBRARIES</span></code></dt><dd><p>the libraries needed to use Jasper</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">JASPER_VERSION_STRING</span></code></dt><dd><p>the version of Jasper found</p>
+<dt><code class="docutils literal notranslate"><span class="pre">JASPER_LIBRARIES</span></code></dt><dd><p>The libraries needed to use JasPer.</p>
 </dd>
 </dl>
 </section>
 <section id="cache-variables">
-<h2>Cache variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
 <p>The following cache variables may also be set:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">JASPER_INCLUDE_DIR</span></code></dt><dd><p>where to find jasper/jasper.h, etc.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">JASPER_INCLUDE_DIR</span></code></dt><dd><p>The directory containing the <code class="docutils literal notranslate"><span class="pre">jasper/jasper.h</span></code> and other headers needed to
+use the JasPer library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">JASPER_LIBRARY_RELEASE</span></code></dt><dd><p>where to find the Jasper library (optimized).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">JASPER_LIBRARY_RELEASE</span></code></dt><dd><p>The path to the release (optimized) variant of the JasPer library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">JASPER_LIBARRY_DEBUG</span></code></dt><dd><p>where to find the Jasper library (debug).</p>
+<dt><code class="docutils literal notranslate"><span class="pre">JASPER_LIBRARY_DEBUG</span></code></dt><dd><p>The path to the debug variant of the JasPer library.</p>
 </dd>
 </dl>
+</section>
+<section id="deprecated-variables">
+<h2>Deprecated Variables<a class="headerlink" href="#deprecated-variables" title="Link to this heading">¶</a></h2>
+<p>The following variables are provided for backward compatibility:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">JASPER_FOUND</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.2: </span>Use <code class="docutils literal notranslate"><span class="pre">Jasper_FOUND</span></code>, which has the same value.</p>
+</div>
+<p>Boolean indicating whether (the requested version of) JasPer was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">JASPER_VERSION_STRING</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.2: </span>Superseded by the <code class="docutils literal notranslate"><span class="pre">Jasper_VERSION</span></code>.</p>
+</div>
+<p>The version of JasPer found.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding the JasPer library and linking it to a project target:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Jasper</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">project_target</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Jasper</span><span class="o">::</span><span class="nb">Jasper</span><span class="nf">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -102,15 +147,17 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FindJasper</a><ul>
-<li><a class="reference internal" href="#imported-targets">IMPORTED Targets</a></li>
+<li><a class="reference internal" href="#imported-targets">Imported Targets</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
-<li><a class="reference internal" href="#cache-variables">Cache variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#deprecated-variables">Deprecated Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -133,7 +180,7 @@
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -141,13 +188,13 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -160,14 +207,15 @@
           <a href="FindIntl.html" title="FindIntl"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -176,8 +224,17 @@
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

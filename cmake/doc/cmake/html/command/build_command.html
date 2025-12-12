@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>build_command &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>build_command &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="aux_source_directory.html" title="aux_source_directory"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -69,19 +74,19 @@ This is mainly intended for internal use by the <span class="target" id="index-0
 </pre></div>
 </div>
 <p>Sets the given <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> to a command-line string of the form:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;cmake&gt; --build . [--config &lt;config&gt;] [--parallel &lt;parallel&gt;] [--target &lt;target&gt;...] [-- -i]
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;cmake&gt; --build . [--config &lt;config&gt;] [--parallel &lt;parallel&gt;] [--target &lt;target&gt;...]
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">&lt;cmake&gt;</span></code> is the location of the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> command-line
 tool, and <code class="docutils literal notranslate"><span class="pre">&lt;config&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;parallel&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> are the values
 provided to the <code class="docutils literal notranslate"><span class="pre">CONFIGURATION</span></code>, <code class="docutils literal notranslate"><span class="pre">PARALLEL_LEVEL</span></code> and <code class="docutils literal notranslate"><span class="pre">TARGET</span></code>
-options, if any.  The trailing <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">-i</span></code> option is added for
-<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> if policy <span class="target" id="index-0-policy:CMP0061"></span><a class="reference internal" href="../policy/CMP0061.html#policy:CMP0061" title="CMP0061"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0061</span></code></a> is not set to
-<code class="docutils literal notranslate"><span class="pre">NEW</span></code>.</p>
+options, if any.  In CMake versions prior to 4.0, a trailing <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">-i</span></code>
+option was added for <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> if policy <span class="target" id="index-0-policy:CMP0061"></span><a class="reference internal" href="../policy/CMP0061.html#policy:CMP0061" title="CMP0061"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0061</span></code></a>
+was not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.</p>
 <p>When invoked, this <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-build"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span></code></a> command line will launch the
 underlying build system tool.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.21: </span>The <code class="docutils literal notranslate"><span class="pre">PARALLEL_LEVEL</span></code> argument can be used to set the
+<p><span class="versionmodified added">Added in version 3.21: </span>The <code class="docutils literal notranslate"><span class="pre">PARALLEL_LEVEL</span></code> argument can be used to set the
 <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-build-j"><code class="xref std std-option docutils literal notranslate"><span class="pre">--parallel</span></code></a> flag.</p>
 </div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">build_command(</span><span class="nv">&lt;cachevariable&gt;</span><span class="w"> </span><span class="nv">&lt;makecommand&gt;</span><span class="nf">)</span>
@@ -108,7 +113,7 @@ had no useful effects, so CMake now warns on use of the option.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -127,7 +132,7 @@ had no useful effects, so CMake now warns on use of the option.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -135,13 +140,13 @@ had no useful effects, so CMake now warns on use of the option.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -154,14 +159,15 @@ had no useful effects, so CMake now warns on use of the option.</p>
           <a href="aux_source_directory.html" title="aux_source_directory"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -170,8 +176,17 @@ had no useful effects, so CMake now warns on use of the option.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

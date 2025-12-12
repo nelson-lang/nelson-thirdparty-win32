@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>ExternalData &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>ExternalData &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="DeployQt4.html" title="DeployQt4"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -80,7 +85,12 @@
 </li>
 </ul>
 </nav>
-<p>Manage data files stored outside source tree</p>
+<p>This module provides commands to manage data files stored outside source
+tree.</p>
+<p>Load this module in a CMake project with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">ExternalData</span><span class="nf">)</span>
+</pre></div>
+</div>
 <section id="introduction">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
 <p>Use this module to unambiguously reference data files stored outside
@@ -114,11 +124,11 @@ such as <code class="docutils literal notranslate"><span class="pre">MyInput.png
 <span class="sig-name descname"><span class="pre">ExternalData_Expand_Arguments</span></span><a class="headerlink" href="#command:externaldata_expand_arguments" title="Link to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">ExternalData_Expand_Arguments</span></code> function evaluates <code class="docutils literal notranslate"><span class="pre">DATA{}</span></code>
 references in its arguments and constructs a new list of arguments:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExternalData_Expand_Arguments(
-  &lt;target&gt;   # Name of data management target
-  &lt;outVar&gt;   # Output variable
-  [args...]  # Input arguments, DATA{} allowed
-  )
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ExternalData_Expand_Arguments(</span>
+<span class="w">  </span><span class="nv">&lt;target&gt;</span><span class="w">   </span><span class="c"># Name of data management target</span>
+<span class="w">  </span><span class="nv">&lt;outVar&gt;</span><span class="w">   </span><span class="c"># Output variable</span>
+<span class="w">  </span><span class="p">[</span><span class="nb">args...</span><span class="p">]</span><span class="w">  </span><span class="c"># Input arguments, DATA{} allowed</span>
+<span class="w">  </span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>It replaces each <code class="docutils literal notranslate"><span class="pre">DATA{}</span></code> reference in an argument with the full path of
@@ -131,10 +141,10 @@ a real data file on disk that will exist after the <code class="docutils literal
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">ExternalData_Add_Test</span></code> function wraps around the CMake
 <span class="target" id="index-0-command:add_test"></span><a class="reference internal" href="../command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> command but supports <code class="docutils literal notranslate"><span class="pre">DATA{}</span></code> references in
 its arguments:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExternalData_Add_Test(
-  &lt;target&gt;   # Name of data management target
-  ...        # Arguments of add_test(), DATA{} allowed
-  )
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ExternalData_Add_Test(</span>
+<span class="w">  </span><span class="nv">&lt;target&gt;</span><span class="w">   </span><span class="c"># Name of data management target</span>
+<span class="w">  </span><span class="p">...</span><span class="w">        </span><span class="c"># Arguments of add_test(), DATA{} allowed</span>
+<span class="w">  </span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>It passes its arguments through <code class="docutils literal notranslate"><span class="pre">ExternalData_Expand_Arguments</span></code> and then
@@ -152,10 +162,10 @@ preserved.  See policy <span class="target" id="index-0-policy:CMP0178"></span><
 <span class="sig-name descname"><span class="pre">ExternalData_Add_Target</span></span><a class="headerlink" href="#command:externaldata_add_target" title="Link to this definition">¶</a></dt>
 <dd><p>The <code class="docutils literal notranslate"><span class="pre">ExternalData_Add_Target</span></code> function creates a custom target to
 manage local instances of data files stored externally:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExternalData_Add_Target(
-  &lt;target&gt;                  # Name of data management target
-  [SHOW_PROGRESS &lt;ON|OFF&gt;]  # Show progress during the download
-  )
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ExternalData_Add_Target(</span>
+<span class="w">  </span><span class="nv">&lt;target&gt;</span><span class="w">                  </span><span class="c"># Name of data management target</span>
+<span class="w">  </span><span class="p">[</span><span class="no">SHOW_PROGRESS</span><span class="w"> </span><span class="o">&lt;</span><span class="no">ON</span><span class="p">|</span><span class="no">OFF</span><span class="o">&gt;</span><span class="p">]</span><span class="w">  </span><span class="c"># Show progress during the download</span>
+<span class="w">  </span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>It creates custom commands in the target as necessary to make data
@@ -166,7 +176,7 @@ the <code class="docutils literal notranslate"><span class="pre">ExternalData_UR
 in one of the paths specified in the <code class="docutils literal notranslate"><span class="pre">ExternalData_OBJECT_STORES</span></code>
 variable.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20: </span>The <code class="docutils literal notranslate"><span class="pre">SHOW_PROGRESS</span></code> argument may be passed to suppress progress information
+<p><span class="versionmodified added">Added in version 3.20: </span>The <code class="docutils literal notranslate"><span class="pre">SHOW_PROGRESS</span></code> argument may be passed to suppress progress information
 during the download of objects. If not provided, it defaults to <code class="docutils literal notranslate"><span class="pre">OFF</span></code> for
 <span class="target" id="index-0-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> and <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja%20Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a> generators and <code class="docutils literal notranslate"><span class="pre">ON</span></code>
 otherwise.</p>
@@ -194,11 +204,22 @@ content links under <code class="docutils literal notranslate"><span class="pre"
 <dt class="sig sig-object cmake" id="variable:ExternalData_CUSTOM_SCRIPT_&lt;key&gt;">
 <span class="sig-name descname"><span class="pre">ExternalData_CUSTOM_SCRIPT_&lt;key&gt;</span></span><a class="headerlink" href="#variable:ExternalData_CUSTOM_SCRIPT_<key>" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>Specify a full path to a <code class="docutils literal notranslate"><span class="pre">.cmake</span></code> custom fetch script identified by
 <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> in entries of the <code class="docutils literal notranslate"><span class="pre">ExternalData_URL_TEMPLATES</span></code> list.
 See <a class="reference internal" href="#custom-fetch-scripts">Custom Fetch Scripts</a>.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:ExternalData_HTTPHEADERS">
+<span class="sig-name descname"><span class="pre">ExternalData_HTTPHEADERS</span></span><a class="headerlink" href="#variable:ExternalData_HTTPHEADERS" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.0.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">ExternalData_HTTPHEADERS</span></code> variable may be used to supply a list of
+headers, each element containing one header with the form <code class="docutils literal notranslate"><span class="pre">Key:</span> <span class="pre">Value</span></code>.
+See the <span class="target" id="index-0-command:file"></span><a class="reference internal" href="../command/file.html#download" title="file(download)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a> command's <code class="docutils literal notranslate"><span class="pre">HTTPHEADER</span></code> option.</p>
 </dd></dl>
 
 <dl class="cmake variable">
@@ -219,7 +240,7 @@ object if it cannot be found using any URL template.</p>
 <dt class="sig sig-object cmake" id="variable:ExternalData_NO_SYMLINKS">
 <span class="sig-name descname"><span class="pre">ExternalData_NO_SYMLINKS</span></span><a class="headerlink" href="#variable:ExternalData_NO_SYMLINKS" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3.</span></p>
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
 </div>
 <p>The real data files named by expanded <code class="docutils literal notranslate"><span class="pre">DATA{}</span></code> references may be made
 available under <code class="docutils literal notranslate"><span class="pre">ExternalData_BINARY_ROOT</span></code> using symbolic links on
@@ -283,7 +304,7 @@ Set to <code class="docutils literal notranslate"><span class="pre">0</span></co
 <dt class="sig sig-object cmake" id="variable:ExternalData_URL_ALGO_&lt;algo&gt;_&lt;key&gt;">
 <span class="sig-name descname"><span class="pre">ExternalData_URL_ALGO_&lt;algo&gt;_&lt;key&gt;</span></span><a class="headerlink" href="#variable:ExternalData_URL_ALGO_<algo>_<key>" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3.</span></p>
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
 </div>
 <p>Specify a custom URL component to be substituted for URL template
 placeholders of the form <code class="docutils literal notranslate"><span class="pre">%(algo:&lt;key&gt;)</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> is a
@@ -317,7 +338,7 @@ For example, the argument <code class="docutils literal notranslate"><span class
 real <code class="docutils literal notranslate"><span class="pre">img.png</span></code> file in the current source directory or a <code class="docutils literal notranslate"><span class="pre">img.png.md5</span></code>
 file containing its MD5 sum.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span>Multiple content links of the same name with different hash algorithms
+<p><span class="versionmodified added">Added in version 3.8: </span>Multiple content links of the same name with different hash algorithms
 are supported (e.g. <code class="docutils literal notranslate"><span class="pre">img.png.sha256</span></code> and <code class="docutils literal notranslate"><span class="pre">img.png.sha1</span></code>) so long as
 they all correspond to the same real file.  This allows objects to be
 fetched from sources indexed by different hash algorithms.</p>
@@ -335,21 +356,22 @@ recognizes file series names ending with <code class="docutils literal notransla
 or <code class="docutils literal notranslate"><span class="pre">-#.ext</span></code> where <code class="docutils literal notranslate"><span class="pre">#</span></code> is a sequence of decimal digits and <code class="docutils literal notranslate"><span class="pre">.ext</span></code> is
 any single extension.  Configure it with a regex that parses <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code>
 and <code class="docutils literal notranslate"><span class="pre">&lt;suffix&gt;</span></code> parts from the end of <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExternalData_SERIES_PARSE = regex of the form (&lt;number&gt;)(&lt;suffix&gt;)$
-</pre></div>
-</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ExternalData_SERIES_PARSE</span></code> - regex of the form <code class="docutils literal notranslate"><span class="pre">(&lt;number&gt;)(&lt;suffix&gt;)$</span></code>.</p>
+</div></blockquote>
 <p>For more complicated cases set:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExternalData_SERIES_PARSE = regex with at least two () groups
-ExternalData_SERIES_PARSE_PREFIX = &lt;prefix&gt; regex group number, if any
-ExternalData_SERIES_PARSE_NUMBER = &lt;number&gt; regex group number
-ExternalData_SERIES_PARSE_SUFFIX = &lt;suffix&gt; regex group number
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ExternalData_SERIES_PARSE</span></code> - regex with at least two <code class="docutils literal notranslate"><span class="pre">()</span></code> groups.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ExternalData_SERIES_PARSE_PREFIX</span></code> - regex group number of the <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code>, if any.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ExternalData_SERIES_PARSE_NUMBER</span></code> - regex group number of the <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ExternalData_SERIES_PARSE_SUFFIX</span></code> - regex group number of the <code class="docutils literal notranslate"><span class="pre">&lt;suffix&gt;</span></code>.</p></li>
+</ul>
 <p>Configure series number matching with a regex that matches the
 <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> part of series members named <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;&lt;number&gt;&lt;suffix&gt;</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExternalData_SERIES_MATCH = regex matching &lt;number&gt; in all series members
-</pre></div>
-</div>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">ExternalData_SERIES_MATCH</span></code> - regex matching <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> in all series
+members</p>
+</div></blockquote>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">&lt;suffix&gt;</span></code> of a series does not include a hash-algorithm
 extension.</p>
 </section>
@@ -379,7 +401,7 @@ directory on the command line and ensure that the directory contains
 files corresponding to every file or content link in the <code class="docutils literal notranslate"><span class="pre">MyDataDir</span></code>
 source directory.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3: </span>In order to match associated files in subdirectories,
+<p><span class="versionmodified added">Added in version 3.3: </span>In order to match associated files in subdirectories,
 specify a <code class="docutils literal notranslate"><span class="pre">RECURSE:</span></code> option, e.g. <code class="docutils literal notranslate"><span class="pre">DATA{MyDataDir/,RECURSE:,REGEX:.*}</span></code>.</p>
 </div>
 </section>
@@ -387,22 +409,60 @@ specify a <code class="docutils literal notranslate"><span class="pre">RECURSE:<
 <section id="hash-algorithms">
 <h2><a class="toc-backref" href="#id10" role="doc-backlink">Hash Algorithms</a><a class="headerlink" href="#hash-algorithms" title="Link to this heading">¶</a></h2>
 <p>The following hash algorithms are supported:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%(algo)     &lt;ext&gt;     Description
--------     -----     -----------
-MD5         .md5      Message-Digest Algorithm 5, RFC 1321
-SHA1        .sha1     US Secure Hash Algorithm 1, RFC 3174
-SHA224      .sha224   US Secure Hash Algorithms, RFC 4634
-SHA256      .sha256   US Secure Hash Algorithms, RFC 4634
-SHA384      .sha384   US Secure Hash Algorithms, RFC 4634
-SHA512      .sha512   US Secure Hash Algorithms, RFC 4634
-SHA3_224    .sha3-224 Keccak SHA-3
-SHA3_256    .sha3-256 Keccak SHA-3
-SHA3_384    .sha3-384 Keccak SHA-3
-SHA3_512    .sha3-512 Keccak SHA-3
-</pre></div>
-</div>
+<blockquote>
+<div><table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>%(algo)</p></th>
+<th class="head"><p>&lt;ext&gt;</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">MD5</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.md5</span></code></p></td>
+<td><p>Message-Digest Algorithm 5, RFC 1321</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHA1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha1</span></code></p></td>
+<td><p>US Secure Hash Algorithm 1, RFC 3174</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SHA224</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha224</span></code></p></td>
+<td><p>US Secure Hash Algorithms, RFC 4634</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHA256</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha256</span></code></p></td>
+<td><p>US Secure Hash Algorithms, RFC 4634</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SHA384</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha384</span></code></p></td>
+<td><p>US Secure Hash Algorithms, RFC 4634</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHA512</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha512</span></code></p></td>
+<td><p>US Secure Hash Algorithms, RFC 4634</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SHA3_224</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha3-224</span></code></p></td>
+<td><p>Keccak SHA-3</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHA3_256</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha3-256</span></code></p></td>
+<td><p>Keccak SHA-3</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">SHA3_384</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha3-384</span></code></p></td>
+<td><p>Keccak SHA-3</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">SHA3_512</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.sha3-512</span></code></p></td>
+<td><p>Keccak SHA-3</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span>Added the <code class="docutils literal notranslate"><span class="pre">SHA3_*</span></code> hash algorithms.</p>
+<p><span class="versionmodified added">Added in version 3.8: </span>Added the <code class="docutils literal notranslate"><span class="pre">SHA3_*</span></code> hash algorithms.</p>
 </div>
 <p>Note that the hashes are used only for unique data identification and
 download verification.</p>
@@ -410,11 +470,11 @@ download verification.</p>
 <section id="custom-fetch-scripts">
 <span id="externaldata-custom-fetch-scripts"></span><h2><a class="toc-backref" href="#id11" role="doc-backlink">Custom Fetch Scripts</a><a class="headerlink" href="#custom-fetch-scripts" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>When a data file must be fetched from one of the URL templates
 specified in the <code class="docutils literal notranslate"><span class="pre">ExternalData_URL_TEMPLATES</span></code> variable, it is
-normally downloaded using the <span class="target" id="index-0-command:file"></span><a class="reference internal" href="../command/file.html#download" title="file(download)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a> command.
+normally downloaded using the <span class="target" id="index-1-command:file"></span><a class="reference internal" href="../command/file.html#download" title="file(download)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a> command.
 One may specify usage of a custom fetch script by using a URL
 template of the form <code class="docutils literal notranslate"><span class="pre">ExternalDataCustomScript://&lt;key&gt;/&lt;loc&gt;</span></code>.
 The <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;</span></code> must be a C identifier, and the <code class="docutils literal notranslate"><span class="pre">&lt;loc&gt;</span></code> must
@@ -458,10 +518,10 @@ the reason for failure.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">ExternalData</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -498,7 +558,7 @@ the reason for failure.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -506,13 +566,13 @@ the reason for failure.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -525,14 +585,15 @@ the reason for failure.</p>
           <a href="DeployQt4.html" title="DeployQt4"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -541,8 +602,17 @@ the reason for failure.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

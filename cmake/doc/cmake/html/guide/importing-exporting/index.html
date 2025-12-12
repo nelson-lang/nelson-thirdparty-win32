@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Importing and Exporting Guide &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>Importing and Exporting Guide &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="../using-dependencies/index.html" title="Using Dependencies Guide"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">Importing and Exporting Guide</a></li> 
@@ -369,7 +374,7 @@ reference the <code class="docutils literal notranslate"><span class="pre">MathF
 were built in its own tree. For example:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w"> </span><span class="nf">include(</span><span class="nb">GNUInstallDirs</span><span class="nf">)</span>
 <span class="linenos">2</span><span class="w"> </span><span class="nf">include(</span><span class="o">${</span><span class="nt">INSTALL_PREFIX</span><span class="o">}</span><span class="na">/</span><span class="o">${</span><span class="nt">CMAKE_INSTALL_LIBDIR</span><span class="o">}</span><span class="na">/cmake/MathFunctions/MathFunctionTargets.cmake</span><span class="nf">)</span>
-<span class="linenos">3</span><span class="w"> </span><span class="nf">add_executable(</span><span class="nb">myexe</span><span class="w"> </span><span class="nb">src1.c</span><span class="w"> </span><span class="nb">src2.c</span><span class="w"> </span><span class="nf">)</span>
+<span class="linenos">3</span><span class="w"> </span><span class="nf">add_executable(</span><span class="nb">myexe</span><span class="w"> </span><span class="nb">src1.c</span><span class="w"> </span><span class="nb">src2.c</span><span class="nf">)</span>
 <span class="linenos">4</span><span class="w"> </span><span class="nf">target_link_libraries(</span><span class="nb">myexe</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="o">::</span><span class="nb">MathFunctions</span><span class="nf">)</span>
 </pre></div>
 </div>
@@ -430,7 +435,7 @@ section.</p>
 <span class="nf">)</span>
 </pre></div>
 </div>
-<p>Install the generated configuration files with the <span class="target" id="index-7-command:install"></span><a class="reference internal" href="../../command/install.html#files" title="install(files)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">INSTALL(files)</span></code></a>
+<p>Install the generated configuration files with the <span class="target" id="index-7-command:install"></span><a class="reference internal" href="../../command/install.html#files" title="install(files)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(FILES)</span></code></a>
 command. Both <code class="docutils literal notranslate"><span class="pre">MathFunctionsConfigVersion.cmake</span></code> and
 <code class="docutils literal notranslate"><span class="pre">MathFunctionsConfig.cmake</span></code> are installed to the same location, completing
 the package.</p>
@@ -663,10 +668,10 @@ calculate the square root of a given number and then prints the results:</p>
 <span class="w">  </span><span class="p">}</span>
 
 <span class="w">  </span><span class="c1">// convert input to double</span>
-<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">inputValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">stod</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">inputValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">stod</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
 
 <span class="w">  </span><span class="c1">// calculate square root</span>
-<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">sqrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MathFunctions</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">inputValue</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">sqrt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MathFunctions</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">inputValue</span><span class="p">);</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;The square root of &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">inputValue</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; is &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sqrt</span>
 <span class="w">            </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 
@@ -858,7 +863,7 @@ the package components. Change the <code class="docutils literal notranslate"><s
 </pre></div>
 </div>
 <p>Finally, use the <code class="docutils literal notranslate"><span class="pre">Addition</span></code> library:</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MathFunctions</span><span class="o">::</span><span class="n">add</span><span class="p">(</span><span class="n">inputValue</span><span class="p">,</span><span class="w"> </span><span class="n">inputValue</span><span class="p">);</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MathFunctions</span><span class="o">::</span><span class="n">add</span><span class="p">(</span><span class="n">inputValue</span><span class="p">,</span><span class="w"> </span><span class="n">inputValue</span><span class="p">);</span>
 <span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">inputValue</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; + &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">inputValue</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 
 </pre></div>
@@ -873,10 +878,10 @@ package components.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">Importing and Exporting Guide</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -920,7 +925,7 @@ package components.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
@@ -928,13 +933,13 @@ package components.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -947,14 +952,15 @@ package components.</p>
           <a href="../using-dependencies/index.html" title="Using Dependencies Guide"
              >previous</a> |</li>
   <li>
-    <img src="../../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">Importing and Exporting Guide</a></li> 
@@ -962,8 +968,17 @@ package components.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

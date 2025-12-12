@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>GoogleTest &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>GoogleTest &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="GNUInstallDirs.html" title="GNUInstallDirs"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -59,11 +64,15 @@
   <section id="googletest">
 <span id="module:GoogleTest"></span><h1>GoogleTest<a class="headerlink" href="#googletest" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.9.</span></p>
+<p><span class="versionmodified added">Added in version 3.9.</span></p>
 </div>
-<p>This module defines functions to help use the Google Test infrastructure.  Two
-mechanisms for adding tests are provided. <span class="target" id="index-0-command:gtest_add_tests"></span><a class="reference internal" href="#command:gtest_add_tests" title="gtest_add_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_add_tests()</span></code></a> has been
-around for some time, originally via <code class="docutils literal notranslate"><span class="pre">find_package(GTest)</span></code>.
+<p>This module provides commands to help use the Google Test infrastructure.</p>
+<p>Load this module in a CMake project with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">GoogleTest</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Two mechanisms for adding tests are provided. <span class="target" id="index-0-command:gtest_add_tests"></span><a class="reference internal" href="#command:gtest_add_tests" title="gtest_add_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_add_tests()</span></code></a> has
+been around for some time, originally via <code class="docutils literal notranslate"><span class="pre">find_package(GTest)</span></code>.
 <span class="target" id="index-0-command:gtest_discover_tests"></span><a class="reference internal" href="#command:gtest_discover_tests" title="gtest_discover_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code></a> was introduced in CMake 3.10.</p>
 <p>The (older) <span class="target" id="index-1-command:gtest_add_tests"></span><a class="reference internal" href="#command:gtest_add_tests" title="gtest_add_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">gtest_add_tests()</span></code></a> scans source files to identify tests.
 This is usually effective, with some caveats, including in cross-compiling
@@ -89,15 +98,15 @@ same as the Google Test name (i.e. <code class="docutils literal notranslate"><s
 <span class="sig-name descname"><span class="pre">gtest_add_tests</span></span><a class="headerlink" href="#command:gtest_add_tests" title="Link to this definition">¶</a></dt>
 <dd><p>Automatically add tests with CTest by scanning source code for Google Test
 macros:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gtest_add_tests(TARGET target
-                [SOURCES src1...]
-                [EXTRA_ARGS args...]
-                [WORKING_DIRECTORY dir]
-                [TEST_PREFIX prefix]
-                [TEST_SUFFIX suffix]
-                [SKIP_DEPENDENCY]
-                [TEST_LIST outVar]
-)
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">gtest_add_tests(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">target</span>
+<span class="w">                </span><span class="p">[</span><span class="no">SOURCES</span><span class="w"> </span><span class="nb">src1...</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">EXTRA_ARGS</span><span class="w"> </span><span class="nb">args...</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">WORKING_DIRECTORY</span><span class="w"> </span><span class="nb">dir</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">TEST_PREFIX</span><span class="w"> </span><span class="nb">prefix</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">TEST_SUFFIX</span><span class="w"> </span><span class="nb">suffix</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">SKIP_DEPENDENCY</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">TEST_LIST</span><span class="w"> </span><span class="nb">outVar</span><span class="p">]</span>
+<span class="nf">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">gtest_add_tests</span></code> attempts to identify tests by scanning source files.
@@ -168,7 +177,7 @@ see policy <span class="target" id="index-1-policy:CMP0178"></span><a class="ref
 </pre></div>
 </div>
 <p>For backward compatibility, the following form is also supported:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gtest_add_tests(exe args files...)
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">gtest_add_tests(</span><span class="nb">exe</span><span class="w"> </span><span class="nb">args</span><span class="w"> </span><span class="nb">files...</span><span class="nf">)</span>
 </pre></div>
 </div>
 <dl class="simple">
@@ -196,24 +205,24 @@ of a CMake executable target whose sources should be scanned.</p>
 <span class="sig-name descname"><span class="pre">gtest_discover_tests</span></span><a class="headerlink" href="#command:gtest_discover_tests" title="Link to this definition">¶</a></dt>
 <dd><p>Automatically add tests with CTest by querying the compiled test executable
 for available tests:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>gtest_discover_tests(target
-                     [EXTRA_ARGS args...]
-                     [WORKING_DIRECTORY dir]
-                     [TEST_PREFIX prefix]
-                     [TEST_SUFFIX suffix]
-                     [TEST_FILTER expr]
-                     [NO_PRETTY_TYPES] [NO_PRETTY_VALUES]
-                     [PROPERTIES name1 value1...]
-                     [TEST_LIST var]
-                     [DISCOVERY_TIMEOUT seconds]
-                     [XML_OUTPUT_DIR dir]
-                     [DISCOVERY_MODE &lt;POST_BUILD|PRE_TEST&gt;]
-                     [DISCOVERY_EXTRA_ARGS args...]
-)
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">gtest_discover_tests(</span><span class="nb">target</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">EXTRA_ARGS</span><span class="w"> </span><span class="nb">args...</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">WORKING_DIRECTORY</span><span class="w"> </span><span class="nb">dir</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">TEST_PREFIX</span><span class="w"> </span><span class="nb">prefix</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">TEST_SUFFIX</span><span class="w"> </span><span class="nb">suffix</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">TEST_FILTER</span><span class="w"> </span><span class="nb">expr</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">NO_PRETTY_TYPES</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">NO_PRETTY_VALUES</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">PROPERTIES</span><span class="w"> </span><span class="nb">name1</span><span class="w"> </span><span class="nb">value1...</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">TEST_LIST</span><span class="w"> </span><span class="nb">var</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">DISCOVERY_TIMEOUT</span><span class="w"> </span><span class="nb">seconds</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">XML_OUTPUT_DIR</span><span class="w"> </span><span class="nb">dir</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">DISCOVERY_MODE</span><span class="w"> </span><span class="o">&lt;</span><span class="no">POST_BUILD</span><span class="p">|</span><span class="no">PRE_TEST</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="w">                     </span><span class="p">[</span><span class="no">DISCOVERY_EXTRA_ARGS</span><span class="w"> </span><span class="nb">args...</span><span class="p">]</span>
+<span class="nf">)</span>
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.10.</span></p>
+<p><span class="versionmodified added">Added in version 3.10.</span></p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> sets up a post-build or pre-test command on the
 test executable that generates the list of tests by parsing the output from
@@ -256,7 +265,7 @@ every discovered test case.  Both <code class="docutils literal notranslate"><sp
 be specified.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TEST_FILTER</span> <span class="pre">expr</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.22.</span></p>
+<p><span class="versionmodified added">Added in version 3.22.</span></p>
 </div>
 <p>Filter expression to pass as a <code class="docutils literal notranslate"><span class="pre">--gtest_filter</span></code> argument during test
 discovery.  Note that the expression is a wildcard-based format that
@@ -287,7 +296,7 @@ this variable.  Such tests will still be defined and executed by
 <code class="docutils literal notranslate"><span class="pre">ctest</span></code> as normal though.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_TIMEOUT</span> <span class="pre">num</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.10.3.</span></p>
+<p><span class="versionmodified added">Added in version 3.10.3.</span></p>
 </div>
 <p>Specifies how long (in seconds) CMake will wait for the test to enumerate
 available tests.  If the test takes longer than this, discovery (and your
@@ -307,7 +316,7 @@ and 3.10.2 has not been preserved.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">XML_OUTPUT_DIR</span> <span class="pre">dir</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p><span class="versionmodified added">Added in version 3.18.</span></p>
 </div>
 <p>If specified, the parameter is passed along with <code class="docutils literal notranslate"><span class="pre">--gtest_output=xml:</span></code>
 to test executable. The actual file name is the same as the test target,
@@ -316,7 +325,7 @@ including prefix and suffix. This should be used instead of
 XML result output when using parallel test execution.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_MODE</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p><span class="versionmodified added">Added in version 3.18.</span></p>
 </div>
 <p>Provides greater control over when <code class="docutils literal notranslate"><span class="pre">gtest_discover_tests()</span></code> performs test
 discovery. By default, <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> sets up a post-build command
@@ -333,13 +342,13 @@ for globally selecting a preferred test discovery behavior without having
 to modify each call site.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DISCOVERY_EXTRA_ARGS</span> <span class="pre">args...</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.31.</span></p>
+<p><span class="versionmodified added">Added in version 3.31.</span></p>
 </div>
 <p>Any extra arguments to pass on the command line for the discovery command.</p>
 </dd>
 </dl>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.29: </span>The <span class="target" id="index-1-prop_tgt:TEST_LAUNCHER"></span><a class="reference internal" href="../prop_tgt/TEST_LAUNCHER.html#prop_tgt:TEST_LAUNCHER" title="TEST_LAUNCHER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">TEST_LAUNCHER</span></code></a> target property is honored during test
+<p><span class="versionmodified added">Added in version 3.29: </span>The <span class="target" id="index-1-prop_tgt:TEST_LAUNCHER"></span><a class="reference internal" href="../prop_tgt/TEST_LAUNCHER.html#prop_tgt:TEST_LAUNCHER" title="TEST_LAUNCHER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">TEST_LAUNCHER</span></code></a> target property is honored during test
 discovery and test execution.</p>
 </div>
 <div class="versionchanged">
@@ -356,7 +365,7 @@ see policy <span class="target" id="index-3-policy:CMP0178"></span><a class="ref
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -375,7 +384,7 @@ see policy <span class="target" id="index-3-policy:CMP0178"></span><a class="ref
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -383,13 +392,13 @@ see policy <span class="target" id="index-3-policy:CMP0178"></span><a class="ref
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -402,14 +411,15 @@ see policy <span class="target" id="index-3-policy:CMP0178"></span><a class="ref
           <a href="GNUInstallDirs.html" title="GNUInstallDirs"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -418,8 +428,17 @@ see policy <span class="target" id="index-3-policy:CMP0178"></span><a class="ref
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

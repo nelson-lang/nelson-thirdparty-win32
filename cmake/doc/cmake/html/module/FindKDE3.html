@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindKDE3 &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindKDE3 &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindJPEG.html" title="FindJPEG"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,90 +63,197 @@
             
   <section id="findkde3">
 <span id="module:FindKDE3"></span><h1>FindKDE3<a class="headerlink" href="#findkde3" title="Link to this heading">¶</a></h1>
-<p>Find the KDE3 include and library dirs, KDE preprocessors and define a some macros</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module is specifically intended for KDE version 3, which is obsolete and
+no longer maintained.  For modern application development using KDE
+technologies with CMake, use a newer version of KDE, and refer to the
+<a class="reference external" href="https://develop.kde.org/docs/getting-started/building/cmake-build/">KDE documentation</a>.</p>
+</div>
+<p>Finds KDE 3 include directories, libraries, and KDE-specific preprocessor
+tools:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">KDE3</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This module provides usage requirements for building KDE 3 software and
+defines several helper commands to simplify working with KDE 3 in CMake.</p>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
 <p>This module defines the following variables:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_DEFINITIONS</span></code></dt><dd><p>compiler definitions required for compiling KDE software</p>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_FOUND</span></code></dt><dd><p>Boolean indicating whether KDE 3 was found.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_INCLUDE_DIR</span></code></dt><dd><p>the KDE include directory</p>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_DEFINITIONS</span></code></dt><dd><p>Compiler definitions required for compiling KDE 3 software.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_INCLUDE_DIRS</span></code></dt><dd><p>the KDE and the Qt include directory, for use with include_directories()</p>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_INCLUDE_DIRS</span></code></dt><dd><p>The KDE and the Qt include directories, for use with the
+<span class="target" id="index-0-command:target_include_directories"></span><a class="reference internal" href="../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_LIB_DIR</span></code></dt><dd><p>the directory where the KDE libraries are installed, for use with link_directories()</p>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_LIB_DIR</span></code></dt><dd><p>The directory containing the installed KDE 3 libraries, for use with the
+<span class="target" id="index-0-command:target_link_directories"></span><a class="reference internal" href="../command/target_link_directories.html#command:target_link_directories" title="target_link_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_directories()</span></code></a> command.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">QT_AND_KDECORE_LIBS</span></code></dt><dd><p>this contains both the Qt and the kdecore library</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_DCOPIDL_EXECUTABLE</span></code></dt><dd><p>the dcopidl executable</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_DCOPIDL2CPP_EXECUTABLE</span></code></dt><dd><p>the dcopidl2cpp executable</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_KCFGC_EXECUTABLE</span></code></dt><dd><p>the kconfig_compiler executable</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_FOUND</span></code></dt><dd><p>set to TRUE if all of the above has been found</p>
+<dt><code class="docutils literal notranslate"><span class="pre">QT_AND_KDECORE_LIBS</span></code></dt><dd><p>A list containing both the Qt and the kdecore library, typically used together
+when linking KDE 3.</p>
 </dd>
 </dl>
-<p>The following user adjustable options are provided:</p>
+</section>
+<section id="cache-variables">
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">KDE3_BUILD_TESTS</span></code></dt><dd><p>enable this to build KDE testcases</p>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_INCLUDE_DIR</span></code></dt><dd><p>The directory containing KDE 3 header files.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_DCOPIDL_EXECUTABLE</span></code></dt><dd><p>The path to the <code class="docutils literal notranslate"><span class="pre">dcopidl</span></code> executable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_DCOPIDL2CPP_EXECUTABLE</span></code></dt><dd><p>The path to the <code class="docutils literal notranslate"><span class="pre">dcopidl2cpp</span></code> executable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_KCFGC_EXECUTABLE</span></code></dt><dd><p>The path to the <code class="docutils literal notranslate"><span class="pre">kconfig_compiler</span></code> executable.</p>
 </dd>
 </dl>
-<p>It also adds the following macros (from <code class="docutils literal notranslate"><span class="pre">KDE3Macros.cmake</span></code>) <code class="docutils literal notranslate"><span class="pre">SRCS_VAR</span></code> is
-always the variable which contains the list of source files for your
-application or library.</p>
-<p>KDE3_AUTOMOC(file1 ...  fileN)</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Call this if you want to have automatic moc file handling.
-This means if you include &quot;foo.moc&quot; in the source file foo.cpp
-a moc file for the header foo.h will be created automatically.
-You can set the property SKIP_AUTOMAKE using set_source_files_properties()
-to exclude some files in the list from being processed.
+</section>
+<section id="hints">
+<h2>Hints<a class="headerlink" href="#hints" title="Link to this heading">¶</a></h2>
+<p>This module accepts the following variables:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">KDE3_BUILD_TESTS</span></code></dt><dd><p>Provided as a user adjustable option.  Set this variable to boolean true to
+build KDE 3 testcases.</p>
+</dd>
+</dl>
+</section>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">¶</a></h2>
+<p>This module provides the following commands to work with KDE 3 in CMake:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_automoc">
+<span class="sig-name descname"><span class="pre">kde3_automoc</span></span><a class="headerlink" href="#command:kde3_automoc" title="Link to this definition">¶</a></dt>
+<dd><p>Enables automatic processing with <code class="docutils literal notranslate"><span class="pre">moc</span></code> for the given source files:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_automoc(</span><span class="nv">&lt;sources&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_MOC_FILES(SRCS_VAR file1 ...  fileN )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>If you don&#39;t use the KDE3_AUTOMOC() macro, for the files
-listed here moc files will be created (named &quot;foo.moc.cpp&quot;)
+<p>Call this command to enable automatic <code class="docutils literal notranslate"><span class="pre">moc</span></code> file handling.  For example,
+if a source file (e.g., <code class="docutils literal notranslate"><span class="pre">foo.cpp</span></code>) contains <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">&quot;foo.moc&quot;</span></code>, a
+<code class="docutils literal notranslate"><span class="pre">moc</span></code> file for the corresponding header (<code class="docutils literal notranslate"><span class="pre">foo.h</span></code>) will be generated
+automatically.  To skip processing for a specific source file, set the
+<span class="target" id="index-0-prop_sf:SKIP_AUTOMOC"></span><a class="reference internal" href="../prop_sf/SKIP_AUTOMOC.html#prop_sf:SKIP_AUTOMOC" title="SKIP_AUTOMOC"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOMOC</span></code></a> source file property.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_moc_files">
+<span class="sig-name descname"><span class="pre">kde3_add_moc_files</span></span><a class="headerlink" href="#command:kde3_add_moc_files" title="Link to this definition">¶</a></dt>
+<dd><p>Processes header files with <code class="docutils literal notranslate"><span class="pre">moc</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_moc_files(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="nv">&lt;headers&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_DCOP_SKELS(SRCS_VAR header1.h ...  headerN.h )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Use this to generate DCOP skeletions from the listed headers.
+<p>If not using <code class="docutils literal notranslate"><span class="pre">kde3_automoc()</span></code>, this command can be used to generate <code class="docutils literal notranslate"><span class="pre">moc</span></code>
+files for one or more <code class="docutils literal notranslate"><span class="pre">&lt;headers&gt;</span></code> files.  The generated files are named
+<code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;.moc.cpp</span></code> and the resulting list of these generated source files
+is stored in the variable named <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> for use in project targets.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_dcop_skels">
+<span class="sig-name descname"><span class="pre">kde3_add_dcop_skels</span></span><a class="headerlink" href="#command:kde3_add_dcop_skels" title="Link to this definition">¶</a></dt>
+<dd><p>Generates KIDL and DCOP skeletons:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_dcop_skels(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="nv">&lt;dcop-headers&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_DCOP_STUBS(SRCS_VAR header1.h ...  headerN.h )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Use this to generate DCOP stubs from the listed headers.
+<p>This command generates <code class="docutils literal notranslate"><span class="pre">.kidl</span></code> and DCOP skeleton source files from the given
+DCOP header files.  The resulting list of generated source files is stored in
+the variable named <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> for use in project targets.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_dcop_stubs">
+<span class="sig-name descname"><span class="pre">kde3_add_dcop_stubs</span></span><a class="headerlink" href="#command:kde3_add_dcop_stubs" title="Link to this definition">¶</a></dt>
+<dd><p>Generates DCOP stubs:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_dcop_stubs(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="nv">&lt;headers&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_UI_FILES(SRCS_VAR file1.ui ...  fileN.ui )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Use this to add the Qt designer ui files to your application/library.
+<p>Use this command to generate DCOP stubs from one or more given header files.
+The resulting list of generated source files is stored in the variable named
+<code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> for use in project targets.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_ui_files">
+<span class="sig-name descname"><span class="pre">kde3_add_ui_files</span></span><a class="headerlink" href="#command:kde3_add_ui_files" title="Link to this definition">¶</a></dt>
+<dd><p>Adds Qt designer UI files:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_ui_files(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="nv">&lt;ui-files&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_KCFG_FILES(SRCS_VAR file1.kcfgc ...  fileN.kcfgc )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Use this to add KDE kconfig compiler files to your application/library.
+<p>This command creates the implementation files from the given Qt designer
+<code class="docutils literal notranslate"><span class="pre">.ui</span></code> files.  The resulting list of generated files is stored in the
+variable named <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> for use in project targets.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_kcfg_files">
+<span class="sig-name descname"><span class="pre">kde3_add_kcfg_files</span></span><a class="headerlink" href="#command:kde3_add_kcfg_files" title="Link to this definition">¶</a></dt>
+<dd><p>Adds KDE kconfig compiler files:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_kcfg_files(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="nv">&lt;kcfgc-files&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_INSTALL_LIBTOOL_FILE(target)</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>This will create and install a simple libtool file for the given target.
+<p>Use this command to add KDE kconfig compiler files (<code class="docutils literal notranslate"><span class="pre">.kcfgc</span></code>) to the
+application/library.  The resulting list of generated source files is stored
+in the variable named <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> for use in project targets.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_install_libtool_file">
+<span class="sig-name descname"><span class="pre">kde3_install_libtool_file</span></span><a class="headerlink" href="#command:kde3_install_libtool_file" title="Link to this definition">¶</a></dt>
+<dd><p>Creates and installs a libtool file:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_install_libtool_file(</span><span class="nv">&lt;target&gt;</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_EXECUTABLE(name file1 ...  fileN )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Currently identical to add_executable(), may provide some advanced
-features in the future.
+<p>This command creates and installs a basic libtool file for the given target
+<code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code>.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_executable">
+<span class="sig-name descname"><span class="pre">kde3_add_executable</span></span><a class="headerlink" href="#command:kde3_add_executable" title="Link to this definition">¶</a></dt>
+<dd><p>Adds KDE executable:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_executable(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="nv">&lt;sources&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_KPART(name [WITH_PREFIX] file1 ...  fileN )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Create a KDE plugin (KPart, kioslave, etc.) from the given source files.
-If WITH_PREFIX is given, the resulting plugin will have the prefix &quot;lib&quot;,
-otherwise it won&#39;t.
-It creates and installs an appropriate libtool la-file.
+<p>This command is functionally identical to the built-in
+<span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> command.  It was originally intended to support
+additional features in future versions of this module.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_kpart">
+<span class="sig-name descname"><span class="pre">kde3_add_kpart</span></span><a class="headerlink" href="#command:kde3_add_kpart" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a KDE plugin:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_kpart(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">WITH_PREFIX</span><span class="p">]</span><span class="w"> </span><span class="nv">&lt;sources&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>KDE3_ADD_KDEINIT_EXECUTABLE(name file1 ...  fileN )</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Create a KDE application in the form of a module loadable via kdeinit.
-A library named kdeinit_&lt;name&gt; will be created and a small executable
-which links to it.
+<p>This command creates a KDE plugin (KPart, kioslave, etc.) from one or more
+source files <code class="docutils literal notranslate"><span class="pre">&lt;sources&gt;</span></code>.  It also creates and installs an appropriate
+libtool <code class="docutils literal notranslate"><span class="pre">.la</span></code> file.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">WITH_PREFIX</span></code> option is given, the resulting plugin name will be
+prefixed with <code class="docutils literal notranslate"><span class="pre">lib</span></code>.  Otherwise, no prefix is added.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:kde3_add_kdeinit_executable">
+<span class="sig-name descname"><span class="pre">kde3_add_kdeinit_executable</span></span><a class="headerlink" href="#command:kde3_add_kdeinit_executable" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a KDE application as a module loadable via kdeinit:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">kde3_add_kdeinit_executable(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="nv">&lt;sources&gt;...</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>The option KDE3_ENABLE_FINAL to enable all-in-one compilation is no
-longer supported.</p>
-<p>Author: Alexander Neundorf &lt;<a class="reference external" href="mailto:neundorf&#37;&#52;&#48;kde&#46;org">neundorf<span>&#64;</span>kde<span>&#46;</span>org</a>&gt;</p>
+<p>This command creates a library named <code class="docutils literal notranslate"><span class="pre">kdeinit_&lt;name&gt;</span></code> from one or more
+source files <code class="docutils literal notranslate"><span class="pre">&lt;sources&gt;</span></code>.  It also builds a small executable linked against
+this library.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding KDE 3:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">KDE3</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -149,8 +261,22 @@ longer supported.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">FindKDE3</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#hints">Hints</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="FindJPEG.html"
@@ -168,7 +294,7 @@ longer supported.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -176,13 +302,13 @@ longer supported.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -195,14 +321,15 @@ longer supported.</p>
           <a href="FindJPEG.html" title="FindJPEG"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -211,8 +338,17 @@ longer supported.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

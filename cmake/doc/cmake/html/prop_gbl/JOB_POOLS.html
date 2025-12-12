@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>JOB_POOLS &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>JOB_POOLS &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="IN_TRY_COMPILE.html" title="IN_TRY_COMPILE"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
@@ -67,15 +72,21 @@ pairs using the syntax <code class="docutils literal notranslate"><span class="p
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">GLOBAL</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">JOB_POOLS</span><span class="w"> </span><span class="nb">two_jobs</span><span class="p">=</span><span class="m">2</span><span class="w"> </span><span class="nb">ten_jobs</span><span class="p">=</span><span class="m">10</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>Defined pools could be used globally by setting
-<span class="target" id="index-0-variable:CMAKE_JOB_POOL_COMPILE"></span><a class="reference internal" href="../variable/CMAKE_JOB_POOL_COMPILE.html#variable:CMAKE_JOB_POOL_COMPILE" title="CMAKE_JOB_POOL_COMPILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_JOB_POOL_COMPILE</span></code></a> and <span class="target" id="index-0-variable:CMAKE_JOB_POOL_LINK"></span><a class="reference internal" href="../variable/CMAKE_JOB_POOL_LINK.html#variable:CMAKE_JOB_POOL_LINK" title="CMAKE_JOB_POOL_LINK"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_JOB_POOL_LINK</span></code></a>
-or per target by setting the target properties
-<span class="target" id="index-0-prop_tgt:JOB_POOL_COMPILE"></span><a class="reference internal" href="../prop_tgt/JOB_POOL_COMPILE.html#prop_tgt:JOB_POOL_COMPILE" title="JOB_POOL_COMPILE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">JOB_POOL_COMPILE</span></code></a> and <span class="target" id="index-0-prop_tgt:JOB_POOL_LINK"></span><a class="reference internal" href="../prop_tgt/JOB_POOL_LINK.html#prop_tgt:JOB_POOL_LINK" title="JOB_POOL_LINK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">JOB_POOL_LINK</span></code></a>.
-<span class="target" id="index-0-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">Custom</span> <span class="pre">commands</span></code></a> and
+<p>Defined pools can be used at different levels:</p>
+<ul class="simple">
+<li><p>Globally, by setting <span class="target" id="index-0-variable:CMAKE_JOB_POOL_COMPILE"></span><a class="reference internal" href="../variable/CMAKE_JOB_POOL_COMPILE.html#variable:CMAKE_JOB_POOL_COMPILE" title="CMAKE_JOB_POOL_COMPILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_JOB_POOL_COMPILE</span></code></a> and
+<span class="target" id="index-0-variable:CMAKE_JOB_POOL_LINK"></span><a class="reference internal" href="../variable/CMAKE_JOB_POOL_LINK.html#variable:CMAKE_JOB_POOL_LINK" title="CMAKE_JOB_POOL_LINK"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_JOB_POOL_LINK</span></code></a>.</p></li>
+<li><p>Per target, by setting the target properties <span class="target" id="index-0-prop_tgt:JOB_POOL_COMPILE"></span><a class="reference internal" href="../prop_tgt/JOB_POOL_COMPILE.html#prop_tgt:JOB_POOL_COMPILE" title="JOB_POOL_COMPILE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">JOB_POOL_COMPILE</span></code></a>
+and <span class="target" id="index-0-prop_tgt:JOB_POOL_LINK"></span><a class="reference internal" href="../prop_tgt/JOB_POOL_LINK.html#prop_tgt:JOB_POOL_LINK" title="JOB_POOL_LINK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">JOB_POOL_LINK</span></code></a>.</p></li>
+<li><p><span class="target" id="index-0-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">Custom</span> <span class="pre">commands</span></code></a> and
 <span class="target" id="index-0-command:add_custom_target"></span><a class="reference internal" href="../command/add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">custom</span> <span class="pre">targets</span></code></a> can specify pools using the
-option <code class="docutils literal notranslate"><span class="pre">JOB_POOL</span></code>.
-Using a pool that is not defined by <code class="docutils literal notranslate"><span class="pre">JOB_POOLS</span></code> causes
-an error by ninja at build time.</p>
+option <code class="docutils literal notranslate"><span class="pre">JOB_POOL</span></code>.</p></li>
+<li><p>Per-source, by setting the source file property <span class="target" id="index-0-prop_sf:JOB_POOL_COMPILE"></span><a class="reference internal" href="../prop_sf/JOB_POOL_COMPILE.html#prop_sf:JOB_POOL_COMPILE" title="JOB_POOL_COMPILE"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">JOB_POOL_COMPILE</span></code></a>,
+in case some specific source files require to override their global or
+target assigned pool.</p></li>
+</ul>
+<p>Using a pool that is not defined by <code class="docutils literal notranslate"><span class="pre">JOB_POOLS</span></code> causes an error by ninja
+at build time.</p>
 <p>If not set, this property uses the value of the <span class="target" id="index-0-variable:CMAKE_JOB_POOLS"></span><a class="reference internal" href="../variable/CMAKE_JOB_POOLS.html#variable:CMAKE_JOB_POOLS" title="CMAKE_JOB_POOLS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_JOB_POOLS</span></code></a>
 variable.</p>
 <p>Build targets provided by CMake that are meant for individual interactive
@@ -87,7 +98,7 @@ use, such as <code class="docutils literal notranslate"><span class="pre">instal
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -106,7 +117,7 @@ use, such as <code class="docutils literal notranslate"><span class="pre">instal
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -114,13 +125,13 @@ use, such as <code class="docutils literal notranslate"><span class="pre">instal
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -133,14 +144,15 @@ use, such as <code class="docutils literal notranslate"><span class="pre">instal
           <a href="IN_TRY_COMPILE.html" title="IN_TRY_COMPILE"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
@@ -149,8 +161,17 @@ use, such as <code class="docutils literal notranslate"><span class="pre">instal
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

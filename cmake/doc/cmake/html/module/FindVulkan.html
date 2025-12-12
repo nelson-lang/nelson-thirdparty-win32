@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindVulkan &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindVulkan &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindTIFF.html" title="FindTIFF"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -59,101 +64,148 @@
   <section id="findvulkan">
 <span id="module:FindVulkan"></span><h1>FindVulkan<a class="headerlink" href="#findvulkan" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
-<p>Find Vulkan, which is a low-overhead, cross-platform 3D graphics
-and computing API.</p>
-<section id="optional-components">
-<h2>Optional COMPONENTS<a class="headerlink" href="#optional-components" title="Link to this heading">¶</a></h2>
+<p>Finds Vulkan, a low-overhead, cross-platform 3D graphics and computing API,
+along with related development tools typically provided by the Vulkan SDK:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Vulkan</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nv">&lt;components&gt;...</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Vulkan includes commonly used utilities such as shader compilers and SPIR-V tools
+(e.g., DXC, <code class="docutils literal notranslate"><span class="pre">glslc</span></code>, <code class="docutils literal notranslate"><span class="pre">glslang</span></code>, etc.) that support Vulkan-based development
+workflows.</p>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>This module respects several optional COMPONENTS.
-There are corresponding imported targets for each of these.</p>
+<p>This module supports several optional components that can be specified with the
+<span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Vulkan</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nv">&lt;components&gt;...</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Each component provides a corresponding imported target.  Supported components
+include:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">glslc</span></code></dt><dd><p>The SPIR-V compiler.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">glslc</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
+</div>
+<p>Finds the SPIR-V compiler.  This optional component is always implied
+automatically for backward compatibility, even if not requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> tool.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
+</div>
+<p>Finds the <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> tool that is used to compile GLSL and HLSL
+shaders into SPIR-V.  This optional component is always implied automatically
+for backward compatibility, even if not requested.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">glslang</span></code></dt><dd><p>The SPIR-V generator library.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">glslang</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
+</div>
+<p>Finds the Khronos-reference front-end shader parser and SPIR-V code
+generation library (<code class="docutils literal notranslate"><span class="pre">glslang</span></code>).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">shaderc_combined</span></code></dt><dd><p>The static library for Vulkan shader compilation.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">shaderc_combined</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
+</div>
+<p>Finds the Google static library used for Vulkan shader compilation.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">SPIRV-Tools</span></code></dt><dd><p>Tools to process SPIR-V modules.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">SPIRV-Tools</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
+</div>
+<p>Finds Khronos library for analyzing and transforming SPIR-V modules.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">MoltenVK</span></code></dt><dd><p>On macOS, an additional component <code class="docutils literal notranslate"><span class="pre">MoltenVK</span></code> is available.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">MoltenVK</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
+</div>
+<p>Finds the Khronos MoltenVK library, which is available on macOS, and
+implements a subset of Vulkan API over Apple Metal graphics framework.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">dxc</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>The DirectX Shader Compiler.</p>
+<p>Finds the DirectX Shader Compiler (DXC), including the library and
+command-line tool.  Note that Visual Studio also provides a DXC tool, but the
+version included with the Vulkan SDK is typically required for Vulkan
+development, as it has Vulkan capability enabled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">volk</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
+</div>
+<p>Finds the Vulkan meta-loader <code class="docutils literal notranslate"><span class="pre">volk</span></code> library, a vector-optimized library of
+kernels.</p>
 </dd>
 </dl>
-<p>The <code class="docutils literal notranslate"><span class="pre">glslc</span></code> and <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> components are provided even
-if not explicitly requested (for backward compatibility).</p>
 </section>
 <section id="imported-targets">
-<h2>IMPORTED Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
-<p>This module defines <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets if Vulkan has been found:</p>
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
+<p>This module provides the following <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a>:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Vulkan</span></code></dt><dd><p>The main Vulkan library.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Vulkan</span></code></dt><dd><p>Target encapsulating the main Vulkan library usage requirements, available
+if Vulkan is found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslc</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19.</span></p>
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
 </div>
-<p>The GLSLC SPIR-V compiler, if it has been found.</p>
+<p>Imported executable target encapsulating the GLSLC SPIR-V compiler usage
+requirements, available if <code class="docutils literal notranslate"><span class="pre">glslc</span></code> is found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Headers</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.21.</span></p>
+<p><span class="versionmodified added">Added in version 3.21.</span></p>
 </div>
-<p>Provides just Vulkan headers include paths, if found.  No library is
-included in this target.  This can be useful for applications that
-load Vulkan library dynamically.</p>
+<p>Target encapsulating the usage requirements needed to include Vulkan headers.
+It provides only the include directories and does not link to any library.
+This is useful for applications that load the Vulkan library dynamically at
+runtime.  This target is available if Vulkan is found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslangValidator</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.21.</span></p>
+<p><span class="versionmodified added">Added in version 3.21.</span></p>
 </div>
-<p>The glslangValidator tool, if found.  It is used to compile GLSL and
-HLSL shaders into SPIR-V.</p>
+<p>Imported executable target encapsulating the <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> usage
+requirements, available if this tool is found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslang</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Defined if SDK has the Khronos-reference front-end shader parser and SPIR-V
-generator library (glslang).</p>
+<p>Target encapsulating the <code class="docutils literal notranslate"><span class="pre">glslang</span></code> library usage requirements, available if
+<code class="docutils literal notranslate"><span class="pre">glslang</span></code> is found in the SDK.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::shaderc_combined</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Defined if SDK has the Google static library for Vulkan shader compilation
-(shaderc_combined).</p>
+<p>Target encapsulating the <code class="docutils literal notranslate"><span class="pre">shaderc_combined</span></code> library usage requirements,
+available if this library is found in the SDK.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::SPIRV-Tools</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Defined if SDK has the Khronos library to process SPIR-V modules
-(SPIRV-Tools).</p>
+<p>Target encapsulating the SPIRV-Tools library usage requirements, available if
+this library is found in the SDK.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::MoltenVK</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Defined if SDK has the Khronos library which implement a subset of Vulkan API
-over Apple Metal graphics framework. (MoltenVK).</p>
+<p>Target encapsulating the MoltenVK library usage requirements, available if
+this library is found in the SDK.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::volk</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>Defined if SDK has the Vulkan meta-loader (volk).</p>
+<p>Target encapsulating the <code class="docutils literal notranslate"><span class="pre">volk</span></code> library usage requirements, available if
+<code class="docutils literal notranslate"><span class="pre">volk</span></code> is found in the SDK.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::dxc_lib</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>Defined if SDK has the DirectX shader compiler library.</p>
+<p>Target encapsulating the usage requirements for the DirectX shader compiler
+library, available if DXC library is found in the SDK.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan::dxc_exe</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>Defined if SDK has the DirectX shader compiler CLI tool.</p>
+<p>Imported executable target providing usage requirements for the DirectX shader
+compiler CLI tool, available if SDK has this tool.</p>
 </dd>
 </dl>
 </section>
@@ -161,120 +213,147 @@ over Apple Metal graphics framework. (MoltenVK).</p>
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
 <p>This module defines the following variables:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_FOUND</span></code></dt><dd><p>set to true if Vulkan was found</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_INCLUDE_DIRS</span></code></dt><dd><p>include directories for Vulkan</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_LIBRARIES</span></code></dt><dd><p>link against this library to use Vulkan</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_FOUND</span></code></dt><dd><p>Boolean indicating whether (the requested version of) Vulkan and all required
+components were found.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_VERSION</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.23.</span></p>
+<p><span class="versionmodified added">Added in version 3.23.</span></p>
 </div>
-<p>value from <code class="docutils literal notranslate"><span class="pre">vulkan/vulkan_core.h</span></code></p>
+<p>The version of Vulkan found.  Value is retrieved from
+<code class="docutils literal notranslate"><span class="pre">vulkan/vulkan_core.h</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_INCLUDE_DIRS</span></code></dt><dd><p>Include directories needed to use the main Vulkan library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_LIBRARIES</span></code></dt><dd><p>Libraries needed to link against to use the main Vulkan library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslc_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>True, if the SDK has the glslc executable.</p>
+<p>Boolean indicating whether the SDK provides the <code class="docutils literal notranslate"><span class="pre">glslc</span></code> executable.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslangValidator_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>True, if the SDK has the glslangValidator executable.</p>
+<p>Boolean indicating whether the SDK provides the <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code>
+executable.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslang_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>True, if the SDK has the glslang library.</p>
+<p>Boolean indicating whether the SDK provides the <code class="docutils literal notranslate"><span class="pre">glslang</span></code> library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_shaderc_combined_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>True, if the SDK has the shaderc_combined library.</p>
+<p>Boolean indicating whether the SDK provides the <code class="docutils literal notranslate"><span class="pre">shaderc_combined</span></code> library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_SPIRV-Tools_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>True, if the SDK has the SPIRV-Tools library.</p>
+<p>Boolean indicating whether the SDK provides the SPIRV-Tools library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_MoltenVK_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>True, if the SDK has the MoltenVK library.</p>
+<p>Boolean indicating whether the SDK provides the MoltenVK library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_volk_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>True, if the SDK has the volk library.</p>
+<p>Boolean indicating whether the SDK provides the volk library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_lib_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>True, if the SDK has the DirectX shader compiler library.</p>
+<p>Boolean indicating whether the SDK provides the DirectX shader compiler
+library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_exe_FOUND</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>True, if the SDK has the DirectX shader compiler CLI tool.</p>
+<p>Boolean indicating whether the SDK provides the DirectX shader compiler CLI
+tool.</p>
 </dd>
 </dl>
-<p>The module will also defines these cache variables:</p>
+</section>
+<section id="cache-variables">
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_INCLUDE_DIR</span></code></dt><dd><p>the Vulkan include directory</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_INCLUDE_DIR</span></code></dt><dd><p>The directory containing Vulkan headers.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_LIBRARY</span></code></dt><dd><p>the path to the Vulkan library</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_LIBRARY</span></code></dt><dd><p>The path to the Vulkan library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_GLSLC_EXECUTABLE</span></code></dt><dd><p>the path to the GLSL SPIR-V compiler</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_GLSLC_EXECUTABLE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
+</div>
+<p>The path to the GLSL SPIR-V compiler.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_GLSLANG_VALIDATOR_EXECUTABLE</span></code></dt><dd><p>the path to the glslangValidator tool</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_GLSLANG_VALIDATOR_EXECUTABLE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.21.</span></p>
+</div>
+<p>The path to the <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> tool.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslang_LIBRARY</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Path to the glslang library.</p>
+<p>The path to the <code class="docutils literal notranslate"><span class="pre">glslang</span></code> library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_shaderc_combined_LIBRARY</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Path to the shaderc_combined library.</p>
+<p>The path to the <code class="docutils literal notranslate"><span class="pre">shaderc_combined</span></code> library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_SPIRV-Tools_LIBRARY</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Path to the SPIRV-Tools library.</p>
+<p>The path to the SPIRV-Tools library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_MoltenVK_LIBRARY</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
-<p>Path to the MoltenVK library.</p>
+<p>The path to the MoltenVK library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_volk_LIBRARY</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>Path to the volk library.</p>
+<p>The path to the <code class="docutils literal notranslate"><span class="pre">volk</span></code> library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_LIBRARY</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>Path to the DirectX shader compiler library.</p>
+<p>The path to the DirectX shader compiler library.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_EXECUTABLE</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>Path to the DirectX shader compiler CLI tool.</p>
+<p>The path to the DirectX shader compiler CLI tool.</p>
 </dd>
 </dl>
 </section>
 <section id="hints">
 <h2>Hints<a class="headerlink" href="#hints" title="Link to this heading">¶</a></h2>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p>This module accepts the following variables:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">VULKAN_SDK</span></code></dt><dd><p>This environment variable can be optionally set to specify the location of the
+Vulkan SDK root directory for the given architecture.  It is typically set by
+sourcing the toplevel <code class="docutils literal notranslate"><span class="pre">setup-env.sh</span></code> script of the Vulkan SDK directory into
+the shell environment.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding the Vulkan library and linking it to a project target:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Vulkan</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">project_target</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Vulkan</span><span class="o">::</span><span class="nb">Vulkan</span><span class="nf">)</span>
+</pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">VULKAN_SDK</span></code> environment variable optionally specifies the
-location of the Vulkan SDK root directory for the given
-architecture. It is typically set by sourcing the toplevel
-<code class="docutils literal notranslate"><span class="pre">setup-env.sh</span></code> script of the Vulkan SDK directory into the shell
-environment.</p>
+<p>Finding the Vulkan library along with additional components:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Vulkan</span><span class="w"> </span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nb">volk</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">project_target</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Vulkan</span><span class="o">::</span><span class="nb">Vulkan</span><span class="w"> </span><span class="nb">Vulkan</span><span class="o">::</span><span class="nb">volk</span><span class="nf">)</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -283,16 +362,18 @@ environment.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FindVulkan</a><ul>
-<li><a class="reference internal" href="#optional-components">Optional COMPONENTS</a></li>
-<li><a class="reference internal" href="#imported-targets">IMPORTED Targets</a></li>
+<li><a class="reference internal" href="#components">Components</a></li>
+<li><a class="reference internal" href="#imported-targets">Imported Targets</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
 <li><a class="reference internal" href="#hints">Hints</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -315,7 +396,7 @@ environment.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -323,13 +404,13 @@ environment.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -342,14 +423,15 @@ environment.</p>
           <a href="FindTIFF.html" title="FindTIFF"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -358,8 +440,17 @@ environment.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

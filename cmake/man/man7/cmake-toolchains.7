@@ -1,3 +1,4 @@
+'\" t
 .\" Man page generated from reStructuredText.
 .
 .
@@ -27,7 +28,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-TOOLCHAINS" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-TOOLCHAINS" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-toolchains \- CMake Toolchains Reference
 .SH INTRODUCTION
@@ -39,7 +40,7 @@ determines the toolchain for host builds based on system introspection and
 defaults. In cross\-compiling scenarios, a toolchain file may be specified
 with information about compiler and utility paths.
 .sp
-New in version 3.19: One may use \fI\%cmake\-presets(7)\fP to specify toolchain files.
+Added in version 3.19: One may use \fI\%cmake\-presets(7)\fP to specify toolchain files.
 
 .SH LANGUAGES
 .sp
@@ -53,11 +54,9 @@ the enabled languages are \fBC\fP and \fBCXX\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 project(C_Only C)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -66,11 +65,9 @@ to enable no languages:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 project(MyProject NONE)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -79,11 +76,9 @@ The \fI\%enable_language()\fP command can be used to enable languages after the
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 enable_language(CXX)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -122,7 +117,7 @@ the \fBLANGUAGE\fP of the dependent libraries. The choice CMake makes may be ove
 with the \fI\%LINKER_LANGUAGE\fP target property.
 .SH TOOLCHAIN FEATURES
 .sp
-CMake provides the \fI\%try_compile()\fP command and wrapper macros such as
+CMake provides the \fI\%try_compile()\fP command and modules such as
 \fI\%CheckSourceCompiles\fP, \fI\%CheckCXXSymbolExists\fP and
 \fI\%CheckIncludeFile\fP to test capability and availability of various
 toolchain features. These APIs test the toolchain in some way and cache the
@@ -158,8 +153,7 @@ as:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
@@ -174,8 +168,7 @@ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -246,8 +239,7 @@ value to those supported compilers when compiling:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME Linux)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
@@ -257,8 +249,7 @@ set(CMAKE_C_COMPILER clang)
 set(CMAKE_C_COMPILER_TARGET ${triple})
 set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_CXX_COMPILER_TARGET ${triple})
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -275,8 +266,7 @@ value to those supported compilers when compiling:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME QNX)
 
 set(arch gcc_ntoarmv7le)
@@ -287,8 +277,7 @@ set(CMAKE_CXX_COMPILER QCC)
 set(CMAKE_CXX_COMPILER_TARGET ${arch})
 
 set(CMAKE_SYSROOT $ENV{QNX_TARGET})
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS Cross Compiling for Windows CE
@@ -297,13 +286,12 @@ Cross compiling for Windows CE requires the corresponding SDK being
 installed on your system.  These SDKs are usually installed under
 \fBC:/Program Files (x86)/Windows CE Tools/SDKs\fP\&.
 .sp
-A toolchain file to configure a Visual Studio generator for
+A toolchain file to configure \fI\%Visual Studio Generators\fP for
 Windows CE may look like this:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME WindowsCE)
 
 set(CMAKE_SYSTEM_VERSION 8.0)
@@ -311,8 +299,7 @@ set(CMAKE_SYSTEM_PROCESSOR arm)
 
 set(CMAKE_GENERATOR_TOOLSET CE800) # Can be omitted for 8.0
 set(CMAKE_GENERATOR_PLATFORM SDK_AM335X_SK_WEC2013_V310)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -328,12 +315,10 @@ Windows 10 Universal Application may look like this:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME WindowsStore)
 set(CMAKE_SYSTEM_VERSION 10.0)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -345,32 +330,28 @@ CMake selects a Windows SDK as described by documentation of the
 \fI\%CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION\fP variable.
 .SS Cross Compiling for Windows Phone
 .sp
-A toolchain file to configure a Visual Studio generator for
+A toolchain file to configure \fI\%Visual Studio Generators\fP for
 Windows Phone may look like this:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME WindowsPhone)
 set(CMAKE_SYSTEM_VERSION 8.1)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS Cross Compiling for Windows Store
 .sp
-A toolchain file to configure a Visual Studio generator for
+A toolchain file to configure a \fI\%Visual Studio Generators\fP for
 Windows Store may look like this:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME WindowsStore)
 set(CMAKE_SYSTEM_VERSION 8.1)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS Cross Compiling for ADSP SHARC/Blackfin
@@ -449,7 +430,7 @@ Else, an error diagnostic will be issued that neither the NDK or
 Standalone Toolchain can be found.
 .UNINDENT
 .sp
-New in version 3.20: If an Android NDK is selected, its version number is reported
+Added in version 3.20: If an Android NDK is selected, its version number is reported
 in the \fI\%CMAKE_ANDROID_NDK_VERSION\fP variable.
 
 .SS Cross Compiling for Android with the NDK
@@ -523,15 +504,13 @@ For example, a toolchain file might contain:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME Android)
 set(CMAKE_SYSTEM_VERSION 21) # API level
 set(CMAKE_ANDROID_ARCH_ABI arm64\-v8a)
 set(CMAKE_ANDROID_NDK /path/to/android\-ndk)
 set(CMAKE_ANDROID_STL_TYPE gnustl_static)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -539,16 +518,14 @@ Alternatively one may specify the values without a toolchain file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ cmake ../src \e
   \-DCMAKE_SYSTEM_NAME=Android \e
   \-DCMAKE_SYSTEM_VERSION=21 \e
   \-DCMAKE_ANDROID_ARCH_ABI=arm64\-v8a \e
   \-DCMAKE_ANDROID_NDK=/path/to/android\-ndk \e
   \-DCMAKE_ANDROID_STL_TYPE=gnustl_static
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS Cross Compiling for Android with a Standalone Toolchain
@@ -601,12 +578,10 @@ For example, a toolchain file might contain:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME Android)
 set(CMAKE_ANDROID_STANDALONE_TOOLCHAIN /path/to/android\-toolchain)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -614,13 +589,11 @@ Alternatively one may specify the values without a toolchain file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ cmake ../src \e
   \-DCMAKE_SYSTEM_NAME=Android \e
   \-DCMAKE_ANDROID_STANDALONE_TOOLCHAIN=/path/to/android\-toolchain
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS Cross Compiling for Android with NVIDIA Nsight Tegra Visual Studio Edition
@@ -630,11 +603,9 @@ to build using NVIDIA Nsight Tegra targeting Android may look like this:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(CMAKE_SYSTEM_NAME Android)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -693,9 +664,8 @@ a different SDK (e.g. a simulator) can be selected by setting the
 necessary (see \fI\%Switching Between Device and Simulator\fP below).
 A list of available SDKs can be obtained by running \fBxcodebuild \-showsdks\fP\&.
 .TS
-center;
-|l|l|l|l|l|.
-_
+box center;
+l|l|l|l|l.
 T{
 OS
 T}	T{
@@ -755,7 +725,6 @@ watchsimulator
 T}	T{
 N/A
 T}
-_
 .TE
 .sp
 For example, to create a CMake configuration for iOS, the following
@@ -763,11 +732,9 @@ command is sufficient:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 cmake .. \-GXcode \-DCMAKE_SYSTEM_NAME=iOS
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -783,8 +750,7 @@ example is now deprecated, so this approach is no longer recommended.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ cmake \-S. \-B_builds \-GXcode \e
     \-DCMAKE_SYSTEM_NAME=iOS \e
     \(dq\-DCMAKE_OSX_ARCHITECTURES=armv7;armv7s;arm64;i386;x86_64\(dq \e
@@ -792,8 +758,7 @@ $ cmake \-S. \-B_builds \-GXcode \e
     \-DCMAKE_INSTALL_PREFIX=\(gapwd\(ga/_install \e
     \-DCMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=NO \e
     \-DCMAKE_IOS_INSTALL_COMBINED=YES
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -801,15 +766,13 @@ Example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.14)
 project(foo)
 add_library(foo foo.cpp)
 install(TARGETS foo DESTINATION lib)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -817,11 +780,9 @@ Install:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ cmake \-\-build _builds \-\-config Release \-\-target install
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -829,25 +790,21 @@ Check library:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ lipo \-info _install/lib/libfoo.a
 Architectures in the fat file: _install/lib/libfoo.a are: i386 armv7 armv7s x86_64 arm64
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ otool \-l _install/lib/libfoo.a | grep \-A2 LC_VERSION_MIN_IPHONEOS
       cmd LC_VERSION_MIN_IPHONEOS
   cmdsize 16
   version 9.3
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS Code Signing
@@ -875,11 +832,9 @@ tool (\fBxcodebuild\fP).  For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ cmake \-\-build ... \-\- \-sdk iphonesimulator
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -900,7 +855,84 @@ e.g. \fBtarget_link_libraries(foo PUBLIC \(dq\-framework CoreFoundation\(dq)\fP
 Use \fI\%find_package()\fP only for libraries installed with
 \fI\%CMAKE_IOS_INSTALL_COMBINED\fP feature
 .UNINDENT
+.SS Cross Compiling for Emscripten
+.sp
+Added in version 4.2.
+
+.sp
+A toolchain file may configure cross\-compiling for \X'tty: link https://emscripten.org/'\fI\%Emscripten\fP\X'tty: link' by
+setting the \fI\%CMAKE_SYSTEM_NAME\fP variable to \fBEmscripten\fP\&.
+For example, a toolchain file might contain:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+set(CMAKE_SYSTEM_NAME Emscripten)
+set(CMAKE_C_COMPILER /path/to/emcc)
+set(CMAKE_CXX_COMPILER /path/to/em++)
+.EE
+.UNINDENT
+.UNINDENT
+.SS Cross Compiling using Renesas compilers
+.sp
+For cross\-compiling with Renesas compilers, specify at least:
+.INDENT 0.0
+.TP
+.B \fI\%CMAKE_SYSTEM_NAME\fP
+Set to \fBGeneric\fP\&.  Must be specified to enable cross compiling.
+.TP
+.B \fI\%CMAKE_C_COMPILER\fP
+Set to the path to the Renesas C compiler, e.g.,
+\fBccrx\fP, \fBccrl\fP, or \fBccrh\fP\&.
+.TP
+.B \fI\%CMAKE_C_FLAGS\fP
+Set to the \fB\-isa=\fP or \fB\-cpu=\fP flag the compiler requires.
+.UNINDENT
+.sp
+See example toolchain files in the following sections.
+.SS Renesas CC\-RX
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_C_COMPILER \(dqccrx.exe\(dq)
+set(CMAKE_ASM_COMPILER \(dqccrx.exe\(dq) # if using ASM language
+set(CMAKE_C_FLAGS \(dq\-isa=rxv3\(dq) # specify the version of target RX CPU
+set(CMAKE_EXE_LINKER_FLAGS \(dq\-lnkopt=<your linker option here>\(dq)
+.EE
+.UNINDENT
+.UNINDENT
+.SS Renesas CC\-RL
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_C_COMPILER \(dqccrl.exe\(dq)
+set(CMAKE_ASM_COMPILER \(dqccrl.exe\(dq) # if using ASM language
+set(CMAKE_C_FLAGS \(dq\-cpu=S3\(dq) # specify the version of target RL CPU
+# To avoid test executable runs out of const section\(aqs size.
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+# Specifying device file and section layout linker options through compiler driver.
+set(CMAKE_EXE_LINKER_FLAGS \(dq\-lnkopt=\-device=dr5f10y14.dvf \-lnkopt=\-auto_section_layout\(dq)
+.EE
+.UNINDENT
+.UNINDENT
+.SS Renesas CC\-RH
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_C_COMPILER \(dqccrh.exe\(dq)
+set(CMAKE_ASM_COMPILER \(dqccrh.exe\(dq) # if using ASM language
+set(CMAKE_C_FLAGS \(dq\-Xcommon=rh850\(dq) # specify the version of target RH850 CPU
+set(CMAKE_EXE_LINKER_FLAGS \(dq\-lnkopt=<your linker option here>\(dq)
+.EE
+.UNINDENT
+.UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

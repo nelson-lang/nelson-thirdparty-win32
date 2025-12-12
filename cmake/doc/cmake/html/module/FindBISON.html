@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindBISON &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindBISON &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindBacktrace.html" title="FindBacktrace"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,79 +63,201 @@
             
   <section id="findbison">
 <span id="module:FindBISON"></span><h1>FindBISON<a class="headerlink" href="#findbison" title="Link to this heading">¶</a></h1>
-<p>Find <code class="docutils literal notranslate"><span class="pre">bison</span></code> executable and provide a macro to generate custom build rules.</p>
-<p>The module defines the following variables:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_EXECUTABLE</span></code></dt><dd><p>path to the <code class="docutils literal notranslate"><span class="pre">bison</span></code> program</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_VERSION</span></code></dt><dd><p>version of <code class="docutils literal notranslate"><span class="pre">bison</span></code></p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_FOUND</span></code></dt><dd><p>&quot;True&quot; if the program was found</p>
-</dd>
-</dl>
-<p>The minimum required version of <code class="docutils literal notranslate"><span class="pre">bison</span></code> can be specified using the
-standard CMake syntax, e.g.  <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package(bison 2.1.3)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(BISON</span> <span class="pre">2.1.3)</span></code></a>.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">bison</span></code> is found, the module defines the macro:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>BISON_TARGET(&lt;Name&gt; &lt;YaccInput&gt; &lt;CodeOutput&gt;
-             [COMPILE_FLAGS &lt;flags&gt;]
-             [DEFINES_FILE &lt;file&gt;]
-             [VERBOSE [&lt;file&gt;]]
-             [REPORT_FILE &lt;file&gt;]
-             )
+<p>Finds the Bison command-line parser generator and provides a CMake command to
+generate custom build rules for using Bison:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>which will create a custom rule to generate a parser.  <code class="docutils literal notranslate"><span class="pre">&lt;YaccInput&gt;</span></code> is
-the path to a yacc file.  <code class="docutils literal notranslate"><span class="pre">&lt;CodeOutput&gt;</span></code> is the name of the source file
-generated by bison.  A header file is also be generated, and contains
-the token list.</p>
+<p>Bison is a parser generator that replaced earlier Yacc (Yet Another
+Compiler-Compiler).  On Unix-like systems, most common implementation is
+GNU Bison.  On Windows, this module looks for Windows-compatible Bison, if
+installed.</p>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<p>This module defines the following variables:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_FOUND</span></code></dt><dd><p>Boolean indicating whether (the requested version of) Bison was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_VERSION</span></code></dt><dd><p>The version of Bison found.</p>
+</dd>
+</dl>
+</section>
+<section id="cache-variables">
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_EXECUTABLE</span></code></dt><dd><p>The path to the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command-line program.</p>
+</dd>
+</dl>
+</section>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">¶</a></h2>
+<p>This module provides the following command if <code class="docutils literal notranslate"><span class="pre">bison</span></code> is found:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:bison_target">
+<span class="sig-name descname"><span class="pre">bison_target</span></span><a class="headerlink" href="#command:bison_target" title="Link to this definition">¶</a></dt>
+<dd><p>Creates a custom build rule to generate a parser file from a Yacc file using
+Bison:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">bison_target(</span>
+<span class="w">  </span><span class="nv">&lt;name&gt;</span>
+<span class="w">  </span><span class="nv">&lt;input-yacc-file&gt;</span>
+<span class="w">  </span><span class="nv">&lt;output-parser-file&gt;</span>
+<span class="w">  </span><span class="p">[</span><span class="no">DEFINES_FILE</span><span class="w"> </span><span class="nv">&lt;header&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">VERBOSE</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;file&gt;</span><span class="p">]]</span><span class="w">       </span><span class="c"># The [&lt;file&gt;] argument is deprecated</span>
+<span class="w">  </span><span class="p">[</span><span class="no">REPORT_FILE</span><span class="w"> </span><span class="nv">&lt;file&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="nv">&lt;options&gt;...</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">COMPILE_FLAGS</span><span class="w"> </span><span class="nv">&lt;string&gt;</span><span class="p">]</span><span class="w"> </span><span class="c"># Deprecated</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
 <div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 3.14: </span>When <span class="target" id="index-0-policy:CMP0088"></span><a class="reference internal" href="../policy/CMP0088.html#policy:CMP0088" title="CMP0088"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0088</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, <code class="docutils literal notranslate"><span class="pre">bison</span></code> runs in the
+<p><span class="versionmodified changed">Changed in version 3.14: </span>When policy <span class="target" id="index-0-policy:CMP0088"></span><a class="reference internal" href="../policy/CMP0088.html#policy:CMP0088" title="CMP0088"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0088</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, <code class="docutils literal notranslate"><span class="pre">bison</span></code> runs in the
 <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a> directory.</p>
 </div>
-<p>The options are:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">COMPILE_FLAGS</span> <span class="pre">&lt;flags&gt;</span></code></dt><dd><p>Specify flags to be added to the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command line.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code></dt><dd><p>String used as an identifier for this command invocation.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">DEFINES_FILE</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.4.</span></p>
-</div>
-<p>Specify a non-default header <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> to be generated by <code class="docutils literal notranslate"><span class="pre">bison</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;input-yacc-file&gt;</span></code></dt><dd><p>The path to an input Yacc source file (<code class="docutils literal notranslate"><span class="pre">.y</span></code>).  If given as a relative
+path, it will be interpreted relative to the current source directory
+(<span class="target" id="index-0-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a>).</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">VERBOSE</span> <span class="pre">[&lt;file&gt;]</span></code></dt><dd><p>Tell <code class="docutils literal notranslate"><span class="pre">bison</span></code> to write a report file of the grammar and parser.</p>
-<div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.7: </span>If <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> is given, it specifies path the report file is copied to.
-<code class="docutils literal notranslate"><span class="pre">[&lt;file&gt;]</span></code> is left for backward compatibility of this module.
-Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> <span class="pre">REPORT_FILE</span> <span class="pre">&lt;file&gt;</span></code>.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;output-parser-file&gt;</span></code></dt><dd><p>The path of the output parser file to be generated by Bison.  If given as a
+relative path, it will be interpreted relative to the current Bison working
+directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DEFINES_FILE</span> <span class="pre">&lt;header&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
 </div>
+<p>By default, Bison can generate a header file containing the list of tokens.
+This option allows specifying a custom <code class="docutils literal notranslate"><span class="pre">&lt;header&gt;</span></code> file to be generated by
+Bison.  If given as a relative path, it will be interpreted relative to the
+current Bison working directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">VERBOSE</span> <span class="pre">[&lt;file&gt;]</span></code></dt><dd><p>Enables generation of a verbose grammar and parser report.  By default, the
+report file is created in the current Bison working directory and named
+<code class="docutils literal notranslate"><span class="pre">&lt;output-parser-filename&gt;.output</span></code>.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.7: </span>Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> <span class="pre">REPORT_FILE</span> <span class="pre">&lt;file&gt;</span></code>.</p>
+</div>
+<p>Specifies the path to which the report file should be copied.  This
+argument is retained for backward compatibility and only works when the
+<code class="docutils literal notranslate"><span class="pre">&lt;output-parser-file&gt;</span></code> is specified as an absolute path.</p>
+</dd>
+</dl>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">REPORT_FILE</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
-<p>Specify a non-default report <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code>, if generated.</p>
+<p>Used in combination with <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code> to specify a custom path for the report
+output <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code>, overriding the default location.  If given as a relative
+path, it will be interpreted relative to the current Bison working
+directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OPTIONS</span> <span class="pre">&lt;options&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.0.</span></p>
+</div>
+<p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of extra options
+added to the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command line.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">COMPILE_FLAGS</span> <span class="pre">&lt;string&gt;</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.0: </span>Superseded by <code class="docutils literal notranslate"><span class="pre">OPTIONS</span> <span class="pre">&lt;options&gt;...</span></code>.</p>
+</div>
+<p>A string of space-separated extra options added to the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command
+line.  A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> will not
+work.</p>
 </dd>
 </dl>
-<p>The macro defines the following variables:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;Name&gt;_DEFINED</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">True</span></code> is the macro ran successfully</p>
+<p class="rubric">Command variables</p>
+<p>This command also defines the following variables:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_DEFINED</span></code></dt><dd><p>Boolean indicating whether this command was successfully invoked.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;Name&gt;_INPUT</span></code></dt><dd><p>The input source file, an alias for &lt;YaccInput&gt;</p>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_INPUT</span></code></dt><dd><p>The input source file, an alias for <code class="docutils literal notranslate"><span class="pre">&lt;input-yacc-file&gt;</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;Name&gt;_OUTPUT_SOURCE</span></code></dt><dd><p>The source file generated by bison</p>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_OUTPUT_SOURCE</span></code></dt><dd><p>The output parser file generated by <code class="docutils literal notranslate"><span class="pre">bison</span></code>.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;Name&gt;_OUTPUT_HEADER</span></code></dt><dd><p>The header file generated by bison</p>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_OUTPUT_HEADER</span></code></dt><dd><p>The header file generated by <code class="docutils literal notranslate"><span class="pre">bison</span></code>, if any.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;Name&gt;_OUTPUTS</span></code></dt><dd><p>All files generated by bison including the source, the header and the report</p>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_OUTPUTS</span></code></dt><dd><p>A list of files generated by <code class="docutils literal notranslate"><span class="pre">bison</span></code>, including the output parser file,
+header file, and report file.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;Name&gt;_COMPILE_FLAGS</span></code></dt><dd><p>Options used in the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command line</p>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.0.</span></p>
+</div>
+<p>A list of command-line options used for the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_COMPILE_FLAGS</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.0: </span>Superseded by <code class="docutils literal notranslate"><span class="pre">BISON_&lt;name&gt;_OPTIONS</span></code> variable with the same value.</p>
+</div>
+<p>A list of command-line options used for the <code class="docutils literal notranslate"><span class="pre">bison</span></code> command.</p>
 </dd>
 </dl>
-<p>Example usage:</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<section id="examples-finding-bison">
+<h3>Examples: Finding Bison<a class="headerlink" href="#examples-finding-bison" title="Link to this heading">¶</a></h3>
+<p>Finding Bison:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="nf">)</span>
-<span class="nf">BISON_TARGET(</span><span class="nb">MyParser</span><span class="w"> </span><span class="nb">parser.y</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/parser.cpp</span>
-<span class="w">             </span><span class="no">DEFINES_FILE</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/parser.h</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Finding Bison with a minimum required version:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="w"> </span><span class="m">2.1.3</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Finding Bison and making it required (if Bison is not found, processing stops
+with an error message):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="w"> </span><span class="m">2.1.3</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-generating-parser">
+<h3>Example: Generating Parser<a class="headerlink" href="#example-generating-parser" title="Link to this heading">¶</a></h3>
+<p>Finding Bison and adding input Yacc source file <code class="docutils literal notranslate"><span class="pre">parser.y</span></code> to be processed by
+Bison into <code class="docutils literal notranslate"><span class="pre">parser.cpp</span></code> source file with header <code class="docutils literal notranslate"><span class="pre">parser.h</span></code> at build phase:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="no">BISON_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">bison_target(</span><span class="nb">MyParser</span><span class="w"> </span><span class="nb">parser.y</span><span class="w"> </span><span class="nb">parser.cpp</span><span class="w"> </span><span class="no">DEFINES_FILE</span><span class="w"> </span><span class="nb">parser.h</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+
 <span class="nf">add_executable(</span><span class="nb">Foo</span><span class="w"> </span><span class="nb">main.cpp</span><span class="w"> </span><span class="o">${</span><span class="nt">BISON_MyParser_OUTPUTS</span><span class="o">}</span><span class="nf">)</span>
 </pre></div>
 </div>
+</section>
+<section id="examples-command-line-options">
+<h3>Examples: Command-line Options<a class="headerlink" href="#examples-command-line-options" title="Link to this heading">¶</a></h3>
+<p>Adding additional command-line options to the <code class="docutils literal notranslate"><span class="pre">bison</span></code> executable can be passed
+as a list.  For example, adding the <code class="docutils literal notranslate"><span class="pre">-Wall</span></code> option to report all warnings, and
+<code class="docutils literal notranslate"><span class="pre">--no-lines</span></code> (<code class="docutils literal notranslate"><span class="pre">-l</span></code>) to not generate <code class="docutils literal notranslate"><span class="pre">#line</span></code> directives:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="no">BISON_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">bison_target(</span><span class="nb">MyParser</span><span class="w"> </span><span class="nb">parser.y</span><span class="w"> </span><span class="nb">parser.cpp</span><span class="w"> </span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">-</span><span class="nb">Wall</span><span class="w"> </span><span class="p">--</span><span class="nb">no-lines</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p><span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">Generator</span> <span class="pre">expressions</span></code></a> can be used in
+the <code class="docutils literal notranslate"><span class="pre">OPTIONS</span> <span class="pre">&lt;options&gt;...</span></code> argument.  For example, to add the <code class="docutils literal notranslate"><span class="pre">--debug</span></code>
+(<code class="docutils literal notranslate"><span class="pre">-t</span></code>) option only for the <code class="docutils literal notranslate"><span class="pre">Debug</span></code> build type:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">BISON</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="no">BISON_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">bison_target(</span><span class="nb">MyParser</span><span class="w"> </span><span class="nb">parser.y</span><span class="w"> </span><span class="nb">parser.cpp</span><span class="w"> </span><span class="no">OPTIONS</span><span class="w"> </span><span class="o">$&lt;$&lt;</span><span class="no">CONFIG</span><span class="o">:</span><span class="nb">Debug</span><span class="o">&gt;:</span><span class="p">-</span><span class="nb">t</span><span class="o">&gt;</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>The <span class="target" id="index-0-module:FindFLEX"></span><a class="reference internal" href="FindFLEX.html#module:FindFLEX" title="FindFLEX"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindFLEX</span></code></a> module to find Flex scanner generator.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -138,8 +265,27 @@ Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">FindBISON</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#examples-finding-bison">Examples: Finding Bison</a></li>
+<li><a class="reference internal" href="#example-generating-parser">Example: Generating Parser</a></li>
+<li><a class="reference internal" href="#examples-command-line-options">Examples: Command-line Options</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="FindBacktrace.html"
@@ -157,7 +303,7 @@ Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> 
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -165,13 +311,13 @@ Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> 
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -184,14 +330,15 @@ Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> 
           <a href="FindBacktrace.html" title="FindBacktrace"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -200,8 +347,17 @@ Use <code class="docutils literal notranslate"><span class="pre">VERBOSE</span> 
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

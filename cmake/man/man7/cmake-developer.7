@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-DEVELOPER" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-DEVELOPER" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-developer \- CMake Developer Reference
 .SH INTRODUCTION
@@ -36,7 +36,7 @@ This manual is intended for reference by developers working with
 \fI\%cmake\-language(7)\fP code, whether writing their own modules,
 authoring their own build systems, or working on CMake itself.
 .sp
-See \fI\%https://cmake.org/get\-involved/\fP to get involved in development of
+See \X'tty: link https://cmake.org/get-involved/'\fI\%https://cmake.org/get\-involved/\fP\X'tty: link' to get involved in development of
 CMake upstream.  It includes links to contribution instructions, which
 in turn link to developer guides for CMake itself.
 .SH ACCESSING WINDOWS REGISTRY
@@ -44,7 +44,7 @@ in turn link to developer guides for CMake itself.
 CMake offers some facilities to access the registry on \fBWindows\fP platforms.
 .SS Query Windows Registry
 .sp
-New in version 3.24.
+Added in version 3.24.
 
 .sp
 The \fI\%cmake_host_system_information()\fP command offers the possibility to
@@ -62,22 +62,22 @@ Options \fBHINTS\fP and \fBPATHS\fP of \fI\%find_file()\fP,
 platform, to query the registry.
 .sp
 The formal syntax, as specified using
-\fI\%BNF\fP notation with
+\X'tty: link https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form'\fI\%BNF\fP\X'tty: link' notation with
 the regular extensions, for registry query is the following:
 .sp
 .nf
-\fBregistry_query \fP ::=  \(aq[\(aq \fI\%sep_definition\fP? \fI\%root_key\fP
-                         ((\fI\%key_separator\fP \fI\%sub_key\fP)? (\fI\%value_separator\fP \fI\%value_name\fP_)?)? \(aq]\(aq
-\fBsep_definition \fP ::=  \(aq{\(aq \fI\%value_separator\fP \(aq}\(aq
-\fBroot_key       \fP ::=  \(aqHKLM\(aq | \(aqHKEY_LOCAL_MACHINE\(aq | \(aqHKCU\(aq | \(aqHKEY_CURRENT_USER\(aq |
-                     \(aqHKCR\(aq | \(aqHKEY_CLASSES_ROOT\(aq | \(aqHKCC\(aq | \(aqHKEY_CURRENT_CONFIG\(aq |
-                     \(aqHKU\(aq | \(aqHKEY_USERS\(aq
-\fBsub_key        \fP ::=  \fI\%element\fP (\fI\%key_separator\fP \fI\%element\fP)*
-\fBkey_separator  \fP ::=  \(aq/\(aq | \(aq\e\e\(aq
-\fBvalue_separator\fP ::=  \fI\%element\fP | \(aq;\(aq
-\fBvalue_name     \fP ::=  \fI\%element\fP | \(aq(default)\(aq
-\fBelement        \fP ::=  \fI\%character\fP\e+
-\fBcharacter      \fP ::=  <any character except \fI\%key_separator\fP and \fI\%value_separator\fP>
+\fBregistry_query\fP  ::= \(aq[\(aq \fI\%sep_definition\fP? \fI\%root_key\fP
+                    ((\fI\%key_separator\fP \fI\%sub_key\fP)? (\fI\%value_separator\fP \fI\%value_name\fP_)?)? \(aq]\(aq
+\fBsep_definition\fP  ::= \(aq{\(aq \fI\%value_separator\fP \(aq}\(aq
+\fBroot_key\fP        ::= \(aqHKLM\(aq | \(aqHKEY_LOCAL_MACHINE\(aq | \(aqHKCU\(aq | \(aqHKEY_CURRENT_USER\(aq |
+                    \(aqHKCR\(aq | \(aqHKEY_CLASSES_ROOT\(aq | \(aqHKCC\(aq | \(aqHKEY_CURRENT_CONFIG\(aq |
+                    \(aqHKU\(aq | \(aqHKEY_USERS\(aq
+\fBsub_key\fP         ::= \fI\%element\fP (\fI\%key_separator\fP \fI\%element\fP)*
+\fBkey_separator\fP   ::= \(aq/\(aq | \(aq\e\e\(aq
+\fBvalue_separator\fP ::= \fI\%element\fP | \(aq;\(aq
+\fBvalue_name\fP      ::= \fI\%element\fP | \(aq(default)\(aq
+\fBelement\fP         ::= \fI\%character\fP\e+
+\fBcharacter\fP       ::= <any character except \fI\%key_separator\fP and \fI\%value_separator\fP>
 
 .fi
 .sp
@@ -88,15 +88,13 @@ item. If not specified, the character \fB;\fP is used. Multiple
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # example using default separator
 find_file(... PATHS \(dq/root/[HKLM/Stuff;InstallDir]/lib[HKLM\e\e\e\eStuff;Architecture]\(dq)
 
 # example using different specified separators
 find_library(... HINTS \(dq/root/[{|}HKCU/Stuff|InstallDir]/lib[{@@}HKCU\e\e\e\eStuff@@Architecture]\(dq)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -147,15 +145,13 @@ A FindFoo.cmake module will typically be loaded by the command:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Foo [major[.minor[.patch[.tweak]]]]
              [EXACT] [QUIET] [REQUIRED]
              [[COMPONENTS] [components...]]
              [OPTIONAL_COMPONENTS components...]
              [NO_POLICY_SCOPE])
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -177,7 +173,7 @@ libraries) should search for the components listed in
 \fBFoo_FIND_COMPONENTS\fP if it is set , and only set \fBFoo_FOUND\fP to
 true if for each searched\-for component \fB<c>\fP that was not found,
 \fBFoo_FIND_REQUIRED_<c>\fP is not set to true.  The \fBHANDLE_COMPONENTS\fP
-argument of \fBfind_package_handle_standard_args()\fP can be used to
+argument of \fI\%find_package_handle_standard_args()\fP can be used to
 implement this.
 .sp
 If \fBFoo_FIND_COMPONENTS\fP is not set, which modules are searched for
@@ -237,7 +233,11 @@ Optionally, the final set of library directories listed in one
 variable for use by client code. This should not be a cache entry.
 .TP
 .B \fBXxx_ROOT_DIR\fP
-Where to find the base directory of the module.
+The base directory of the installation of \fBXxx\fP that can be optionally set
+by the find module if \fBXxx\fP is found. This is useful for large packages
+where many files need to be referenced relative to a common base (or root)
+directory. Not to be confused with the \fBXxx_ROOT\fP hint variable set from the
+outside for the find module to know where to look for the \fBXxx\fP\&.
 .TP
 .B \fBXxx_VERSION_VV\fP
 Variables of this form specify whether the \fBXxx\fP module being provided
@@ -285,8 +285,9 @@ user code to create the \fBPATH\fP on windows or \fBLD_LIBRARY_PATH\fP on
 UNIX.  This should not be a cache entry.
 .TP
 .B \fBXxx_VERSION\fP
-The full version string of the package found, if any.  Note that many
-existing modules provide \fBXxx_VERSION_STRING\fP instead.
+The full version string of the package found, if any.  Note that some existing
+modules may also provide \fBXxx_VERSION_STRING\fP, as it was traditionally used
+before the current naming convention.
 .TP
 .B \fBXxx_VERSION_MAJOR\fP
 The major version of the package found, if any.
@@ -341,10 +342,10 @@ and release binaries, it is common to create cache variables with a
 \fBFoo_LIBRARY_DEBUG\fP\&.  The \fI\%SelectLibraryConfigurations\fP module
 can be helpful for such cases.
 .sp
-While these are the standard variable names, you should provide
-backwards compatibility for any old names that were actually in use.
-Make sure you comment them as deprecated, so that no\-one starts using
-them.
+While these are the standard variable names, backward compatibility should be
+provided for any previously used names in the find module that is replacing an
+older version.  Old variable names should be documented as deprecated to
+discourage further use.
 .SS A Sample Find Module
 .sp
 We will describe how to create a simple find module for a library \fBFoo\fP\&.
@@ -356,10 +357,9 @@ reStructuredText\-format documentation.  For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # Distributed under the OSI\-approved BSD 3\-Clause License.  See accompanying
-# file Copyright.txt or https://cmake.org/licensing for details.
+# file LICENSE.rst or https://cmake.org/licensing for details.
 
 #[=======================================================================[.rst:
 FindFoo
@@ -378,10 +378,10 @@ This module provides the following imported targets, if found:
 Result Variables
 ^^^^^^^^^^^^^^^^
 
-This will define the following variables:
+This module defines the following variables:
 
 \(ga\(gaFoo_FOUND\(ga\(ga
-  True if the system has the Foo library.
+  Boolean indicating whether (the requested version of) Foo was found.
 \(ga\(gaFoo_VERSION\(ga\(ga
   The version of the Foo library which was found.
 \(ga\(gaFoo_INCLUDE_DIRS\(ga\(ga
@@ -400,8 +400,7 @@ The following cache variables may also be set:
   The path to the Foo library.
 
 #]=======================================================================]
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -437,12 +436,12 @@ starting point.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(PkgConfig)
-pkg_check_modules(PC_Foo QUIET Foo)
-.ft P
-.fi
+if(PkgConfig_FOUND)
+  pkg_check_modules(PC_Foo QUIET Foo)
+endif()
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -451,83 +450,72 @@ information from the \fBFoo.pc\fP file.
 .sp
 Now we need to find the libraries and include files; we use the
 information from \fBpkg\-config\fP to provide hints to CMake about where to
-look.
+look before checking other default paths.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_path(Foo_INCLUDE_DIR
   NAMES foo.h
-  PATHS ${PC_Foo_INCLUDE_DIRS}
+  HINTS ${PC_Foo_INCLUDE_DIRS}
   PATH_SUFFIXES Foo
 )
 find_library(Foo_LIBRARY
   NAMES foo
-  PATHS ${PC_Foo_LIBRARY_DIRS}
+  HINTS ${PC_Foo_LIBRARY_DIRS}
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
-Alternatively, if the library is available with multiple configurations, you can
-use \fI\%SelectLibraryConfigurations\fP to automatically set the
-\fBFoo_LIBRARY\fP variable instead:
+Alternatively, if the library is available with multiple configurations, the
+\fI\%SelectLibraryConfigurations\fP module can be used to automatically set
+the \fBFoo_LIBRARY\fP variable instead:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_library(Foo_LIBRARY_RELEASE
   NAMES foo
-  PATHS ${PC_Foo_LIBRARY_DIRS}/Release
+  HINTS ${PC_Foo_LIBRARY_DIRS}/Release
 )
 find_library(Foo_LIBRARY_DEBUG
   NAMES foo
-  PATHS ${PC_Foo_LIBRARY_DIRS}/Debug
+  HINTS ${PC_Foo_LIBRARY_DIRS}/Debug
 )
 
 include(SelectLibraryConfigurations)
 select_library_configurations(Foo)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
-If you have a good way of getting the version (from a header file, for
-example), you can use that information to set \fBFoo_VERSION\fP (although
-note that find modules have traditionally used \fBFoo_VERSION_STRING\fP,
-so you may want to set both).  Otherwise, attempt to use the information
-from \fBpkg\-config\fP
+If there is a good way of getting the version (from a header file, for
+example), that information can be used to set \fBFoo_VERSION\fP\&.  Otherwise,
+attempt to use the information from the \fBpkg\-config\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(Foo_VERSION ${PC_Foo_VERSION})
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
-Now we can use \fI\%FindPackageHandleStandardArgs\fP to do most of the
-rest of the work for us
+Now we can use the \fI\%FindPackageHandleStandardArgs\fP module to handle most
+of the remaining steps for us:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Foo
-  FOUND_VAR Foo_FOUND
   REQUIRED_VARS
     Foo_LIBRARY
     Foo_INCLUDE_DIR
   VERSION_VAR Foo_VERSION
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -546,15 +534,13 @@ traditional variable approach looks like
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 if(Foo_FOUND)
   set(Foo_LIBRARIES ${Foo_LIBRARY})
   set(Foo_INCLUDE_DIRS ${Foo_INCLUDE_DIR})
   set(Foo_DEFINITIONS ${PC_Foo_CFLAGS_OTHER})
 endif()
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -571,8 +557,7 @@ exist (see policy \fI\%CMP0028\fP).
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 if(Foo_FOUND AND NOT TARGET Foo::Foo)
   add_library(Foo::Foo UNKNOWN IMPORTED)
   set_target_properties(Foo::Foo PROPERTIES
@@ -581,8 +566,7 @@ if(Foo_FOUND AND NOT TARGET Foo::Foo)
     INTERFACE_INCLUDE_DIRECTORIES \(dq${Foo_INCLUDE_DIR}\(dq
   )
 endif()
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -603,8 +587,7 @@ populated:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 if(Foo_FOUND)
   if (NOT TARGET Foo::Foo)
     add_library(Foo::Foo UNKNOWN IMPORTED)
@@ -630,8 +613,7 @@ if(Foo_FOUND)
     INTERFACE_INCLUDE_DIRECTORIES \(dq${Foo_INCLUDE_DIR}\(dq
   )
 endif()
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -639,36 +621,35 @@ The \fBRELEASE\fP variant should be listed first in the property
 so that the variant is chosen if the user uses a configuration which is
 not an exact match for any listed \fBIMPORTED_CONFIGURATIONS\fP\&.
 .sp
-Most of the cache variables should be hidden in the \fBccmake\fP interface unless
-the user explicitly asks to edit them.
+Most of the cache variables should be marked as advanced to remain hidden in GUI
+interfaces such as \fI\%cmake\-gui(1)\fP or \fI\%ccmake(1)\fP, unless the
+user explicitly chooses to display and modify them:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 mark_as_advanced(
   Foo_INCLUDE_DIR
   Foo_LIBRARY
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
-If this module replaces an older version, you should set compatibility variables
-to cause the least disruption possible.
+If this find module replaces an older module version that provided variables
+before the current standard variables naming conventions, also backward
+compatibility variables should be provided to cause the least disruption
+possible.  For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
-# compatibility variables
+.EX
+# Backward compatibility variables
 set(Foo_VERSION_STRING ${Foo_VERSION})
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

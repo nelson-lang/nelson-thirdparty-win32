@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CPack WIX Generator &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>CPack WIX Generator &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="rpm.html" title="CPack RPM Generator"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li>
@@ -58,9 +63,9 @@
             
   <section id="cpack-wix-generator">
 <span id="cpack_gen:CPack WIX Generator"></span><h1>CPack WIX Generator<a class="headerlink" href="#cpack-wix-generator" title="Link to this heading">¶</a></h1>
-<p>Use the <a class="reference external" href="https://wixtoolset.org/">WiX Toolset</a> to produce a Windows Installer <code class="docutils literal notranslate"><span class="pre">.msi</span></code> database.</p>
+<p>Use the <a class="reference external" href="https://www.firegiant.com/wixtoolset/">WiX Toolset</a> to produce a Windows Installer <code class="docutils literal notranslate"><span class="pre">.msi</span></code> database.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7: </span>The <span class="target" id="index-0-variable:CPACK_COMPONENT_&lt;compName&gt;_DISABLED"></span><a class="reference internal" href="../module/CPackComponent.html#variable:CPACK_COMPONENT_&lt;compName&gt;_DISABLED" title="CPACK_COMPONENT_&lt;compName&gt;_DISABLED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DISABLED</span></code></a> variable is now
+<p><span class="versionmodified added">Added in version 3.7: </span>The <span class="target" id="index-0-variable:CPACK_COMPONENT_&lt;compName&gt;_DISABLED"></span><a class="reference internal" href="../module/CPackComponent.html#variable:CPACK_COMPONENT_&lt;compName&gt;_DISABLED" title="CPACK_COMPONENT_&lt;compName&gt;_DISABLED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DISABLED</span></code></a> variable is now
 supported.</p>
 </div>
 <section id="wix-toolsets">
@@ -153,7 +158,7 @@ Windows using WiX.</p>
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_VERSION">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_VERSION</span></span><a class="headerlink" href="#variable:CPACK_WIX_VERSION" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.30.</span></p>
+<p><span class="versionmodified added">Added in version 3.30.</span></p>
 </div>
 <p>Specify the version of WiX Toolset for which the configuration
 is written.  The value must be one of</p>
@@ -253,7 +258,7 @@ image.</p>
 <dd><p>Start menu folder name for launcher.</p>
 <p>If this variable is not set, it will be initialized with CPACK_PACKAGE_NAME</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.16: </span>If this variable is set to <code class="docutils literal notranslate"><span class="pre">.</span></code>, then application shortcuts will be
+<p><span class="versionmodified added">Added in version 3.16: </span>If this variable is set to <code class="docutils literal notranslate"><span class="pre">.</span></code>, then application shortcuts will be
 created directly in the start menu and the uninstaller shortcut will be
 omitted.</p>
 </div>
@@ -267,7 +272,7 @@ omitted.</p>
 simply provide the name of the culture.  If you specify more than one
 culture identifier in a comma or semicolon delimited list, the first one
 that is found will be used.  You can find a list of supported languages at:
-<a class="reference external" href="https://wixtoolset.org/docs/v3/wixui/wixui_localization/">https://wixtoolset.org/docs/v3/wixui/wixui_localization/</a></p>
+<a class="reference external" href="https://docs.firegiant.com/wix3/wixui/wixui_localization/">https://docs.firegiant.com/wix3/wixui/wixui_localization/</a></p>
 </dd></dl>
 
 <dl class="cmake variable">
@@ -288,7 +293,7 @@ will be used.</p>
 <dd><p>Optional list of XML files with fragments to be inserted into
 generated WiX sources.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.5: </span>Support listing multiple patch files.</p>
+<p><span class="versionmodified added">Added in version 3.5: </span>Support listing multiple patch files.</p>
 </div>
 <p>This optional variable can be used to specify an XML file that the
 WIX generator will use to inject fragments into its generated
@@ -314,17 +319,17 @@ fragmentContent = element * - CPackWiXFragment
 <p>Currently fragments can be injected into most
 Component, File, Directory and Feature elements.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3: </span>The following additional special Ids can be used:</p>
+<p><span class="versionmodified added">Added in version 3.3: </span>The following additional special Ids can be used:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">#PRODUCT</span></code> for the <code class="docutils literal notranslate"><span class="pre">&lt;Product&gt;</span></code> element.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">#PRODUCTFEATURE</span></code> for the root <code class="docutils literal notranslate"><span class="pre">&lt;Feature&gt;</span></code> element.</p></li>
 </ul>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7: </span>Support patching arbitrary <code class="docutils literal notranslate"><span class="pre">&lt;Feature&gt;</span></code> elements.</p>
+<p><span class="versionmodified added">Added in version 3.7: </span>Support patching arbitrary <code class="docutils literal notranslate"><span class="pre">&lt;Feature&gt;</span></code> elements.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.9: </span>Allow setting additional attributes.</p>
+<p><span class="versionmodified added">Added in version 3.9: </span>Allow setting additional attributes.</p>
 </div>
 <p>The following example illustrates how this works.</p>
 <p>Given that the WIX generator creates the following XML element:</p>
@@ -399,7 +404,7 @@ the <span class="target" id="index-0-command:find_package"></span><a class="refe
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_PROPERTY_&lt;PROPERTY&gt;">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_PROPERTY_&lt;PROPERTY&gt;</span></span><a class="headerlink" href="#variable:CPACK_WIX_PROPERTY_<PROPERTY>" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.</span></p>
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
 </div>
 <p>This variable can be used to provide a value for
 the Windows Installer property <code class="docutils literal notranslate"><span class="pre">&lt;PROPERTY&gt;</span></code></p>
@@ -420,7 +425,7 @@ customize information under
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_ROOT_FEATURE_TITLE">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_ROOT_FEATURE_TITLE</span></span><a class="headerlink" href="#variable:CPACK_WIX_ROOT_FEATURE_TITLE" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Sets the name of the root install feature in the WIX installer. Same as
 CPACK_COMPONENT_&lt;compName&gt;_DISPLAY_NAME for components.</p>
@@ -430,7 +435,7 @@ CPACK_COMPONENT_&lt;compName&gt;_DISPLAY_NAME for components.</p>
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_ROOT_FEATURE_DESCRIPTION">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_ROOT_FEATURE_DESCRIPTION</span></span><a class="headerlink" href="#variable:CPACK_WIX_ROOT_FEATURE_DESCRIPTION" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Sets the description of the root install feature in the WIX installer. Same as
 CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION for components.</p>
@@ -440,7 +445,7 @@ CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION for components.</p>
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_SKIP_PROGRAM_FOLDER">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_SKIP_PROGRAM_FOLDER</span></span><a class="headerlink" href="#variable:CPACK_WIX_SKIP_PROGRAM_FOLDER" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>If this variable is set to true, the default install location
 of the generated package will be CPACK_PACKAGE_INSTALL_DIRECTORY directly.
@@ -464,7 +469,7 @@ installation is performed.</p>
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_ROOT_FOLDER_ID">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_ROOT_FOLDER_ID</span></span><a class="headerlink" href="#variable:CPACK_WIX_ROOT_FOLDER_ID" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.9.</span></p>
+<p><span class="versionmodified added">Added in version 3.9.</span></p>
 </div>
 <p>This variable allows specification of a custom root folder ID.
 The generator specific <code class="docutils literal notranslate"><span class="pre">&lt;64&gt;</span></code> token can be used for
@@ -488,20 +493,20 @@ installation via the <code class="docutils literal notranslate"><span class="pre
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_CUSTOM_XMLNS">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_CUSTOM_XMLNS</span></span><a class="headerlink" href="#variable:CPACK_WIX_CUSTOM_XMLNS" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19.</span></p>
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
 </div>
 <p>This variable provides a list of custom namespace declarations that are necessary
 for using WiX extensions. Each declaration should be in the form name=url, where
 name is the plain namespace without the usual xmlns: prefix and url is an unquoted
 namespace url. A list of commonly known WiX schemata can be found here:
-<a class="reference external" href="https://wixtoolset.org/docs/v3/xsd/">https://wixtoolset.org/docs/v3/xsd/</a></p>
+<a class="reference external" href="https://docs.firegiant.com/wix3/xsd/">https://docs.firegiant.com/wix3/xsd/</a></p>
 </dd></dl>
 
 <dl class="cmake variable">
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_SKIP_WIX_UI_EXTENSION">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_SKIP_WIX_UI_EXTENSION</span></span><a class="headerlink" href="#variable:CPACK_WIX_SKIP_WIX_UI_EXTENSION" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.23.</span></p>
+<p><span class="versionmodified added">Added in version 3.23.</span></p>
 </div>
 <p>If this variable is set to true, the default inclusion of the WiX <code class="docutils literal notranslate"><span class="pre">UI</span></code>
 extension is skipped, i.e., the <code class="docutils literal notranslate"><span class="pre">-ext</span> <span class="pre">WixUIExtension</span></code> or
@@ -512,7 +517,7 @@ extension is skipped, i.e., the <code class="docutils literal notranslate"><span
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_ARCHITECTURE">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_ARCHITECTURE</span></span><a class="headerlink" href="#variable:CPACK_WIX_ARCHITECTURE" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
 <p>This variable can be optionally set to specify the target architecture
 of the installer. May for example be set to <code class="docutils literal notranslate"><span class="pre">x64</span></code> or <code class="docutils literal notranslate"><span class="pre">arm64</span></code>.</p>
@@ -523,7 +528,7 @@ of the installer. May for example be set to <code class="docutils literal notran
 <dt class="sig sig-object cmake" id="variable:CPACK_WIX_INSTALL_SCOPE">
 <span class="sig-name descname"><span class="pre">CPACK_WIX_INSTALL_SCOPE</span></span><a class="headerlink" href="#variable:CPACK_WIX_INSTALL_SCOPE" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.29.</span></p>
+<p><span class="versionmodified added">Added in version 3.29.</span></p>
 </div>
 <p>This variable can be optionally set to specify the <code class="docutils literal notranslate"><span class="pre">InstallScope</span></code>
 of the installer:</p>
@@ -556,7 +561,19 @@ first manually uninstall any older version.</p>
 </div>
 </dd>
 </dl>
-<p>See <a class="reference external" href="https://wixtoolset.org/docs/v3/xsd/wix/package/">https://wixtoolset.org/docs/v3/xsd/wix/package/</a></p>
+<p>See <a class="reference external" href="https://docs.firegiant.com/wix3/xsd/wix/package/">https://docs.firegiant.com/wix3/xsd/wix/package/</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_WIX_CAB_PER_COMPONENT">
+<span class="sig-name descname"><span class="pre">CPACK_WIX_CAB_PER_COMPONENT</span></span><a class="headerlink" href="#variable:CPACK_WIX_CAB_PER_COMPONENT" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>If this variable is set to true one <code class="docutils literal notranslate"><span class="pre">.cab</span></code> file per component is created.
+The default is to create a single <code class="docutils literal notranslate"><span class="pre">.cab</span></code> file for all files in the installer.</p>
+<p>WiX creates <code class="docutils literal notranslate"><span class="pre">.cab</span></code> files in parallel so multiple <code class="docutils literal notranslate"><span class="pre">.cab</span></code> files may be
+desirable for faster packaging.</p>
 </dd></dl>
 
 </section>
@@ -567,10 +584,10 @@ first manually uninstall any older version.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">CPack WIX Generator</a><ul>
 <li><a class="reference internal" href="#wix-toolsets">WiX Toolsets</a><ul>
@@ -601,7 +618,7 @@ first manually uninstall any older version.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -609,13 +626,13 @@ first manually uninstall any older version.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -628,14 +645,15 @@ first manually uninstall any older version.</p>
           <a href="rpm.html" title="CPack RPM Generator"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li>
@@ -644,8 +662,17 @@ first manually uninstall any older version.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindFLTK &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindFLTK &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindFLEX.html" title="FindFLEX"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,67 +63,127 @@
             
   <section id="findfltk">
 <span id="module:FindFLTK"></span><h1>FindFLTK<a class="headerlink" href="#findfltk" title="Link to this heading">¶</a></h1>
-<p>Find the Fast Light Toolkit (FLTK) library</p>
-<section id="input-variables">
-<h2>Input Variables<a class="headerlink" href="#input-variables" title="Link to this heading">¶</a></h2>
-<p>By default this module will search for all of the FLTK components and
-add them to the <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> variable.  You can limit the components
-which get placed in <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> by defining one or more of the
-following three options:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_OPENGL</span></code></dt><dd><p>Set to true to disable searching for the FLTK GL library</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_FORMS</span></code></dt><dd><p>Set to true to disable searching for the FLTK Forms library</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_IMAGES</span></code></dt><dd><p>Set to true to disable searching for the FLTK Images library</p>
-</dd>
-</dl>
-<p>FLTK is composed also by a binary tool. You can set the following option:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_FLUID</span></code></dt><dd><p>Set to true to not look for the FLUID binary</p>
-</dd>
-</dl>
-</section>
+<p>Finds the Fast Light Toolkit (FLTK), a cross-platform toolkit for GUI
+development:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">FLTK</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>FLTK uses CMake-based build system and provides a package configuration file for
+projects to find it.  As of its 1.4.0 version it also provides
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> that encapsulate usage requirements.  For example,
+<code class="docutils literal notranslate"><span class="pre">fltk::fltk</span></code>, which can be linked to project targets where FLTK is needed.
+This module takes that into account and first attempts to find FLTK in
+<em>config mode</em>.  If the configuration file is not available, it falls back to
+<em>module mode</em> and searches standard locations. See also to the official FLTK
+documentation for more information, how to use FLTK with CMake.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11: </span>Debug and release (optimized) library variants are found separately and use
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#build-configurations"><span class="std std-ref">per-configuration</span></a> variables.</p>
+</div>
 <section id="result-variables">
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
-<p>The following variables will be defined:</p>
+<p>This module defines the following variables:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FOUND</span></code></dt><dd><p>True if all components not skipped were found</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FOUND</span></code></dt><dd><p>Boolean indicating whether FLTK was found.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_INCLUDE_DIR</span></code></dt><dd><p>Path to the include directory for FLTK header files</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code></dt><dd><p>Libraries needed to link against to use FLTK.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code></dt><dd><p>List of the FLTK libraries found</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FLUID_EXECUTABLE</span></code></dt><dd><p>Path to the FLUID binary tool</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_WRAP_UI</span></code></dt><dd><p>True if FLUID is found, used to enable the FLTK_WRAP_UI command</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_WRAP_UI</span></code></dt><dd><p>Boolean indicating whether the <code class="docutils literal notranslate"><span class="pre">fluid</span></code> executable is found.  This variable
+is available only if FLTK is found in <em>module mode</em> and can be used, for
+example, to conditionally invoke the <span class="target" id="index-0-command:fltk_wrap_ui"></span><a class="reference internal" href="../command/fltk_wrap_ui.html#command:fltk_wrap_ui" title="fltk_wrap_ui"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">fltk_wrap_ui()</span></code></a> command if it is
+needed and available.</p>
 </dd>
 </dl>
 </section>
 <section id="cache-variables">
 <h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
 <p>The following cache variables are also available to set or use:</p>
-<dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_BASE_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK base library (optimized)</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FLUID_EXECUTABLE</span></code></dt><dd><p>The path to the <code class="docutils literal notranslate"><span class="pre">fluid</span></code> binary tool.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_BASE_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK base library (debug)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_INCLUDE_DIR</span></code></dt><dd><p>The include directory containing header files needed to use FLTK.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_GL_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK GL library (optimized)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_BASE_LIBRARY_RELEASE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the release (optimized) FLTK base library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_GL_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK GL library (debug)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_BASE_LIBRARY_DEBUG</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the debug FLTK base library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FORMS_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK Forms library (optimized)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_GL_LIBRARY_RELEASE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the release (optimized) FLTK GL library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FORMS_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK Forms library (debug)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_GL_LIBRARY_DEBUG</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the debug FLTK GL library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_IMAGES_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK Images protobuf library (optimized)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FORMS_LIBRARY_RELEASE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the release (optimized) FLTK Forms library.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">FLTK_IMAGES_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK Images library (debug)</p>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FORMS_LIBRARY_DEBUG</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the debug FLTK Forms library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_IMAGES_LIBRARY_RELEASE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the release (optimized) FLTK Images protobuf library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_IMAGES_LIBRARY_DEBUG</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
+</div>
+<p>The path to the debug FLTK Images library.</p>
 </dd>
 </dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11: </span>Debug and Release variants are found separately and use per-configuration
-variables.</p>
+</section>
+<section id="input-variables">
+<h2>Input Variables<a class="headerlink" href="#input-variables" title="Link to this heading">¶</a></h2>
+<p>By default, this module searches for all FLTK libraries and its <code class="docutils literal notranslate"><span class="pre">fluid</span></code>
+executable.  The following variables can be set before calling
+<code class="docutils literal notranslate"><span class="pre">find_package(FLTK)</span></code> to indicate which elements are optional for a successful
+configuration:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_FLUID</span></code></dt><dd><p>Set to boolean true to mark the <code class="docutils literal notranslate"><span class="pre">fluid</span></code> executable as optional.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_FORMS</span></code></dt><dd><p>Set to boolean true to mark the FLTK Forms library as optional; it will
+therefore not be included in the <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> result variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_IMAGES</span></code></dt><dd><p>Set to boolean true to mark the FLTK Image library as optional; it will
+therefore not be included in the <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> result variable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_OPENGL</span></code></dt><dd><p>Set to boolean true to mark the FLTK OpenGL library as optional; it will
+therefore not be included in the <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> result variable.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding FLTK and conditionally creating a <code class="docutils literal notranslate"><span class="pre">fltk::fltk</span></code> imported interface
+target, if it is not provided by the upstream FLTK package.  Imported target can
+then be linked to a project target:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">FLTK</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="no">FLTK_FOUND</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">NOT</span><span class="w"> </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">fltk</span><span class="o">::</span><span class="nb">fltk</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">add_library(</span><span class="nb">fltk</span><span class="o">::</span><span class="nb">fltk</span><span class="w"> </span><span class="no">INTERFACE</span><span class="w"> </span><span class="no">IMPORTED</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set_target_properties(</span>
+<span class="w">    </span><span class="nb">fltk</span><span class="o">::</span><span class="nb">fltk</span>
+<span class="w">    </span><span class="no">PROPERTIES</span>
+<span class="w">      </span><span class="no">INTERFACE_INCLUDE_DIRECTORIES</span><span class="w"> </span><span class="s">&quot;${FLTK_INCLUDE_DIR}&quot;</span>
+<span class="w">      </span><span class="no">INTERFACE_LINK_LIBRARIES</span><span class="w"> </span><span class="s">&quot;${FLTK_LIBRARIES}&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">endif()</span>
+
+<span class="nf">target_link_libraries(</span><span class="nb">project_target</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">fltk</span><span class="o">::</span><span class="nb">fltk</span><span class="nf">)</span>
+</pre></div>
 </div>
 </section>
 </section>
@@ -128,15 +193,16 @@ variables.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FindFLTK</a><ul>
-<li><a class="reference internal" href="#input-variables">Input Variables</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
 <li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#input-variables">Input Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -159,7 +225,7 @@ variables.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -167,13 +233,13 @@ variables.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -186,14 +252,15 @@ variables.</p>
           <a href="FindFLEX.html" title="FindFLEX"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -202,8 +269,17 @@ variables.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

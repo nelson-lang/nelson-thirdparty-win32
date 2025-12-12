@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>target_link_options &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>target_link_options &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="target_link_libraries.html" title="target_link_libraries"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -59,7 +64,7 @@
   <section id="target-link-options">
 <span id="command:target_link_options"></span><h1>target_link_options<a class="headerlink" href="#target-link-options" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.13.</span></p>
+<p><span class="versionmodified added">Added in version 3.13.</span></p>
 </div>
 <p>Add options to the link step for an executable, shared library or module
 library target.</p>
@@ -102,7 +107,7 @@ for more on defining buildsystem properties.</p>
 <section id="host-and-device-specific-link-options">
 <h2>Host And Device Specific Link Options<a class="headerlink" href="#host-and-device-specific-link-options" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18: </span>When a device link step is involved, which is controlled by
+<p><span class="versionmodified added">Added in version 3.18: </span>When a device link step is involved, which is controlled by
 <span class="target" id="index-0-prop_tgt:CUDA_SEPARABLE_COMPILATION"></span><a class="reference internal" href="../prop_tgt/CUDA_SEPARABLE_COMPILATION.html#prop_tgt:CUDA_SEPARABLE_COMPILATION" title="CUDA_SEPARABLE_COMPILATION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_SEPARABLE_COMPILATION</span></code></a> and
 <span class="target" id="index-0-prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS"></span><a class="reference internal" href="../prop_tgt/CUDA_RESOLVE_DEVICE_SYMBOLS.html#prop_tgt:CUDA_RESOLVE_DEVICE_SYMBOLS" title="CUDA_RESOLVE_DEVICE_SYMBOLS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_RESOLVE_DEVICE_SYMBOLS</span></code></a> properties and policy <span class="target" id="index-0-policy:CMP0105"></span><a class="reference internal" href="../policy/CMP0105.html#policy:CMP0105" title="CMP0105"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0105</span></code></a>,
 the raw options will be delivered to the host and device link steps (wrapped in
@@ -118,7 +123,7 @@ generator expression will be used only for the host link step.</p>
 accumulating options from the current target and the usage requirements of
 its dependencies.  The set of options is de-duplicated to avoid repetition.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.12: </span>While beneficial for individual options, the de-duplication step can break
+<p><span class="versionmodified added">Added in version 3.12: </span>While beneficial for individual options, the de-duplication step can break
 up option groups.  For example, <code class="docutils literal notranslate"><span class="pre">-option</span> <span class="pre">A</span> <span class="pre">-option</span> <span class="pre">B</span></code> becomes
 <code class="docutils literal notranslate"><span class="pre">-option</span> <span class="pre">A</span> <span class="pre">B</span></code>.  One may specify a group of options using shell-like
 quoting along with a <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix.  The <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix is dropped,
@@ -163,6 +168,8 @@ example then becomes <code class="docutils literal notranslate"><span class="pre
 <li><p><span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS.html#variable:CMAKE_&lt;LANG&gt;_FLAGS" title="CMAKE_&lt;LANG&gt;_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS</span></code></a> and <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS_CONFIG.html#variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;</span></code></a>
 add language-wide flags passed to all invocations of the compiler.
 This includes invocations that drive compiling and those that drive linking.</p></li>
+<li><p>The <span class="target" id="index-0-module:CheckLinkerFlag"></span><a class="reference internal" href="../module/CheckLinkerFlag.html#module:CheckLinkerFlag" title="CheckLinkerFlag"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckLinkerFlag</span></code></a> module to check whether a linker flag is
+supported by the compiler.</p></li>
 </ul>
 </section>
 </section>
@@ -172,10 +179,10 @@ This includes invocations that drive compiling and those that drive linking.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">target_link_options</a><ul>
 <li><a class="reference internal" href="#host-and-device-specific-link-options">Host And Device Specific Link Options</a></li>
@@ -204,7 +211,7 @@ This includes invocations that drive compiling and those that drive linking.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -212,13 +219,13 @@ This includes invocations that drive compiling and those that drive linking.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -231,14 +238,15 @@ This includes invocations that drive compiling and those that drive linking.</p>
           <a href="target_link_libraries.html" title="target_link_libraries"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -247,8 +255,17 @@ This includes invocations that drive compiling and those that drive linking.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

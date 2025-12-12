@@ -5,45 +5,50 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>load_cache &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>load_cache &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="project" href="project.html" />
-    <link rel="prev" title="link_libraries" href="link_libraries.html" />
+    <link rel="next" title="macro" href="macro.html" />
+    <link rel="prev" title="list" href="list.html" />
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="project.html" title="project"
+          <a href="macro.html" title="macro"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="link_libraries.html" title="link_libraries"
+          <a href="list.html" title="list"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -58,25 +63,104 @@
             
   <section id="load-cache">
 <span id="command:load_cache"></span><h1>load_cache<a class="headerlink" href="#load-cache" title="Link to this heading">¶</a></h1>
-<p>Load in the values from another project's CMake cache.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">load_cache(</span><span class="nb">pathToBuildDirectory</span><span class="w"> </span><span class="no">READ_WITH_PREFIX</span><span class="w"> </span><span class="nb">prefix</span><span class="w"> </span><span class="nb">entry1...</span><span class="nf">)</span>
+<p>Load in the values from another project's <code class="docutils literal notranslate"><span class="pre">CMakeCache.txt</span></code> cache file.  This
+is useful for projects that depend on another project built in a separate
+directory tree.</p>
+<p>This command has two signatures.  The recommended signature is:</p>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="read-with-prefix">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">load_cache(</span></span><span class="nv"><span class="pre">&lt;build-dir&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">READ_WITH_PREFIX</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;prefix&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;entry&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#read-with-prefix" title="Link to this definition">¶</a></dt>
+<dd><p>Loads the cache file from the specified <code class="docutils literal notranslate"><span class="pre">&lt;build-dir&gt;</span></code> build directory and
+retrieves the listed cache entries.  The retrieved values are stored in local
+variables, with their names prefixed by the provided <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code>.  This only
+reads the cache values; it does not create or modify entries in the local
+project's cache.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">READ_WITH_PREFIX</span> <span class="pre">&lt;prefix&gt;</span></code></dt><dd><p>For each cache <code class="docutils literal notranslate"><span class="pre">&lt;entry&gt;</span></code>, a local variable is created using the specified
+<code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code> followed by the entry name.</p>
+</dd>
+</dl>
+<p>This signature can be also used in <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-P</span></code></a> script mode.</p>
+</dd></dl>
+
+<p>The following signature of this command is strongly discouraged, but it is
+provided for backward compatibility:</p>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="raw">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">load_cache(</span></span><span class="nv"><span class="pre">&lt;build-dir&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">EXCLUDE</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;entry&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">INCLUDE_INTERNALS</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;entry&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#raw" title="Link to this definition">¶</a></dt>
+<dd><p>This form loads the cache file from the specified <code class="docutils literal notranslate"><span class="pre">&lt;build-dir&gt;</span></code> build
+directory and imports all its non-internal cache entries into the local
+project's cache as internal cache variables.  By default, only non-internal
+entries are imported, unless the <code class="docutils literal notranslate"><span class="pre">INCLUDE_INTERNALS</span></code> option is used.</p>
+<p>The options are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE</span> <span class="pre">&lt;entry&gt;...</span></code></dt><dd><p>This option can be used to exclude a given list of non-internal cache
+entries when importing values.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">INCLUDE_INTERNALS</span> <span class="pre">&lt;entry&gt;...</span></code></dt><dd><p>This option can be used to provide a list of internal cache entries to
+include in addition to the non-internal cache entries.</p>
+</dd>
+</dl>
+<p>This signature can be used only in CMake projects.  Script mode is not
+supported.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Instead of loading the outside project's cache file and manually accessing
+variables, a more robust and convenient approach is to use the
+<span class="target" id="index-0-command:export"></span><a class="reference internal" href="export.html#command:export" title="export"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export()</span></code></a> command in the outside project, when available.  This allows
+the project to provide its targets, configuration, or features in a
+structured and maintainable way, making integration simpler and less
+error-prone.</p>
+</div>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Reading specific cache variables from another project and storing them as local
+variables:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">load_cache(</span>
+<span class="w">  </span><span class="na">path/to/other-project/build-dir</span>
+<span class="w">  </span><span class="no">READ_WITH_PREFIX</span><span class="w"> </span><span class="nb">prefix_</span>
+<span class="w">  </span><span class="no">OTHER_PROJECT_CACHE_VAR_1</span>
+<span class="w">  </span><span class="no">OTHER_PROJECT_CACHE_VAR_2</span>
+<span class="nf">)</span>
+
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${prefix_OTHER_PROJECT_CACHE_VAR_1&quot;</span><span class="nf">)</span>
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${prefix_OTHER_PROJECT_CACHE_VAR_2&quot;</span><span class="nf">)</span>
+<span class="c"># Outputs:</span>
+<span class="c"># -- some-value...</span>
+<span class="c"># -- another-value...</span>
 </pre></div>
 </div>
-<p>Reads the cache and store the requested entries in variables with their
-name prefixed with the given prefix.  This only reads the values, and
-does not create entries in the local project's cache.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">load_cache(</span><span class="nb">pathToBuildDirectory</span><span class="w"> </span><span class="p">[</span><span class="no">EXCLUDE</span><span class="w"> </span><span class="nb">entry1...</span><span class="p">]</span>
-<span class="w">           </span><span class="p">[</span><span class="no">INCLUDE_INTERNALS</span><span class="w"> </span><span class="nb">entry1...</span><span class="p">]</span><span class="nf">)</span>
+<p>Reading all non-internal cache entries from another project and storing them as
+internal cache variables using the obsolete signature:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">load_cache(</span><span class="na">path/to/other-project/build-dir</span><span class="nf">)</span>
+
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${OTHER_PROJECT_CACHE_VAR_1&quot;</span><span class="nf">)</span>
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${OTHER_PROJECT_CACHE_VAR_2&quot;</span><span class="nf">)</span>
+<span class="c"># Outputs:</span>
+<span class="c"># -- some-value...</span>
+<span class="c"># -- another-value...</span>
 </pre></div>
 </div>
-<p>Loads in the values from another cache and store them in the local
-project's cache as internal entries.  This is useful for a project
-that depends on another project built in a different tree.  <code class="docutils literal notranslate"><span class="pre">EXCLUDE</span></code>
-option can be used to provide a list of entries to be excluded.
-<code class="docutils literal notranslate"><span class="pre">INCLUDE_INTERNALS</span></code> can be used to provide a list of internal entries to
-be included.  Normally, no internal entries are brought in.  Use of
-this form of the command is strongly discouraged, but it is provided
-for backward compatibility.</p>
+<p>Excluding specific non-internal cache entries and including internal ones using
+the obsolete signature:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">load_cache(</span>
+<span class="w">  </span><span class="na">path/to/other-project/build-dir</span>
+<span class="w">  </span><span class="no">EXCLUDE</span><span class="w"> </span><span class="no">OTHER_PROJECT_CACHE_VAR_2</span>
+<span class="w">  </span><span class="no">INCLUDE_INTERNALS</span><span class="w"> </span><span class="no">OTHER_PROJECT_INTERNAL_CACHE_VAR</span>
+<span class="nf">)</span>
+
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${OTHER_PROJECT_CACHE_VAR_1&quot;</span><span class="nf">)</span>
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${OTHER_PROJECT_CACHE_VAR_2&quot;</span><span class="nf">)</span>
+<span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;${OTHER_PROJECT_INTERNAL_CACHE_VAR}&quot;</span><span class="nf">)</span>
+<span class="c"># Outputs:</span>
+<span class="c"># -- some-value...</span>
+<span class="c"># --</span>
+<span class="c"># -- some-internal-value...</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -84,17 +168,27 @@ for backward compatibility.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">load_cache</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="link_libraries.html"
-                          title="previous chapter">link_libraries</a></p>
+    <p class="topless"><a href="list.html"
+                          title="previous chapter">list</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="project.html"
-                          title="next chapter">project</a></p>
+    <p class="topless"><a href="macro.html"
+                          title="next chapter">macro</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -103,7 +197,7 @@ for backward compatibility.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -111,33 +205,34 @@ for backward compatibility.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="project.html" title="project"
+          <a href="macro.html" title="macro"
              >next</a> |</li>
         <li class="right" >
-          <a href="link_libraries.html" title="link_libraries"
+          <a href="list.html" title="list"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -146,8 +241,17 @@ for backward compatibility.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

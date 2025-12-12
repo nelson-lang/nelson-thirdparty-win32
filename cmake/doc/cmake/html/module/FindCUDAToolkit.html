@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindCUDAToolkit &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindCUDAToolkit &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindCoin3D.html" title="FindCoin3D"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -59,13 +64,16 @@
   <section id="findcudatoolkit">
 <span id="module:FindCUDAToolkit"></span><h1>FindCUDAToolkit<a class="headerlink" href="#findcudatoolkit" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.17.</span></p>
+<p><span class="versionmodified added">Added in version 3.17.</span></p>
 </div>
-<p>This script locates the NVIDIA CUDA toolkit and the associated libraries, but
-does not require the <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language be enabled for a given project. This
-module does not search for the NVIDIA CUDA Samples.</p>
+<p>Finds the NVIDIA CUDA toolkit and the associated libraries, but does not
+require the <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language be enabled for a given project:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">CUDAToolkit</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXACT</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This module does not search for the NVIDIA CUDA Samples.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19: </span>QNX support.</p>
+<p><span class="versionmodified added">Added in version 3.19: </span>QNX support.</p>
 </div>
 <section id="search-behavior">
 <h2>Search Behavior<a class="headerlink" href="#search-behavior" title="Link to this heading">¶</a></h2>
@@ -157,37 +165,37 @@ messages.</p>
 </dl>
 </section>
 <section id="imported-targets">
-<h2>Imported targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
 <p>An <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">imported target</span></a> named <code class="docutils literal notranslate"><span class="pre">CUDA::toolkit</span></code> is provided.</p>
-<p>This module defines <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets for each
+<p>This module provides <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> for each
 of the following libraries that are part of the CUDAToolkit:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#cuda-toolkit-rt-lib"><span class="std std-ref">CUDA Runtime Library</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-driver-lib"><span class="std std-ref">CUDA Driver Library</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cublas"><span class="std std-ref">cuBLAS</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cudla"><span class="std std-ref">cuDLA</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cufile"><span class="std std-ref">cuFile</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cufft"><span class="std std-ref">cuFFT</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-curand"><span class="std std-ref">cuRAND</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cusolver"><span class="std std-ref">cuSOLVER</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cusparse"><span class="std std-ref">cuSPARSE</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-cupti"><span class="std std-ref">cuPTI</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-npp"><span class="std std-ref">NPP</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvblas"><span class="std std-ref">nvBLAS</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvgraph"><span class="std std-ref">nvGRAPH</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvjpeg"><span class="std std-ref">nvJPEG</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvml"><span class="std std-ref">nvidia-ML</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvptx"><span class="std std-ref">nvPTX Compiler</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvrtc"><span class="std std-ref">nvRTC</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvjitlink"><span class="std std-ref">nvJitLink</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvfatbin"><span class="std std-ref">nvFatBin</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvtoolsext"><span class="std std-ref">nvToolsExt</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-nvtx3"><span class="std std-ref">nvtx3</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-opencl"><span class="std std-ref">OpenCL</span></a></p></li>
-<li><p><a class="reference internal" href="#cuda-toolkit-culibos"><span class="std std-ref">cuLIBOS</span></a></p></li>
+<li><p><a class="reference internal" href="#cuda-runtime-library">CUDA Runtime Library</a></p></li>
+<li><p><a class="reference internal" href="#cuda-driver-library">CUDA Driver Library</a></p></li>
+<li><p><a class="reference internal" href="#cublas">cuBLAS</a></p></li>
+<li><p><a class="reference internal" href="#cudla">cuDLA</a></p></li>
+<li><p><a class="reference internal" href="#cufile">cuFile</a></p></li>
+<li><p><a class="reference internal" href="#cufft">cuFFT</a></p></li>
+<li><p><a class="reference internal" href="#curand">cuRAND</a></p></li>
+<li><p><a class="reference internal" href="#cusolver">cuSOLVER</a></p></li>
+<li><p><a class="reference internal" href="#cusparse">cuSPARSE</a></p></li>
+<li><p><a class="reference internal" href="#cupti">cuPTI</a></p></li>
+<li><p><a class="reference internal" href="#npp">NPP</a></p></li>
+<li><p><a class="reference internal" href="#nvblas">nvBLAS</a></p></li>
+<li><p><a class="reference internal" href="#nvgraph">nvGRAPH</a></p></li>
+<li><p><a class="reference internal" href="#nvjpeg">nvJPEG</a></p></li>
+<li><p><a class="reference internal" href="#nvidia-ml">nvidia-ML</a></p></li>
+<li><p><a class="reference internal" href="#nvptx-compiler">nvPTX Compiler</a></p></li>
+<li><p><a class="reference internal" href="#nvrtc">nvRTC</a></p></li>
+<li><p><a class="reference internal" href="#nvjitlink">nvJitLink</a></p></li>
+<li><p><a class="reference internal" href="#nvfatbin">nvFatBin</a></p></li>
+<li><p><a class="reference internal" href="#nvtoolsext">nvToolsExt</a></p></li>
+<li><p><a class="reference internal" href="#nvtx3">nvtx3</a></p></li>
+<li><p><a class="reference internal" href="#opencl">OpenCL</a></p></li>
+<li><p><a class="reference internal" href="#culibos">cuLIBOS</a></p></li>
 </ul>
 <section id="cuda-runtime-library">
-<span id="cuda-toolkit-rt-lib"></span><h3>CUDA Runtime Library<a class="headerlink" href="#cuda-runtime-library" title="Link to this heading">¶</a></h3>
+<h3>CUDA Runtime Library<a class="headerlink" href="#cuda-runtime-library" title="Link to this heading">¶</a></h3>
 <p>The CUDA Runtime library (cudart) are what most applications will typically
 need to link against to make any calls such as <cite>cudaMalloc</cite>, and <cite>cudaFree</cite>.</p>
 <p>Targets Created:</p>
@@ -197,7 +205,7 @@ need to link against to make any calls such as <cite>cudaMalloc</cite>, and <cit
 </ul>
 </section>
 <section id="cuda-driver-library">
-<span id="cuda-toolkit-driver-lib"></span><h3>CUDA Driver Library<a class="headerlink" href="#cuda-driver-library" title="Link to this heading">¶</a></h3>
+<h3>CUDA Driver Library<a class="headerlink" href="#cuda-driver-library" title="Link to this heading">¶</a></h3>
 <p>The CUDA Driver library (cuda) are used by applications that use calls
 such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 <p>Targets Created:</p>
@@ -206,8 +214,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </section>
 <section id="cublas">
-<span id="cuda-toolkit-cublas"></span><h3>cuBLAS<a class="headerlink" href="#cublas" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cublas">cuBLAS</a> library.</p>
+<h3>cuBLAS<a class="headerlink" href="#cublas" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cublas">CUDA Basic Linear Algebra Subroutine</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cublas</span></code></p></li>
@@ -217,22 +225,22 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </section>
 <section id="cudla">
-<span id="cuda-toolkit-cudla"></span><h3>cuDLA<a class="headerlink" href="#cudla" title="Link to this heading">¶</a></h3>
+<h3>cuDLA<a class="headerlink" href="#cudla" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.27.</span></p>
+<p><span class="versionmodified added">Added in version 3.27.</span></p>
 </div>
-<p>The NVIDIA Tegra Deep Learning Accelerator <a class="reference external" href="https://docs.nvidia.com/cuda/cublas">cuDLA</a> library.</p>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-for-tegra-appnote#cudla">NVIDIA Tegra Deep Learning Accelerator</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cudla</span></code> starting in CUDA 11.6</p></li>
 </ul>
 </section>
 <section id="cufile">
-<span id="cuda-toolkit-cufile"></span><h3>cuFile<a class="headerlink" href="#cufile" title="Link to this heading">¶</a></h3>
+<h3>cuFile<a class="headerlink" href="#cufile" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>The NVIDIA GPUDirect Storage <a class="reference external" href="https://docs.nvidia.com/gpudirect-storage/api-reference-guide">cuFile</a> library.</p>
+<p>The <a class="reference external" href="https://docs.nvidia.com/gpudirect-storage/api-reference-guide">NVIDIA GPUDirect Storage cuFile</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cuFile</span></code> starting in CUDA 11.4</p></li>
@@ -242,8 +250,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </section>
 <section id="cufft">
-<span id="cuda-toolkit-cufft"></span><h3>cuFFT<a class="headerlink" href="#cufft" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cufft">cuFFT</a> library.</p>
+<h3>cuFFT<a class="headerlink" href="#cufft" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cufft">CUDA Fast Fourier Transform</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cufft</span></code></p></li>
@@ -255,7 +263,7 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </section>
 <section id="curand">
 <h3>cuRAND<a class="headerlink" href="#curand" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/curand">cuRAND</a> library.</p>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/curand">CUDA random number generation</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::curand</span></code></p></li>
@@ -263,8 +271,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </section>
 <section id="cusolver">
-<span id="cuda-toolkit-cusolver"></span><h3>cuSOLVER<a class="headerlink" href="#cusolver" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cusolver">cuSOLVER</a> library.</p>
+<h3>cuSOLVER<a class="headerlink" href="#cusolver" title="Link to this heading">¶</a></h3>
+<p>A <a class="reference external" href="https://docs.nvidia.com/cuda/cusolver">GPU accelerated linear system solver</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cusolver</span></code></p></li>
@@ -272,8 +280,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </section>
 <section id="cusparse">
-<span id="cuda-toolkit-cusparse"></span><h3>cuSPARSE<a class="headerlink" href="#cusparse" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cusparse">cuSPARSE</a> library.</p>
+<h3>cuSPARSE<a class="headerlink" href="#cusparse" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/cusparse">CUDA sparse matrix</a> library.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cusparse</span></code></p></li>
@@ -281,7 +289,7 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </section>
 <section id="cupti">
-<span id="cuda-toolkit-cupti"></span><h3>cupti<a class="headerlink" href="#cupti" title="Link to this heading">¶</a></h3>
+<h3>cupti<a class="headerlink" href="#cupti" title="Link to this heading">¶</a></h3>
 <p>The <a class="reference external" href="https://developer.nvidia.com/cupti">NVIDIA CUDA Profiling Tools Interface</a>.</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -289,7 +297,7 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::cupti_static</span></code></p></li>
 </ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.27: </span></p>
+<p><span class="versionmodified added">Added in version 3.27: </span></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvperf_host</span></code>         starting in CUDA 10.2</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvperf_host_static</span></code>  starting in CUDA 10.2</p></li>
@@ -299,8 +307,8 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </div>
 </section>
 <section id="npp">
-<span id="cuda-toolkit-npp"></span><h3>NPP<a class="headerlink" href="#npp" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/npp">NPP</a> libraries.</p>
+<h3>NPP<a class="headerlink" href="#npp" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/npp">NVIDIA 2D Image and Signal Processing Performance Primitives</a> libraries.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><cite>nppc</cite>:</p>
@@ -322,7 +330,7 @@ such as <cite>cuMemAlloc</cite>, and <cite>cuMemFree</cite>.</p>
 </ul>
 </li>
 <li><p><cite>nppicom</cite>: JPEG compression and decompression functions in <cite>nppi_compression_functions.h</cite>
-Removed starting in CUDA 11.0, use <a class="reference internal" href="#cuda-toolkit-nvjpeg"><span class="std std-ref">nvJPEG</span></a> instead.</p>
+Removed starting in CUDA 11.0, use <a class="reference internal" href="#nvjpeg">nvJPEG</a> instead.</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nppicom</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nppicom_static</span></code></p></li>
@@ -379,8 +387,8 @@ Removed starting in CUDA 11.0, use <a class="reference internal" href="#cuda-too
 </ul>
 </section>
 <section id="nvblas">
-<span id="cuda-toolkit-nvblas"></span><h3>nvBLAS<a class="headerlink" href="#nvblas" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvblas">nvBLAS</a> libraries.
+<h3>nvBLAS<a class="headerlink" href="#nvblas" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvblas">GPU-accelerated drop-in BLAS</a> library.
 This is a shared library only.</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -388,8 +396,8 @@ This is a shared library only.</p>
 </ul>
 </section>
 <section id="nvgraph">
-<span id="cuda-toolkit-nvgraph"></span><h3>nvGRAPH<a class="headerlink" href="#nvgraph" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://web.archive.org/web/20201111171403/https://docs.nvidia.com/cuda/nvgraph/index.html">nvGRAPH</a> library.
+<h3>nvGRAPH<a class="headerlink" href="#nvgraph" title="Link to this heading">¶</a></h3>
+<p>A <a class="reference external" href="https://docs.nvidia.com/cuda/archive/10.0/nvgraph">GPU-accelerated graph analytics</a> library.
 Removed starting in CUDA 11.0</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -398,8 +406,8 @@ Removed starting in CUDA 11.0</p>
 </ul>
 </section>
 <section id="nvjpeg">
-<span id="cuda-toolkit-nvjpeg"></span><h3>nvJPEG<a class="headerlink" href="#nvjpeg" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvjpeg">nvJPEG</a> library.
+<h3>nvJPEG<a class="headerlink" href="#nvjpeg" title="Link to this heading">¶</a></h3>
+<p>A <a class="reference external" href="https://docs.nvidia.com/cuda/nvjpeg">GPU-accelerated JPEG codec</a> library.
 Introduced in CUDA 10.</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -408,12 +416,12 @@ Introduced in CUDA 10.</p>
 </ul>
 </section>
 <section id="nvptx-compiler">
-<span id="cuda-toolkit-nvptx"></span><h3>nvPTX Compiler<a class="headerlink" href="#nvptx-compiler" title="Link to this heading">¶</a></h3>
+<h3>nvPTX Compiler<a class="headerlink" href="#nvptx-compiler" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/ptx-compiler-api">nvPTX</a> (PTX Compilation) library.
-The PTX Compiler APIs are a set of APIs which can be used to compile a PTX program into GPU assembly code.
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/ptx-compiler-api">PTX Compiler APIs</a>.
+These are a set of APIs which can be used to compile a PTX program into GPU assembly code.
 Introduced in CUDA 11.1
 This is a static library only.</p>
 <p>Targets Created:</p>
@@ -422,14 +430,14 @@ This is a static library only.</p>
 </ul>
 </section>
 <section id="nvrtc">
-<span id="cuda-toolkit-nvrtc"></span><h3>nvRTC<a class="headerlink" href="#nvrtc" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvrtc">nvRTC</a> (Runtime Compilation) library.</p>
+<h3>nvRTC<a class="headerlink" href="#nvrtc" title="Link to this heading">¶</a></h3>
+<p>A <a class="reference external" href="https://docs.nvidia.com/cuda/nvrtc">runtime compilation library for CUDA</a>.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvrtc</span></code></p></li>
 </ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.26: </span></p>
+<p><span class="versionmodified added">Added in version 3.26: </span></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvrtc_builtins</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvrtc_static</span></code> starting in CUDA 11.5</p></li>
@@ -438,8 +446,8 @@ This is a static library only.</p>
 </div>
 </section>
 <section id="nvjitlink">
-<span id="cuda-toolkit-nvjitlink"></span><h3>nvJitLink<a class="headerlink" href="#nvjitlink" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/">nvJItLink</a> (Runtime LTO Linking) library.</p>
+<h3>nvJitLink<a class="headerlink" href="#nvjitlink" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvjitlink">JIT Link APIs</a>.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvJitLink</span></code> starting in CUDA 12.0</p></li>
@@ -447,11 +455,11 @@ This is a static library only.</p>
 </ul>
 </section>
 <section id="nvfatbin">
-<span id="cuda-toolkit-nvfatbin"></span><h3>nvFatBin<a class="headerlink" href="#nvfatbin" title="Link to this heading">¶</a></h3>
+<h3>nvFatBin<a class="headerlink" href="#nvfatbin" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.30.</span></p>
+<p><span class="versionmodified added">Added in version 3.30.</span></p>
 </div>
-<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/">nvFatBin</a> (Runtime fatbin creation) library.</p>
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/nvfatbin">Fatbin Creator APIs</a>.</p>
 <p>Targets Created:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvfatbin</span></code> starting in CUDA 12.4</p></li>
@@ -459,7 +467,7 @@ This is a static library only.</p>
 </ul>
 </section>
 <section id="nvidia-ml">
-<span id="cuda-toolkit-nvml"></span><h3>nvidia-ML<a class="headerlink" href="#nvidia-ml" title="Link to this heading">¶</a></h3>
+<h3>nvidia-ML<a class="headerlink" href="#nvidia-ml" title="Link to this heading">¶</a></h3>
 <p>The <a class="reference external" href="https://developer.nvidia.com/management-library-nvml">NVIDIA Management Library</a>.</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -467,15 +475,16 @@ This is a static library only.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvml_static</span></code> starting in CUDA 12.4</p></li>
 </ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.31: </span>Added <code class="docutils literal notranslate"><span class="pre">CUDA::nvml_static</span></code>.</p>
+<p><span class="versionmodified added">Added in version 3.31: </span>Added <code class="docutils literal notranslate"><span class="pre">CUDA::nvml_static</span></code>.</p>
 </div>
 </section>
 <section id="nvtoolsext">
-<span id="cuda-toolkit-nvtoolsext"></span><h3>nvToolsExt<a class="headerlink" href="#nvtoolsext" title="Link to this heading">¶</a></h3>
+<span id="findcudatoolkit-nvtoolsext"></span><h3>nvToolsExt<a class="headerlink" href="#nvtoolsext" title="Link to this heading">¶</a></h3>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.25: </span>With CUDA 10.0+, use <a class="reference internal" href="#cuda-toolkit-nvtx3"><span class="std std-ref">nvtx3</span></a>.</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.25: </span>With CUDA 10.0+, use <a class="reference internal" href="#nvtx3">nvtx3</a>.
+Starting in CUDA 12.9 the <cite>nvToolsExt</cite> library no longer exists</p>
 </div>
-<p>The <a class="reference external" href="https://docs.nvidia.com/nvtx/">NVIDIA Tools Extension</a>.
+<p>The <a class="reference external" href="https://docs.nvidia.com/cuda/archive/9.0/profiler-users-guide#nvtx">legacy NVIDIA Tools Extension</a>.
 This is a shared library only.</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -483,20 +492,27 @@ This is a shared library only.</p>
 </ul>
 </section>
 <section id="nvtx3">
-<span id="cuda-toolkit-nvtx3"></span><h3>nvtx3<a class="headerlink" href="#nvtx3" title="Link to this heading">¶</a></h3>
+<span id="findcudatoolkit-nvtx3"></span><h3>nvtx3<a class="headerlink" href="#nvtx3" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
-<p>The header-only <a class="reference external" href="https://nvidia.github.io/NVTX/doxygen">NVIDIA Tools Extension Library</a>.
+<p>The header-only <a class="reference external" href="https://nvidia.github.io/NVTX/doxygen">NVIDIA Tools Extension</a> library.
 Introduced in CUDA 10.0.</p>
 <p>Targets created:</p>
-<ul class="simple">
+<ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvtx3</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUDA::nvtx3_interop</span></code></p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.1.</span></p>
+</div>
+<p>This is provided by CUDA 12.9 and above for use by languages that
+cannot consume C++ header-only libraries, such as <code class="docutils literal notranslate"><span class="pre">Fortran</span></code>.</p>
+</li>
 </ul>
 </section>
 <section id="opencl">
-<span id="cuda-toolkit-opencl"></span><h3>OpenCL<a class="headerlink" href="#opencl" title="Link to this heading">¶</a></h3>
-<p>The <a class="reference external" href="https://developer.nvidia.com/opencl">NVIDIA OpenCL Library</a>.
+<h3>OpenCL<a class="headerlink" href="#opencl" title="Link to this heading">¶</a></h3>
+<p>The <a class="reference external" href="https://developer.nvidia.com/opencl">NVIDIA Open Computing Language</a> library.
 This is a shared library only.</p>
 <p>Targets Created:</p>
 <ul class="simple">
@@ -504,7 +520,7 @@ This is a shared library only.</p>
 </ul>
 </section>
 <section id="culibos">
-<span id="cuda-toolkit-culibos"></span><h3>cuLIBOS<a class="headerlink" href="#culibos" title="Link to this heading">¶</a></h3>
+<h3>cuLIBOS<a class="headerlink" href="#culibos" title="Link to this heading">¶</a></h3>
 <p>The cuLIBOS library is a backend thread abstraction layer library which is
 static only.  The <code class="docutils literal notranslate"><span class="pre">CUDA::cublas_static</span></code>, <code class="docutils literal notranslate"><span class="pre">CUDA::cusparse_static</span></code>,
 <code class="docutils literal notranslate"><span class="pre">CUDA::cufft_static</span></code>, <code class="docutils literal notranslate"><span class="pre">CUDA::curand_static</span></code>, and (when implemented) NPP
@@ -517,7 +533,8 @@ libraries all automatically have this dependency linked.</p>
 </section>
 </section>
 <section id="result-variables">
-<span id="cuda-toolkit-curand"></span><h2>Result variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<p>This module defines the following variables:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_FOUND</span></code></dt><dd><p>A boolean specifying whether or not the CUDA Toolkit was found.</p>
 </dd>
@@ -540,7 +557,7 @@ required to compile a project linking against CUDA.</p>
 Runtime library <code class="docutils literal notranslate"><span class="pre">cudart</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CUDAToolkit_LIBRARY_ROOT</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p><span class="versionmodified added">Added in version 3.18.</span></p>
 </div>
 <p>The path to the CUDA Toolkit directory containing the nvvm directory and
 either version.txt or version.json.</p>
@@ -565,16 +582,16 @@ modules that depend on this one.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FindCUDAToolkit</a><ul>
 <li><a class="reference internal" href="#search-behavior">Search Behavior</a></li>
 <li><a class="reference internal" href="#arguments">Arguments</a></li>
 <li><a class="reference internal" href="#options">Options</a></li>
-<li><a class="reference internal" href="#imported-targets">Imported targets</a><ul>
+<li><a class="reference internal" href="#imported-targets">Imported Targets</a><ul>
 <li><a class="reference internal" href="#cuda-runtime-library">CUDA Runtime Library</a></li>
 <li><a class="reference internal" href="#cuda-driver-library">CUDA Driver Library</a></li>
 <li><a class="reference internal" href="#cublas">cuBLAS</a></li>
@@ -600,7 +617,7 @@ modules that depend on this one.</p>
 <li><a class="reference internal" href="#culibos">cuLIBOS</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#result-variables">Result variables</a></li>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
 </ul>
 </li>
 </ul>
@@ -623,7 +640,7 @@ modules that depend on this one.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -631,13 +648,13 @@ modules that depend on this one.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -650,14 +667,15 @@ modules that depend on this one.</p>
           <a href="FindCoin3D.html" title="FindCoin3D"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -666,8 +684,17 @@ modules that depend on this one.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

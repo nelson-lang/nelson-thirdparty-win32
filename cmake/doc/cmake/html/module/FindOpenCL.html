@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindOpenCL &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindOpenCL &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindOpenAL.html" title="FindOpenAL"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -59,34 +64,80 @@
   <section id="findopencl">
 <span id="module:FindOpenCL"></span><h1>FindOpenCL<a class="headerlink" href="#findopencl" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.</span></p>
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
 </div>
-<p>Finds Open Computing Language (OpenCL)</p>
+<p>Finds Open Computing Language (OpenCL):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">OpenCL</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>OpenCL is a framework for writing programs that execute across heterogeneous
+platforms, such as CPUs, GPUs, and other accelerators.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.10: </span>Detection of OpenCL 2.1 and 2.2.</p>
+<p><span class="versionmodified added">Added in version 3.24: </span>Detection of OpenCL 3.0.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.10: </span>Detection of OpenCL 2.1 and 2.2.</p>
 </div>
 <section id="imported-targets">
-<h2>IMPORTED Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
+<p>This module provides the following <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a>:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL::OpenCL</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
-<p>This module defines <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target <code class="docutils literal notranslate"><span class="pre">OpenCL::OpenCL</span></code>, if
-OpenCL has been found.</p>
+<p>Target encapsulating the OpenCL usage requirements, available if OpenCL
+has been found.</p>
+</dd>
+</dl>
 </section>
 <section id="result-variables">
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
 <p>This module defines the following variables:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>OpenCL_FOUND          - True if OpenCL was found
-OpenCL_INCLUDE_DIRS   - include directories for OpenCL
-OpenCL_LIBRARIES      - link against this library to use OpenCL
-OpenCL_VERSION_STRING - Highest supported OpenCL version (eg. 1.2)
-OpenCL_VERSION_MAJOR  - The major version of the OpenCL implementation
-OpenCL_VERSION_MINOR  - The minor version of the OpenCL implementation
-</pre></div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_FOUND</span></code></dt><dd><p>Boolean indicating whether (the requested version of) OpenCL was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
 </div>
-<p>The module will also define two cache variables:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>OpenCL_INCLUDE_DIR    - the OpenCL include directory
-OpenCL_LIBRARY        - the path to the OpenCL library
+<p>Highest supported OpenCL version found in form of <code class="docutils literal notranslate"><span class="pre">&lt;major&gt;.&lt;minor&gt;</span></code>
+(e.g., <code class="docutils literal notranslate"><span class="pre">1.2</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_VERSION_MAJOR</span></code></dt><dd><p>The major version of the OpenCL implementation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_VERSION_MINOR</span></code></dt><dd><p>The minor version of the OpenCL implementation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_INCLUDE_DIRS</span></code></dt><dd><p>Include directories needed to use OpenCL.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_LIBRARIES</span></code></dt><dd><p>Libraries needed to link to OpenCL.</p>
+</dd>
+</dl>
+</section>
+<section id="cache-variables">
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_INCLUDE_DIR</span></code></dt><dd><p>The OpenCL include directory.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_LIBRARY</span></code></dt><dd><p>The path to the OpenCL library.</p>
+</dd>
+</dl>
+</section>
+<section id="deprecated-variables">
+<h2>Deprecated Variables<a class="headerlink" href="#deprecated-variables" title="Link to this heading">¶</a></h2>
+<p>The following variables are provided for backward compatibility:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenCL_VERSION_STRING</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.2: </span>Use <code class="docutils literal notranslate"><span class="pre">OpenCL_VERSION</span></code>, which has the same value.</p>
+</div>
+<p>Highest supported OpenCL version found in form of <code class="docutils literal notranslate"><span class="pre">&lt;major&gt;.&lt;minor&gt;</span></code>.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding OpenCL and linking it to a project target:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">OpenCL</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">project_target</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">OpenCL</span><span class="o">::</span><span class="nb">OpenCL</span><span class="nf">)</span>
 </pre></div>
 </div>
 </section>
@@ -97,14 +148,17 @@ OpenCL_LIBRARY        - the path to the OpenCL library
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FindOpenCL</a><ul>
-<li><a class="reference internal" href="#imported-targets">IMPORTED Targets</a></li>
+<li><a class="reference internal" href="#imported-targets">Imported Targets</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#deprecated-variables">Deprecated Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -127,7 +181,7 @@ OpenCL_LIBRARY        - the path to the OpenCL library
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -135,13 +189,13 @@ OpenCL_LIBRARY        - the path to the OpenCL library
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -154,14 +208,15 @@ OpenCL_LIBRARY        - the path to the OpenCL library
           <a href="FindOpenAL.html" title="FindOpenAL"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -170,8 +225,17 @@ OpenCL_LIBRARY        - the path to the OpenCL library
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

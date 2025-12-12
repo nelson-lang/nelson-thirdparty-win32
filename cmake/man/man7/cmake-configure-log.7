@@ -27,11 +27,11 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-CONFIGURE-LOG" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-CONFIGURE-LOG" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-configure-log \- CMake Configure Log
 .sp
-New in version 3.26.
+Added in version 3.26.
 
 .SH INTRODUCTION
 .sp
@@ -47,11 +47,9 @@ For human use, this version of CMake writes the configure log to the file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeConfigureLog.yaml
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -72,8 +70,7 @@ step finished normally, ends with a \fB\&...\fP document marker line:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 \-\-\-
 events:
   \-
@@ -83,8 +80,7 @@ events:
     kind: \(dqtry_compile\-v1\(dq
     # (other fields omitted)
 \&...
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -143,16 +139,14 @@ Every event kind is represented by a YAML mapping of the form:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 kind: \(dq<kind>\-v<major>\(dq
 backtrace:
   \- \(dq<file>:<line> (<function>)\(dq
 checks:
   \- \(dqChecking for something\(dq
 #...event\-specific keys...
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -189,8 +183,7 @@ A \fBmessage\-v1\fP event is a YAML mapping:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 kind: \(dqmessage\-v1\(dq
 backtrace:
   \- \(dqCMakeLists.txt:123 (message)\(dq
@@ -198,8 +191,7 @@ checks:
   \- \(dqChecking for something\(dq
 message: |
   # ...
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -221,8 +213,7 @@ A \fBtry_compile\-v1\fP event is a YAML mapping:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 kind: \(dqtry_compile\-v1\(dq
 backtrace:
   \- \(dqCMakeLists.txt:123 (try_compile)\(dq
@@ -240,8 +231,7 @@ buildResult:
   stdout: |
     # ...
   exitCode: 0
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -308,8 +298,7 @@ A \fBtry_run\-v1\fP event is a YAML mapping:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 kind: \(dqtry_run\-v1\(dq
 backtrace:
   \- \(dqCMakeLists.txt:456 (try_run)\(dq
@@ -333,8 +322,7 @@ runResult:
   stderr: |
     # ...
   exitCode: 0
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -380,7 +368,407 @@ Its value is an integer specifying the exit code, or a string containing
 an error message, from trying to run the test executable.
 .UNINDENT
 .UNINDENT
+.SS Event Kind \fBfind\fP
+.sp
+The \fI\%find_file()\fP, \fI\%find_path()\fP, \fI\%find_library()\fP, and
+\fI\%find_program()\fP commands log \fBfind\fP events.
+.sp
+There is only one \fBfind\fP event major version, version 1.
+.SS \fBfind\-v1\fP Event
+.sp
+Added in version 4.1.
+
+.sp
+A \fBfind\-v1\fP event is a YAML mapping:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+kind: \(dqfind\-v1\(dq
+backtrace:
+  \- \(dqCMakeLists.txt:456 (find_program)\(dq
+mode: \(dqprogram\(dq
+variable: \(dqPROGRAM_PATH\(dq
+description: \(dqDocstring for variable\(dq
+settings:
+  SearchFramework: \(dqNEVER\(dq
+  SearchAppBundle: \(dqNEVER\(dq
+  CMAKE_FIND_USE_CMAKE_PATH: true
+  CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+  CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+  CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+  CMAKE_FIND_USE_INSTALL_PREFIX: true
+names:
+  \- \(dqname1\(dq
+  \- \(dqname2\(dq
+candidate_directories:
+  \- \(dq/path/to/search\(dq
+  \- \(dq/other/path/to/search\(dq
+  \- \(dq/path/to/found\(dq
+  \- \(dq/further/path/to/search\(dq
+searched_directories:
+  \- \(dq/path/to/search\(dq
+  \- \(dq/other/path/to/search\(dq
+found: \(dq/path/to/found/program\(dq
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+The keys specific to \fBfind\-v1\fP mappings are:
+.INDENT 0.0
+.TP
+.B \fBmode\fP
+A string describing the command using the search performed. One of \fBfile\fP,
+\fBpath\fP, \fBprogram\fP, or \fBlibrary\fP\&.
+.TP
+.B \fBvariable\fP
+The variable to which the search stored its result.
+.TP
+.B \fBdescription\fP
+The documentation string of the variable.
+.TP
+.B \fBsettings\fP
+Search settings active for the search.
+.INDENT 7.0
+.TP
+.B \fBSearchFramework\fP
+A string describing how framework search is performed. One of \fBFIRST\fP,
+\fBLAST\fP, \fBONLY\fP, or \fBNEVER\fP\&. See \fI\%CMAKE_FIND_FRAMEWORK\fP\&.
+.TP
+.B \fBSearchAppBundle\fP
+A string describing how application bundle search is performed. One of
+\fBFIRST\fP, \fBLAST\fP, \fBONLY\fP, or \fBNEVER\fP\&. See
+\fI\%CMAKE_FIND_APPBUNDLE\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_PATH\fP
+A boolean indicating whether or not CMake\-specific cache variables are
+used when searching. See \fI\%CMAKE_FIND_USE_CMAKE_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH\fP
+A boolean indicating whether or not CMake\-specific environment variables
+are used when searching. See
+\fI\%CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH\fP
+A boolean indicating whether or not platform\-specific environment
+variables are used when searching. See
+\fI\%CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_SYSTEM_PATH\fP
+A boolean indicating whether or not platform\-specific CMake variables are
+used when searching. See \fI\%CMAKE_FIND_USE_CMAKE_SYSTEM_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_INSTALL_PREFIX\fP
+A boolean indicating whether or not the install prefix is used when
+searching. See \fI\%CMAKE_FIND_USE_INSTALL_PREFIX\fP\&.
+.UNINDENT
+.TP
+.B \fBnames\fP
+The names to look for the queries.
+.TP
+.B \fBcandidate_directories\fP
+Candidate directories, in order, to look in during the search.
+.TP
+.B \fBsearched_directories\fP
+Directories, in order, looked at during the search process.
+.TP
+.B \fBfound\fP
+Either a string representing the found value or \fBfalse\fP if it was not
+found.
+.TP
+.B \fBsearch_context\fP
+A mapping of variable names to search paths specified by them (either a
+string or an array of strings depending on the variable). Environment
+variables are wrapped with \fBENV{\fP and \fB}\fP, otherwise CMake variables are
+used. Only variables with any paths specified are used.
+.INDENT 7.0
+.TP
+.B \fBpackage_stack\fP
+An array of objects with paths which come from the stack of paths made
+available by \fI\%find_package()\fP calls.
+.INDENT 7.0
+.TP
+.B \fBpackage_paths\fP
+The paths made available by \fI\%find_package()\fP commands in the call
+stack.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS Event Kind \fBfind_package\fP
+.sp
+Added in version 4.1.
+
+.sp
+The \fI\%find_package()\fP command logs \fBfind_package\fP events.
+.sp
+There is only one \fBfind_package\fP event major version, version 1.
+.SS \fBfind_package\-v1\fP Event
+.sp
+A \fBfind_package\-v1\fP event is a YAML mapping:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+kind: \(dqfind_package\-v1\(dq
+backtrace:
+  \- \(dqCMakeLists.txt:456 (find_program)\(dq
+name: \(dqPackageName\(dq
+components:
+  \-
+    name: \(dqComponent\(dq
+    required: true
+    found: true
+configs:
+  \-
+    filename: PackageNameConfig.cmake
+    kind: \(dqcmake\(dq
+  \-
+    filename: packagename\-config.cmake
+    kind: \(dqcmake\(dq
+version_request:
+  version: \(dq1.0\(dq
+  version_complete: \(dq1.0...1.5\(dq
+  min: \(dqINCLUDE\(dq
+  max: \(dqINCLUDE\(dq
+  exact: false
+settings:
+  required: \(dqoptional\(dq
+  quiet: false
+  global: false
+  policy_scope: true
+  bypass_provider: false
+  hints:
+    \- \(dq/hint/path\(dq
+  names:
+    \- \(dqname1\(dq
+    \- \(dqname2\(dq
+  search_paths:
+    \- \(dq/search/path\(dq
+  path_suffixes:
+    \- \(dq\(dq
+    \- \(dqsuffix\(dq
+  registry_view: \(dqHOST\(dq
+  paths:
+    CMAKE_FIND_USE_CMAKE_PATH: true
+    CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+    CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+    CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+    CMAKE_FIND_USE_INSTALL_PREFIX: true
+    CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+    CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+    CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+    CMAKE_FIND_ROOT_PATH_MODE: \(dqBOTH\(dq
+  candidates:
+    \-
+      path: \(dq/path/to/config/PackageName/PackageNameConfig.cmake\(dq
+      mode: \(dqconfig\(dq
+      reason: \(dqinsufficient_version\(dq
+    \-
+      path: \(dq/path/to/config/PackageName/packagename\-config.cmake\(dq
+      mode: \(dqconfig\(dq
+      reason: \(dqno_exist\(dq
+  found:
+    path: \(dq/path/to/config/PackageName\-2.5/PackageNameConfig.cmake\(dq
+    mode: \(dqconfig\(dq
+    version: \(dq2.5\(dq
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+The keys specific to \fBfind_package\-v1\fP mappings are:
+.INDENT 0.0
+.TP
+.B \fBname\fP
+The name of the requested package.
+.TP
+.B \fBcomponents\fP
+If present, an array of objects containing the fields:
+.INDENT 7.0
+.TP
+.B \fBname\fP
+The name of the component.
+.TP
+.B \fBrequired\fP
+A boolean indicating whether the component is required or optional.
+.TP
+.B \fBfound\fP
+A boolean indicating whether the component was found or not.
+.UNINDENT
+.TP
+.B \fBconfigs\fP
+If present, an array of objects indicating the configuration files to search
+for.
+.INDENT 7.0
+.TP
+.B \fBfilename\fP
+The filename of the configuration file.
+.TP
+.B \fBkind\fP
+The kind of file. Either \fBcmake\fP or \fBcps\fP\&.
+.UNINDENT
+.TP
+.B \fBversion_request\fP
+An object indicating the version constraints on the search.
+.INDENT 7.0
+.TP
+.B \fBversion\fP
+The minimum version required.
+.TP
+.B \fBversion_complete\fP
+The user\-provided version range.
+.TP
+.B \fBmin\fP
+Whether to \fBINCLUDE\fP or \fBEXCLUDE\fP the lower bound on the version
+range.
+.TP
+.B \fBmax\fP
+Whether to \fBINCLUDE\fP or \fBEXCLUDE\fP the upper bound on the version
+range.
+.TP
+.B \fBexact\fP
+A boolean indicating whether an \fBEXACT\fP version match was requested.
+.UNINDENT
+.TP
+.B \fBsettings\fP
+Search settings active for the search.
+.INDENT 7.0
+.TP
+.B \fBrequired\fP
+The requirement request of the search. One of \fBoptional\fP,
+\fBoptional_explicit\fP, \fBrequired_explicit\fP,
+\fBrequired_from_package_variable\fP, or \fBrequired_from_find_variable\fP\&.
+.TP
+.B \fBquiet\fP
+A boolean indicating whether the search is \fBQUIET\fP or not.
+.TP
+.B \fBglobal\fP
+A boolean indicating whether the \fBGLOBAL\fP keyword has been provided or
+not.
+.TP
+.B \fBpolicy_scope\fP
+A boolean indicating whether the \fBNO_POLICY_SCOPE\fP keyword has been
+provided or not.
+.TP
+.B \fBbypass_provider\fP
+A boolean indicating whether the \fBBYPASS_PROVIDER\fP keyword has been
+provided or not.
+.TP
+.B \fBhints\fP
+An array of paths provided as \fBHINTS\fP\&.
+.TP
+.B \fBnames\fP
+An array of package names to use when searching, provided by \fBNAMES\fP\&.
+.TP
+.B \fBsearch_paths\fP
+An array of paths to search, provided by \fBPATHS\fP\&.
+.TP
+.B \fBpath_suffixes\fP
+An array of suffixes to use when searching, provided by \fBPATH_SUFFIXES\fP\&.
+.TP
+.B \fBregistry_view\fP
+The \fBREGISTRY_VIEW\fP requested for the search.
+.TP
+.B \fBpaths\fP
+Path settings active for the search.
+.INDENT 7.0
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_PATH\fP
+A boolean indicating whether or not CMake\-specific cache variables are
+used when searching. See \fI\%CMAKE_FIND_USE_CMAKE_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH\fP
+A boolean indicating whether or not CMake\-specific environment variables
+are used when searching. See
+\fI\%CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH\fP
+A boolean indicating whether or not platform\-specific environment
+variables are used when searching. See
+\fI\%CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_SYSTEM_PATH\fP
+A boolean indicating whether or not platform\-specific CMake variables are
+used when searching. See \fI\%CMAKE_FIND_USE_CMAKE_SYSTEM_PATH\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_INSTALL_PREFIX\fP
+A boolean indicating whether or not the install prefix is used when
+searching. See \fI\%CMAKE_FIND_USE_INSTALL_PREFIX\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY\fP
+A boolean indicating whether or not to search the CMake package registry
+for the package. See \fI\%CMAKE_FIND_USE_PACKAGE_REGISTRY\fP\&.
+.TP
+.B \fBCMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY\fP
+A boolean indicating whether or not to search the system CMake package
+registry for the package. See
+\fI\%CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY\fP\&.
+.TP
+.B \fBCMAKE_FIND_ROOT_PATH_MODE\fP
+A string indicating the root path mode in effect as selected by the
+\fBCMAKE_FIND_ROOT_PATH_BOTH\fP, \fBONLY_CMAKE_FIND_ROOT_PATH\fP, and
+\fBNO_CMAKE_FIND_ROOT_PATH\fP arguments.
+.UNINDENT
+.UNINDENT
+.TP
+.B \fBcandidates\fP
+An array of rejected candidate paths. Each element contains the following
+keys:
+.INDENT 7.0
+.TP
+.B \fBpath\fP
+The path to the considered file. In the case of a dependency provider, the
+value is in the form of \fBdependency_provider::<COMMAND_NAME>\fP\&.
+.TP
+.B \fBmode\fP
+The mode which found the file. One of \fBmodule\fP, \fBcps\fP, \fBcmake\fP, or
+\fBprovider\fP\&.
+.TP
+.B \fBreason\fP
+The reason the path was rejected. One of \fBinsufficient_version\fP,
+\fBno_exist\fP, \fBignored\fP, \fBno_config_file\fP, or \fBnot_found\fP\&.
+.TP
+.B \fBmessage\fP
+If present, a string describing why the package is considered as not
+found.
+.UNINDENT
+.TP
+.B \fBfound\fP
+If the package has been found, information on the found file. If it is not
+found, this is \fBnull\fP\&. Keys available:
+.INDENT 7.0
+.TP
+.B \fBpath\fP
+The path to the module or configuration that found the package. In the
+case of a dependency provider, the value is in the form of
+\fBdependency_provider::<COMMAND_NAME>\fP\&.
+.TP
+.B \fBmode\fP
+The mode that considered the path. One of \fBmodule\fP, \fBcps\fP, \fBcmake\fP,
+or \fBprovider\fP\&.
+.TP
+.B \fBversion\fP
+The reported version of the package.
+.UNINDENT
+.TP
+.B \fBsearch_context\fP
+A mapping of variable names to search paths specified by them (either a
+string or an array of strings depending on the variable). Environment
+variables are wrapped with \fBENV{\fP and \fB}\fP, otherwise CMake variables are
+used. Only variables with any paths specified are used.
+.INDENT 7.0
+.TP
+.B \fBpackage_stack\fP
+An array of objects with paths which come from the stack of paths made
+available by \fI\%find_package()\fP calls.
+.INDENT 7.0
+.TP
+.B \fBpackage_paths\fP
+The paths made available by \fI\%find_package()\fP commands in the call
+stack.
+.UNINDENT
+.UNINDENT
+.UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

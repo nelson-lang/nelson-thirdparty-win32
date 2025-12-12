@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>string &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>string &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="site_name.html" title="site_name"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -80,6 +85,7 @@
   string(<a class="reference internal" href="#strip">STRIP</a> &lt;string&gt; &lt;out-var&gt;)
   string(<a class="reference internal" href="#genex-strip">GENEX_STRIP</a> &lt;string&gt; &lt;out-var&gt;)
   string(<a class="reference internal" href="#repeat">REPEAT</a> &lt;string&gt; &lt;count&gt; &lt;out-var&gt;)
+  string(<a class="reference internal" href="#regex-quote">REGEX QUOTE</a> &lt;out-var&gt; &lt;input&gt;...)
 
 <a class="reference internal" href="#comparison">Comparison</a>
   string(<a class="reference internal" href="#compare">COMPARE</a> &lt;op&gt; &lt;string1&gt; &lt;string2&gt; &lt;out-var&gt;)
@@ -165,6 +171,15 @@ two backslashes (<code class="docutils literal notranslate"><span class="pre">\\
 through argument parsing.</p>
 </dd></dl>
 
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 4.1: </span>The <code class="docutils literal notranslate"><span class="pre">^</span></code> anchor now matches only at the beginning of the input
+string instead of the beginning of each repeated search.
+See policy <span class="target" id="index-0-policy:CMP0186"></span><a class="reference internal" href="../policy/CMP0186.html#policy:CMP0186" title="CMP0186"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0186</span></code></a>.</p>
+<p>Zero-length matches are allowed in <code class="docutils literal notranslate"><span class="pre">MATCHALL</span></code> and <code class="docutils literal notranslate"><span class="pre">REPLACE</span></code>.
+Previously, they triggered an error.</p>
+<p>The replacement expression may contain references to subexpressions that
+didn't match anything. Previously, such references triggered an error.</p>
+</div>
 </section>
 <section id="regex-specification">
 <span id="id1"></span><h3>Regex Specification<a class="headerlink" href="#regex-specification" title="Link to this heading">¶</a></h3>
@@ -203,7 +218,7 @@ character, e.g., <code class="docutils literal notranslate"><span class="pre">[+
 <dt><code class="docutils literal notranslate"><span class="pre">()</span></code></dt><dd><p>Saves a matched subexpression, which can be referenced
 in the <code class="docutils literal notranslate"><span class="pre">REGEX</span> <span class="pre">REPLACE</span></code> operation.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.9: </span>All regular expression-related commands, including e.g.
+<p><span class="versionmodified added">Added in version 3.9: </span>All regular expression-related commands, including e.g.
 <span class="target" id="index-0-command:if"></span><a class="reference internal" href="if.html#matches" title="if(matches)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(MATCHES)</span></code></a>, save subgroup matches in the variables
 <span class="target" id="index-0-variable:CMAKE_MATCH_&lt;n&gt;"></span><a class="reference internal" href="../variable/CMAKE_MATCH_n.html#variable:CMAKE_MATCH_&lt;n&gt;" title="CMAKE_MATCH_&lt;n&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MATCH_&lt;n&gt;</span></code></a> for <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> 0..9.</p>
 </div>
@@ -237,7 +252,7 @@ having to escape the backslashes, e.g. <code class="docutils literal notranslate
 <dt class="sig sig-object cmake" id="append">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">APPEND</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string_variable&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="nv"><span class="pre">&lt;input&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#append" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.4.</span></p>
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
 </div>
 <p>Append all the <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code> arguments to the string.</p>
 </dd></dl>
@@ -246,7 +261,7 @@ having to escape the backslashes, e.g. <code class="docutils literal notranslate
 <dt class="sig sig-object cmake" id="prepend">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">PREPEND</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string_variable&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="nv"><span class="pre">&lt;input&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#prepend" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.10.</span></p>
+<p><span class="versionmodified added">Added in version 3.10.</span></p>
 </div>
 <p>Prepend all the <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code> arguments to the string.</p>
 </dd></dl>
@@ -262,7 +277,7 @@ the result in the named <code class="docutils literal notranslate"><span class="
 <dt class="sig sig-object cmake" id="join">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">JOIN</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;glue&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="nv"><span class="pre">&lt;input&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#join" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.12.</span></p>
+<p><span class="versionmodified added">Added in version 3.12.</span></p>
 </div>
 <p>Join all the <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code> arguments together using the <code class="docutils literal notranslate"><span class="pre">&lt;glue&gt;</span></code>
 string and store the result in the named <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>.</p>
@@ -318,7 +333,7 @@ with leading and trailing spaces removed.</p>
 <dt class="sig sig-object cmake" id="genex-strip">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">GENEX_STRIP</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#genex-strip" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.</span></p>
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
 </div>
 <p>Strip any <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>
 from the input <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code> and store the result
@@ -329,10 +344,22 @@ in the <code class="docutils literal notranslate"><span class="pre">&lt;output_v
 <dt class="sig sig-object cmake" id="repeat">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">REPEAT</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;count&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#repeat" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.15.</span></p>
+<p><span class="versionmodified added">Added in version 3.15.</span></p>
 </div>
 <p>Produce the output string as the input <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code>
 repeated <code class="docutils literal notranslate"><span class="pre">&lt;count&gt;</span></code> times.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="regex-quote">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">REGEX</span></span><span class="w"> </span><span class="no"><span class="pre">QUOTE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;out-var&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;input&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#regex-quote" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Store in an <code class="docutils literal notranslate"><span class="pre">&lt;out-var&gt;</span></code> a regular expression matching the <code class="docutils literal notranslate"><span class="pre">&lt;input&gt;</span></code>.
+All characters that have special meaning in a regular expression are
+escaped, such that the output string can be used as part of a regular
+expression to match the input literally.</p>
 </dd></dl>
 
 </section>
@@ -353,7 +380,7 @@ repeated <code class="docutils literal notranslate"><span class="pre">&lt;count&
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">COMPARE</span></span><span class="w"> </span><span class="no"><span class="pre">GREATER_EQUAL</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string1&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string2&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#compare-greater-equal" title="Link to this definition">¶</a></dt>
 <dd><p>Compare the strings and store true or false in the <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7: </span>Added the <code class="docutils literal notranslate"><span class="pre">LESS_EQUAL</span></code> and <code class="docutils literal notranslate"><span class="pre">GREATER_EQUAL</span></code> options.</p>
+<p><span class="versionmodified added">Added in version 3.7: </span>Added the <code class="docutils literal notranslate"><span class="pre">LESS_EQUAL</span></code> and <code class="docutils literal notranslate"><span class="pre">GREATER_EQUAL</span></code> options.</p>
 </div>
 </dd></dl>
 
@@ -388,7 +415,7 @@ The supported <code class="docutils literal notranslate"><span class="pre">&lt;H
 </dd>
 </dl>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span>Added the <code class="docutils literal notranslate"><span class="pre">SHA3_*</span></code> hash algorithms.</p>
+<p><span class="versionmodified added">Added in version 3.8: </span>Added the <code class="docutils literal notranslate"><span class="pre">SHA3_*</span></code> hash algorithms.</p>
 </div>
 </dd></dl>
 
@@ -405,7 +432,7 @@ The supported <code class="docutils literal notranslate"><span class="pre">&lt;H
 <dt class="sig sig-object cmake" id="hex">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">HEX</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;string&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#hex" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p><span class="versionmodified added">Added in version 3.18.</span></p>
 </div>
 <p>Convert each byte in the input <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code> to its hexadecimal representation
 and store the concatenated hex digits in the <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>.
@@ -450,7 +477,7 @@ be in Coordinated Universal Time (UTC) rather than local time.</p>
 specifiers:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">%%</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8.</span></p>
+<p><span class="versionmodified added">Added in version 3.8.</span></p>
 </div>
 <p>A literal percent sign (%).</p>
 </dd>
@@ -465,45 +492,45 @@ specifiers:</p>
 <dt><code class="docutils literal notranslate"><span class="pre">%m</span></code></dt><dd><p>The month of the current year (01-12).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%b</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Abbreviated month name (e.g. Oct).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%B</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.10.</span></p>
+<p><span class="versionmodified added">Added in version 3.10.</span></p>
 </div>
 <p>Full month name (e.g. October).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%M</span></code></dt><dd><p>The minute of the current hour (00-59).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%s</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6.</span></p>
+<p><span class="versionmodified added">Added in version 3.6.</span></p>
 </div>
 <p>Seconds since midnight (UTC) 1-Jan-1970 (UNIX time).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%S</span></code></dt><dd><p>The second of the current minute.  60 represents a leap second. (00-60)</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%f</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.23.</span></p>
+<p><span class="versionmodified added">Added in version 3.23.</span></p>
 </div>
 <p>The microsecond of the current second (000000-999999).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%U</span></code></dt><dd><p>The week number of the current year (00-53).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%V</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.22.</span></p>
+<p><span class="versionmodified added">Added in version 3.22.</span></p>
 </div>
 <p>The ISO 8601 week number of the current year (01-53).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%w</span></code></dt><dd><p>The day of the current week. 0 is Sunday. (0-6)</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%a</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Abbreviated weekday name (e.g. Fri).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%A</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.10.</span></p>
+<p><span class="versionmodified added">Added in version 3.10.</span></p>
 </div>
 <p>Full weekday name (e.g. Friday).</p>
 </dd>
@@ -512,13 +539,13 @@ specifiers:</p>
 <dt><code class="docutils literal notranslate"><span class="pre">%Y</span></code></dt><dd><p>The current year.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%z</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.26.</span></p>
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
 </div>
 <p>The offset of the time zone from UTC, in hours and minutes,
 with format <code class="docutils literal notranslate"><span class="pre">+hhmm</span></code> or <code class="docutils literal notranslate"><span class="pre">-hhmm</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">%Z</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.26.</span></p>
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
 </div>
 <p>The time zone name.</p>
 </dd>
@@ -526,12 +553,12 @@ with format <code class="docutils literal notranslate"><span class="pre">+hhmm</
 <p>Unknown format specifiers will be ignored and copied to the output
 as-is.</p>
 <p>If no explicit <code class="docutils literal notranslate"><span class="pre">&lt;format_string&gt;</span></code> is given, it will default to:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>%Y-%m-%dT%H:%M:%S    for local time.
-%Y-%m-%dT%H:%M:%SZ   for UTC.
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">%Y-%m-%dT%H:%M:%S</span></code> for local time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%Y-%m-%dT%H:%M:%SZ</span></code> for UTC.</p></li>
+</ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span>If the <code class="docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> environment variable is set,
+<p><span class="versionmodified added">Added in version 3.8: </span>If the <code class="docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> environment variable is set,
 its value will be used instead of the current time.
 See <a class="reference external" href="https://reproducible-builds.org/specs/source-date-epoch/">https://reproducible-builds.org/specs/source-date-epoch/</a> for details.</p>
 </div>
@@ -541,7 +568,7 @@ See <a class="reference external" href="https://reproducible-builds.org/specs/so
 <dt class="sig sig-object cmake" id="uuid">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">UUID</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">NAMESPACE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;namespace&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">NAME</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;name&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">TYPE</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="no"><span class="pre">MD5</span></span><span class="p"><span class="pre">|</span></span><span class="no"><span class="pre">SHA1</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">UPPER</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#uuid" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.</span></p>
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
 </div>
 <p>Create a universally unique identifier (aka GUID) as per RFC4122
 based on the hash of the combined values of <code class="docutils literal notranslate"><span class="pre">&lt;namespace&gt;</span></code>
@@ -558,7 +585,7 @@ with the optional <code class="docutils literal notranslate"><span class="pre">U
 <section id="json">
 <span id="id2"></span><h2>JSON<a class="headerlink" href="#json" title="Link to this heading">¶</a></h2>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19.</span></p>
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
 </div>
 <p>Functionality for querying a JSON string.</p>
 <div class="admonition note">
@@ -572,6 +599,9 @@ is no relevant path.  If an error occurs but the <code class="docutils literal n
 option is not present, a fatal error message is generated.  If no error
 occurs, the <code class="docutils literal notranslate"><span class="pre">&lt;error-variable&gt;</span></code> will be set to <code class="docutils literal notranslate"><span class="pre">NOTFOUND</span></code>.</p>
 </div>
+<p>In the following subcommands, the <code class="docutils literal notranslate"><span class="pre">&lt;json-string&gt;</span></code> argument should
+be written as a <a class="reference internal" href="../manual/cmake-language.7.html#quoted-argument"><span class="std std-ref">Quoted Argument</span></a> to ensure the entire JSON
+string is passed as a single argument even if it contains semicolons.</p>
 <dl class="cmake signature">
 <dt class="sig sig-object cmake" id="json-get">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">string(</span></span><span class="no"><span class="pre">JSON</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;out-var&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">ERROR_VARIABLE</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;error-variable&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="no"><span class="pre">GET</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;json-string&gt;</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">member</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">index</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">member</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">index</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nbsp"> </span><span class="p"><span class="pre">...]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#json-get" title="Link to this definition">¶</a></dt>
@@ -645,10 +675,10 @@ or a false value otherwise.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">string</a><ul>
 <li><a class="reference internal" href="#synopsis">Synopsis</a></li>
@@ -685,7 +715,7 @@ or a false value otherwise.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -693,13 +723,13 @@ or a false value otherwise.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -712,14 +742,15 @@ or a false value otherwise.</p>
           <a href="site_name.html" title="site_name"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -728,8 +759,17 @@ or a false value otherwise.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

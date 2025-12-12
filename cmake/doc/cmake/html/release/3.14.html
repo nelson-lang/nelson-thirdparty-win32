@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CMake 3.14 Release Notes &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>CMake 3.14 Release Notes &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="3.15.html" title="CMake 3.15 Release Notes"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Release Notes</a> &#187;</li>
@@ -258,7 +263,7 @@ The <code class="docutils literal notranslate"><span class="pre">BUILD_COMMAND</
 dependency names, which it then iterates over, populating and adding
 each one to the main build using the canonical pattern.  This
 significantly reduces the amount of boilerplate needed in a project.</p></li>
-<li><p>The <span class="target" id="index-0-module:FindBISON"></span><a class="reference internal" href="../module/FindBISON.html#module:FindBISON" title="FindBISON"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindBISON</span></code></a> module's <code class="docutils literal notranslate"><span class="pre">BISON_TARGET</span></code> command now runs <code class="docutils literal notranslate"><span class="pre">bison</span></code>
+<li><p>The <span class="target" id="index-0-module:FindBISON"></span><a class="reference internal" href="../module/FindBISON.html#module:FindBISON" title="FindBISON"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindBISON</span></code></a> module's <code class="docutils literal notranslate"><span class="pre">bison_target()</span></code> command now runs <code class="docutils literal notranslate"><span class="pre">bison</span></code>
 with <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a> as the working directory.
 See policy <span class="target" id="index-0-policy:CMP0088"></span><a class="reference internal" href="../policy/CMP0088.html#policy:CMP0088" title="CMP0088"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0088</span></code></a>.</p></li>
 <li><p>The <span class="target" id="index-0-module:FindCURL"></span><a class="reference internal" href="../module/FindCURL.html#module:FindCURL" title="FindCURL"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindCURL</span></code></a> module gained support for requesting
@@ -286,8 +291,7 @@ imported targets and helper functions.</p></li>
 <li><p>The <span class="target" id="index-0-module:FindX11"></span><a class="reference internal" href="../module/FindX11.html#module:FindX11" title="FindX11"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindX11</span></code></a> had the following variables renamed in order to match
 their library names rather than header names. The old variables are provided
 for compatibility:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xxf86misc_INCLUDE_PATH</span></code> instead of <code class="docutils literal notranslate"><span class="pre">X11_xf86misc_INCLUDE_PATH</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xxf86misc_LIB</span></code> instead of <code class="docutils literal notranslate"><span class="pre">X11_xf86misc_LIB</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xxf86misc_FOUND</span></code> instead of <code class="docutils literal notranslate"><span class="pre">X11_xf86misc_FOUND</span></code></p></li>
@@ -304,16 +308,13 @@ for compatibility:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xss_LIB</span></code> instead of <code class="docutils literal notranslate"><span class="pre">X11_Xscreensaver_LIB</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xss_FOUND</span></code> instead of <code class="docutils literal notranslate"><span class="pre">X11_Xscreensaver_FOUND</span></code></p></li>
 </ul>
-</div></blockquote>
 <p>The following variables are deprecated completely since they were
 essentially duplicates:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xinput_INCLUDE_PATH</span></code> (use <code class="docutils literal notranslate"><span class="pre">X11_Xi_INCLUDE_PATH</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xinput_LIB</span></code> (use <code class="docutils literal notranslate"><span class="pre">X11_Xi_LIB</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">X11_Xinput_FOUND</span></code> (use <code class="docutils literal notranslate"><span class="pre">X11_Xi_FOUND</span></code>)</p></li>
 </ul>
-</div></blockquote>
 </li>
 <li><p>The <span class="target" id="index-1-module:FindX11"></span><a class="reference internal" href="../module/FindX11.html#module:FindX11" title="FindX11"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindX11</span></code></a> now provides <code class="docutils literal notranslate"><span class="pre">X11_Xext_INCLUDE_PATH</span></code>.</p></li>
 <li><p>The <span class="target" id="index-2-module:FindX11"></span><a class="reference internal" href="../module/FindX11.html#module:FindX11" title="FindX11"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindX11</span></code></a> now provides imported targets.</p></li>
@@ -351,7 +352,7 @@ of global <code class="docutils literal notranslate"><span class="pre">autogen</
 <li><p>A new <span class="target" id="index-0-variable:CMAKE_AUTOGEN_ORIGIN_DEPENDS"></span><a class="reference internal" href="../variable/CMAKE_AUTOGEN_ORIGIN_DEPENDS.html#variable:CMAKE_AUTOGEN_ORIGIN_DEPENDS" title="CMAKE_AUTOGEN_ORIGIN_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_AUTOGEN_ORIGIN_DEPENDS</span></code></a> variable and
 <span class="target" id="index-0-prop_tgt:AUTOGEN_ORIGIN_DEPENDS"></span><a class="reference internal" href="../prop_tgt/AUTOGEN_ORIGIN_DEPENDS.html#prop_tgt:AUTOGEN_ORIGIN_DEPENDS" title="AUTOGEN_ORIGIN_DEPENDS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOGEN_ORIGIN_DEPENDS</span></code></a> target property may be set to enable or
 disable forwarding of the origin target dependencies to the corresponding
-<a class="reference internal" href="../manual/cmake-qt.7.html#origin-autogen"><span class="std std-ref">The &lt;ORIGIN&gt;_autogen target</span></a> target.</p></li>
+<a class="reference internal" href="../manual/cmake-qt.7.html#origin-autogen"><span class="std std-ref">&lt;ORIGIN&gt;_autogen</span></a> target.</p></li>
 </ul>
 </section>
 <section id="ctest">
@@ -391,6 +392,8 @@ Windows 7 or higher.</p></li>
 <li><p>CTest no longer supports submissions via <code class="docutils literal notranslate"><span class="pre">ftp</span></code>, <code class="docutils literal notranslate"><span class="pre">scp</span></code>, <code class="docutils literal notranslate"><span class="pre">cp</span></code>, and
 <code class="docutils literal notranslate"><span class="pre">xmlrpc</span></code>.  CDash is the only maintained testing dashboard for CTest,
 and it only supports submissions over <code class="docutils literal notranslate"><span class="pre">http</span></code> and <code class="docutils literal notranslate"><span class="pre">https</span></code>.</p></li>
+<li><p>The <span class="target" id="index-0-module:MacroAddFileDependencies"></span><a class="reference internal" href="../module/MacroAddFileDependencies.html#module:MacroAddFileDependencies" title="MacroAddFileDependencies"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">MacroAddFileDependencies</span></code></a> module is deprecated.
+Port projects to use <span class="target" id="index-0-command:set_property"></span><a class="reference internal" href="../command/set_property.html#command:set_property" title="set_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_property()</span></code></a> directly.</p></li>
 </ul>
 </section>
 <section id="other-changes">
@@ -491,10 +494,10 @@ This has been fixed.</p></li>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">CMake 3.14 Release Notes</a><ul>
 <li><a class="reference internal" href="#new-features">New Features</a><ul>
@@ -544,7 +547,7 @@ This has been fixed.</p></li>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -552,13 +555,13 @@ This has been fixed.</p></li>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -571,14 +574,15 @@ This has been fixed.</p></li>
           <a href="3.15.html" title="CMake 3.15 Release Notes"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="index.html" >CMake Release Notes</a> &#187;</li>
@@ -587,8 +591,17 @@ This has been fixed.</p></li>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

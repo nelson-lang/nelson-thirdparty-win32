@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FetchContent &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FetchContent &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FeatureSummary.html" title="FeatureSummary"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -59,7 +64,7 @@
   <section id="fetchcontent">
 <span id="module:FetchContent"></span><h1><a class="toc-backref" href="#id5" role="doc-backlink">FetchContent</a><a class="headerlink" href="#fetchcontent" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11.</span></p>
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
 </div>
 <nav class="contents" id="contents">
 <p class="topic-title">Contents</p>
@@ -83,6 +88,12 @@
 </li>
 </ul>
 </nav>
+<p>This module provides commands to populate content at configure time or as
+part of the calling script.</p>
+<p>Load this module in CMake with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <span class="target" id="index-0-guide:Using Dependencies Guide"></span><a class="reference internal" href="../guide/using-dependencies/index.html#guide:Using Dependencies Guide" title="Using Dependencies Guide"><code class="xref cmake cmake-guide docutils literal notranslate"><span class="pre">Using</span> <span class="pre">Dependencies</span> <span class="pre">Guide</span></code></a> provides a high-level
@@ -175,9 +186,10 @@ the content being populated multiple times.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">&lt;contentOptions&gt;</span></code> can be any of the download, update, or patch options
 that the <span class="target" id="index-1-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> command understands.  The configure,
 build, install, and test steps are explicitly disabled, so options related
-to those steps will be ignored.  The <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option is an
-exception, see <span class="target" id="index-1-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> for details on how that
-affects behavior.</p>
+to those steps are prohibited and will be discarded if given.
+The <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option is an exception, see
+<span class="target" id="index-1-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> for details on how that affects
+behavior.</p>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 3.30: </span>When policy <span class="target" id="index-0-policy:CMP0168"></span><a class="reference internal" href="../policy/CMP0168.html#policy:CMP0168" title="CMP0168"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0168</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, some output-related and
 directory-related options are ignored.  See the policy documentation for
@@ -215,14 +227,14 @@ This may be needed for things like password prompts or real-time display
 of command progress.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.22: </span>The <span class="target" id="index-0-variable:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERIFY.html#variable:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a>, <span class="target" id="index-0-variable:CMAKE_TLS_CAINFO"></span><a class="reference internal" href="../variable/CMAKE_TLS_CAINFO.html#variable:CMAKE_TLS_CAINFO" title="CMAKE_TLS_CAINFO"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code></a>,
+<p><span class="versionmodified added">Added in version 3.22: </span>The <span class="target" id="index-0-variable:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERIFY.html#variable:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a>, <span class="target" id="index-0-variable:CMAKE_TLS_CAINFO"></span><a class="reference internal" href="../variable/CMAKE_TLS_CAINFO.html#variable:CMAKE_TLS_CAINFO" title="CMAKE_TLS_CAINFO"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code></a>,
 <span class="target" id="index-0-variable:CMAKE_NETRC"></span><a class="reference internal" href="../variable/CMAKE_NETRC.html#variable:CMAKE_NETRC" title="CMAKE_NETRC"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code></a>, and <span class="target" id="index-0-variable:CMAKE_NETRC_FILE"></span><a class="reference internal" href="../variable/CMAKE_NETRC_FILE.html#variable:CMAKE_NETRC_FILE" title="CMAKE_NETRC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code></a> variables now
 provide the defaults for their corresponding content options, just like
 they do for <span class="target" id="index-2-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>. Previously, these variables
 were ignored by the <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> module.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24: </span></p>
+<p><span class="versionmodified added">Added in version 3.24: </span></p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code></dt><dd><p>This option is for scenarios where the
 <span class="target" id="index-2-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> command may first try a call to
@@ -273,7 +285,7 @@ call contains the <code class="docutils literal notranslate"><span class="pre">B
 </dl>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25: </span></p>
+<p><span class="versionmodified added">Added in version 3.25: </span></p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code></dt><dd><p>If the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> argument is provided, the <span class="target" id="index-0-prop_dir:SYSTEM"></span><a class="reference internal" href="../prop_dir/SYSTEM.html#prop_dir:SYSTEM" title="SYSTEM"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">SYSTEM</span></code></a> directory
 property of a subdirectory added by
@@ -285,7 +297,7 @@ detailed discussion of the effects.</p>
 </dl>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.28: </span></p>
+<p><span class="versionmodified added">Added in version 3.28: </span></p>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></dt><dd><p>If the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> argument is provided, then targets in the
 subdirectory added by <span class="target" id="index-6-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> will not be
@@ -301,7 +313,7 @@ project files. See the documentation for the directory property
 <dt class="sig sig-object cmake" id="command:fetchcontent_makeavailable">
 <span class="sig-name descname"><span class="pre">FetchContent_MakeAvailable</span></span><a class="headerlink" href="#command:fetchcontent_makeavailable" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14.</span></p>
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
 </div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_MakeAvailable(</span><span class="nv">&lt;name1&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;name2&gt;...</span><span class="p">]</span><span class="nf">)</span>
 </pre></div>
@@ -313,7 +325,7 @@ will control how that dependency will be made available, as described below.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code> is not set:</p>
 <ul>
 <li><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24: </span>If a <a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency provider</span></a> is set, call the
+<p><span class="versionmodified added">Added in version 3.24: </span>If a <a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency provider</span></a> is set, call the
 provider's command with <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_MAKEAVAILABLE_SERIAL</span></code> as the
 first argument, followed by the arguments of the first call to
 <span class="target" id="index-1-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> for <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  If <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> or
@@ -328,7 +340,7 @@ and move on to the next dependency in the list.</p>
 </div>
 </li>
 <li><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24: </span>If permitted, <span class="target" id="index-9-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;name&gt;</span> <span class="pre">[&lt;args&gt;...])</span></code></a>
+<p><span class="versionmodified added">Added in version 3.24: </span>If permitted, <span class="target" id="index-9-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;name&gt;</span> <span class="pre">[&lt;args&gt;...])</span></code></a>
 will be called, where <code class="docutils literal notranslate"><span class="pre">&lt;args&gt;...</span></code> may be provided by the
 <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> option in <span class="target" id="index-2-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.
 The value of the <span class="target" id="index-3-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> variable
@@ -358,7 +370,7 @@ Halt with a fatal error if no such details have been recorded.
 the declared details and use content provided at the specified location
 instead.</p></li>
 <li><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24: </span>Ensure the <span class="target" id="index-1-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a> directory
+<p><span class="versionmodified added">Added in version 3.24: </span>Ensure the <span class="target" id="index-1-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a> directory
 contains a <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;-config.cmake</span></code> and a
 <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;-config-version.cmake</span></code> file (or equivalently,
 <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;Config.cmake</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;ConfigVersion.cmake</span></code>).
@@ -398,7 +410,7 @@ allows the command to be used for dependencies that make downloaded
 content available at a known location, but which do not need or support
 being added directly to the build.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18: </span>The <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option can be given in the declared details to
+<p><span class="versionmodified added">Added in version 3.18: </span>The <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option can be given in the declared details to
 look somewhere below the top directory instead (i.e. the same way that
 <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> is used by the <span class="target" id="index-3-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>
 command).  The path provided with <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> must be relative,
@@ -409,17 +421,17 @@ adding a project that contains a <code class="docutils literal notranslate"><spa
 directory.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25: </span>If the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> keyword was included in the call to
+<p><span class="versionmodified added">Added in version 3.25: </span>If the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> keyword was included in the call to
 <span class="target" id="index-5-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> keyword will be
 added to the <span class="target" id="index-3-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.28: </span>If the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> keyword was included in the call to
+<p><span class="versionmodified added">Added in version 3.28: </span>If the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> keyword was included in the call to
 <span class="target" id="index-6-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> keyword will
 be added to the <span class="target" id="index-4-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.29: </span><span class="target" id="index-0-variable:CMAKE_EXPORT_FIND_PACKAGE_NAME"></span><a class="reference internal" href="../variable/CMAKE_EXPORT_FIND_PACKAGE_NAME.html#variable:CMAKE_EXPORT_FIND_PACKAGE_NAME" title="CMAKE_EXPORT_FIND_PACKAGE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_EXPORT_FIND_PACKAGE_NAME</span></code></a> is set to the dependency name
+<p><span class="versionmodified added">Added in version 3.29: </span><span class="target" id="index-0-variable:CMAKE_EXPORT_FIND_PACKAGE_NAME"></span><a class="reference internal" href="../variable/CMAKE_EXPORT_FIND_PACKAGE_NAME.html#variable:CMAKE_EXPORT_FIND_PACKAGE_NAME" title="CMAKE_EXPORT_FIND_PACKAGE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_EXPORT_FIND_PACKAGE_NAME</span></code></a> is set to the dependency name
 before calling <span class="target" id="index-5-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>.</p>
 </div>
 </li>
@@ -566,7 +578,7 @@ Within <a class="reference internal" href="../manual/cmake.1.html#script-process
 CMake generator.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18: </span>Added support for the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_NO_EXTRACT</span></code> option.</p>
+<p><span class="versionmodified added">Added in version 3.18: </span>Added support for the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_NO_EXTRACT</span></code> option.</p>
 </div>
 </dd></dl>
 
@@ -665,7 +677,7 @@ already:</p>
 <dt class="sig sig-object cmake" id="command:fetchcontent_setpopulated">
 <span class="sig-name descname"><span class="pre">FetchContent_SetPopulated</span></span><a class="headerlink" href="#command:fetchcontent_setpopulated" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -782,7 +794,7 @@ not as much as <span class="target" id="index-2-variable:FETCHCONTENT_FULLY_DISC
 <dt class="sig sig-object cmake" id="variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE">
 <span class="sig-name descname"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></span><a class="headerlink" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
 <p>This variable modifies the details that <span class="target" id="index-11-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>
 records for a given dependency.  While it ultimately controls the behavior
@@ -1167,10 +1179,10 @@ current working directory.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FetchContent</a><ul>
 <li><a class="reference internal" href="#overview">Overview</a></li>
@@ -1207,7 +1219,7 @@ current working directory.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -1215,13 +1227,13 @@ current working directory.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1234,14 +1246,15 @@ current working directory.</p>
           <a href="FeatureSummary.html" title="FeatureSummary"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -1250,8 +1263,17 @@ current working directory.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

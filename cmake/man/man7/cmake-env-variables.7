@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-ENV-VARIABLES" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-ENV-VARIABLES" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-env-variables \- CMake Environment Variables Reference
 .sp
@@ -38,6 +38,43 @@ For general information on environment variables, see the
 \fI\%Environment Variables\fP
 section in the cmake\-language manual.
 .SH ENVIRONMENT VARIABLES THAT CHANGE BEHAVIOR
+.SS CLICOLOR
+.sp
+Added in version 3.21.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+Set to \fB0\fP to tell command\-line tools not to print color
+messages even if connected to a terminal.
+This is a \X'tty: link https://web.archive.org/web/20250410160803/https://bixense.com/clicolors/'\fI\%common convention\fP\X'tty: link' among command\-line tools in general.
+.sp
+See also the \fI\%NO_COLOR\fP and \fI\%CLICOLOR_FORCE\fP environment
+variables.  If either of them is activated, it takes precedence over
+\fBCLICOLOR\fP\&.
+.sp
+See the \fI\%CMAKE_COLOR_DIAGNOSTICS\fP variable to control
+color in a generated build system.
+.SS CLICOLOR_FORCE
+.sp
+Added in version 3.5.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+Set to a non\-empty value, other than \fB0\fP, to tell command\-line
+tools to print color messages even if not connected to a terminal.
+This is a \X'tty: link https://web.archive.org/web/20250410160803/https://bixense.com/clicolors/'\fI\%common convention\fP\X'tty: link' among command\-line tools in general.
+.sp
+See also the \fI\%NO_COLOR\fP and \fI\%CLICOLOR\fP environment variables.
+If \fI\%NO_COLOR\fP is activated, it takes precedence over
+\fBCLICOLOR_FORCE\fP\&.  Otherwise, if \fBCLICOLOR_FORCE\fP is
+activated, it takes precedence over \fI\%CLICOLOR\fP\&.
+.sp
+See the \fI\%CMAKE_COLOR_DIAGNOSTICS\fP variable to control
+color in a generated build system.
 .SS CMAKE_APPBUNDLE_PATH
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -94,7 +131,7 @@ variable convention on those platforms).
 See also the \fI\%CMAKE_LIBRARY_PATH\fP CMake variable.
 .SS CMAKE_MAXIMUM_RECURSION_DEPTH
 .sp
-New in version 3.27.
+Added in version 3.27.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -103,6 +140,18 @@ the calling process environment.
 Maximum recursion depth for CMake scripts.  This environment variable is
 used if the \fI\%CMAKE_MAXIMUM_RECURSION_DEPTH\fP variable is not set.
 See that variable\(aqs documentation for details.
+.SS CMAKE_POLICY_VERSION_MINIMUM
+.sp
+Added in version 4.0.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+The default value for \fI\%CMAKE_POLICY_VERSION_MINIMUM\fP when there
+is no explicit configuration given on the first run while creating a new
+build tree.  On later runs in an existing build tree the value persists in
+the cache as \fI\%CMAKE_POLICY_VERSION_MINIMUM\fP\&.
 .SS CMAKE_PREFIX_PATH
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -135,7 +184,7 @@ variable convention on those platforms).
 See also the \fI\%CMAKE_PROGRAM_PATH\fP CMake variable.
 .SS CMAKE_TLS_VERIFY
 .sp
-New in version 3.30.
+Added in version 3.30.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -151,7 +200,7 @@ This variable is also used by the \fI\%ExternalProject\fP and
 \fI\%file(DOWNLOAD)\fP and \fBgit clone\fP\&.
 .SS CMAKE_TLS_VERSION
 .sp
-New in version 3.30.
+Added in version 3.30.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -166,9 +215,27 @@ See that variable for allowed values.
 This variable is also used by the \fI\%ExternalProject\fP and
 \fI\%FetchContent\fP modules for internal calls to
 \fI\%file(DOWNLOAD)\fP and \fBgit clone\fP\&.
+.SS NO_COLOR
+.sp
+Added in version 4.1.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+Set to a non\-empty value, other than \fB0\fP, to tell command\-line
+tools not to print color messages even if connected to a terminal.
+This is a \X'tty: link https://web.archive.org/web/20250410160803/https://bixense.com/clicolors/'\fI\%common convention\fP\X'tty: link' among command\-line tools in general.
+.sp
+See also the \fI\%CLICOLOR_FORCE\fP and \fI\%CLICOLOR\fP environment
+variables.  If \fBNO_COLOR\fP is activated, it takes precedence
+over both of them.
+.sp
+See the \fI\%CMAKE_COLOR_DIAGNOSTICS\fP variable to control
+color in a generated build system.
 .SS SSL_CERT_DIR
 .sp
-New in version 3.25.
+Added in version 3.25.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -178,7 +245,7 @@ Specify default directory containing CA certificates.  It overrides
 the default CA directory used.
 .SS SSL_CERT_FILE
 .sp
-New in version 3.25.
+Added in version 3.25.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -189,7 +256,7 @@ default, os\-specific CA file used.
 .SH ENVIRONMENT VARIABLES THAT CONTROL THE BUILD
 .SS ADSP_ROOT
 .sp
-New in version 3.24.
+Added in version 3.24.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -200,7 +267,7 @@ for the \fI\%CMAKE_ADSP_ROOT\fP variable when there is no explicit
 configuration given on the first run while creating a new build tree.
 .SS CMAKE_APPLE_SILICON_PROCESSOR
 .sp
-New in version 3.19.2.
+Added in version 3.19.2.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -212,9 +279,20 @@ The value must be either \fBarm64\fP or \fBx86_64\fP\&.
 .sp
 The \fI\%CMAKE_APPLE_SILICON_PROCESSOR\fP normal variable, if set,
 overrides this environment variable.
+.SS CMAKE_AUTOGEN_INTERMEDIATE_DIR_STRATEGY
+.sp
+Added in version 4.2.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+\fBCMAKE_AUTOGEN_INTERMEDIATE_DIR_STRATEGY\fP is a string specifying the
+strategy to use for autogen\-related target intermediate directories. It
+initializes the \fI\%CMAKE_AUTOGEN_INTERMEDIATE_DIR_STRATEGY\fP variable.
 .SS CMAKE_BUILD_PARALLEL_LEVEL
 .sp
-New in version 3.12.
+Added in version 3.12.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -232,7 +310,7 @@ If this variable is defined empty the native build tool\(aqs default number is
 used.
 .SS CMAKE_BUILD_TYPE
 .sp
-New in version 3.22.
+Added in version 3.22.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -243,7 +321,7 @@ for the \fI\%CMAKE_BUILD_TYPE\fP variable when there is no explicit
 configuration given on the first run while creating a new build tree.
 .SS CMAKE_COLOR_DIAGNOSTICS
 .sp
-New in version 3.24.
+Added in version 3.24.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -253,7 +331,7 @@ Specifies a default value for the \fI\%CMAKE_COLOR_DIAGNOSTICS\fP variable
 when there is no explicit value given on the first run.
 .SS CMAKE_CONFIG_DIR
 .sp
-New in version 3.31.
+Added in version 3.31.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -283,7 +361,7 @@ The default build configuration for \fI\%Build a Project\fP and
 \fBctest\fP build handler when there is no explicit configuration given.
 .SS CMAKE_CONFIGURATION_TYPES
 .sp
-New in version 3.22.
+Added in version 3.22.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -295,7 +373,7 @@ when there is no explicit configuration given on the first run while
 creating a new build tree.
 .SS CMAKE_CROSSCOMPILING_EMULATOR
 .sp
-New in version 3.28.
+Added in version 3.28.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -307,7 +385,7 @@ build tree.  On later runs in an existing build tree the value persists in
 the cache as \fI\%CMAKE_CROSSCOMPILING_EMULATOR\fP\&.
 .SS CMAKE_EXPORT_BUILD_DATABASE
 .sp
-New in version 3.31.
+Added in version 3.31.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -328,7 +406,7 @@ databases has been enabled by the
 .UNINDENT
 .SS CMAKE_EXPORT_COMPILE_COMMANDS
 .sp
-New in version 3.17.
+Added in version 3.17.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -338,9 +416,20 @@ The default value for \fI\%CMAKE_EXPORT_COMPILE_COMMANDS\fP when there
 is no explicit configuration given on the first run while creating a new
 build tree.  On later runs in an existing build tree the value persists in
 the cache as \fI\%CMAKE_EXPORT_COMPILE_COMMANDS\fP\&.
+.SS CMAKE_FASTBUILD_VERBOSE_GENERATOR
+.sp
+Added in version 4.2.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+The \fBCMAKE_FASTBUILD_VERBOSE_GENERATOR\fP environment variable specifies a custom default
+value for the \fI\%CMAKE_FASTBUILD_VERBOSE_GENERATOR\fP variable in place of the
+default values specified by CMake itself.
 .SS CMAKE_GENERATOR
 .sp
-New in version 3.15.
+Added in version 3.15.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -363,7 +452,7 @@ variables:
 .UNINDENT
 .SS CMAKE_GENERATOR_INSTANCE
 .sp
-New in version 3.15.
+Added in version 3.15.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -373,7 +462,7 @@ Default value for \fI\%CMAKE_GENERATOR_INSTANCE\fP if no Cache entry is
 present. This value is only applied if \fI\%CMAKE_GENERATOR\fP is set.
 .SS CMAKE_GENERATOR_PLATFORM
 .sp
-New in version 3.15.
+Added in version 3.15.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -384,7 +473,7 @@ is present and no value is specified by \fI\%cmake \-A\fP option.
 This value is only applied if \fI\%CMAKE_GENERATOR\fP is set.
 .SS CMAKE_GENERATOR_TOOLSET
 .sp
-New in version 3.15.
+Added in version 3.15.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -395,7 +484,7 @@ is present and no value is specified by \fI\%cmake \-T\fP option.
 This value is only applied if \fI\%CMAKE_GENERATOR\fP is set.
 .SS CMAKE_INSTALL_MODE
 .sp
-New in version 3.22.
+Added in version 3.22.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -520,7 +609,7 @@ will not be replaced by an actual file.
 .UNINDENT
 .SS CMAKE_INSTALL_PARALLEL_LEVEL
 .sp
-New in version 3.31.
+Added in version 3.31.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -532,7 +621,7 @@ installing using \fBcmake \-\-install\fP\&.
 This has no impact unless \fI\%INSTALL_PARALLEL\fP is enabled.
 .SS CMAKE_INSTALL_PREFIX
 .sp
-New in version 3.29.
+Added in version 3.29.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -544,7 +633,7 @@ default values specified by CMake itself. The value specified must be an
 absolute path to a directory.
 .SS CMAKE_<LANG>_COMPILER_LAUNCHER
 .sp
-New in version 3.17.
+Added in version 3.17.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -557,7 +646,7 @@ any configuration run (including the first), the environment variable will be
 ignored if the \fI\%CMAKE_<LANG>_COMPILER_LAUNCHER\fP variable is defined.
 .SS CMAKE_<LANG>_IMPLICIT_LINK_DIRECTORIES_EXCLUDE
 .sp
-New in version 3.27.
+Added in version 3.27.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -569,9 +658,30 @@ variable when it is automatically detected from the \fB<LANG>\fP compiler.
 .sp
 This may be used to work around misconfigured compiler drivers that pass
 extraneous implicit link directories to their linker.
+.sp
+See also the \fI\%CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES_EXCLUDE\fP
+environment variable.
+.SS CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES_EXCLUDE
+.sp
+Added in version 4.1.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+A \fI\%semicolon\-separated list\fP of libraries
+to exclude from the \fI\%CMAKE_<LANG>_IMPLICIT_LINK_LIBRARIES\fP
+variable when it is automatically detected from the \fB<LANG>\fP compiler.
+.sp
+This may be used to work around detection limitations that result in
+extraneous implicit link libraries, e.g., when using compiler driver
+flags that affect the set of implicitly linked libraries.
+.sp
+See also the \fI\%CMAKE_<LANG>_IMPLICIT_LINK_DIRECTORIES_EXCLUDE\fP
+environment variable.
 .SS CMAKE_<LANG>_LINKER_LAUNCHER
 .sp
-New in version 3.21.
+Added in version 3.21.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -593,9 +703,20 @@ Extra PATH locations for custom commands when using
 .sp
 The \fBCMAKE_MSVCIDE_RUN_PATH\fP environment variable sets the default value for
 the \fI\%CMAKE_MSVCIDE_RUN_PATH\fP variable if not already explicitly set.
+.SS CMAKE_INTERMEDIATE_DIR_STRATEGY
+.sp
+Added in version 4.2.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+\fBCMAKE_INTERMEDIATE_DIR_STRATEGY\fP is a string specifying the strategy to use
+for target intermediate directories. It initializes the
+\fI\%CMAKE_INTERMEDIATE_DIR_STRATEGY\fP variable.
 .SS CMAKE_NO_VERBOSE
 .sp
-New in version 3.14.
+Added in version 3.14.
 
 .sp
 Disables verbose output from CMake when \fI\%VERBOSE\fP environment variable
@@ -615,7 +736,7 @@ the \fI\%CMAKE_OSX_ARCHITECTURES\fP variable. See
 \fI\%OSX_ARCHITECTURES\fP for more information.
 .SS CMAKE_TEST_LAUNCHER
 .sp
-New in version 3.29.
+Added in version 3.29.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -627,7 +748,7 @@ build tree.  On later runs in an existing build tree the value persists in
 the cache as \fI\%CMAKE_TEST_LAUNCHER\fP\&.
 .SS CMAKE_TOOLCHAIN_FILE
 .sp
-New in version 3.21.
+Added in version 3.21.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -651,11 +772,9 @@ For example, running
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 make DESTDIR=/package/stage install
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -702,7 +821,7 @@ The \fBMACOSX_DEPLOYMENT_TARGET\fP environment variable sets the default value f
 the \fI\%CMAKE_OSX_DEPLOYMENT_TARGET\fP variable.
 .SS <PackageName>_ROOT
 .sp
-New in version 3.12.
+Added in version 3.12.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -723,7 +842,7 @@ See also the \fI\%<PackageName>_ROOT\fP CMake variable.
 .INDENT 0.0
 .TP
 .B <PACKAGENAME>_ROOT
-New in version 3.27.
+Added in version 3.27.
 
 .sp
 Calls to \fI\%find_package(<PackageName>)\fP will also search in
@@ -741,7 +860,7 @@ case\-sensitive environments.
 .UNINDENT
 .SS VERBOSE
 .sp
-New in version 3.14.
+Added in version 3.14.
 
 .sp
 Activates verbose output from CMake and your build tools of choice when
@@ -789,11 +908,9 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export ASM=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS ASM<DIALECT>FLAGS
@@ -846,11 +963,9 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export CC=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS CFLAGS
@@ -870,7 +985,7 @@ will be ignored if the \fI\%CMAKE_C_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_C_FLAGS_INIT\fP\&.
 .SS CSFLAGS
 .sp
-New in version 3.9.2.
+Added in version 3.9.2.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -888,7 +1003,7 @@ will be ignored if the \fI\%CMAKE_CSharp_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_CSharp_FLAGS_INIT\fP\&.
 .SS CUDAARCHS
 .sp
-New in version 3.20.
+Added in version 3.20.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -901,7 +1016,7 @@ This is a semicolon\-separated list of architectures as described in
 \fI\%CUDA_ARCHITECTURES\fP\&.
 .SS CUDACXX
 .sp
-New in version 3.8.
+Added in version 3.8.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -924,16 +1039,14 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export CUDACXX=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS CUDAFLAGS
 .sp
-New in version 3.8.
+Added in version 3.8.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -951,7 +1064,7 @@ will be ignored if the \fI\%CMAKE_CUDA_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_CUDA_FLAGS_INIT\fP\&.
 .SS CUDAHOSTCXX
 .sp
-New in version 3.8.
+Added in version 3.8.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -975,7 +1088,7 @@ Ignored when using \fI\%Visual Studio Generators\fP\&.
 .UNINDENT
 .UNINDENT
 .sp
-New in version 3.13: The \fI\%FindCUDA\fP
+Added in version 3.13: The \fI\%FindCUDA\fP
 module will use this variable to initialize its \fBCUDA_HOST_COMPILER\fP setting.
 
 .SS CXX
@@ -1000,11 +1113,9 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export CXX=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS CXXFLAGS
@@ -1045,11 +1156,9 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export FC=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS FFLAGS
@@ -1069,7 +1178,7 @@ will be ignored if the \fI\%CMAKE_Fortran_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_Fortran_FLAGS_INIT\fP\&.
 .SS HIPCXX
 .sp
-New in version 3.21.
+Added in version 3.21.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1083,7 +1192,7 @@ run (including the first), the environment variable will be ignored if the
 \fI\%CMAKE_HIP_COMPILER\fP variable is defined.
 .SS HIPFLAGS
 .sp
-New in version 3.21.
+Added in version 3.21.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1101,7 +1210,7 @@ will be ignored if the \fI\%CMAKE_HIP_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_HIP_FLAGS_INIT\fP\&.
 .SS HIPHOSTCXX
 .sp
-New in version 3.28.
+Added in version 3.28.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1124,7 +1233,7 @@ Ignored when using \fI\%Visual Studio Generators\fP\&.
 .UNINDENT
 .SS ISPC
 .sp
-New in version 3.19.
+Added in version 3.19.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1138,7 +1247,7 @@ run (including the first), the environment variable will be ignored if the
 \fI\%CMAKE_ISPC_COMPILER\fP variable is defined.
 .SS ISPCFLAGS
 .sp
-New in version 3.19.
+Added in version 3.19.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1156,7 +1265,7 @@ will be ignored if the \fI\%CMAKE_ISPC_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_ISPC_FLAGS_INIT\fP\&.
 .SS OBJC
 .sp
-New in version 3.16.7.
+Added in version 3.16.7.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1173,7 +1282,7 @@ If \fBOBJC\fP is not defined, the \fI\%CC\fP environment variable will
 be checked instead.
 .SS OBJCFLAGS
 .sp
-New in version 3.16.
+Added in version 3.16.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1191,7 +1300,7 @@ will be ignored if the \fI\%CMAKE_OBJC_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_OBJC_FLAGS_INIT\fP\&.
 .SS OBJCXX
 .sp
-New in version 3.16.7.
+Added in version 3.16.7.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1208,7 +1317,7 @@ If \fBOBJCXX\fP is not defined, the \fI\%CXX\fP environment variable will
 be checked instead.
 .SS OBJCXXFLAGS
 .sp
-New in version 3.16.
+Added in version 3.16.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1246,11 +1355,9 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export RC=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SS RCFLAGS
@@ -1270,7 +1377,7 @@ will be ignored if the \fI\%CMAKE_RC_FLAGS\fP variable is already defined.
 See also \fI\%CMAKE_RC_FLAGS_INIT\fP\&.
 .SS SWIFTC
 .sp
-New in version 3.15.
+Added in version 3.15.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1293,11 +1400,9 @@ they can not be changed.
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ export SWIFTC=\(dqcustom\-compiler \-\-arg1 \-\-arg2\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SH ENVIRONMENT VARIABLES FOR CTEST
@@ -1310,7 +1415,7 @@ Environment variable that will exist and be set to \fB1\fP when a test executed
 by \fI\%ctest(1)\fP is run in interactive mode.
 .SS CTEST_NO_TESTS_ACTION
 .sp
-New in version 3.26.
+Added in version 3.26.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1346,7 +1451,6 @@ Changed in version 3.29: The value may be empty, or \fB0\fP, to let ctest use a 
 parallelism, or unbounded parallelism, respectively, as documented by
 the \fI\%ctest \-\-parallel\fP option.
 .sp
-On Windows, environment variables cannot be set to an empty string.
 CTest will interpret a whitespace\-only string as empty.
 .sp
 In CMake 3.28 and earlier, an empty or \fB0\fP value was equivalent to \fB1\fP\&.
@@ -1355,7 +1459,7 @@ In CMake 3.28 and earlier, an empty or \fB0\fP value was equivalent to \fB1\fP\&
 See \fI\%ctest(1)\fP for more information on parallel test execution.
 .SS CTEST_PROGRESS_OUTPUT
 .sp
-New in version 3.13.
+Added in version 3.13.
 
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1372,12 +1476,53 @@ output.
 .sp
 The \fI\%\-\-progress\fP option to \fI\%ctest\fP
 overrides this environment variable if both are given.
+.SS CTEST_USE_INSTRUMENTATION
+.sp
+Added in version 4.0.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This feature is only available when experimental support for instrumentation
+has been enabled by the \fBCMAKE_EXPERIMENTAL_INSTRUMENTATION\fP gate.
+.UNINDENT
+.UNINDENT
+.sp
+Setting this environment variable to \fB1\fP, \fBTrue\fP, or \fBON\fP enables
+\fI\%instrumentation\fP for CTest in
+\fI\%Dashboard Client\fP mode.
 .SS CTEST_USE_LAUNCHERS_DEFAULT
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
 the calling process environment.
 .sp
 Initializes the \fI\%CTEST_USE_LAUNCHERS\fP variable if not already defined.
+.SS CTEST_USE_VERBOSE_INSTRUMENTATION
+.sp
+Added in version 4.0.
+
+.sp
+This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
+the calling process environment.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+This feature is only available when experimental support for instrumentation
+has been enabled by the \fBCMAKE_EXPERIMENTAL_INSTRUMENTATION\fP gate.
+.UNINDENT
+.UNINDENT
+.sp
+Setting this environment variable to \fB1\fP, \fBTrue\fP, or \fBON\fP causes CTest to
+report the full command line (including arguments) to CDash for each
+instrumented command. By default, CTest truncates the command line at the first
+space.
+.sp
+See also \fI\%CTEST_USE_INSTRUMENTATION\fP
 .SS DASHBOARD_TEST_FROM_CTEST
 .sp
 This is a CMake \fI\%Environment Variable\fP\&. Its initial value is taken from
@@ -1389,7 +1534,7 @@ is run in non\-interactive mode.  The value will be equal to
 .SH ENVIRONMENT VARIABLES FOR THE CMAKE CURSES INTERFACE
 .SS CCMAKE_COLORS
 .sp
-New in version 3.18.
+Added in version 3.18.
 
 .sp
 Determines what colors are used by the CMake curses interface,
@@ -1416,9 +1561,9 @@ Values are an integer number that specifies what color to use.
 Others are determined by your terminal\(aqs color support.
 Most (color) terminals will support at least 8 or 16 colors.
 Some will support up to 256 colors. The colors will likely match
-\fI\%this chart\fP,
+\X'tty: link https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg'\fI\%this chart\fP\X'tty: link',
 although the first 16 colors may match the original
-\fI\%CGA color palette\fP\&.
+\X'tty: link https://en.wikipedia.org/wiki/Color_Graphics_Adapter#Color_palette'\fI\%CGA color palette\fP\X'tty: link'\&.
 (Many modern terminal emulators also allow their color palette,
 at least for the first 16 colors, to be configured by the user.)
 .sp
@@ -1430,14 +1575,12 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 CCMAKE_COLORS=\(aqs=39:p=220:c=207:n=196:y=46\(aq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

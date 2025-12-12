@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>foreach &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>foreach &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="find_program.html" title="find_program"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -104,7 +109,8 @@ command iterates over each item in each given list.
 The <code class="docutils literal notranslate"><span class="pre">&lt;items&gt;</span></code> following the <code class="docutils literal notranslate"><span class="pre">ITEMS</span></code> keyword are processed
 as in the first variant of the <code class="docutils literal notranslate"><span class="pre">foreach</span></code> command.
 The forms <code class="docutils literal notranslate"><span class="pre">LISTS</span> <span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">ITEMS</span> <span class="pre">${A}</span></code> are
-equivalent.</p>
+equivalent. If no <code class="docutils literal notranslate"><span class="pre">&lt;lists&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;items&gt;</span></code> are given, the body
+of the loop will never be executed (i.e., it is processed as empty).</p>
 <p>The following example shows how the <code class="docutils literal notranslate"><span class="pre">LISTS</span></code> option is
 processed:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">A</span><span class="w"> </span><span class="m">0</span><span class="p">;</span><span class="m">1</span><span class="nf">)</span>
@@ -132,21 +138,24 @@ processed:</p>
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.17.</span></p>
+<p><span class="versionmodified added">Added in version 3.17.</span></p>
 </div>
 <p>In this variant, <code class="docutils literal notranslate"><span class="pre">&lt;lists&gt;</span></code> is a whitespace or semicolon
 separated list of list-valued variables. The <code class="docutils literal notranslate"><span class="pre">foreach</span></code>
 command iterates over each list simultaneously setting the
 iteration variables as follows:</p>
 <ul class="simple">
-<li><p>if the only <code class="docutils literal notranslate"><span class="pre">loop_var</span></code> given, then it sets a series of
+<li><p>if a single <code class="docutils literal notranslate"><span class="pre">loop_var</span></code> is given, then it sets a series of
 <code class="docutils literal notranslate"><span class="pre">loop_var_N</span></code> variables to the current item from the
 corresponding list;</p></li>
-<li><p>if multiple variable names passed, their count should match
-the lists variables count;</p></li>
-<li><p>if any of the lists are shorter, the corresponding iteration
-variable is not defined for the current iteration.</p></li>
+<li><p>if multiple variable names are passed, it sets each variable to the
+current item from the corresponding list. The number of iteration
+variables must match the number of list variables.</p></li>
 </ul>
+<p>If no <code class="docutils literal notranslate"><span class="pre">&lt;lists&gt;</span></code> are given, the body of the loop will never be executed
+(i.e., it is processed as empty).</p>
+<p>The following example shows how the <code class="docutils literal notranslate"><span class="pre">ZIP_LISTS</span></code> option is
+processed:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="nb">English</span><span class="w"> </span><span class="nb">one</span><span class="w"> </span><span class="nb">two</span><span class="w"> </span><span class="nb">three</span><span class="w"> </span><span class="nb">four</span><span class="nf">)</span>
 <span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="nb">Bahasa</span><span class="w"> </span><span class="nb">satu</span><span class="w"> </span><span class="nb">dua</span><span class="w"> </span><span class="nb">tiga</span><span class="nf">)</span>
 
@@ -186,10 +195,10 @@ variable is not defined for the current iteration.</p></li>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">foreach</a><ul>
 <li><a class="reference internal" href="#see-also">See Also</a></li>
@@ -215,7 +224,7 @@ variable is not defined for the current iteration.</p></li>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -223,13 +232,13 @@ variable is not defined for the current iteration.</p></li>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -242,14 +251,15 @@ variable is not defined for the current iteration.</p></li>
           <a href="find_program.html" title="find_program"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -258,8 +268,17 @@ variable is not defined for the current iteration.</p></li>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

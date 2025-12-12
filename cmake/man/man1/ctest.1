@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CTEST" "1" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CTEST" "1" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 ctest \- CTest Command-Line Reference
 .SS Contents
@@ -105,8 +105,7 @@ ctest \- CTest Command-Line Reference
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 \fI\%Run Tests\fP
  ctest [<options>] [\-\-test\-dir <path\-to\-build>]
 
@@ -124,8 +123,7 @@ ctest \- CTest Command-Line Reference
 
 \fI\%View Help\fP
  ctest \-\-help[\-<topic>]
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SH DESCRIPTION
@@ -224,7 +222,7 @@ will have no effect.
 .B \-j [<level>], \-\-parallel [<level>]
 Run tests in parallel, optionally limited to a given level of parallelism.
 .sp
-New in version 3.29: The \fB<level>\fP may be omitted, or \fB0\fP, in which case:
+Added in version 3.29: The \fB<level>\fP may be omitted, or \fB0\fP, in which case:
 .INDENT 7.0
 .IP \(bu 2
 Under \fI\%Job Server Integration\fP, parallelism is limited by
@@ -286,7 +284,7 @@ This option tells CTest to write all its output to a \fB<file>\fP log file.
 .INDENT 0.0
 .TP
 .B \-\-output\-junit <file>
-New in version 3.21.
+Added in version 3.21.
 
 .sp
 Write test results in JUnit format.
@@ -305,7 +303,7 @@ This option tells CTest to list the tests that would be run but not
 actually run them.  Useful in conjunction with the \fI\%\-R\fP
 and \fI\%\-E\fP options.
 .sp
-New in version 3.14: The \fB\-\-show\-only\fP option accepts a \fB<format>\fP value.
+Added in version 3.14: The \fB\-\-show\-only\fP option accepts a \fB<format>\fP value.
 
 .sp
 \fB<format>\fP can be one of the following values.
@@ -366,7 +364,7 @@ relationship).  See \fI\%Label Matching\fP\&.
 .INDENT 0.0
 .TP
 .B \-\-tests\-from\-file <filename>
-New in version 3.29.
+Added in version 3.29.
 
 .sp
 Run tests listed in the given file.
@@ -380,7 +378,7 @@ This option can be combined with the other options like
 .INDENT 0.0
 .TP
 .B \-\-exclude\-from\-file <filename>
-New in version 3.29.
+Added in version 3.29.
 
 .sp
 Exclude tests listed in the given file.
@@ -489,17 +487,29 @@ name which can be very annoying.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B \-\-interactive\-debug\-mode [0|1]
-Set the interactive mode to \fB0\fP or \fB1\fP\&.
+.B \-\-interactive\-debug\-mode <0|1>
+Disable (\fB0\fP) or enable (\fB1\fP) interactive debug mode.
 .sp
 This option causes CTest to run tests in either an interactive mode
 or a non\-interactive mode.  In dashboard mode (\fBExperimental\fP, \fBNightly\fP,
 \fBContinuous\fP), the default is non\-interactive.  In non\-interactive mode,
 the environment variable \fI\%DASHBOARD_TEST_FROM_CTEST\fP is set.
 .sp
-Prior to CMake 3.11, interactive mode on Windows allowed system debug
-popup windows to appear.  Now, due to CTest\(aqs use of \fBlibuv\fP to launch
-test processes, all system debug popup windows are always blocked.
+Interactive Mode allows Windows Error Reporting (WER) to show debug popup
+windows and to create core dumps.  To enable core dumps in tests,
+use interactive mode, and follow the Windows documentation
+on \X'tty: link https://learn.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps'\fI\%Collecting User\-Mode Dumps\fP\X'tty: link'\&.
+.sp
+Changed in version 4.0: Windows Error Reporting (WER) is enabled in interactive mode, so
+test processes may show debug popup windows and create core dumps.
+This was made possible by updates to \fBlibuv\fP\&.
+
+.sp
+Changed in version 3.11: Windows Error Reporting (WER) is disabled in both interactive and
+non\-interactive modes, so test processes do not show popup windows
+or create core dumps.  This is due to launching test processes with
+\fBlibuv\fP\&.
+
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -526,7 +536,7 @@ See \fI\%Label and Subproject Summary\fP\&.
 .INDENT 0.0
 .TP
 .B \-\-test\-dir <dir>
-New in version 3.20.
+Added in version 3.20.
 
 .sp
 Specify the directory in which to look for tests, typically a CMake project
@@ -535,7 +545,7 @@ build directory. If not specified, the current directory is used.
 .INDENT 0.0
 .TP
 .B \-\-test\-output\-size\-passed <size>
-New in version 3.4.
+Added in version 3.4.
 
 .sp
 Limit the output for passed tests to \fB<size>\fP bytes.
@@ -543,7 +553,7 @@ Limit the output for passed tests to \fB<size>\fP bytes.
 .INDENT 0.0
 .TP
 .B \-\-test\-output\-size\-failed <size>
-New in version 3.4.
+Added in version 3.4.
 
 .sp
 Limit the output for failed tests to \fB<size>\fP bytes.
@@ -551,7 +561,7 @@ Limit the output for failed tests to \fB<size>\fP bytes.
 .INDENT 0.0
 .TP
 .B \-\-test\-output\-truncation <mode>
-New in version 3.24.
+Added in version 3.24.
 
 .sp
 Truncate \fBtail\fP (default), \fBmiddle\fP or \fBhead\fP of test output once
@@ -568,11 +578,8 @@ This option will overwrite the configuration option.
 .INDENT 0.0
 .TP
 .B \-\-force\-new\-ctest\-process
-Run child CTest instances as new processes.
-.sp
-By default CTest will run child CTest instances within the same
-process.  If this behavior is not desired, this argument will
-enforce new processes for child CTest processes.
+Ignored.  This option once disabled a now\-removed optimization
+for tests running \fBctest\fP itself.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -581,6 +588,17 @@ Use a random order for scheduling tests.
 .sp
 This option will run the tests in a random order.  It is commonly
 used to detect implicit dependencies in a test suite.
+.UNINDENT
+.INDENT 0.0
+.TP
+.B \-\-schedule\-random\-seed
+Added in version 4.1.
+
+.sp
+Override the random order seed
+.sp
+This option is used to allow recreating failures owing to
+random order of execution by \fB\-\-schedule\-random\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -625,7 +643,7 @@ error message but to return an error code in script mode only.  This option
 unifies the behavior of CTest by either returning an error code if no tests
 were found or by ignoring it.
 .sp
-New in version 3.26.
+Added in version 3.26.
 
 .sp
 This option can also be set by setting the \fI\%CTEST_NO_TESTS_ACTION\fP
@@ -871,27 +889,25 @@ CTest prints timing summary information for each \fBLABEL\fP and subproject
 associated with the tests run. The label time summary will not include labels
 that are mapped to subprojects.
 .sp
-New in version 3.22: Labels added dynamically during test execution are also reported in the
+Added in version 3.22: Labels added dynamically during test execution are also reported in the
 timing summary.  See \fI\%Additional Labels\fP\&.
 
 .sp
 When the \fI\%PROCESSORS\fP test property is set, CTest will display a
 weighted test timing result in label and subproject summaries. The time is
-reported with \fIsec*proc\fP instead of just \fIsec\fP\&.
+reported with \fBsec * proc\fP instead of just \fBsec\fP\&.
 .sp
 The weighted time summary reported for each label or subproject \fBj\fP
 is computed as:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 Weighted Time Summary for Label/Subproject j =
     sum(raw_test_time[j,i] * num_processors[j,i], i=1...num_tests[j])
 
 for labels/subprojects j=1...total
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -928,15 +944,13 @@ build, and/or execute a test:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 ctest \-\-build\-and\-test <path\-to\-source> <path\-to\-build>
       \-\-build\-generator <generator>
       [<options>...]
       [\-\-build\-options <opts>...]
       [\-\-test\-command <command> [<args>...]]
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1044,21 +1058,19 @@ The time limit in seconds
 .UNINDENT
 .SH DASHBOARD CLIENT
 .sp
-CTest can operate as a client for the \fI\%CDash\fP software quality dashboard
+CTest can operate as a client for the \X'tty: link https://www.cdash.org'\fI\%CDash\fP\X'tty: link' software quality dashboard
 application.  As a dashboard client, CTest performs a sequence of steps
 to configure, build, and test software, and then submits the results to
-a \fI\%CDash\fP server. The command\-line signature used to submit to \fI\%CDash\fP is:
+a \X'tty: link https://www.cdash.org'\fI\%CDash\fP\X'tty: link' server. The command\-line signature used to submit to \X'tty: link https://www.cdash.org'\fI\%CDash\fP\X'tty: link' is:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 ctest \-D <dashboard>         [\-\- <dashboard\-options>...]
 ctest \-M <model> \-T <action> [\-\- <dashboard\-options>...]
 ctest \-S <script>            [\-\- <dashboard\-options>...]
 ctest \-SP <script>           [\-\- <dashboard\-options>...]
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1163,14 +1175,13 @@ This is useful if the build will not finish in one day.
 .INDENT 0.0
 .TP
 .B \-\-extra\-submit <file>[;<file>]
-Submit extra files to the dashboard.
-.sp
-This option will submit extra files to the dashboard.
+Submit extra \fB\&.xml\fP part files to the dashboard.
+See the \fI\%ctest_submit()\fP command\(aqs \fBPARTS ExtraFiles\fP option.
 .UNINDENT
 .INDENT 0.0
 .TP
 .B \-\-http\-header <header>
-New in version 3.29.
+Added in version 3.29.
 
 .sp
 Append HTTP header when submitting to the dashboard.
@@ -1182,10 +1193,10 @@ This option may be specified more than once.
 .INDENT 0.0
 .TP
 .B \-\-http1.0
-Submit using \fIHTTP 1.0\fP\&.
+Submit using \fBHTTP 1.0\fP\&.
 .sp
-This option will force CTest to use \fIHTTP 1.0\fP to submit files to the
-dashboard, instead of \fIHTTP 1.1\fP\&.
+This option will force CTest to use \fBHTTP 1.0\fP to submit files to the
+dashboard, instead of \fBHTTP 1.1\fP\&.
 .UNINDENT
 .INDENT 0.0
 .TP
@@ -1273,12 +1284,10 @@ to the build tree and use one of these signatures:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 ctest \-D <mode>[<step>]
 ctest \-M <mode> [\-T <step>]...
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1292,13 +1301,11 @@ of the file is:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # Lines starting in \(aq#\(aq are comments.
 # Other non\-blank lines are key\-value pairs.
 <setting>: <value>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1319,12 +1326,10 @@ and use one of these signatures:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 ctest \-S <script>
 ctest \-SP <script>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -2070,7 +2075,7 @@ Legacy option.  When \fBSubmitURL\fP is not set, it is constructed from
 \fI\%CTest Script\fP variable: \fI\%CTEST_DROP_SITE_PASSWORD\fP
 .IP \(bu 2
 \fI\%CTest\fP module variable: \fBDROP_SITE_PASSWORD\fP if set,
-else \fBCTEST_DROP_SITE_PASWORD\fP
+else \fBCTEST_DROP_SITE_PASSWORD\fP
 .UNINDENT
 .TP
 .B \fBDropSiteUser\fP
@@ -2136,7 +2141,7 @@ if not completed. Specify a zero value to disable timeout.
 .UNINDENT
 .TP
 .B \fBTLSVersion\fP
-New in version 3.30.
+Added in version 3.30.
 
 .sp
 Specify a minimum TLS version allowed when submitting to a dashboard
@@ -2153,7 +2158,7 @@ Previously, no minimum version was enforced by default.
 
 .TP
 .B \fBTLSVerify\fP
-New in version 3.30.
+Added in version 3.30.
 
 .sp
 Specify a boolean value indicating whether to verify the server
@@ -2182,7 +2187,7 @@ else \fBCTEST_TRIGGER_SITE\fP
 .UNINDENT
 .SH SHOW AS JSON OBJECT MODEL
 .sp
-New in version 3.14.
+Added in version 3.14.
 
 .sp
 When the \fB\-\-show\-only=json\-v1\fP command line option is given, the test
@@ -2194,14 +2199,16 @@ model is defined as follows:
 The string \(dqctestInfo\(dq.
 .TP
 .B \fBversion\fP
-A JSON object specifying the version components.  Its members are
+A JSON object specifying the version components.  Its members are:
 .INDENT 7.0
 .TP
 .B \fBmajor\fP
-A non\-negative integer specifying the major version component.
+A positive integer specifying the major version component
+of the JSON object model.
 .TP
 .B \fBminor\fP
-A non\-negative integer specifying the minor version component.
+A non\-negative integer specifying the minor version component
+of the JSON object model.
 .UNINDENT
 .TP
 .B \fBbacktraceGraph\fP
@@ -2220,17 +2227,24 @@ List of node JSON objects with members:
 .INDENT 7.0
 .TP
 .B \fBcommand\fP
-Index into the \fBcommands\fP member of the \fBbacktraceGraph\fP\&.
+An optional member present when the node represents a command
+invocation within the file.  The value is an unsigned integer 0\-based
+index into the \fBcommands\fP member of the \fBbacktraceGraph\fP\&.
 .TP
 .B \fBfile\fP
-Index into the \fBfiles\fP member of the \fBbacktraceGraph\fP\&.
+An unsigned integer 0\-based index into the \fBfiles\fP member of the
+\fBbacktraceGraph\fP\&.
 .TP
 .B \fBline\fP
-Line number in the file where the backtrace was added.
+An optional member present when the node represents a line within
+the file.  The value is an unsigned integer 1\-based line number
+in the file where the backtrace was added.
 .TP
 .B \fBparent\fP
-Index into the \fBnodes\fP member of the \fBbacktraceGraph\fP
-representing the parent in the graph.
+An optional member present when the node is not the bottom of the
+call stack.  The value is an unsigned integer 0\-based index into the
+\fBnodes\fP member of the \fBbacktraceGraph\fP representing the parent
+in the graph.
 .UNINDENT
 .UNINDENT
 .TP
@@ -2240,24 +2254,42 @@ is a JSON object with members:
 .INDENT 7.0
 .TP
 .B \fBname\fP
-Test name.
+Test name. This cannot be empty.
 .TP
 .B \fBconfig\fP
-Configuration that the test can run on.
-Empty string means any config.
+Optional field specifying the configuration for which the test will run.
+This will always match the \fI\%\-C\fP option specified on the
+\fBctest\fP command line.  If no such option was given, this field will not
+be present.
 .TP
 .B \fBcommand\fP
-List where the first element is the test command and the
-remaining elements are the command arguments.
+Optional array where the first element is the test command and the
+remaining elements are the command arguments.  Normally, this field should
+be present and non\-empty, but in certain corner cases involving generator
+expressions, it is possible for a test to have no command and therefore
+this field can be missing.
 .TP
 .B \fBbacktrace\fP
 Index into the \fBnodes\fP member of the \fBbacktraceGraph\fP\&.
 .TP
 .B \fBproperties\fP
-Test properties.
-Can contain keys for each of the supported test properties.
+Optional array of test properties.
+Each array item will be a JSON object with the following members:
+.INDENT 7.0
+.TP
+.B \fBname\fP
+The name of the test property. This cannot be empty.
+.TP
+.B \fBvalue\fP
+The property value, which can be a string, a number, a boolean, or an
+array of strings.
 .UNINDENT
 .UNINDENT
+.UNINDENT
+.sp
+Added in version 4.1: The JSON output format is described in machine\-readable form by
+\fBthis JSON schema\fP\&.
+
 .SH RESOURCE ALLOCATION
 .sp
 CTest provides a mechanism for tests to specify the resources that they need
@@ -2358,8 +2390,7 @@ document assume the following resource specification file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqversion\(dq: {
     \(dqmajor\(dq: 1,
@@ -2393,8 +2424,7 @@ document assume the following resource specification file:
     }
   ]
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -2539,7 +2569,7 @@ variable.
 .UNINDENT
 .SS Dynamically\-Generated Resource Specification File
 .sp
-New in version 3.28.
+Added in version 3.28.
 
 .sp
 A project may optionally specify a single test which will be used to
@@ -2555,10 +2585,10 @@ not be specified with the \fB\-\-resource\-spec\-file\fP argument or the
 \fI\%CTEST_RESOURCE_SPEC_FILE\fP variable.
 .SH JOB SERVER INTEGRATION
 .sp
-New in version 3.29.
+Added in version 3.29.
 
 .sp
-On POSIX systems, when running under the context of a \fI\%Job Server\fP,
+On POSIX systems, when running under the context of a \X'tty: link https://www.gnu.org/software/make/manual/html_node/Job-Slots.html'\fI\%Job Server\fP\X'tty: link',
 CTest shares its job slots.  This is independent of the \fI\%PROCESSORS\fP
 test property, which still counts against CTest\(aqs \fI\%\-j\fP
 parallel level.  CTest acquires exactly one token from the job server before
@@ -2568,13 +2598,11 @@ For example, consider the \fBMakefile\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 test:
 	+ctest \-j 8
 
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -2588,22 +2616,22 @@ The following resources are available to get help using CMake:
 .INDENT 0.0
 .TP
 .B Home Page
-\fI\%https://cmake.org\fP
+\X'tty: link https://cmake.org'\fI\%https://cmake.org\fP\X'tty: link'
 .sp
 The primary starting point for learning about CMake.
 .TP
 .B Online Documentation and Community Resources
-\fI\%https://cmake.org/documentation\fP
+\X'tty: link https://cmake.org/documentation'\fI\%https://cmake.org/documentation\fP\X'tty: link'
 .sp
 Links to available documentation and community resources may be
 found on this web page.
 .TP
 .B Discourse Forum
-\fI\%https://discourse.cmake.org\fP
+\X'tty: link https://discourse.cmake.org'\fI\%https://discourse.cmake.org\fP\X'tty: link'
 .sp
 The Discourse Forum hosts discussion and questions about CMake.
 .UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

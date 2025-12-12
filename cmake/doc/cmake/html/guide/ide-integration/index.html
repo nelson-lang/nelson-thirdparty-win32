@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>IDE Integration Guide &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>IDE Integration Guide &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="../importing-exporting/index.html" title="Importing and Exporting Guide"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">IDE Integration Guide</a></li> 
@@ -166,8 +171,9 @@ recommended that the IDE invoke <span class="target" id="index-3-manual:cmake(1)
 <a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake-build"><code class="xref std std-option docutils literal notranslate"><span class="pre">--build</span></code></a> argument, which will in turn invoke the
 appropriate build tool.</p>
 <p>If an IDE project generator is used, such as <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> or one of the
-Visual Studio generators, and the IDE understands the project format used, the
-IDE should read the project file and build it the same way it would otherwise.</p>
+<a class="reference internal" href="../../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>, and the IDE understands the project format
+used, the IDE should read the project file and build it the same way it would
+otherwise.</p>
 <p>The <span class="target" id="index-3-manual:cmake-file-api(7)"></span><a class="reference internal" href="../../manual/cmake-file-api.7.html#manual:cmake-file-api(7)" title="cmake-file-api(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">File</span> <span class="pre">API</span></code></a> can be used to obtain a list of
 build configurations from the build tree, and the IDE should present this list
 to the user to select a build configuration.</p>
@@ -186,7 +192,7 @@ Instead, they should invoke <span class="target" id="index-1-manual:ctest(1)"></
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.jetbrains.com/clion/">CLion</a></p></li>
 <li><p><a class="reference external" href="https://kdevelop.org/">KDevelop</a></p></li>
-<li><p><a class="reference external" href="https://www.qt.io/product/development-tools">QtCreator</a></p></li>
+<li><p><a class="reference external" href="https://www.qt.io/development/tools">QtCreator</a></p></li>
 <li><p><a class="reference external" href="https://www.vim.org/">Vim</a> (via a plugin)</p></li>
 <li><p><a class="reference external" href="https://visualstudio.microsoft.com/">Visual Studio</a></p></li>
 <li><p><a class="reference external" href="https://code.visualstudio.com/">VSCode</a> (via a plugin)</p></li>
@@ -194,7 +200,8 @@ Instead, they should invoke <span class="target" id="index-1-manual:ctest(1)"></
 <p>Additionally, CMake has builtin support for some IDEs:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="../../manual/cmake-generators.7.html#ide-build-tool-generators"><span class="std std-ref">IDE Build Tool Generators</span></a>:
-Generate IDE native build systems such as Visual Studio or Xcode.</p></li>
+Generate IDE native build systems such as
+<a class="reference internal" href="../../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio</span></a> or <span class="target" id="index-1-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>.</p></li>
 <li><p><a class="reference internal" href="../../manual/cmake-generators.7.html#extra-generators"><span class="std std-ref">Extra Generators</span></a>:
 Extend <a class="reference internal" href="../../manual/cmake-generators.7.html#command-line-build-tool-generators"><span class="std std-ref">Command-Line Build Tool Generators</span></a> to generate IDE
 project files that hook into the command-line build system.
@@ -208,10 +215,10 @@ Superseded by the <span class="target" id="index-4-manual:cmake-file-api(7)"></s
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">IDE Integration Guide</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -243,7 +250,7 @@ Superseded by the <span class="target" id="index-4-manual:cmake-file-api(7)"></s
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
@@ -251,13 +258,13 @@ Superseded by the <span class="target" id="index-4-manual:cmake-file-api(7)"></s
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -270,14 +277,15 @@ Superseded by the <span class="target" id="index-4-manual:cmake-file-api(7)"></s
           <a href="../importing-exporting/index.html" title="Importing and Exporting Guide"
              >previous</a> |</li>
   <li>
-    <img src="../../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">IDE Integration Guide</a></li> 
@@ -285,8 +293,17 @@ Superseded by the <span class="target" id="index-4-manual:cmake-file-api(7)"></s
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

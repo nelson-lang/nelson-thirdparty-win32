@@ -5,45 +5,50 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CMAKE_CFG_INTDIR &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>CMAKE_CFG_INTDIR &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CMAKE_COMMAND" href="CMAKE_COMMAND.html" />
-    <link rel="prev" title="CMAKE_CACHEFILE_DIR" href="CMAKE_CACHEFILE_DIR.html" />
+    <link rel="next" title="CMAKE_EXTRA_GENERATOR" href="CMAKE_EXTRA_GENERATOR.html" />
+    <link rel="prev" title="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION" href="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION.html" />
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="CMAKE_COMMAND.html" title="CMAKE_COMMAND"
+          <a href="CMAKE_EXTRA_GENERATOR.html" title="CMAKE_EXTRA_GENERATOR"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="CMAKE_CACHEFILE_DIR.html" title="CMAKE_CACHEFILE_DIR"
+          <a href="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION.html" title="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
@@ -68,26 +73,38 @@ predates the existence of the <span class="target" id="index-0-genex:CONFIG"></s
 build tree (such as <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> and <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>),
 the value is a reference to a build-time variable specifying the name
 of the per-configuration output subdirectory.  On <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>
-this evaluates to <cite>.</cite> because there is only one configuration in a build tree.
+this evaluates to <code class="docutils literal notranslate"><span class="pre">.</span></code> because there is only one configuration in a build tree.
 Example values:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$(Configuration)     = Visual Studio
-$(CONFIGURATION)     = Xcode
-.                    = Make-based tools
-.                    = Ninja
-${CONFIGURATION}     = Ninja Multi-Config
-</pre></div>
-</div>
+<table class="docutils align-left">
+<tbody>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">$(Configuration)</span></code></p></td>
+<td><p>Visual Studio</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">$(CONFIGURATION)</span></code></p></td>
+<td><p>Xcode</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.</span></code></p></td>
+<td><p>Make-based tools</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.</span></code></p></td>
+<td><p>Ninja</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">${CONFIGURATION}</span></code></p></td>
+<td><p>Ninja Multi-Config</p></td>
+</tr>
+</tbody>
+</table>
 <p>Since these values are evaluated by the native build system, this
 variable is suitable only for use in command lines that will be
 evaluated at build time.  Example of intended usage:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>add_executable(mytool mytool.c)
-add_custom_command(
-  OUTPUT out.txt
-  COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/mytool
-          ${CMAKE_CURRENT_SOURCE_DIR}/in.txt out.txt
-  DEPENDS mytool in.txt
-  )
-add_custom_target(drive ALL DEPENDS out.txt)
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">mytool</span><span class="w"> </span><span class="nb">mytool.c</span><span class="nf">)</span>
+<span class="nf">add_custom_command(</span>
+<span class="w">  </span><span class="no">OUTPUT</span><span class="w"> </span><span class="nb">out.txt</span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/</span><span class="o">${</span><span class="nt">CMAKE_CFG_INTDIR</span><span class="o">}</span><span class="na">/mytool</span>
+<span class="w">          </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/in.txt</span><span class="w"> </span><span class="nb">out.txt</span>
+<span class="w">  </span><span class="no">DEPENDS</span><span class="w"> </span><span class="nb">mytool</span><span class="w"> </span><span class="nb">in.txt</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">add_custom_target(</span><span class="nb">drive</span><span class="w"> </span><span class="no">ALL</span><span class="w"> </span><span class="no">DEPENDS</span><span class="w"> </span><span class="nb">out.txt</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">CMAKE_CFG_INTDIR</span></code> is no longer necessary for this purpose but
@@ -107,17 +124,17 @@ of all source files.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
-    <p class="topless"><a href="CMAKE_CACHEFILE_DIR.html"
-                          title="previous chapter">CMAKE_CACHEFILE_DIR</a></p>
+    <p class="topless"><a href="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION.html"
+                          title="previous chapter">CMAKE_VS_INTEL_Fortran_PROJECT_VERSION</a></p>
   </div>
   <div>
     <h4>Next topic</h4>
-    <p class="topless"><a href="CMAKE_COMMAND.html"
-                          title="next chapter">CMAKE_COMMAND</a></p>
+    <p class="topless"><a href="CMAKE_EXTRA_GENERATOR.html"
+                          title="next chapter">CMAKE_EXTRA_GENERATOR</a></p>
   </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -126,7 +143,7 @@ of all source files.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -134,33 +151,34 @@ of all source files.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="CMAKE_COMMAND.html" title="CMAKE_COMMAND"
+          <a href="CMAKE_EXTRA_GENERATOR.html" title="CMAKE_EXTRA_GENERATOR"
              >next</a> |</li>
         <li class="right" >
-          <a href="CMAKE_CACHEFILE_DIR.html" title="CMAKE_CACHEFILE_DIR"
+          <a href="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION.html" title="CMAKE_VS_INTEL_Fortran_PROJECT_VERSION"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
@@ -169,8 +187,17 @@ of all source files.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

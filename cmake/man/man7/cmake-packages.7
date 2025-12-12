@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-PACKAGES" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-PACKAGES" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-packages \- CMake Packages Reference
 .SH INTRODUCTION
@@ -46,13 +46,11 @@ of \fI\%find_package()\fP calls is the same:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Qt4 4.7.0 REQUIRED) # CMake provides a Qt4 find\-module
 find_package(Qt5Core 5.1.0 REQUIRED) # Qt provides a Qt5 package config file.
 find_package(LibXml2 REQUIRED) # Use pkg\-config via the LibXml2 find\-module
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -62,12 +60,10 @@ to \fI\%find_package()\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Qt5Core 5.1.0 CONFIG REQUIRED)
 find_package(Qt5Gui 5.1.0 CONFIG)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -75,11 +71,9 @@ Similarly, the \fBMODULE\fP keyword says to use only a find\-module:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Qt4 4.7.0 MODULE REQUIRED)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -91,11 +85,9 @@ either after the \fBREQUIRED\fP keyword:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Qt5 5.1.0 CONFIG REQUIRED Widgets Xml Sql)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -103,11 +95,9 @@ or as a separate \fBCOMPONENTS\fP list:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Qt5 5.1.0 COMPONENTS Widgets Xml Sql)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -115,13 +105,11 @@ or as a separate \fBOPTIONAL_COMPONENTS\fP list:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(Qt5 5.1.0 COMPONENTS Widgets
                        OPTIONAL_COMPONENTS Xml Sql
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -179,12 +167,10 @@ Consider a project \fBFoo\fP that installs the following files:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <prefix>/include/foo\-1.2/foo.h
 <prefix>/lib/foo\-1.2/libfoo.a
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -192,11 +178,9 @@ It may also provide a CMake package configuration file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <prefix>/lib/cmake/foo\-1.2/FooConfig.cmake
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -205,15 +189,13 @@ as:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # ...
 # (compute PREFIX relative to file location)
 # ...
 set(Foo_INCLUDE_DIRS ${PREFIX}/include/foo\-1.2)
 set(Foo_LIBRARIES ${PREFIX}/lib/foo\-1.2/libfoo.a)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -231,11 +213,9 @@ documentation. One place it looks is:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <prefix>/lib/cmake/Foo*/
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -260,12 +240,10 @@ the \fB\&.cmake\fP extension.  For example, the files:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <prefix>/lib/cmake/foo\-1.3/foo\-config.cmake
 <prefix>/lib/cmake/foo\-1.3/foo\-config\-version.cmake
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -273,12 +251,10 @@ and:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <prefix>/lib/cmake/bar\-4.2/BarConfig.cmake
 <prefix>/lib/cmake/bar\-4.2/BarConfigVersion.cmake
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -367,8 +343,7 @@ shared library:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 project(UpstreamLib)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -438,8 +413,7 @@ install(
   COMPONENT
     Devel
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -491,11 +465,9 @@ In this case, the \fBClimbingStatsConfig.cmake\fP file could be as simple as:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 include(\(dq${CMAKE_CURRENT_LIST_DIR}/ClimbingStatsTargets.cmake\(dq)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -508,16 +480,14 @@ This can also be extended to cover dependencies:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # ...
 add_library(ClimbingStats SHARED climbingstats.cpp)
 generate_export_header(ClimbingStats)
 
 find_package(Stats 2.6.4 REQUIRED)
 target_link_libraries(ClimbingStats PUBLIC Stats::Types)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -531,15 +501,13 @@ dependencies of a package should be found in the \fBConfig.cmake\fP file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 include(CMakeFindDependencyMacro)
 find_dependency(Stats 2.6.4)
 
 include(\(dq${CMAKE_CURRENT_LIST_DIR}/ClimbingStatsTargets.cmake\(dq)
 include(\(dq${CMAKE_CURRENT_LIST_DIR}/ClimbingStatsMacros.cmake\(dq)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -554,8 +522,7 @@ be true. This can be tested with logic in the package configuration file:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 include(CMakeFindDependencyMacro)
 find_dependency(Stats 2.6.4)
 
@@ -571,8 +538,7 @@ foreach(_comp ${ClimbingStats_FIND_COMPONENTS})
   endif()
   include(\(dq${CMAKE_CURRENT_LIST_DIR}/ClimbingStats${_comp}Targets.cmake\(dq)
 endforeach()
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -603,8 +569,7 @@ directories should be specified as relative paths which are relative to the
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 target_include_directories(tgt INTERFACE
   # Wrong, not relocatable:
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include/TgtName>
@@ -614,8 +579,7 @@ target_include_directories(tgt INTERFACE
   # Ok, relocatable:
   $<INSTALL_INTERFACE:include/TgtName>
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -626,14 +590,12 @@ package.  This is necessary if complex generator expressions are used:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 target_include_directories(tgt INTERFACE
   # Ok, relocatable:
   $<INSTALL_INTERFACE:$<$<CONFIG:Debug>:$<INSTALL_PREFIX>/include/TgtName>>
 )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -645,16 +607,14 @@ For example, this code may not work well for a relocatable package:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 target_link_libraries(ClimbingStats INTERFACE
   ${Foo_LIBRARIES} ${Bar_LIBRARIES}
   )
 target_include_directories(ClimbingStats INTERFACE
   \(dq$<INSTALL_INTERFACE:${Foo_INCLUDE_DIRS};${Bar_INCLUDE_DIRS}>\(dq
   )
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -672,11 +632,9 @@ the \fI\%target_link_libraries()\fP command for \fBClimbingStats\fP:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 target_link_libraries(ClimbingStats INTERFACE Foo::Foo Bar::Bar)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -744,11 +702,9 @@ A \fB<PackageName>\fP may appear under registry key:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 HKEY_CURRENT_USER\eSoftware\eKitware\eCMake\ePackages\e<PackageName>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -761,11 +717,9 @@ the directory:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 ~/.cmake/packages/<PackageName>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -783,11 +737,9 @@ registry key:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 HKEY_LOCAL_MACHINE\eSoftware\eKitware\eCMake\ePackages\e<PackageName>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -833,29 +785,25 @@ If a project arranges for package registry entries to exist, such as:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 > reg query HKCU\eSoftware\eKitware\eCMake\ePackages\eMyPackage
 HKEY_CURRENT_USER\eSoftware\eKitware\eCMake\ePackages\eMyPackage
  45e7d55f13b87179bb12f907c8de6fc4 REG_SZ c:/Users/Me/Work/lib/cmake/MyPackage
  7b4a9844f681c80ce93190d4e3185db9 REG_SZ c:/Users/Me/Work/MyPackage\-build
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
-or:
+or
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 $ cat ~/.cmake/packages/MyPackage/7d1fb77e07ce59a81bed093bbee945bd
 /home/me/work/lib/cmake/MyPackage
 $ cat ~/.cmake/packages/MyPackage/f92c1db873a1937f3100706657c63e07
 /home/me/work/MyPackage\-build
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -863,11 +811,9 @@ then the \fBCMakeLists.txt\fP code:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 find_package(MyPackage)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -894,6 +840,6 @@ existing build tree once \fI\%export(PACKAGE)\fP has been invoked.
 However, if the project removes its package configuration file from the build
 tree then the entry referencing the location will be considered stale.
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

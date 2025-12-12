@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>ExternalProject &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>ExternalProject &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="ExternalData.html" title="ExternalData"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -94,6 +99,12 @@
 </li>
 </ul>
 </nav>
+<p>This module provides commands to download and build external projects as
+part of CMake build phase.</p>
+<p>Load this module in a CMake project with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">ExternalProject</span><span class="nf">)</span>
+</pre></div>
+</div>
 <section id="external-project-definition">
 <h2><a class="toc-backref" href="#id2" role="doc-backlink">External Project Definition</a><a class="headerlink" href="#external-project-definition" title="Link to this heading">¶</a></h2>
 <dl class="cmake command">
@@ -135,7 +146,7 @@ individual steps are also created in here unless overridden by LOG_DIR
 (see <em>Logging Options</em> below).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">LOG_DIR</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14.</span></p>
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
 </div>
 <p>Directory in which to store the logs of each step.</p>
 </dd>
@@ -245,7 +256,7 @@ the default name is generally suitable and is not normally used outside
 of code internal to the <code class="docutils literal notranslate"><span class="pre">ExternalProject</span></code> module.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DOWNLOAD_EXTRACT_TIMESTAMP</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
 <p>When specified with a true value, the timestamps of the extracted
 files will match those in the archive. When false, the timestamps of
@@ -258,7 +269,7 @@ value for this option. If <code class="docutils literal notranslate"><span class
 the default is false. See policy <span class="target" id="index-0-policy:CMP0135"></span><a class="reference internal" href="../policy/CMP0135.html#policy:CMP0135" title="CMP0135"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0135</span></code></a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DOWNLOAD_NO_EXTRACT</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6.</span></p>
+<p><span class="versionmodified added">Added in version 3.6.</span></p>
 </div>
 <p>Allows the extraction part of the download step to be disabled by
 passing a boolean true value for this option. If this option is not
@@ -274,28 +285,28 @@ not given, download progress messages will be logged.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">TIMEOUT</span> <span class="pre">&lt;seconds&gt;</span></code></dt><dd><p>Maximum time allowed for file download operations.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">INACTIVITY_TIMEOUT</span> <span class="pre">&lt;seconds&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19.</span></p>
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
 </div>
 <p>Terminate the operation after a period of inactivity.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">HTTP_USERNAME</span> <span class="pre">&lt;username&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Username for the download operation if authentication is required.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">HTTP_PASSWORD</span> <span class="pre">&lt;password&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Password for the download operation if authentication is required.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">HTTP_HEADER</span> <span class="pre">&lt;header1&gt;</span> <span class="pre">[&lt;header2&gt;...]</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>Provides an arbitrary list of HTTP headers for the download operation.
 This can be useful for accessing content in systems like AWS, etc.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TLS_VERSION</span> <span class="pre">&lt;min&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.30.</span></p>
+<p><span class="versionmodified added">Added in version 3.30.</span></p>
 </div>
 <p>Specify minimum TLS version for <code class="docutils literal notranslate"><span class="pre">https://</span></code> URLs.  If this option is
 not provided, the value of the <span class="target" id="index-0-variable:CMAKE_TLS_VERSION"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERSION.html#variable:CMAKE_TLS_VERSION" title="CMAKE_TLS_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERSION</span></code></a> variable
@@ -335,7 +346,7 @@ is enabled. If this option is not specified, the value of the
 <span class="target" id="index-4-command:file"></span><a class="reference internal" href="../command/file.html#download" title="file(download)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(DOWNLOAD)</span></code></a>)</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NETRC</span> <span class="pre">&lt;level&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11.</span></p>
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
 </div>
 <p>Specify whether the <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file is to be used for operation.
 If this option is not specified, the value of the
@@ -355,7 +366,7 @@ is ignored.</p>
 </dl>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NETRC_FILE</span> <span class="pre">&lt;file&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11.</span></p>
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
 </div>
 <p>Specify an alternative <code class="docutils literal notranslate"><span class="pre">.netrc</span></code> file to the one in your home directory
 if the <code class="docutils literal notranslate"><span class="pre">NETRC</span></code> level is <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code> or <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code>. If this option
@@ -364,7 +375,11 @@ will be used instead (see <span class="target" id="index-6-command:file"></span>
 </dd>
 </dl>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1: </span>Added support for <cite>tbz2</cite>, <cite>.tar.xz</cite>, <cite>.txz</cite>, and <cite>.7z</cite> extensions.</p>
+<p><span class="versionmodified added">Added in version 3.1: </span>Added support for <cite>tbz2</cite>, <cite>.tar.xz</cite>, <cite>.txz</cite>, and <cite>.7z</cite> extensions.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.1: </span>All archive types that <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-E-arg-tar"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-E</span> <span class="pre">tar</span></code></a> can extract
+are supported regardless of file extension.</p>
 </div>
 </section>
 <section id="git">
@@ -417,14 +432,14 @@ to an empty string then no submodules are initialized or updated.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">GIT_SUBMODULES_RECURSE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.17.</span></p>
+<p><span class="versionmodified added">Added in version 3.17.</span></p>
 </div>
 <p>Specify whether git submodules (if any) should update recursively by
 passing the <code class="docutils literal notranslate"><span class="pre">--recursive</span></code> flag to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">submodule</span> <span class="pre">update</span></code>.
 If not specified, the default is on.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">GIT_SHALLOW</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6.</span></p>
+<p><span class="versionmodified added">Added in version 3.6.</span></p>
 </div>
 <p>When this option is enabled, the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> operation will be given
 the <code class="docutils literal notranslate"><span class="pre">--depth</span> <span class="pre">1</span></code> option. This performs a shallow clone, which avoids
@@ -432,7 +447,7 @@ downloading the whole history and instead retrieves just the commit
 denoted by the <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> option.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">GIT_PROGRESS</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8.</span></p>
+<p><span class="versionmodified added">Added in version 3.8.</span></p>
 </div>
 <p>When enabled, this option instructs the <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> operation to
 report its progress by passing it the <code class="docutils literal notranslate"><span class="pre">--progress</span></code> option. Without
@@ -443,7 +458,7 @@ the appearance of the build having stalled, it may also make the build
 overly noisy if lots of external projects are used.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">GIT_CONFIG</span> <span class="pre">&lt;option1&gt;</span> <span class="pre">[&lt;option2&gt;...]</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8.</span></p>
+<p><span class="versionmodified added">Added in version 3.8.</span></p>
 </div>
 <p>Specify a list of config options to pass to <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code>. Each option
 listed will be transformed into its own <code class="docutils literal notranslate"><span class="pre">--config</span> <span class="pre">&lt;option&gt;</span></code> on the
@@ -451,7 +466,7 @@ listed will be transformed into its own <code class="docutils literal notranslat
 form <code class="docutils literal notranslate"><span class="pre">key=value</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">GIT_REMOTE_UPDATE_STRATEGY</span> <span class="pre">&lt;strategy&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p><span class="versionmodified added">Added in version 3.18.</span></p>
 </div>
 <p>When <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> refers to a remote branch, this option can be used to
 specify how the update step behaves.  The <code class="docutils literal notranslate"><span class="pre">&lt;strategy&gt;</span></code> must be one of
@@ -542,7 +557,7 @@ The command may use
 <span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">UPDATE_DISCONNECTED</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>When enabled, this option causes the update step to be skipped (but see
 below for changed behavior where this is not the case). It does not
@@ -618,7 +633,7 @@ ignored if a custom configure command has been specified with the
 <code class="docutils literal notranslate"><span class="pre">CONFIGURE_COMMAND</span></code> option.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span> <span class="pre">&lt;platform&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.</span></p>
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
 </div>
 <p>Pass a generator-specific platform name to the CMake command (see
 <span class="target" id="index-0-variable:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_PLATFORM.html#variable:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a>). It is an error to provide this
@@ -629,7 +644,7 @@ option without the <code class="docutils literal notranslate"><span class="pre">
 option without the <code class="docutils literal notranslate"><span class="pre">CMAKE_GENERATOR</span></code> option.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_INSTANCE</span> <span class="pre">&lt;instance&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11.</span></p>
+<p><span class="versionmodified added">Added in version 3.11.</span></p>
 </div>
 <p>Pass a generator-specific instance selection to the CMake command (see
 <span class="target" id="index-0-variable:CMAKE_GENERATOR_INSTANCE"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_INSTANCE.html#variable:CMAKE_GENERATOR_INSTANCE" title="CMAKE_GENERATOR_INSTANCE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_INSTANCE</span></code></a>). It is an error to provide this
@@ -640,7 +655,7 @@ They can be any argument the <strong class="program">cmake</strong> command unde
 cache values defined by <code class="docutils literal notranslate"><span class="pre">-D...</span></code> arguments (see also
 <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">Options</span></code></a>).</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3: </span>Arguments may use
+<p><span class="versionmodified added">Added in version 3.3: </span>Arguments may use
 <span class="target" id="index-3-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
 </div>
 </dd>
@@ -651,12 +666,12 @@ CMake <span class="target" id="index-0-command:set"></span><a class="reference i
 <code class="docutils literal notranslate"><span class="pre">set()</span></code> commands are written to a pre-load script which is then applied
 using the <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-C</span></code></a> command line option.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3: </span>Arguments may use
+<p><span class="versionmodified added">Added in version 3.3: </span>Arguments may use
 <span class="target" id="index-4-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CMAKE_CACHE_DEFAULT_ARGS</span> <span class="pre">&lt;arg&gt;...</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>This is the same as the <code class="docutils literal notranslate"><span class="pre">CMAKE_CACHE_ARGS</span></code> option except the <code class="docutils literal notranslate"><span class="pre">set()</span></code>
 commands do not include the <code class="docutils literal notranslate"><span class="pre">FORCE</span></code> keyword. This means the values act
@@ -665,13 +680,13 @@ from a previous run. Use this option with care, as it can lead to
 different behavior depending on whether the build starts from a fresh
 build directory or reuses previous build contents.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.15: </span>If the CMake generator is the <code class="docutils literal notranslate"><span class="pre">Green</span> <span class="pre">Hills</span> <span class="pre">MULTI</span></code> and not overridden,
+<p><span class="versionmodified added">Added in version 3.15: </span>If the CMake generator is the <code class="docutils literal notranslate"><span class="pre">Green</span> <span class="pre">Hills</span> <span class="pre">MULTI</span></code> and not overridden,
 the original project's settings for the GHS toolset and target system
 customization cache variables are propagated into the external project.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
 <p>When no <code class="docutils literal notranslate"><span class="pre">CONFIGURE_COMMAND</span></code> option is specified, the configure step
 assumes the external project has a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file at the top of
@@ -681,12 +696,12 @@ to use as the top of the CMake source tree instead. This must be a
 relative path and it will be interpreted as being relative to
 <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14: </span>When <code class="docutils literal notranslate"><span class="pre">BUILD_IN_SOURCE</span></code> option is enabled, the <code class="docutils literal notranslate"><span class="pre">BUILD_COMMAND</span></code>
+<p><span class="versionmodified added">Added in version 3.14: </span>When <code class="docutils literal notranslate"><span class="pre">BUILD_IN_SOURCE</span></code> option is enabled, the <code class="docutils literal notranslate"><span class="pre">BUILD_COMMAND</span></code>
 is used to point to an alternative directory within the source tree.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CONFIGURE_HANDLED_BY_BUILD</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.20.</span></p>
+<p><span class="versionmodified added">Added in version 3.20.</span></p>
 </div>
 <p>Enabling this option relaxes the dependencies of the configure step on
 other external projects to order-only. This means the configure step will
@@ -696,6 +711,62 @@ rebuilt. This option can be enabled when the build step is smart enough
 to figure out if the configure step needs to be rerun. CMake and Meson are
 examples of build systems whose build step is smart enough to know if the
 configure step needs to be rerun.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CONFIGURE_ENVIRONMENT_MODIFICATION</span> <span class="pre">&lt;modification&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Specify environment variables that should be modified for the configure step.</p>
+<p>Set a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of environment
+variables and values of the form <code class="docutils literal notranslate"><span class="pre">MYVAR=OP:VALUE</span></code>, where <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> is the
+case-sensitive name of an environment variable to be modified.  Entries are
+considered in the order specified in the property's value. The <code class="docutils literal notranslate"><span class="pre">OP</span></code> may be
+one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code>: Reset to the unmodified value, ignoring all modifications to
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> prior to this entry. Note that this will reset the variable to
+the value set by <span class="target" id="index-0-prop_test:ENVIRONMENT"></span><a class="reference internal" href="../prop_test/ENVIRONMENT.html#prop_test:ENVIRONMENT" title="ENVIRONMENT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code></a>, if it was set, and otherwise
+to its state from the rest of the CTest execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Replaces the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> with <code class="docutils literal notranslate"><span class="pre">VALUE</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unset</span></code>: Unsets the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+</ul>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ExternalProject_Add(</span><span class="nb">example</span>
+<span class="w">  </span><span class="p">...</span><span class="w"> </span><span class="c"># Download options, etc...</span>
+<span class="w">  </span><span class="no">CONFIGURE_ENVIRONMENT_MODIFICATION</span>
+<span class="w">    </span><span class="no">SDKROOT</span><span class="p">=</span><span class="nb">set</span><span class="o">:</span><span class="nb">macosx</span>
+<span class="w">    </span><span class="no">PKG_CONFIG_PATH</span><span class="p">=</span><span class="nb">set</span><span class="o">:$ENV{</span><span class="nt">PKG_CONFIG_PATH</span><span class="o">}</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>This snippet defines two environment variables when configuring the example
+project. The <code class="docutils literal notranslate"><span class="pre">SDKROOT</span></code> environment variable is set to <code class="docutils literal notranslate"><span class="pre">macosx</span></code>, while
+the value of <code class="docutils literal notranslate"><span class="pre">PKG_CONFIG_PATH</span></code> is forwarded to the external project.</p>
+<p>Environment modifications work with <code class="docutils literal notranslate"><span class="pre">LIST_SEPARATOR</span></code> to replace the
+separator with a <code class="docutils literal notranslate"><span class="pre">;</span></code> in the environment variable.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ExternalProject_Add(</span><span class="nb">example</span>
+<span class="w">  </span><span class="p">...</span><span class="w"> </span><span class="c"># Download options, etc...</span>
+<span class="w">  </span><span class="no">LIST_SEPARATOR</span><span class="w"> </span><span class="p">,</span>
+<span class="w">  </span><span class="no">CONFIGURE_ENVIRONMENT_MODIFICATION</span>
+<span class="w">    </span><span class="no">LIST_VAR</span><span class="p">=</span><span class="nb">set</span><span class="o">:</span><span class="nb">a</span><span class="p">,</span><span class="nb">b</span><span class="p">,</span><span class="nb">c</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>This snippet
+and the environment variable <code class="docutils literal notranslate"><span class="pre">LIST_VAR</span></code> is passed to the configure command
+invocation with the value <code class="docutils literal notranslate"><span class="pre">a;b;c</span></code>.</p>
 </dd>
 </dl>
 </section>
@@ -741,7 +812,7 @@ dependencies (e.g. <code class="docutils literal notranslate"><span class="pre">
 developers might modify the sources in <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code>).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">BUILD_BYPRODUCTS</span> <span class="pre">&lt;file&gt;...</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>Specifies files that will be generated by the build command but which
 might or might not have their modification time updated by subsequent
@@ -752,12 +823,44 @@ build step's own underlying call to <span class="target" id="index-0-command:add
 has additional documentation.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">BUILD_JOB_SERVER_AWARE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.28.</span></p>
+<p><span class="versionmodified added">Added in version 3.28.</span></p>
 </div>
 <p>Specifies that the build step is aware of the GNU Make job server.
 See the <span class="target" id="index-1-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> documentation of its
 <code class="docutils literal notranslate"><span class="pre">JOB_SERVER_AWARE</span></code> option for details.  This option is relevant
 only when an explicit <code class="docutils literal notranslate"><span class="pre">BUILD_COMMAND</span></code> is specified.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">BUILD_ENVIRONMENT_MODIFICATION</span> <span class="pre">&lt;modification&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Specify environment variables that should be modified for the build step.</p>
+<p>Set a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of environment
+variables and values of the form <code class="docutils literal notranslate"><span class="pre">MYVAR=OP:VALUE</span></code>, where <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> is the
+case-sensitive name of an environment variable to be modified.  Entries are
+considered in the order specified in the property's value. The <code class="docutils literal notranslate"><span class="pre">OP</span></code> may be
+one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code>: Reset to the unmodified value, ignoring all modifications to
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> prior to this entry. Note that this will reset the variable to
+the value set by <span class="target" id="index-1-prop_test:ENVIRONMENT"></span><a class="reference internal" href="../prop_test/ENVIRONMENT.html#prop_test:ENVIRONMENT" title="ENVIRONMENT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code></a>, if it was set, and otherwise
+to its state from the rest of the CTest execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Replaces the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> with <code class="docutils literal notranslate"><span class="pre">VALUE</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unset</span></code>: Unsets the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -783,7 +886,7 @@ supported). Passing an empty string as the <code class="docutils literal notrans
 step do nothing.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">INSTALL_BYPRODUCTS</span> <span class="pre">&lt;file&gt;...</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.26.</span></p>
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
 </div>
 <p>Specifies files that will be generated by the install command but which
 might or might not have their modification time updated by subsequent
@@ -792,6 +895,14 @@ when using the <span class="target" id="index-1-generator:Ninja"></span><a class
 These ultimately get passed through as <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> to the
 install step's own underlying call to <span class="target" id="index-2-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a>, which
 has additional documentation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">INSTALL_JOB_SERVER_AWARE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.0.</span></p>
+</div>
+<p>Specifies that the install step is aware of the GNU Make job server.
+See the <span class="target" id="index-3-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> documentation of its
+<code class="docutils literal notranslate"><span class="pre">JOB_SERVER_AWARE</span></code> option for details.  This option is relevant
+only when an explicit <code class="docutils literal notranslate"><span class="pre">INSTALL_COMMAND</span></code> is specified.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -811,6 +922,40 @@ install command might also not need to run.</p></li>
 <span class="target" id="index-1-envvar:CMAKE_INSTALL_MODE"></span><a class="reference internal" href="../envvar/CMAKE_INSTALL_MODE.html#envvar:CMAKE_INSTALL_MODE" title="CMAKE_INSTALL_MODE"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_MODE</span></code></a> environment variable changes from one run
 to another.</p>
 </div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">INSTALL_ENVIRONMENT_MODIFICATION</span> <span class="pre">&lt;modification&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Specify environment variables that should be modified for the install step.</p>
+<p>Set a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of environment
+variables and values of the form <code class="docutils literal notranslate"><span class="pre">MYVAR=OP:VALUE</span></code>, where <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> is the
+case-sensitive name of an environment variable to be modified.  Entries are
+considered in the order specified in the property's value. The <code class="docutils literal notranslate"><span class="pre">OP</span></code> may be
+one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code>: Reset to the unmodified value, ignoring all modifications to
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> prior to this entry. Note that this will reset the variable to
+the value set by <span class="target" id="index-2-prop_test:ENVIRONMENT"></span><a class="reference internal" href="../prop_test/ENVIRONMENT.html#prop_test:ENVIRONMENT" title="ENVIRONMENT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code></a>, if it was set, and otherwise
+to its state from the rest of the CTest execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Replaces the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> with <code class="docutils literal notranslate"><span class="pre">VALUE</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unset</span></code>: Unsets the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+</ul>
+</dd>
+</dl>
 </section>
 <section id="test-step-options">
 <h3><a class="toc-backref" href="#id15" role="doc-backlink">Test Step Options</a><a class="headerlink" href="#test-step-options" title="Link to this heading">¶</a></h3>
@@ -838,13 +983,45 @@ comes after the install step. If both <code class="docutils literal notranslate"
 <code class="docutils literal notranslate"><span class="pre">TEST_AFTER_INSTALL</span></code> are enabled, the latter is silently ignored.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">TEST_EXCLUDE_FROM_MAIN</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>If enabled, the main build's default ALL target will not depend on the
 test step. This can be a useful way of ensuring the test step is defined
 but only gets invoked when manually requested.
 This may cause a step target to be created automatically for either
 the <code class="docutils literal notranslate"><span class="pre">install</span></code> or <code class="docutils literal notranslate"><span class="pre">build</span></code> step.  See policy <span class="target" id="index-1-policy:CMP0114"></span><a class="reference internal" href="../policy/CMP0114.html#policy:CMP0114" title="CMP0114"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0114</span></code></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TEST_ENVIRONMENT_MODIFICATION</span> <span class="pre">&lt;modification&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Specify environment variables that should be modified for the test step.</p>
+<p>Set a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of environment
+variables and values of the form <code class="docutils literal notranslate"><span class="pre">MYVAR=OP:VALUE</span></code>, where <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> is the
+case-sensitive name of an environment variable to be modified.  Entries are
+considered in the order specified in the property's value. The <code class="docutils literal notranslate"><span class="pre">OP</span></code> may be
+one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code>: Reset to the unmodified value, ignoring all modifications to
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> prior to this entry. Note that this will reset the variable to
+the value set by <span class="target" id="index-3-prop_test:ENVIRONMENT"></span><a class="reference internal" href="../prop_test/ENVIRONMENT.html#prop_test:ENVIRONMENT" title="ENVIRONMENT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code></a>, if it was set, and otherwise
+to its state from the rest of the CTest execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Replaces the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> with <code class="docutils literal notranslate"><span class="pre">VALUE</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unset</span></code>: Unsets the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -860,7 +1037,7 @@ directory with step-specific file names.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">LOG_UPDATE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><p>When enabled, the output of the update step is logged to files.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">LOG_PATCH</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14.</span></p>
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
 </div>
 <p>When enabled, the output of the patch step is logged to files.</p>
 </dd>
@@ -873,13 +1050,13 @@ directory with step-specific file names.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">LOG_TEST</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><p>When enabled, the output of the test step is logged to files.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">LOG_MERGED_STDOUTERR</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14.</span></p>
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
 </div>
 <p>When enabled, stdout and stderr will be merged for any step whose
 output is being logged to files.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">LOG_OUTPUT_ON_FAILURE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14.</span></p>
+<p><span class="versionmodified added">Added in version 3.14.</span></p>
 </div>
 <p>This option only has an effect if at least one of the other <code class="docutils literal notranslate"><span class="pre">LOG_&lt;step&gt;</span></code>
 options is enabled.  If an error occurs for a step which has logging to
@@ -893,7 +1070,7 @@ console.</p>
 <section id="terminal-access-options">
 <h3><a class="toc-backref" href="#id17" role="doc-backlink">Terminal Access Options</a><a class="headerlink" href="#terminal-access-options" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.4.</span></p>
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
 </div>
 <p>Steps can be given direct access to the terminal in some cases. Giving a
 step access to the terminal may allow it to receive terminal input if
@@ -907,7 +1084,7 @@ to the terminal individually via the following options:</p>
 <dt><code class="docutils literal notranslate"><span class="pre">USES_TERMINAL_UPDATE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><p>Give the update step access to the terminal.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">USES_TERMINAL_PATCH</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.23.</span></p>
+<p><span class="versionmodified added">Added in version 3.23.</span></p>
 </div>
 <p>Give the patch step access to the terminal.</p>
 </dd>
@@ -961,7 +1138,8 @@ of the effects of this option.</p>
 <section id="miscellaneous-options">
 <h3><a class="toc-backref" href="#id19" role="doc-backlink">Miscellaneous Options</a><a class="headerlink" href="#miscellaneous-options" title="Link to this heading">¶</a></h3>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">LIST_SEPARATOR</span> <span class="pre">&lt;sep&gt;</span></code></dt><dd><p>For any of the various <code class="docutils literal notranslate"><span class="pre">..._COMMAND</span></code> options, and <code class="docutils literal notranslate"><span class="pre">CMAKE_ARGS</span></code>,
+<dt><code class="docutils literal notranslate"><span class="pre">LIST_SEPARATOR</span> <span class="pre">&lt;sep&gt;</span></code></dt><dd><p>For any of the various <code class="docutils literal notranslate"><span class="pre">..._COMMAND</span></code> options, <code class="docutils literal notranslate"><span class="pre">CMAKE_ARGS</span></code>, and
+<cite>..._ENVIRONMENT_MODIFICATION`</cite> operations,
 <code class="docutils literal notranslate"><span class="pre">ExternalProject</span></code> will replace <code class="docutils literal notranslate"><span class="pre">&lt;sep&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">;</span></code> in the specified
 command lines. This can be used to ensure a command has a literal <code class="docutils literal notranslate"><span class="pre">;</span></code> in it
 where direct usage would otherwise be interpreted as argument separators to
@@ -1054,8 +1232,41 @@ commands to be executed in order.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">DEPENDS</span> <span class="pre">&lt;file&gt;...</span></code></dt><dd><p>Files on which this custom step depends.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ENVIRONMENT_MODIFICATION</span> <span class="pre">&lt;modification&gt;...</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Specify environment variables that should be modified while running the
+commands in the external project step.</p>
+<p>Set a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of environment
+variables and values of the form <code class="docutils literal notranslate"><span class="pre">MYVAR=OP:VALUE</span></code>, where <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> is the
+case-sensitive name of an environment variable to be modified.  Entries are
+considered in the order specified in the property's value. The <code class="docutils literal notranslate"><span class="pre">OP</span></code> may be
+one of:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reset</span></code>: Reset to the unmodified value, ignoring all modifications to
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> prior to this entry. Note that this will reset the variable to
+the value set by <span class="target" id="index-4-prop_test:ENVIRONMENT"></span><a class="reference internal" href="../prop_test/ENVIRONMENT.html#prop_test:ENVIRONMENT" title="ENVIRONMENT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code></a>, if it was set, and otherwise
+to its state from the rest of the CTest execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">set</span></code>: Replaces the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> with <code class="docutils literal notranslate"><span class="pre">VALUE</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unset</span></code>: Unsets the current value of <code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">string_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">path_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using the host platform's path list separator (<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows
+and <code class="docutils literal notranslate"><span class="pre">:</span></code> elsewhere).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_append</span></code>: Appends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake_list_prepend</span></code>: Prepends singular <code class="docutils literal notranslate"><span class="pre">VALUE</span></code> to the current value of
+<code class="docutils literal notranslate"><span class="pre">MYVAR</span></code> using <code class="docutils literal notranslate"><span class="pre">;</span></code> as the separator.</p></li>
+</ul>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">INDEPENDENT</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19.</span></p>
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
 </div>
 <p>Specifies whether this step is independent of the external dependencies
 specified by the <span class="target" id="index-2-command:externalproject_add"></span><a class="reference internal" href="#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>'s <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code> option.
@@ -1070,24 +1281,24 @@ orthogonal to a step's dependencies on other steps.</p>
 on the external targets, but may depend on targets for other steps.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span> <span class="pre">&lt;file&gt;...</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>Files that will be generated by this custom step but which might or might
 not have their modification time updated by subsequent builds.
 This may also be required to explicitly declare dependencies
 when using the <span class="target" id="index-3-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator. This list of
 files will ultimately be passed through as the <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> option to the
-<span class="target" id="index-3-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> used to implement the custom step internally,
+<span class="target" id="index-4-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> used to implement the custom step internally,
 which has additional documentation.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ALWAYS</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><p>When enabled, this option specifies that the custom step should always be
 run (i.e. that it is always considered out of date).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">JOB_SERVER_AWARE</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.28.</span></p>
+<p><span class="versionmodified added">Added in version 3.28.</span></p>
 </div>
 <p>Specifies that the custom step is aware of the GNU Make job server.
-See the <span class="target" id="index-4-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> documentation of its
+See the <span class="target" id="index-5-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> documentation of its
 <code class="docutils literal notranslate"><span class="pre">JOB_SERVER_AWARE</span></code> option for details.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_MAIN</span> <span class="pre">&lt;bool&gt;</span></code></dt><dd><p>When enabled, this option specifies that the external project's main target
@@ -1114,10 +1325,10 @@ standard and custom step are processed to replace the tokens
 corresponding property values defined in the original call to
 <span class="target" id="index-4-command:externalproject_add"></span><a class="reference internal" href="#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.3: </span>Token replacement is extended to byproducts.</p>
+<p><span class="versionmodified added">Added in version 3.3: </span>Token replacement is extended to byproducts.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11: </span>The <code class="docutils literal notranslate"><span class="pre">&lt;DOWNLOAD_DIR&gt;</span></code> substitution token.</p>
+<p><span class="versionmodified added">Added in version 3.11: </span>The <code class="docutils literal notranslate"><span class="pre">&lt;DOWNLOAD_DIR&gt;</span></code> substitution token.</p>
 </div>
 </dd></dl>
 
@@ -1155,7 +1366,7 @@ directory property.  It acts as a default for the step target options and
 can save having to repeatedly specify the same set of step targets when
 multiple external projects are being defined.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19: </span>If <span class="target" id="index-5-policy:CMP0114"></span><a class="reference internal" href="../policy/CMP0114.html#policy:CMP0114" title="CMP0114"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0114</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, step targets are fully responsible
+<p><span class="versionmodified added">Added in version 3.19: </span>If <span class="target" id="index-5-policy:CMP0114"></span><a class="reference internal" href="../policy/CMP0114.html#policy:CMP0114" title="CMP0114"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0114</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, step targets are fully responsible
 for holding the custom commands implementing their steps.  The primary
 target created by <code class="docutils literal notranslate"><span class="pre">ExternalProject_Add</span></code> depends on the step targets, and
 the step targets depend on each other.  The target-level dependencies match
@@ -1191,7 +1402,7 @@ using the <code class="docutils literal notranslate"><span class="pre">NO_DEPEND
 <dt class="sig sig-object cmake" id="command:externalproject_add_stepdependencies">
 <span class="sig-name descname"><span class="pre">ExternalProject_Add_StepDependencies</span></span><a class="headerlink" href="#command:externalproject_add_stepdependencies" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2.</span></p>
+<p><span class="versionmodified added">Added in version 3.2.</span></p>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">ExternalProject_Add_StepDependencies()</span></code> function can be used to add
 dependencies to a step. The dependencies added must be targets CMake already
@@ -1298,10 +1509,10 @@ custom target to trigger the script can be defined like so:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">ExternalProject</a><ul>
 <li><a class="reference internal" href="#external-project-definition">External Project Definition</a><ul>
@@ -1351,7 +1562,7 @@ custom target to trigger the script can be defined like so:</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -1359,13 +1570,13 @@ custom target to trigger the script can be defined like so:</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1378,14 +1589,15 @@ custom target to trigger the script can be defined like so:</p>
           <a href="ExternalData.html" title="ExternalData"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -1394,8 +1606,17 @@ custom target to trigger the script can be defined like so:</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

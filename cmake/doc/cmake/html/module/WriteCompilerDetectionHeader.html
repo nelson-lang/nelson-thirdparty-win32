@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>WriteCompilerDetectionHeader &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>WriteCompilerDetectionHeader &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="WriteBasicConfigVersionFile.html" title="WriteBasicConfigVersionFile"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -63,24 +68,36 @@
 is not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.  Do not use it in new code.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1.</span></p>
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
 </div>
-<p>This module provides the function <code class="docutils literal notranslate"><span class="pre">write_compiler_detection_header()</span></code>.</p>
+<p>This module provides a command to generate header with preprocessor macros.</p>
+<p>Load this module in a CMake project with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">WriteCompilerDetectionHeader</span><span class="nf">)</span>
+</pre></div>
+</div>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">¶</a></h2>
+<p>This module provides the following command:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:write_compiler_detection_header">
+<span class="sig-name descname"><span class="pre">write_compiler_detection_header</span></span><a class="headerlink" href="#command:write_compiler_detection_header" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <p>This function can be used to generate a file suitable for preprocessor
 inclusion which contains macros to be used in source code:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>write_compiler_detection_header(
-          FILE &lt;file&gt;
-          PREFIX &lt;prefix&gt;
-          [OUTPUT_FILES_VAR &lt;output_files_var&gt; OUTPUT_DIR &lt;output_dir&gt;]
-          COMPILERS &lt;compiler&gt; [...]
-          FEATURES &lt;feature&gt; [...]
-          [BARE_FEATURES &lt;feature&gt; [...]]
-          [VERSION &lt;version&gt;]
-          [PROLOG &lt;prolog&gt;]
-          [EPILOG &lt;epilog&gt;]
-          [ALLOW_UNKNOWN_COMPILERS]
-          [ALLOW_UNKNOWN_COMPILER_VERSIONS]
-)
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">write_compiler_detection_header(</span>
+<span class="w">          </span><span class="no">FILE</span><span class="w"> </span><span class="nv">&lt;file&gt;</span>
+<span class="w">          </span><span class="no">PREFIX</span><span class="w"> </span><span class="nv">&lt;prefix&gt;</span>
+<span class="w">          </span><span class="p">[</span><span class="no">OUTPUT_FILES_VAR</span><span class="w"> </span><span class="nv">&lt;output_files_var&gt;</span><span class="w"> </span><span class="no">OUTPUT_DIR</span><span class="w"> </span><span class="nv">&lt;output_dir&gt;</span><span class="p">]</span>
+<span class="w">          </span><span class="no">COMPILERS</span><span class="w"> </span><span class="nv">&lt;compiler&gt;</span><span class="w"> </span><span class="p">[...]</span>
+<span class="w">          </span><span class="no">FEATURES</span><span class="w"> </span><span class="nv">&lt;feature&gt;</span><span class="w"> </span><span class="p">[...]</span>
+<span class="w">          </span><span class="p">[</span><span class="no">BARE_FEATURES</span><span class="w"> </span><span class="nv">&lt;feature&gt;</span><span class="w"> </span><span class="p">[...]]</span>
+<span class="w">          </span><span class="p">[</span><span class="no">VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span><span class="p">]</span>
+<span class="w">          </span><span class="p">[</span><span class="no">PROLOG</span><span class="w"> </span><span class="nv">&lt;prolog&gt;</span><span class="p">]</span>
+<span class="w">          </span><span class="p">[</span><span class="no">EPILOG</span><span class="w"> </span><span class="nv">&lt;epilog&gt;</span><span class="p">]</span>
+<span class="w">          </span><span class="p">[</span><span class="no">ALLOW_UNKNOWN_COMPILERS</span><span class="p">]</span>
+<span class="w">          </span><span class="p">[</span><span class="no">ALLOW_UNKNOWN_COMPILER_VERSIONS</span><span class="p">]</span>
+<span class="nf">)</span>
 </pre></div>
 </div>
 <p>This generates the file <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;</span></code> with macros which all have the prefix
@@ -116,7 +133,7 @@ to the version of CMake that introduced the given API and less
 than the version of CMake that introduced its succeeding API.
 The value of the <span class="target" id="index-0-variable:CMAKE_MINIMUM_REQUIRED_VERSION"></span><a class="reference internal" href="../variable/CMAKE_MINIMUM_REQUIRED_VERSION.html#variable:CMAKE_MINIMUM_REQUIRED_VERSION" title="CMAKE_MINIMUM_REQUIRED_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MINIMUM_REQUIRED_VERSION</span></code></a>
 variable is used if no explicit version is specified.
-(As of CMake version 3.31.0-rc2 there is only one API version.)</p>
+(As of CMake version 4.2.1 there is only one API version.)</p>
 <p><code class="docutils literal notranslate"><span class="pre">PROLOG</span></code> may be specified as text content to write at the start of the
 header. <code class="docutils literal notranslate"><span class="pre">EPILOG</span></code> may be specified as text content to write at the end
 of the header</p>
@@ -133,27 +150,27 @@ Available features in this version of CMake are listed in the
 See the <span class="target" id="index-0-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a> manual for information on
 compile features.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.2: </span>Added <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> and <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> compiler support.</p>
+<p><span class="versionmodified added">Added in version 3.2: </span>Added <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> and <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> compiler support.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6: </span>Added <code class="docutils literal notranslate"><span class="pre">Intel</span></code> compiler support.</p>
+<p><span class="versionmodified added">Added in version 3.6: </span>Added <code class="docutils literal notranslate"><span class="pre">Intel</span></code> compiler support.</p>
 </div>
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 3.8: </span>The <code class="docutils literal notranslate"><span class="pre">{c,cxx}_std_*</span></code> meta-features are ignored if requested.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span><code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILERS</span></code> and <code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILER_VERSIONS</span></code> cause
+<p><span class="versionmodified added">Added in version 3.8: </span><code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILERS</span></code> and <code class="docutils literal notranslate"><span class="pre">ALLOW_UNKNOWN_COMPILER_VERSIONS</span></code> cause
 the module to generate conditions that treat unknown compilers as simply
 lacking all features.  Without these options the default behavior is to
 generate a <code class="docutils literal notranslate"><span class="pre">#error</span></code> for unknown compilers and versions.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.12: </span><code class="docutils literal notranslate"><span class="pre">BARE_FEATURES</span></code> will define the compatibility macros with the name used in
+<p><span class="versionmodified added">Added in version 3.12: </span><code class="docutils literal notranslate"><span class="pre">BARE_FEATURES</span></code> will define the compatibility macros with the name used in
 newer versions of the language standard, so the code can use the new feature
 name unconditionally.</p>
 </div>
 <section id="feature-test-macros">
-<h2>Feature Test Macros<a class="headerlink" href="#feature-test-macros" title="Link to this heading">¶</a></h2>
+<h3>Feature Test Macros<a class="headerlink" href="#feature-test-macros" title="Link to this heading">¶</a></h3>
 <p>For each compiler, a preprocessor macro is generated matching
 <code class="docutils literal notranslate"><span class="pre">&lt;PREFIX&gt;_COMPILER_IS_&lt;compiler&gt;</span></code> which has the content either <code class="docutils literal notranslate"><span class="pre">0</span></code>
 or <code class="docutils literal notranslate"><span class="pre">1</span></code>, depending on the compiler in use. Preprocessor macros for
@@ -191,7 +208,7 @@ feature:</p>
 </div>
 </section>
 <section id="symbol-macros">
-<h2>Symbol Macros<a class="headerlink" href="#symbol-macros" title="Link to this heading">¶</a></h2>
+<h3>Symbol Macros<a class="headerlink" href="#symbol-macros" title="Link to this heading">¶</a></h3>
 <p>Some additional symbol-defines are created for particular features for
 use as symbols which may be conditionally defined empty:</p>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="w"> </span><span class="n">ClimbingStats_FINAL</span>
@@ -261,7 +278,7 @@ are available as <code class="docutils literal notranslate"><span class="pre">BA
 </table>
 </section>
 <section id="compatibility-implementation-macros">
-<h2>Compatibility Implementation Macros<a class="headerlink" href="#compatibility-implementation-macros" title="Link to this heading">¶</a></h2>
+<h3>Compatibility Implementation Macros<a class="headerlink" href="#compatibility-implementation-macros" title="Link to this heading">¶</a></h3>
 <p>Some features are suitable for wrapping in a macro with a backward
 compatibility implementation if the compiler does not support the feature.</p>
 <p>When the <code class="docutils literal notranslate"><span class="pre">cxx_static_assert</span></code> feature is not provided by the compiler,
@@ -352,7 +369,7 @@ library:</p>
 </div>
 </section>
 <section id="example-usage">
-<span id="wcdh-example-usage"></span><h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h2>
+<span id="wcdh-example-usage"></span><h3>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This section was migrated from the <span class="target" id="index-1-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a>
@@ -463,22 +480,26 @@ via the <code class="docutils literal notranslate"><span class="pre">&lt;PREFIX&
 function-macros.</p>
 </section>
 </section>
+</section>
 
 
             <div class="clearer"></div>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">WriteCompilerDetectionHeader</a><ul>
+<li><a class="reference internal" href="#commands">Commands</a><ul>
 <li><a class="reference internal" href="#feature-test-macros">Feature Test Macros</a></li>
 <li><a class="reference internal" href="#symbol-macros">Symbol Macros</a></li>
 <li><a class="reference internal" href="#compatibility-implementation-macros">Compatibility Implementation Macros</a></li>
 <li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -501,7 +522,7 @@ function-macros.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -509,13 +530,13 @@ function-macros.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -528,14 +549,15 @@ function-macros.</p>
           <a href="WriteBasicConfigVersionFile.html" title="WriteBasicConfigVersionFile"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -544,8 +566,17 @@ function-macros.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

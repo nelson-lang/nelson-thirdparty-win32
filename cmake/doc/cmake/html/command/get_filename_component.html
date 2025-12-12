@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>get_filename_component &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>get_filename_component &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="get_directory_property.html" title="get_directory_property"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -74,17 +79,17 @@ command.</p>
 </pre></div>
 </div>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> to a component of <code class="docutils literal notranslate"><span class="pre">&lt;FileName&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;mode&gt;</span></code> is one of:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>DIRECTORY = Directory without file name
-NAME      = File name without directory
-EXT       = File name longest extension (.b.c from d/a.b.c)
-NAME_WE   = File name with neither the directory nor the longest extension
-LAST_EXT  = File name last extension (.c from d/a.b.c)
-NAME_WLE  = File name with neither the directory nor the last extension
-PATH      = Legacy alias for DIRECTORY (use for CMake &lt;= 2.8.11)
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> - directory without file name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NAME</span></code>      - file name without directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EXT</span></code>       - file name longest extension (<code class="docutils literal notranslate"><span class="pre">.b.c</span></code> from <code class="docutils literal notranslate"><span class="pre">d/a.b.c</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NAME_WE</span></code>   - file name with neither the directory nor the longest extension.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LAST_EXT</span></code>  - file name last extension (<code class="docutils literal notranslate"><span class="pre">.c</span></code> from <code class="docutils literal notranslate"><span class="pre">d/a.b.c</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NAME_WLE</span></code>  - file name with neither the directory nor the last extension.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PATH</span></code>      - legacy alias for <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> (use for CMake &lt;= 2.8.11).</p></li>
+</ul>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14: </span>Added the <code class="docutils literal notranslate"><span class="pre">LAST_EXT</span></code> and <code class="docutils literal notranslate"><span class="pre">NAME_WLE</span></code> modes.</p>
+<p><span class="versionmodified added">Added in version 3.14: </span>Added the <code class="docutils literal notranslate"><span class="pre">LAST_EXT</span></code> and <code class="docutils literal notranslate"><span class="pre">NAME_WLE</span></code> modes.</p>
 </div>
 <p>Paths are returned with forward slashes and have no trailing slashes.
 If the optional <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> argument is specified, the result variable is
@@ -93,14 +98,14 @@ added to the cache.</p>
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.4.</span></p>
+<p><span class="versionmodified added">Added in version 3.4.</span></p>
 </div>
 <p>Sets <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> to the absolute path of <code class="docutils literal notranslate"><span class="pre">&lt;FileName&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;mode&gt;</span></code> is one
 of:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ABSOLUTE  = Full path to file
-REALPATH  = Full path to existing file with symlinks resolved
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ABSOLUTE</span></code> - full path to file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">REALPATH</span></code> - full path to existing file with symlinks resolved.</p></li>
+</ul>
 <p>If the provided <code class="docutils literal notranslate"><span class="pre">&lt;FileName&gt;</span></code> is a relative path, it is evaluated relative
 to the given base directory <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code>.  If no base directory is
 provided, the default base directory will be
@@ -129,10 +134,10 @@ separate a program name from its arguments in a command line string.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">get_filename_component</a><ul>
 <li><a class="reference internal" href="#see-also">See Also</a></li>
@@ -158,7 +163,7 @@ separate a program name from its arguments in a command line string.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -166,13 +171,13 @@ separate a program name from its arguments in a command line string.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -185,14 +190,15 @@ separate a program name from its arguments in a command line string.</p>
           <a href="get_directory_property.html" title="get_directory_property"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -201,8 +207,17 @@ separate a program name from its arguments in a command line string.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

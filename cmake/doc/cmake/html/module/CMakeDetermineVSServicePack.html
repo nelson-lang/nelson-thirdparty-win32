@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CMakeDetermineVSServicePack &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>CMakeDetermineVSServicePack &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="AddFileDependencies.html" title="AddFileDependencies"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,31 +63,56 @@
             
   <section id="cmakedeterminevsservicepack">
 <span id="module:CMakeDetermineVSServicePack"></span><h1>CMakeDetermineVSServicePack<a class="headerlink" href="#cmakedeterminevsservicepack" title="Link to this heading">¶</a></h1>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 4.1: </span>This module is available only if policy <span class="target" id="index-0-policy:CMP0196"></span><a class="reference internal" href="../policy/CMP0196.html#policy:CMP0196" title="CMP0196"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0196</span></code></a> is not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.</p>
+</div>
 <div class="deprecated">
-<p><span class="versionmodified deprecated">Deprecated since version 3.0: </span>Do not use.</p>
+<p><span class="versionmodified deprecated">Deprecated since version 3.0: </span>This module should no longer be used.  The functionality of this module has
+been superseded by the <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable that
+contains the compiler version number.</p>
 </div>
-<p>The functionality of this module has been superseded by the
-<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_VERSION.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_VERSION" title="CMAKE_&lt;LANG&gt;_COMPILER_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER_VERSION</span></code></a> variable that contains
-the compiler version number.</p>
-<p>Determine the Visual Studio service pack of the 'cl' in use.</p>
-<p>Usage:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if(MSVC)
-  include(CMakeDetermineVSServicePack)
-  DetermineVSServicePack( my_service_pack )
-  if( my_service_pack )
-    message(STATUS &quot;Detected: ${my_service_pack}&quot;)
-  endif()
-endif()
+<p>This module provides a command to determine the installed Visual Studio
+service pack version for Visual Studio 2012 and earlier.</p>
+<p>Load this module in a CMake project with:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">CMakeDetermineVSServicePack</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>Function DetermineVSServicePack sets the given variable to one of the
-following values or an empty string if unknown:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>vc80, vc80sp1
-vc90, vc90sp1
-vc100, vc100sp1
-vc110, vc110sp1, vc110sp2, vc110sp3, vc110sp4
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">¶</a></h2>
+<p>This module provides the following command:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:determinevsservicepack">
+<span class="sig-name descname"><span class="pre">DetermineVSServicePack</span></span><a class="headerlink" href="#command:determinevsservicepack" title="Link to this definition">¶</a></dt>
+<dd><p>Determines the Visual Studio service pack version of the <code class="docutils literal notranslate"><span class="pre">cl</span></code> compiler
+in use:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">DetermineVSServicePack(</span><span class="nv">&lt;variable&gt;</span><span class="nf">)</span>
 </pre></div>
 </div>
+<p>The result is stored in the specified internal cache variable <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code>,
+which is set to one of the following values, or to an empty string if the
+service pack cannot be determined:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">vc80</span></code>, <code class="docutils literal notranslate"><span class="pre">vc80sp1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vc90</span></code>, <code class="docutils literal notranslate"><span class="pre">vc90sp1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vc100</span></code>, <code class="docutils literal notranslate"><span class="pre">vc100sp1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vc110</span></code>, <code class="docutils literal notranslate"><span class="pre">vc110sp1</span></code>, <code class="docutils literal notranslate"><span class="pre">vc110sp2</span></code>, <code class="docutils literal notranslate"><span class="pre">vc110sp3</span></code>, <code class="docutils literal notranslate"><span class="pre">vc110sp4</span></code></p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Determining the Visual Studio service pack version in a project:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">if(</span><span class="no">MSVC</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">include(</span><span class="nb">CMakeDetermineVSServicePack</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">DetermineVSServicePack(</span><span class="nb">my_service_pack</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">if(</span><span class="nb">my_service_pack</span><span class="nf">)</span>
+<span class="w">    </span><span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;Detected: ${my_service_pack}&quot;</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">endif()</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -90,8 +120,19 @@ vc110, vc110sp1, vc110sp2, vc110sp3, vc110sp4
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">CMakeDetermineVSServicePack</a><ul>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="AddFileDependencies.html"
@@ -109,7 +150,7 @@ vc110, vc110sp1, vc110sp2, vc110sp3, vc110sp4
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -117,13 +158,13 @@ vc110, vc110sp1, vc110sp2, vc110sp3, vc110sp4
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -136,14 +177,15 @@ vc110, vc110sp1, vc110sp2, vc110sp3, vc110sp4
           <a href="AddFileDependencies.html" title="AddFileDependencies"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -152,8 +194,17 @@ vc110, vc110sp1, vc110sp2, vc110sp3, vc110sp4
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

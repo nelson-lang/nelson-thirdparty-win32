@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>export &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>export &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="enable_testing.html" title="enable_testing"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -102,7 +107,7 @@ in the export, even when policy <span class="target" id="index-0-policy:CMP0022"
 to support consumers using CMake versions older than 2.8.12.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">CXX_MODULES_DIRECTORY</span> <span class="pre">&lt;directory&gt;</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.28.</span></p>
+<p><span class="versionmodified added">Added in version 3.28.</span></p>
 </div>
 <p>Export C++ module properties to files under the given directory. Each file
 will be named according to the target's export name (without any namespace).
@@ -132,12 +137,12 @@ configurations of dependent projects to the exported configurations.</p>
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.7.</span></p>
+<p><span class="versionmodified added">Added in version 3.7.</span></p>
 </div>
-<p>This signature exports cmake built targets to the android ndk build system
+<p>This signature exports CMake built targets to the android ndk build system
 by creating an <code class="docutils literal notranslate"><span class="pre">Android.mk</span></code> file that references the prebuilt targets. The
 Android NDK supports the use of prebuilt libraries, both static and shared.
-This allows cmake to build the libraries of a project and make them available
+This allows CMake to build the libraries of a project and make them available
 to an ndk build system complete with transitive dependencies, include flags
 and defines required to use the libraries. The signature takes a list of
 targets and puts them in the <code class="docutils literal notranslate"><span class="pre">Android.mk</span></code> file specified by the
@@ -173,6 +178,39 @@ of the <span class="target" id="index-3-command:install"></span><a class="refere
 <span class="target" id="index-4-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> for details on how this works.</p>
 </dd>
 </dl>
+<section id="exporting-targets-to-the-cps">
+<h3>Exporting Targets to the Common Package Specification<a class="headerlink" href="#exporting-targets-to-the-cps" title="Link to this heading">¶</a></h3>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nv">&lt;export-name&gt;</span><span class="w"> </span><span class="no">PACKAGE_INFO</span><span class="w"> </span><span class="nv">&lt;package-name&gt;</span>
+<span class="w">       </span><span class="p">[</span><span class="no">PROJECT</span><span class="w"> </span><span class="nv">&lt;project-name&gt;</span><span class="p">|</span><span class="no">NO_PROJECT_METADATA</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">APPENDIX</span><span class="w"> </span><span class="nv">&lt;appendix-name&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">LOWER_CASE_FILE</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span>
+<span class="w">        </span><span class="p">[</span><span class="no">COMPAT_VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">VERSION_SCHEMA</span><span class="w"> </span><span class="nv">&lt;string&gt;</span><span class="p">]]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">DEFAULT_TARGETS</span><span class="w"> </span><span class="nv">&lt;target&gt;...</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">DEFAULT_CONFIGURATIONS</span><span class="w"> </span><span class="nv">&lt;config&gt;...</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">LICENSE</span><span class="w"> </span><span class="nv">&lt;license-string&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">DEFAULT_LICENSE</span><span class="w"> </span><span class="nv">&lt;license-string&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">DESCRIPTION</span><span class="w"> </span><span class="nv">&lt;description-string&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">HOMEPAGE_URL</span><span class="w"> </span><span class="nv">&lt;url-string&gt;</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.1.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Experimental. Gated by <code class="docutils literal notranslate"><span class="pre">CMAKE_EXPERIMENTAL_EXPORT_PACKAGE_INFO</span></code>.</p>
+</div>
+<p>Creates a file in the <a class="reference external" href="https://cps-org.github.io/cps/">Common Package Specification</a> that may be included by outside projects to import
+targets named by <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;...</span></code> from the current project's build tree.  See
+the <span class="target" id="index-5-command:install"></span><a class="reference internal" href="install.html#package-info" title="install(package_info)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(PACKAGE_INFO)</span></code></a> command to export targets from an install
+tree.  The imported targets are implicitly in the namespace <code class="docutils literal notranslate"><span class="pre">&lt;package-name&gt;</span></code>.</p>
+<p>The default file name is <code class="docutils literal notranslate"><span class="pre">&lt;package-name&gt;[-&lt;appendix-name&gt;].cps</span></code>. If the
+<code class="docutils literal notranslate"><span class="pre">LOWER_CASE_FILE</span></code> option is given, the file name will use the package name
+converted to lower case.</p>
+<p>See <span class="target" id="index-6-command:install"></span><a class="reference internal" href="install.html#package-info" title="install(package_info)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(PACKAGE_INFO)</span></code></a> for a description of the other options.</p>
+</section>
 </section>
 <section id="exporting-packages">
 <h2>Exporting Packages<a class="headerlink" href="#exporting-packages" title="Link to this heading">¶</a></h2>
@@ -225,7 +263,7 @@ to the CMake user package registry.</p>
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.29.</span></p>
+<p><span class="versionmodified added">Added in version 3.29.</span></p>
 </div>
 <p>Configure the parameters of an export. The arguments are as follows:</p>
 <dl>
@@ -235,7 +273,7 @@ to the CMake user package registry.</p>
 </div>
 <p>Specify a package dependency to configure. This changes how
 <span class="target" id="index-1-command:find_dependency"></span><a class="reference internal" href="../module/CMakeFindDependencyMacro.html#command:find_dependency" title="find_dependency"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_dependency()</span></code></a> calls are written during
-<span class="target" id="index-2-command:export"></span><a class="reference internal" href="#command:export" title="export(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export(EXPORT)</span></code></a> and <span class="target" id="index-5-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>. <code class="docutils literal notranslate"><span class="pre">&lt;dep&gt;</span></code> is the
+<span class="target" id="index-2-command:export"></span><a class="reference internal" href="#command:export" title="export(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export(EXPORT)</span></code></a> and <span class="target" id="index-7-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>. <code class="docutils literal notranslate"><span class="pre">&lt;dep&gt;</span></code> is the
 name of a package to export. This argument accepts the following additional
 arguments:</p>
 <dl>
@@ -277,10 +315,10 @@ as its imported location instead of the installed library.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">export</a><ul>
 <li><a class="reference internal" href="#synopsis">Synopsis</a></li>
@@ -288,7 +326,10 @@ as its imported location instead of the installed library.</p>
 <li><a class="reference internal" href="#exporting-targets-to-android-mk">Exporting Targets to Android.mk</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#exporting-targets-matching-install-export">Exporting Targets matching install(EXPORT)</a></li>
+<li><a class="reference internal" href="#exporting-targets-matching-install-export">Exporting Targets matching install(EXPORT)</a><ul>
+<li><a class="reference internal" href="#exporting-targets-to-the-cps">Exporting Targets to the Common Package Specification</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#exporting-packages">Exporting Packages</a></li>
 <li><a class="reference internal" href="#configuring-exports">Configuring Exports</a></li>
 </ul>
@@ -313,7 +354,7 @@ as its imported location instead of the installed library.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -321,13 +362,13 @@ as its imported location instead of the installed library.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -340,14 +381,15 @@ as its imported location instead of the installed library.</p>
           <a href="enable_testing.html" title="enable_testing"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -356,8 +398,17 @@ as its imported location instead of the installed library.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

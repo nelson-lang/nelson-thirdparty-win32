@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindX11 &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindX11 &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindwxWidgets.html" title="FindwxWidgets"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,16 +63,26 @@
             
   <section id="findx11">
 <span id="module:FindX11"></span><h1>FindX11<a class="headerlink" href="#findx11" title="Link to this heading">¶</a></h1>
-<p>Find X11 installation</p>
-<p>Try to find X11 on UNIX systems. The following values are defined</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>X11_FOUND        - True if X11 is available
-X11_INCLUDE_DIR  - include directories to use X11
-X11_LIBRARIES    - link against these to use X11
+<p>Finds the X11 installation on Unix-like systems:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="no">X11</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nv">&lt;components&gt;...</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
 </pre></div>
 </div>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<p>This module defines the following variables:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">X11_FOUND</span></code></dt><dd><p>Boolean indicating whether X11 was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">X11_&lt;component&gt;_FOUND</span></code></dt><dd><p>Boolean indicating whether the <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code> was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">X11_INCLUDE_DIR</span></code></dt><dd><p>Include directories needed to use X11.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">X11_LIBRARIES</span></code></dt><dd><p>Libraries needed to link against to use X11.</p>
+</dd>
+</dl>
 <p>and also the following more fine grained variables and targets:</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14: </span>Imported targets.</p>
+<p><span class="versionmodified added">Added in version 3.14: </span>Imported targets.</p>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>X11_ICE_INCLUDE_PATH,            X11_ICE_LIB,            X11_ICE_FOUND,            X11::ICE
 X11_SM_INCLUDE_PATH,             X11_SM_LIB,             X11_SM_FOUND,             X11::SM
@@ -127,6 +142,7 @@ X11_xkbcommon_X11_INCLUDE_PATH,  X11_xkbcommon_X11_LIB,  X11_xkbcommon_X11_FOUND
 X11_xkbfile_INCLUDE_PATH,        X11_xkbfile_LIB,        X11_xkbfile_FOUND,        X11::xkbfile
 X11_Xmu_INCLUDE_PATH,            X11_Xmu_LIB,            X11_Xmu_FOUND,            X11::Xmu
 X11_Xpm_INCLUDE_PATH,            X11_Xpm_LIB,            X11_Xpm_FOUND,            X11::Xpm
+X11_Xpresent_INCLUDE_PATH,       X11_Xpresent_LIB,       X11_Xpresent_FOUND,       X11::Xpresent
 X11_Xtst_INCLUDE_PATH,           X11_Xtst_LIB,           X11_Xtst_FOUND,           X11::Xtst
 X11_Xrandr_INCLUDE_PATH,         X11_Xrandr_LIB,         X11_Xrandr_FOUND,         X11::Xrandr
 X11_Xrender_INCLUDE_PATH,        X11_Xrender_LIB,        X11_Xrender_FOUND,        X11::Xrender
@@ -144,26 +160,26 @@ X11_Xaw_INCLUDE_PATH,            X11_Xaw_LIB             X11_Xaw_FOUND          
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14: </span>Renamed <code class="docutils literal notranslate"><span class="pre">Xxf86misc</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_Xxf86misc</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_Xxf86vm</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_xkbfile</span></code>,
+<p><span class="versionmodified added">Added in version 3.14: </span>Renamed <code class="docutils literal notranslate"><span class="pre">Xxf86misc</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_Xxf86misc</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_Xxf86vm</span></code>, <code class="docutils literal notranslate"><span class="pre">X11_xkbfile</span></code>,
 <code class="docutils literal notranslate"><span class="pre">X11_Xtst</span></code>, and <code class="docutils literal notranslate"><span class="pre">X11_Xss</span></code> libraries to match their file names.
 Deprecated the <code class="docutils literal notranslate"><span class="pre">X11_Xinput</span></code> library.  Old names are still available
 for compatibility.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.14: </span>Added the <code class="docutils literal notranslate"><span class="pre">X11_Xext_INCLUDE_PATH</span></code> variable.</p>
+<p><span class="versionmodified added">Added in version 3.14: </span>Added the <code class="docutils literal notranslate"><span class="pre">X11_Xext_INCLUDE_PATH</span></code> variable.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb</span></code>, <code class="docutils literal notranslate"><span class="pre">X11-xcb</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb-icccm</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb-xkb</span></code>, <code class="docutils literal notranslate"><span class="pre">xkbcommon</span></code>,
+<p><span class="versionmodified added">Added in version 3.18: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb</span></code>, <code class="docutils literal notranslate"><span class="pre">X11-xcb</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb-icccm</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb-xkb</span></code>, <code class="docutils literal notranslate"><span class="pre">xkbcommon</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</span></code> libraries.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19: </span>Added the <code class="docutils literal notranslate"><span class="pre">Xaw</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_util</span></code>, and <code class="docutils literal notranslate"><span class="pre">xcb_xfixes</span></code> libraries.</p>
+<p><span class="versionmodified added">Added in version 3.19: </span>Added the <code class="docutils literal notranslate"><span class="pre">Xaw</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_util</span></code>, and <code class="docutils literal notranslate"><span class="pre">xcb_xfixes</span></code> libraries.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb_randr</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_xtext</span></code>, and <code class="docutils literal notranslate"><span class="pre">xcb_keysyms</span></code> libraries.</p>
+<p><span class="versionmodified added">Added in version 3.24: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb_randr</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_xtext</span></code>, and <code class="docutils literal notranslate"><span class="pre">xcb_keysyms</span></code> libraries.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.27: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb_composite</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_damage</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_dpms</span></code>,
+<p><span class="versionmodified added">Added in version 3.27: </span>Added the <code class="docutils literal notranslate"><span class="pre">xcb_composite</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_damage</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_dpms</span></code>,
 <code class="docutils literal notranslate"><span class="pre">xcb_dri2</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_dri3</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_errors</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_ewmh</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_glx</span></code>,
 <code class="docutils literal notranslate"><span class="pre">xcb_image</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_present</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_record</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_render</span></code>,
 <code class="docutils literal notranslate"><span class="pre">xcb_render_util</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_res</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_screensaver</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_shape</span></code>,
@@ -171,9 +187,10 @@ and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</
 <code class="docutils literal notranslate"><span class="pre">xcb_xrm</span></code>, <code class="docutils literal notranslate"><span class="pre">xcb_xvmc</span></code>, and <code class="docutils literal notranslate"><span class="pre">xcb_xv</span></code> libraries.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.29: </span>Added coverage of double buffer extension (variables
+<p><span class="versionmodified added">Added in version 3.29: </span>Added coverage of double buffer extension (variables
 <code class="docutils literal notranslate"><span class="pre">X11_Xdbe_INCLUDE_PATH</span></code> and <code class="docutils literal notranslate"><span class="pre">X11_Xdbe_FOUND</span></code>).</p>
 </div>
+</section>
 </section>
 
 
@@ -181,8 +198,18 @@ and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">FindX11</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="FindwxWidgets.html"
@@ -200,7 +227,7 @@ and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -208,13 +235,13 @@ and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -227,14 +254,15 @@ and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</
           <a href="FindwxWidgets.html" title="FindwxWidgets"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -243,8 +271,17 @@ and <code class="docutils literal notranslate"><span class="pre">xkbcommon-X11</
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

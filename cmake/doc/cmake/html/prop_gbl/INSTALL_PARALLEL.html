@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>INSTALL_PARALLEL &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>INSTALL_PARALLEL &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="GLOBAL_DEPENDS_NO_CYCLES.html" title="GLOBAL_DEPENDS_NO_CYCLES"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
@@ -59,20 +64,20 @@
   <section id="install-parallel">
 <span id="prop_gbl:INSTALL_PARALLEL"></span><h1>INSTALL_PARALLEL<a class="headerlink" href="#install-parallel" title="Link to this heading">¶</a></h1>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.30.</span></p>
+<p><span class="versionmodified added">Added in version 3.30.</span></p>
 </div>
 <p>Enables parallel installation option for a project. The install code for each
 subdirectory added with <code class="docutils literal notranslate"><span class="pre">add_subdirectory</span></code> can run independently.</p>
-<p>When using the Ninja generator, setting this property to <code class="docutils literal notranslate"><span class="pre">ON</span></code>, causes
+<p>When using the <a class="reference internal" href="../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a>, enabling this property causes
 <code class="docutils literal notranslate"><span class="pre">install/local</span></code> targets have the console pool disabled, allowing them to run
 concurrently.</p>
 <p>This property also provides the target <code class="docutils literal notranslate"><span class="pre">install/parallel</span></code>, which has an
 explicit dependency on the <code class="docutils literal notranslate"><span class="pre">install/local</span></code> target for each subdirectory.</p>
 <blockquote>
 <div><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.31.</span></p>
+<p><span class="versionmodified added">Added in version 3.31.</span></p>
 </div>
-<p>When this property is <code class="docutils literal notranslate"><span class="pre">ON</span></code>, <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span></code> can be given the <code class="docutils literal notranslate"><span class="pre">-j</span> <span class="pre">&lt;jobs&gt;</span></code>
+<p>When this property is enabled, <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span></code> can be given the <code class="docutils literal notranslate"><span class="pre">-j</span> <span class="pre">&lt;jobs&gt;</span></code>
 or <code class="docutils literal notranslate"><span class="pre">--parallel</span> <span class="pre">&lt;jobs&gt;</span></code> option to specify a maximum number of jobs.
 The <span class="target" id="index-0-envvar:CMAKE_INSTALL_PARALLEL_LEVEL"></span><a class="reference internal" href="../envvar/CMAKE_INSTALL_PARALLEL_LEVEL.html#envvar:CMAKE_INSTALL_PARALLEL_LEVEL" title="CMAKE_INSTALL_PARALLEL_LEVEL"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PARALLEL_LEVEL</span></code></a> environment variable specifies a
 default parallel level if this option is not provided.</p>
@@ -80,7 +85,7 @@ default parallel level if this option is not provided.</p>
 <p>Calls to <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#code" title="install(code)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(CODE)</span></code></a> or <span class="target" id="index-1-command:install"></span><a class="reference internal" href="../command/install.html#script" title="install(script)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(SCRIPT)</span></code></a> might depend
 on actions performed by an earlier <span class="target" id="index-2-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command in a different
 directory such as files installed or variable settings. If the project has
-such order-dependent installation logic, parallel installation should be
+such order-dependent installation logic, parallel installation should
 not be enabled, in order to prevent possible race conditions.</p>
 </section>
 
@@ -89,7 +94,7 @@ not be enabled, in order to prevent possible race conditions.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -108,7 +113,7 @@ not be enabled, in order to prevent possible race conditions.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -116,13 +121,13 @@ not be enabled, in order to prevent possible race conditions.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -135,14 +140,15 @@ not be enabled, in order to prevent possible race conditions.</p>
           <a href="GLOBAL_DEPENDS_NO_CYCLES.html" title="GLOBAL_DEPENDS_NO_CYCLES"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
@@ -151,8 +157,17 @@ not be enabled, in order to prevent possible race conditions.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

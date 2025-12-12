@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>add_library &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>add_library &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="add_executable.html" title="add_executable"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -83,12 +88,15 @@
 listed in the command invocation.</p>
 <p>The optional <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;</span></code> specifies the type of library to be created:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">STATIC</span></code></dt><dd><p>An archive of object files for use when linking other targets.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">STATIC</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-buildsystem.7.html#static-libraries"><span class="std std-ref">Static Library</span></a>:
+an archive of object files for use when linking other targets.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">SHARED</span></code></dt><dd><p>A dynamic library that may be linked by other targets and loaded
+<dt><code class="docutils literal notranslate"><span class="pre">SHARED</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-buildsystem.7.html#shared-libraries"><span class="std std-ref">Shared Library</span></a>:
+a dynamic library that may be linked by other targets and loaded
 at runtime.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">MODULE</span></code></dt><dd><p>A plugin that may not be linked by other targets, but may be
+<dt><code class="docutils literal notranslate"><span class="pre">MODULE</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-buildsystem.7.html#module-libraries"><span class="std std-ref">Module Library</span></a>:
+a plugin that may not be linked by other targets, but may be
 dynamically loaded at runtime using dlopen-like functionality.</p>
 </dd>
 </dl>
@@ -107,12 +115,12 @@ unique within a project.  The actual file name of the library built is
 constructed based on conventions of the native platform (such as
 <code class="docutils literal notranslate"><span class="pre">lib&lt;name&gt;.a</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;.lib</span></code>).</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1: </span>Source arguments to <code class="docutils literal notranslate"><span class="pre">add_library</span></code> may use &quot;generator expressions&quot; with
+<p><span class="versionmodified added">Added in version 3.1: </span>Source arguments to <code class="docutils literal notranslate"><span class="pre">add_library</span></code> may use &quot;generator expressions&quot; with
 the syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a>
 manual for available expressions.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11: </span>The source files can be omitted if they are added later using
+<p><span class="versionmodified added">Added in version 3.11: </span>The source files can be omitted if they are added later using
 <span class="target" id="index-0-command:target_sources"></span><a class="reference internal" href="target_sources.html#command:target_sources" title="target_sources"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_sources()</span></code></a>.</p>
 </div>
 <p>For <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> and <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> libraries the
@@ -121,7 +129,7 @@ property is set to <code class="docutils literal notranslate"><span class="pre">
 A <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> library may be marked with the <span class="target" id="index-0-prop_tgt:FRAMEWORK"></span><a class="reference internal" href="../prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a>
 target property to create an macOS Framework.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.8: </span>A <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> library may be marked with the <span class="target" id="index-1-prop_tgt:FRAMEWORK"></span><a class="reference internal" href="../prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a>
+<p><span class="versionmodified added">Added in version 3.8: </span>A <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> library may be marked with the <span class="target" id="index-1-prop_tgt:FRAMEWORK"></span><a class="reference internal" href="../prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a>
 target property to create a static Framework.</p>
 </div>
 <p>If a library does not export any symbols, it must not be declared as a
@@ -171,11 +179,11 @@ may contain only sources that compile, header files, and other files
 that would not affect linking of a normal library (e.g. <code class="docutils literal notranslate"><span class="pre">.txt</span></code>).
 They may contain custom commands generating such sources, but not
 <code class="docutils literal notranslate"><span class="pre">PRE_BUILD</span></code>, <code class="docutils literal notranslate"><span class="pre">PRE_LINK</span></code>, or <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> commands.  Some native build
-systems (such as Xcode) may not like targets that have only object files, so
-consider adding at least one real source file to any target that references
-<span class="target" id="index-1-genex:TARGET_OBJECTS"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:TARGET_OBJECTS" title="TARGET_OBJECTS"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;TARGET_OBJECTS:objlib&gt;</span></code></a>.</p>
+systems (such as <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>) may not like targets that have only
+object files, so consider adding at least one real source file to any target
+that references <span class="target" id="index-1-genex:TARGET_OBJECTS"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:TARGET_OBJECTS" title="TARGET_OBJECTS"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;TARGET_OBJECTS:objlib&gt;</span></code></a>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.12: </span>Object libraries can be linked to with <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>.</p>
+<p><span class="versionmodified added">Added in version 3.12: </span>Object libraries can be linked to with <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>.</p>
 </div>
 </section>
 <section id="interface-libraries">
@@ -203,7 +211,7 @@ target using the commands:</p>
 <p>and then it is used as an argument to <span class="target" id="index-2-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>
 like any other target.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.15: </span>An interface library can have <span class="target" id="index-0-prop_tgt:PUBLIC_HEADER"></span><a class="reference internal" href="../prop_tgt/PUBLIC_HEADER.html#prop_tgt:PUBLIC_HEADER" title="PUBLIC_HEADER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PUBLIC_HEADER</span></code></a> and
+<p><span class="versionmodified added">Added in version 3.15: </span>An interface library can have <span class="target" id="index-0-prop_tgt:PUBLIC_HEADER"></span><a class="reference internal" href="../prop_tgt/PUBLIC_HEADER.html#prop_tgt:PUBLIC_HEADER" title="PUBLIC_HEADER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PUBLIC_HEADER</span></code></a> and
 <span class="target" id="index-0-prop_tgt:PRIVATE_HEADER"></span><a class="reference internal" href="../prop_tgt/PRIVATE_HEADER.html#prop_tgt:PRIVATE_HEADER" title="PRIVATE_HEADER"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PRIVATE_HEADER</span></code></a> properties.  The headers specified by those
 properties can be installed using the <span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> command.</p>
 </div>
@@ -213,7 +221,7 @@ properties can be installed using the <span class="target" id="index-0-command:i
 <dt class="sig sig-object cmake" id="interface-with-sources">
 <span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">add_library(</span></span><span class="nv"><span class="pre">&lt;name&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">INTERFACE</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">EXCLUDE_FROM_ALL</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;sources&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#interface-with-sources" title="Link to this definition">¶</a></dt>
 <dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.19.</span></p>
+<p><span class="versionmodified added">Added in version 3.19.</span></p>
 </div>
 <p>Add an <a class="reference internal" href="../manual/cmake-buildsystem.7.html#interface-libraries"><span class="std std-ref">Interface Library</span></a> target with
 source files (in addition to usage requirements and properties as
@@ -244,6 +252,29 @@ to the library type only.  Sources listed after it in the <code class="docutils 
 call are <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> to the interface library and do not appear in its
 <span class="target" id="index-0-prop_tgt:INTERFACE_SOURCES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_SOURCES.html#prop_tgt:INTERFACE_SOURCES" title="INTERFACE_SOURCES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_SOURCES</span></code></a> target property.</p>
 </div>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="interface-symbolic">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">add_library(</span></span><span class="nv"><span class="pre">&lt;name&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">INTERFACE</span></span><span class="w"> </span><span class="no"><span class="pre">SYMBOLIC</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#interface-symbolic" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Add a symbolic <a class="reference internal" href="../manual/cmake-buildsystem.7.html#interface-libraries"><span class="std std-ref">Interface Library</span></a> target.
+Symbolic interface libraries are useful for representing optional components
+or features in a package.  They have no usage requirements, do not compile
+sources, and do not produce a library artifact on disk, but they may be
+exported and installed.  They can also be tested for existence with the
+regular <span class="target" id="index-0-command:if"></span><a class="reference internal" href="if.html#target" title="if(target)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(TARGET)</span></code></a> subcommand.</p>
+<p>A symbolic interface library may be used as a linkable target to enforce the
+presence of optional components in a dependency.  For example, if a library
+<code class="docutils literal notranslate"><span class="pre">libgui</span></code> may or may not provide a feature <code class="docutils literal notranslate"><span class="pre">widget</span></code>, a consumer package
+can link against <code class="docutils literal notranslate"><span class="pre">widget</span></code> to express that it requires this component to be
+available.  This allows <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> calls that declare required
+components to be validated by linking against the corresponding symbolic
+targets.</p>
+<p>A symbolic interface library has the <span class="target" id="index-0-prop_tgt:SYMBOLIC"></span><a class="reference internal" href="../prop_tgt/SYMBOLIC.html#prop_tgt:SYMBOLIC" title="SYMBOLIC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SYMBOLIC</span></code></a> target property
+set to true.</p>
 </dd></dl>
 
 </section>
@@ -325,17 +356,17 @@ may not be an <code class="docutils literal notranslate"><span class="pre">ALIAS
 </dd></dl>
 
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.11: </span>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> can target a <code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Target</span></a></p>
+<p><span class="versionmodified added">Added in version 3.11: </span>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> can target a <code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Target</span></a></p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18: </span>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> can target a non-<code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> Imported Target. Such alias is
+<p><span class="versionmodified added">Added in version 3.18: </span>An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> can target a non-<code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> Imported Target. Such alias is
 scoped to the directory in which it is created and below.
 The <span class="target" id="index-0-prop_tgt:ALIAS_GLOBAL"></span><a class="reference internal" href="../prop_tgt/ALIAS_GLOBAL.html#prop_tgt:ALIAS_GLOBAL" title="ALIAS_GLOBAL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">ALIAS_GLOBAL</span></code></a> target property can be used to check if the
 alias is global or not.</p>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> targets can be used as linkable targets and as targets to
 read properties from.  They can also be tested for existence with the
-regular <span class="target" id="index-0-command:if"></span><a class="reference internal" href="if.html#target" title="if(target)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(TARGET)</span></code></a> subcommand.  The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> may not be used
+regular <span class="target" id="index-1-command:if"></span><a class="reference internal" href="if.html#target" title="if(target)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if(TARGET)</span></code></a> subcommand.  The <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> may not be used
 to modify properties of <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code>, that is, it may not be used as the
 operand of <span class="target" id="index-1-command:set_property"></span><a class="reference internal" href="set_property.html#command:set_property" title="set_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_property()</span></code></a>, <span class="target" id="index-0-command:set_target_properties"></span><a class="reference internal" href="set_target_properties.html#command:set_target_properties" title="set_target_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_target_properties()</span></code></a>,
 <span class="target" id="index-4-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> etc.  An <code class="docutils literal notranslate"><span class="pre">ALIAS</span></code> target may not be
@@ -354,10 +385,10 @@ installed or exported.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">add_library</a><ul>
 <li><a class="reference internal" href="#normal-libraries">Normal Libraries</a></li>
@@ -388,7 +419,7 @@ installed or exported.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -396,13 +427,13 @@ installed or exported.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -415,14 +446,15 @@ installed or exported.</p>
           <a href="add_executable.html" title="add_executable"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -431,8 +463,17 @@ installed or exported.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

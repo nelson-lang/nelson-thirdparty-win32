@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>set &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>set &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="separate_arguments.html" title="separate_arguments"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -106,14 +111,14 @@ clears the normal variable but leaves it defined.</p>
 <h2>Set Cache Entry<a class="headerlink" href="#set-cache-entry" title="Link to this heading">¶</a></h2>
 <dl class="cmake signature">
 <dt class="sig sig-object cmake" id="cache">
-<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">set(</span></span><span class="nv"><span class="pre">&lt;variable&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;value&gt;...</span></span><span class="w"> </span><span class="no"><span class="pre">CACHE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;type&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;docstring&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">FORCE</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#cache" title="Link to this definition">¶</a></dt>
-<dd><p>Sets the given cache <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> (cache entry).  Since cache entries
-are meant to provide user-settable values this does not overwrite
-existing cache entries by default.  Use the <code class="docutils literal notranslate"><span class="pre">FORCE</span></code> option to
-overwrite existing entries.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;</span></code> must be specified as one of:</p>
-<blockquote>
-<div><dl class="simple">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">set(</span></span><span class="o"><span class="pre">CACHE{</span></span><span class="nt"><span class="pre">&lt;variable&gt;</span></span><span class="o"><span class="pre">}</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">TYPE</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;type&gt;</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">HELP</span></span><span class="nbsp"> </span><span class="nv"><span class="pre">&lt;helpstring&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">FORCE</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="no"><span class="pre">VALUE</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="nv"><span class="pre">&lt;value&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#cache" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>Sets the given cache <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> (cache entry). The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">TYPE</span> <span class="pre">&lt;type&gt;</span></code></dt><dd><p>Specify the type of the cache entry. The <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;</span></code> must be one of:</p>
+<dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">BOOL</span></code></dt><dd><p>Boolean <code class="docutils literal notranslate"><span class="pre">ON/OFF</span></code> value.
 <span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui(1)</span></code></a> offers a checkbox.</p>
 </dd>
@@ -133,10 +138,24 @@ They may be used to store variables persistently across runs.
 Use of this type implies <code class="docutils literal notranslate"><span class="pre">FORCE</span></code>.</p>
 </dd>
 </dl>
-</div></blockquote>
-<p>The <code class="docutils literal notranslate"><span class="pre">&lt;docstring&gt;</span></code> must be specified as a line of text
-providing a quick summary of the option
-for presentation to <span class="target" id="index-5-manual:cmake-gui(1)"></span><a class="reference internal" href="../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui(1)</span></code></a> users.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> is not specified, if the cache variable already exist and its
+type is not <code class="docutils literal notranslate"><span class="pre">UNINITIALIZED</span></code>, the type previously specified will be kept
+otherwise, <code class="docutils literal notranslate"><span class="pre">STRING</span></code> will be used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">HELP</span> <span class="pre">&lt;helpstring&gt;...</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">&lt;helpstring&gt;</span></code> must be specified as a line of text providing a quick
+summary of the option for presentation to <span class="target" id="index-5-manual:cmake-gui(1)"></span><a class="reference internal" href="../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui(1)</span></code></a> users. If
+more than one string is given, they are concatenated into a single string
+with no separator between them.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">HELP</span></code> is not specified, an empty string will be used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FORCE</span></code></dt><dd><p>Since cache entries are meant to provide user-settable values this does not
+overwrite existing cache entries by default.  Use the <code class="docutils literal notranslate"><span class="pre">FORCE</span></code> option to
+overwrite existing entries.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">VALUE</span> <span class="pre">&lt;value&gt;...</span></code></dt><dd><p>List of values to be set to the cache <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code>. This argument must be
+always the last one.</p>
+</dd>
+</dl>
 <p>If the cache entry does not exist prior to the call or the <code class="docutils literal notranslate"><span class="pre">FORCE</span></code>
 option is given then the cache entry will be set to the given value.</p>
 <div class="admonition note">
@@ -155,6 +174,13 @@ type.  Furthermore, if the <code class="docutils literal notranslate"><span clas
 and the <code class="docutils literal notranslate"><span class="pre">&lt;value&gt;</span></code> provided on the command line is a relative path,
 then the <code class="docutils literal notranslate"><span class="pre">set</span></code> command will treat the path as relative to the
 current working directory and convert it to an absolute path.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="cache-legacy">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">set(</span></span><span class="nv"><span class="pre">&lt;variable&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;value&gt;...</span></span><span class="w"> </span><span class="no"><span class="pre">CACHE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;type&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;docstring&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="no"><span class="pre">FORCE</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#cache-legacy" title="Link to this definition">¶</a></dt>
+<dd><p>This signature is supported for compatibility purpose. Use preferably the
+other one.</p>
 </dd></dl>
 
 </section>
@@ -190,10 +216,10 @@ then an author warning is issued.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">set</a><ul>
 <li><a class="reference internal" href="#set-normal-variable">Set Normal Variable</a></li>
@@ -222,7 +248,7 @@ then an author warning is issued.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -230,13 +256,13 @@ then an author warning is issued.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -249,14 +275,15 @@ then an author warning is issued.</p>
           <a href="separate_arguments.html" title="separate_arguments"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -265,8 +292,17 @@ then an author warning is issued.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

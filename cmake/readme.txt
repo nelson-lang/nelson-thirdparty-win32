@@ -1,2 +1,2 @@
-CMake 3.31.0 rc2
+CMake 4.2.1
 https://cmake.org/download/

@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CMAKE_OSX_SYSROOT &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>CMAKE_OSX_SYSROOT &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="CMAKE_OSX_DEPLOYMENT_TARGET.html" title="CMAKE_OSX_DEPLOYMENT_TARGET"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
@@ -58,13 +63,29 @@
             
   <section id="cmake-osx-sysroot">
 <span id="variable:CMAKE_OSX_SYSROOT"></span><h1>CMAKE_OSX_SYSROOT<a class="headerlink" href="#cmake-osx-sysroot" title="Link to this heading">¶</a></h1>
-<p>Specify the location or name of the macOS platform SDK to be used.
-CMake uses this value to compute the value of the <code class="docutils literal notranslate"><span class="pre">-isysroot</span></code> flag
-or equivalent and to help the <code class="docutils literal notranslate"><span class="pre">find_*</span></code> commands locate files in
-the SDK.</p>
-<p>If not set explicitly the value is initialized by the <code class="docutils literal notranslate"><span class="pre">SDKROOT</span></code>
-environment variable, if set, and otherwise computed based on the
-<span class="target" id="index-0-variable:CMAKE_OSX_DEPLOYMENT_TARGET"></span><a class="reference internal" href="CMAKE_OSX_DEPLOYMENT_TARGET.html#variable:CMAKE_OSX_DEPLOYMENT_TARGET" title="CMAKE_OSX_DEPLOYMENT_TARGET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_DEPLOYMENT_TARGET</span></code></a> or the host platform.</p>
+<p>Specify the location or name of the macOS platform SDK to be used.</p>
+<p>If not set explicitly, the value is initialized by the <code class="docutils literal notranslate"><span class="pre">SDKROOT</span></code>
+environment variable, if set.  Otherwise, the value defaults to empty,
+and the compiler is expected to choose a default macOS SDK on its own.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 4.0: </span>The default is now empty.  Previously a default was computed based on
+the <span class="target" id="index-0-variable:CMAKE_OSX_DEPLOYMENT_TARGET"></span><a class="reference internal" href="CMAKE_OSX_DEPLOYMENT_TARGET.html#variable:CMAKE_OSX_DEPLOYMENT_TARGET" title="CMAKE_OSX_DEPLOYMENT_TARGET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_DEPLOYMENT_TARGET</span></code></a> or the host platform.</p>
+</div>
+<p>In order to pass an explicit macOS SDK via the compiler's <code class="docutils literal notranslate"><span class="pre">-isysroot</span></code> flag,
+users may configure their build tree with <code class="docutils literal notranslate"><span class="pre">-DCMAKE_OSX_SYSROOT=macosx</span></code>,
+or <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">SDKROOT=&quot;$(xcrun</span> <span class="pre">--sdk</span> <span class="pre">macosx</span> <span class="pre">--show-sdk-path)&quot;</span></code> in their
+environment.</p>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>macOS compilers in <code class="docutils literal notranslate"><span class="pre">/usr/bin</span></code>, when not invoked with <code class="docutils literal notranslate"><span class="pre">-isysroot</span></code>,
+search for headers in <code class="docutils literal notranslate"><span class="pre">/usr/local/include</span></code> before system SDK paths,
+matching the convention on many platforms.  Users on macOS-x86_64 hosts
+with Homebrew installed in <code class="docutils literal notranslate"><span class="pre">/usr/local</span></code> should pass an explicit SDK,
+as described above, when not building with Homebrew tools.</p></li>
+<li><p>Some Clang compilers have no default macOS SDK selection.  For these,
+if <span class="target" id="index-0-variable:CMAKE_OSX_SYSROOT"></span><a class="reference internal" href="#variable:CMAKE_OSX_SYSROOT" title="CMAKE_OSX_SYSROOT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_SYSROOT</span></code></a> is empty, CMake will automatically pass
+<code class="docutils literal notranslate"><span class="pre">-isysroot</span></code> with the macOS SDK printed by <code class="docutils literal notranslate"><span class="pre">xcrun</span> <span class="pre">--show-sdk-path</span></code>.</p></li>
+</ul>
 <p>The value of this variable should be set prior to the first
 <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> or <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a> command invocation
 because it may influence configuration of the toolchain and flags.
@@ -82,7 +103,7 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -101,7 +122,7 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -109,13 +130,13 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -128,14 +149,15 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
           <a href="CMAKE_OSX_DEPLOYMENT_TARGET.html" title="CMAKE_OSX_DEPLOYMENT_TARGET"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
@@ -144,8 +166,17 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

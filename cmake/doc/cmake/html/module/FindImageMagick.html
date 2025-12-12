@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindImageMagick &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindImageMagick &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindICU.html" title="FindICU"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,15 +63,20 @@
             
   <section id="findimagemagick">
 <span id="module:FindImageMagick"></span><h1>FindImageMagick<a class="headerlink" href="#findimagemagick" title="Link to this heading">¶</a></h1>
-<p>Find ImageMagick, software suite for displaying, converting and
-manipulating raster images.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.9: </span>Added support for ImageMagick 7.</p>
+<p>Finds ImageMagick, a software suite for displaying, converting, and manipulating
+raster images:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">ImageMagick</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nv">&lt;components&gt;...</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
+</pre></div>
 </div>
-<p>This module will search for a set of ImageMagick tools specified as
-components in the <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call.  Typical components include,
-but are not limited to (future versions of ImageMagick might have
-additional components not listed here):</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.9: </span>Support for ImageMagick 7.</p>
+</div>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Link to this heading">¶</a></h2>
+<p>This module supports components and searches for a set of ImageMagick tools.
+Typical components include the names of ImageMagick executables, but are not
+limited to the following (future versions of ImageMagick may provide additional
+components not listed here):</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">animate</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">compare</span></code></p></li>
@@ -80,65 +90,115 @@ additional components not listed here):</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">montage</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">stream</span></code></p></li>
 </ul>
-<p>If no component is specified in the <span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call, then it only
-searches for the ImageMagick executable directory.</p>
 <p>There are also components for the following ImageMagick APIs:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Magick++</span></code>: ImageMagick C++ API, if found.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MagickWand</span></code>: ImageMagick MagickWand C API, if found.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">MagickCore</span></code>: ImageMagick MagickCore low-level C API, if found.</p></li>
-</ul>
-<section id="imported-targets">
-<h2>Imported targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.26.</span></p>
-</div>
-<p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets:</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick::Magick++</span></code></dt><dd><p>ImageMagick C++ API, if found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Magick++</span></code></dt><dd><p>Finds the ImageMagick C++ API.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick::MagickWand</span></code></dt><dd><p>ImageMagick MagickWand C API, if found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">MagickWand</span></code></dt><dd><p>Finds the ImageMagick MagickWand C API.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick::MagickCore</span></code></dt><dd><p>ImageMagick MagickCore low-level C API, if found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">MagickCore</span></code></dt><dd><p>Finds the ImageMagick MagickCore low-level C API.</p>
+</dd>
+</dl>
+<p>Components can be specified using the <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">ImageMagick</span><span class="w"> </span><span class="p">[</span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nv">&lt;components&gt;...</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>If no components are specified, the module only searches for the ImageMagick
+executable directory.</p>
+</section>
+<section id="imported-targets">
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
+<p>This module provides the following <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a>:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick::Magick++</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
+</div>
+<p>Target encapsulating the ImageMagick C++ API usage requirements, available if
+ImageMagick C++ is found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick::MagickWand</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
+</div>
+<p>Target encapsulating the ImageMagick MagickWand C API usage requirements,
+available if MagickWand is found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick::MagickCore</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
+</div>
+<p>Target encapsulating the ImageMagick MagickCore low-level C API usage
+requirements, available if MagickCore is found.</p>
 </dd>
 </dl>
 </section>
 <section id="result-variables">
 <h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<p>This module defines the following variables:</p>
 <dl>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_FOUND</span></code></dt><dd><p>TRUE if all components are found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_FOUND</span></code></dt><dd><p>Boolean indicating whether (the requested version of) ImageMagick and all
+its requested components were found.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_EXECUTABLE_DIR</span></code></dt><dd><p>Full path to executables directory.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>The version of ImageMagick found in form of
+<code class="docutils literal notranslate"><span class="pre">&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;-&lt;addendum&gt;</span></code> (e.g., <code class="docutils literal notranslate"><span class="pre">6.9.12-98</span></code>, where <code class="docutils literal notranslate"><span class="pre">98</span></code>
+is the addendum release number).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Version detection is available only for ImageMagick 6 and later.</p>
+</div>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_INCLUDE_DIRS</span></code></dt><dd><p>Full paths to all include dirs.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_INCLUDE_DIRS</span></code></dt><dd><p>All include directories needed to use ImageMagick.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_LIBRARIES</span></code></dt><dd><p>Full paths to all libraries.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_LIBRARIES</span></code></dt><dd><p>Libraries needed to link against to use ImageMagick.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_COMPILE_OPTIONS</span></code></dt><dd><p>Compile options of all libraries.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_COMPILE_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
+</div>
+<p>Compile options of all libraries.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_VERSION_STRING</span></code></dt><dd><p>The version of ImageMagick found (since CMake 2.8.8).
-Will not work for old versions like 5.2.3.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_FOUND</span></code></dt><dd><p>Boolean indicating whether the ImageMagick <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code> is found.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_FOUND</span></code></dt><dd><p>TRUE if &lt;component&gt; is found.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_EXECUTABLE</span></code></dt><dd><p>The full path to <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code> executable.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_EXECUTABLE</span></code></dt><dd><p>Full path to &lt;component&gt; executable.</p>
-</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_INCLUDE_DIRS</span></code></dt><dd><p>Full path to &lt;component&gt; include dirs.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_INCLUDE_DIRS</span></code></dt><dd><p>Include directories containing headers needed to use the ImageMagick
+<code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_COMPILE_OPTIONS</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.26.</span></p>
+<p><span class="versionmodified added">Added in version 3.26.</span></p>
 </div>
-<p>Compile options of &lt;component&gt;.</p>
+<p>Compile options of the ImageMagick <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_&lt;component&gt;_LIBRARIES</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.31.</span></p>
+<p><span class="versionmodified added">Added in version 3.31.</span></p>
 </div>
-<p>Full path to &lt;component&gt; libraries.</p>
+<p>Libraries needed to link against to use the ImageMagick <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code>.</p>
 </dd>
 </dl>
 </section>
-<section id="example-usage">
-<h2>Example Usage<a class="headerlink" href="#example-usage" title="Link to this heading">¶</a></h2>
+<section id="cache-variables">
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_EXECUTABLE_DIR</span></code></dt><dd><p>The full path to directory containing ImageMagick executables.</p>
+</dd>
+</dl>
+</section>
+<section id="deprecated-variables">
+<h2>Deprecated Variables<a class="headerlink" href="#deprecated-variables" title="Link to this heading">¶</a></h2>
+<p>The following variables are provided for backward compatibility:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">ImageMagick_VERSION_STRING</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.2: </span>Use <code class="docutils literal notranslate"><span class="pre">ImageMagick_VERSION</span></code>, which has the same value.</p>
+</div>
+<p>The version of ImageMagick found.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding ImageMagick with its component <code class="docutils literal notranslate"><span class="pre">Magick++</span></code>  and linking it to a project
+target:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">ImageMagick</span><span class="w"> </span><span class="no">COMPONENTS</span><span class="w"> </span><span class="nb">Magick++</span><span class="nf">)</span>
 <span class="nf">target_link_libraries(</span><span class="nb">example</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">ImageMagick</span><span class="o">::</span><span class="nb">Magick++</span><span class="nf">)</span>
 </pre></div>
@@ -151,15 +211,18 @@ Will not work for old versions like 5.2.3.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">FindImageMagick</a><ul>
-<li><a class="reference internal" href="#imported-targets">Imported targets</a></li>
+<li><a class="reference internal" href="#components">Components</a></li>
+<li><a class="reference internal" href="#imported-targets">Imported Targets</a></li>
 <li><a class="reference internal" href="#result-variables">Result Variables</a></li>
-<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#deprecated-variables">Deprecated Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -182,7 +245,7 @@ Will not work for old versions like 5.2.3.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -190,13 +253,13 @@ Will not work for old versions like 5.2.3.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -209,14 +272,15 @@ Will not work for old versions like 5.2.3.</p>
           <a href="FindICU.html" title="FindICU"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -225,8 +289,17 @@ Will not work for old versions like 5.2.3.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

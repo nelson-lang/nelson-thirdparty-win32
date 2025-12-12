@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindHg &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindHg &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindHDF5.html" title="FindHDF5"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,35 +63,92 @@
             
   <section id="findhg">
 <span id="module:FindHg"></span><h1>FindHg<a class="headerlink" href="#findhg" title="Link to this heading">¶</a></h1>
-<p>Extract information from a mercurial working copy.</p>
-<p>The module defines the following variables:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>HG_EXECUTABLE - path to mercurial command line client (hg)
-HG_FOUND - true if the command line client was found
-HG_VERSION_STRING - the version of mercurial found
+<p>Finds the Mercurial command-line client executable (<code class="docutils literal notranslate"><span class="pre">hg</span></code>) and provides a
+command for extracting information from a Mercurial working copy:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Hg</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
 </pre></div>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.1: </span>If the command line client executable is found the following macro is defined:</p>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<p>This module defines the following variables:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Hg_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.3.</span></p>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>HG_WC_INFO(&lt;dir&gt; &lt;var-prefix&gt;)
+<p>Boolean indicating whether the (requested version of) Mercurial client was
+found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Hg_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.2.</span></p>
+</div>
+<p>The version of Mercurial found.</p>
+</dd>
+</dl>
+</section>
+<section id="cache-variables">
+<h2>Cache Variables<a class="headerlink" href="#cache-variables" title="Link to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">HG_EXECUTABLE</span></code></dt><dd><p>Absolute path to the Mercurial command-line client (<code class="docutils literal notranslate"><span class="pre">hg</span></code>).</p>
+</dd>
+</dl>
+</section>
+<section id="commands">
+<h2>Commands<a class="headerlink" href="#commands" title="Link to this heading">¶</a></h2>
+<p>This module provides the following command when Mercurial client (<code class="docutils literal notranslate"><span class="pre">hg</span></code>) is
+found:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:hg_wc_info">
+<span class="sig-name descname"><span class="pre">Hg_WC_INFO</span></span><a class="headerlink" href="#command:hg_wc_info" title="Link to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.1.</span></p>
+</div>
+<p>Extracts information of a Mercurial working copy:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">Hg_WC_INFO(</span><span class="nv">&lt;dir&gt;</span><span class="w"> </span><span class="nv">&lt;var-prefix&gt;</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>Hg_WC_INFO extracts information of a mercurial working copy
-at a given location.  This macro defines the following variables:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;var-prefix&gt;_WC_CHANGESET - current changeset
-&lt;var-prefix&gt;_WC_REVISION - current revision
+<p>This command defines the following variables if running Mercurial client on
+working copy located at a given location <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> succeeds; otherwise a
+<code class="docutils literal notranslate"><span class="pre">SEND_ERROR</span></code> message is generated:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;var-prefix&gt;_WC_CHANGESET</span></code></dt><dd><p>Current changeset.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;var-prefix&gt;_WC_REVISION</span></code></dt><dd><p>Current revision.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="deprecated-variables">
+<h2>Deprecated Variables<a class="headerlink" href="#deprecated-variables" title="Link to this heading">¶</a></h2>
+<p>The following variables are provided for backward compatibility:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">HG_FOUND</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.2: </span>Use <code class="docutils literal notranslate"><span class="pre">Hg_FOUND</span></code>, which has the same value.</p>
+</div>
+<p>Boolean indicating whether the (requested version of) Mercurial client was
+found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">HG_VERSION_STRING</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 4.2: </span>Use <code class="docutils literal notranslate"><span class="pre">Hg_VERSION</span></code>, which has the same value.</p>
+</div>
+<p>The version of Mercurial found.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding the Mercurial client and retrieving information about the current
+project's working copy:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Hg</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="nb">Hg_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">Hg_WC_INFO(</span><span class="o">${</span><span class="nt">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="w"> </span><span class="nb">Project</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">message(</span><span class="s">&quot;Current revision is ${Project_WC_REVISION}&quot;</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">message(</span><span class="s">&quot;Current changeset is ${Project_WC_CHANGESET}&quot;</span><span class="nf">)</span>
+<span class="nf">endif()</span>
 </pre></div>
 </div>
-<p>Example usage:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>find_package(Hg)
-if(HG_FOUND)
-  message(&quot;hg found: ${HG_EXECUTABLE}&quot;)
-  HG_WC_INFO(${PROJECT_SOURCE_DIR} Project)
-  message(&quot;Current revision is ${Project_WC_REVISION}&quot;)
-  message(&quot;Current changeset is ${Project_WC_CHANGESET}&quot;)
-endif()
-</pre></div>
-</div>
+</section>
 </section>
 
 
@@ -94,8 +156,22 @@ endif()
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">FindHg</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache Variables</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#deprecated-variables">Deprecated Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="FindHDF5.html"
@@ -113,7 +189,7 @@ endif()
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -121,13 +197,13 @@ endif()
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -140,14 +216,15 @@ endif()
           <a href="FindHDF5.html" title="FindHDF5"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -156,8 +233,17 @@ endif()
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

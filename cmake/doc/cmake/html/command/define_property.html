@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>define_property &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>define_property &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="create_test_sourcelist.html" title="create_test_sourcelist"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -74,15 +79,15 @@ associated documentation with a property, but that is no longer considered a
 primary use case.</p>
 <p>The first argument determines the kind of scope in which the property should
 be used.  It must be one of the following:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GLOBAL    = associated with the global namespace
-DIRECTORY = associated with one directory
-TARGET    = associated with one target
-SOURCE    = associated with one source file
-TEST      = associated with a test named with add_test
-VARIABLE  = documents a CMake language variable
-CACHED_VARIABLE = documents a CMake cache variable
-</pre></div>
-</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code>          - associated with the global namespace.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code>       - associated with one directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGET</span></code>          - associated with one target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SOURCE</span></code>          - associated with one source file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEST</span></code>            - associated with a test named with <span class="target" id="index-0-command:add_test"></span><a class="reference internal" href="add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VARIABLE</span></code>        - documents a CMake language variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CACHED_VARIABLE</span></code> - documents a CMake cache variable.</p></li>
+</ul>
 <p>Note that unlike <span class="target" id="index-1-command:set_property"></span><a class="reference internal" href="set_property.html#command:set_property" title="set_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_property()</span></code></a> and <span class="target" id="index-1-command:get_property"></span><a class="reference internal" href="get_property.html#command:get_property" title="get_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">get_property()</span></code></a> no
 actual scope needs to be given; only the kind of scope is important.</p>
 <p>The required <code class="docutils literal notranslate"><span class="pre">PROPERTY</span></code> option is immediately followed by the name of
@@ -113,7 +118,7 @@ project via corresponding options to the <span class="target" id="index-4-comman
 <p><span class="versionmodified changed">Changed in version 3.23: </span>The <code class="docutils literal notranslate"><span class="pre">BRIEF_DOCS</span></code> and <code class="docutils literal notranslate"><span class="pre">FULL_DOCS</span></code> options are optional.</p>
 </div>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.23: </span>The <code class="docutils literal notranslate"><span class="pre">INITIALIZE_FROM_VARIABLE</span></code> option specifies a variable from which the
+<p><span class="versionmodified added">Added in version 3.23: </span>The <code class="docutils literal notranslate"><span class="pre">INITIALIZE_FROM_VARIABLE</span></code> option specifies a variable from which the
 property should be initialized. It can only be used with target properties.
 The <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> name must end with the property name and must not begin
 with <code class="docutils literal notranslate"><span class="pre">CMAKE_</span></code> or <code class="docutils literal notranslate"><span class="pre">_CMAKE_</span></code>. The property name must contain at least one
@@ -167,10 +172,10 @@ definition. For example:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">define_property</a><ul>
 <li><a class="reference internal" href="#property-redefinition">Property Redefinition</a></li>
@@ -197,7 +202,7 @@ definition. For example:</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -205,13 +210,13 @@ definition. For example:</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -224,14 +229,15 @@ definition. For example:</p>
           <a href="create_test_sourcelist.html" title="create_test_sourcelist"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -240,8 +246,17 @@ definition. For example:</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

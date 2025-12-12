@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>find_path &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>find_path &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="find_package.html" title="find_package"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
@@ -64,14 +69,14 @@
 <pre class="literal-block">find_path (
           &lt;VAR&gt;
           name | NAMES name1 [name2 ...]
-          [HINTS [path | ENV var]... ]
-          [PATHS [path | ENV var]... ]
+          [HINTS [path | ENV var]...]
+          [PATHS [path | ENV var]...]
           [REGISTRY_VIEW (64|32|64_32|32_64|HOST|TARGET|BOTH)]
           [PATH_SUFFIXES suffix1 [suffix2 ...]]
           [VALIDATOR function]
           [DOC &quot;cache documentation string&quot;]
           [NO_CACHE]
-          [REQUIRED]
+          [REQUIRED|OPTIONAL]
           [NO_DEFAULT_PATH]
           [NO_PACKAGE_ROOT_PATH]
           [NO_CMAKE_PATH]
@@ -83,12 +88,28 @@
            ONLY_CMAKE_FIND_ROOT_PATH |
            NO_CMAKE_FIND_ROOT_PATH]
          )</pre>
-<p>This command is used to find a directory containing the named file.
-A cache entry, or a normal variable if <code class="docutils literal notranslate"><span class="pre">NO_CACHE</span></code> is specified,
-named by <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code> is created to store the result of this command.
-If the file in a directory is found the result is stored in the variable
-and the search will not be repeated unless the variable is cleared.
-If nothing is found, the result will be <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;-NOTFOUND</span></code>.</p>
+<p>This command is used to find a directory containing the named file.</p>
+<p>Prior to searching, find_path checks if variable <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code> is defined. If
+the variable is not defined, the search will be performed. If the variable is
+defined and its value is <code class="docutils literal notranslate"><span class="pre">NOTFOUND</span></code>, or ends in <code class="docutils literal notranslate"><span class="pre">-NOTFOUND</span></code>, the search
+will be performed. If the variable contains any other value the search is not
+performed.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">VAR</span></code> is considered defined if it is available in the current scope. See
+the <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-variables"><span class="std std-ref">cmake-language(7) variables</span></a>
+documentation for details on scopes, and the interaction of normal
+variables and cache entries.</p>
+</div>
+</div></blockquote>
+<p>The results of the search will be stored in a cache entry named <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code>.
+Future calls to find_path will inspect this cache entry when specifying the
+same <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code>. This optimization ensures successful searches will not be
+repeated unless the cache entry is <span class="target" id="index-0-command:unset"></span><a class="reference internal" href="unset.html#command:unset" title="unset"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">unset()</span></code></a>.</p>
+<p>If the file in a directory is found the recorded value in cache entry <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code> will
+be the result of the search. If nothing is found, the recorded value will be
+<code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;-NOTFOUND</span></code>.</p>
 <p>Options include:</p>
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">NAMES</span></code></dt><dd><p>Specify one or more possible names for the file in a directory.</p>
@@ -107,7 +128,7 @@ Such specifications will be ignored on all other platforms.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">REGISTRY_VIEW</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
 <p>Specify which registry views must be queried. This option is only meaningful
 on <code class="docutils literal notranslate"><span class="pre">Windows</span></code> platforms and will be ignored on other ones. When not
@@ -151,7 +172,7 @@ architecture of the host:</p>
 location otherwise considered.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">VALIDATOR</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.25.</span></p>
+<p><span class="versionmodified added">Added in version 3.25.</span></p>
 </div>
 <p>Specify a <span class="target" id="index-0-command:function"></span><a class="reference internal" href="function.html#command:function" title="function"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">function()</span></code></a> to be called for each candidate item found
 (a <span class="target" id="index-0-command:macro"></span><a class="reference internal" href="macro.html#command:macro" title="macro"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">macro()</span></code></a> cannot be provided, that will result in an error).
@@ -174,14 +195,15 @@ validation function.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">DOC</span></code></dt><dd><p>Specify the documentation string for the <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code> cache entry.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">NO_CACHE</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.21.</span></p>
+<p><span class="versionmodified added">Added in version 3.21.</span></p>
 </div>
 <p>The result of the search will be stored in a normal variable rather than
 a cache entry.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If the variable is already set before the call (as a normal or cache
-variable) then the search will not occur.</p>
+<p>find_path will still check for <code class="docutils literal notranslate"><span class="pre">&lt;VAR&gt;</span></code> as usual, checking first for a
+variable, and then a cache entry. If either indicate a previous successful
+search, the search will not be performed.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -190,11 +212,22 @@ the cost of repeated configure steps.</p>
 </div>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code></dt><dd><div class="versionadded">
-<p><span class="versionmodified added">New in version 3.18.</span></p>
+<p><span class="versionmodified added">Added in version 3.18.</span></p>
 </div>
 <p>Stop processing with an error message if nothing is found, otherwise
 the search will be attempted again the next time find_path is invoked
 with the same variable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.1: </span>Every find_path command will be treated as <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> when the
+<span class="target" id="index-0-variable:CMAKE_FIND_REQUIRED"></span><a class="reference internal" href="../variable/CMAKE_FIND_REQUIRED.html#variable:CMAKE_FIND_REQUIRED" title="CMAKE_FIND_REQUIRED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_REQUIRED</span></code></a> variable is enabled.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 4.1.</span></p>
+</div>
+<p>Ignore the value of <span class="target" id="index-1-variable:CMAKE_FIND_REQUIRED"></span><a class="reference internal" href="../variable/CMAKE_FIND_REQUIRED.html#variable:CMAKE_FIND_REQUIRED" title="CMAKE_FIND_REQUIRED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_REQUIRED</span></code></a> and
+continue without an error message if nothing is found.
+Incompatible with <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code>.</p>
 </dd>
 </dl>
 <p>If <code class="docutils literal notranslate"><span class="pre">NO_DEFAULT_PATH</span></code> is specified, then no additional paths are
@@ -205,7 +238,7 @@ If <code class="docutils literal notranslate"><span class="pre">NO_DEFAULT_PATH<
 <span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package(&lt;packagename&gt;)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;PackageName&gt;)</span></code></a>, search prefixes unique to the
 current package being found.  See policy <span class="target" id="index-0-policy:CMP0074"></span><a class="reference internal" href="../policy/CMP0074.html#policy:CMP0074" title="CMP0074"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0074</span></code></a>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.12.</span></p>
+<p><span class="versionmodified added">Added in version 3.12.</span></p>
 </div>
 <p>Specifically, search paths specified by the following variables, in order:</p>
 <ol class="loweralpha">
@@ -215,7 +248,7 @@ where <code class="docutils literal notranslate"><span class="pre">&lt;PackageNa
 where <code class="docutils literal notranslate"><span class="pre">&lt;PACKAGENAME&gt;</span></code> is the upper-cased package name.
 See policy <span class="target" id="index-0-policy:CMP0144"></span><a class="reference internal" href="../policy/CMP0144.html#policy:CMP0144" title="CMP0144"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0144</span></code></a>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.27.</span></p>
+<p><span class="versionmodified added">Added in version 3.27.</span></p>
 </div>
 </li>
 <li><p><span class="target" id="index-2-envvar:&lt;PackageName&gt;_ROOT"></span><a class="reference internal" href="../envvar/PackageName_ROOT.html#envvar:&lt;PackageName&gt;_ROOT" title="&lt;PackageName&gt;_ROOT"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_ROOT</span></code></a> environment variable,
@@ -224,7 +257,7 @@ where <code class="docutils literal notranslate"><span class="pre">&lt;PackageNa
 where <code class="docutils literal notranslate"><span class="pre">&lt;PACKAGENAME&gt;</span></code> is the upper-cased package name.
 See policy <span class="target" id="index-1-policy:CMP0144"></span><a class="reference internal" href="../policy/CMP0144.html#policy:CMP0144" title="CMP0144"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0144</span></code></a>.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.27.</span></p>
+<p><span class="versionmodified added">Added in version 3.27.</span></p>
 </div>
 </li>
 </ol>
@@ -314,7 +347,7 @@ These are typically hard-coded guesses.</p></li>
 <span class="target" id="index-0-variable:CMAKE_SYSTEM_IGNORE_PREFIX_PATH"></span><a class="reference internal" href="../variable/CMAKE_SYSTEM_IGNORE_PREFIX_PATH.html#variable:CMAKE_SYSTEM_IGNORE_PREFIX_PATH" title="CMAKE_SYSTEM_IGNORE_PREFIX_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_IGNORE_PREFIX_PATH</span></code></a> variables can also cause some
 of the above locations to be ignored.</p>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.16: </span>Added <code class="docutils literal notranslate"><span class="pre">CMAKE_FIND_USE_&lt;CATEGORY&gt;_PATH</span></code> variables to globally disable
+<p><span class="versionmodified added">Added in version 3.16: </span>Added <code class="docutils literal notranslate"><span class="pre">CMAKE_FIND_USE_&lt;CATEGORY&gt;_PATH</span></code> variables to globally disable
 various search locations.</p>
 </div>
 <p>On macOS the <span class="target" id="index-0-variable:CMAKE_FIND_FRAMEWORK"></span><a class="reference internal" href="../variable/CMAKE_FIND_FRAMEWORK.html#variable:CMAKE_FIND_FRAMEWORK" title="CMAKE_FIND_FRAMEWORK"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_FRAMEWORK</span></code></a> and
@@ -365,7 +398,7 @@ will convert this to the correct <code class="docutils literal notranslate"><spa
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -384,7 +417,7 @@ will convert this to the correct <code class="docutils literal notranslate"><spa
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -392,13 +425,13 @@ will convert this to the correct <code class="docutils literal notranslate"><spa
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -411,14 +444,15 @@ will convert this to the correct <code class="docutils literal notranslate"><spa
           <a href="find_package.html" title="find_package"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
@@ -427,8 +461,17 @@ will convert this to the correct <code class="docutils literal notranslate"><spa
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>AUTOMOC &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>AUTOMOC &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="AUTOGEN_USE_SYSTEM_INCLUDE.html" title="AUTOGEN_USE_SYSTEM_INCLUDE"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
@@ -61,7 +66,7 @@
 <p>Should the target be processed with auto-moc (for Qt projects).</p>
 <p><code class="docutils literal notranslate"><span class="pre">AUTOMOC</span></code> is a boolean specifying whether CMake will handle the Qt <code class="docutils literal notranslate"><span class="pre">moc</span></code>
 preprocessor automatically, i.e.  without having to use commands like
-<span class="target" id="index-0-module:FindQt4"></span><a class="reference internal" href="../module/FindQt4.html#module:FindQt4" title="FindQt4"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">QT4_WRAP_CPP()</span></code></a>, <a class="reference external" href="https://doc.qt.io/qt-5/qtcore-cmake-qt5-wrap-cpp.html">qt5_wrap_cpp()</a>, etc.
+<span class="target" id="index-0-module:FindQt4"></span><a class="reference internal" href="../module/FindQt4.html#module:FindQt4" title="FindQt4"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">qt4_wrap_cpp()</span></code></a>, <a class="reference external" href="https://doc.qt.io/archives/qt-5.15/qtcore-cmake-qt5-wrap-cpp.html">qt5_wrap_cpp()</a>, etc.
 Currently, Qt versions 4 to 6 are supported.</p>
 <p>This property is initialized by the value of the <span class="target" id="index-0-variable:CMAKE_AUTOMOC"></span><a class="reference internal" href="../variable/CMAKE_AUTOMOC.html#variable:CMAKE_AUTOMOC" title="CMAKE_AUTOMOC"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_AUTOMOC</span></code></a>
 variable if it is set when a target is created.</p>
@@ -77,12 +82,16 @@ source files at build time and invoke <code class="docutils literal notranslate"
 target's sources, CMake searches for</p>
 <ul class="simple">
 <li><p>a regular header with the same base name
-(<code class="docutils literal notranslate"><span class="pre">&lt;source_base&gt;.&lt;header_extention&gt;</span></code>) and</p></li>
+(<code class="docutils literal notranslate"><span class="pre">&lt;source_base&gt;.&lt;header_extension&gt;</span></code>) and</p></li>
 <li><p>a private header with the same base name and a <code class="docutils literal notranslate"><span class="pre">_p</span></code> suffix
-(<code class="docutils literal notranslate"><span class="pre">&lt;source_base&gt;_p.&lt;header_extention&gt;</span></code>)</p></li>
+(<code class="docutils literal notranslate"><span class="pre">&lt;source_base&gt;_p.&lt;header_extension&gt;</span></code>)</p></li>
 </ul>
 <p>and adds these to the scan list.</p>
 </li>
+<li><p>The <span class="target" id="index-0-prop_tgt:AUTOMOC_INCLUDE_DIRECTORIES"></span><a class="reference internal" href="AUTOMOC_INCLUDE_DIRECTORIES.html#prop_tgt:AUTOMOC_INCLUDE_DIRECTORIES" title="AUTOMOC_INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC_INCLUDE_DIRECTORIES</span></code></a> target property may be set
+to explicitly tell <code class="docutils literal notranslate"><span class="pre">moc</span></code> what include directories to search.  If not
+set, the default is to use the include directories from the target and
+its transitive closure of dependencies.</p></li>
 </ul>
 <p>At build time, CMake scans each unknown or modified header file from the
 list and searches for</p>
@@ -245,6 +254,9 @@ defining file name filters in this target property.</p>
 <p><span class="target" id="index-0-prop_tgt:AUTOMOC_COMPILER_PREDEFINES"></span><a class="reference internal" href="AUTOMOC_COMPILER_PREDEFINES.html#prop_tgt:AUTOMOC_COMPILER_PREDEFINES" title="AUTOMOC_COMPILER_PREDEFINES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC_COMPILER_PREDEFINES</span></code></a>:
 Compiler pre definitions for <code class="docutils literal notranslate"><span class="pre">moc</span></code> are written to the <code class="docutils literal notranslate"><span class="pre">moc_predefs.h</span></code> file.
 The generation of this file can be enabled or disabled in this target property.</p>
+<p><span class="target" id="index-1-prop_tgt:AUTOMOC_INCLUDE_DIRECTORIES"></span><a class="reference internal" href="AUTOMOC_INCLUDE_DIRECTORIES.html#prop_tgt:AUTOMOC_INCLUDE_DIRECTORIES" title="AUTOMOC_INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC_INCLUDE_DIRECTORIES</span></code></a>:
+Specifies one or more include directories for <code class="docutils literal notranslate"><span class="pre">AUTOMOC</span></code> to pass explicitly to <code class="docutils literal notranslate"><span class="pre">moc</span></code>
+instead of automatically discovering a target’s include directories.</p>
 <p><span class="target" id="index-0-prop_sf:SKIP_AUTOMOC"></span><a class="reference internal" href="../prop_sf/SKIP_AUTOMOC.html#prop_sf:SKIP_AUTOMOC" title="SKIP_AUTOMOC"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOMOC</span></code></a>:
 Sources and headers can be excluded from <code class="docutils literal notranslate"><span class="pre">AUTOMOC</span></code> processing by
 setting this source file property.</p>
@@ -261,8 +273,8 @@ This global property can be used to group <code class="docutils literal notransl
 e.g.  in MSVS.</p>
 <p><span class="target" id="index-0-variable:CMAKE_GLOBAL_AUTOGEN_TARGET"></span><a class="reference internal" href="../variable/CMAKE_GLOBAL_AUTOGEN_TARGET.html#variable:CMAKE_GLOBAL_AUTOGEN_TARGET" title="CMAKE_GLOBAL_AUTOGEN_TARGET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GLOBAL_AUTOGEN_TARGET</span></code></a>:
 A global <code class="docutils literal notranslate"><span class="pre">autogen</span></code> target, that depends on all <code class="docutils literal notranslate"><span class="pre">AUTOMOC</span></code> or
-<span class="target" id="index-2-prop_tgt:AUTOUIC"></span><a class="reference internal" href="AUTOUIC.html#prop_tgt:AUTOUIC" title="AUTOUIC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOUIC</span></code></a> generated <a class="reference internal" href="../manual/cmake-qt.7.html#origin-autogen"><span class="std std-ref">The &lt;ORIGIN&gt;_autogen target</span></a> targets in the project,
-will be generated when this variable is <code class="docutils literal notranslate"><span class="pre">ON</span></code>.</p>
+<span class="target" id="index-2-prop_tgt:AUTOUIC"></span><a class="reference internal" href="AUTOUIC.html#prop_tgt:AUTOUIC" title="AUTOUIC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOUIC</span></code></a> generated <a class="reference internal" href="../manual/cmake-qt.7.html#origin-autogen"><span class="std std-ref">&lt;ORIGIN&gt;_autogen</span></a>
+targets in the project, will be generated when this variable is <code class="docutils literal notranslate"><span class="pre">ON</span></code>.</p>
 <p><span class="target" id="index-0-prop_tgt:AUTOGEN_PARALLEL"></span><a class="reference internal" href="AUTOGEN_PARALLEL.html#prop_tgt:AUTOGEN_PARALLEL" title="AUTOGEN_PARALLEL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOGEN_PARALLEL</span></code></a>:
 This target property controls the number of <code class="docutils literal notranslate"><span class="pre">moc</span></code> or <code class="docutils literal notranslate"><span class="pre">uic</span></code> processes to
 start in parallel during builds.</p>
@@ -279,10 +291,10 @@ with Qt.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">AUTOMOC</a><ul>
 <li><a class="reference internal" href="#header-file-processing">Header file processing</a></li>
@@ -319,7 +331,7 @@ with Qt.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -327,13 +339,13 @@ with Qt.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -346,14 +358,15 @@ with Qt.</p>
           <a href="AUTOGEN_USE_SYSTEM_INCLUDE.html" title="AUTOGEN_USE_SYSTEM_INCLUDE"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
@@ -362,8 +375,17 @@ with Qt.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

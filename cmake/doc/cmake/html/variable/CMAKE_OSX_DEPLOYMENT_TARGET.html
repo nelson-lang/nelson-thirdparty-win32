@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>CMAKE_OSX_DEPLOYMENT_TARGET &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>CMAKE_OSX_DEPLOYMENT_TARGET &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="CMAKE_OSX_ARCHITECTURES.html" title="CMAKE_OSX_ARCHITECTURES"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
@@ -58,15 +63,37 @@
             
   <section id="cmake-osx-deployment-target">
 <span id="variable:CMAKE_OSX_DEPLOYMENT_TARGET"></span><h1>CMAKE_OSX_DEPLOYMENT_TARGET<a class="headerlink" href="#cmake-osx-deployment-target" title="Link to this heading">¶</a></h1>
-<p>Specify the minimum version of the target platform (e.g. macOS or iOS)
-on which the target binaries are to be deployed.  CMake uses this
-variable value for the <code class="docutils literal notranslate"><span class="pre">-mmacosx-version-min</span></code> flag or their respective
-target platform equivalents.  For older Xcode versions that shipped
-multiple macOS SDKs this variable also helps to choose the SDK in case
-<span class="target" id="index-0-variable:CMAKE_OSX_SYSROOT"></span><a class="reference internal" href="CMAKE_OSX_SYSROOT.html#variable:CMAKE_OSX_SYSROOT" title="CMAKE_OSX_SYSROOT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_SYSROOT</span></code></a> is unset.</p>
-<p>If not set explicitly the value is initialized by the
-<code class="docutils literal notranslate"><span class="pre">MACOSX_DEPLOYMENT_TARGET</span></code> environment variable, if set,
-and otherwise computed based on the host platform.</p>
+<p>Specify the minimum version of the target platform, e.g., macOS or iOS,
+on which the target binaries are to be deployed.</p>
+<p>For builds targeting macOS (<span class="target" id="index-0-variable:CMAKE_SYSTEM_NAME"></span><a class="reference internal" href="CMAKE_SYSTEM_NAME.html#variable:CMAKE_SYSTEM_NAME" title="CMAKE_SYSTEM_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_NAME</span></code></a> is <code class="docutils literal notranslate"><span class="pre">Darwin</span></code>), if
+<code class="docutils literal notranslate"><span class="pre">CMAKE_OSX_DEPLOYMENT_TARGET</span></code> is not explicitly set, a default is set:</p>
+<ul>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">MACOSX_DEPLOYMENT_TARGET</span></code> environment variable is non-empty,
+its value is the default.</p></li>
+<li><p>Otherwise, if using the <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator, and the host's
+macOS version is older than the macOS SDK (<span class="target" id="index-0-variable:CMAKE_OSX_SYSROOT"></span><a class="reference internal" href="CMAKE_OSX_SYSROOT.html#variable:CMAKE_OSX_SYSROOT" title="CMAKE_OSX_SYSROOT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_SYSROOT</span></code></a>,
+if set, or Xcode's default SDK), the host's macOS version is the default.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 4.0: </span>Previously this was done for all generators, not just Xcode.</p>
+</div>
+</li>
+<li><p>Otherwise, the default is empty.</p></li>
+</ul>
+<p>The effects of <code class="docutils literal notranslate"><span class="pre">CMAKE_OSX_DEPLOYMENT_TARGET</span></code> depend on the generator:</p>
+<p><span class="target" id="index-1-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a></p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">CMAKE_OSX_DEPLOYMENT_TARGET</span></code> is set to a non-empty value, it is added
+to the generated Xcode project as the <code class="docutils literal notranslate"><span class="pre">MACOSX_DEPLOYMENT_TARGET</span></code> setting.
+Otherwise, no such setting is added, so Xcode's default deployed target is
+used, typically based on the SDK version.</p>
+</div></blockquote>
+<p>Other Generators</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">CMAKE_OSX_DEPLOYMENT_TARGET</span></code> is set to a non-empty value, it is passed
+to the compiler via the <code class="docutils literal notranslate"><span class="pre">-mmacosx-version-min</span></code> flag or equivalent.
+Otherwise, no such flag is added, so the compiler's default deployment
+target is used.</p>
+</div></blockquote>
 <p>The value of this variable should be set prior to the first
 <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> or <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a> command invocation
 because it may influence configuration of the toolchain and flags.
@@ -84,7 +111,7 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h4>Previous topic</h4>
@@ -103,7 +130,7 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -111,13 +138,13 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -130,14 +157,15 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
           <a href="CMAKE_OSX_ARCHITECTURES.html" title="CMAKE_OSX_ARCHITECTURES"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
@@ -146,8 +174,17 @@ other SDKs than macOS like iOS, tvOS, visionOS, or watchOS.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

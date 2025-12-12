@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>cmake-developer(7) &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>cmake-developer(7) &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="cmake-cxxmodules.7.html" title="cmake-cxxmodules(7)"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake-developer(7)</a></li> 
@@ -94,7 +99,7 @@ in turn link to developer guides for CMake itself.</p>
 <section id="query-windows-registry">
 <h3><a class="toc-backref" href="#id6" role="doc-backlink">Query Windows Registry</a><a class="headerlink" href="#query-windows-registry" title="Link to this heading">¶</a></h3>
 <div class="versionadded">
-<p><span class="versionmodified added">New in version 3.24.</span></p>
+<p><span class="versionmodified added">Added in version 3.24.</span></p>
 </div>
 <p>The <span class="target" id="index-0-command:cmake_host_system_information"></span><a class="reference internal" href="../command/cmake_host_system_information.html#command:cmake_host_system_information" title="cmake_host_system_information"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_host_system_information()</span></code></a> command offers the possibility to
 query the registry on the local computer. See
@@ -114,18 +119,18 @@ platform, to query the registry.</p>
 <a class="reference external" href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">BNF</a> notation with
 the regular extensions, for registry query is the following:</p>
 <pre>
-<strong id="grammar-token-registry_query">registry_query </strong> ::=  '[' <a class="reference internal" href="#grammar-token-sep_definition"><code class="xref docutils literal notranslate"><span class="pre">sep_definition</span></code></a>? <a class="reference internal" href="#grammar-token-root_key"><code class="xref docutils literal notranslate"><span class="pre">root_key</span></code></a>
-                         ((<a class="reference internal" href="#grammar-token-key_separator"><code class="xref docutils literal notranslate"><span class="pre">key_separator</span></code></a> <a class="reference internal" href="#grammar-token-sub_key"><code class="xref docutils literal notranslate"><span class="pre">sub_key</span></code></a>)? (<a class="reference internal" href="#grammar-token-value_separator"><code class="xref docutils literal notranslate"><span class="pre">value_separator</span></code></a> <a class="reference internal" href="#grammar-token-value_name"><code class="xref docutils literal notranslate"><span class="pre">value_name</span></code></a>_)?)? ']'
-<strong id="grammar-token-sep_definition">sep_definition </strong> ::=  '{' <a class="reference internal" href="#grammar-token-value_separator"><code class="xref docutils literal notranslate"><span class="pre">value_separator</span></code></a> '}'
-<strong id="grammar-token-root_key">root_key       </strong> ::=  'HKLM' | 'HKEY_LOCAL_MACHINE' | 'HKCU' | 'HKEY_CURRENT_USER' |
-                     'HKCR' | 'HKEY_CLASSES_ROOT' | 'HKCC' | 'HKEY_CURRENT_CONFIG' |
-                     'HKU' | 'HKEY_USERS'
-<strong id="grammar-token-sub_key">sub_key        </strong> ::=  <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a> (<a class="reference internal" href="#grammar-token-key_separator"><code class="xref docutils literal notranslate"><span class="pre">key_separator</span></code></a> <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a>)*
-<strong id="grammar-token-key_separator">key_separator  </strong> ::=  '/' | '\\'
-<strong id="grammar-token-value_separator">value_separator</strong> ::=  <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a> | ';'
-<strong id="grammar-token-value_name">value_name     </strong> ::=  <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a> | '(default)'
-<strong id="grammar-token-element">element        </strong> ::=  <a class="reference internal" href="#grammar-token-character"><code class="xref docutils literal notranslate"><span class="pre">character</span></code></a>\+
-<strong id="grammar-token-character">character      </strong> ::=  &lt;any character except <a class="reference internal" href="#grammar-token-key_separator"><code class="xref docutils literal notranslate"><span class="pre">key_separator</span></code></a> and <a class="reference internal" href="#grammar-token-value_separator"><code class="xref docutils literal notranslate"><span class="pre">value_separator</span></code></a>&gt;
+<strong id="grammar-token-registry_query">registry_query</strong>  ::= '[' <a class="reference internal" href="#grammar-token-sep_definition"><code class="xref docutils literal notranslate"><span class="pre">sep_definition</span></code></a>? <a class="reference internal" href="#grammar-token-root_key"><code class="xref docutils literal notranslate"><span class="pre">root_key</span></code></a>
+                    ((<a class="reference internal" href="#grammar-token-key_separator"><code class="xref docutils literal notranslate"><span class="pre">key_separator</span></code></a> <a class="reference internal" href="#grammar-token-sub_key"><code class="xref docutils literal notranslate"><span class="pre">sub_key</span></code></a>)? (<a class="reference internal" href="#grammar-token-value_separator"><code class="xref docutils literal notranslate"><span class="pre">value_separator</span></code></a> <a class="reference internal" href="#grammar-token-value_name"><code class="xref docutils literal notranslate"><span class="pre">value_name</span></code></a>_)?)? ']'
+<strong id="grammar-token-sep_definition">sep_definition</strong>  ::= '{' <a class="reference internal" href="#grammar-token-value_separator"><code class="xref docutils literal notranslate"><span class="pre">value_separator</span></code></a> '}'
+<strong id="grammar-token-root_key">root_key</strong>        ::= 'HKLM' | 'HKEY_LOCAL_MACHINE' | 'HKCU' | 'HKEY_CURRENT_USER' |
+                    'HKCR' | 'HKEY_CLASSES_ROOT' | 'HKCC' | 'HKEY_CURRENT_CONFIG' |
+                    'HKU' | 'HKEY_USERS'
+<strong id="grammar-token-sub_key">sub_key</strong>         ::= <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a> (<a class="reference internal" href="#grammar-token-key_separator"><code class="xref docutils literal notranslate"><span class="pre">key_separator</span></code></a> <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a>)*
+<strong id="grammar-token-key_separator">key_separator</strong>   ::= '/' | '\\'
+<strong id="grammar-token-value_separator">value_separator</strong> ::= <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a> | ';'
+<strong id="grammar-token-value_name">value_name</strong>      ::= <a class="reference internal" href="#grammar-token-element"><code class="xref docutils literal notranslate"><span class="pre">element</span></code></a> | '(default)'
+<strong id="grammar-token-element">element</strong>         ::= <a class="reference internal" href="#grammar-token-character"><code class="xref docutils literal notranslate"><span class="pre">character</span></code></a>\+
+<strong id="grammar-token-character">character</strong>       ::= &lt;any character except <a class="reference internal" href="#grammar-token-key_separator"><code class="xref docutils literal notranslate"><span class="pre">key_separator</span></code></a> and <a class="reference internal" href="#grammar-token-value_separator"><code class="xref docutils literal notranslate"><span class="pre">value_separator</span></code></a>&gt;
 </pre>
 <p>The <a class="reference internal" href="#grammar-token-sep_definition"><code class="xref std std-token docutils literal notranslate"><span class="pre">sep_definition</span></code></a> optional item offers the possibility to specify
 the string used to separate the <a class="reference internal" href="#grammar-token-sub_key"><code class="xref std std-token docutils literal notranslate"><span class="pre">sub_key</span></code></a> from the <a class="reference internal" href="#grammar-token-value_name"><code class="xref std std-token docutils literal notranslate"><span class="pre">value_name</span></code></a>
@@ -174,11 +179,11 @@ to consumers.</p>
 targets), find modules should provide backwards compatibility with old
 versions that had the same name.</p>
 <p>A FindFoo.cmake module will typically be loaded by the command:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>find_package(Foo [major[.minor[.patch[.tweak]]]]
-             [EXACT] [QUIET] [REQUIRED]
-             [[COMPONENTS] [components...]]
-             [OPTIONAL_COMPONENTS components...]
-             [NO_POLICY_SCOPE])
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">Foo</span><span class="w"> </span><span class="p">[</span><span class="nb">major</span><span class="p">[.</span><span class="nb">minor</span><span class="p">[.</span><span class="nb">patch</span><span class="p">[.</span><span class="nb">tweak</span><span class="p">]]]]</span>
+<span class="w">             </span><span class="p">[</span><span class="no">EXACT</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">REQUIRED</span><span class="p">]</span>
+<span class="w">             </span><span class="p">[[</span><span class="no">COMPONENTS</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="nb">components...</span><span class="p">]]</span>
+<span class="w">             </span><span class="p">[</span><span class="no">OPTIONAL_COMPONENTS</span><span class="w"> </span><span class="nb">components...</span><span class="p">]</span>
+<span class="w">             </span><span class="p">[</span><span class="no">NO_POLICY_SCOPE</span><span class="p">]</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>See the <span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> documentation for details on what
@@ -197,7 +202,7 @@ libraries) should search for the components listed in
 <code class="docutils literal notranslate"><span class="pre">Foo_FIND_COMPONENTS</span></code> if it is set , and only set <code class="docutils literal notranslate"><span class="pre">Foo_FOUND</span></code> to
 true if for each searched-for component <code class="docutils literal notranslate"><span class="pre">&lt;c&gt;</span></code> that was not found,
 <code class="docutils literal notranslate"><span class="pre">Foo_FIND_REQUIRED_&lt;c&gt;</span></code> is not set to true.  The <code class="docutils literal notranslate"><span class="pre">HANDLE_COMPONENTS</span></code>
-argument of <code class="docutils literal notranslate"><span class="pre">find_package_handle_standard_args()</span></code> can be used to
+argument of <span class="target" id="index-0-command:find_package_handle_standard_args"></span><a class="reference internal" href="../module/FindPackageHandleStandardArgs.html#command:find_package_handle_standard_args" title="find_package_handle_standard_args"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package_handle_standard_args()</span></code></a> can be used to
 implement this.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">Foo_FIND_COMPONENTS</span></code> is not set, which modules are searched for
 and required is up to the find module, but should be documented.</p>
@@ -247,7 +252,11 @@ prefer this form if the module provides more than one executable.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_LIBRARY_DIRS</span></code></dt><dd><p>Optionally, the final set of library directories listed in one
 variable for use by client code. This should not be a cache entry.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_ROOT_DIR</span></code></dt><dd><p>Where to find the base directory of the module.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_ROOT_DIR</span></code></dt><dd><p>The base directory of the installation of <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> that can be optionally set
+by the find module if <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> is found. This is useful for large packages
+where many files need to be referenced relative to a common base (or root)
+directory. Not to be confused with the <code class="docutils literal notranslate"><span class="pre">Xxx_ROOT</span></code> hint variable set from the
+outside for the find module to know where to look for the <code class="docutils literal notranslate"><span class="pre">Xxx</span></code>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_VV</span></code></dt><dd><p>Variables of this form specify whether the <code class="docutils literal notranslate"><span class="pre">Xxx</span></code> module being provided
 is version <code class="docutils literal notranslate"><span class="pre">VV</span></code> of the module.  There should not be more than one
@@ -279,7 +288,7 @@ successfully.</p>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_NOT_FOUND_MESSAGE</span></code></dt><dd><p>Should be set by config-files in the case that it has set
 <code class="docutils literal notranslate"><span class="pre">Xxx_FOUND</span></code> to FALSE.  The contained message will be printed by the
 <span class="target" id="index-5-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command and by
-<span class="target" id="index-0-command:find_package_handle_standard_args"></span><a class="reference internal" href="../module/FindPackageHandleStandardArgs.html#command:find_package_handle_standard_args" title="find_package_handle_standard_args"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package_handle_standard_args()</span></code></a> to inform the user about the
+<span class="target" id="index-1-command:find_package_handle_standard_args"></span><a class="reference internal" href="../module/FindPackageHandleStandardArgs.html#command:find_package_handle_standard_args" title="find_package_handle_standard_args"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package_handle_standard_args()</span></code></a> to inform the user about the
 problem.  Use this instead of calling <span class="target" id="index-0-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message()</span></code></a> directly to
 report a reason for failing to find the module or package.</p>
 </dd>
@@ -288,8 +297,9 @@ executable linked to shared libraries.  The list should be used by
 user code to create the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> on windows or <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> on
 UNIX.  This should not be a cache entry.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION</span></code></dt><dd><p>The full version string of the package found, if any.  Note that many
-existing modules provide <code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_STRING</span></code> instead.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION</span></code></dt><dd><p>The full version string of the package found, if any.  Note that some existing
+modules may also provide <code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_STRING</span></code>, as it was traditionally used
+before the current naming convention.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">Xxx_VERSION_MAJOR</span></code></dt><dd><p>The major version of the package found, if any.</p>
 </dd>
@@ -335,10 +345,10 @@ and release binaries, it is common to create cache variables with a
 <code class="docutils literal notranslate"><span class="pre">_LIBRARY_&lt;CONFIG&gt;</span></code> suffix, such as <code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY_RELEASE</span></code> and
 <code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY_DEBUG</span></code>.  The <span class="target" id="index-0-module:SelectLibraryConfigurations"></span><a class="reference internal" href="../module/SelectLibraryConfigurations.html#module:SelectLibraryConfigurations" title="SelectLibraryConfigurations"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">SelectLibraryConfigurations</span></code></a> module
 can be helpful for such cases.</p>
-<p>While these are the standard variable names, you should provide
-backwards compatibility for any old names that were actually in use.
-Make sure you comment them as deprecated, so that no-one starts using
-them.</p>
+<p>While these are the standard variable names, backward compatibility should be
+provided for any previously used names in the find module that is replacing an
+older version.  Old variable names should be documented as deprecated to
+discourage further use.</p>
 </section>
 <section id="a-sample-find-module">
 <h3><a class="toc-backref" href="#id10" role="doc-backlink">A Sample Find Module</a><a class="headerlink" href="#a-sample-find-module" title="Link to this heading">¶</a></h3>
@@ -348,7 +358,7 @@ a blank line, and then followed by a <a class="reference internal" href="cmake-l
 should begin with <code class="docutils literal notranslate"><span class="pre">.rst:</span></code> to indicate that the rest of its content is
 reStructuredText-format documentation.  For example:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span># Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
-# file Copyright.txt or https://cmake.org/licensing for details.
+# file LICENSE.rst or https://cmake.org/licensing for details.
 
 #[=======================================================================[.rst:
 FindFoo
@@ -367,10 +377,10 @@ This module provides the following imported targets, if found:
 Result Variables
 ^^^^^^^^^^^^^^^^
 
-This will define the following variables:
+This module defines the following variables:
 
 ``Foo_FOUND``
-  True if the system has the Foo library.
+  Boolean indicating whether (the requested version of) Foo was found.
 ``Foo_VERSION``
   The version of the Foo library which was found.
 ``Foo_INCLUDE_DIRS``
@@ -413,54 +423,53 @@ point of find modules), but there tends to be a common pattern for libraries.</p
 cannot rely on this, as it may not be available, but it provides a good
 starting point.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">PkgConfig</span><span class="nf">)</span>
-<span class="nf">pkg_check_modules(</span><span class="nb">PC_Foo</span><span class="w"> </span><span class="no">QUIET</span><span class="w"> </span><span class="nb">Foo</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="nb">PkgConfig_FOUND</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">pkg_check_modules(</span><span class="nb">PC_Foo</span><span class="w"> </span><span class="no">QUIET</span><span class="w"> </span><span class="nb">Foo</span><span class="nf">)</span>
+<span class="nf">endif()</span>
 </pre></div>
 </div>
 <p>This should define some variables starting <code class="docutils literal notranslate"><span class="pre">PC_Foo_</span></code> that contain the
 information from the <code class="docutils literal notranslate"><span class="pre">Foo.pc</span></code> file.</p>
 <p>Now we need to find the libraries and include files; we use the
 information from <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> to provide hints to CMake about where to
-look.</p>
+look before checking other default paths.</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_path(</span><span class="nb">Foo_INCLUDE_DIR</span>
 <span class="w">  </span><span class="no">NAMES</span><span class="w"> </span><span class="nb">foo.h</span>
-<span class="w">  </span><span class="no">PATHS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_INCLUDE_DIRS</span><span class="o">}</span>
+<span class="w">  </span><span class="no">HINTS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_INCLUDE_DIRS</span><span class="o">}</span>
 <span class="w">  </span><span class="no">PATH_SUFFIXES</span><span class="w"> </span><span class="nb">Foo</span>
 <span class="nf">)</span>
 <span class="nf">find_library(</span><span class="nb">Foo_LIBRARY</span>
 <span class="w">  </span><span class="no">NAMES</span><span class="w"> </span><span class="nb">foo</span>
-<span class="w">  </span><span class="no">PATHS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_LIBRARY_DIRS</span><span class="o">}</span>
+<span class="w">  </span><span class="no">HINTS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_LIBRARY_DIRS</span><span class="o">}</span>
 <span class="nf">)</span>
 </pre></div>
 </div>
-<p>Alternatively, if the library is available with multiple configurations, you can
-use <span class="target" id="index-1-module:SelectLibraryConfigurations"></span><a class="reference internal" href="../module/SelectLibraryConfigurations.html#module:SelectLibraryConfigurations" title="SelectLibraryConfigurations"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">SelectLibraryConfigurations</span></code></a> to automatically set the
-<code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY</span></code> variable instead:</p>
+<p>Alternatively, if the library is available with multiple configurations, the
+<span class="target" id="index-1-module:SelectLibraryConfigurations"></span><a class="reference internal" href="../module/SelectLibraryConfigurations.html#module:SelectLibraryConfigurations" title="SelectLibraryConfigurations"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">SelectLibraryConfigurations</span></code></a> module can be used to automatically set
+the <code class="docutils literal notranslate"><span class="pre">Foo_LIBRARY</span></code> variable instead:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_library(</span><span class="nb">Foo_LIBRARY_RELEASE</span>
 <span class="w">  </span><span class="no">NAMES</span><span class="w"> </span><span class="nb">foo</span>
-<span class="w">  </span><span class="no">PATHS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_LIBRARY_DIRS</span><span class="o">}</span><span class="na">/Release</span>
+<span class="w">  </span><span class="no">HINTS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_LIBRARY_DIRS</span><span class="o">}</span><span class="na">/Release</span>
 <span class="nf">)</span>
 <span class="nf">find_library(</span><span class="nb">Foo_LIBRARY_DEBUG</span>
 <span class="w">  </span><span class="no">NAMES</span><span class="w"> </span><span class="nb">foo</span>
-<span class="w">  </span><span class="no">PATHS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_LIBRARY_DIRS</span><span class="o">}</span><span class="na">/Debug</span>
+<span class="w">  </span><span class="no">HINTS</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_LIBRARY_DIRS</span><span class="o">}</span><span class="na">/Debug</span>
 <span class="nf">)</span>
 
 <span class="nf">include(</span><span class="nb">SelectLibraryConfigurations</span><span class="nf">)</span>
 <span class="nf">select_library_configurations(</span><span class="nb">Foo</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>If you have a good way of getting the version (from a header file, for
-example), you can use that information to set <code class="docutils literal notranslate"><span class="pre">Foo_VERSION</span></code> (although
-note that find modules have traditionally used <code class="docutils literal notranslate"><span class="pre">Foo_VERSION_STRING</span></code>,
-so you may want to set both).  Otherwise, attempt to use the information
-from <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code></p>
+<p>If there is a good way of getting the version (from a header file, for
+example), that information can be used to set <code class="docutils literal notranslate"><span class="pre">Foo_VERSION</span></code>.  Otherwise,
+attempt to use the information from the <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code>:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">Foo_VERSION</span><span class="w"> </span><span class="o">${</span><span class="nt">PC_Foo_VERSION</span><span class="o">}</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>Now we can use <span class="target" id="index-1-module:FindPackageHandleStandardArgs"></span><a class="reference internal" href="../module/FindPackageHandleStandardArgs.html#module:FindPackageHandleStandardArgs" title="FindPackageHandleStandardArgs"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindPackageHandleStandardArgs</span></code></a> to do most of the
-rest of the work for us</p>
+<p>Now we can use the <span class="target" id="index-1-module:FindPackageHandleStandardArgs"></span><a class="reference internal" href="../module/FindPackageHandleStandardArgs.html#module:FindPackageHandleStandardArgs" title="FindPackageHandleStandardArgs"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindPackageHandleStandardArgs</span></code></a> module to handle most
+of the remaining steps for us:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FindPackageHandleStandardArgs</span><span class="nf">)</span>
 <span class="nf">find_package_handle_standard_args(</span><span class="nb">Foo</span>
-<span class="w">  </span><span class="no">FOUND_VAR</span><span class="w"> </span><span class="nb">Foo_FOUND</span>
 <span class="w">  </span><span class="no">REQUIRED_VARS</span>
 <span class="w">    </span><span class="nb">Foo_LIBRARY</span>
 <span class="w">    </span><span class="nb">Foo_INCLUDE_DIR</span>
@@ -547,17 +556,20 @@ populated:</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">RELEASE</span></code> variant should be listed first in the property
 so that the variant is chosen if the user uses a configuration which is
 not an exact match for any listed <code class="docutils literal notranslate"><span class="pre">IMPORTED_CONFIGURATIONS</span></code>.</p>
-<p>Most of the cache variables should be hidden in the <strong class="program">ccmake</strong> interface unless
-the user explicitly asks to edit them.</p>
+<p>Most of the cache variables should be marked as advanced to remain hidden in GUI
+interfaces such as <span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui(1)</span></code></a> or <span class="target" id="index-0-manual:ccmake(1)"></span><a class="reference internal" href="ccmake.1.html#manual:ccmake(1)" title="ccmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ccmake(1)</span></code></a>, unless the
+user explicitly chooses to display and modify them:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">mark_as_advanced(</span>
 <span class="w">  </span><span class="nb">Foo_INCLUDE_DIR</span>
 <span class="w">  </span><span class="nb">Foo_LIBRARY</span>
 <span class="nf">)</span>
 </pre></div>
 </div>
-<p>If this module replaces an older version, you should set compatibility variables
-to cause the least disruption possible.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># compatibility variables</span>
+<p>If this find module replaces an older module version that provided variables
+before the current standard variables naming conventions, also backward
+compatibility variables should be provided to cause the least disruption
+possible.  For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Backward compatibility variables</span>
 <span class="nf">set(</span><span class="nb">Foo_VERSION_STRING</span><span class="w"> </span><span class="o">${</span><span class="nt">Foo_VERSION</span><span class="o">}</span><span class="nf">)</span>
 </pre></div>
 </div>
@@ -570,10 +582,10 @@ to cause the least disruption possible.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">cmake-developer(7)</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a></li>
@@ -609,7 +621,7 @@ to cause the least disruption possible.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -617,13 +629,13 @@ to cause the least disruption possible.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -636,14 +648,15 @@ to cause the least disruption possible.</p>
           <a href="cmake-cxxmodules.7.html" title="cmake-cxxmodules(7)"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">cmake-developer(7)</a></li> 
@@ -651,8 +664,17 @@ to cause the least disruption possible.</p>
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

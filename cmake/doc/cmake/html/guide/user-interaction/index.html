@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>User Interaction Guide &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>User Interaction Guide &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="../tutorial/Packaging%20Debug%20and%20Release.html" title="Step 12: Packaging Debug and Release"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">User Interaction Guide</a></li> 
@@ -204,7 +209,7 @@ correct environments for command line buildsystems. While
 not strictly necessary to use a corresponding
 command line environment when using a Visual Studio
 generator, doing so has no disadvantages.</p>
-<p>When using Xcode, there can be more than one Xcode
+<p>When using <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>, there can be more than one Xcode
 version installed.  Which one to use can be selected
 in a number of different ways, but the most common
 methods are:</p>
@@ -261,7 +266,7 @@ VisualC++ compiler, or a combination of the two:</p>
 <span class="gp">$ </span>cmake<span class="w"> </span>..<span class="w"> </span>-G<span class="w"> </span><span class="s2">&quot;Visual Studio 16 2019&quot;</span>
 </pre></div>
 </div>
-<p>Visual Studio generators can target different architectures.
+<p><a class="reference internal" href="../../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> can target different architectures.
 One can specify the target architecture using the
 <a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake-A"><code class="xref std std-option docutils literal notranslate"><span class="pre">-A</span></code></a> option:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake .. -G &quot;Visual Studio 2019&quot; -A x64</span>
@@ -269,7 +274,7 @@ One can specify the target architecture using the
 <span class="go">cmake .. -G &quot;Visual Studio 16 2019&quot; -A ARM64</span>
 </pre></div>
 </div>
-<p>On Apple, the <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator may be used to
+<p>On Apple, the <span class="target" id="index-1-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator may be used to
 generate project files for the Xcode IDE.</p>
 <p>Some IDEs such as KDevelop4, QtCreator and CLion have
 native support for CMake-based buildsystems.  Those IDEs
@@ -339,8 +344,10 @@ the table below:</p>
 <code class="docutils literal notranslate"><span class="pre">Debug</span></code> or <code class="docutils literal notranslate"><span class="pre">Release</span></code>, determining
 debug/optimization flags.  This is only
 relevant for single-configuration buildsystems such
-as <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> and <code class="docutils literal notranslate"><span class="pre">Ninja</span></code>.  Multi-configuration
-buildsystems such as those for Visual Studio and Xcode
+as <a class="reference internal" href="../../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> and
+<a class="reference internal" href="../../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a>.
+Multi-configuration buildsystems such as those for
+<a class="reference internal" href="../../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> and <span class="target" id="index-2-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>
 ignore this setting.</p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a></p></td>
@@ -593,21 +600,21 @@ consumption, for example to create documentation.</p>
 <p>CMake provides some built-in targets for all buildsystems
 providing CMake files.</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">all</span></code></dt><dd><p>The default target used by <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> and <code class="docutils literal notranslate"><span class="pre">Ninja</span></code>
-generators.  Builds all targets in the buildsystem,
-except those which are excluded by their
-<span class="target" id="index-0-prop_tgt:EXCLUDE_FROM_ALL"></span><a class="reference internal" href="../../prop_tgt/EXCLUDE_FROM_ALL.html#prop_tgt:EXCLUDE_FROM_ALL" title="EXCLUDE_FROM_ALL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></a> target property or
+<dt><code class="docutils literal notranslate"><span class="pre">all</span></code></dt><dd><p>The default target used by <a class="reference internal" href="../../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>
+and <a class="reference internal" href="../../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a>.  Builds all targets in
+the buildsystem, except those which are excluded by
+their <span class="target" id="index-0-prop_tgt:EXCLUDE_FROM_ALL"></span><a class="reference internal" href="../../prop_tgt/EXCLUDE_FROM_ALL.html#prop_tgt:EXCLUDE_FROM_ALL" title="EXCLUDE_FROM_ALL"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></a> target property or
 <span class="target" id="index-0-prop_dir:EXCLUDE_FROM_ALL"></span><a class="reference internal" href="../../prop_dir/EXCLUDE_FROM_ALL.html#prop_dir:EXCLUDE_FROM_ALL" title="EXCLUDE_FROM_ALL"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></a> directory property.  The
 name <code class="docutils literal notranslate"><span class="pre">ALL_BUILD</span></code> is used for this purpose for the
-Xcode and Visual Studio generators.</p>
+<span class="target" id="index-3-generator:Xcode"></span><a class="reference internal" href="../../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> and <a class="reference internal" href="../../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">help</span></code></dt><dd><p>Lists the targets available for build.  This target is
-available when using the <span class="target" id="index-2-generator:Unix Makefiles"></span><a class="reference internal" href="../../generator/Unix%20Makefiles.html#generator:Unix Makefiles" title="Unix Makefiles"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Unix</span> <span class="pre">Makefiles</span></code></a> or
-<span class="target" id="index-3-generator:Ninja"></span><a class="reference internal" href="../../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator, and the exact output is
+available when using the <a class="reference internal" href="../../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> or
+<a class="reference internal" href="../../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a>, and the exact output is
 tool-specific.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">clean</span></code></dt><dd><p>Delete built object files and other output files.  The
-<code class="docutils literal notranslate"><span class="pre">Makefile</span></code> based generators create a <code class="docutils literal notranslate"><span class="pre">clean</span></code> target
+<a class="reference internal" href="../../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> create a <code class="docutils literal notranslate"><span class="pre">clean</span></code> target
 per directory, so that an individual directory can be
 cleaned.  The <code class="docutils literal notranslate"><span class="pre">Ninja</span></code> tool provides its own granular
 <code class="docutils literal notranslate"><span class="pre">-t</span> <span class="pre">clean</span></code> system.</p>
@@ -630,14 +637,14 @@ automatically available if the CMake files provide
 CPack-based packages.</p>
 </dd>
 </dl>
-<p>For <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> based systems, <code class="docutils literal notranslate"><span class="pre">/fast</span></code> variants of binary
+<p>For <a class="reference internal" href="../../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>, <code class="docutils literal notranslate"><span class="pre">/fast</span></code> variants of binary
 build targets are provided. The <code class="docutils literal notranslate"><span class="pre">/fast</span></code> variants are used
 to build the specified target without regard for its
 dependencies.  The dependencies are not checked and
-are not rebuilt if out of date.  The <span class="target" id="index-4-generator:Ninja"></span><a class="reference internal" href="../../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a>
-generator is sufficiently fast at dependency checking that
+are not rebuilt if out of date.  The <a class="reference internal" href="../../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a>
+are sufficiently fast at dependency checking that
 such targets are not provided for that generator.</p>
-<p><code class="docutils literal notranslate"><span class="pre">Makefile</span></code> based systems also provide build-targets to
+<p><a class="reference internal" href="../../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a> also provide build-targets to
 preprocess, assemble and compile individual files in a
 particular directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>foo.cpp.i
@@ -811,10 +818,10 @@ option to <span class="target" id="index-5-manual:ctest(1)"></span><a class="ref
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
-    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <h3>Table of Contents</h3>
     <ul>
 <li><a class="reference internal" href="#">User Interaction Guide</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a><ul>
@@ -868,7 +875,7 @@ option to <span class="target" id="index-5-manual:ctest(1)"></span><a class="ref
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
@@ -876,13 +883,13 @@ option to <span class="target" id="index-5-manual:ctest(1)"></span><a class="ref
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -895,14 +902,15 @@ option to <span class="target" id="index-5-manual:ctest(1)"></span><a class="ref
           <a href="../tutorial/Packaging%20Debug%20and%20Release.html" title="Step 12: Packaging Debug and Release"
              >previous</a> |</li>
   <li>
-    <img src="../../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../../index.html">Documentation</a> &#187;
   </li>
 
         <li class="nav-item nav-item-this"><a href="">User Interaction Guide</a></li> 
@@ -910,8 +918,17 @@ option to <span class="target" id="index-5-manual:ctest(1)"></span><a class="ref
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

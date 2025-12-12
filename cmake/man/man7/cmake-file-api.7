@@ -27,7 +27,7 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-FILE-API" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-FILE-API" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-file-api \- CMake File-Based API
 .SH INTRODUCTION
@@ -45,7 +45,7 @@ of files within the API directory.  API file layout versioning is
 orthogonal to the versioning of \fI\%Object Kinds\fP used in replies.
 This version of CMake supports only one API version, \fI\%API v1\fP\&.
 .sp
-New in version 3.27: Projects may also submit queries for the current run using the
+Added in version 3.27: Projects may also submit queries for the current run using the
 \fI\%cmake_file_api()\fP command.
 
 .SH API V1
@@ -60,17 +60,28 @@ These may be \fI\%v1 Shared Stateless Query Files\fP,
 \fI\%v1 Client Stateless Query Files\fP, or \fI\%v1 Client Stateful Query Files\fP\&.
 .TP
 .B \fBreply/\fP
-Holds reply files written by CMake whenever it runs to generate a build
-system.  These are indexed by a \fI\%v1 Reply Index File\fP file that may
-reference additional \fI\%v1 Reply Files\fP\&.  CMake owns all reply files.
-Clients must never remove them.
+Holds reply files written by CMake when it runs to generate a build system.
+Clients may read reply files only when referenced by a reply index:
+.INDENT 7.0
+.TP
+.B \fBindex\-*.json\fP
+A \fI\%v1 Reply Index File\fP written when CMake generates a build system.
+.TP
+.B \fBerror\-*.json\fP
+Added in version 4.1.
+
 .sp
-Clients may look for and read a reply index file at any time.
-Clients may optionally create the \fBreply/\fP directory at any time
-and monitor it for the appearance of a new reply index file.
+A \fI\%v1 Reply Error Index\fP written when CMake fails to generate a build
+system due to an error.
 .UNINDENT
 .sp
-New in version 3.31: Users can add query files to \fBapi/v1/query\fP inside the
+Clients may look for and read a reply index at any time.
+Clients may optionally create the \fBreply/\fP directory at any time
+and monitor it for the appearance of a new reply index.
+CMake owns all reply files.  Clients must never remove them.
+.UNINDENT
+.sp
+Added in version 3.31: Users can add query files to \fBapi/v1/query\fP inside the
 \fI\%CMAKE_CONFIG_DIR\fP to create user\-wide queries for all CMake projects.
 
 .SS v1 Shared Stateless Query Files
@@ -84,11 +95,9 @@ Clients may create shared requests by creating empty files in the
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <build>/.cmake/api/v1/query/<kind>\-v<major>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -109,11 +118,9 @@ client\-specific query subdirectories.  The form is:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <build>/.cmake/api/v1/query/client\-<client>/<kind>\-v<major>
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -136,11 +143,9 @@ files in client\-specific query subdirectories.  The form is:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <build>/.cmake/api/v1/query/client\-<client>/query.json
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -155,12 +160,15 @@ query it writes to build trees to request newer object versions.
 This can be used to avoid asking CMake to generate multiple object
 versions unnecessarily.
 .sp
+Added in version 4.1: The \fBquery.json\fP file is described in machine\-readable form by
+\fBthis JSON schema\fP\&.
+
+.sp
 A \fBquery.json\fP file must contain a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqrequests\(dq: [
     { \(dqkind\(dq: \(dq<kind>\(dq , \(dqversion\(dq: 1 },
@@ -172,8 +180,7 @@ A \fBquery.json\fP file must contain a JSON object:
   ],
   \(dqclient\(dq: {}
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -229,17 +236,15 @@ If present they are ignored for forward compatibility.
 .SS v1 Reply Index File
 .sp
 CMake writes an \fBindex\-*.json\fP file to the \fBv1/reply/\fP directory
-whenever it runs to generate a build system.  Clients must read the
+when it successfully generates a build system.  Clients must read the
 reply index file first and may read other \fI\%v1 Reply Files\fP only by
 following references.  The form of the reply index file name is:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <build>/.cmake/api/v1/reply/index\-<unspecified>.json
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -250,12 +255,15 @@ time between these steps there may be multiple index files present;
 the one with the largest name in lexicographic order is the current
 index file.
 .sp
+Added in version 4.1: The reply index file is described in machine\-readable form by
+\fBthis JSON schema\fP\&.
+
+.sp
 The reply index file contains a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqcmake\(dq: {
     \(dqversion\(dq: {
@@ -305,8 +313,7 @@ The reply index file contains a JSON object:
     }
   }
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -377,8 +384,15 @@ that CMake loaded to produce the reply.  The members are of the form
 A member of this form appears for each of the
 \fI\%v1 Shared Stateless Query Files\fP that CMake recognized as a
 request for object kind \fB<kind>\fP with major version \fB<major>\fP\&.
-The value is a \fI\%v1 Reply File Reference\fP to the corresponding
-reply file for that object kind and version.
+The value is
+.INDENT 7.0
+.IP \(bu 2
+a \fI\%v1 Reply File Reference\fP to the corresponding reply file for
+that object kind and version, or
+.IP \(bu 2
+in a \fI\%v1 Reply Error Index\fP, a JSON object with a single \fBerror\fP
+member containing a string with an error message.
+.UNINDENT
 .TP
 .B \fB<unknown>\fP
 A member of this form appears for each of the
@@ -398,8 +412,15 @@ The value is a JSON object mirroring the content of the
 A member of this form appears for each of the
 \fI\%v1 Client Stateless Query Files\fP that CMake recognized as a
 request for object kind \fB<kind>\fP with major version \fB<major>\fP\&.
-The value is a \fI\%v1 Reply File Reference\fP to the corresponding
-reply file for that object kind and version.
+The value is
+.INDENT 7.0
+.IP \(bu 2
+a \fI\%v1 Reply File Reference\fP to the corresponding reply file for
+that object kind and version, or
+.IP \(bu 2
+in a \fI\%v1 Reply Error Index\fP, a JSON object with a single \fBerror\fP
+member containing a string with an error message.
+.UNINDENT
 .TP
 .B \fB<unknown>\fP
 A member of this form appears for each of the
@@ -432,11 +453,11 @@ contains a JSON array with a response for each entry of the
 \fBrequests\fP array, in the same order.  Each response is
 .INDENT 7.0
 .IP \(bu 2
-a JSON object with a single \fBerror\fP member containing a string
-with an error message, or
-.IP \(bu 2
 a \fI\%v1 Reply File Reference\fP to the corresponding reply file for
-the requested object kind and selected version.
+the requested object kind and selected version, or
+.IP \(bu 2
+a JSON object with a single \fBerror\fP member containing a string
+with an error message.
 .UNINDENT
 .UNINDENT
 .UNINDENT
@@ -461,6 +482,37 @@ integer version components of the object kind.
 .B \fBjsonFile\fP
 A JSON string specifying a path relative to the reply index file
 to another JSON file containing the object.
+.UNINDENT
+.SS v1 Reply Error Index
+.sp
+Added in version 4.1.
+
+.sp
+CMake writes an \fBerror\-*.json\fP file to the \fBv1/reply/\fP directory
+when it fails to generate a build system.  This reply error index
+follows the same naming pattern, syntax, and semantics of a
+\fI\%v1 Reply Index File\fP, with the following exceptions:
+.INDENT 0.0
+.IP \(bu 2
+The \fBindex\-\fP prefix is replaced by an \fBerror\-\fP prefix.
+.IP \(bu 2
+When a new error index is generated, old index files are \fInot\fP
+deleted.  If a \fI\%v1 Reply Index File\fP exists, it indexes replies
+from the most recent successful run.  If multiple \fBindex\-*.json\fP
+and/or \fBerror\-*.json\fP files are present, the one with the largest
+name in lexicographic order, excluding the \fBindex\-\fP or \fBerror\-\fP
+prefix, is the current index.
+.IP \(bu 2
+Only a subset of \fI\%Object Kinds\fP are provided:
+.INDENT 2.0
+.TP
+.B \fI\%configureLog\fP
+Added in version 4.1.
+
+.UNINDENT
+.sp
+Index entries for other object kinds contain an \fBerror\fP message
+instead of a \fI\%v1 Reply File Reference\fP\&.
 .UNINDENT
 .SS v1 Reply Files
 .sp
@@ -487,15 +539,13 @@ minor components.  Every kind of object has the form:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqkind\(dq: \(dq<kind>\(dq,
   \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
   \(dq...\(dq: {}
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -511,17 +561,20 @@ modeled by CMake.
 There is only one \fBcodemodel\fP object major version, version 2.
 Version 1 does not exist to avoid confusion with that from
 \fI\%cmake\-server(7)\fP mode.
+.sp
+Added in version 4.1: The \fBcodemodel\fP object kind reply is described in machine\-readable form
+by \fBthis JSON schema\fP\&.
+
 .SS \(dqcodemodel\(dq version 2
 .sp
 \fBcodemodel\fP object version 2 is a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqkind\(dq: \(dqcodemodel\(dq,
-  \(dqversion\(dq: { \(dqmajor\(dq: 2, \(dqminor\(dq: 7 },
+  \(dqversion\(dq: { \(dqmajor\(dq: 2, \(dqminor\(dq: 8 },
   \(dqpaths\(dq: {
     \(dqsource\(dq: \(dq/path/to/top\-level\-source\-dir\(dq,
     \(dqbuild\(dq: \(dq/path/to/top\-level\-build\-dir\(dq
@@ -536,6 +589,7 @@ Version 1 does not exist to avoid confusion with that from
           \(dqchildIndexes\(dq: [ 1 ],
           \(dqprojectIndex\(dq: 0,
           \(dqtargetIndexes\(dq: [ 0 ],
+          \(dqabstractTargetIndexes\(dq: [ 1 ],
           \(dqhasInstallRule\(dq: true,
           \(dqminimumCMakeVersion\(dq: {
             \(dqstring\(dq: \(dq3.14\(dq
@@ -548,6 +602,7 @@ Version 1 does not exist to avoid confusion with that from
           \(dqparentIndex\(dq: 0,
           \(dqprojectIndex\(dq: 0,
           \(dqtargetIndexes\(dq: [ 1 ],
+          \(dqabstractTargetIndexes\(dq: [ 0 ],
           \(dqminimumCMakeVersion\(dq: {
             \(dqstring\(dq: \(dq3.14\(dq
           },
@@ -558,7 +613,8 @@ Version 1 does not exist to avoid confusion with that from
         {
           \(dqname\(dq: \(dqMyProject\(dq,
           \(dqdirectoryIndexes\(dq: [ 0, 1 ],
-          \(dqtargetIndexes\(dq: [ 0, 1 ]
+          \(dqtargetIndexes\(dq: [ 0, 1 ],
+          \(dqabstractTargetIndexes\(dq: [ 0, 1 ],
         }
       ],
       \(dqtargets\(dq: [
@@ -575,11 +631,24 @@ Version 1 does not exist to avoid confusion with that from
           \(dqjsonFile\(dq: \(dq<file>\(dq
         }
       ]
+      \(dqabstractTargets\(dq: [
+        {
+          \(dqname\(dq: \(dqMyImportedExecutable\(dq,
+          \(dqdirectoryIndex\(dq: 1,
+          \(dqprojectIndex\(dq: 0,
+          \(dqjsonFile\(dq: \(dq<file>\(dq
+        },
+        {
+          \(dqname\(dq: \(dqMyPureInterfaceLibrary\(dq,
+          \(dqdirectoryIndex\(dq: 0,
+          \(dqprojectIndex\(dq: 0,
+          \(dqjsonFile\(dq: \(dq<file>\(dq
+        }
+      ]
     }
   ]
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -650,10 +719,20 @@ An unsigned integer 0\-based index into the main \fBprojects\fP array
 indicating the build system project to which the this directory belongs.
 .TP
 .B \fBtargetIndexes\fP
-Optional member that is present when the directory itself has targets,
-excluding those belonging to subdirectories.  The value is a JSON
-array of entries corresponding to the targets.  Each entry is an
-unsigned integer 0\-based index into the main \fBtargets\fP array.
+Optional member that is present when the directory itself has
+build system targets, excluding those belonging to subdirectories.
+The value is a JSON array of entries corresponding to the build system
+targets.  Each entry is an unsigned integer 0\-based index into the main
+\fBtargets\fP array.
+.TP
+.B \fBabstractTargetIndexes\fP
+Optional member that is present when the directory itself has abstract
+targets, excluding those belonging to subdirectories.
+The value is a JSON array of entries corresponding to the abstract
+targets.  Each entry is an unsigned integer 0\-based index into the main
+\fBabstractTargets\fP array.
+.sp
+This field was added in codemodel version 2.9.
 .TP
 .B \fBminimumCMakeVersion\fP
 Optional member present when a minimum required version of CMake is
@@ -668,11 +747,9 @@ A string specifying the minimum required version in the format:
 .INDENT 7.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 <major>.<minor>[.<patch>[.<tweak>]][<suffix>]
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -727,18 +804,28 @@ top\-level directory of the project.  Each entry is an unsigned
 integer 0\-based index into the main \fBdirectories\fP array.
 .TP
 .B \fBtargetIndexes\fP
-Optional member that is present when the project itself has targets,
-excluding those belonging to sub\-projects.  The value is a JSON
-array of entries corresponding to the targets.  Each entry is an
-unsigned integer 0\-based index into the main \fBtargets\fP array.
+Optional member that is present when the project itself has
+build system targets, excluding those belonging to sub\-projects.
+The value is a JSON array of entries corresponding to the build system
+targets.  Each entry is an unsigned integer 0\-based index into the main
+\fBtargets\fP array.
+.TP
+.B \fBabstractTargetIndexes\fP
+Optional member that is present when the project itself has
+abstract targets, excluding those belonging to sub\-projects.
+The value is a JSON array of entries corresponding to the abstract
+targets.  Each entry is an unsigned integer 0\-based index into the main
+\fBabstractTargets\fP array.
+.sp
+This field was added in codemodel version 2.9.
 .UNINDENT
 .TP
 .B \fBtargets\fP
 A JSON array of entries corresponding to the build system targets.
 Such targets are created by calls to \fI\%add_executable()\fP,
 \fI\%add_library()\fP, and \fI\%add_custom_target()\fP, excluding
-imported targets and interface libraries (which do not generate any
-build rules).  Each entry is a JSON object containing members:
+imported targets and interface libraries that do not generate any
+build rules.  Each entry is a JSON object containing members:
 .INDENT 7.0
 .TP
 .B \fBname\fP
@@ -761,14 +848,68 @@ A JSON string specifying a path relative to the codemodel file
 to another JSON file containing a
 \fI\%\(dqcodemodel\(dq version 2 \(dqtarget\(dq object\fP\&.
 .UNINDENT
+.TP
+.B \fBabstractTargets\fP
+A JSON array of entries corresponding to targets that are not present
+in the build system.  These are imported targets or interface libraries
+created by calls to \fI\%add_executable()\fP or \fI\%add_library()\fP\&.
+In the case of interface libraries, only those that are not part of the
+build system are included in this array.  Interface libraries that do
+participate in the build system will be included in the \fBtargets\fP
+array instead.
+.sp
+Each entry is a JSON object containing members:
+.INDENT 7.0
+.TP
+.B \fBname\fP
+A string specifying the target name.
+.TP
+.B \fBid\fP
+A string uniquely identifying the target.  This matches the \fBid\fP
+field in the file referenced by \fBjsonFile\fP\&.
+.TP
+.B \fBdirectoryIndex\fP
+An unsigned integer 0\-based index into the main \fBdirectories\fP array
+indicating the build system directory in which the target is defined.
+.TP
+.B \fBprojectIndex\fP
+An unsigned integer 0\-based index into the main \fBprojects\fP array
+indicating the build system project in which the target is defined.
+.TP
+.B \fBjsonFile\fP
+A JSON string specifying a path relative to the codemodel file
+to another JSON file containing a
+\fI\%\(dqcodemodel\(dq version 2 \(dqtarget\(dq object\fP\&.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
 .UNINDENT
 .UNINDENT
 .SS \(dqcodemodel\(dq version 2 \(dqdirectory\(dq object
+.sp
+Added in version 4.1: The \fBdirectory\fP object reply is described in machine\-readable form by
+\fBthis JSON schema\fP\&.
+
 .sp
 A codemodel \(dqdirectory\(dq object is referenced by a \fI\%\(dqcodemodel\(dq version 2\fP
 object\(aqs \fBdirectories\fP array.  Each \(dqdirectory\(dq object is a JSON object
 with members:
 .INDENT 0.0
+.TP
+.B \fBcodemodelVersion\fP
+This specifies the codemodel version this file is part of.  It will match
+the \fBversion\fP field of the codemodel object kind that references this file.
+It is a JSON object with the following members:
+.INDENT 7.0
+.TP
+.B \fBmajor\fP
+The codemodel major version.
+.TP
+.B \fBminor\fP
+The codemodel minor version.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
 .TP
 .B \fBpaths\fP
 A JSON object containing members:
@@ -895,6 +1036,13 @@ This type has additional members \fBfileSetName\fP, \fBfileSetType\fP,
 \fBfileSetDirectories\fP, and \fBfileSetTarget\fP\&.
 .sp
 This type was added in codemodel version 2.4.
+.TP
+.B \fBcxxModuleBmi\fP
+An \fI\%install(TARGETS)\fP call with \fBCXX_MODULES_BMI\fP\&.
+The \fBdestination\fP member is populated and the \fBisOptional\fP member
+may exist.  This type has an additional \fBcxxModuleBmiTarget\fP member.
+.sp
+This type was added in codemodel version 2.5.
 .UNINDENT
 .TP
 .B \fBisExcludeFromAll\fP
@@ -1015,6 +1163,23 @@ object\(aqs \fBtargets\fP array for the target.
 .sp
 This field was added in codemodel version 2.4.
 .TP
+.B \fBcxxModuleBmiTarget\fP
+Optional member that is present when \fBtype\fP is \fBcxxModuleBmi\fP\&.
+The value is a JSON object with members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target.  This matches
+the \fBid\fP member of the target in the main \(dqcodemodel\(dq
+object\(aqs \fBtargets\fP array.
+.TP
+.B \fBindex\fP
+An unsigned integer 0\-based index into the main \(dqcodemodel\(dq
+object\(aqs \fBtargets\fP array for the target.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.5.
+.TP
 .B \fBscriptFile\fP
 Optional member that is present when \fBtype\fP is \fBscript\fP\&.
 The value is a string specifying the path to the script file on disk,
@@ -1035,10 +1200,29 @@ from \fBbacktrace\fP members elsewhere in this \(dqdirectory\(dq object.
 .UNINDENT
 .SS \(dqcodemodel\(dq version 2 \(dqtarget\(dq object
 .sp
+Added in version 4.1: The \fBtarget\fP object reply is described in machine\-readable form by
+\fBthis JSON schema\fP\&.
+
+.sp
 A codemodel \(dqtarget\(dq object is referenced by a \fI\%\(dqcodemodel\(dq version 2\fP
 object\(aqs \fBtargets\fP array.  Each \(dqtarget\(dq object is a JSON object
 with members:
 .INDENT 0.0
+.TP
+.B \fBcodemodelVersion\fP
+This specifies the codemodel version this file is part of.  It will match
+the \fBversion\fP field of the codemodel object kind that references this file.
+It is a JSON object with the following members:
+.INDENT 7.0
+.TP
+.B \fBmajor\fP
+The codemodel major version.
+.TP
+.B \fBminor\fP
+The codemodel minor version.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
 .TP
 .B \fBname\fP
 A string specifying the logical name of the target.
@@ -1052,6 +1236,40 @@ A string specifying the type of the target.  The value is one of
 \fBEXECUTABLE\fP, \fBSTATIC_LIBRARY\fP, \fBSHARED_LIBRARY\fP,
 \fBMODULE_LIBRARY\fP, \fBOBJECT_LIBRARY\fP, \fBINTERFACE_LIBRARY\fP,
 or \fBUTILITY\fP\&.
+.TP
+.B \fBimported\fP
+Optional member that is present with boolean value \fBtrue\fP if the
+target is an imported target.
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBlocal\fP
+Optional member that is present with boolean value \fBtrue\fP if the
+target is only defined with local scope rather than being a global target.
+Currently, only imported targets will potentially have this field.
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBabstract\fP
+Optional member that is present with boolean value \fBtrue\fP if the
+target is an abstract target.  Abstract targets are not part of the build
+system, they only exist to describe dependencies or to provide usage
+requirements to targets that link to them.  Examples include imported targets
+and interface libraries that have no generated sources.  Abstract targets
+cannot be built, so they should not be presented to the user as a buildable
+target.
+.sp
+This field was added in codemodel version 2.9.  Abstract targets were not
+included in codemodel version 2.8 and earlier.
+.TP
+.B \fBsymbolic\fP
+Optional member that is present with boolean value \fBtrue\fP if the target
+is \fI\%SYMBOLIC\fP\&.  Symbolic targets are created by calls to
+\fI\%add_library(INTERFACE SYMBOLIC)\fP,
+and are also abstract targets that are not part of the build system.
+.sp
+This field was added in codemodel version 2.9.  Symbolic targets were not
+included in codemodel version 2.8 and earlier.
 .TP
 .B \fBbacktrace\fP
 Optional member that is present when a CMake language backtrace to
@@ -1176,8 +1394,8 @@ See the \fI\%TEST_LAUNCHER\fP target property.
 This field was added in codemodel version 2.7.
 .TP
 .B \fBlink\fP
-Optional member that is present for executables and shared library
-targets that link into a runtime binary.  The value is a JSON object
+Optional member that is present for non\-imported executables and shared
+library targets that link into a runtime binary.  The value is a JSON object
 with members describing the link step:
 .INDENT 7.0
 .TP
@@ -1207,6 +1425,13 @@ A string specifying the role of the fragment\(aqs content:
 .IP \(bu 2
 \fBframeworkPath\fP: macOS framework search path flags.
 .UNINDENT
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the \fI\%target_link_libraries()\fP, \fI\%target_link_options()\fP,
+or other command invocation that added this link fragment is available.
+The value is an unsigned integer 0\-based index into the \fBbacktraceGraph\fP
+member\(aqs \fBnodes\fP array.
 .UNINDENT
 .TP
 .B \fBlto\fP
@@ -1227,8 +1452,8 @@ with forward slashes.
 .UNINDENT
 .TP
 .B \fBarchive\fP
-Optional member that is present for static library targets.  The value
-is a JSON object with members describing the archive step:
+Optional member that is present for non\-imported static library targets.
+The value is a JSON object with members describing the archive step:
 .INDENT 7.0
 .TP
 .B \fBcommandFragments\fP
@@ -1255,9 +1480,39 @@ when link\-time optimization (a.k.a. interprocedural optimization
 or link\-time code generation) is enabled.
 .UNINDENT
 .TP
+.B \fBdebugger\fP
+Optional member that is present when the target has one of the
+following fields set.
+The value is a JSON object of entries corresponding to
+debugger specific values set.
+.sp
+This field was added in codemodel version 2.8.
+.INDENT 7.0
+.TP
+.B \fBworkingDirectory\fP
+Optional member that is present when the
+\fI\%DEBUGGER_WORKING_DIRECTORY\fP target property is set.
+The member will also be present in \fI\%Visual Studio Generators\fP
+when \fI\%VS_DEBUGGER_WORKING_DIRECTORY\fP is set.
+.sp
+This field was added in codemodel version 2.8.
+.UNINDENT
+.TP
 .B \fBdependencies\fP
 Optional member that is present when the target depends on other targets.
-The value is a JSON array of entries corresponding to the dependencies.
+It is only present if the target is part of the build system.
+Imported targets are not part of the build system.  Interface libraries
+are only part of the build system if they have sources or file sets.
+.sp
+The value is a JSON array of entries corresponding to the build dependencies.
+The array includes not just direct dependencies, but also transitive
+dependencies.  All listed targets will build before this one.
+.sp
+The list of dependencies reflects the \fIbuild graph\fP dependencies, not
+necessarily the link dependencies.  If there are cycles in the link
+dependencies of static libraries, not all link dependencies will be
+reflected in this list of build graph dependencies.
+.sp
 Each entry is a JSON object with members:
 .INDENT 7.0
 .TP
@@ -1273,9 +1528,236 @@ available.  The value is an unsigned integer 0\-based index into
 the \fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .UNINDENT
 .TP
+.B \fBlinkLibraries\fP
+Optional member that may be present when the target links directly to one or
+more other targets or libraries.  It contains items that are used when
+linking this target.  These come from the target\(aqs
+\fI\%LINK_LIBRARIES\fP property (evaluated non\-transitively), or the
+\fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP property of another target it
+links to directly or transitively.
+.sp
+Items that are only applied as usage requirements (such as being wrapped in a
+\fI\%$<COMPILE_ONLY:...>\fP expression) will not be present in this member.
+.sp
+The value is a JSON array of entries.  Each entry is a JSON object with
+members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+Optional member that is present when the library to be linked is a target.
+It uniquely identifies the target on which this one has a direct link
+relationship.  This matches the main \fBid\fP member of that other target.
+.sp
+The target this \fBid\fP identifies is not necessarily part of the build
+system.  It may be an imported target or an interface library with no
+sources or file sets.
+.sp
+Exactly one of \fBid\fP or \fBfragment\fP will always be present.
+.TP
+.B \fBfragment\fP
+Optional member that is present when the library to be linked is not a
+target.  It is a string containing the raw linker command line arguments
+that capture the relationship.  These will typically be linking to
+libraries or frameworks by name rather than as a target.
+.sp
+Exactly one of \fBid\fP or \fBfragment\fP will always be present.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the command invocation that created this relationship is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
+.TP
+.B \fBfromDependency\fP
+Optional member that is only present when the relationship is the result of
+an \fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP target property on one of
+this target\(aqs directly or transitively linked libraries.  It is a JSON
+object with one member:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target whose
+\fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP property created the
+relationship.  The value matches the main \fBid\fP member of that target.
+.UNINDENT
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBinterfaceLinkLibraries\fP
+Optional member that may be present when the target has one or more interface
+link libraries.  It contains items that are used when linking consumers of
+this target.  These come from the target\(aqs
+\fI\%INTERFACE_LINK_LIBRARIES\fP property.
+.sp
+Items that are only applied as usage requirements (such as being wrapped in a
+\fI\%$<COMPILE_ONLY:...>\fP expression) will not be present in this member.
+.sp
+The value is a JSON array of entries.  Each entry is a JSON object with
+members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+Optional member that is present when the interface link library is for a
+target.  It uniquely identifies that target, with the value matching the
+main \fBid\fP member of that target.
+.sp
+The target this \fBid\fP identifies is not necessarily part of the build
+system.  It may be an imported target or an interface library with no
+sources or file sets.
+.sp
+Exactly one of \fBid\fP or \fBfragment\fP will always be present.
+.TP
+.B \fBfragment\fP
+Optional member that is present when the interface link library is not for
+a target.  It is a string containing the raw linker command line arguments
+to be applied to consumers of this target\(aqs interface link libraries.
+These will typically be linker arguments for linking to libraries or
+frameworks by name rather than as a target.
+.sp
+Exactly one of \fBid\fP or \fBfragment\fP will always be present.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to the
+command invocation that created this interface relationship is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBcompileDependencies\fP
+Optional member that may be present when the target links directly to one or
+more other targets that may provide usage requirements to this one.  They
+affect how this target\(aqs sources are compiled.  These relationships are
+defined by the target\(aqs \fI\%LINK_LIBRARIES\fP property (evaluated
+non\-transitively) and the \fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP
+property of other targets it links to directly or transitively.
+.sp
+Relationships that only apply linking requirements (such as being wrapped
+in a \fI\%$<LINK_ONLY:...>\fP expression) will not be present in this
+member.
+.sp
+The value is a JSON array of entries.  Each entry is a JSON object with
+members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target on which this target directly
+depends.  This matches the main \fBid\fP member of the other target.
+.sp
+The target this \fBid\fP identifies is not necessarily part of the build
+system.  It may be an imported target or an interface library with no
+sources or file sets.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the command invocation that created this relationship is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
+.TP
+.B \fBfromDependency\fP
+Optional member that is only present when the relationship is the result of
+an \fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP target property on one of
+this target\(aqs directly or transitively linked libraries.  It is a JSON
+object with one member:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target whose
+\fI\%INTERFACE_LINK_LIBRARIES_DIRECT\fP property created the
+relationship.  The value matches the main \fBid\fP member of that target.
+.UNINDENT
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBinterfaceCompileDependencies\fP
+Optional member that may be present when the target has one or more interface
+linking relationships to other targets.  It contains items that affect how
+consumers\(aq sources are compiled.  These relationships are defined by the
+target\(aqs \fI\%INTERFACE_LINK_LIBRARIES\fP property.
+.sp
+Relationships that only apply linking requirements (such as being wrapped
+in a \fI\%$<LINK_ONLY:...>\fP expression) will not be present in this
+member.
+.sp
+The value is a JSON array of entries.  Each entry is a JSON object with
+members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target on which this target specifies
+an interface relationship.  This matches the main \fBid\fP member of the
+other target.
+.sp
+The target this \fBid\fP identifies is not necessarily part of the build
+system.  It may be an imported target or an interface library with no
+sources or file sets.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the command invocation that created this relationship is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBobjectDependencies\fP
+Optional member that is present when the target has one or more entries in
+its \fI\%SOURCES\fP property where the entry is specified using
+\fI\%$<TARGET_OBJECTS:...>\fP, and where no other generator expression is
+used within the \fI\%$<TARGET_OBJECTS:...>\fP expression.
+.sp
+The value is a JSON array of entries.  Each entry is a JSON object with
+members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target whose objects are referred to in
+the \fI\%$<TARGET_OBJECTS:...>\fP expression.  This matches the main
+\fBid\fP member of that other target.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the command invocation that created this dependency is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
+.TP
+.B \fBorderDependencies\fP
+Optional member that is present when the target has one or more direct order
+dependencies on other targets.  Such dependencies may arise from calls to
+\fI\%add_dependencies()\fP or from internal CMake processing.
+Unlike the \fBdependencies\fP array, the \fBZERO_CHECK\fP target will not be
+included in \fBorderDependencies\fP (this is only relevant for
+\fI\%Xcode\fP and \fI\%Visual Studio\fP
+generators).
+.sp
+The value is a JSON array of entries.  Each entry is a JSON object with
+members:
+.INDENT 7.0
+.TP
+.B \fBid\fP
+A string uniquely identifying the target on which this target depends.
+This matches the main \fBid\fP member of the other target.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the command invocation that created this dependency is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
+.UNINDENT
+.sp
+This field was added in codemodel version 2.9.
+.TP
 .B \fBfileSets\fP
-A JSON array of entries corresponding to the target\(aqs file sets. Each entry
-is a JSON object with members:
+An optional member that is present when a target defines one or more
+file sets.  The value is a JSON array of entries corresponding to the
+target\(aqs file sets.  Each entry is a JSON object with members:
 .INDENT 7.0
 .TP
 .B \fBname\fP
@@ -1404,6 +1886,12 @@ one member:
 .B \fBfragment\fP
 A string specifying a fragment of the compile command line invocation.
 The value is encoded in the build system\(aqs native shell format.
+.TP
+.B \fBbacktrace\fP
+Optional member that is present when a CMake language backtrace to
+the command invocation that added this fragment is available.
+The value is an unsigned integer 0\-based index into the
+\fBbacktraceGraph\fP member\(aqs \fBnodes\fP array.
 .UNINDENT
 .TP
 .B \fBincludes\fP
@@ -1550,26 +2038,31 @@ Otherwise the path is absolute.
 .UNINDENT
 .SS Object Kind \(dqconfigureLog\(dq
 .sp
+Added in version 3.26.
+
+.sp
 The \fBconfigureLog\fP object kind describes the location and contents of
 a \fI\%cmake\-configure\-log(7)\fP file.
 .sp
 There is only one \fBconfigureLog\fP object major version, version 1.
+.sp
+Added in version 4.1: The \fBconfigureLog\fP object kind reply is described in machine\-readable form
+by \fBthis JSON schema\fP\&.
+
 .SS \(dqconfigureLog\(dq version 1
 .sp
 \fBconfigureLog\fP object version 1 is a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqkind\(dq: \(dqconfigureLog\(dq,
   \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
   \(dqpath\(dq: \(dq/path/to/top\-level\-build\-dir/CMakeFiles/CMakeConfigureLog.yaml\(dq,
   \(dqeventKindNames\(dq: [ \(dqtry_compile\-v1\(dq, \(dqtry_run\-v1\(dq ]
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1598,14 +2091,17 @@ The \fBcache\fP object kind lists cache entries.  These are the
 There is only one \fBcache\fP object major version, version 2.
 Version 1 does not exist to avoid confusion with that from
 \fI\%cmake\-server(7)\fP mode.
+.sp
+Added in version 4.1: The \fBcache\fP object kind reply is described in machine\-readable form by
+\fBthis JSON schema\fP\&.
+
 .SS \(dqcache\(dq version 2
 .sp
 \fBcache\fP object version 2 is a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqkind\(dq: \(dqcache\(dq,
   \(dqversion\(dq: { \(dqmajor\(dq: 2, \(dqminor\(dq: 0 },
@@ -1634,8 +2130,7 @@ Version 1 does not exist to avoid confusion with that from
     }
   ]
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1678,14 +2173,17 @@ configuring and generating the build system.  These include the
 \fBCMakeLists.txt\fP files as well as included \fB\&.cmake\fP files.
 .sp
 There is only one \fBcmakeFiles\fP object major version, version 1.
+.sp
+Added in version 4.1: The \fBcmakeFiles\fP object kind reply is described in machine\-readable form
+by \fBthis JSON schema\fP\&.
+
 .SS \(dqcmakeFiles\(dq version 1
 .sp
 \fBcmakeFiles\fP object version 1 is a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqkind\(dq: \(dqcmakeFiles\(dq,
   \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 1 },
@@ -1722,8 +2220,7 @@ There is only one \fBcmakeFiles\fP object major version, version 1.
     }
   ]
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1817,14 +2314,17 @@ The \fBtoolchains\fP object kind lists properties of the toolchains used during
 the build.  These include the language, compiler path, ID, and version.
 .sp
 There is only one \fBtoolchains\fP object major version, version 1.
+.sp
+Added in version 4.1: The \fBtoolchains\fP object kind reply is described in machine\-readable form
+by \fBthis JSON schema\fP\&.
+
 .SS \(dqtoolchains\(dq version 1
 .sp
 \fBtoolchains\fP object version 1 is a JSON object:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 {
   \(dqkind\(dq: \(dqtoolchains\(dq,
   \(dqversion\(dq: { \(dqmajor\(dq: 1, \(dqminor\(dq: 0 },
@@ -1890,8 +2390,7 @@ There is only one \fBtoolchains\fP object major version, version 1.
     }
   ]
 }
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -1973,12 +2472,12 @@ compiler.
 .B \fBsourceFileExtensions\fP
 Optional member that is present when the
 \fI\%CMAKE_<LANG>_SOURCE_FILE_EXTENSIONS\fP variable is defined for
-the current language. Its value is a JSON array of JSON strings where each
+the current language. Its value is a JSON array of JSON strings where
 each string holds a file extension (without the leading dot) for the
 language.
 .UNINDENT
 .UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .

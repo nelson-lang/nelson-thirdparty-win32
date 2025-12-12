@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>FindLibArchive &mdash; CMake 3.31.0-rc2 Documentation</title>
+  <title>FindLibArchive &mdash; CMake 4.2.1 Documentation</title>
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a2c47e09" />
-    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=3e562cf9" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a3862c66" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css?v=4d06bd55" />
     
-    <script src="../_static/documentation_options.js?v=f6a4c08d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=74d6e94f"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     
     <link rel="icon" href="../_static/cmake-favicon.ico"/>
@@ -22,8 +22,12 @@
  
 
   </head><body>
+    <input id="sidebar-check" type="checkbox" />
+    <label id="sidebar-overlay" for="sidebar-check"></label>
 
-    <div class="related" role="navigation" aria-label="related navigation">
+
+
+    <div class="related relbar1" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -36,14 +40,15 @@
           <a href="FindLATEX.html" title="FindLATEX"
              accesskey="P">previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
@@ -58,25 +63,52 @@
             
   <section id="findlibarchive">
 <span id="module:FindLibArchive"></span><h1>FindLibArchive<a class="headerlink" href="#findlibarchive" title="Link to this heading">¶</a></h1>
-<p>Find libarchive library and headers.
-Libarchive is multi-format archive and compression library.</p>
-<p>The module defines the following variables:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LibArchive_FOUND        - true if libarchive was found
-LibArchive_INCLUDE_DIRS - include search path
-LibArchive_LIBRARIES    - libraries to link
-LibArchive_VERSION      - libarchive 3-component version number
+<p>Finds the libarchive library and include directories:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">LibArchive</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;version&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>The module defines the following <code class="docutils literal notranslate"><span class="pre">IMPORTED</span></code> targets:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>LibArchive::LibArchive  - target for linking against libarchive
+<p>Libarchive is a multi-format archive and compression library.</p>
+<section id="imported-targets">
+<h2>Imported Targets<a class="headerlink" href="#imported-targets" title="Link to this heading">¶</a></h2>
+<p>This module provides the following <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a>:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">LibArchive::LibArchive</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.17.</span></p>
+</div>
+<p>A target encapsulating the libarchive usage requirements, available only
+if libarchive is found.</p>
+</dd>
+</dl>
+</section>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Link to this heading">¶</a></h2>
+<p>This module defines the following variables:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">LibArchive_FOUND</span></code></dt><dd><p>Boolean indicating whether (the requested version of) libarchive was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LibArchive_VERSION</span></code></dt><dd><p>A 3-component version string (<code class="docutils literal notranslate"><span class="pre">major.minor.patch</span></code>) of libarchive found.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">Added in version 3.6: </span>Support for a new libarchive version string format.  Starting from
+libarchive version 3.2, a different preprocessor macro is used in the header
+to define the version.  In CMake 3.5 and earlier, this variable will be set
+only for libarchive versions 3.1 and earlier.  In CMake 3.6 and newer, this
+variable will be set for all libarchive versions.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LibArchive_INCLUDE_DIRS</span></code></dt><dd><p>Include search path for using libarchive.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LibArchive_LIBRARIES</span></code></dt><dd><p>Libraries to link against libarchive.</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Finding libarchive and linking it to a project target:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">LibArchive</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">project_target</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">LibArchive</span><span class="o">::</span><span class="nb">LibArchive</span><span class="nf">)</span>
 </pre></div>
 </div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.6: </span>Support for new libarchive 3.2 version string format.</p>
-</div>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 3.17: </span>Provides an imported target.</p>
-</div>
+</section>
 </section>
 
 
@@ -84,8 +116,20 @@ LibArchive_VERSION      - libarchive 3-component version number
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3>Table of Contents</h3>
+    <ul>
+<li><a class="reference internal" href="#">FindLibArchive</a><ul>
+<li><a class="reference internal" href="#imported-targets">Imported Targets</a></li>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="FindLATEX.html"
@@ -103,7 +147,7 @@ LibArchive_VERSION      - libarchive 3-component version number
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
@@ -111,13 +155,13 @@ LibArchive_VERSION      - libarchive 3-component version number
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -130,14 +174,15 @@ LibArchive_VERSION      - libarchive 3-component version number
           <a href="FindLATEX.html" title="FindLATEX"
              >previous</a> |</li>
   <li>
-    <img src="../_static/cmake-logo-16.png" alt=""
-         style="vertical-align: middle; margin-top: -2px" />
+    <label class="sidebar-toggle" for="sidebar-check"></label>
+  </li>
+  <li class="rootlink">
+    <img src="../_static/cmake-logo-16.png" width="16" height="16" alt=""/>
+    <a href="https://cmake.org/">CMake 4.2.1</a>
+    <span class="reldelim1"> &#187;</span>
   </li>
   <li>
-    <a href="https://cmake.org/">CMake</a> &#187;
-  </li>
-  <li>
-    <a href="../index.html">3.31.0-rc2 Documentation</a> &#187;
+    <a href="../index.html">Documentation</a> &#187;
   </li>
 
           <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
@@ -146,8 +191,17 @@ LibArchive_VERSION      - libarchive 3-component version number
     </div>
 
     <div class="footer" role="contentinfo">
-    &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    &#169; Copyright 2000-2025 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     </div>
+<script type="text/javascript">
+(function() {
+  "use strict";
+  const hide = () => document.getElementById("sidebar-check").checked = false;
+  addEventListener("keydown", e => (e.key === "Escape") && hide());
+  addEventListener("click", e => (e.target.tagName === "A") && hide());
+  addEventListener("hashchange", hide)
+})();
+</script>
   </body>
 </html>

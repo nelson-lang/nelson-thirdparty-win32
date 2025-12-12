@@ -27,13 +27,15 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
 .in \\n[rst2man-indent\\n[rst2man-indent-level]]u
 ..
-.TH "CMAKE-LANGUAGE" "7" "Oct 17, 2024" "3.31.0" "CMake"
+.TH "CMAKE-LANGUAGE" "7" "Dec 08, 2025" "4.2.1" "CMake"
 .SH NAME
 cmake-language \- CMake Language Reference
 .SH ORGANIZATION
 .sp
 CMake input files are written in the \(dqCMake Language\(dq in source files
 named \fBCMakeLists.txt\fP or ending in a \fB\&.cmake\fP file name extension.
+The term \fIlistfile\fP is a general name for any such source file containing
+CMake commands that the tool processes.
 .sp
 CMake Language source files in a project are organized into:
 .INDENT 0.0
@@ -86,7 +88,7 @@ be encoded as UTF\-8 on platforms with system APIs supporting this
 encoding.  In addition, CMake 3.2 and above support source files
 encoded in UTF\-8 on Windows (using UTF\-16 to call system APIs).
 Furthermore, CMake 3.0 and above allow a leading UTF\-8
-\fI\%Byte\-Order Mark\fP in source files.
+\X'tty: link https://en.wikipedia.org/wiki/Byte_order_mark'\fI\%Byte\-Order Mark\fP\X'tty: link' in source files.
 .SS Source Files
 .sp
 A CMake Language source file consists of zero or more
@@ -94,12 +96,12 @@ A CMake Language source file consists of zero or more
 spaces and \fI\%Comments\fP:
 .sp
 .nf
-\fBfile        \fP ::=  \fI\%file_element\fP*
-\fBfile_element\fP ::=  \fI\%command_invocation\fP \fI\%line_ending\fP |
-                  (\fI\%bracket_comment\fP|\fI\%space\fP)* \fI\%line_ending\fP
-\fBline_ending \fP ::=  \fI\%line_comment\fP? \fI\%newline\fP
-\fBspace       \fP ::=  <match \(aq[ \et]+\(aq>
-\fBnewline     \fP ::=  <match \(aq\en\(aq>
+\fBfile\fP         ::= \fI\%file_element\fP*
+\fBfile_element\fP ::= \fI\%command_invocation\fP \fI\%line_ending\fP |
+                 (\fI\%bracket_comment\fP|\fI\%space\fP)* \fI\%line_ending\fP
+\fBline_ending\fP  ::= \fI\%line_comment\fP? \fI\%newline\fP
+\fBspace\fP        ::= <match \(aq[ \et]+\(aq>
+\fBnewline\fP      ::= <match \(aq\en\(aq>
 
 .fi
 .sp
@@ -111,12 +113,12 @@ A \fIcommand invocation\fP is a name followed by paren\-enclosed arguments
 separated by whitespace:
 .sp
 .nf
-\fBcommand_invocation \fP ::=  \fI\%space\fP* \fI\%identifier\fP \fI\%space\fP* \(aq(\(aq \fI\%arguments\fP \(aq)\(aq
-\fBidentifier         \fP ::=  <match \(aq[A\-Za\-z_][A\-Za\-z0\-9_]*\(aq>
-\fBarguments          \fP ::=  \fI\%argument\fP? \fI\%separated_arguments\fP*
-\fBseparated_arguments\fP ::=  \fI\%separation\fP+ \fI\%argument\fP? |
-                         \fI\%separation\fP* \(aq(\(aq \fI\%arguments\fP \(aq)\(aq
-\fBseparation         \fP ::=  \fI\%space\fP | \fI\%line_ending\fP
+\fBcommand_invocation\fP  ::= \fI\%space\fP* \fI\%identifier\fP \fI\%space\fP* \(aq(\(aq \fI\%arguments\fP \(aq)\(aq
+\fBidentifier\fP          ::= <match \(aq[A\-Za\-z_][A\-Za\-z0\-9_]*\(aq>
+\fBarguments\fP           ::= \fI\%argument\fP? \fI\%separated_arguments\fP*
+\fBseparated_arguments\fP ::= \fI\%separation\fP+ \fI\%argument\fP? |
+                        \fI\%separation\fP* \(aq(\(aq \fI\%arguments\fP \(aq)\(aq
+\fBseparation\fP          ::= \fI\%space\fP | \fI\%line_ending\fP
 
 .fi
 .sp
@@ -124,11 +126,9 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 add_executable(hello world.c)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -141,11 +141,9 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 if(FALSE AND (FALSE OR TRUE)) # evaluates to FALSE
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -166,21 +164,21 @@ higher accept such code but produce a warning.
 There are three types of arguments within \fI\%Command Invocations\fP:
 .sp
 .nf
-\fBargument\fP ::=  \fI\%bracket_argument\fP | \fI\%quoted_argument\fP | \fI\%unquoted_argument\fP
+\fBargument\fP ::= \fI\%bracket_argument\fP | \fI\%quoted_argument\fP | \fI\%unquoted_argument\fP
 
 .fi
 .SS Bracket Argument
 .sp
-A \fIbracket argument\fP, inspired by \fI\%Lua\fP long bracket syntax,
+A \fIbracket argument\fP, inspired by \X'tty: link https://www.lua.org/'\fI\%Lua\fP\X'tty: link' long bracket syntax,
 encloses content between opening and closing \(dqbrackets\(dq of the
 same length:
 .sp
 .nf
-\fBbracket_argument\fP ::=  \fI\%bracket_open\fP \fI\%bracket_content\fP \fI\%bracket_close\fP
-\fBbracket_open    \fP ::=  \(aq[\(aq \(aq=\(aq* \(aq[\(aq
-\fBbracket_content \fP ::=  <any text not containing a \fI\%bracket_close\fP with
-                       the same number of \(aq=\(aq as the \fI\%bracket_open\fP>
-\fBbracket_close   \fP ::=  \(aq]\(aq \(aq=\(aq* \(aq]\(aq
+\fBbracket_argument\fP ::= \fI\%bracket_open\fP \fI\%bracket_content\fP \fI\%bracket_close\fP
+\fBbracket_open\fP     ::= \(aq[\(aq \(aq=\(aq* \(aq[\(aq
+\fBbracket_content\fP  ::= <any text not containing a \fI\%bracket_close\fP with
+                     the same number of \(aq=\(aq as the \fI\%bracket_open\fP>
+\fBbracket_close\fP    ::= \(aq]\(aq \(aq=\(aq* \(aq]\(aq
 
 .fi
 .sp
@@ -202,8 +200,7 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 message([=[
 This is the first line in a bracket argument with bracket length 1.
 No \e\-escape sequences or ${variable} references are evaluated.
@@ -211,8 +208,7 @@ This is always one argument even though it contains a ; character.
 The text does not end on a closing bracket of length 0 like ]].
 It does end in a closing bracket of length 1.
 ]=])
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -230,11 +226,11 @@ A \fIquoted argument\fP encloses content between opening and closing
 double\-quote characters:
 .sp
 .nf
-\fBquoted_argument    \fP ::=  \(aq\(dq\(aq \fI\%quoted_element\fP* \(aq\(dq\(aq
-\fBquoted_element     \fP ::=  <any character except \(aq\e\(aq or \(aq\(dq\(aq> |
-                         \fI\%escape_sequence\fP |
-                         \fI\%quoted_continuation\fP
-\fBquoted_continuation\fP ::=  \(aq\e\(aq \fI\%newline\fP
+\fBquoted_argument\fP     ::= \(aq\(dq\(aq \fI\%quoted_element\fP* \(aq\(dq\(aq
+\fBquoted_element\fP      ::= <any character except \(aq\e\(aq or \(aq\(dq\(aq> |
+                        \fI\%escape_sequence\fP |
+                        \fI\%quoted_continuation\fP
+\fBquoted_continuation\fP ::= \(aq\e\(aq \fI\%newline\fP
 
 .fi
 .sp
@@ -247,16 +243,14 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 message(\(dqThis is a quoted argument containing multiple lines.
 This is always one argument even though it contains a ; character.
 Both \e\e\-escape sequences and ${variable} references are evaluated.
 The text does not end on an escaped double\-quote like \e\(dq.
 It does end in an unescaped double quote.
 \(dq)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -266,15 +260,13 @@ immediately following newline character.  For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 message(\(dq\e
 This is the first line of a quoted argument. \e
 In fact it is the only line but since it is long \e
 the source code uses line continuation.\e
 \(dq)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -293,10 +285,10 @@ It may not contain any whitespace, \fB(\fP, \fB)\fP, \fB#\fP, \fB\(dq\fP, or \fB
 except when escaped by a backslash:
 .sp
 .nf
-\fBunquoted_argument\fP ::=  \fI\%unquoted_element\fP+ | \fI\%unquoted_legacy\fP
-\fBunquoted_element \fP ::=  <any character except whitespace or one of \(aq()#\(dq\e\(aq> |
-                       \fI\%escape_sequence\fP
-\fBunquoted_legacy  \fP ::=  <see note in text>
+\fBunquoted_argument\fP ::= \fI\%unquoted_element\fP+ | \fI\%unquoted_legacy\fP
+\fBunquoted_element\fP  ::= <any character except whitespace or one of \(aq()#\(dq\e\(aq> |
+                      \fI\%escape_sequence\fP
+\fBunquoted_legacy\fP   ::= <see note in text>
 
 .fi
 .sp
@@ -312,8 +304,7 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 foreach(arg
     NoSpace
     Escaped\e Space
@@ -322,8 +313,7 @@ foreach(arg
     )
   message(\(dq${arg}\(dq)
 endforeach()
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -357,10 +347,10 @@ represent the content.
 An \fIescape sequence\fP is a \fB\e\fP followed by one character:
 .sp
 .nf
-\fBescape_sequence \fP ::=  \fI\%escape_identity\fP | \fI\%escape_encoded\fP | \fI\%escape_semicolon\fP
-\fBescape_identity \fP ::=  \(aq\e\(aq <match \(aq[^A\-Za\-z0\-9;]\(aq>
-\fBescape_encoded  \fP ::=  \(aq\et\(aq | \(aq\er\(aq | \(aq\en\(aq
-\fBescape_semicolon\fP ::=  \(aq\e;\(aq
+\fBescape_sequence\fP  ::= \fI\%escape_identity\fP | \fI\%escape_encoded\fP | \fI\%escape_semicolon\fP
+\fBescape_identity\fP  ::= \(aq\e\(aq <match \(aq[^A\-Za\-z0\-9;]\(aq>
+\fBescape_encoded\fP   ::= \(aq\et\(aq | \(aq\er\(aq | \(aq\en\(aq
+\fBescape_semicolon\fP ::= \(aq\e;\(aq
 
 .fi
 .sp
@@ -415,7 +405,7 @@ A \fB#\fP immediately followed by a \fI\%bracket_open\fP forms a
 \fIbracket comment\fP consisting of the entire bracket enclosure:
 .sp
 .nf
-\fBbracket_comment\fP ::=  \(aq#\(aq \fI\%bracket_argument\fP
+\fBbracket_comment\fP ::= \(aq#\(aq \fI\%bracket_argument\fP
 
 .fi
 .sp
@@ -423,13 +413,11 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 #[[This is a bracket comment.
 It runs until the close bracket.]]
 message(\(dqFirst Argument\en\(dq #[[Bracket Comment]] \(dqSecond Argument\(dq)
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -446,8 +434,8 @@ A \fB#\fP not immediately followed by a \fI\%bracket_open\fP forms a
 \fIline comment\fP that runs until the end of the line:
 .sp
 .nf
-\fBline_comment\fP ::=  \(aq#\(aq <any text not starting in a \fI\%bracket_open\fP
-                       and not containing a \fI\%newline\fP>
+\fBline_comment\fP ::= \(aq#\(aq <any text not starting in a \fI\%bracket_open\fP
+                 and not containing a \fI\%newline\fP>
 
 .fi
 .sp
@@ -455,13 +443,11 @@ For example:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 # This is a line comment.
 message(\(dqFirst Argument\en\(dq # This is a line comment :)
         \(dqSecond Argument\(dq) # This is a line comment.
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .SH CONTROL STRUCTURES
@@ -606,11 +592,9 @@ as a list:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(srcs a.c b.c c.c) # sets \(dqsrcs\(dq to \(dqa.c;b.c;c.c\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -621,11 +605,9 @@ in list elements, thus flattening nested lists:
 .INDENT 0.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(x a \(dqb;c\(dq) # sets \(dqx\(dq to \(dqa;b;c\(dq, not \(dqa;b\e;c\(dq
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -645,15 +627,13 @@ For example, the following code uses \fB|\fP in place of \fB;\fP characters:
 .INDENT 2.0
 .INDENT 3.5
 .sp
-.nf
-.ft C
+.EX
 set(mylist a \(dqb|c\(dq)
 foreach(entry IN LISTS mylist)
   string(REPLACE \(dq|\(dq \(dq;\(dq entry \(dq${entry}\(dq)
   # use \(dq${entry}\(dq normally
 endforeach()
-.ft P
-.fi
+.EE
 .UNINDENT
 .UNINDENT
 .sp
@@ -679,6 +659,6 @@ Note that this approach does not apply to \fI\%macro()\fP implementations
 because they reference arguments using placeholders, not real variables.
 .UNINDENT
 .SH COPYRIGHT
-2000-2024 Kitware, Inc. and Contributors
+2000-2025 Kitware, Inc. and Contributors
 .\" Generated by docutils manpage writer.
 .
