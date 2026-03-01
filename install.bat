@@ -42,6 +42,10 @@ rem GetText
 mkdir %NELSON_DIR%\tools\gettext
 xcopy /E /Y gettext %NELSON_DIR%\tools\gettext 
 
+rem ClangFormat
+mkdir %NELSON_DIR%\tools\clang-format
+xcopy /E /Y clang-format %NELSON_DIR%\tools\clang-format
+
 rem CMake
 xcopy /E /Y .\cmake %NELSON_DIR%\tools\cmake\
 
